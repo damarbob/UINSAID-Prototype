@@ -151,7 +151,7 @@
   <?= $this->renderSection('content') ?>
 
   <!-- Footer -->
-  <footer id="footer" class="section-batik rev-90">
+  <footer id="footer" class="section-batik">
     <!-- Footer bagian atas -->
     <div class="footer-top">
       <div class="container p-5">

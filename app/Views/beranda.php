@@ -230,8 +230,41 @@
 </section>
 <!-- Section Poin Riset -->
 
+<!-- Section Pengabdian -->
+<section class="fluid section-batik rev--90" id="Pengabdian">
+  <div class="container p-5">
+    <div class="row d-flex align-items-center g-5">
+
+      <!-- Picture grid column -->
+      <div class="col-lg-6">
+
+        <!-- Picture grid -->
+        <div class="row g-0">
+          <div class="col">
+            <img data-aos="fade-up" class="img-section" style="border-radius: 5rem;width: 100%;height: 512px;object-fit: cover;" src="https://www.uinsaid.ac.id/files/cover/fakultas-ushuluddin-dan-dakwah-1710927589.jpg" />
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Pengabdian column -->
+      <div class="col-lg-6" data-aos="fade-left">
+        <h1 class="pb-2 fw-bold border border-primary border-2 border-start-0 border-end-0 border-top-0">
+          Pengabdian
+        </h1>
+        <p class="lh-lg">
+          Dengan semangat Tri Dharma Perguruan Tinggi, LP2M UIN Raden Mas Said Surakarta berdedikasi untuk memajukan penelitian dan pengabdian kepada masyarakat yang berorientasi pada solusi
+        </p>
+        <button class="btn btn-lg btn-primary">Selengkapnya</button>
+      </div>
+
+    </div>
+  </div>
+</section>
+<!-- Section Pengabdian -->
+
 <!-- Section Berita -->
-<section id="news" class="fluid section-batik rev--90">
+<section id="news" class="fluid section-batik">
   <div class="container p-5">
 
     <div class="row mb-5 text-center">
@@ -377,5 +410,96 @@
   </div>
 </section>
 <!-- Akhir section About -->
+
+<!-- Section Statistik -->
+<section id="statistik" class="d-flex  section-batik rev-90">
+  <div class="container p-5 bg-primary" style="z-index: 100;">
+    <div class="row gx-4 gy-5">
+      <!-- Statistik item -->
+      <div class="col-lg-4 col-md-6" data-aos="fade-up">
+        <h5 class="text-center"><i class="bi bi-people text-white"></i></h5>
+        <h2 class="text-center text-white fw-bold">21536</h2>
+        <p class="text-center text-white mb-0">Mahasiswa aktif</p>
+      </div>
+      <div class="col-lg-4 col-md-6" data-aos="fade-up">
+        <h5 class="text-center"><i class="bi bi-building text-white"></i></h5>
+        <h2 class="text-center text-white fw-bold">33</h2>
+        <p class="text-center text-white mb-0">Program Studi</p>
+      </div>
+      <div class="col-lg-4 col-md-6" data-aos="fade-up">
+        <h5 class="text-center"><i class="bi bi-building-up text-white"></i></h5>
+        <h2 class="text-center text-white fw-bold">9</h2>
+        <p class="text-center text-white mb-0">Program Pascasarjana</p>
+      </div>
+      <div class="col-lg-4 col-md-6" data-aos="fade-up">
+        <h5 class="text-center"><i class="bi bi-person-up text-white"></i></h5>
+        <h2 class="text-center text-white fw-bold">21</h2>
+        <p class="text-center text-white mb-0">Guru Besar</p>
+      </div>
+      <div class="col-lg-4 col-md-6" data-aos="fade-up">
+        <h5 class="text-center"><i class="bi bi-person-badge text-white"></i></h5>
+        <h2 class="text-center text-white fw-bold">59</h2>
+        <p class="text-center text-white mb-0">Lektor Kepala</p>
+      </div>
+      <div class="col-lg-4 col-md-6" data-aos="fade-up">
+        <h5 class="text-center"><i class="bi bi-file-person text-white"></i></h5>
+        <h2 class="text-center text-white fw-bold">224</h2>
+        <p class="text-center text-white mb-0">Lektor</p>
+      </div>
+      <div class="col-lg-4 col-md-6" data-aos="fade-up">
+        <h5 class="text-center"><i class="bi bi-person text-white"></i></h5>
+        <h2 class="text-center text-white fw-bold">54</h2>
+        <p class="text-center text-white mb-0">Asisten Ahli</p>
+      </div>
+      <div class="col-lg-4 col-md-6" data-aos="fade-up">
+        <h5 class="text-center"><i class="bi bi-person text-white"></i></h5>
+        <h2 class="text-center text-white fw-bold">371</h2>
+        <p class="text-center text-white mb-0">Staff Pengajar</p>
+      </div>
+      <div class="col-lg-4 col-md-6" data-aos="fade-up">
+        <h5 class="text-center"><i class="bi bi-person text-white"></i></h5>
+        <h2 class="text-center text-white fw-bold">245</h2>
+        <p class="text-center text-white mb-0">Staff Administrasi</p>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Akhir Section Statistik -->
+
+<!-- Section Kerjasama -->
+<section id="kerjasama" class="d-flex section-batik rev--90 align-items-center" style="height: 80vh;">
+  <div class="container p-5">
+
+    <div class="row mb-5 text-center" data-aos="fade-up">
+      <div class="col">
+        <h1 class="fw-bold">Kerjasama</h1>
+        <p class="fs-4">Pendidikan, penelitian, bisnis, dan lainnya</p>
+      </div>
+    </div>
+
+    <!-- Logo -->
+    <div class="row gx-4 gy-5 align-items-center align-self-center" data-aos="fade-up">
+      <div class="col-xl-2 col-lg-3 col-md-4 d-flex justify-content-center">
+        <img src="../img/LOGO BLU_SPEEDCIRCLE.png" style="width: 128px;height: 100%;object-fit: scale-down;" />
+      </div>
+      <div class="col-xl-2 col-lg-3 col-md-4 d-flex justify-content-center">
+        <img src="https://pertamina.com/Media/Image/Pertamina.png" style="width: 128px;height: 100%;object-fit: scale-down;" />
+      </div>
+      <div class="col-xl-2 col-lg-3 col-md-4 d-flex justify-content-center">
+        <img src="https://th.bing.com/th/id/OIP.fineWnFIFMDVRCzgORCDFQHaHa?pid=ImgDetMain" style="width: 128px;height: 100%;object-fit: scale-down;" />
+      </div>
+      <div class="col-xl-2 col-lg-3 col-md-4 d-flex justify-content-center">
+        <img src="https://iconlogovector.com/uploads/images/2023/05/lg-7a359c6dfcb72ca61d94df92ac78afdf98.jpg" style="width: 128px;height: 100%;object-fit: scale-down;" />
+      </div>
+      <div class="col-xl-2 col-lg-3 col-md-4 d-flex justify-content-center">
+        <img src="https://logosmarcas.net/wp-content/uploads/2020/09/SpaceX-Simbolo.jpg" style="width: 128px;height: 100%;object-fit: scale-down;" />
+      </div>
+      <div class="col-xl-2 col-lg-3 col-md-4 d-flex justify-content-center">
+        <img src="https://th.bing.com/th/id/OIP.arezqGrVeKUAmuKTaXGGEgHaEK?pid=ImgDetMain" style="width: 128px;height: 100%;object-fit: scale-down;" />
+      </div>
+    </div>
+
+  </div>
+</section>
 
 <?= $this->endSection() ?>
