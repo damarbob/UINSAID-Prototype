@@ -12,7 +12,7 @@
     <div class="overlay"></div>
 
     <!-- Konten Hero -->
-    <div class="container z-3 text-center text-light">
+    <!-- <div class="container z-3 text-center text-light">
       <div class="row">
         <div class="col">
 
@@ -30,7 +30,7 @@
 
         </div>
       </div>
-    </div>
+    </div> -->
 
   </div>
 
@@ -48,20 +48,23 @@
         <!-- Picture grid -->
         <div class="row g-0">
           <div class="col">
+            <img data-aos="fade-up" class="img-section" style="border-radius: 5rem;width: 100%;height: 512px;object-fit: cover;" src="https://www.uinsaid.ac.id/files/cover/fakultas-ushuluddin-dan-dakwah-1710927589.jpg" />
+          </div>
+          <!-- <div class="col">
             <img data-aos="fade-down-right" class="img-section" style="border-top-left-radius: 5rem;" src="https://www.uinsaid.ac.id/files/cover/fakultas-ushuluddin-dan-dakwah-1710927589.jpg" />
           </div>
           <div class="col">
             <img data-aos="fade-down-left" class="img-section" style="border-top-right-radius: 5rem;" src="https://www.uinsaid.ac.id/files/cover/fakultas-ekonomi-dan-bisnis-islam-1710927692.jpg" />
-          </div>
+          </div> -->
         </div>
-        <div class="row g-0">
+        <!-- <div class="row g-0">
           <div class="col">
             <img data-aos="fade-up-right" class="img-section" style="border-bottom-left-radius: 5rem;" src="https://www.uinsaid.ac.id/files/cover/fakultas-ilmu-tarbiyah-1710927668.png" />
           </div>
           <div class="col">
             <img data-aos="fade-up-left" class="img-section" style="border-bottom-right-radius: 5rem;" src="https://www.uinsaid.ac.id/files/cover/fakultas-adab-dan-bahasa-1710927720.png" />
           </div>
-        </div>
+        </div> -->
 
       </div>
 
@@ -242,7 +245,7 @@
     <div class="row g-4 mb-4">
 
       <!-- Item berita -->
-      <div class="col-lg-6 col-xl-4" data-aos="fade-up">
+      <div class="col-lg-6 col-xl-15" data-aos="fade-up">
         <div class="card">
 
           <!-- Gambar berita -->
@@ -262,7 +265,7 @@
       </div>
 
       <!-- Item berita -->
-      <div class="col-lg-6 col-xl-4" data-aos="fade-up">
+      <div class="col-lg-6 col-xl-15" data-aos="fade-up">
         <div class="card">
 
           <!-- Gambar berita -->
@@ -282,7 +285,7 @@
       </div>
 
       <!-- Item berita -->
-      <div class="col-lg-6 col-xl-4" data-aos="fade-up">
+      <div class="col-lg-6 col-xl-15" data-aos="fade-up">
         <div class="card">
 
           <!-- Gambar berita -->
@@ -296,6 +299,46 @@
           </div>
           <div class="card-footer">
             <p class="card-text fs-6"><small>07 Mei 2024</small></p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Item berita -->
+      <div class="col-lg-6 col-xl-15" data-aos="fade-up">
+        <div class="card">
+
+          <!-- Gambar berita -->
+          <img src="https://www.uinsaid.ac.id/files/post/cover/fab-uin-rm-said-holds-iccl-1716892667.jpg" class="card-img-top" alt="...">
+
+          <!-- Konten berita -->
+          <div class="card-body">
+            <p class="card-title">
+              FAB UIN RM Said Holds 2nd ICCL 2024
+            </p>
+          </div>
+          <div class="card-footer">
+            <p class="card-text fs-6"><small>28 Mei 2024</small></p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Item berita -->
+      <div class="col-lg-6 col-xl-15" data-aos="fade-up">
+        <div class="card">
+
+          <!-- Gambar berita -->
+          <img src="https://www.uinsaid.ac.id/files/post/cover/optimalkan-blu-uin-rm-said-perkuat-kerjasama-1717059990.jpg" class="card-img-top" alt="...">
+
+          <!-- Konten berita -->
+          <div class="card-body">
+            <p class="card-title">
+              Optimalkan BLU, UIN RM Said Perkuat Kerjasama
+            </p>
+          </div>
+          <div class="card-footer">
+            <p class="card-text fs-6"><small>28 Mei 2024</small></p>
           </div>
 
         </div>
@@ -322,11 +365,12 @@
     <div class="row gx-5">
       <div class="col-lg-6"></div>
       <div class="col-lg-6 ps-xxl-5">
-        <p class="fs-1 mb-4 fw-normal" data-aos="fade-left">
+        <p class="fs-1 fw-bold" data-aos="fade-left">Tentang kami</p>
+        <p class="fs-4 mb-4 fw-normal" data-aos="fade-left">
           UIN Raden Mas Said Surakarta berkomitmen untuk memberikan pendidikan berkualitas tinggi dan berkontribusi pada masyarakat.
         </p>
-        <a class="btn btn-outline-dark mb-4" href="<?= base_url('tentang') ?>" data-aos="fade-up">
-          Tentang Kami
+        <a class="btn btn-outline-dark mb-4" href="<?= base_url('tentang') ?>" data-aos="fade-left">
+          Selengkapnya
         </a>
       </div>
     </div>

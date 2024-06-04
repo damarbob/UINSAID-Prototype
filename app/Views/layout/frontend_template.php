@@ -42,19 +42,34 @@
 
       <!-- Icons -->
       <ul class="navbar-nav d-flex flex-row me-1">
-        <li class="nav-item me-sm-4">
-          <button class="nav-link d-flex align-items-center" data-mdb-collapse-init data-mdb-target="#search" aria-controls="search" aria-expanded="false" aria-label="Toggle search">
+
+        <!-- Cari -->
+        <li class="nav-item">
+          <button class="nav-link d-flex align-items-center px-4" data-mdb-collapse-init data-mdb-target="#search" aria-controls="search" aria-expanded="false" aria-label="Toggle search">
             <i class="bi bi-search me-4 fs-2"></i>
             <span class="d-none d-sm-block">
               Cari
             </span>
           </button>
         </li>
-        <li class="nav-item me-sm-4">
-          <button class="nav-link d-flex align-items-center" data-mdb-collapse-init data-mdb-target="#menu" aria-controls="menu" aria-expanded="false" aria-label="Toggle menu">
-            <i class="bi bi-list me-4 fs-2"></i>
+
+        <!-- Bahasa -->
+        <div class="btn-group shadow-0 mb-2">
+          <button class="nav-link px-4" type="button" id="dropdownMenuButton" data-mdb-dropdown-init data-mdb-ripple-init aria-expanded="false">
+            <i class="bi bi-globe fs-2"></i>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+            <li><a class="dropdown-item" href="#" onclick="doGTranslate('id|id');return false;">Indonesia</a></li>
+            <li><a class="dropdown-item" href="#" onclick="doGTranslate('id|ar');return false;">Arabic</a></li>
+            <li><a class="dropdown-item" href="#" onclick="doGTranslate('id|en');return false;">English</a></li>
+          </ul>
+        </div>
+
+        <!-- Menu -->
+        <li class="nav-item">
+          <button class="nav-link d-flex align-items-center px-4" data-mdb-collapse-init data-mdb-target="#menu" aria-controls="menu" aria-expanded="false" aria-label="Toggle menu">
+            <i class="bi bi-list fs-2"></i>
             <span class="d-none d-sm-block">
-              Menu
             </span>
           </button>
         </li>
@@ -244,6 +259,41 @@
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script>
     AOS.init();
+  </script>
+
+  <!-- Google translate element -->
+  <div id="google_translate_element2" class="d-none"></div>
+
+  <script type="text/javascript">
+    function googleTranslateElementInit2() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'id',
+        autoDisplay: false
+      }, 'google_translate_element2');
+    }
+  </script>
+  <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit2"></script>
+  <script type="text/javascript">
+    /* <![CDATA[ */
+    eval(function(p, a, c, k, e, r) {
+      e = function(c) {
+        return (c < a ? '' : e(parseInt(c / a))) + ((c = c % a) > 35 ? String.fromCharCode(c + 29) : c.toString(36))
+      };
+      if (!''.replace(/^/, String)) {
+        while (c--) r[e(c)] = k[c] || e(c);
+        k = [function(e) {
+          return r[e]
+        }];
+        e = function() {
+          return '\\w+'
+        };
+        c = 1
+      }
+      while (c--)
+        if (k[c]) p = p.replace(new RegExp('\\b' + e(c) + '\\b', 'g'), k[c]);
+      return p
+    }('6 7(a,b){n{4(2.9){3 c=2.9("o");c.p(b,f,f);a.q(c)}g{3 c=2.r();a.s(\'t\'+b,c)}}u(e){}}6 h(a){4(a.8)a=a.8;4(a==\'\')v;3 b=a.w(\'|\')[1];3 c;3 d=2.x(\'y\');z(3 i=0;i<d.5;i++)4(d[i].A==\'B-C-D\')c=d[i];4(2.j(\'k\')==E||2.j(\'k\').l.5==0||c.5==0||c.l.5==0){F(6(){h(a)},G)}g{c.8=b;7(c,\'m\');7(c,\'m\')}}', 43, 43, '||document|var|if|length|function|GTranslateFireEvent|value|createEvent||||||true|else|doGTranslate||getElementById|google_translate_element2|innerHTML|change|try|HTMLEvents|initEvent|dispatchEvent|createEventObject|fireEvent|on|catch|return|split|getElementsByTagName|select|for|className|goog|te|combo|null|setTimeout|500'.split('|'), 0, {}))
+    /* ]]> */
   </script>
 
   <!-- Custom scripts -->
