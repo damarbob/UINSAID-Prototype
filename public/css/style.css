@@ -1,0 +1,335 @@
+:root {
+  --mdb-primary: #2f5151;
+  --mdb-primary-rgb: 47, 81, 81;
+}
+
+body {
+  /* background-color: var(--mdb-gray-200); */
+  font-family: "Libre Baskerville", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* Container */
+/* .container {
+  background: var(--mdb-white);
+} */
+.navbar .container {
+  background: none;
+}
+#hero .container {
+  background: none;
+}
+
+/* Image */
+.img-section {
+  width: 100%;
+  height: 256px;
+  object-fit: cover;
+}
+
+/* Frontend Navbar */
+#frontend-navbar {
+  transition: all 0.5s;
+  padding: 1rem 0;
+}
+#frontend-navbar.navbar {
+  box-shadow: none;
+}
+#frontend-navbar .navbar-brand {
+  --logo: url("../img/logo-uin-only-horizontal-white.png");
+  --logo-width: 285px; /* Logo's actual width */
+  --logo-height: 64px; /* Logo's actual height */
+  --logo-scrolled: url("../img/logo-horizontal-new.png");
+  --logo-scrolled-width: 261px; /* Logo-scrolled's actual width */
+  --logo-scrolled-height: 64px; /* Logo-scrolled's actual height */
+  transition: all 0.25s ease;
+  background: var(--logo) left center no-repeat;
+  background-size: contain;
+  width: var(--logo-width);
+  height: var(--logo-height);
+}
+
+/* Frontend Navbar if scrolled */
+#frontend-navbar.header-scrolled,
+#frontend-navbar.header-inner-pages {
+  background: var(--mdb-light);
+}
+#frontend-navbar.navbar.header-scrolled {
+  box-shadow: var(--mdb-navbar-box-shadow);
+}
+#frontend-navbar.header-scrolled .navbar-brand {
+  background: var(--logo-scrolled) left center no-repeat;
+  background-size: contain;
+  width: var(--logo-scrolled-width);
+  height: var(--logo-scrolled-height);
+}
+
+@media (max-width: 575px) {
+  #frontend-navbar .navbar-brand {
+    --logo: url("../img/icon-notext-transparent-white.png");
+    --logo-width: 65px;
+    --logo-scrolled: url("../img/logo-horizontal-notext.png");
+    --logo-scrolled-width: 111px; /* Logo-scrolled's actual width */
+  }
+}
+
+/* Menu */
+#menu .container {
+  padding: 1.5rem; /* p-4 */
+  padding-top: 4rem;
+  height: 512px;
+}
+#menu ul {
+  list-style: none;
+}
+#menu ul li {
+  transition: all 0.25s;
+  margin-bottom: 0.75rem;
+}
+#menu ul li:hover {
+  padding-inline-start: 1rem;
+}
+
+/* Search */
+#search {
+  background: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999999;
+}
+/* #search .container {
+  height: 100%;
+} */
+
+/* Hero Section */
+#hero {
+  background: url("../img/uinsaid-video-bg-blur-new.png") center center
+    no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  width: 100%;
+  min-height: 576px;
+  height: 100vh;
+  /* max-height: 742.5px; */
+  z-index: -3;
+}
+
+@media (max-width: 991px) {
+  /* Hero behavior on large screens */
+  #hero {
+    /* Set hero text alignment to center */
+    text-align: center;
+  }
+}
+
+#hero iframe {
+  position: absolute;
+  width: 100%;
+  max-width: 1320px;
+  height: auto;
+  max-height: 100vh;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+}
+
+#hero .overlay {
+  background: linear-gradient(
+    180deg,
+    rgba(var(--mdb-primary-rgb), 1) 0%,
+    rgba(0, 0, 0, 0.2) 25%,
+    rgba(0, 0, 0, 0.2) 75%,
+    rgba(var(--mdb-primary-rgb), 1) 100%
+  );
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  min-height: 576px;
+  height: 100vh;
+  /* max-height: 742.5px; */
+}
+
+#hero h1,
+#hero h2,
+#hero p {
+  /* Set line height equal to lh-base to give more space between line */
+  line-height: 1.5;
+}
+
+/* Section about */
+#about {
+  background: linear-gradient(
+      270deg,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(255, 255, 255, 1) 50%,
+      rgba(255, 255, 255, 0) 50%,
+      rgba(255, 255, 255, 0) 100%
+    ),
+    url("../img/akademik.jpeg") left top no-repeat;
+  height: 100%;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+#about .container {
+  background: none;
+}
+
+@media (max-width: 991px) {
+  #about {
+    background: white;
+  }
+}
+
+/* Section berita */
+#news .card-title {
+  height: 4.75rem; /* The height of 3 lines */
+  -webkit-line-clamp: 3;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Sections General */
+section {
+  background: white;
+  padding: 6rem 0;
+  overflow: hidden;
+}
+section.fluid {
+  padding: 0;
+}
+section.fluid .container {
+  padding-left: 0;
+  padding-right: 0;
+}
+.section-batik {
+  position: relative;
+}
+.section-batik::before {
+  content: "";
+  position: absolute;
+  background-image: url(../img/pattern-batik-kawung-uinsaid.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  display: block;
+  width: 512px;
+  height: 512px;
+}
+.rev--90::before {
+  bottom: 0;
+  left: 0;
+  transform: rotate(-90deg);
+}
+.rev-180::before {
+  bottom: 0;
+  right: 0;
+  transform: rotate(180deg);
+}
+.rev-90::before {
+  top: 0;
+  right: 0;
+  transform: rotate(90deg);
+}
+
+/* Card */
+.card {
+  border-radius: 0;
+}
+
+.card img {
+  border-radius: 0;
+}
+
+/* Button */
+.btn {
+  border-radius: 0;
+}
+
+/* Footer */
+#footer {
+  color: var(--color-on-primary);
+  font-size: 0.8rem;
+  background: var(--color-primary-variant);
+}
+
+#footer .footer-top {
+  padding: 4rem 0 2rem 0;
+  position: relative;
+}
+
+#footer .footer-top h4 {
+  font-size: 1rem;
+  font-weight: bold;
+  position: relative;
+  padding-bottom: 1rem;
+}
+
+#footer .footer-top .footer-links {
+  margin-bottom: 2rem;
+}
+
+#footer .footer-top .footer-links ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#footer .footer-top .footer-links ul i {
+  margin-right: 0.5rem;
+  color: var(--color-on-primary);
+}
+
+#footer .footer-top .footer-links ul li {
+  padding: 0.5rem 0;
+  display: flex;
+  align-items: center;
+}
+
+#footer .footer-top .footer-links ul li:first-child {
+  padding-top: 0;
+}
+
+#footer .footer-top .footer-links ul a {
+  color: var(--color-on-primary-transparent-8);
+  transition: 0.3s;
+  display: inline-block;
+  line-height: 1;
+}
+
+#footer .footer-top .footer-links ul a:hover {
+  text-decoration: underline;
+  color: var(--color-on-primary);
+}
+
+#footer .copyright-wrap {
+  /* border-top: 0.25rem solid var(--color-primary); */
+  border-top: none;
+}
+
+/* Line clamp */
+.line-clamp-1 {
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+.line-clamp-2 {
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+.line-clamp-4 {
+  -webkit-line-clamp: 4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
