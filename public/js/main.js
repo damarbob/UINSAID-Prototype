@@ -74,6 +74,19 @@ $(document).ready(function () {
       }
     }
   }
+
+  $(".dropdown-item").on("click", function () {
+    hideAllDropdowns();
+    showDropdown($(this).parent().attr("id"));
+  });
+
+  function hideAllDropdowns() {
+    $(".collapse").collapse("hide");
+  }
+
+  function showDropdown(dropdownId) {
+    $("#" + dropdownId).collapse("show");
+  }
 });
 
 $(document).ready(function () {

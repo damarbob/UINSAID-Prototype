@@ -48,7 +48,7 @@
         <!-- Picture grid -->
         <div class="row g-0">
           <div class="col">
-            <img data-aos="fade-up" class="img-section" style="border-radius: 5rem;width: 100%;height: 512px;object-fit: cover;" src="https://www.uinsaid.ac.id/files/cover/fakultas-ushuluddin-dan-dakwah-1710927589.jpg" />
+            <img data-aos="fade-up" class="img-section" style="border-radius: 5rem;width: 100%;height: 512px;object-fit: cover;" src="img/foto-rektor-wisuda.png" />
           </div>
           <!-- <div class="col">
             <img data-aos="fade-down-right" class="img-section" style="border-top-left-radius: 5rem;" src="https://www.uinsaid.ac.id/files/cover/fakultas-ushuluddin-dan-dakwah-1710927589.jpg" />
@@ -80,7 +80,7 @@
           <br />
           <span class="fst-normal">(QS. Al-Mujadilah : 11)</span>
         </p>
-        <button class="btn btn-lg btn-primary">Selengkapnya</button>
+        <button class="btn btn-lg btn-primary color-primary" data-mdb-ripple-init>Selengkapnya</button>
       </div>
 
     </div>
@@ -89,7 +89,9 @@
 <!-- Section Akademik -->
 
 <!-- Section Poin Akademik -->
-<section class="fluid section-batik rev-180">
+<section class="fluid">
+  <div class="lurik">
+  </div>
   <div class="container p-5">
     <div class="row g-4">
 
@@ -102,7 +104,7 @@
           <div class="card-body flex-grow-1">
             <h5 class="card-title fw-bold">Fakultas</h5>
             <p class="card-text">Setiap fakultas menawarkan lingkungan akademik yang dinamis, staf pengajar berkualitas dan mahasiswa berkolaborasi dalam proses pembelajaran dan penelitian.</p>
-            <a href="#" class="btn btn-outline-dark">Selengkapnya</a>
+            <a href="#" class="btn btn-primary" data-mdb-ripple-init>Selengkapnya</a>
           </div>
         </div>
       </div>
@@ -116,12 +118,12 @@
           <div class="card-body flex-grow-1">
             <h5 class="card-title fw-bold">Registrasi</h5>
             <p class="card-text">UIN Raden Mas Said menyediakan panduan lengkap dan dukungan penuh bagi mahasiswa baru dalam proses pendaftaran, pembayaran, dan orientasi akademik.</p>
-            <a href="#" class="btn btn-outline-dark">Selengkapnya</a>
+            <a href="#" class="btn btn-primary" data-mdb-ripple-init>Selengkapnya</a>
           </div>
         </div>
       </div>
 
-      <!-- Fakultas -->
+      <!-- Beasiswa -->
       <div class="col-lg-6" data-aos="fade-right">
         <div class="card d-flex flex-row border border-dark border-1">
           <div class="card-body pe-0">
@@ -130,12 +132,12 @@
           <div class="card-body flex-grow-1">
             <h5 class="card-title fw-bold">Beasiswa</h5>
             <p class="card-text">UIN Raden Mas Said Surakarta mempersembahkan beragam kesempatan beasiswa bagi mahasiswa yang berprestasi dan berkebutuhan finansial.</p>
-            <a href="#" class="btn btn-outline-dark">Selengkapnya</a>
+            <a href="#" class="btn btn-primary" data-mdb-ripple-init>Selengkapnya</a>
           </div>
         </div>
       </div>
 
-      <!-- Registrasi -->
+      <!-- Layanan -->
       <div class="col-lg-6" data-aos="fade-left">
         <div class="card d-flex flex-row border border-dark border-1">
           <div class="card-body pe-0">
@@ -144,7 +146,7 @@
           <div class="card-body flex-grow-1">
             <h5 class="card-title fw-bold">Layanan</h5>
             <p class="card-text">UIN Raden Mas Said Surakarta mengutamakan pelayanan terbaik bagi seluruh komunitas akademik, dari layanan akademik hingga dukungan kesejahteraan mahasiswa</p>
-            <a href="#" class="btn btn-outline-dark">Selengkapnya</a>
+            <a href="#" class="btn btn-primary" data-mdb-ripple-init>Selengkapnya</a>
           </div>
         </div>
       </div>
@@ -156,7 +158,7 @@
 
 <!-- Section Riset -->
 <section class="fluid section-batik rev-90">
-  <div class="container px-5">
+  <div class="container px-5 pb-5">
     <div class="row g-5 d-flex align-items-center">
 
       <!-- Publikasi column -->
@@ -167,7 +169,7 @@
         <p class="lh-lg">
           Sebagai bagian dari komitmennya sebagai Universitas Islam Unggul dan Inovatif, UIN Raden Mas Said Surakarta menekankan pentingnya penelitian transdisiplin dan publikasi ilmiah sebagai upaya untuk menghasilkan inovasi dalam ilmu pengetahuan dan teknologi.
         </p>
-        <button class="btn btn-lg btn-primary">Selengkapnya</button>
+        <button class="btn btn-lg btn-primary" data-mdb-ripple-init>Selengkapnya</button>
       </div>
 
       <!-- Picture grid column -->
@@ -194,10 +196,12 @@
 
 <!-- Section Poin Riset -->
 <section class="fluid">
+  <div class="lurik">
+  </div>
   <div class="container p-5">
     <div class="row g-4">
 
-      <!-- Fakultas -->
+      <!-- Omah jurnal -->
       <div class="col-lg-6" data-aos="fade-right">
         <div class="card d-flex flex-row border border-dark border-1">
           <div class="card-body pe-0">
@@ -206,12 +210,12 @@
           <div class="card-body flex-grow-1">
             <h5 class="card-title fw-bold">Omah Jurnal</h5>
             <p class="card-text">Akses mudah dan sistem yang terorganisir dengan baik, Omah Jurnal memfasilitasi penelitian dan pertukaran pengetahuan di seluruh fakultas dan departemen.</p>
-            <a href="#" class="btn btn-outline-dark">Selengkapnya</a>
+            <a href="#" class="btn btn-primary" data-mdb-ripple-init>Selengkapnya</a>
           </div>
         </div>
       </div>
 
-      <!-- Registrasi -->
+      <!-- Repositori jurnal -->
       <div class="col-lg-6" data-aos="fade-left">
         <div class="card d-flex flex-row border border-dark border-1">
           <div class="card-body pe-0">
@@ -219,8 +223,8 @@
           </div>
           <div class="card-body flex-grow-1">
             <h5 class="card-title fw-bold">Repositori Jurnal</h5>
-            <p class="card-text">Repositori Jurnal berisi karya-karya akademik dan penelitian dari dosen dan mahasiswa dan dapat diakses secara terbuka.</p>
-            <a href="#" class="btn btn-outline-dark">Selengkapnya</a>
+            <p class="card-text">Repositori Jurnal berisi karya-karya akademik dan penelitian dari dosen dan mahasiswa dan dapat diakses secara terbuka dengan mudah.</p>
+            <a href="#" class="btn btn-primary" data-mdb-ripple-init>Selengkapnya</a>
           </div>
         </div>
       </div>
@@ -279,7 +283,7 @@
 
       <!-- Item berita -->
       <div class="col-lg-6 col-xl-15" data-aos="fade-up">
-        <div class="card">
+        <div class="card" data-mdb-ripple-init>
 
           <!-- Gambar berita -->
           <img src="https://www.uinsaid.ac.id/files/post/cover/persiapan-akreditasi-internasional-uin-surakarta-m-1714970024.JPG" class="card-img-top" alt="...">
@@ -299,7 +303,7 @@
 
       <!-- Item berita -->
       <div class="col-lg-6 col-xl-15" data-aos="fade-up">
-        <div class="card">
+        <div class="card" data-mdb-ripple-init>
 
           <!-- Gambar berita -->
           <img src="https://www.uinsaid.ac.id/files/post/cover/jauh-datang-dari-batam-kami-ucapkan-selamat-datang-1715059577.jpg" class="card-img-top" alt="...">
@@ -319,7 +323,7 @@
 
       <!-- Item berita -->
       <div class="col-lg-6 col-xl-15" data-aos="fade-up">
-        <div class="card">
+        <div class="card" data-mdb-ripple-init>
 
           <!-- Gambar berita -->
           <img src="https://www.uinsaid.ac.id/files/post/cover/uin-raden-mas-said-surakarta-raih-wtp-atas-laporan-1715060511.jpg" class="card-img-top" alt="...">
@@ -339,7 +343,7 @@
 
       <!-- Item berita -->
       <div class="col-lg-6 col-xl-15" data-aos="fade-up">
-        <div class="card">
+        <div class="card" data-mdb-ripple-init>
 
           <!-- Gambar berita -->
           <img src="https://www.uinsaid.ac.id/files/post/cover/fab-uin-rm-said-holds-iccl-1716892667.jpg" class="card-img-top" alt="...">
@@ -359,7 +363,7 @@
 
       <!-- Item berita -->
       <div class="col-lg-6 col-xl-15" data-aos="fade-up">
-        <div class="card">
+        <div class="card" data-mdb-ripple-init>
 
           <!-- Gambar berita -->
           <img src="https://www.uinsaid.ac.id/files/post/cover/optimalkan-blu-uin-rm-said-perkuat-kerjasama-1717059990.jpg" class="card-img-top" alt="...">
@@ -402,7 +406,7 @@
         <p class="fs-4 mb-4 fw-normal" data-aos="fade-left">
           UIN Raden Mas Said Surakarta berkomitmen untuk memberikan pendidikan berkualitas tinggi dan berkontribusi pada masyarakat.
         </p>
-        <a class="btn btn-outline-dark mb-4" href="<?= base_url('tentang') ?>" data-aos="fade-left">
+        <a class="btn btn-outline-dark mb-4" href="<?= base_url('tentang') ?>" data-aos="fade-left" data-mdb-ripple-init>
           Selengkapnya
         </a>
       </div>

@@ -18,7 +18,7 @@
   <!-- Google Fonts Roboto -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" />
   <!-- MDB -->
-  <link rel="stylesheet" href="css/mdb-dsm-custom.css" />
+  <link rel="stylesheet" href="css/mdb-dsm-custom-new.css" />
   <link rel="stylesheet" href="css/style.css" />
   <!-- Bootstrap icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -45,9 +45,9 @@
 
         <!-- Cari -->
         <li class="nav-item">
-          <button class="nav-link d-flex align-items-center px-4" data-mdb-collapse-init data-mdb-target="#search" aria-controls="search" aria-expanded="false" aria-label="Toggle search">
-            <i class="bi bi-search me-4 fs-2"></i>
-            <span class="d-none d-sm-block">
+          <button class="nav-link d-flex align-items-center px-4 rounded-pill" data-mdb-collapse-init data-mdb-target="#search" aria-controls="search" aria-expanded="false" aria-label="Toggle search" data-mdb-ripple-init>
+            <i class="bi bi-search me-lg-4 fs-2"></i>
+            <span class="d-none d-lg-block">
               Cari
             </span>
           </button>
@@ -55,11 +55,11 @@
 
         <!-- Bahasa -->
         <div class="btn-group shadow-0 mb-2">
-          <button class="nav-link px-4" type="button" id="dropdownMenuButton" data-mdb-dropdown-init data-mdb-ripple-init aria-expanded="false">
+          <button class="nav-link px-4 rounded-pill" type="button" id="dropdownMenuButton" data-mdb-dropdown-init data-mdb-ripple-init aria-expanded="false">
             <i class="bi bi-globe fs-2"></i>
           </button>
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-            <li><a class="dropdown-item" href="#" onclick="doGTranslate('id|id');return false;">Indonesia</a></li>
+            <li><a class="dropdown-item" href="#" onclick="doGTranslate('id|id');return false;">Bahasa</a></li>
             <li><a class="dropdown-item" href="#" onclick="doGTranslate('id|ar');return false;">Arabic</a></li>
             <li><a class="dropdown-item" href="#" onclick="doGTranslate('id|en');return false;">English</a></li>
           </ul>
@@ -67,7 +67,7 @@
 
         <!-- Menu -->
         <li class="nav-item">
-          <button class="nav-link d-flex align-items-center px-4" data-mdb-collapse-init data-mdb-target="#menu" aria-controls="menu" aria-expanded="false" aria-label="Toggle menu">
+          <button class="nav-link d-flex align-items-center px-4 rounded-pill" data-mdb-collapse-init data-mdb-target="#menu" aria-controls="menu" aria-expanded="false" aria-label="Toggle menu" data-mdb-ripple-init>
             <i class="bi bi-list fs-2"></i>
             <span class="d-none d-sm-block">
             </span>
@@ -81,18 +81,67 @@
     <div class="collapse w-100" id="menu">
 
       <div class="container overflow-auto">
-        <div class="row">
-          <div class="col">
 
-            <ul class="fs-1">
+        <div class="row mb-4">
+          <div class="col-md-6 border-end border-2">
+
+            <ul class="fs-2">
               <li>
-                <a href="#" class="">Akademik</a>
+                <a id="menuAkademik" href="#" class="" data-mdb-collapse-init data-mdb-toggle="collapse" data-mdb-target="#dropdownAkademik" aria-expanded="true" aria-controls="dropdownAkademik">Akademik</a>
+
+                <ul id="dropdownAkademik" class="collapse ps-4 fs-4 mt-2 mb-4" aria-labelledby="menuAkademik">
+                  <li>
+                    <a href="#" class="">Fakultas dan Pascasarjana</a>
+                  </li>
+                  <li>
+                    <a href="#" class="">Lembaga</a>
+                  </li>
+                  <li>
+                    <a href="#" class="">Unit Pelaksana Teknis</a>
+                  </li>
+                </ul>
+
               </li>
               <li>
-                <a href="#" class="">Riset dan publikasi</a>
+                <a id="menuRisetDanPublikasi" href="#" class="" data-mdb-collapse-init data-mdb-toggle="collapse" data-mdb-target="#dropdownRisetDanPublikasi" aria-expanded="true" aria-controls="dropdownRisetDanPublikasi">Riset dan publikasi</a>
+
+                <ul id="dropdownRisetDanPublikasi" class="collapse ps-4 fs-4 mt-2 mb-4" aria-labelledby="menuRisetDanPublikasi">
+                  <li>
+                    <a href="#" class="">Omah Jurnal</a>
+                  </li>
+                  <li>
+                    <a href="#" class="">Repositori Jurnal</a>
+                  </li>
+                </ul>
+
               </li>
               <li>
-                <a href="#" class="">Tentang kami</a>
+                <a id="menuTentangKami" href="#" class="" data-mdb-collapse-init data-mdb-toggle="collapse" data-mdb-target="#dropdownTentangKami" aria-expanded="true" aria-controls="dropdownTentangKami">Tentang kami</a>
+
+                <ul id="dropdownTentangKami" class="collapse ps-4 fs-4 mt-2 mb-4" aria-labelledby="menuTentangKami">
+                  <li>
+                    <a href="#" class="">Tentang UIN RM Said</a>
+                  </li>
+                  <li>
+                    <a href="#" class="">Sejarah</a>
+                  </li>
+                  <li>
+                    <a href="#" class="">Profil Universitas</a>
+                  </li>
+                  <li>
+                    <a href="#" class="">Arti Lambang</a>
+                  </li>
+                  <li>
+                    <a href="#" class="">Visi Misi</a>
+                  </li>
+                  <li>
+                    <a href="#" class="">Fasilitas</a>
+                  </li>
+                  <li>
+                    <a href="#" class="">Peta Kampus</a>
+                  </li>
+                </ul>
+
               </li>
               <li>
                 <a href="#" class="">Berita</a>
@@ -106,9 +155,40 @@
             </ul>
 
           </div>
-          <div class="col">
+          <div class="col-md-6 ps-md-4">
+
           </div>
         </div>
+
+        <div class="row mb-4">
+          <div class="col d-flex flex-row fs-5">
+
+            <a href="#" class="text-underline me-4">
+              Arsip
+            </a>
+
+            <a href="#" class="text-underline me-4">
+              Download
+            </a>
+
+            <a href="#" class="text-underline me-4">
+              Value BLU
+            </a>
+
+          </div>
+
+        </div>
+
+        <div class="row">
+
+          <div class="col">
+            <p>
+              &copy; 2024 UIN Raden Mas Said Surakarta
+            </p>
+          </div>
+
+        </div>
+
       </div>
 
     </div>

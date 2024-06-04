@@ -1,6 +1,8 @@
 :root {
-  --mdb-primary: #2f5151;
+  --mdb-primary: #007a33;
   --mdb-primary-rgb: 47, 81, 81;
+  --mdb-secondary: rgb(125, 186, 0);
+  --mdb-secondary-rgb: 125, 186, 0;
 }
 
 body {
@@ -9,6 +11,14 @@ body {
   font-weight: 400;
   font-style: normal;
   top: 0px !important;
+}
+
+/* Color */
+.color-primary {
+  background-color: var(--mdb-primary);
+}
+.color-secondary {
+  background-color: var(--mdb-secondary);
 }
 
 /* Hide translate */
@@ -79,7 +89,6 @@ body {
 #frontend-navbar {
   transition: all 0.5s;
   padding: 1rem 0;
-  z-index: 10000002;
 }
 #frontend-navbar.navbar {
   box-shadow: none;
@@ -126,10 +135,12 @@ body {
 #menu .container {
   padding: 1.5rem; /* p-4 */
   padding-top: 4rem;
-  height: 512px;
+  height: calc(100vh - 96px);
+  font-family: "Times New Roman", Times, serif;
 }
 #menu ul {
   list-style: none;
+  padding-left: 0px;
 }
 #menu ul li {
   transition: all 0.25s;
@@ -268,21 +279,6 @@ section.fluid .container {
   width: 512px;
   height: 512px;
 }
-.rev--90::before {
-  bottom: 0;
-  left: 0;
-  transform: rotate(-90deg);
-}
-.rev-180::before {
-  bottom: 0;
-  right: 0;
-  transform: rotate(180deg);
-}
-.rev-90::before {
-  top: 0;
-  right: 0;
-  transform: rotate(90deg);
-}
 
 /* Card */
 .card {
@@ -380,4 +376,36 @@ section.fluid .container {
   text-overflow: ellipsis;
   display: -webkit-box;
   -webkit-box-orient: vertical;
+}
+
+/* Revolve */
+.rev--90::before {
+  bottom: 0;
+  left: 0;
+  transform: rotate(-90deg);
+}
+.rev-180::before {
+  bottom: 0;
+  right: 0;
+  transform: rotate(180deg);
+}
+.rev-90::before {
+  top: 0;
+  right: 0;
+  transform: rotate(90deg);
+}
+
+/* Lurik */
+.lurik {
+  background: linear-gradient(
+      270deg,
+      rgba(var(--mdb-primary-rgb), 0.7) 0%,
+      rgba(var(--mdb-primary-rgb), 0.7) 100%
+    ),
+    url("../img/lurik-hijau-bg.jpg");
+  background-attachment: fixed;
+  background-size: cover;
+  width: 100%;
+  height: 192px;
+  position: absolute;
 }
