@@ -97,7 +97,7 @@
       <div class="col-lg-6" data-aos="fade-right">
         <div class="card d-flex flex-row border border-dark border-1">
           <div class="card-body pe-0">
-            <h5 class="card-title display-5"><i class="bi bi-buildings"></i></h5>
+            <h5 class="card-title display-5"><i class="bi bi-buildings text-primary"></i></h5>
           </div>
           <div class="card-body flex-grow-1">
             <h5 class="card-title fw-bold">Fakultas</h5>
@@ -111,7 +111,7 @@
       <div class="col-lg-6" data-aos="fade-left">
         <div class="card d-flex flex-row border border-dark border-1">
           <div class="card-body pe-0">
-            <h5 class="card-title display-5"><i class="bi bi-person-check"></i></h5>
+            <h5 class="card-title display-5"><i class="bi bi-person-check text-primary"></i></h5>
           </div>
           <div class="card-body flex-grow-1">
             <h5 class="card-title fw-bold">Registrasi</h5>
@@ -125,7 +125,7 @@
       <div class="col-lg-6" data-aos="fade-right">
         <div class="card d-flex flex-row border border-dark border-1">
           <div class="card-body pe-0">
-            <h5 class="card-title display-5"><i class="bi bi-mortarboard"></i></h5>
+            <h5 class="card-title display-5"><i class="bi bi-mortarboard text-primary"></i></h5>
           </div>
           <div class="card-body flex-grow-1">
             <h5 class="card-title fw-bold">Beasiswa</h5>
@@ -139,7 +139,7 @@
       <div class="col-lg-6" data-aos="fade-left">
         <div class="card d-flex flex-row border border-dark border-1">
           <div class="card-body pe-0">
-            <h5 class="card-title display-5"><i class="bi bi-journals"></i></h5>
+            <h5 class="card-title display-5"><i class="bi bi-journals text-primary"></i></h5>
           </div>
           <div class="card-body flex-grow-1">
             <h5 class="card-title fw-bold">Layanan</h5>
@@ -201,7 +201,7 @@
       <div class="col-lg-6" data-aos="fade-right">
         <div class="card d-flex flex-row border border-dark border-1">
           <div class="card-body pe-0">
-            <h5 class="card-title display-5"><i class="bi bi-book"></i></h5>
+            <h5 class="card-title display-5"><i class="bi bi-book text-primary"></i></h5>
           </div>
           <div class="card-body flex-grow-1">
             <h5 class="card-title fw-bold">Omah Jurnal</h5>
@@ -215,7 +215,7 @@
       <div class="col-lg-6" data-aos="fade-left">
         <div class="card d-flex flex-row border border-dark border-1">
           <div class="card-body pe-0">
-            <h5 class="card-title display-5"><i class="bi bi-database-check"></i></h5>
+            <h5 class="card-title display-5"><i class="bi bi-database-check text-primary"></i></h5>
           </div>
           <div class="card-body flex-grow-1">
             <h5 class="card-title fw-bold">Repositori Jurnal</h5>
