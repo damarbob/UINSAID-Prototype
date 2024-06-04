@@ -12,7 +12,7 @@
     <div class="overlay"></div>
 
     <!-- Konten Hero -->
-    <div class="container z-3 text-center text-light">
+    <!-- <div class="container z-3 text-center text-light">
       <div class="row">
         <div class="col">
 
@@ -30,7 +30,7 @@
 
         </div>
       </div>
-    </div>
+    </div> -->
 
   </div>
 
