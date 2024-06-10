@@ -272,7 +272,7 @@ section.fluid .container {
 .section-batik::before {
   content: "";
   position: absolute;
-  background-image: url(../img/pattern-batik-kawung-uinsaid.png);
+  /* background-image: url(../img/pattern-batik-kawung-uinsaid.png); */
   background-repeat: no-repeat;
   background-size: contain;
   display: block;

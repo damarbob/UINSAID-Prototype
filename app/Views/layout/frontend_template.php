@@ -1,11 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id" dir="">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <meta http-equiv="x-ua-compatible" content="ie=edge" />
   <title>UIN Raden Mas Said Surakarta</title>
+  <meta name="googlebot" content="index,follow">
+  <meta name="language" content="id" />
+  <link rel="canonical" href="https://webdemo.uinsaid.id" />
+  <meta name="google-site-verification" content="wVOBtikI0s7xKLkglkAAc2ZereV7l0NrQZH8LPCoKSk">
+
+  <meta name="author" content="UIN Raden Mas Said Surakarta" />
+  <meta name="copyright" content="UIN Raden Mas Said Surakarta" />
+  <meta name="application-name" content="UIN Raden Mas Said Surakarta" />
+  <meta itemprop="https://webdemo.uinsaid.id" content="https://www.uinsaid.ac.id/files/icon-1704942188.png" />
+  <meta property="og:title" content="UIN Raden Mas Said Surakarta" />
+  <meta property="og:site_name" content="webdemo.uinsaid.id">
+  <meta property="og:keywords" content="uinsaid, rmsaid, uinsurakarta">
+  <meta property="og:type" content="article" />
+  <meta property="og:image" content="https://www.uinsaid.ac.id/files/icon-1704942188.png" />
+  <meta property="og:image:alt" content="UIN Raden Mas Said Surakarta" />
+  <meta property="og:image:width" content="400" />
+  <meta property="og:image:height" content="400" />
+  <meta property="og:url" content="https://webdemo.uinsaid.id" />
+  <meta property="og:description" content="Demo web UIN Raden Mas Said Surakarta" />
+  <meta property="og:locale" content="id_ID" />
+
   <!-- MDB icon -->
   <!-- <link rel="icon" href="img/mdb-favicon.ico" type="image/x-icon" /> -->
   <link rel="shortcut icon" href="https://www.uinsaid.ac.id/files/icon-1704942188.png">
@@ -87,59 +108,35 @@
 
             <ul class="fs-2">
               <li>
-                <a id="menuAkademik" href="#" class="" data-mdb-collapse-init data-mdb-toggle="collapse" data-mdb-target="#dropdownAkademik" aria-expanded="true" aria-controls="dropdownAkademik">Akademik</a>
+                <a id="menuAkademik" href="#" class="" data-mdb-collapse-init data-mdb-toggle="collapse" data-mdb-target="#dropdownAkademik" aria-expanded="true" aria-controls="dropdownAkademik">Akademik ▾</a>
 
                 <ul id="dropdownAkademik" class="collapse ps-4 fs-4 mt-2 mb-4" aria-labelledby="menuAkademik">
-                  <li>
-                    <a href="#" class="">Fakultas dan Pascasarjana</a>
-                  </li>
-                  <li>
-                    <a href="#" class="">Lembaga</a>
-                  </li>
-                  <li>
-                    <a href="#" class="">Unit Pelaksana Teknis</a>
-                  </li>
+                  <li><a href="#" class="">Fakultas dan Pascasarjana</a></li>
+                  <li><a href="#" class="">Lembaga</a></li>
+                  <li><a href="#" class="">Unit Pelaksana Teknis</a></li>
                 </ul>
 
               </li>
               <li>
-                <a id="menuRisetDanPublikasi" href="#" class="" data-mdb-collapse-init data-mdb-toggle="collapse" data-mdb-target="#dropdownRisetDanPublikasi" aria-expanded="true" aria-controls="dropdownRisetDanPublikasi">Riset dan publikasi</a>
+                <a id="menuRisetDanPublikasi" href="#" class="" data-mdb-collapse-init data-mdb-toggle="collapse" data-mdb-target="#dropdownRisetDanPublikasi" aria-expanded="true" aria-controls="dropdownRisetDanPublikasi">Riset dan publikasi ▾</a>
 
                 <ul id="dropdownRisetDanPublikasi" class="collapse ps-4 fs-4 mt-2 mb-4" aria-labelledby="menuRisetDanPublikasi">
-                  <li>
-                    <a href="#" class="">Omah Jurnal</a>
-                  </li>
-                  <li>
-                    <a href="#" class="">Repositori Jurnal</a>
-                  </li>
+                  <li><a href="#" class="">Omah Jurnal</a></li>
+                  <li><a href="#" class="">Repositori Jurnal</a></li>
                 </ul>
 
               </li>
               <li>
-                <a id="menuTentangKami" href="#" class="" data-mdb-collapse-init data-mdb-toggle="collapse" data-mdb-target="#dropdownTentangKami" aria-expanded="true" aria-controls="dropdownTentangKami">Tentang kami</a>
+                <a id="menuTentangKami" href="#" class="" data-mdb-collapse-init data-mdb-toggle="collapse" data-mdb-target="#dropdownTentangKami" aria-expanded="true" aria-controls="dropdownTentangKami">Tentang kami ▾</a>
 
                 <ul id="dropdownTentangKami" class="collapse ps-4 fs-4 mt-2 mb-4" aria-labelledby="menuTentangKami">
-                  <li>
-                    <a href="#" class="">Tentang UIN RM Said</a>
-                  </li>
-                  <li>
-                    <a href="#" class="">Sejarah</a>
-                  </li>
-                  <li>
-                    <a href="#" class="">Profil Universitas</a>
-                  </li>
-                  <li>
-                    <a href="#" class="">Arti Lambang</a>
-                  </li>
-                  <li>
-                    <a href="#" class="">Visi Misi</a>
-                  </li>
-                  <li>
-                    <a href="#" class="">Fasilitas</a>
-                  </li>
-                  <li>
-                    <a href="#" class="">Peta Kampus</a>
-                  </li>
+                  <li><a href="#">Tentang UIN RM Said</a></li>
+                  <li><a href="#">Sejarah</a></li>
+                  <li><a href="#">Profil Universitas</a></li>
+                  <li><a href="#">Arti Lambang</a></li>
+                  <li><a href="#">Visi Misi</a></li>
+                  <li><a href="#">Fasilitas</a></li>
+                  <li><a href="#">Peta Kampus</a></li>
                 </ul>
 
               </li>
@@ -156,6 +153,39 @@
 
           </div>
           <div class="col-md-6 ps-md-4">
+
+            <ul id="dropdownRisetDanPublikasi" class="collapse ps-4 fs-4 mt-2 mb-4" aria-labelledby="menuRisetDanPublikasi">
+              <li>
+                <a href="#" class="">Omah Jurnal</a>
+              </li>
+              <li>
+                <a href="#" class="">Repositori Jurnal</a>
+              </li>
+            </ul>
+
+            <ul id="dropdownTentangKami" class="collapse ps-4 fs-4 mt-2 mb-4" aria-labelledby="menuTentangKami">
+              <li>
+                <a href="#" class="">Tentang UIN RM Said</a>
+              </li>
+              <li>
+                <a href="#" class="">Sejarah</a>
+              </li>
+              <li>
+                <a href="#" class="">Profil Universitas</a>
+              </li>
+              <li>
+                <a href="#" class="">Arti Lambang</a>
+              </li>
+              <li>
+                <a href="#" class="">Visi Misi</a>
+              </li>
+              <li>
+                <a href="#" class="">Fasilitas</a>
+              </li>
+              <li>
+                <a href="#" class="">Peta Kampus</a>
+              </li>
+            </ul>
 
           </div>
         </div>
@@ -230,8 +260,12 @@
 
   <?= $this->renderSection('content') ?>
 
+  <div class="lurik position-relative">
+
+  </div>
+
   <!-- Footer -->
-  <footer id="footer" class="section-batik">
+  <footer id="footer" class="section-batik rev-90">
     <!-- Footer bagian atas -->
     <div class="footer-top">
       <div class="container p-5">
@@ -314,7 +348,7 @@
     <!-- Akhir footer bagian atas -->
 
     <!-- Hak cipta -->
-    <div class="container">
+    <div class="container z-3">
       <div class="copyright-wrap d-md-flex py-4">
         <div class="me-md-auto text-center text-md-start">
           <!-- Teks hak cipta -->

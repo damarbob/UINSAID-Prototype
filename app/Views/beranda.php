@@ -386,7 +386,7 @@
     <!-- Row tombol lebih banyak berita -->
     <div class="row">
       <div class="col text-center">
-        <a class="btn btn-lg btn-outline-dark border-3 mb-4 border-start-0 border-end-0 border-top-0 px-0" href="<?= base_url('tentang') ?>" data-aos="fade-up" data-aos-delay="400">
+        <a class="btn btn-lg btn-outline-dark border-3 mb-4 border-start-0 border-end-0 border-top-0 px-0" href="#" data-aos="fade-up" data-aos-delay="400">
           <i class="bi bi-newspaper me-2"></i>Lebih banyak berita
         </a>
       </div>
@@ -471,7 +471,7 @@
 <!-- Akhir Section Statistik -->
 
 <!-- Section Kerjasama -->
-<section id="kerjasama" class="d-flex section-batik rev--90 align-items-center" style="height: 80vh;">
+<section id="kerjasama" class="d-flex section-batik rev-180 align-items-center">
   <div class="container p-5">
 
     <div class="row mb-5 text-center" data-aos="fade-up">
