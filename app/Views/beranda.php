@@ -1,5 +1,6 @@
 <?= $this->extend('layout/frontend_template') ?>
 
+<?php helper('text'); ?>
 <?= $this->section('content') ?>
 <!-- Section Hero -->
 <section id="hero" class="p-0 d-flex align-items-center justify-content-center">
@@ -266,6 +267,86 @@
   </div>
 </section>
 <!-- Section Pengabdian -->
+
+<!-- Kegiatan -->
+<section id="section-kegiatan" class="d-flex align-items-center">
+  <div class="section-slideshow"></div>
+
+  <div class="container position-relative">
+
+    <!-- Swiper kegiatan -->
+    <div class="row mb-4">
+      <div class="swiper" id="swiper-kegiatan">
+        <div class="swiper-wrapper">
+
+          <!-- Swiper kegiatan terbaru -->
+          <?php foreach ($kegiatanTerbaru as $i => $a) : ?>
+            <div class="swiper-slide d-flex align-items-center">
+              <div class="container">
+                <div class="row">
+
+                  <!-- Gambar kegiatan -->
+                  <div class="col-md-6 position-relative" style="height: 256px;">
+
+                  </div>
+
+                  <!-- Body kegiatan -->
+                  <div class="col-md-6">
+                    <div class="card-body p-md-5">
+
+                      <!-- Kategori -->
+                      <p class="text-primary fs-5 mb-3"><b><?php echo $a['kategori']; ?></b></p>
+
+
+                      <!-- Judul -->
+                      <h3 class="card-title fs-2 mb-3">
+                        <a class="link-dark text-decoration-none crop-text-2" href="rilis-media/<?= $a['slug']; ?>"><?= $a['judul']; ?></a>
+                      </h3>
+
+                      <!-- Tanggal -->
+                      <p class="card-text crop-text-2 mb-3">
+                        <b><?= $a['tgl_terbit_terformat']; ?></b>
+                      </p>
+
+                      <!-- Ringkasan -->
+                      <p class="card-text fs-5 crop-text-4 mb-3">
+                        <?= word_limiter($a['meta_description'], 50); ?>
+                      </p>
+
+                    </div>
+
+                  </div>
+                  <!-- Akhir body kegiatan -->
+
+                </div>
+              </div>
+            </div>
+          <?php endforeach; ?>
+          <!-- Akhir swiper kegiatan terbaru -->
+        </div>
+
+        <div class="swiper-pagination"></div>
+
+      </div>
+
+    </div>
+    <script>
+      var daftarKegiatan = <?= json_encode($kegiatanTerbaru) ?>;
+    </script>
+    <!-- Akhir swiper kegiatan -->
+
+
+
+  </div>
+
+  <!-- <div class="container align-self-end">
+		<a class="btn btn-danger rounded-4" href="/rilis-media" role="button">Lihat Semua
+			Kegiatan
+			<span class="ps-1 bi-arrow-right"></span></a>
+	</div> -->
+
+</section>
+<!-- End Kegiatan Section -->
 
 <!-- Section Berita -->
 <section id="news" class="fluid section-batik">
