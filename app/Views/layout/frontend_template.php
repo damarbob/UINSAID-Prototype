@@ -38,6 +38,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
   <!-- Google Fonts Roboto -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" />
+  <!-- Google Fonts Montseratt -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
   <!-- MDB -->
   <link rel="stylesheet" href="css/mdb-dsm-custom-new.css" />
   <link rel="stylesheet" href="css/style.css" />
@@ -80,15 +84,24 @@
             <i class="bi bi-globe fs-2"></i>
           </button>
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-            <li><a class="dropdown-item" href="#" onclick="doGTranslate('id|id');return false;">Bahasa</a></li>
-            <li><a class="dropdown-item" href="#" onclick="doGTranslate('id|ar');return false;">Arabic</a></li>
-            <li><a class="dropdown-item" href="#" onclick="doGTranslate('id|en');return false;">English</a></li>
+            <li><a class="dropdown-item no-translate" href="#" onclick="doGTranslate('id|id');return false;">
+                <img src="<?= base_url("/img/country-flags/indonesia.png") ?>" width="16px" class="me-2">
+                IDN (Bahasa Indonesia)
+              </a></li>
+            <li><a class="dropdown-item no-translate" href="#" onclick="doGTranslate('id|ar');return false;">
+                <img src="<?= base_url("/img/country-flags/saudi-arabia.png") ?>" width="16px" class="me-2">
+                AR (Arab)
+              </a></li>
+            <li><a class="dropdown-item no-translate" href="#" onclick="doGTranslate('id|en');return false;">
+                <img src="<?= base_url("/img/country-flags/united-states-of-america.png") ?>" width="16px" class="me-2">
+                EN (Inggris)
+              </a></li>
           </ul>
         </div>
 
         <!-- Menu -->
         <li class="nav-item">
-          <button class="nav-link d-flex align-items-center px-4 rounded-pill" data-mdb-collapse-init data-mdb-target="#menu" aria-controls="menu" aria-expanded="false" aria-label="Toggle menu" data-mdb-ripple-init>
+          <button id="menuIcon" class="nav-link d-flex align-items-center px-4 rounded-pill" data-mdb-collapse-init data-mdb-target="#menu" aria-controls="menu" aria-expanded="false" aria-label="Toggle menu" data-mdb-ripple-init>
             <i class="bi bi-list fs-2"></i>
             <span class="d-none d-sm-block">
             </span>
@@ -104,47 +117,53 @@
       <div class="container overflow-auto">
 
         <div class="row mb-4">
-          <div class="col-md-6 border-end border-2">
+          <div class="col-md-6">
 
             <ul class="fs-2">
               <li>
-                <a id="menuAkademik" href="#" class="" data-mdb-collapse-init data-mdb-toggle="collapse" data-mdb-target="#dropdownAkademik" aria-expanded="true" aria-controls="dropdownAkademik">Akademik ▾</a>
+                <a id="menuAkademik" href="#" class="" data-mdb-collapse-init data-mdb-toggle="collapse" data-mdb-target="#dropdownAkademik" aria-expanded="true" aria-controls="dropdownAkademik">Akademik</a>
 
-                <ul id="dropdownAkademik" class="collapse ps-4 fs-4 mt-2 mb-4" aria-labelledby="menuAkademik">
-                  <li><a href="#" class="">Fakultas dan Pascasarjana</a></li>
-                  <li><a href="#" class="">Lembaga</a></li>
-                  <li><a href="#" class="">Unit Pelaksana Teknis</a></li>
-                </ul>
-
-              </li>
-              <li>
-                <a id="menuRisetDanPublikasi" href="#" class="" data-mdb-collapse-init data-mdb-toggle="collapse" data-mdb-target="#dropdownRisetDanPublikasi" aria-expanded="true" aria-controls="dropdownRisetDanPublikasi">Riset dan publikasi ▾</a>
-
-                <ul id="dropdownRisetDanPublikasi" class="collapse ps-4 fs-4 mt-2 mb-4" aria-labelledby="menuRisetDanPublikasi">
-                  <li><a href="#" class="">Omah Jurnal</a></li>
-                  <li><a href="#" class="">Repositori Jurnal</a></li>
-                </ul>
+                <div class="d-block d-md-none">
+                  <ul id="dropdownAkademik" class="collapse ps-4 fs-4" aria-labelledby="menuAkademik">
+                    <li><a href="#" class="">Fakultas dan Pascasarjana</a></li>
+                    <li><a href="#" class="">Lembaga</a></li>
+                    <li><a href="#" class="">Unit Pelaksana Teknis</a></li>
+                  </ul>
+                </div>
 
               </li>
               <li>
-                <a id="menuTentangKami" href="#" class="" data-mdb-collapse-init data-mdb-toggle="collapse" data-mdb-target="#dropdownTentangKami" aria-expanded="true" aria-controls="dropdownTentangKami">Tentang kami ▾</a>
+                <a id="menuRisetDanPublikasi" href="#" class="" data-mdb-collapse-init data-mdb-toggle="collapse" data-mdb-target="#dropdownRisetDanPublikasi" aria-expanded="true" aria-controls="dropdownRisetDanPublikasi">Riset dan Publikasi</a>
 
-                <ul id="dropdownTentangKami" class="collapse ps-4 fs-4 mt-2 mb-4" aria-labelledby="menuTentangKami">
-                  <li><a href="#">Tentang UIN RM Said</a></li>
-                  <li><a href="#">Sejarah</a></li>
-                  <li><a href="#">Profil Universitas</a></li>
-                  <li><a href="#">Arti Lambang</a></li>
-                  <li><a href="#">Visi Misi</a></li>
-                  <li><a href="#">Fasilitas</a></li>
-                  <li><a href="#">Peta Kampus</a></li>
-                </ul>
+                <div class="d-block d-md-none">
+                  <ul id="dropdownRisetDanPublikasi" class="collapse ps-4 fs-4" aria-labelledby="menuRisetDanPublikasi">
+                    <li><a href="#" class="">Omah Jurnal</a></li>
+                    <li><a href="#" class="">Repositori Jurnal</a></li>
+                  </ul>
+                </div>
+
+              </li>
+              <li>
+                <a id="menuTentangKami" href="#" class="" data-mdb-collapse-init data-mdb-toggle="collapse" data-mdb-target="#dropdownTentangKami" aria-expanded="true" aria-controls="dropdownTentangKami">Tentang Kami</a>
+
+                <div class="d-block d-md-none">
+                  <ul id="dropdownTentangKami" class="collapse ps-4 fs-4" aria-labelledby="menuTentangKami">
+                    <li><a href="#" class="">Tentang UIN RM Said</a></li>
+                    <li><a href="#" class="">Sejarah</a></li>
+                    <li><a href="#" class="">Profil Universitas</a></li>
+                    <li><a href="#" class="">Arti Lambang</a></li>
+                    <li><a href="#" class="">Visi Misi</a></li>
+                    <li><a href="#" class="">Fasilitas</a></li>
+                    <li><a href="#" class="">Peta Kampus</a></li>
+                  </ul>
+                </div>
 
               </li>
               <li>
                 <a href="#" class="">Berita</a>
               </li>
               <li>
-                <a href="#" class="">SPMB</a>
+                <a href="#" class="">Pendaftaran Mahasiswa Baru</a>
               </li>
               <li>
                 <a href="#" class="">Alumni</a>
@@ -152,39 +171,33 @@
             </ul>
 
           </div>
-          <div class="col-md-6 ps-md-4">
+          <div class="col-md-6 ps-md-4 d-none d-md-block border-start border-2">
 
-            <ul id="dropdownRisetDanPublikasi" class="collapse ps-4 fs-4 mt-2 mb-4" aria-labelledby="menuRisetDanPublikasi">
-              <li>
-                <a href="#" class="">Omah Jurnal</a>
-              </li>
-              <li>
-                <a href="#" class="">Repositori Jurnal</a>
-              </li>
+
+            <ul id="dropdownAkademik" class="collapse ps-4 fs-2" aria-labelledby="menuAkademik">
+              <li><a href="#" class="">Fakultas Usluhuddin dan Dakwah</a></li>
+              <li><a href="#" class="">Fakultas Syariah</a></li>
+              <li><a href="#" class="">Fakultas Ilmu Tarbiyah</a></li>
+              <li><a href="#" class="">Fakultas Ekonomi dan Bisnis Islam</a></li>
+              <li><a href="#" class="">Fakultas Adab dan Bahasa</a></li>
+              <li><a href="#" class="">Pascasarjana</a></li>
+              <li><a href="#" class="">Lembaga</a></li>
+              <li><a href="#" class="">Unit Pelaksana Teknis</a></li>
             </ul>
 
-            <ul id="dropdownTentangKami" class="collapse ps-4 fs-4 mt-2 mb-4" aria-labelledby="menuTentangKami">
-              <li>
-                <a href="#" class="">Tentang UIN RM Said</a>
-              </li>
-              <li>
-                <a href="#" class="">Sejarah</a>
-              </li>
-              <li>
-                <a href="#" class="">Profil Universitas</a>
-              </li>
-              <li>
-                <a href="#" class="">Arti Lambang</a>
-              </li>
-              <li>
-                <a href="#" class="">Visi Misi</a>
-              </li>
-              <li>
-                <a href="#" class="">Fasilitas</a>
-              </li>
-              <li>
-                <a href="#" class="">Peta Kampus</a>
-              </li>
+            <ul id="dropdownRisetDanPublikasi" class="collapse ps-4 fs-2" aria-labelledby="menuRisetDanPublikasi">
+              <li><a href="#" class="">Omah Jurnal</a></li>
+              <li><a href="#" class="">Repositori Jurnal</a></li>
+            </ul>
+
+            <ul id="dropdownTentangKami" class="collapse ps-4 fs-2" aria-labelledby="menuTentangKami">
+              <li><a href="#" class="">Tentang UIN RM Said</a></li>
+              <li><a href="#" class="">Sejarah</a></li>
+              <li><a href="#" class="">Profil Universitas</a></li>
+              <li><a href="#" class="">Arti Lambang</a></li>
+              <li><a href="#" class="">Visi Misi</a></li>
+              <li><a href="#" class="">Fasilitas</a></li>
+              <li><a href="#" class="">Peta Kampus</a></li>
             </ul>
 
           </div>
@@ -260,7 +273,7 @@
 
   <?= $this->renderSection('content') ?>
 
-  <div class="lurik position-relative">
+  <div class="lurik-silk position-relative">
 
   </div>
 
@@ -270,7 +283,7 @@
     <div class="footer-top">
       <div class="container p-5">
         <div class="row">
-          <!-- Judul footer & alamat APTMI -->
+          <!-- Footer & alamat -->
           <div class="col-lg-3 col-md-6">
             <img class="mb-4" width="128px" src="img/icon.png" />
             <p>
@@ -280,7 +293,7 @@
             </p>
           </div>
 
-          <!-- Kontak APTMI -->
+          <!-- Kontak -->
           <div class="col-lg-3 col-md-6 footer-links">
             <h4>Kontak</h4>
             <ul>
@@ -299,7 +312,7 @@
             </ul>
           </div>
 
-          <!-- Layanan APTMI -->
+          <!-- Fakultas dan pascasarjana -->
           <div class="col-lg-3 col-md-6 footer-links">
             <h4>Fakultas dan Pascasarjana</h4>
             <ul>
@@ -324,12 +337,15 @@
             </ul>
           </div>
 
-          <!-- Media sosial APTMI -->
+          <!-- Media sosial -->
           <div class="col-lg-3 col-md-6">
             <h4>Ikuti kami</h4>
 
             <a class="fs-1" href="#" target="_blank">
               <i class="bx bxl-instagram me-2"></i>
+            </a>
+            <a class="fs-1" href="#" target="_blank">
+              <i class="bx bxl-tiktok me-2"></i>
             </a>
             <a class="fs-1" href="#" target="_blank">
               <i class="bx bxl-twitter me-2"></i>
@@ -341,7 +357,7 @@
               <i class="bx bxl-youtube me-2"></i>
             </a>
           </div>
-          <!-- Akhir media sosial APTMI -->
+          <!-- Akhir media sosial -->
         </div>
       </div>
     </div>
@@ -374,6 +390,9 @@
   <script>
     AOS.init();
   </script>
+
+  <!-- Accessibility -->
+  <script src="<?= base_url("js/sienna-uinsaid.min.js") ?>" defer></script>
 
   <!-- Google translate element -->
   <div id="google_translate_element2" class="d-none"></div>

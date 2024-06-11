@@ -90,7 +90,7 @@
 
 <!-- Section Poin Akademik -->
 <section class="fluid">
-  <div class="lurik">
+  <div class="lurik-silk">
   </div>
   <div class="container p-5">
     <div class="row g-4">
@@ -259,7 +259,7 @@
         <p class="lh-lg">
           Dengan semangat Tri Dharma Perguruan Tinggi, LP2M UIN Raden Mas Said Surakarta berdedikasi untuk memajukan penelitian dan pengabdian kepada masyarakat yang berorientasi pada solusi
         </p>
-        <button class="btn btn-lg btn-primary">Selengkapnya</button>
+        <button class="btn btn-lg btn-primary" data-mdb-ripple-init>Selengkapnya</button>
       </div>
 
     </div>
@@ -386,7 +386,7 @@
     <!-- Row tombol lebih banyak berita -->
     <div class="row">
       <div class="col text-center">
-        <a class="btn btn-lg btn-outline-dark border-3 mb-4 border-start-0 border-end-0 border-top-0 px-0" href="#" data-aos="fade-up" data-aos-delay="400">
+        <a class="btn btn-lg btn-outline-dark border-3 mb-4 border-start-0 border-end-0 border-top-0 rounded-0 px-0" href="#" data-aos="fade-up" data-aos-delay="400">
           <i class="bi bi-newspaper me-2"></i>Lebih banyak berita
         </a>
       </div>

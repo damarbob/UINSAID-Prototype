@@ -75,7 +75,35 @@ $(document).ready(function () {
     }
   }
 
-  //////////////////
+  // Dropdown
+  // Function to collapse other dropdowns
+  function collapseOthers(notThis) {
+    $(".collapse").not(notThis).not("#menu").collapse("hide");
+  }
+
+  // Attach event handlers
+  $("#menuAkademik").on("click", function () {
+    collapseOthers("#dropdownAkademik");
+  });
+
+  $("#menuRisetDanPublikasi").on("click", function () {
+    collapseOthers("#dropdownRisetDanPublikasi");
+  });
+
+  $("#menuTentangKami").on("click", function () {
+    collapseOthers("#dropdownTentangKami");
+  });
+
+  // Disable scrollbar if menu is active
+  $("#menuIcon").on("click", function () {
+    if ($("body").hasClass("overflow-hidden")) {
+      console.log("A");
+      $("body").removeClass("overflow-hidden");
+    } else {
+      console.log("B");
+      $("body").addClass("overflow-hidden");
+    }
+  });
 });
 
 $(document).ready(function () {
