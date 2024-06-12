@@ -165,7 +165,7 @@
       <!-- Publikasi column -->
       <div class="col-lg-6" data-aos="fade-right">
         <h1 class="pb-2 fw-bold border border-primary border-2 border-start-0 border-end-0 border-top-0">
-          Riset dan publikasi
+          Riset dan Publikasi
         </h1>
         <p class="lh-lg">
           Sebagai bagian dari komitmennya sebagai Universitas Islam Unggul dan Inovatif, UIN Raden Mas Said Surakarta menekankan pentingnya penelitian transdisiplin dan publikasi ilmiah sebagai upaya untuk menghasilkan inovasi dalam ilmu pengetahuan dan teknologi.
@@ -281,9 +281,9 @@
 
           <!-- Swiper kegiatan terbaru -->
           <?php foreach ($kegiatanTerbaru as $i => $a) : ?>
-            <div class="swiper-slide d-flex align-items-center">
+            <div class="swiper-slide">
               <div class="container">
-                <div class="row">
+                <div class="row d-flex align-items-end align-items-md-center pt-5">
 
                   <!-- Gambar kegiatan -->
                   <div class="col-md-6 position-relative" style="height: 256px;">
@@ -291,27 +291,29 @@
                   </div>
 
                   <!-- Body kegiatan -->
-                  <div class="col-md-6">
-                    <div class="card-body p-md-5">
+                  <div class="col-md-6 mb-3">
+                    <div class="card-body p-md-5 p-sm-4 p-3">
 
                       <!-- Kategori -->
-                      <p class="text-primary fs-5 mb-3"><b><?php echo $a['kategori']; ?></b></p>
+                      <p class="text-primary fs-5 mt-5 mt-sm-3 mt-md-0"><b><?php echo $a['kategori']; ?></b></p>
 
 
                       <!-- Judul -->
                       <h3 class="card-title fs-2 mb-3">
-                        <a class="link-dark text-decoration-none crop-text-2" href="rilis-media/<?= $a['slug']; ?>"><?= $a['judul']; ?></a>
+                        <a class="link-dark text-decoration-none" href="<?= $a['slug']; ?>"><?= $a['judul']; ?></a>
                       </h3>
 
                       <!-- Tanggal -->
-                      <p class="card-text crop-text-2 mb-3">
+                      <p class="card-text mb-3">
                         <b><?= $a['tgl_terbit_terformat']; ?></b>
                       </p>
 
                       <!-- Ringkasan -->
-                      <p class="card-text fs-5 crop-text-4 mb-3">
-                        <?= word_limiter($a['meta_description'], 50); ?>
-                      </p>
+                       <!-- <div class="d-none d-sm-block">
+                         <p class="card-text fs-5 mb-3 line-clamp-4">
+                           <?= word_limiter($a['meta_description'], 50); ?>
+                         </p>
+                       </div> -->
 
                     </div>
 
@@ -483,7 +485,7 @@
     <div class="row gx-5">
       <div class="col-lg-6"></div>
       <div class="col-lg-6 ps-xxl-5">
-        <p class="fs-1 fw-bold" data-aos="fade-left">Tentang kami</p>
+        <p class="fs-1 fw-bold" data-aos="fade-left">Tentang Kami</p>
         <p class="fs-4 mb-4 fw-normal" data-aos="fade-left">
           UIN Raden Mas Said Surakarta berkomitmen untuk memberikan pendidikan berkualitas tinggi dan berkontribusi pada masyarakat.
         </p>
@@ -499,11 +501,11 @@
 <!-- Section Statistik -->
 <section id="statistik" class="d-flex  section-batik rev-90">
   <div class="container p-5 bg-primary" style="z-index: 100;">
-    <div class="row gx-4 gy-5">
+    <div class="row gx-4 gy-5 justify-content-center">
       <!-- Statistik item -->
       <div class="col-lg-4 col-md-6" data-aos="fade-up">
         <h5 class="text-center"><i class="bi bi-people text-white"></i></h5>
-        <h2 class="text-center text-white fw-bold">21536</h2>
+        <h2 class="text-center text-white fw-bold">21.536</h2>
         <p class="text-center text-white mb-0">Mahasiswa aktif</p>
       </div>
       <div class="col-lg-4 col-md-6" data-aos="fade-up">
@@ -563,7 +565,7 @@
     </div>
 
     <!-- Logo -->
-    <div class="row gx-4 gy-5 align-items-center align-self-center" data-aos="fade-up">
+    <div class="row gx-4 gy-5 align-items-center align-self-center justify-content-center" data-aos="fade-up">
       <div class="col-xl-2 col-lg-3 col-md-4 d-flex justify-content-center">
         <img src="../img/LOGO BLU_SPEEDCIRCLE.png" style="width: 128px;height: 100%;object-fit: scale-down;" />
       </div>
