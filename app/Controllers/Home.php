@@ -48,6 +48,34 @@ class Home extends BaseController
                 "tgl_terbit_terformat"  => " 30 Maret 2024"
             ]
         ];
+
+        $data['berita'] = [
+            [
+                "image" => "img/akademik.jpeg",
+                "judul" => "Persiapan Akreditasi Internasional, UIN Surakarta Undang Rafiazka Hilman",
+                "tgl_terbit" => "30 Maret 2024"
+            ],
+            [
+                "image" => "img/akademik.jpeg",
+                "judul" => "Persiapan Akreditasi Internasional, UIN Surakarta Undang Rafiazka Hilman",
+                "tgl_terbit" => "30 Maret 2024"
+            ],
+            [
+                "image" => "img/akademik.jpeg",
+                "judul" => "Persiapan Akreditasi Internasional, UIN Surakarta Undang Rafiazka Hilman",
+                "tgl_terbit" => "30 Maret 2024"
+            ],
+            [
+                "image" => "img/akademik.jpeg",
+                "judul" => "Persiapan Akreditasi Internasional, UIN Surakarta Undang Rafiazka Hilman",
+                "tgl_terbit" => "30 Maret 2024"
+            ],
+            [
+                "image" => "img/akademik.jpeg",
+                "judul" => "Persiapan Akreditasi Internasional, UIN Surakarta Undang Rafiazka Hilman",
+                "tgl_terbit" => "30 Maret 2024"
+            ],
+        ];
         return view('beranda', $data);
     }
 }

@@ -58,25 +58,25 @@ body {
   width: 20%;
   float: left;
 }
-@media (min-width: 768px) {
+@media (min-width: 576px) {
   .col-sm-15 {
     width: 20%;
     float: left;
   }
 }
-@media (min-width: 992px) {
+@media (min-width: 768px) {
   .col-md-15 {
     width: 20%;
     float: left;
   }
 }
-@media (min-width: 1200px) {
+@media (min-width: 992px) {
   .col-lg-15 {
     width: 20%;
     float: left;
   }
 }
-@media (min-width: 768px) {
+@media (min-width: 1200px) {
   .col-xl-15 {
     width: 20%;
     float: left;
@@ -235,117 +235,6 @@ body {
 #hero p {
   /* Set line height equal to lh-base to give more space between line */
   line-height: 1.5;
-}
-
-/* Section about */
-#about {
-  background: linear-gradient(
-      270deg,
-      rgba(255, 255, 255, 1) 0%,
-      rgba(255, 255, 255, 1) 50%,
-      rgba(255, 255, 255, 0) 50%,
-      rgba(255, 255, 255, 0) 100%
-    ),
-    url("../img/akademik.jpeg") left top no-repeat;
-  height: 100%;
-  background-size: cover;
-  background-attachment: fixed;
-}
-
-#about .container {
-  background: none;
-}
-
-@media (max-width: 991px) {
-  #about {
-    background: white;
-  }
-}
-
-/* Section berita */
-#news .card-title {
-  height: 4.75rem; /* The height of 3 lines */
-  -webkit-line-clamp: 3;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-/* Sections General */
-section {
-  background: white;
-  padding: 6rem 0;
-  overflow: hidden;
-}
-section.fluid {
-  padding: 0;
-}
-section.fluid .container {
-  padding-left: 0;
-  padding-right: 0;
-}
-.section-batik {
-  position: relative;
-}
-.section-batik::before {
-  content: "";
-  position: absolute;
-  /* background-image: url(../img/pattern-batik-kawung-uinsaid.png); */
-  background-repeat: no-repeat;
-  background-size: contain;
-  display: block;
-  width: 512px;
-  height: 512px;
-}
-#section-kegiatan {
-  width: 100%;
-  height: 100vh;
-  max-height: 768px;
-  transition: background-image 0.3s ease;
-  background-size: cover;
-  background-position: center;
-  position: relative;
-}
-.section-slideshow {
-  position: absolute;
-  width: 100%;
-  height: 100vh;
-  max-height: 768px;
-  background-size: cover;
-  background-position: center;
-}
-#section-kegiatan .section-slideshow::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: linear-gradient(
-    to left,
-    var(--color-surface),
-    var(--color-surface-transparent-8) 40%,
-    transparent 60%
-  );
-  pointer-events: none;
-}
-/* Medium devices (landscape tablets, 768px and up) */
-@media only screen and (max-width: 768px) {
-  #section-kegiatan .section-slideshow::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: linear-gradient(
-      to top,
-      var(--color-surface),
-      var(--color-surface-transparent-8) 40%,
-      transparent 60%
-    );
-    pointer-events: none;
-  }
 }
 
 /* Card */
