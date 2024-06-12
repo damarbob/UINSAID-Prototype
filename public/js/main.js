@@ -97,7 +97,17 @@ $(document).ready(function () {
   });
 
   // Disable scrollbar if menu is active
+  $("#menuSearch").on("click", function () {
+    toggleBodyScrollbar();
+  });
+  $("#tutupBtn").on("click", function () {
+    toggleBodyScrollbar();
+  });
   $("#menuIcon").on("click", function () {
+    toggleBodyScrollbar();
+  });
+
+  function toggleBodyScrollbar() {
     if ($("body").hasClass("overflow-hidden")) {
       console.log("A");
       $("body").removeClass("overflow-hidden");
@@ -105,7 +115,7 @@ $(document).ready(function () {
       console.log("B");
       $("body").addClass("overflow-hidden");
     }
-  });
+  }
 });
 
 $(document).ready(function () {

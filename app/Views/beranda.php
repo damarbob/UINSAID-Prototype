@@ -224,7 +224,7 @@
           </div>
           <div class="card-body flex-grow-1">
             <h5 class="card-title fw-bold">Repositori Jurnal</h5>
-            <p class="card-text">Repositori Jurnal berisi karya-karya akademik dan penelitian dari dosen dan mahasiswa dan dapat diakses secara terbuka dengan mudah.</p>
+            <p class="card-text">Repositori Jurnal UIN Raden Mas Said berisi karya-karya akademik dan penelitian dari dosen dan mahasiswa dan dapat diakses secara terbuka dengan mudah.</p>
             <a href="#" class="btn btn-primary" data-mdb-ripple-init>Selengkapnya</a>
           </div>
         </div>
