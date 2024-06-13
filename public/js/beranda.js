@@ -12,10 +12,11 @@ var swiperBerita = new Swiper("#swiper-berita", {
         nextEl: ".swiper-button-next",
         prevEl: ".swiper-button-prev",
     },
-    autoplay: {
-        delay: 2500,
-        disableOnInteraction: false,
-    },
+    // autoplay: {
+    //     delay: 2500,
+    //     disableOnInteraction: false,
+    // },
+    cssMode: true,
 });
 
 // Initialize Swiper JS for Kegiatan
