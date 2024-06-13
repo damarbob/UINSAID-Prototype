@@ -193,8 +193,7 @@ body {
 
 /* Hero Section */
 #hero {
-  background: url("../img/uinsaid-video-bg-blur-new.png") center center
-    no-repeat;
+  /* background: url("../img/uinsaid-video-bg-blur-new.png") center center no-repeat; */
   background-attachment: fixed;
   background-size: cover;
   width: 100%;

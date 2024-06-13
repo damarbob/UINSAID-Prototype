@@ -1,117 +1,135 @@
 /* Section about */
 #about {
-    background: linear-gradient(
-            270deg,
-            rgba(255, 255, 255, 1) 0%,
-            rgba(255, 255, 255, 1) 50%,
-            rgba(255, 255, 255, 0) 50%,
-            rgba(255, 255, 255, 0) 100%
-        ),
-        url("../img/akademik.jpeg") left top no-repeat;
-    height: 100%;
-    background-size: cover;
-    background-attachment: fixed;
+  background: linear-gradient(
+      270deg,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(255, 255, 255, 1) 50%,
+      rgba(255, 255, 255, 0) 50%,
+      rgba(255, 255, 255, 0) 100%
+    ),
+    url("../img/akademik.jpeg") left top no-repeat;
+  height: 100%;
+  background-size: cover;
+  background-attachment: fixed;
 }
 
 #about .container {
-    background: none;
+  background: none;
 }
 
 @media (max-width: 991px) {
-    #about {
-        background: white;
-    }
+  #about {
+    background: white;
+  }
 }
 
 /* Section berita */
 #news .card-title {
-    /* height: 4.75rem; The height of 3 lines */
-    -webkit-line-clamp: 3;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  /* height: 4.75rem; The height of 3 lines */
+  -webkit-line-clamp: 3;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .berita-card {
-    position: relative;
-    width: 100%;
-    margin: 0;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    border-radius: 8px;
+  position: relative;
+  width: 100%;
+  margin: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
 }
 .berita-card img {
-    width: 100%;
-    height: 304px;
-    object-fit: cover;
+  width: 100%;
+  height: 304px;
+  object-fit: cover;
 }
 .berita-card .card-img-overlay {
-    background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5));
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    padding: 20px;
-    box-sizing: border-box;
-    color: white;
+  background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5));
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  box-sizing: border-box;
+  color: white;
 }
 #swiper-berita .swiper-pagination {
-    --swiper-pagination-color: white;
+  --swiper-pagination-color: white;
 }
 #swiper-berita {
-    height: 100%;
-    --swiper-navigation-color: var(--mdb-primary);
+  height: 100%;
+  --swiper-navigation-color: var(--mdb-primary);
 }
 
 /* Sections General */
 section {
-    background: white;
-    padding: 6rem 0;
-    overflow: hidden;
+  background: white;
+  padding: 6rem 0;
+  overflow: hidden;
 }
 section.fluid {
-    padding: 0;
+  padding: 0;
 }
 section.fluid .container {
-    padding-left: 0;
-    padding-right: 0;
+  padding-left: 0;
+  padding-right: 0;
 }
 .section-batik {
-    position: relative;
+  position: relative;
 }
 .section-batik::before {
-    content: "";
-    position: absolute;
-    /* background-image: url(../img/pattern-batik-kawung-uinsaid.png); */
-    background-repeat: no-repeat;
-    background-size: contain;
-    display: block;
-    width: 512px;
-    height: 512px;
+  content: "";
+  position: absolute;
+  /* background-image: url(../img/pattern-batik-kawung-uinsaid.png); */
+  background-repeat: no-repeat;
+  background-size: contain;
+  display: block;
+  width: 512px;
+  height: 512px;
 }
 #section-kegiatan {
-    width: 100%;
-    height: 100vh;
-    max-height: 768px;
-    transition: background-image 0.3s ease;
-    background-size: cover;
-    background-position: center;
-    position: relative;
+  width: 100%;
+  height: 100vh;
+  max-height: 768px;
+  transition: background-image 0.3s ease;
+  background-size: cover;
+  background-position: center;
+  position: relative;
 }
 .section-slideshow {
-    position: absolute;
-    width: 100%;
-    height: 100vh;
-    max-height: 768px;
-    background-size: cover;
-    background-position: center;
+  position: absolute;
+  width: 100%;
+  max-width: 1920px;
+  height: 100vh;
+  max-height: 512px;
+  background-size: cover;
+  background-position: center;
 }
 #section-kegiatan .section-slideshow::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(
+    to left,
+    var(--color-surface),
+    var(--color-surface-transparent-8) 40%,
+    transparent 60%
+  );
+  pointer-events: none;
+}
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (max-width: 768px) {
+  #section-kegiatan .section-slideshow::after {
     content: "";
     position: absolute;
     top: 0;
@@ -119,93 +137,79 @@ section.fluid .container {
     width: 100%;
     height: 100%;
     background-image: linear-gradient(
-        to left,
-        var(--color-surface),
-        var(--color-surface-transparent-8) 40%,
-        transparent 60%
+      to top,
+      var(--color-surface),
+      var(--color-surface-transparent-8) 40%,
+      transparent 60%
     );
     pointer-events: none;
-}
-/* Medium devices (landscape tablets, 768px and up) */
-@media only screen and (max-width: 768px) {
-    #section-kegiatan .section-slideshow::after {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-image: linear-gradient(
-            to top,
-            var(--color-surface),
-            var(--color-surface-transparent-8) 40%,
-            transparent 60%
-        );
-        pointer-events: none;
-    }
+  }
+  .section-slideshow {
+    max-height: 768px;
+  }
 }
 
 /* Pengumuman */
 .pengumuman-widget {
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
 }
 .list-group-item {
-    padding: 10px;
+  padding: 10px;
 }
 .list-group-item .badge {
-    font-size: 0.8rem;
+  font-size: 0.8rem;
 }
 .list-group-item .text-muted {
-    font-size: 0.8rem;
+  font-size: 0.8rem;
 }
 .list-group-item div.mt-2 {
-    font-size: 1rem;
-    color: #333;
+  font-size: 1rem;
+  color: #333;
 }
 .list-group-item p {
-    margin: 0;
+  margin: 0;
 }
 .list-group-item img {
-    width: 64px;
-    height: 64px;
-    object-fit: cover;
-    border-radius: 4px;
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  border-radius: 4px;
 }
 
 /* Agenda */
 .agenda-card {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    margin: 0;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  margin: 0;
 }
 .agenda-card .card-title {
-    font-size: 1.25rem;
-    margin: 0;
+  font-size: 1.25rem;
+  margin: 0;
 }
 .agenda-card .card-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 .agenda-card .card-img-overlay {
-    background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5));
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    padding: 20px;
-    box-sizing: border-box;
-    color: white;
+  background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5));
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  box-sizing: border-box;
+  color: white;
 }
 
 /* Flexbox to make columns stretch to the same height */
