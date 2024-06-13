@@ -441,58 +441,181 @@
 
     <div class="row g-4 mb-4 justify-content-center" data-aos="fade-up">
       <div class="col-lg-8">
+        <div class="row">
+          <div class="col">
 
-        <!-- Slider berita -->
-        <div class="swiper" id="swiper-berita">
-          <!-- Additional required wrapper -->
-          <div class="swiper-wrapper">
-            <!-- Slides -->
-            <?php foreach ($berita as $i => $b) : ?>
-              <div class="swiper-slide">
-                <div class="card berita-card text-white">
-                  <img src="<?= $b['image'] ?>" class="card-img" alt="Agenda Image">
-                  <div class="card-img-overlay d-flex flex-column justify-content-end">
-                    <div class="d-flex align-items-center mb-2">
-                      <span><?= $b['tgl_terbit'] ?></span>
+            <!-- Slider berita -->
+            <div class="swiper" id="swiper-berita">
+              <!-- Additional required wrapper -->
+              <div class="swiper-wrapper">
+                <!-- Slides -->
+                <?php foreach ($berita as $i => $b) : ?>
+                  <div class="swiper-slide">
+                    <div class="swiper-slide-transform">
+                      <div class="card berita-card text-white">
+                        <img src="<?= $b['image'] ?>" class="card-img" alt="Agenda Image">
+                        <div class="card-img-overlay d-flex flex-column justify-content-end">
+                          <div class="d-flex align-items-center mb-2">
+                            <span><?= $b['tgl_terbit'] ?></span>
+                          </div>
+                          <h5 class="card-title"><?= $b['judul'] ?></h5>
+                        </div>
+                      </div>
                     </div>
-                    <h5 class="card-title"><?= $b['judul'] ?></h5>
                   </div>
-                </div>
+                <?php endforeach; ?>
               </div>
-            <?php endforeach; ?>
-          </div>
-          <!-- If we need pagination -->
-          <div class="swiper-pagination"></div>
+              <!-- If we need pagination -->
+              <div class="swiper-pagination"></div>
 
-          <!-- If we need navigation buttons -->
-          <!-- <div class="swiper-button-prev"></div>
-          <div class="swiper-button-next"></div> -->
+              <!-- If we need navigation buttons -->
+              <!-- <div class="swiper-button-prev"></div>
+              <div class="swiper-button-next"></div> -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Row tombol lebih banyak berita -->
+        <div class="row mt-2 mb-2">
+          <div class="col text-center">
+            <a class="btn btn-lg btn-outline-dark border-3 mb-4 border-start-0 border-end-0 border-top-0 rounded-0 px-0" href="#" data-aos="fade-up">
+              <i class="bi bi-newspaper me-2"></i>Lebih banyak berita
+            </a>
+          </div>
         </div>
 
       </div>
 
       <!-- Opini -->
       <div class="col-lg-4">
-        <div class="card berita-card text-white">
-          <img src="img/riset-dan-publikasi.jpeg" class="card-img" alt="Agenda Image">
-          <div class="card-img-overlay d-flex flex-column justify-content-end">
-            <div class="d-flex align-items-center mb-2">
-              <span>Opini</span>
+        <div class="row">
+          <div class="col">
+            <div class="card berita-card text-white">
+              <img src="img/riset-dan-publikasi.jpeg" class="card-img" alt="Agenda Image">
+              <div class="card-img-overlay d-flex flex-column justify-content-end">
+                <div class="d-flex align-items-center mb-2">
+                  <span>Opini</span>
+                </div>
+                <h5 class="card-title">Kenaikan UKT masih harus dipertimbangkan</h5>
+              </div>
             </div>
-            <h5 class="card-title">UKT Tidak Boleh Dinaikkan!</h5>
+          </div>
+        </div>
+
+        <!-- Row tombol lebih banyak opini -->
+        <div class="row mt-2 mb-2">
+          <div class="col text-center">
+            <a class="btn btn-lg btn-outline-dark border-3 mb-4 border-start-0 border-end-0 border-top-0 rounded-0 px-0" href="#" data-aos="fade-up">
+              <i class="bi bi-newspaper me-2"></i>Lebih banyak opini
+            </a>
           </div>
         </div>
       </div>
     </div>
 
+    <!-- Row berita -->
+    <div class="row g-4 mb-4 justify-content-center">
 
-    <!-- Row tombol lebih banyak berita -->
-    <div class="row">
-      <div class="col text-center">
-        <a class="btn btn-lg btn-outline-dark border-3 mb-4 border-start-0 border-end-0 border-top-0 rounded-0 px-0" href="#" data-aos="fade-up" data-aos-delay="400">
-          <i class="bi bi-newspaper me-2"></i>Lebih banyak berita
-        </a>
+      <!-- Item berita -->
+      <div class="col-lg-4 col-xl-15 col-md-6" id="item-berita" data-aos="fade-up">
+        <div class="card" data-mdb-ripple-init>
+
+          <!-- Gambar berita -->
+          <img src="https://www.uinsaid.ac.id/files/post/cover/persiapan-akreditasi-internasional-uin-surakarta-m-1714970024.JPG" class="card-img-top" alt="...">
+
+          <!-- Konten berita -->
+          <div class="card-body">
+            <p class="card-title">
+              Persiapan Akreditasi Internasional, UIN Surakarta Undang Rafiazka Hilman
+            </p>
+          </div>
+          <div class="card-footer">
+            <p class="card-text fs-6"><small>07 Mei 2024</small></p>
+          </div>
+
+        </div>
       </div>
+
+      <!-- Item berita -->
+      <div class="col-lg-4 col-xl-15 col-md-6" id="item-berita" data-aos="fade-up">
+        <div class="card" data-mdb-ripple-init>
+
+          <!-- Gambar berita -->
+          <img src="https://www.uinsaid.ac.id/files/post/cover/jauh-datang-dari-batam-kami-ucapkan-selamat-datang-1715059577.jpg" class="card-img-top" alt="...">
+
+          <!-- Konten berita -->
+          <div class="card-body">
+            <p class="card-title">
+              Jauh Datang Dari Batam, Kami Ucapkan Selamat Datang. Kami Sambut Dengan Senyuman
+            </p>
+          </div>
+          <div class="card-footer">
+            <p class="card-text fs-6"><small>07 Mei 2024</small></p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Item berita -->
+      <div class="col-lg-4 col-xl-15 col-md-6" id="item-berita" data-aos="fade-up">
+        <div class="card" data-mdb-ripple-init>
+
+          <!-- Gambar berita -->
+          <img src="https://www.uinsaid.ac.id/files/post/cover/uin-raden-mas-said-surakarta-raih-wtp-atas-laporan-1715060511.jpg" class="card-img-top" alt="...">
+
+          <!-- Konten berita -->
+          <div class="card-body">
+            <p class="card-title">
+              UIN Raden Mas Said Surakarta Raih WTP atas Laporan Keuangan BLU Tahun Laporan 2023 dari Kantor Akuntan Publik
+            </p>
+          </div>
+          <div class="card-footer">
+            <p class="card-text fs-6"><small>07 Mei 2024</small></p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Item berita -->
+      <div class="col-lg-4 col-xl-15 col-md-6" id="item-berita" data-aos="fade-up">
+        <div class="card" data-mdb-ripple-init>
+
+          <!-- Gambar berita -->
+          <img src="https://www.uinsaid.ac.id/files/post/cover/fab-uin-rm-said-holds-iccl-1716892667.jpg" class="card-img-top" alt="...">
+
+          <!-- Konten berita -->
+          <div class="card-body">
+            <p class="card-title">
+              FAB UIN RM Said Holds 2nd ICCL 2024
+            </p>
+          </div>
+          <div class="card-footer">
+            <p class="card-text fs-6"><small>28 Mei 2024</small></p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Item berita -->
+      <div class="col-lg-4 col-xl-15 col-md-6" id="item-berita" data-aos="fade-up">
+        <div class="card" data-mdb-ripple-init>
+
+          <!-- Gambar berita -->
+          <img src="https://www.uinsaid.ac.id/files/post/cover/optimalkan-blu-uin-rm-said-perkuat-kerjasama-1717059990.jpg" class="card-img-top" alt="...">
+
+          <!-- Konten berita -->
+          <div class="card-body">
+            <p class="card-title">
+              Optimalkan BLU, UIN RM Said Perkuat Kerjasama
+            </p>
+          </div>
+          <div class="card-footer">
+            <p class="card-text fs-6"><small>28 Mei 2024</small></p>
+          </div>
+
+        </div>
+      </div>
+
     </div>
 
     <!-- Pengumuman dan Agenda -->
@@ -543,8 +666,8 @@
             <!-- Highlight agenda -->
             <div class="col-lg-6">
               <div class="card agenda-card text-white">
-                <img src="img/riset-dan-publikasi.jpeg" class="card-img" alt="Agenda Image">
-                <div class="card-img-overlay d-flex flex-column justify-content-end">
+                <img src="img/riset-dan-publikasi.jpeg" class="card-img rounded-0" alt="Agenda Image">
+                <div class="card-img-overlay d-flex flex-column justify-content-end rounded-0">
                   <div class="d-flex align-items-center mb-2">
                     <span>14 Juni 2024</span>
                   </div>
