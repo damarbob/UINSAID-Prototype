@@ -6,6 +6,24 @@ class Home extends BaseController
 {
     public function index()
     {
+        $data['heroTerbaru'] = [
+            [
+                "kategori"              => "",
+                "judul"                 => "UIN Raden Mas Said",
+                "slug"                  => "",
+                "meta_description"      => "Dengan sejarahnya yang kaya dan potensinya yang melimpah, UIN Raden Mas Said Surakarta siap melangkah ke masa depan yang lebih cerah",
+                "featured_image"        => base_url("img/akademik.jpeg"),
+                "tgl_terbit_terformat"  => ""
+            ],
+            [
+                "kategori"              => "",
+                "judul"                 => "UIN Raden Mas Said",
+                "slug"                  => "",
+                "meta_description"      => "Dengan sejarahnya yang kaya dan potensinya yang melimpah, UIN Raden Mas Said Surakarta siap melangkah ke masa depan yang lebih cerah",
+                "featured_image"        => base_url("img/wisuda.jpeg"),
+                "tgl_terbit_terformat"  => ""
+            ],
+        ];
         $data['kegiatanTerbaru'] = [
             [
                 "kategori"              => "Lomba",

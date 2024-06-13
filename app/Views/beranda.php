@@ -5,7 +5,75 @@
 <!-- Section Hero -->
 <section id="hero" class="p-0 d-flex align-items-center justify-content-center">
 
-  <iframe id="player" class="m-0" src="https://www.youtube.com/embed/nd8aKZ8dvko?enablejsapi=1&version=3&controls=0&rel=0&autoplay=1&loop=1&mute=1&playlist=nd8aKZ8dvko&playsinline=1" title="YouTube video player" frameborder="0" referrerpolicy="strict-origin-when-cross-origin" allow="autoplay" allowfullscreen></iframe>
+  <!-- <iframe id="player" class="m-0" src="https://www.youtube.com/embed/nd8aKZ8dvko?enablejsapi=1&version=3&controls=0&rel=0&autoplay=1&loop=1&mute=1&playlist=nd8aKZ8dvko&playsinline=1" title="YouTube video player" frameborder="0" referrerpolicy="strict-origin-when-cross-origin" allow="autoplay" allowfullscreen></iframe> -->
+
+  <div class="section-slideshow"></div>
+
+  <!-- Swiper hero -->
+  <div class="container position-relative">
+
+    <!-- Swiper hero -->
+    <!-- <div class="row mb-4"> -->
+    <div class="swiper" id="swiper-hero">
+      <div class="swiper-wrapper">
+
+        <!-- Swiper hero terbaru -->
+        <?php foreach ($heroTerbaru as $i => $a) : ?>
+          <div class="swiper-slide">
+            <div class="container text-light">
+              <div class="row d-flex align-items-center align-items-md-center pt-5 mb-sm-4">
+
+                <!-- Gambar hero -->
+                <div class="col-md-6 position-relative order-1 order-md-2" style="height: 20vh; min-height: 128px; max-height:256px;">
+
+                </div>
+
+                <!-- Body hero -->
+                <div class="col-md-6 mb-3 order-2 order-md-1">
+                  <div class="card-body p-md-5 p-sm-4 p-3">
+
+                    <!-- Judul -->
+                    <h3 class="fs-2 mb-3">
+                      <?= $a['judul']; ?>
+                    </h3>
+
+                    <!-- Ringkasan -->
+                    <div class="">
+                      <p class="fs-5 mb-3">
+                        <?= word_limiter($a['meta_description'], 50); ?>
+                      </p>
+                    </div>
+
+                    <a href="#" class="btn btn-outline-light" data-mdb-ripple-init="">
+                      Lebih banyak
+                    </a>
+
+                  </div>
+
+                </div>
+                <!-- Akhir body kegiatan -->
+
+              </div>
+            </div>
+          </div>
+        <?php endforeach; ?>
+        <!-- Akhir swiper kegiatan terbaru -->
+      </div>
+
+      <div class="swiper-pagination mb-4"></div>
+
+    </div>
+
+    <!-- </div> -->
+    <script>
+      var daftarHero = <?= json_encode($heroTerbaru) ?>;
+    </script>
+    <!-- Akhir swiper kegiatan -->
+
+
+
+  </div>
+  <!-- Akhir swiper hero -->
 
   <div id="overlayHero" class="collapse show">
 
@@ -49,7 +117,7 @@
         <!-- Picture grid -->
         <div class="row g-0">
           <div class="col">
-            <img data-aos="fade-up" class="img-section" style="border-radius: 5rem;width: 100%;height: 512px;object-fit: cover;" src="img/foto-rektor-wisuda.png" />
+            <img data-aos="fade-up" class="" style="border-radius: 5rem; width: 100%; height: 512px;object-fit: contain;" src="img/foto-rektor-wisuda.png" />
           </div>
           <!-- <div class="col">
             <img data-aos="fade-down-right" class="img-section" style="border-top-left-radius: 5rem;" src="https://www.uinsaid.ac.id/files/cover/fakultas-ushuluddin-dan-dakwah-1710927589.jpg" />
@@ -78,8 +146,7 @@
           "Niscaya Allah akan meninggikan orang-orang yang beriman di
           antaramu dan orang-orang yang diberi ilmu pengetahuan beberapa
           derajat. Dan Allah Maha Mengetahui apa yang kamu kerjakan."
-          <br />
-          <span class="fst-normal">(QS. Al-Mujadilah : 11)</span>
+          <span class="fst-normal fw-bold">(QS. Al-Mujadilah : 11)</span>
         </p>
         <button class="btn btn-lg btn-primary color-primary" data-mdb-ripple-init>Selengkapnya</button>
       </div>
@@ -158,8 +225,8 @@
 <!-- Section Poin Akademik -->
 
 <!-- Section Riset -->
-<section class="fluid section-batik rev-90">
-  <div class="container px-5 pb-5">
+<section class="section-batik rev-90">
+  <div class="container p-5">
     <div class="row g-5 d-flex align-items-center">
 
       <!-- Publikasi column -->
@@ -179,12 +246,12 @@
         <!-- Picture grid -->
         <div class="row">
           <div class="col">
-            <img data-aos="fade-down" class="img-section" style="border-top-left-radius: 5rem; border-top-right-radius: 5rem;" src="https://www.uinsaid.ac.id/files/upload/tekpang%201.jpg" />
+            <img data-aos="fade-down" class="img-section-half" style="border-top-left-radius: 5rem; border-top-right-radius: 5rem;" src="https://www.uinsaid.ac.id/files/upload/tekpang%201.jpg" />
           </div>
         </div>
         <div class="row">
           <div class="col">
-            <img data-aos="fade-up" class="img-section" style="border-bottom-left-radius: 5rem; border-bottom-right-radius: 5rem;" src="img/riset-dan-publikasi.jpeg" />
+            <img data-aos="fade-up" class="img-section-half" style="border-bottom-left-radius: 5rem; border-bottom-right-radius: 5rem;" src="img/riset-dan-publikasi.jpeg" />
           </div>
         </div>
 
@@ -236,7 +303,7 @@
 <!-- Section Poin Riset -->
 
 <!-- Section Pengabdian -->
-<section class="fluid section-batik rev--90" id="Pengabdian">
+<section class="section-batik rev--90" id="Pengabdian">
   <div class="container p-5">
     <div class="row d-flex align-items-center g-5">
 
@@ -246,7 +313,7 @@
         <!-- Picture grid -->
         <div class="row g-0">
           <div class="col">
-            <img data-aos="fade-up" class="img-section" style="border-radius: 5rem;width: 100%;height: 512px;object-fit: cover;" src="https://www.uinsaid.ac.id/files/cover/fakultas-ushuluddin-dan-dakwah-1710927589.jpg" />
+            <img data-aos="fade-up" class="img-section" style="border-radius: 5rem;" src="https://www.uinsaid.ac.id/files/cover/fakultas-ushuluddin-dan-dakwah-1710927589.jpg" />
           </div>
         </div>
 
@@ -309,7 +376,7 @@
                       </p>
 
                       <!-- Ringkasan -->
-                       <!-- <div class="d-none d-sm-block">
+                      <!-- <div class="d-none d-sm-block">
                          <p class="card-text fs-5 mb-3 line-clamp-4">
                            <?= word_limiter($a['meta_description'], 50); ?>
                          </p>
@@ -499,54 +566,54 @@
 <!-- Akhir section About -->
 
 <!-- Section Statistik -->
-<section id="statistik" class="d-flex  section-batik rev-90">
-  <div class="container p-5 bg-primary" style="z-index: 100;">
+<section id="statistik" class="d-flex section-batik rev-90 p-0">
+  <div class="container p-5 gradient-1 rounded-0" style="z-index: 100;">
     <div class="row gx-4 gy-5 justify-content-center">
       <!-- Statistik item -->
       <div class="col-lg-4 col-md-6" data-aos="fade-up">
-        <h5 class="text-center"><i class="bi bi-people text-white"></i></h5>
-        <h2 class="text-center text-white fw-bold">21.536</h2>
-        <p class="text-center text-white mb-0">Mahasiswa aktif</p>
+        <h5 class="text-center"><i class="bi bi-people"></i></h5>
+        <h2 class="text-center fw-bold">21.536</h2>
+        <p class="text-center mb-0">Mahasiswa aktif</p>
       </div>
       <div class="col-lg-4 col-md-6" data-aos="fade-up">
-        <h5 class="text-center"><i class="bi bi-building text-white"></i></h5>
-        <h2 class="text-center text-white fw-bold">33</h2>
-        <p class="text-center text-white mb-0">Program Studi</p>
+        <h5 class="text-center"><i class="bi bi-building"></i></h5>
+        <h2 class="text-center fw-bold">33</h2>
+        <p class="text-center mb-0">Program Studi</p>
       </div>
       <div class="col-lg-4 col-md-6" data-aos="fade-up">
-        <h5 class="text-center"><i class="bi bi-building-up text-white"></i></h5>
-        <h2 class="text-center text-white fw-bold">9</h2>
-        <p class="text-center text-white mb-0">Program Pascasarjana</p>
+        <h5 class="text-center"><i class="bi bi-building-up"></i></h5>
+        <h2 class="text-center fw-bold">9</h2>
+        <p class="text-center mb-0">Program Pascasarjana</p>
       </div>
       <div class="col-lg-4 col-md-6" data-aos="fade-up">
-        <h5 class="text-center"><i class="bi bi-person-up text-white"></i></h5>
-        <h2 class="text-center text-white fw-bold">21</h2>
-        <p class="text-center text-white mb-0">Guru Besar</p>
+        <h5 class="text-center"><i class="bi bi-person-up"></i></h5>
+        <h2 class="text-center fw-bold">21</h2>
+        <p class="text-center mb-0">Guru Besar</p>
       </div>
       <div class="col-lg-4 col-md-6" data-aos="fade-up">
-        <h5 class="text-center"><i class="bi bi-person-badge text-white"></i></h5>
-        <h2 class="text-center text-white fw-bold">59</h2>
-        <p class="text-center text-white mb-0">Lektor Kepala</p>
+        <h5 class="text-center"><i class="bi bi-person-badge"></i></h5>
+        <h2 class="text-center fw-bold">59</h2>
+        <p class="text-center mb-0">Lektor Kepala</p>
       </div>
       <div class="col-lg-4 col-md-6" data-aos="fade-up">
-        <h5 class="text-center"><i class="bi bi-file-person text-white"></i></h5>
-        <h2 class="text-center text-white fw-bold">224</h2>
-        <p class="text-center text-white mb-0">Lektor</p>
+        <h5 class="text-center"><i class="bi bi-file-person"></i></h5>
+        <h2 class="text-center fw-bold">224</h2>
+        <p class="text-center mb-0">Lektor</p>
       </div>
       <div class="col-lg-4 col-md-6" data-aos="fade-up">
-        <h5 class="text-center"><i class="bi bi-person text-white"></i></h5>
-        <h2 class="text-center text-white fw-bold">54</h2>
-        <p class="text-center text-white mb-0">Asisten Ahli</p>
+        <h5 class="text-center"><i class="bi bi-person"></i></h5>
+        <h2 class="text-center fw-bold">54</h2>
+        <p class="text-center mb-0">Asisten Ahli</p>
       </div>
       <div class="col-lg-4 col-md-6" data-aos="fade-up">
-        <h5 class="text-center"><i class="bi bi-person text-white"></i></h5>
-        <h2 class="text-center text-white fw-bold">371</h2>
-        <p class="text-center text-white mb-0">Staff Pengajar</p>
+        <h5 class="text-center"><i class="bi bi-person"></i></h5>
+        <h2 class="text-center fw-bold">371</h2>
+        <p class="text-center mb-0">Staff Pengajar</p>
       </div>
       <div class="col-lg-4 col-md-6" data-aos="fade-up">
-        <h5 class="text-center"><i class="bi bi-person text-white"></i></h5>
-        <h2 class="text-center text-white fw-bold">245</h2>
-        <p class="text-center text-white mb-0">Staff Administrasi</p>
+        <h5 class="text-center"><i class="bi bi-person"></i></h5>
+        <h2 class="text-center fw-bold">245</h2>
+        <p class="text-center mb-0">Staff Administrasi</p>
       </div>
     </div>
   </div>
