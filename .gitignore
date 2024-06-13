@@ -1,3 +1,4 @@
 /.env
 /env
 /writable
+app/Views/berita-dump.php

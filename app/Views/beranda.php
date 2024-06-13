@@ -1,6 +1,10 @@
+<?php helper('text'); ?>
+
 <?= $this->extend('layout/frontend_template') ?>
 
-<?php helper('text'); ?>
+<?= $this->section('style') ?>
+<link rel="stylesheet" href="css/style-beranda.css" type="text/css" />
+<?= $this->endSection() ?>
 <?= $this->section('content') ?>
 <!-- Section Hero -->
 <section id="hero" class="p-0 d-flex align-items-center justify-content-center">
@@ -343,7 +347,7 @@
 
     <!-- Swiper kegiatan -->
     <div class="row mb-4">
-      <div class="swiper" id="swiper-kegiatan">
+      <div class="swiper" id="swiper-kegiatan" data-aos="fade-left" data-aos-delay="400">
         <div class="swiper-wrapper">
 
           <!-- Swiper kegiatan terbaru -->
@@ -423,115 +427,55 @@
 
     <div class="row mb-5 text-center">
       <div class="col">
-        <h1 class="fw-bold">Berita</h1>
-        <p class="fs-4">Akademik, kampus, penelitian, dan lainnya</p>
+        <h1 class="fw-bold" data-aos="fade-up">Berita</h1>
+        <p class="fs-4" data-aos="fade-up">Akademik, kampus, penelitian, dan lainnya</p>
       </div>
     </div>
 
-    <!-- Row berita -->
-    <div class="row g-4 mb-4">
-
-      <!-- Item berita -->
-      <div class="col-lg-6 col-xl-15" data-aos="fade-up">
-        <div class="card" data-mdb-ripple-init>
-
-          <!-- Gambar berita -->
-          <img src="https://www.uinsaid.ac.id/files/post/cover/persiapan-akreditasi-internasional-uin-surakarta-m-1714970024.JPG" class="card-img-top" alt="...">
-
-          <!-- Konten berita -->
-          <div class="card-body">
-            <p class="card-title">
-              Persiapan Akreditasi Internasional, UIN Surakarta Undang Rafiazka Hilman
-            </p>
+    <div class="row g-4 mb-4 justify-content-center" data-aos="fade-up">
+      <div class="col-lg-8">
+        <!-- Slider berita -->
+        <div class="swiper" id="swiper-berita">
+          <!-- Additional required wrapper -->
+          <div class="swiper-wrapper">
+            <!-- Slides -->
+            <?php foreach ($berita as $i => $b) : ?>
+              <div class="swiper-slide">
+                <div class="card berita-card text-white">
+                  <img src="<?= $b['image'] ?>" class="card-img" alt="Agenda Image">
+                  <div class="card-img-overlay d-flex flex-column justify-content-end">
+                    <div class="d-flex align-items-center mb-2">
+                      <span><?= $b['tgl_terbit'] ?></span>
+                    </div>
+                    <h5 class="card-title"><?= $b['judul'] ?></h5>
+                  </div>
+                </div>
+              </div>
+            <?php endforeach; ?>
           </div>
-          <div class="card-footer">
-            <p class="card-text fs-6"><small>07 Mei 2024</small></p>
-          </div>
+          <!-- If we need pagination -->
+          <div class="swiper-pagination"></div>
 
+          <!-- If we need navigation buttons -->
+          <!-- <div class="swiper-button-prev"></div>
+          <div class="swiper-button-next"></div> -->
         </div>
       </div>
 
-      <!-- Item berita -->
-      <div class="col-lg-6 col-xl-15" data-aos="fade-up">
-        <div class="card" data-mdb-ripple-init>
-
-          <!-- Gambar berita -->
-          <img src="https://www.uinsaid.ac.id/files/post/cover/jauh-datang-dari-batam-kami-ucapkan-selamat-datang-1715059577.jpg" class="card-img-top" alt="...">
-
-          <!-- Konten berita -->
-          <div class="card-body">
-            <p class="card-title">
-              Jauh Datang Dari Batam, Kami Ucapkan Selamat Datang. Kami Sambut Dengan Senyuman
-            </p>
+      <!-- Opini -->
+      <div class="col-lg-4">
+        <div class="card berita-card text-white">
+          <img src="img/riset-dan-publikasi.jpeg" class="card-img" alt="Agenda Image">
+          <div class="card-img-overlay d-flex flex-column justify-content-end">
+            <div class="d-flex align-items-center mb-2">
+              <span>Opini</span>
+            </div>
+            <h5 class="card-title">UKT Tidak Boleh Dinaikkan!</h5>
           </div>
-          <div class="card-footer">
-            <p class="card-text fs-6"><small>07 Mei 2024</small></p>
-          </div>
-
         </div>
       </div>
-
-      <!-- Item berita -->
-      <div class="col-lg-6 col-xl-15" data-aos="fade-up">
-        <div class="card" data-mdb-ripple-init>
-
-          <!-- Gambar berita -->
-          <img src="https://www.uinsaid.ac.id/files/post/cover/uin-raden-mas-said-surakarta-raih-wtp-atas-laporan-1715060511.jpg" class="card-img-top" alt="...">
-
-          <!-- Konten berita -->
-          <div class="card-body">
-            <p class="card-title">
-              UIN Raden Mas Said Surakarta Raih WTP atas Laporan Keuangan BLU Tahun Laporan 2023 dari Kantor Akuntan Publik
-            </p>
-          </div>
-          <div class="card-footer">
-            <p class="card-text fs-6"><small>07 Mei 2024</small></p>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- Item berita -->
-      <div class="col-lg-6 col-xl-15" data-aos="fade-up">
-        <div class="card" data-mdb-ripple-init>
-
-          <!-- Gambar berita -->
-          <img src="https://www.uinsaid.ac.id/files/post/cover/fab-uin-rm-said-holds-iccl-1716892667.jpg" class="card-img-top" alt="...">
-
-          <!-- Konten berita -->
-          <div class="card-body">
-            <p class="card-title">
-              FAB UIN RM Said Holds 2nd ICCL 2024
-            </p>
-          </div>
-          <div class="card-footer">
-            <p class="card-text fs-6"><small>28 Mei 2024</small></p>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- Item berita -->
-      <div class="col-lg-6 col-xl-15" data-aos="fade-up">
-        <div class="card" data-mdb-ripple-init>
-
-          <!-- Gambar berita -->
-          <img src="https://www.uinsaid.ac.id/files/post/cover/optimalkan-blu-uin-rm-said-perkuat-kerjasama-1717059990.jpg" class="card-img-top" alt="...">
-
-          <!-- Konten berita -->
-          <div class="card-body">
-            <p class="card-title">
-              Optimalkan BLU, UIN RM Said Perkuat Kerjasama
-            </p>
-          </div>
-          <div class="card-footer">
-            <p class="card-text fs-6"><small>28 Mei 2024</small></p>
-          </div>
-
-        </div>
-      </div>
-
     </div>
+
 
     <!-- Row tombol lebih banyak berita -->
     <div class="row">
@@ -542,6 +486,103 @@
       </div>
     </div>
 
+    <!-- Pengumuman dan Agenda -->
+    <div class="row g-4 mb-4 mt-4 grid" data-aos="fade-up" data-aos-delay="600">
+      <div class="col-lg-4 d-flex">
+        <div class="card pengumuman-widget flex-fill">
+          <div class="card-header d-flex justify-content-center">
+            <span class="fw-bold">Pengumuman</span>
+          </div>
+
+          <!-- Daftar Pengumuman -->
+          <ul class="list-group list-group-flush">
+            <!-- Item pengumuman -->
+            <li class="list-group-item">
+              <div class="d-flex justify-content-between">
+                <p class="text-muted"><span class="badge bg-danger">Terkini</span> Admin &bull; 54mnt</p>
+              </div>
+              <p class="mt-2 line-clamp-4">Wisuda akan dilaksanakan besok Rabu, 12 Juni 2024. Jalan akan ditutup sebagian</p>
+            </li>
+            <!-- Item pengumuman -->
+            <li class="list-group-item">
+              <div class="d-flex justify-content-between">
+                <span class="text-muted">Admin &bull; 7jam</span>
+              </div>
+              <p class="mt-2 line-clamp-4">Pengisian KRS akan dimulai pada 17 Agustus 2024 pukul 00.00 WIB</p>
+            </li>
+            <!-- Item pengumuman -->
+            <li class="list-group-item">
+              <div class="d-flex justify-content-between">
+                <span class="text-muted">Admin &bull; 6jam</span>
+              </div>
+              <p class="mt-2 line-clamp-4">Menteri Agama akan hadir dan mengisi kuliah umum pada Jumat, 14 Juni 2024</p>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Agenda -->
+      <div class="col-lg-8 d-flex">
+        <div class="card pengumuman-widget flex-fill">
+          <div class="card-header d-flex justify-content-center">
+            <span class="fw-bold">Agenda</span>
+          </div>
+
+          <!-- Konten Agenda -->
+          <div class="row">
+
+            <!-- Highlight agenda -->
+            <div class="col-lg-6">
+              <div class="card agenda-card text-white">
+                <img src="img/riset-dan-publikasi.jpeg" class="card-img" alt="Agenda Image">
+                <div class="card-img-overlay d-flex flex-column justify-content-end">
+                  <div class="d-flex align-items-center mb-2">
+                    <span>14 Juni 2024</span>
+                  </div>
+                  <h5 class="card-title">Piala Rektor UIN RM Said Surakarta Tahun 2024</h5>
+                </div>
+              </div>
+            </div>
+            <!-- Agenda lainnya -->
+            <div class="col-lg-6">
+              <!-- Daftar agenda lainnya -->
+              <ul class="list-group list-group-flush">
+                <!-- Item agenda -->
+                <li class="list-group-item">
+                  <div>
+                    <p class="text-muted mb-1">Admin &bull; 54mnt</p>
+                    <div class="d-flex align-items-start">
+                      <img src="img/riset-dan-publikasi.jpeg" alt="News Image" class="me-3">
+                      <p class="mb-0">Jadwal Pengisian Kartu Rencana Studi (KRS)dan Pengajuan Cuti Kuliah -CEK JADWALNYA-</p>
+                    </div>
+                  </div>
+                </li>
+                <!-- Item agenda -->
+                <li class="list-group-item">
+                  <div>
+                    <p class="text-muted mb-1">Admin &bull; 54mnt</p>
+                    <div class="d-flex align-items-start">
+                      <img src="img/riset-dan-publikasi.jpeg" alt="News Image" class="me-3">
+                      <p class="mb-0">Jadwal Pengisian Kartu Rencana Studi (KRS)dan Pengajuan Cuti Kuliah -CEK JADWALNYA-</p>
+                    </div>
+                  </div>
+                </li>
+                <!-- Item agenda -->
+                <li class="list-group-item">
+                  <div>
+                    <p class="text-muted mb-1">Admin &bull; 54mnt</p>
+                    <div class="d-flex align-items-start">
+                      <img src="img/riset-dan-publikasi.jpeg" alt="News Image" class="me-3">
+                      <p class="mb-0">Jadwal Pengisian Kartu Rencana Studi (KRS)dan Pengajuan Cuti Kuliah -CEK JADWALNYA-</p>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 <!-- Section berita -->
@@ -656,4 +697,8 @@
   </div>
 </section>
 
+<?= $this->endSection() ?>
+
+<?= $this->section('script') ?>
+<script type="text/javascript" src="js/beranda.js"></script>
 <?= $this->endSection() ?>
