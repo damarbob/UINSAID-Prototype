@@ -2,10 +2,10 @@
 #about {
   background: linear-gradient(
       270deg,
-      rgba(255, 255, 255, 1) 0%,
-      rgba(255, 255, 255, 1) 50%,
-      rgba(255, 255, 255, 0) 50%,
-      rgba(255, 255, 255, 0) 100%
+      var(--mdb-body-bg) 0%,
+      var(--mdb-body-bg) 50%,
+      rgba(var(--mdb-body-bg-rgb), 0) 50%,
+      rgba(var(--mdb-body-bg-rgb), 0) 100%
     ),
     url("../img/akademik.jpeg") left top no-repeat;
   height: 100%;
@@ -19,7 +19,7 @@
 
 @media (max-width: 991px) {
   #about {
-    background: white;
+    background: var(--mdb-body-bg);
   }
 }
 
@@ -60,13 +60,13 @@
   padding-left: 20px;
   padding-bottom: 32px;
   box-sizing: border-box;
-  color: white;
+  color: var(--mdb-body-bg);
 }
 #swiper-berita .swiper-slide-transform {
   border-radius: 8px;
 }
 #swiper-berita .swiper-pagination {
-  --swiper-pagination-color: white;
+  --swiper-pagination-color: var(--mdb-body-bg);
 }
 #swiper-berita {
   height: 100%;
@@ -99,7 +99,7 @@
 
 /* Sections General */
 section {
-  background: white;
+  background: var(--mdb-body-bg);
   padding: 6rem 0;
   overflow: hidden;
 }
@@ -150,8 +150,8 @@ section.fluid .container {
   height: 100%;
   background-image: linear-gradient(
     to left,
-    var(--color-surface),
-    var(--color-surface-transparent-8) 40%,
+    var(--mdb-body-bg),
+    rgba(var(--mdb-body-bg-rgb), 0.8) 40%,
     transparent 60%
   );
   pointer-events: none;
@@ -238,7 +238,7 @@ section.fluid .container {
   justify-content: flex-end;
   padding: 20px;
   box-sizing: border-box;
-  color: white;
+  color: var(--mdb-body-bg);
 }
 
 /* Flexbox to make columns stretch to the same height */

@@ -42,7 +42,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
   <!-- MDB -->
-  <link rel="stylesheet" href="css/mdb-dsm-custom-new.css" />
+  <link id="mdbCSS" rel="stylesheet" href="css/mdb-dsm-custom-new.css" />
   <link rel="stylesheet" href="css/style.css" />
   <!-- Bootstrap icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -99,15 +99,15 @@
             <i class="bi bi-globe fs-2"></i>
           </button>
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-            <li><a class="dropdown-item no-translate" href="#" onclick="doGTranslate('id|id');return false;">
+            <li><a id="translateToID" class="dropdown-item no-translate" href="#" onclick="">
                 <img src="<?= base_url("/img/country-flags/indonesia.png") ?>" width="16px" class="me-2">
                 IDN (Bahasa Indonesia)
               </a></li>
-            <li><a class="dropdown-item no-translate" href="#" onclick="doGTranslate('id|ar');return false;">
+            <li><a id="translateToAR" class="dropdown-item no-translate" href="#" onclick="">
                 <img src="<?= base_url("/img/country-flags/saudi-arabia.png") ?>" width="16px" class="me-2">
                 AR (Arab)
               </a></li>
-            <li><a class="dropdown-item no-translate" href="#" onclick="doGTranslate('id|en');return false;">
+            <li><a id="translateToEN" class="dropdown-item no-translate" href="#" onclick="">
                 <img src="<?= base_url("/img/country-flags/united-states-of-america.png") ?>" width="16px" class="me-2">
                 EN (Inggris)
               </a></li>
@@ -269,6 +269,20 @@
                 </div>
                 <div class="col d-flex align-items-center">
                   Kementrian Agama
+                </div>
+              </div>
+            </a>
+          </div>
+
+          <!-- Tema -->
+          <div class="col-md-6 col-lg-4">
+            <a id="themeToggle" href="#" target="_blank" class="card" data-mdb-ripple-init>
+              <div class="card-body row">
+                <div class="col-auto">
+                  <img class="wh-64px" src="data:image/png;base64,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">
+                </div>
+                <div class="col d-flex align-items-center">
+                  Tema gelap/terang
                 </div>
               </div>
             </a>
@@ -468,6 +482,14 @@
   <!-- Accessibility -->
   <script src="<?= base_url("js/sienna-uinsaid.min.js") ?>" defer></script>
 
+  <!-- Swiper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+  <!-- Custom scripts -->
+  <script type="text/javascript" src="js/main.js"></script>
+
+  <?= $this->renderSection('script') ?>
+
   <!-- Google translate element -->
   <div id="google_translate_element2" class="d-none"></div>
 
@@ -481,36 +503,131 @@
   </script>
   <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit2"></script>
   <script type="text/javascript">
-    /* <![CDATA[ */
-    eval(function(p, a, c, k, e, r) {
-      e = function(c) {
-        return (c < a ? '' : e(parseInt(c / a))) + ((c = c % a) > 35 ? String.fromCharCode(c + 29) : c.toString(36))
-      };
-      if (!''.replace(/^/, String)) {
-        while (c--) r[e(c)] = k[c] || e(c);
-        k = [function(e) {
-          return r[e]
-        }];
-        e = function() {
-          return '\\w+'
-        };
-        c = 1
+    // /* <![CDATA[ */
+    // eval(function(p, a, c, k, e, r) {
+    //   e = function(c) {
+    //     return (c < a ? '' : e(parseInt(c / a))) + ((c = c % a) > 35 ? String.fromCharCode(c + 29) : c.toString(36))
+    //   };
+    //   if (!''.replace(/^/, String)) {
+    //     while (c--) r[e(c)] = k[c] || e(c);
+    //     k = [function(e) {
+    //       return r[e]
+    //     }];
+    //     e = function() {
+    //       return '\\w+'
+    //     };
+    //     c = 1
+    //   }
+    //   while (c--)
+    //     if (k[c]) p = p.replace(new RegExp('\\b' + e(c) + '\\b', 'g'), k[c]);
+    //   return p
+    // }('6 7(a,b){n{4(2.9){3 c=2.9("o");c.p(b,f,f);a.q(c)}g{3 c=2.r();a.s(\'t\'+b,c)}}u(e){}}6 h(a){4(a.8)a=a.8;4(a==\'\')v;3 b=a.w(\'|\')[1];3 c;3 d=2.x(\'y\');z(3 i=0;i<d.5;i++)4(d[i].A==\'B-C-D\')c=d[i];4(2.j(\'k\')==E||2.j(\'k\').l.5==0||c.5==0||c.l.5==0){F(6(){h(a)},G)}g{c.8=b;7(c,\'m\');7(c,\'m\')}}', 43, 43, '||document|var|if|length|function|GTranslateFireEvent|value|createEvent||||||true|else|doGTranslate||getElementById|google_translate_element2|innerHTML|change|try|HTMLEvents|initEvent|dispatchEvent|createEventObject|fireEvent|on|catch|return|split|getElementsByTagName|select|for|className|goog|te|combo|null|setTimeout|500'.split('|'), 0, {}))
+    // /* ]]> */
+    $(document).ready(function() {
+      $("#translateToID").on("click", function() {
+        doGTranslate('id|id');
+        return false;
+      });
+      $("#translateToAR").on("click", function() {
+        doGTranslate('id|ar');
+        return false;
+      });
+      $("#translateToEN").on("click", function() {
+        doGTranslate('id|en');
+        return false;
+      });
+
+      function GTranslateFireEvent(a, b) {
+        try {
+          var event;
+          if (document.createEvent) {
+            event = document.createEvent("HTMLEvents");
+            event.initEvent(b, true, true);
+            a.dispatchEvent(event);
+          } else {
+            event = document.createEventObject();
+            a.fireEvent('on' + b, event);
+          }
+        } catch (e) {}
       }
-      while (c--)
-        if (k[c]) p = p.replace(new RegExp('\\b' + e(c) + '\\b', 'g'), k[c]);
-      return p
-    }('6 7(a,b){n{4(2.9){3 c=2.9("o");c.p(b,f,f);a.q(c)}g{3 c=2.r();a.s(\'t\'+b,c)}}u(e){}}6 h(a){4(a.8)a=a.8;4(a==\'\')v;3 b=a.w(\'|\')[1];3 c;3 d=2.x(\'y\');z(3 i=0;i<d.5;i++)4(d[i].A==\'B-C-D\')c=d[i];4(2.j(\'k\')==E||2.j(\'k\').l.5==0||c.5==0||c.l.5==0){F(6(){h(a)},G)}g{c.8=b;7(c,\'m\');7(c,\'m\')}}', 43, 43, '||document|var|if|length|function|GTranslateFireEvent|value|createEvent||||||true|else|doGTranslate||getElementById|google_translate_element2|innerHTML|change|try|HTMLEvents|initEvent|dispatchEvent|createEventObject|fireEvent|on|catch|return|split|getElementsByTagName|select|for|className|goog|te|combo|null|setTimeout|500'.split('|'), 0, {}))
-    /* ]]> */
+
+      function doGTranslate(a) {
+        if (a.value) a = a.value;
+        if (a == '') return;
+
+        var lang = a.split('|')[1];
+        var selectElement = null;
+        var selectElements = $('select.goog-te-combo');
+
+        selectElements.each(function() {
+          selectElement = this;
+        });
+
+        if ($('#google_translate_element2').length === 0 ||
+          $('#google_translate_element2').html().length === 0 ||
+          selectElements.length === 0 ||
+          selectElement.innerHTML.length === 0) {
+          setTimeout(function() {
+            doGTranslate(a);
+          }, 500);
+        } else {
+          selectElement.value = lang;
+          GTranslateFireEvent(selectElement, 'change');
+          GTranslateFireEvent(selectElement, 'change');
+        }
+
+        // Enable RTL if language is arabic
+        if (lang == "ar") {
+          enableRTL();
+        } else {
+          disableRTL();
+        }
+      }
+
+      // Retrieve stored settings or default to light and LTR
+      const currentTheme = localStorage.getItem('mdb-theme') || 'light';
+      const currentDirection = localStorage.getItem('html-dir') || 'ltr';
+
+      const htmlElement = $("html");
+      const mdbCssElement = $('#mdbCSS');
+      const swipers = $('.swiper');
+      const rtlCssUrl = "<?= base_url("css/mdb.rtl.min.css") ?>";
+      const ltrCssUrl = "<?= base_url("css/mdb-dsm-custom-new.css") ?>";
+
+      // Apply initial settings
+      htmlElement.attr('data-mdb-theme', currentTheme);
+      htmlElement.attr('dir', currentDirection);
+      htmlElement.attr('lang', currentDirection === 'rtl' ? 'ar' : 'en');
+      mdbCssElement.attr('href', currentDirection === 'rtl' ? rtlCssUrl : ltrCssUrl);
+
+      // Function to enable RTL
+      function enableRTL() {
+        htmlElement.attr("dir", "rtl");
+        htmlElement.attr("lang", "ar");
+        localStorage.setItem("html-dir", "rtl");
+        mdbCssElement.attr('href', rtlCssUrl);
+
+        // Add RTL attributes and class to Swiper containers
+        // swipers.each(function() {
+        //   $(this).attr('dir', 'rtl').addClass('swiper-rtl');
+        // });
+      }
+
+      // Function to disable RTL (set to LTR)
+      function disableRTL() {
+        htmlElement.attr("dir", "ltr");
+        htmlElement.attr("lang", "en");
+        mdbCssElement.attr('href', ltrCssUrl);
+        localStorage.setItem("html-dir", "ltr");
+
+        // Remove RTL attributes and class from Swiper containers
+        // swipers.each(function() {
+        //   $(this).attr('dir', 'ltr').removeClass('swiper-rtl');
+        // });
+      }
+      //
+    });
   </script>
-
-  <!-- Swiper JS -->
-  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-
-  <!-- Custom scripts -->
-  <script type="text/javascript" src="js/main.js"></script>
-
-  <?= $this->renderSection('script') ?>
-
 
 </body>
 

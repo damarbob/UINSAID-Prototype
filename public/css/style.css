@@ -400,11 +400,12 @@ body {
   background: url("../img/lurik-hijau-vector-bg-2.jpg");
   opacity: 0.2;
   background-position: center top; /* Center horizontally */
-  background-size: auto 100%; /* Preserve height, auto width */
+  background-size: auto 100%;
   background-repeat: repeat-x; /* Repeat horizontally */
   background-attachment: fixed;
   background-size: cover;
   width: 100%;
+  max-width: 1920px;
   height: 192px;
   position: absolute;
 }

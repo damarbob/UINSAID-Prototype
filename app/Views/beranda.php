@@ -5,6 +5,7 @@
 <?= $this->section('style') ?>
 <link rel="stylesheet" href="css/style-beranda.css" type="text/css" />
 <?= $this->endSection() ?>
+
 <?= $this->section('content') ?>
 <!-- Section Hero -->
 <section id="hero" class="bg-primary p-0 d-flex align-items-center justify-content-center">
@@ -55,13 +56,13 @@
                   </div>
 
                 </div>
-                <!-- Akhir body kegiatan -->
+                <!-- Akhir body hero -->
 
               </div>
             </div>
           </div>
         <?php endforeach; ?>
-        <!-- Akhir swiper kegiatan terbaru -->
+        <!-- Akhir swiper hero terbaru -->
       </div>
 
       <div class="swiper-pagination mb-4"></div>
@@ -72,7 +73,7 @@
     <script>
       var daftarHero = <?= json_encode($heroTerbaru) ?>;
     </script>
-    <!-- Akhir swiper kegiatan -->
+    <!-- Akhir swiper hero -->
 
 
 
@@ -111,7 +112,7 @@
 <!-- End section Hero -->
 
 <!-- Section Akademik -->
-<section class="fluid section-batik" id="akademik">
+<section class="fluid section-batik gradient-1" id="akademik">
   <div class="container p-5">
     <div class="row d-flex align-items-center g-5">
 
@@ -272,7 +273,7 @@
 <!-- Section Riset -->
 
 <!-- Section Poin Riset -->
-<section class="fluid">
+<section class="fluid d-flex justify-content-center">
   <div class="lurik">
   </div>
   <div class="container p-5">
@@ -378,7 +379,7 @@
 
                       <!-- Judul -->
                       <h3 class="card-title fs-2 mb-3">
-                        <a class="link-dark text-decoration-none" href="<?= $a['slug']; ?>"><?= $a['judul']; ?></a>
+                        <a class="text-decoration-none" href="<?= $a['slug']; ?>"><?= $a['judul']; ?></a>
                       </h3>
 
                       <!-- Tanggal -->
@@ -452,9 +453,9 @@
                 <?php foreach ($berita as $i => $b) : ?>
                   <div class="swiper-slide">
                     <div class="swiper-slide-transform">
-                      <div class="card berita-card text-white">
+                      <div class="card berita-card">
                         <img src="<?= $b['image'] ?>" class="card-img" alt="Agenda Image">
-                        <div class="card-img-overlay d-flex flex-column justify-content-end">
+                        <div class="card-img-overlay d-flex flex-column justify-content-end text-light">
                           <div class="d-flex align-items-center mb-2">
                             <span><?= $b['tgl_terbit'] ?></span>
                           </div>
@@ -478,7 +479,7 @@
         <!-- Row tombol lebih banyak berita -->
         <div class="row mt-2 mb-2">
           <div class="col text-center">
-            <a class="btn btn-lg btn-outline-dark border-3 mb-4 border-start-0 border-end-0 border-top-0 rounded-0 px-0" href="#" data-aos="fade-up">
+            <a class="btn btn-lg btn-outline-body border-3 mb-4 border-start-0 border-end-0 border-top-0 rounded-0 px-0" href="#" data-aos="fade-up">
               <i class="bi bi-newspaper me-2"></i>Lebih banyak berita
             </a>
           </div>
@@ -490,9 +491,9 @@
       <div class="col-lg-4">
         <div class="row">
           <div class="col">
-            <div class="card berita-card text-white">
+            <div class="card berita-card">
               <img src="img/riset-dan-publikasi.jpeg" class="card-img" alt="Agenda Image">
-              <div class="card-img-overlay d-flex flex-column justify-content-end">
+              <div class="card-img-overlay d-flex flex-column justify-content-end text-light">
                 <div class="d-flex align-items-center mb-2">
                   <span>Opini</span>
                 </div>
@@ -505,7 +506,7 @@
         <!-- Row tombol lebih banyak opini -->
         <div class="row mt-2 mb-2">
           <div class="col text-center">
-            <a class="btn btn-lg btn-outline-dark border-3 mb-4 border-start-0 border-end-0 border-top-0 rounded-0 px-0" href="#" data-aos="fade-up">
+            <a class="btn btn-lg btn-outline-body border-3 mb-4 border-start-0 border-end-0 border-top-0 rounded-0 px-0" href="#" data-aos="fade-up">
               <i class="bi bi-newspaper me-2"></i>Lebih banyak opini
             </a>
           </div>
@@ -665,9 +666,9 @@
 
             <!-- Highlight agenda -->
             <div class="col-lg-6">
-              <div class="card agenda-card text-white">
+              <div class="card agenda-card">
                 <img src="img/riset-dan-publikasi.jpeg" class="card-img rounded-0" alt="Agenda Image">
-                <div class="card-img-overlay d-flex flex-column justify-content-end rounded-0">
+                <div class="card-img-overlay d-flex flex-column justify-content-end rounded-0 text-light">
                   <div class="d-flex align-items-center mb-2">
                     <span>14 Juni 2024</span>
                   </div>
@@ -729,7 +730,7 @@
         <p class="fs-4 mb-4 fw-normal" data-aos="fade-left">
           UIN Raden Mas Said Surakarta berkomitmen untuk memberikan pendidikan berkualitas tinggi dan berkontribusi pada masyarakat.
         </p>
-        <a class="btn btn-outline-dark mb-4" href="<?= base_url('tentang') ?>" data-aos="fade-left" data-mdb-ripple-init>
+        <a class="btn btn-outline-body mb-4" href="<?= base_url('tentang') ?>" data-aos="fade-left" data-mdb-ripple-init>
           Selengkapnya
         </a>
       </div>
