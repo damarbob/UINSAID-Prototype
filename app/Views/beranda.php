@@ -208,7 +208,7 @@
           </div>
           <div class="card-body flex-grow-1">
             <h5 class="card-title fw-bold">Beasiswa</h5>
-            <p class="card-text">UIN Raden Mas Said Surakarta mempersembahkan beragam kesempatan beasiswa bagi mahasiswa yang berprestasi dan berkebutuhan finansial.</p>
+            <p class="card-text">UIN Raden Mas Said Surakarta mempersembahkan kesempatan beasiswa bagi mahasiswa berprestasi di bidang akademik dan non akademik serta berkebutuhan finansial.</p>
             <a href="#" class="btn btn-primary" data-mdb-ripple-init>Selengkapnya</a>
           </div>
         </div>
@@ -355,7 +355,7 @@
 
     <!-- Swiper kegiatan -->
     <div class="row mb-4">
-      <div class="swiper" id="swiper-kegiatan" data-aos="fade-left" data-aos-delay="400">
+      <div class="swiper" id="swiper-kegiatan" data-aos="fade-left" data-aos-delay="300">
         <div class="swiper-wrapper">
 
           <!-- Swiper kegiatan terbaru -->
@@ -453,13 +453,15 @@
                 <?php foreach ($berita as $i => $b) : ?>
                   <div class="swiper-slide">
                     <div class="swiper-slide-transform">
-                      <div class="card berita-card">
+                      <div class="card berita-card text-light">
                         <img src="<?= $b['image'] ?>" class="card-img" alt="Agenda Image">
                         <div class="card-img-overlay d-flex flex-column justify-content-end text-light">
                           <div class="d-flex align-items-center mb-2">
                             <span><?= $b['tgl_terbit'] ?></span>
                           </div>
-                          <h5 class="card-title"><?= $b['judul'] ?></h5>
+                          <a href="">
+                            <h5 class="card-title text-light"><?= $b['judul'] ?></h5>
+                          </a>
                         </div>
                       </div>
                     </div>
@@ -491,13 +493,15 @@
       <div class="col-lg-4">
         <div class="row">
           <div class="col">
-            <div class="card berita-card">
+            <div class="card berita-card text-light">
               <img src="img/riset-dan-publikasi.jpeg" class="card-img" alt="Agenda Image">
               <div class="card-img-overlay d-flex flex-column justify-content-end text-light">
                 <div class="d-flex align-items-center mb-2">
                   <span>Opini</span>
                 </div>
-                <h5 class="card-title">Kenaikan UKT masih harus dipertimbangkan</h5>
+                <a href="#">
+                  <h5 class="card-title text-light">Kenaikan UKT masih harus dipertimbangkan</h5>
+                </a>
               </div>
             </div>
           </div>
@@ -526,9 +530,11 @@
 
           <!-- Konten berita -->
           <div class="card-body">
-            <p class="card-title">
-              Persiapan Akreditasi Internasional, UIN Surakarta Undang Rafiazka Hilman
-            </p>
+            <a href="#">
+              <p class="card-title">
+                Persiapan Akreditasi Internasional, UIN Surakarta Undang Rafiazka Hilman
+              </p>
+            </a>
           </div>
           <div class="card-footer">
             <p class="card-text fs-6"><small>07 Mei 2024</small></p>
@@ -546,9 +552,11 @@
 
           <!-- Konten berita -->
           <div class="card-body">
-            <p class="card-title">
-              Jauh Datang Dari Batam, Kami Ucapkan Selamat Datang. Kami Sambut Dengan Senyuman
-            </p>
+            <a href="#">
+              <p class="card-title">
+                Jauh Datang Dari Batam, Kami Ucapkan Selamat Datang. Kami Sambut Dengan Senyuman
+              </p>
+            </a>
           </div>
           <div class="card-footer">
             <p class="card-text fs-6"><small>07 Mei 2024</small></p>
@@ -566,9 +574,11 @@
 
           <!-- Konten berita -->
           <div class="card-body">
-            <p class="card-title">
-              UIN Raden Mas Said Surakarta Raih WTP atas Laporan Keuangan BLU Tahun Laporan 2023 dari Kantor Akuntan Publik
-            </p>
+            <a href="#">
+              <p class="card-title">
+                UIN Raden Mas Said Surakarta Raih WTP atas Laporan Keuangan BLU Tahun Laporan 2023 dari Kantor Akuntan Publik
+              </p>
+            </a>
           </div>
           <div class="card-footer">
             <p class="card-text fs-6"><small>07 Mei 2024</small></p>
@@ -586,9 +596,11 @@
 
           <!-- Konten berita -->
           <div class="card-body">
-            <p class="card-title">
-              FAB UIN RM Said Holds 2nd ICCL 2024
-            </p>
+            <a href="#">
+              <p class="card-title">
+                FAB UIN RM Said Holds 2nd ICCL 2024
+              </p>
+            </a>
           </div>
           <div class="card-footer">
             <p class="card-text fs-6"><small>28 Mei 2024</small></p>
@@ -606,9 +618,11 @@
 
           <!-- Konten berita -->
           <div class="card-body">
-            <p class="card-title">
-              Optimalkan BLU, UIN RM Said Perkuat Kerjasama
-            </p>
+            <a href="#">
+              <p class="card-title">
+                Optimalkan BLU, UIN RM Said Perkuat Kerjasama
+              </p>
+            </a>
           </div>
           <div class="card-footer">
             <p class="card-text fs-6"><small>28 Mei 2024</small></p>
@@ -620,7 +634,7 @@
     </div>
 
     <!-- Pengumuman dan Agenda -->
-    <div class="row g-4 mb-4 mt-4 grid" data-aos="fade-up" data-aos-delay="600">
+    <div class="row g-4 mb-4 mt-4 grid" data-aos="fade-up" data-aos-delay="300">
       <div class="col-lg-4 d-flex">
         <div class="card pengumuman-widget flex-fill">
           <div class="card-header d-flex justify-content-center">
@@ -666,7 +680,7 @@
 
             <!-- Highlight agenda -->
             <div class="col-lg-6">
-              <div class="card agenda-card">
+              <div class="card agenda-card text-light">
                 <img src="img/riset-dan-publikasi.jpeg" class="card-img rounded-0" alt="Agenda Image">
                 <div class="card-img-overlay d-flex flex-column justify-content-end rounded-0 text-light">
                   <div class="d-flex align-items-center mb-2">
@@ -809,9 +823,6 @@
     <div class="row gx-4 gy-5 align-items-center align-self-center justify-content-center" data-aos="fade-up">
       <div class="col-xl-2 col-lg-3 col-md-4 d-flex justify-content-center">
         <img src="../img/LOGO BLU_SPEEDCIRCLE.png" style="width: 128px;height: 100%;object-fit: scale-down;" />
-      </div>
-      <div class="col-xl-2 col-lg-3 col-md-4 d-flex justify-content-center">
-        <img src="https://pertamina.com/Media/Image/Pertamina.png" style="width: 128px;height: 100%;object-fit: scale-down;" />
       </div>
       <div class="col-xl-2 col-lg-3 col-md-4 d-flex justify-content-center">
         <img src="https://th.bing.com/th/id/OIP.fineWnFIFMDVRCzgORCDFQHaHa?pid=ImgDetMain" style="width: 128px;height: 100%;object-fit: scale-down;" />
