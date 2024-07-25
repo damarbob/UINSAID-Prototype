@@ -23,6 +23,14 @@ class Home extends BaseController
                 "featured_image"        => base_url("img/wisuda.jpeg"),
                 "tgl_terbit_terformat"  => ""
             ],
+            [
+                "kategori"              => "",
+                "judul"                 => "Catat, UIN RM Said Masuk Jajaran Top 10 PTKIN",
+                "slug"                  => "https://www.uinsaid.ac.id/id/catat-uin-rm-said-masuk-jajaran-top-10-ptkin",
+                "meta_description"      => "Masuknya nama UIN RM Said Surakarta di rangking 9 PTKIN dengan rerata nilai UTBK tertinggi tahun 2024 mengindikasikan bahwa pendaftar untuk kuliah di kampus ini memiliki latar belakang dalam bidang akademik yang cukup bagus.",
+                "featured_image"        => base_url("img/uin-raden-mas-said.png"),
+                "tgl_terbit_terformat"  => ""
+            ]
         ];
         $data['kegiatanTerbaru'] = [
             [
@@ -69,8 +77,9 @@ class Home extends BaseController
 
         $data['berita'] = [
             [
-                "image" => "img/akademik.jpeg",
+                "image" => "img/uin-raden-mas-said.png",
                 "judul" => "Persiapan Akreditasi Internasional, UIN Surakarta Undang Rafiazka Hilman",
+                "slug" => "Catat, UIN RM Said Masuk Jajaran Top 10 PTKIN",
                 "tgl_terbit" => "30 Maret 2024"
             ],
             [
