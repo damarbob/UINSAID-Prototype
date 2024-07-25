@@ -31,6 +31,44 @@ $routes->set404Override();
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
 
+// Admin
+$routes->group('admin', ['filter' => 'group:admin,superadmin'], function ($routes) {
+
+    // Dasbor
+    $routes->get('dasbor', 'DasborAdmin');
+
+    // Berita
+    $routes->get('berita', 'BeritaAdmin');
+    $routes->get('berita/tambah', 'BeritaAdmin::tambah');
+    $routes->post('berita/tambah/simpan', 'BeritaAdmin::simpan');
+    $routes->get('berita/sunting', 'BeritaAdmin::sunting');
+    $routes->get('berita/sunting/(:num)', 'BeritaAdmin::sunting/$1');
+    $routes->post('berita/sunting/simpan/(:num)', 'BeritaAdmin::simpan/$1');
+    $routes->post('berita/hapus', 'BeritaAdmin::hapusBanyak');
+
+    // Kotak masuk
+    $routes->get('kotak-masuk', 'KotakMasukAdmin');
+    $routes->get('kotak-masuk/sunting', 'KotakMasukAdmin::sunting');
+    $routes->get('kotak-masuk/sunting/(:num)', 'KotakMasukAdmin::sunting/$1');
+    $routes->post('kotak-masuk/hapus', 'KotakMasukAdmin::hapusBanyak');
+    $routes->post('kotak-masuk/tandai/terbaca', 'KotakMasukAdmin::tandaiTerbacaBanyak');
+    $routes->post('kotak-masuk/tandai/belum_terbaca', 'KotakMasukAdmin::tandaiBelumTerbacaBanyak');
+    
+});
+
+// API
+$routes->group('api', static function ($routes) {
+    $routes->get('berita', 'BeritaAdmin::get');
+    $routes->get('berita/dipublikasikan', 'BeritaAdmin::getDipublikasikan');
+    $routes->get('berita/draf', 'BeritaAdmin::getDraf');
+
+    $routes->get('kotak-masuk', 'KotakMasukAdmin::getKotakMasuk');
+    $routes->get('kotak-masuk/kritik-dan-saran', 'KotakMasukAdmin::getKotakMasukKritikDanSaran');
+    $routes->get('kotak-masuk/pelaporan', 'KotakMasukAdmin::getKotakMasukPelaporan');
+});
+
+service('auth')->routes($routes);
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing
