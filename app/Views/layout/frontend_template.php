@@ -42,8 +42,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
   <!-- MDB -->
-  <link id="mdbCSS" rel="stylesheet" href="css/mdb-dsm-custom-new.css" />
-  <link rel="stylesheet" href="css/style.css" />
+  <link id="mdbCSS" rel="stylesheet" href="<?= base_url("assets/css/mdb-dsm-custom-new.css") ?>" />
+  <link rel="stylesheet" href="<?= base_url("assets/css/style.css") ?>" />
   <!-- Bootstrap icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <!-- Boxicons -->
@@ -77,7 +77,7 @@
 
       <!-- Navbar brand -->
       <a class="navbar-brand" href="#">
-        <!-- <img src="img/logo-horizontal.png" class="me-2" height="64px" alt="MDB Logo" loading="lazy" /> -->
+        <!-- <img src="assets/img/logo-horizontal.png" class="me-2" height="64px" alt="MDB Logo" loading="lazy" /> -->
       </a>
 
       <!-- Icons -->
@@ -100,15 +100,15 @@
           </button>
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
             <li><a id="translateToID" class="dropdown-item no-translate" href="#" onclick="">
-                <img src="<?= base_url("/img/country-flags/indonesia.png") ?>" width="16px" class="me-2">
+                <img src="<?= base_url("/assets/img/country-flags/indonesia.png") ?>" width="16px" class="me-2">
                 IDN (Bahasa Indonesia)
               </a></li>
             <li><a id="translateToAR" class="dropdown-item no-translate" href="#" onclick="">
-                <img src="<?= base_url("/img/country-flags/saudi-arabia.png") ?>" width="16px" class="me-2">
+                <img src="<?= base_url("/assets/img/country-flags/saudi-arabia.png") ?>" width="16px" class="me-2">
                 AR (Arab)
               </a></li>
             <li><a id="translateToEN" class="dropdown-item no-translate" href="#" onclick="">
-                <img src="<?= base_url("/img/country-flags/united-states-of-america.png") ?>" width="16px" class="me-2">
+                <img src="<?= base_url("/assets/img/country-flags/united-states-of-america.png") ?>" width="16px" class="me-2">
                 EN (Inggris)
               </a></li>
           </ul>
@@ -342,7 +342,7 @@
       </button>
 
       <div class="position-absolute align-self-end w-100 text-center mb-4">
-        <img class="align-self-center" width="128px" src="img/icon.png" />
+        <img class="align-self-center" width="128px" src="assets/img/icon.png" />
       </div>
 
       <div class="position-absolute w-100">
@@ -373,7 +373,7 @@
         <div class="row">
           <!-- Footer & alamat -->
           <div class="col-lg-3 col-md-6">
-            <img class="mb-4" width="128px" src="img/icon.png" />
+            <img class="mb-4" width="128px" src="assets/img/icon.png" />
             <p>
               Jl. Pandawa, Pucangan, Kartasura, <br>
               Sukoharjo, Jawa Tengah, <br>
@@ -480,13 +480,13 @@
   </script>
 
   <!-- Accessibility -->
-  <script src="<?= base_url("js/sienna-uinsaid.min.js") ?>" defer></script>
+  <script src="<?= base_url("assets/js/sienna-uinsaid.min.js") ?>" defer></script>
 
   <!-- Swiper JS -->
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
   <!-- Custom scripts -->
-  <script type="text/javascript" src="js/main.js"></script>
+  <script type="text/javascript" src="<?= base_url("assets/js/main.js") ?>"></script>
 
   <?= $this->renderSection('script') ?>
 
@@ -591,8 +591,8 @@
       const htmlElement = $("html");
       const mdbCssElement = $('#mdbCSS');
       const swipers = $('.swiper');
-      const rtlCssUrl = "<?= base_url("css/mdb.rtl.min.css") ?>";
-      const ltrCssUrl = "<?= base_url("css/mdb-dsm-custom-new.css") ?>";
+      const rtlCssUrl = "<?= base_url("assets/css/mdb.rtl.min.css") ?>";
+      const ltrCssUrl = "<?= base_url("assets/css/mdb-dsm-custom-new.css") ?>";
 
       // Apply initial settings
       htmlElement.attr('data-mdb-theme', currentTheme);

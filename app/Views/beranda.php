@@ -3,7 +3,7 @@
 <?= $this->extend('layout/frontend_template') ?>
 
 <?= $this->section('style') ?>
-<link rel="stylesheet" href="css/style-beranda.css" type="text/css" />
+<link rel="stylesheet" href="<?= base_url("assets/css/style-beranda.css")?>" type="text/css" />
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
@@ -90,7 +90,7 @@
       <div class="row">
         <div class="col">
 
-          <img data-aos="zoom-in-up" class="mb-2" src="../img/icon-notext-small-white.png" />
+          <img data-aos="zoom-in-up" class="mb-2" src="../assets/img/icon-notext-small-white.png" />
           <h1 data-aos="zoom-in-down" data-aos-delay="100" class="fw-bold">UIN Raden Mas Said</h1>
           <p data-aos="zoom-in-down" data-aos-delay="200" class="lh-lg mb-4 fst-italic">
             Dengan sejarahnya yang kaya dan potensinya yang melimpah, <br>
@@ -122,7 +122,7 @@
         <!-- Picture grid -->
         <div class="row g-0">
           <div class="col">
-            <img data-aos="fade-up" class="" style="border-radius: 5rem; width: 100%; max-height: 512px;object-fit: contain;" src="img/foto-rektor-wisuda.png" />
+            <img data-aos="fade-up" class="" style="border-radius: 5rem; width: 100%; max-height: 512px;object-fit: contain;" src="assets/img/foto-rektor-wisuda.png" />
           </div>
           <!-- <div class="col">
             <img data-aos="fade-down-right" class="img-section" style="border-top-left-radius: 5rem;" src="https://www.uinsaid.ac.id/files/cover/fakultas-ushuluddin-dan-dakwah-1710927589.jpg" />
@@ -261,7 +261,7 @@
         </div>
         <div class="row">
           <div class="col">
-            <img data-aos="fade-up" class="img-section-half" style="border-bottom-left-radius: 5rem; border-bottom-right-radius: 5rem;" src="img/riset-dan-publikasi.jpeg" />
+            <img data-aos="fade-up" class="img-section-half" style="border-bottom-left-radius: 5rem; border-bottom-right-radius: 5rem;" src="assets/img/riset-dan-publikasi.jpeg" />
           </div>
         </div>
 
@@ -494,7 +494,7 @@
         <div class="row">
           <div class="col">
             <div class="card berita-card text-light">
-              <img src="img/riset-dan-publikasi.jpeg" class="card-img" alt="Agenda Image">
+              <img src="assets/img/riset-dan-publikasi.jpeg" class="card-img" alt="Agenda Image">
               <div class="card-img-overlay d-flex flex-column justify-content-end text-light">
                 <div class="d-flex align-items-center mb-2">
                   <span>Opini</span>
@@ -681,7 +681,7 @@
             <!-- Highlight agenda -->
             <div class="col-lg-6">
               <div class="card agenda-card text-light">
-                <img src="img/riset-dan-publikasi.jpeg" class="card-img rounded-0" alt="Agenda Image">
+                <img src="assets/img/riset-dan-publikasi.jpeg" class="card-img rounded-0" alt="Agenda Image">
                 <div class="card-img-overlay d-flex flex-column justify-content-end rounded-0 text-light">
                   <div class="d-flex align-items-center mb-2">
                     <span>14 Juni 2024</span>
@@ -699,7 +699,7 @@
                   <div>
                     <p class="text-muted mb-1">Admin &bull; 54mnt</p>
                     <div class="d-flex align-items-start">
-                      <img src="img/riset-dan-publikasi.jpeg" alt="News Image" class="me-3">
+                      <img src="assets/img/riset-dan-publikasi.jpeg" alt="News Image" class="me-3">
                       <p class="mb-0">Jadwal Pengisian Kartu Rencana Studi (KRS)dan Pengajuan Cuti Kuliah -CEK JADWALNYA-</p>
                     </div>
                   </div>
@@ -709,7 +709,7 @@
                   <div>
                     <p class="text-muted mb-1">Admin &bull; 54mnt</p>
                     <div class="d-flex align-items-start">
-                      <img src="img/riset-dan-publikasi.jpeg" alt="News Image" class="me-3">
+                      <img src="assets/img/riset-dan-publikasi.jpeg" alt="News Image" class="me-3">
                       <p class="mb-0">Jadwal Pengisian Kartu Rencana Studi (KRS)dan Pengajuan Cuti Kuliah -CEK JADWALNYA-</p>
                     </div>
                   </div>
@@ -719,7 +719,7 @@
                   <div>
                     <p class="text-muted mb-1">Admin &bull; 54mnt</p>
                     <div class="d-flex align-items-start">
-                      <img src="img/riset-dan-publikasi.jpeg" alt="News Image" class="me-3">
+                      <img src="assets/img/riset-dan-publikasi.jpeg" alt="News Image" class="me-3">
                       <p class="mb-0">Jadwal Pengisian Kartu Rencana Studi (KRS)dan Pengajuan Cuti Kuliah -CEK JADWALNYA-</p>
                     </div>
                   </div>
@@ -822,7 +822,7 @@
     <!-- Logo -->
     <div class="row gx-4 gy-5 align-items-center align-self-center justify-content-center" data-aos="fade-up">
       <div class="col-xl-2 col-lg-3 col-md-4 d-flex justify-content-center">
-        <img src="../img/LOGO BLU_SPEEDCIRCLE.png" style="width: 128px;height: 100%;object-fit: scale-down;" />
+        <img src="assets/img/LOGO BLU_SPEEDCIRCLE.png" style="width: 128px;height: 100%;object-fit: scale-down;" />
       </div>
       <div class="col-xl-2 col-lg-3 col-md-4 d-flex justify-content-center">
         <img src="https://th.bing.com/th/id/OIP.fineWnFIFMDVRCzgORCDFQHaHa?pid=ImgDetMain" style="width: 128px;height: 100%;object-fit: scale-down;" />
@@ -844,5 +844,5 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('script') ?>
-<script type="text/javascript" src="js/beranda.js"></script>
+<script type="text/javascript" src="<?= base_url("assets/js/beranda.js")?>"></script>
 <?= $this->endSection() ?>

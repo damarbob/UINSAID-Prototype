@@ -1,0 +1,176 @@
+[33mcommit 6425e1bd6cb230fa9fce052364e0d296b8792a3d[m[33m ([m[1;36mHEAD -> [m[1;32munder-development[m[33m, [m[1;31morigin/under-development[m[33m)[m
+Merge: 613c771 f5eda52
+Author: damarbob <ibn.damr@gmail.com>
+Date:   Thu Jul 25 10:45:49 2024 +0700
+
+    Merge branch 'under-development' of https://github.com/damarbob/UINSAID-Prototype into under-development
+
+[33mcommit 613c771d553ac2ca129d2ae7523b2f714d374d15[m
+Author: damarbob <ibn.damr@gmail.com>
+Date:   Thu Jul 25 10:29:34 2024 +0700
+
+    Added admin dashboard, news and inbox management, and refreshed composer.
+
+[33mcommit f5eda5208687b6f79af5c85c5957e6e9b172fe8a[m
+Author: fkrhzbllh <flaminggooo50@gmail.com>
+Date:   Fri Jun 14 17:33:48 2024 +0700
+
+    Little UI changes
+
+[33mcommit 3a907b64c6d1c90b3035e23aae89774e8aa61469[m
+Author: fkrhzbllh <flaminggooo50@gmail.com>
+Date:   Fri Jun 14 12:56:31 2024 +0700
+
+    Added dark mode, improved RTL, and updated UI
+
+[33mcommit 4e3f04772e1e2356ba926d7d624d5a23eab9d223[m
+Merge: 2c3cd12 ac905b5
+Author: damarbob <ibn.damr@gmail.com>
+Date:   Thu Jun 13 19:03:37 2024 +0700
+
+    Merge branch 'under-development' of https://github.com/damarbob/UINSAID-Prototype into under-development
+
+[33mcommit 2c3cd12dcb2dd3d66ddd5ca6626145b05373bc4f[m
+Author: damarbob <ibn.damr@gmail.com>
+Date:   Thu Jun 13 19:02:09 2024 +0700
+
+    Changed icons to color, improved UI, and optimized code
+
+[33mcommit ac905b51d21e76cb3f78043b3f375867e4087f51[m
+Author: fkrhzbllh <flaminggooo50@gmail.com>
+Date:   Thu Jun 13 15:18:13 2024 +0700
+
+    fixed berita section
+
+[33mcommit 6acb38e7580cc00dca9b52bc7ce83538733b1ced[m
+Merge: 3c211c6 d87c02a
+Author: damarbob <ibn.damr@gmail.com>
+Date:   Thu Jun 13 09:40:13 2024 +0700
+
+    Merge branch 'under-development' of https://github.com/damarbob/UINSAID-Prototype into under-development
+
+[33mcommit 3c211c6cc2011fd9bca91aaf168bd0dd8a4372f8[m
+Author: damarbob <ibn.damr@gmail.com>
+Date:   Thu Jun 13 09:38:18 2024 +0700
+
+    Changed hero section to photo slideshow, updated container max width to 1920px, and optimized some UI behavior
+
+[33mcommit d87c02ab5fe3dde649c7b11b47207645157130ba[m
+Author: fkrhzbllh <flaminggooo50@gmail.com>
+Date:   Thu Jun 13 06:39:05 2024 +0700
+
+    Added berita swiper, opini, pengumuman, and agenda
+
+[33mcommit 49dd6a4d2c73d30113e6d22d175df389c2bb4306[m
+Merge: 4c0da6d bbbb820
+Author: damarbob <ibn.damr@gmail.com>
+Date:   Wed Jun 12 12:09:49 2024 +0700
+
+    Merge branch 'under-development' of https://github.com/damarbob/UINSAID-Prototype into under-development
+
+[33mcommit 4c0da6d767b4f9d743d37278b394c6c12ea5c88b[m
+Author: damarbob <ibn.damr@gmail.com>
+Date:   Wed Jun 12 12:09:07 2024 +0700
+
+    Added shortcuts in the menu and improved menu and search UI
+
+[33mcommit bbbb8208500d3c38aeb1e7aaf7fda49688e83231[m
+Author: fkrhzbllh <flaminggooo50@gmail.com>
+Date:   Wed Jun 12 12:05:50 2024 +0700
+
+    fix kegiatan and prestasi section
+
+[33mcommit 258c10be5784d0b3e5ad34939f173068f2b65b9a[m
+Merge: 38cea8a 1884ad9
+Author: damarbob <ibn.damr@gmail.com>
+Date:   Tue Jun 11 20:21:05 2024 +0700
+
+    Merge branch 'under-development' of https://github.com/damarbob/UINSAID-Prototype into under-development
+
+[33mcommit 38cea8ab0a15f4b0fb96d79886dd2e55f6af89d9[m
+Author: damarbob <ibn.damr@gmail.com>
+Date:   Tue Jun 11 20:19:36 2024 +0700
+
+    Added accessibility plugin, batik lurik patterns, and optimized code
+
+[33mcommit 1884ad939f3bf670e20ef26abc78f53fdb83fb30[m
+Author: fkrhzbllh <flaminggooo50@gmail.com>
+Date:   Tue Jun 11 15:58:02 2024 +0700
+
+    Added kegiatan dan prestasi section
+
+[33mcommit bb559ee1580f06a7d23b439e1d9a81ab1a908d33[m
+Author: damarbob <ibn.damr@gmail.com>
+Date:   Mon Jun 10 13:52:23 2024 +0700
+
+    Removed kawung pattern
+
+[33mcommit 3dd591646cc7ceec8d7db8fb95132476aeb7d647[m
+Merge: af1b106 f92825e
+Author: fkrhzbllh <flaminggooo50@gmail.com>
+Date:   Tue Jun 4 23:21:37 2024 +0700
+
+    Merge branch 'under-development' of https://github.com/damarbob/UINSAID-Prototype into under-development
+
+[33mcommit af1b106858bdc6ba58de9a50bed6d39013dbe64c[m
+Merge: 286267f da5d14d
+Author: fkrhzbllh <flaminggooo50@gmail.com>
+Date:   Tue Jun 4 23:21:22 2024 +0700
+
+    Merge branch 'under-development' of https://github.com/damarbob/UINSAID-Prototype into under-development
+
+[33mcommit f92825eb9c1d3dec07db4716c546c4d0cec1b64b[m
+Author: damarbob <ibn.damr@gmail.com>
+Date:   Tue Jun 4 23:21:16 2024 +0700
+
+    Added batik, translation, and improved navigation menu
+
+[33mcommit 286267f442d3ee5ab9edf55a664148452fad5f6d[m
+Author: fkrhzbllh <flaminggooo50@gmail.com>
+Date:   Tue Jun 4 23:21:09 2024 +0700
+
+    Added statistics, pengabdian, and kerjasama sections
+
+[33mcommit da5d14d01503ddefd500c2f5e577451b21f5b84f[m
+Merge: 4f19f12 a5a5688
+Author: Qroonn <zdnanshr28@gmail.com>
+Date:   Tue Jun 4 17:27:03 2024 +0700
+
+    Merge branch 'under-development' of https://github.com/damarbob/UINSAID-Prototype into under-development
+
+[33mcommit 4f19f12747c822a0d8b4efc116e9907c63224902[m
+Author: Qroonn <zdnanshr28@gmail.com>
+Date:   Tue Jun 4 17:26:16 2024 +0700
+
+    changed icon color
+
+[33mcommit a5a56881be4b83e06e453c9557910a211e2aa125[m
+Merge: c923be9 a7746a6
+Author: damarbob <ibn.damr@gmail.com>
+Date:   Tue Jun 4 17:05:25 2024 +0700
+
+    Merge branch 'under-development' of https://github.com/damarbob/UINSAID-Prototype into under-development
+
+[33mcommit c923be960c236e171784f387a060458a24cd7f33[m
+Author: damarbob <ibn.damr@gmail.com>
+Date:   Tue Jun 4 17:03:23 2024 +0700
+
+    Added translation feature
+
+[33mcommit a7746a6f87a345d9b18d1862be8061fdf3bef4f0[m
+Author: fkrhzbllh <flaminggooo50@gmail.com>
+Date:   Tue Jun 4 16:07:21 2024 +0700
+
+    font changed
+
+[33mcommit f5cea55a12cca9caa8ce601b802b8679c132dee2[m
+Author: fkrhzbllh <flaminggooo50@gmail.com>
+Date:   Tue Jun 4 14:47:31 2024 +0700
+
+    academic image, about us, news UI changes
+
+[33mcommit 92fdc1ad6ca43c734b4592b456453bf3fab34268[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m
+Author: damarbob <ibn.damr@gmail.com>
+Date:   Tue Jun 4 12:21:38 2024 +0700
+
+    first commit

@@ -151,8 +151,8 @@
         // Fitur hapus massal
         function hapusBanyak() {
             var options = {
-                title: "<?= lang('Admin.hapusRilisMedia') ?>",
-                confirmMessage: "<?= lang('Admin.hapusRilisMediaKonfirmasi') ?>",
+                title: "<?= lang('Admin.hapusBerita') ?>",
+                confirmMessage: "<?= lang('Admin.hapusBeritaKonfirmasi') ?>",
                 errorMessage: "<?= lang('Admin.pilihItemDahulu') ?>",
                 type: "warning",
                 confirmButtonText: "<?= lang('Admin.hapus') ?>",

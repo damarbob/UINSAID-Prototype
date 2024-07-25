@@ -35,7 +35,8 @@ $routes->get('/', 'Home::index');
 $routes->group('admin', ['filter' => 'group:admin,superadmin'], function ($routes) {
 
     // Dasbor
-    $routes->get('dasbor', 'DasborAdmin');
+    $routes->get('dasbor', 'DasborAdmin', ['as' => 'dashboard']);
+    $routes->addRedirect('/', 'dashboard');
 
     // Berita
     $routes->get('berita', 'BeritaAdmin');
@@ -46,6 +47,10 @@ $routes->group('admin', ['filter' => 'group:admin,superadmin'], function ($route
     $routes->post('berita/sunting/simpan/(:num)', 'BeritaAdmin::simpan/$1');
     $routes->post('berita/hapus', 'BeritaAdmin::hapusBanyak');
 
+    // Unggah dan hapus gambar berita
+    $routes->post('berita/unggah-gambar', 'BeritaAdmin::unggahGambar');
+    $routes->post('berita/hapus-gambar', 'BeritaAdmin::hapusGambar');
+
     // Kotak masuk
     $routes->get('kotak-masuk', 'KotakMasukAdmin');
     $routes->get('kotak-masuk/sunting', 'KotakMasukAdmin::sunting');
@@ -55,6 +60,10 @@ $routes->group('admin', ['filter' => 'group:admin,superadmin'], function ($route
     $routes->post('kotak-masuk/tandai/belum_terbaca', 'KotakMasukAdmin::tandaiBelumTerbacaBanyak');
     
 });
+
+// Redirect to dasbor
+$routes->addRedirect('dasbor', 'dashboard');
+$routes->addRedirect('dashboard', 'dashboard');
 
 // API
 $routes->group('api', static function ($routes) {
