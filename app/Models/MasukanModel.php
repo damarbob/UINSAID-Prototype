@@ -8,6 +8,8 @@ class MasukanModel extends \CodeIgniter\Model
 
     protected $useTimestamps = true;
 
+    protected $useSoftDeletes = true;
+
     protected $allowedFields = ['keperluan', 'isi', 'terbaca'];
 
     public function getKotakMasuk()

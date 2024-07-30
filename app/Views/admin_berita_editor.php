@@ -34,7 +34,7 @@ if ($mode == "tambah") {
     </div>
 <?php endif; ?>
 
-<form method="post" action="<?= ($mode == "tambah") ? '/admin/berita/tambah/simpan' : '/admin/berita/sunting/simpan/' . $berita['id'] ?>" class="form-container" enctype="multipart/form-data">
+<form method="post" action="<?= ($mode == "tambah") ? base_url('/admin/berita/tambah/simpan') : base_url('/admin/berita/sunting/simpan/') . $berita['id'] ?>" class="form-container" enctype="multipart/form-data">
     <div class="row mb-3">
         <div class="col-md-9">
             <!-- Judul -->
@@ -95,6 +95,7 @@ if ($mode == "tambah") {
 <?= $this->endSection() ?>
 
 <?= $this->section('script') ?>
+<script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha384-GNFwBvfVxBkLMJpYMOABq3c+d3KnQxudP/mGPkzpZSTYykLBNsZEnG2D9G/X/+7D" crossorigin="anonymous"></script>
 <!-- Tinymce -->
 <script src="<?php echo base_url(); ?>assets/vendor/tinymce/tinymce/tinymce.min.js"></script>
 <script>
@@ -104,13 +105,15 @@ if ($mode == "tambah") {
             'advlist', 'autolink', 'image',
             'lists', 'link', 'charmap', 'preview', 'anchor', 'searchreplace',
             'fullscreen', 'insertdatetime', 'table', 'help',
-            'wordcount', 'deleteimage'
+            'wordcount', 'deleteimage', 'dsmgallery'
         ],
-        toolbar: 'fullscreen | undo redo | casechange blocks | bold italic backcolor | image | ' +
+        toolbar: 'fullscreen | dsmgallery | undo redo | casechange blocks | bold italic backcolor | image | ' +
             'alignleft aligncenter alignright alignjustify | ' +
             'bullist numlist checklist outdent indent | removeformat | code table help',
         image_title: true,
         automatic_uploads: true,
+        image_gallery_api_endpoint: '/api/galeri',
+        dsmgallery_api_endpoint: '/api/galeri',
         images_upload_url: '/admin/berita/unggah-gambar',
         images_delete_url: '/admin/berita/hapus-gambar',
         file_picker_types: 'image',
@@ -155,6 +158,8 @@ if ($mode == "tambah") {
     });
 </script>
 <script src="<?php echo base_url(); ?>assets/js/tinymce/deleteimage-plugin.js"></script>
+<script src="<?php echo base_url(); ?>assets/js/tinymce/dsmgallery-plugin.js"></script>
+<script src="<?php echo base_url(); ?>assets/js/tinymce/imagegallery-plugin.js"></script>
 
 <!-- Preview foto -->
 <script>
