@@ -51,6 +51,13 @@ $routes->group('admin', ['filter' => 'group:admin,superadmin'], function ($route
     $routes->post('berita/unggah-gambar', 'BeritaAdmin::unggahGambar');
     $routes->post('berita/hapus-gambar', 'BeritaAdmin::hapusGambar');
 
+    // Galeri
+    $routes->group('galeri', ['namespace' => 'App\Controllers'], function ($routes) {
+        $routes->get('/', 'GaleriAdmin::index');
+        $routes->post('upload', 'GaleriAdmin::upload');
+        $routes->post('updateMetadata/(:num)', 'GaleriAdmin::updateMetadata/$1');
+    });
+
     // Kotak masuk
     $routes->get('kotak-masuk', 'KotakMasukAdmin');
     $routes->get('kotak-masuk/sunting', 'KotakMasukAdmin::sunting');

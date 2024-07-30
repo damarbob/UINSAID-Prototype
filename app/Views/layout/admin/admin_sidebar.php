@@ -34,6 +34,12 @@ $currentRoute = $request->uri->getPath();
                 </a>
             </div>
             <div class="nav_list">
+                <a href="<?= base_url('admin/galeri') ?>" class="nav_link <?= $currentRoute == "admin/galeri" ? "active" : "" ?>">
+                    <i class='bx bx-images nav_icon'></i>
+                    <span class="nav_name">Galeri</span>
+                </a>
+            </div>
+            <div class="nav_list">
                 <a href="<?= base_url('admin/kotak-masuk') ?>" class="nav_link <?= $currentRoute == "admin/kotak-masuk" ? "active" : "" ?>">
                     <i class='bx bxs-inbox nav_icon'></i>
                     <span class="nav_name">

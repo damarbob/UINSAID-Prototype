@@ -10,7 +10,7 @@ class GaleriModel extends \CodeIgniter\Model
 
     protected $useTimestamps = true;
 
-    protected $allowedFields = ['uri', 'judul', 'alt'];
+    protected $allowedFields = ['uri', 'judul', 'alt', 'deskripsi'];
 
     public function get()
     {
@@ -27,10 +27,10 @@ class GaleriModel extends \CodeIgniter\Model
         if (!empty($search)) {
             // Apply search filtering if search term is provided
             $builder->like('judul', $search)
-                    ->orLike('alt', $search);
+                ->orLike('alt', $search);
         }
 
         return $builder->orderBy('created_at', 'DESC') // Optional: order by created_at or another field
-                        ->findAll($perPage, $offset);
+            ->findAll($perPage, $offset);
     }
 }
