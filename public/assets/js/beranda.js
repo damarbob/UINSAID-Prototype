@@ -19,6 +19,27 @@ var swiperBerita = new Swiper("#swiper-berita", {
     cssMode: true,
 });
 
+// Initialize Swiper JS for Prestasi
+var swiperPrestasi = new Swiper("#swiper-prestasi", {
+    slidesPerView: 3,
+    grabCursor: true,
+    spaceBetween: 30,
+    loop: true,
+    pagination: {
+        el: ".swiper-pagination",
+        clickable: true,
+    },
+    navigation: {
+        nextEl: ".prestasi-swiper-button-next",
+        prevEl: ".prestasi-swiper-button-prev",
+    },
+    autoplay: {
+        delay: 2500,
+        disableOnInteraction: false,
+    },
+    cssMode: true,
+});
+
 // Initialize Swiper JS for Kegiatan
 var swiperKegiatan = new Swiper("#swiper-kegiatan", {
     slidesPerView: 1,
