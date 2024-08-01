@@ -1,6 +1,7 @@
 /* Section about */
 #about {
-  background: linear-gradient(
+  background:
+    linear-gradient(
       270deg,
       var(--mdb-body-bg) 0%,
       var(--mdb-body-bg) 50%,
@@ -21,6 +22,57 @@
   #about {
     background: var(--mdb-body-bg);
   }
+}
+
+/* Section Statistik */
+#section-statistik .container .row {
+  background-color: #f7990c;
+  border-radius: 8px;
+}
+
+/* Section prestasi */
+#section-prestasi .card-title {
+  height: 4.75rem; /*The height of 3 lines*/
+  -webkit-line-clamp: 3;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.prestasi-card {
+  position: relative;
+  width: 100%;
+  margin: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+}
+.prestasi-card img {
+  width: 100%;
+  height: 304px;
+  object-fit: cover;
+}
+.prestasi-card .card-img-overlay {
+  background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5));
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-right: 20px;
+  padding-left: 20px;
+  padding-bottom: 32px;
+  box-sizing: border-box;
+  color: var(--mdb-body-bg);
+}
+#swiper-prestasi {
+  border-radius: 8px;
+  height: 100%;
+  --swiper-navigation-color: var(--mdb-primary);
 }
 
 /* Section berita */
@@ -180,7 +232,7 @@ section.fluid .container {
     max-height: 768px;
   }
 }
-#swiper-kegiatan .swiper-pagination{
+#swiper-kegiatan .swiper-pagination {
   --swiper-pagination-color: var(--mdb-link-color);
 }
 
