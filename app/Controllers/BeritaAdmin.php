@@ -27,6 +27,7 @@ class BeritaAdmin extends BaseControllerAdmin
     {
         $this->data['judul'] = lang('Admin.tambahBerita');
         $this->data['mode'] = "tambah";
+        $this->data['kategori'] = $this->kategoriModel->findAll();
         return view('admin_berita_editor', $this->data);
     }
 
@@ -36,8 +37,54 @@ class BeritaAdmin extends BaseControllerAdmin
         $this->data['judul'] = lang('Admin.suntingBerita');
         $this->data['mode'] = "sunting";
         $this->data['berita'] = $this->beritaModel->getById($id); // 
+        $this->data['kategori'] = $this->kategoriModel->findAll();
         return view('admin_berita_editor', $this->data);
     }
+
+    public function fetchData()
+    {
+        // $columns = [lang('Admin.judul'), lang('Admin.penulis'), lang('Admin.kategori'), lang('Admin.tanggal'), lang('Admin.status')];
+        $columns = ['judul', 'penulis', 'kategori', 'created_at', 'status'];
+        $limit = $this->request->getPost('length');
+        $start = $this->request->getPost('start');
+        $order = $columns[$this->request->getPost('order')[0]['column']];
+        $dir = $this->request->getPost('order')[0]['dir'];
+
+        $search = $this->request->getPost('search')['value'] ?? null;
+        $totalData = $this->beritaModel->countAll();
+        $totalFiltered = $totalData;
+
+        // $berita = format_tanggal($this->beritaModel->getBerita($limit, $start, $search, $order, $dir));
+        $berita = $this->beritaModel->getBerita($limit, $start, $search, $order, $dir);
+
+        if ($search) {
+            $totalFiltered = $this->beritaModel->getTotalRecords($search);
+        }
+
+        $data = [];
+        if (!empty($berita)) {
+            foreach ($berita as $row) {
+                $nestedData['id'] = $row->id;
+                $nestedData['judul'] = $row->judul;
+                $nestedData['penulis'] = $row->penulis_username;
+                $nestedData['kategori'] = $row->kategori;
+                // $nestedData['created_at_timestamp'] = $row->created_at_timestamp;
+                $nestedData['created_at'] = $row->created_at;
+                $nestedData['status'] = $row->status;
+                $data[] = $nestedData;
+            }
+        }
+
+        $json_data = [
+            "draw" => intval($this->request->getPost('draw')),
+            "recordsTotal" => intval($totalData),
+            "recordsFiltered" => intval($totalFiltered),
+            "data" => $data
+        ];
+
+        return $this->response->setJSON($json_data);
+    }
+
 
     public function get()
     {
@@ -75,6 +122,16 @@ class BeritaAdmin extends BaseControllerAdmin
             return redirect()->to($redirectTo)->withInput();
         }
 
+        // Cek kategori
+        $kategoriNama = $this->request->getVar('kategori');
+        $kategori = $this->kategoriModel->getKategoriByNama($kategoriNama);
+
+        // Simpan kategori baru
+        if (!$kategori) {
+            $this->kategoriModel->save(['nama' => $kategoriNama]);
+            $kategori = $this->kategoriModel->getKategoriByNama($kategoriNama);
+        }
+
         // Simpan rilis media
         if ($id == null) {
             // Jika ID kosong, buat entri baru
@@ -83,7 +140,7 @@ class BeritaAdmin extends BaseControllerAdmin
                 'judul' => $this->request->getVar('judul'),
                 'konten' => $this->request->getVar('konten'),
                 'ringkasan' => $this->request->getVar('ringkasan'),
-                'kategori' => $this->request->getVar('kategori'),
+                'id_kategori' => $kategori['id'],
                 'status' => $this->request->getVar('status'),
             ]);
 
@@ -97,7 +154,7 @@ class BeritaAdmin extends BaseControllerAdmin
                 'judul' => $this->request->getVar('judul'),
                 'konten' => $this->request->getVar('konten'),
                 'ringkasan' => $this->request->getVar('ringkasan'),
-                'kategori' => $this->request->getVar('kategori'),
+                'id_kategori' => $kategori['id'],
                 'status' => $this->request->getVar('status'),
             ]);
 

@@ -73,7 +73,8 @@ $routes->addRedirect('dashboard', 'dashboard');
 
 // API
 $routes->group('api', static function ($routes) {
-    $routes->get('berita', 'BeritaAdmin::get');
+    // $routes->get('berita', 'BeritaAdmin::get');
+    $routes->post('berita', 'BeritaAdmin::fetchData');
     $routes->get('berita/dipublikasikan', 'BeritaAdmin::getDipublikasikan');
     $routes->get('berita/draf', 'BeritaAdmin::getDraf');
 

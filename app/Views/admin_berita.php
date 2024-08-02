@@ -74,7 +74,17 @@
 <script>
     $(document).ready(function() {
         var table1 = $('#tabelRilisMedia').DataTable({
-            ajax: "/api/berita",
+            processing: true,
+            serverSide: true,
+            // ajax: "/api/berita",
+            ajax: {
+                "url": "<?= site_url('api/berita') ?>",
+                "type": "POST"
+            },
+            // "ajax": {
+            //     "url": "<?= site_url('api/berita') ?>",
+            //     "type": "POST"
+            // },
             "rowCallback": function(row, data, index) {
                 // Add double-click event to navigate to Edit page
                 $(row).on('dblclick', function() {
@@ -88,17 +98,26 @@
             "columns": [{
                     "data": "judul",
                 },
+                // {
+                //     "data": "penulis_username",
+                // },
                 {
-                    "data": "penulis_username",
+                    "data": "penulis",
                 },
                 {
                     "data": "kategori",
                 },
+                // {
+                //     "data": "created_at_timestamp",
+                //     "render": function(data, type, row) {
+                //         return timestampToIndonesianDateTime(data); // Tampilkan tanggal dengan format Indonesia
+                //     },
+                // },
                 {
-                    "data": "created_at_timestamp",
+                    "data": "created_at",
                     "render": function(data, type, row) {
-                        return timestampToIndonesianDateTime(data); // Tampilkan tanggal dengan format Indonesia
-                    },
+                        return formatDate(data);
+                    }
                 },
                 {
                     "data": "status",

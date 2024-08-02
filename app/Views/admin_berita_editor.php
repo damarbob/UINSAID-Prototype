@@ -1,5 +1,9 @@
 <?= $this->extend('layout/admin/admin_template') ?>
 
+<?= $this->section('style') ?>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
+<?= $this->endSection() ?>
+
 <?= $this->section('content') ?>
 <?php
 helper('form');
@@ -63,6 +67,7 @@ if ($mode == "tambah") {
             <div class="form-floating mb-3">
                 <input id="kategori" name="kategori" class="form-control" type="text" value="<?= $valueKategori ?>" placeholder="<?= lang('Admin.kategori') ?>" />
                 <label for="kategori"><?= lang('Admin.kategori') ?></label>
+                <input type="hidden" id="is_new_category" name="is_new_category" value="0">
                 <div class="invalid-feedback">
                     <?= validation_show_error('kategori'); ?>
                 </div>
@@ -193,5 +198,31 @@ if ($mode == "tambah") {
             Array.prototype.forEach.call(files, readAndPreview);
         }
     }
+</script>
+
+<!-- Auto complete kategori -->
+<script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
+<script>
+    $(function() {
+        var kategori = <?= json_encode(array_column($kategori, 'nama')) ?>;
+        $("#kategori").autocomplete({
+            source: kategori,
+            select: function(event, ui) {
+                if (ui.item) {
+                    $("#is_new_category").val('0');
+                }
+            }
+        }).blur(function() {
+            var isNew = true;
+            $(".ui-autocomplete li").each(function() {
+                if ($(this).text() === $("#category").val()) {
+                    isNew = false;
+                }
+            });
+            if (isNew) {
+                $("#is_new_category").val('1');
+            }
+        });
+    });
 </script>
 <?= $this->endSection() ?>
