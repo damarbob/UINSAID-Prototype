@@ -56,6 +56,8 @@ $routes->group('admin', ['filter' => 'group:admin,superadmin'], function ($route
         $routes->get('/', 'GaleriAdmin::index');
         $routes->post('upload', 'GaleriAdmin::upload');
         $routes->post('updateMetadata/(:num)', 'GaleriAdmin::updateMetadata/$1');
+        $routes->post('delete/(:num)', 'GaleriAdmin::delete/$1');
+        $routes->post('delete-multiple', 'GaleriAdmin::deleteMultiple');
     });
 
     // Kotak masuk
