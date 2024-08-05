@@ -53,6 +53,14 @@ $currentRoute = $request->uri->getPath();
                     </span>
                 </a>
             </div>
+            <div class="nav_list">
+                <a href="<?= base_url('admin/pengguna') ?>" class="nav_link <?= $currentRoute == "admin/pengguna" ? "active" : "" ?>">
+                    <i class='bx bxs-user-account nav_icon'></i>
+                    <span class="nav_name">
+                        Pengguna
+                    </span>
+                </a>
+            </div>
             <div class="nav_list d-lg-none">
                 <a href="<?= base_url('admin/atur-profil') ?>" class="nav_link">
                     <i class='bx bx-user-circle nav_icon'></i>

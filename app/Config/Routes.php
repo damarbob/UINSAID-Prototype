@@ -67,11 +67,21 @@ $routes->group('admin', ['filter' => 'group:admin,superadmin'], function ($route
     $routes->post('kotak-masuk/hapus', 'KotakMasukAdmin::hapusBanyak');
     $routes->post('kotak-masuk/tandai/terbaca', 'KotakMasukAdmin::tandaiTerbacaBanyak');
     $routes->post('kotak-masuk/tandai/belum_terbaca', 'KotakMasukAdmin::tandaiBelumTerbacaBanyak');
+
+
+    // Manajemen pengguna
+    $routes->get('pengguna', 'PenggunaAdmin::index');
+    $routes->post('pengguna/edit/(:num)', 'PenggunaAdmin::edit/$1');
+    $routes->post('pengguna/tambah', 'PenggunaAdmin::tambahPengguna');
+    $routes->post('pengguna/hapus', 'PenggunaAdmin::hapusBanyak');
 });
 
 // Redirect to dasbor
 $routes->addRedirect('dasbor', 'dashboard');
 $routes->addRedirect('dashboard', 'dashboard');
+
+// Logout
+$routes->get('/keluar', 'UserController::keluar');
 
 // API
 $routes->group('api', static function ($routes) {
@@ -85,6 +95,8 @@ $routes->group('api', static function ($routes) {
     $routes->get('kotak-masuk', 'KotakMasukAdmin::getKotakMasuk');
     $routes->get('kotak-masuk/kritik-dan-saran', 'KotakMasukAdmin::getKotakMasukKritikDanSaran');
     $routes->get('kotak-masuk/pelaporan', 'KotakMasukAdmin::getKotakMasukPelaporan');
+
+    $routes->get('pengguna', 'PenggunaAdmin::get');
 });
 
 service('auth')->routes($routes);
