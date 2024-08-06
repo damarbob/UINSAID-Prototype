@@ -6,7 +6,7 @@ class Home extends BaseController
 {
     public function index()
     {
-        $data['heroTerbaru'] = [
+        $this->data['heroTerbaru'] = [
             [
                 "kategori"              => "",
                 "judul"                 => "UIN Raden Mas Said",
@@ -33,7 +33,7 @@ class Home extends BaseController
             ]
         ];
 
-        $data['poinUtama'] = [
+        $this->data['poinUtama'] = [
             [
                 'judul'         => '16 Program Studi Terakreditasi Unggul dan A',
                 'keterangan'    => 'Terdapat 16 Program Studi terakreditasi Unggul dan A di UIN Raden Mas Said Surakarta'
@@ -48,12 +48,12 @@ class Home extends BaseController
             ]
         ];
 
-        $data['sambutanRektor'] = [
+        $this->data['sambutanRektor'] = [
             'judul'       => 'Panca Amanat “LURIK” dalam Mensukseskan Glokalisasi',
             'sambutan'    => 'LURIK yang berakronim “Loyal, Unggul, Responsif, Inovatif dan Kolaboratif” LURIK pertama adalah Loyal, yang menuntut para pejabat untuk memiliki sikap loyal terhadap Negara Kesatuan Republik Indonesia (NKRI), Kementerian Agama, dan UIN Raden Mas Said Surakarta. <br>LURIK kedua adalah Unggul, mengajak para pejabat untuk bekerja maksimal dan optimal, serta sekuat tenaga meraih keunggulan lembaga, dengan cara melakukan Konsolidasi, Mobilisasi dan Orkestrasi (KMO) dengan pimpinan di lembaga masing-masing,untuk merencanakan program-program unggulan dalam rangka Glokalisasi UIN Raden Mas Said Surakarta.'
         ];
 
-        $data['poinAkademik'] = [
+        $this->data['poinAkademik'] = [
             [
                 'gambar'        => '',
                 'judul'         => 'Program Studi',
@@ -76,7 +76,7 @@ class Home extends BaseController
             ],
         ];
 
-        $data['poinUinRmSaid'] = [
+        $this->data['poinUinRmSaid'] = [
             'judul'         => 'UIN Raden Mas Said Surakarta',
             'keterangan'    => 'Universitas Islam Negeri Raden Mas Said Surakarta (UIN RM Said), yang  dahulu bernama Sekolah Tinggi Agama Islam Negeri (STAIN) Surakarta  kemudian berubah alih status... ',
             'poin'          => [
@@ -98,7 +98,7 @@ class Home extends BaseController
             ]
         ];
 
-        $data['statistik'] = [
+        $this->data['statistik'] = [
             'utama' => [
                 [
                     'gambar'        => '',
@@ -144,7 +144,7 @@ class Home extends BaseController
             ]
         ];
 
-        $data['prestasiTerbaru'] = [
+        $this->data['prestasiTerbaru'] = [
             [
                 'gambar'                => 'assets/img/wisuda.jpeg',
                 "judul"                 => "UKM JQH Al-Wustha Kembali Juara Dalam Lomba Hadroh di Surakarta",
@@ -187,34 +187,88 @@ class Home extends BaseController
             ]
         ];
 
-        $data['berita'] = [
+        $this->data['berita'] = [
             [
-                "image" => "assets/img/uin-raden-mas-said.png",
+                "image" => "https://www.uinsaid.ac.id/files/post/cover/persiapan-akreditasi-internasional-uin-surakarta-m-1714970024.JPG",
                 "judul" => "Persiapan Akreditasi Internasional, UIN Surakarta Undang Rafiazka Hilman",
                 "slug" => "Catat, UIN RM Said Masuk Jajaran Top 10 PTKIN",
                 "tgl_terbit" => "30 Maret 2024"
             ],
             [
-                "image" => "assets/img/akademik.jpeg",
-                "judul" => "Persiapan Akreditasi Internasional, UIN Surakarta Undang Rafiazka Hilman",
+                "image" => "https://www.uinsaid.ac.id/files/post/cover/jauh-datang-dari-batam-kami-ucapkan-selamat-datang-1715059577.jpg",
+                "judul" => "Jauh Datang Dari Batam, Kami Ucapkan Selamat Datang. Kami Sambut Dengan Senyuman",
                 "tgl_terbit" => "30 Maret 2024"
             ],
             [
-                "image" => "assets/img/akademik.jpeg",
-                "judul" => "Persiapan Akreditasi Internasional, UIN Surakarta Undang Rafiazka Hilman",
+                "image" => "https://www.uinsaid.ac.id/files/post/cover/uin-raden-mas-said-surakarta-raih-wtp-atas-laporan-1715060511.jpg",
+                "judul" => "UIN Raden Mas Said Surakarta Raih WTP atas Laporan Keuangan BLU Tahun Laporan 2023 dari Kantor Akuntan Publik",
                 "tgl_terbit" => "30 Maret 2024"
             ],
             [
-                "image" => "assets/img/akademik.jpeg",
-                "judul" => "Persiapan Akreditasi Internasional, UIN Surakarta Undang Rafiazka Hilman",
+                "image" => "https://www.uinsaid.ac.id/files/post/cover/fab-uin-rm-said-holds-iccl-1716892667.jpg",
+                "judul" => "FAB UIN RM Said Holds 2nd ICCL 2024",
                 "tgl_terbit" => "30 Maret 2024"
             ],
             [
-                "image" => "assets/img/akademik.jpeg",
-                "judul" => "Persiapan Akreditasi Internasional, UIN Surakarta Undang Rafiazka Hilman",
+                "image" => "https://www.uinsaid.ac.id/files/post/cover/optimalkan-blu-uin-rm-said-perkuat-kerjasama-1717059990.jpg",
+                "judul" => "Optimalkan BLU, UIN RM Said Perkuat Kerjasama",
                 "tgl_terbit" => "30 Maret 2024"
             ],
         ];
-        return view('beranda', $data);
+        $this->data['pojokPimpinan'] = [
+            [
+                "judul"     => "KKN Internasional & Upaya Peningkatan Daya Saing Global",
+                "ringkasan" => "Mahasiswa UIN Raden Mas Said Surakarta, seperti mahasiswa di seluruh dunia lainnya, dihadapkan pada persaingan global yang menuntut kemampuan adaptasi dan bersaing di berbagai bidang."
+            ],
+            [
+                "judul"     => "KKN Internasional & Upaya Peningkatan Daya Saing Global",
+                "ringkasan" => "Mahasiswa UIN Raden Mas Said Surakarta, seperti mahasiswa di seluruh dunia lainnya, dihadapkan pada persaingan global yang menuntut kemampuan adaptasi dan bersaing di berbagai bidang."
+            ],
+        ];
+        $this->data['opini'] = [
+            [
+                "judul"     => "KKN Internasional & Upaya Peningkatan Daya Saing Global",
+                "ringkasan" => "Mahasiswa UIN Raden Mas Said Surakarta, seperti mahasiswa di seluruh dunia lainnya, dihadapkan pada persaingan global yang menuntut kemampuan adaptasi dan bersaing di berbagai bidang."
+            ],
+            [
+                "judul"     => "KKN Internasional & Upaya Peningkatan Daya Saing Global",
+                "ringkasan" => "Mahasiswa UIN Raden Mas Said Surakarta, seperti mahasiswa di seluruh dunia lainnya, dihadapkan pada persaingan global yang menuntut kemampuan adaptasi dan bersaing di berbagai bidang."
+            ],
+        ];
+        $this->data['agenda'] = [
+            [
+                "judul" => "Piala Rektor UIN RM Said Surakarta Tahun 2024 Piala Rektor 2024",
+                "slug" => "Catat, UIN RM Said Masuk Jajaran Top 10 PTKIN",
+                "tgl_terbit" => "30 Maret 2024"
+            ],
+            [
+                "judul" => "Wisuda Ke-56 UIN Raden Mas Said Surakarta Juli 2024",
+                "tgl_terbit" => "30 Maret 2024"
+            ],
+            [
+                "judul" => "Seminar Moderasi & Toleransi bersama Kemenag Sukoharjo ",
+                "tgl_terbit" => "30 Maret 2024"
+            ],
+            [
+                "judul" => "Call for Papers and Participants 4th International Conference",
+                "tgl_terbit" => "30 Maret 2024"
+            ]
+        ];
+        $this->data['pengumuman'] = [
+            [
+                "judul" => "Prosedur Pembuatan KTM Untuk Mahasiswa Baru",
+                "slug" => "Catat, UIN RM Said Masuk Jajaran Top 10 PTKIN",
+                "tgl_terbit" => "30 Maret 2024"
+            ],
+            [
+                "judul" => "Pendaftaran Wisuda Ke-56 UIN Raden Mas Said Surakarta Juli 2024",
+                "tgl_terbit" => "30 Maret 2024"
+            ],
+            [
+                "judul" => "Registrasi Mahasiswa Baru UIN Raden Mas Said Surakarta Jalur SNBT ",
+                "tgl_terbit" => "30 Maret 2024"
+            ],
+        ];
+        return view('beranda', $this->data);
     }
 }

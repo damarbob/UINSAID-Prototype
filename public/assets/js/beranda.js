@@ -1,6 +1,6 @@
 // Initialize Swiper JS for Berita
 var swiperBerita = new Swiper("#swiper-berita", {
-    slidesPerView: 1,
+    slidesPerView: 3,
     grabCursor: true,
     spaceBetween: 30,
     loop: true,
@@ -9,8 +9,8 @@ var swiperBerita = new Swiper("#swiper-berita", {
         clickable: true,
     },
     navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
+        nextEl: ".berita-swiper-button-next",
+        prevEl: ".berita-swiper-button-prev",
     },
     autoplay: {
         delay: 2500,
