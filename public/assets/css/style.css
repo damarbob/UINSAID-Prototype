@@ -93,6 +93,12 @@ body {
   background: none;
 }
 
+/* Section general */
+section.page-title {
+  padding-top: 64px;
+  padding-bottom: 64px;
+}
+
 /* Image */
 .img-section {
   width: 100%;
@@ -113,6 +119,7 @@ body {
 #frontend-navbar {
   transition: all 0.5s;
   padding: 1rem 0;
+  background-color: rgba(var(--mdb-primary-rgb), 1);
 }
 #frontend-navbar.navbar {
   box-shadow: none;
