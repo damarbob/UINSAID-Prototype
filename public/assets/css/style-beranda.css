@@ -54,7 +54,7 @@
   object-fit: cover;
 }
 .prestasi-card .card-img-overlay {
-  background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5));
+  background: linear-gradient(rgba(0, 0, 0, 0), rgba(47, 81, 81, 0.8));
   position: absolute;
   top: 0;
   left: 0;
@@ -77,7 +77,6 @@
 
 /* Section berita */
 #news .card-title {
-  /* height: 4.75rem; The height of 3 lines */
   -webkit-line-clamp: 3;
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -90,19 +89,16 @@
   margin: 0;
   overflow: hidden;
   display: flex;
-  flex-direction: column;
-  border-radius: 8px;
+  flex-direction: row;
+  height: 128px;
 }
 .berita-card img {
-  width: 100%;
-  height: 304px;
+  width: 96px;
   object-fit: cover;
 }
 .berita-card .card-img-overlay {
-  background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5));
-  position: absolute;
-  top: 0;
-  left: 0;
+  background: linear-gradient(rgba(0, 0, 0, 0), rgba(47, 81, 81, 0.5));
+  position: relative;
   width: 100%;
   height: 100%;
   display: flex;
@@ -110,15 +106,15 @@
   justify-content: flex-end;
   padding-right: 20px;
   padding-left: 20px;
-  padding-bottom: 32px;
+  padding-bottom: 8px;
   box-sizing: border-box;
   color: var(--mdb-body-bg);
-}
-#swiper-berita .swiper-slide-transform {
-  border-radius: 8px;
+  border-radius: 0px;
 }
 #swiper-berita {
+  border-radius: 8px;
   height: 100%;
+  width: 90%;
   --swiper-navigation-color: var(--mdb-primary);
 }
 
@@ -132,18 +128,83 @@
 #item-berita .card-body {
   flex-grow: 1;
 }
+#item-berita .card-text {
+  font-size: 0.7rem;
+}
 #item-berita .card-title {
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3; /* Limit to 3 lines */
+  -webkit-line-clamp: 4; /* Limit to 3 lines */
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: normal;
+  font-size: 0.9rem;
+  font-weight: bold;
   /* height: calc(1.2em * 3); Adjust based on the line height */
 }
 #item-berita img {
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
+}
+
+/* Section Pojok Pimpinan */
+#section-pojok-pimpinan .container .row {
+  background-color: #f1f1f1;
+  border-radius: 8px;
+  padding-bottom: 24px;
+}
+#pojok-pimpinan {
+  padding-inline: 36px;
+}
+#pojok-pimpinan .card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  border-radius: 8px;
+}
+#pojok-pimpinan .card-body {
+  flex-grow: 1;
+}
+#pojok-pimpinan .card-text {
+  font-size: 0.7rem;
+}
+#pojok-pimpinan .card-title {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4; /* Limit to 3 lines */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  font-size: 0.9rem;
+  font-weight: bold;
+  /* height: calc(1.2em * 3); Adjust based on the line height */
+}
+
+/* Section Agenda */
+#item-agenda .card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  border-radius: 8px;
+}
+#item-agenda .card-body {
+  flex-grow: 1;
+}
+#item-agenda .card-text {
+  font-size: 0.7rem;
+}
+#item-agenda .card-title {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4; /* Limit to 3 lines */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  font-size: 0.9rem;
+  font-weight: bold;
+  /* height: calc(1.2em * 3); Adjust based on the line height */
 }
 
 /* Sections General */
@@ -237,6 +298,11 @@ section.fluid .container {
 }
 
 /* Pengumuman */
+#section-pengumuman .container .row {
+  background-color: #f1f1f1;
+  border-radius: 8px;
+  padding-bottom: 24px;
+}
 .pengumuman-widget {
   border: 1px solid #e0e0e0;
   border-radius: 8px;

@@ -31,6 +31,7 @@ $routes->set404Override();
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
 $routes->get('/tentang-kami', 'TentangKami');
+$routes->get('pendidikan', 'PendidikanController::index');
 
 // Admin
 $routes->group('admin', ['filter' => 'group:admin,superadmin'], function ($routes) {
