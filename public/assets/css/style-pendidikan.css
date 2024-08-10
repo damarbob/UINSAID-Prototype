@@ -1,0 +1,38 @@
+/* Section Hero */
+#hero {
+  background: url("../img/wisuda.jpeg") center center no-repeat;
+  /* background-attachment: fixed; */
+  background-size: cover;
+  width: 100%;
+  min-height: 576px;
+  height: 100vh;
+  /* max-height: 742.5px; */
+  max-height: 1080px;
+  z-index: -3;
+}
+
+/* Section cari prodi */
+#text-cari-prodi {
+  background: var(--mdb-primary);
+  border-radius: 8px;
+}
+#cari-prodi .cari {
+  background: transparent;
+  color: rgb(var(--mdb-light-rgb));
+  border: 0;
+}
+
+/* Section Telusuri Prodi */
+#telusuri-prodi .card {
+  background-color: var(--mdb-secondary);
+  border-radius: 8px;
+}
+#telusuri-prodi .card-title {
+  color: var(--mdb-primary);
+  font-weight: bold;
+}
+#telusuri-prodi .btn {
+  margin-block: 0.5rem;
+  margin-inline: 0.3rem;
+  font-size: medium;
+}

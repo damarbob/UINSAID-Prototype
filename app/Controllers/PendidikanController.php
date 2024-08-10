@@ -1,8 +1,8 @@
 <?php
 
-use App\Controllers\BaseController;
+namespace App\Controllers;
 
-class Pendidikan extends BaseController
+class PendidikanController extends BaseController
 {
     public function index()
     {

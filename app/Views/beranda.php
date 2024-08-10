@@ -40,7 +40,7 @@
       <div class="swiper-button-prev"></div>
       <div class="swiper-button-next"></div>
 
-      <div class="swiper-pagination mb-4"></div>
+      <!-- <div class="swiper-pagination mb-4"></div> -->
 
     </div>
 
@@ -63,9 +63,9 @@
   <div class="container p-5">
     <div class="row g-4">
       <?php foreach ($poinUtama as $p => $key) : ?>
-        <div class="col-lg-3">
-          <div class="card d-flex">
-            <div class="card-body flex-grow-1">
+        <div class="col-md-3">
+          <div class="card">
+            <div class="card-body">
               <h5 class="card-title fw-bold"><?= $key['judul'] ?></h5>
               <p class="card-text"><?= $key['keterangan'] ?></p>
             </div>
@@ -84,9 +84,9 @@
 
       <!-- foto -->
       <div class="col-lg-6">
-        <div class="row" style="position: relative;">
+        <div class="row">
           <img src="assets/img/foto-rektor-wisuda.png" />
-          <img src="assets/img/uinsaid2.jpg" style="position: absolute; width: 50%; bottom: 0px; right: 0px" />
+          <img class="foto-kecil" src="assets/img/uinsaid2.jpg" />
         </div>
       </div>
 
