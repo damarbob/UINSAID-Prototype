@@ -1,6 +1,7 @@
 :root {
-  --mdb-primary: #007a33;
-  --mdb-primary-rgb: 47, 81, 81;
+  /* --mdb-primary: #007a33; */
+  --mdb-primary: rgb(0, 122, 51);
+  --mdb-primary-rgb: 0, 122, 51;
   --mdb-secondary: rgb(125, 186, 0);
   --mdb-secondary-rgb: 125, 186, 0;
 
@@ -26,6 +27,27 @@ body {
 .wh-64px {
   width: 64px;
   height: 64px;
+}
+
+/* Margin */
+.mt-navbar {
+  margin-top: 108px;
+}
+.my-64 {
+  margin-top: 64px;
+  margin-bottom: 64px;
+}
+.mt-minus-64 {
+  margin-top: -64px;
+}
+.mb-minus-64 {
+  margin-bottom: -64px;
+}
+
+/* Padding */
+.py-64 {
+  padding-top: 64px;
+  padding-bottom: 64px;
 }
 
 /* Color */
@@ -82,6 +104,11 @@ body {
   }
 }
 
+/* Section */
+.menu-title {
+  height: 256px;
+}
+
 /* Container */
 .container {
   max-width: 1920px;
@@ -91,12 +118,6 @@ body {
 }
 #hero .container {
   background: none;
-}
-
-/* Section general */
-section.page-title {
-  padding-top: 64px;
-  padding-bottom: 64px;
 }
 
 /* Image */
@@ -403,17 +424,53 @@ section.page-title {
 
 /* Lurik */
 .lurik {
-  background: url("../img/lurik-hijau-vector-bg-2.jpg");
-  opacity: 0.2;
+  /* background: url("../img/lurik-hijau-vector-bg-2.jpg"); */
+  background: url("../img/lurik.svg");
+  /* opacity: 0.2; */
+  opacity: 1;
   background-position: center top; /* Center horizontally */
-  background-size: auto 100%;
-  background-repeat: repeat-x; /* Repeat horizontally */
-  background-attachment: fixed;
-  background-size: cover;
+  /* background-size: auto 50%; */
+  background-repeat: repeat-x;
+  /* background-repeat: no-repeat; */
+  /* background-attachment: fixed; */
+  background-size: contain;
   width: 100%;
-  max-width: 1920px;
-  height: 192px;
+  /* height: 192px; */
+  height: 54px;
+  max-height: 54px;
   position: absolute;
+}
+.lurik-2 {
+  /* background: url("../img/lurik-hijau-vector-bg-2.jpg"); */
+  background: url("../img/lurik-2.svg");
+  /* opacity: 0.2; */
+  opacity: 1;
+  background-position: center top; /* Center horizontally */
+  /* background-size: auto 50%; */
+  background-repeat: repeat-x; /* Repeat horizontally */
+  /* background-attachment: fixed; */
+  background-size: contain;
+  width: 100%;
+  /* max-width: 1920px; */
+  /* height: 192px; */
+  height: 24px;
+  max-height: 24px;
+  position: absolute;
+}
+.lurik-3 {
+  /* background: url("../img/lurik-hijau-vector-bg-2.jpg"); */
+  background: url("../img/lurik-3.svg");
+  /* opacity: 0.2; */
+  opacity: 1;
+  background-position: left top; /* Center horizontally */
+  background-size: contain;
+  background-repeat: no-repeat;
+  /* background-attachment: fixed; */
+  /* background-size: cover; */
+  width: 530px;
+  /* max-width: 1920px; */
+  /* height: 192px; */
+  height: 20px;
 }
 .lurik-silk {
   background: url("../img/lurik-hijau-silk-vector-bg.png");

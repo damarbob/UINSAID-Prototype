@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Models\BeritaModel;
+use App\Models\KategoriModel;
 use CodeIgniter\Controller;
 use CodeIgniter\HTTP\CLIRequest;
 use CodeIgniter\HTTP\IncomingRequest;
@@ -46,6 +48,9 @@ abstract class BaseController extends Controller
      */
     // protected $session;
 
+    protected $beritaModel;
+    protected $kategoriModel;
+
     /**
      * Constructor.
      */
@@ -57,5 +62,9 @@ abstract class BaseController extends Controller
         // Preload any models, libraries, etc, here.
 
         // E.g.: $this->session = \Config\Services::session();
+
+        // Models
+        $this->beritaModel = new BeritaModel();
+        $this->kategoriModel = new KategoriModel();
     }
 }

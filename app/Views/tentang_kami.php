@@ -14,14 +14,16 @@
 </section>
 
 <!-- Judul -->
-<section class="page-title fluid align-items-center justify-content-center gradient-1">
+<section class="menu-title d-flex align-items-center gradient-1">
+    <div class="lurik align-self-start"></div>
     <div class="container text-center">
-        <h1>Menu Title</h1>
+        <h1 class="">Menu Title</h1>
     </div>
+    <div class="lurik-2 align-self-end"></div>
 </section>
 
 <!-- Section CTNA -->
-<section class="fluid section-batik" id="akademik">
+<section class="fluid section-batik mt-navbar" id="akademik">
     <div class="container p-5">
         <div class="row d-flex align-items-center g-5">
 
@@ -31,6 +33,7 @@
                     Lorem Ipsum is simply dummy
                     text of the printing
                 </h1>
+                <div class="lurik-3"></div>
             </div>
 
             <!-- Picture grid column -->
