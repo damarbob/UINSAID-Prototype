@@ -222,7 +222,7 @@ body {
 #hero {
   /* background: url("../img/uinsaid-video-bg-blur-new.png") center center no-repeat; */
   background-attachment: fixed;
-  background-size: cover;
+  background-size: contain;
   width: 100%;
   min-height: 576px;
   height: 100vh;
