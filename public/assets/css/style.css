@@ -119,7 +119,7 @@ section.page-title {
 #frontend-navbar {
   transition: all 0.5s;
   padding: 1rem 0;
-  background-color: rgba(var(--mdb-primary-rgb), 1);
+  background-color: var(--mdb-primary);
 }
 #frontend-navbar.navbar {
   box-shadow: none;
