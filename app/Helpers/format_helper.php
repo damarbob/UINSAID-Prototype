@@ -18,8 +18,18 @@ if (!function_exists('format_tanggal')) {
             $timestamp_updated_at = strtotime($item['updated_at']); // Convert to timestamp
 
             $bulan_indonesia = array(
-                1 => 'Januari', 2 => 'Februari', 3 => 'Maret', 4 => 'April', 5 => 'Mei', 6 => 'Juni',
-                7 => 'Juli', 8 => 'Agustus', 9 => 'September', 10 => 'Oktober', 11 => 'November', 12 => 'Desember'
+                1 => 'Januari',
+                2 => 'Februari',
+                3 => 'Maret',
+                4 => 'April',
+                5 => 'Mei',
+                6 => 'Juni',
+                7 => 'Juli',
+                8 => 'Agustus',
+                9 => 'September',
+                10 => 'Oktober',
+                11 => 'November',
+                12 => 'Desember'
             );
 
             $item['created_at_terformat'] = date('d', $timestamp_created_at) . ' ' . $bulan_indonesia[date('n', $timestamp_created_at)] . ' ' . date('Y', $timestamp_created_at);
@@ -37,8 +47,18 @@ if (!function_exists('format_tanggal_dari_timestamp')) {
     function format_tanggal_dari_timestamp($timestamp)
     {
         $bulan_indonesia = array(
-            1 => 'Januari', 2 => 'Februari', 3 => 'Maret', 4 => 'April', 5 => 'Mei', 6 => 'Juni',
-            7 => 'Juli', 8 => 'Agustus', 9 => 'September', 10 => 'Oktober', 11 => 'November', 12 => 'Desember'
+            1 => 'Januari',
+            2 => 'Februari',
+            3 => 'Maret',
+            4 => 'April',
+            5 => 'Mei',
+            6 => 'Juni',
+            7 => 'Juli',
+            8 => 'Agustus',
+            9 => 'September',
+            10 => 'Oktober',
+            11 => 'November',
+            12 => 'Desember'
         );
         return date('d', $timestamp) . ' ' . $bulan_indonesia[date('n', $timestamp)] . ' ' . date('Y', $timestamp);
     }
@@ -54,5 +74,24 @@ if (!function_exists('capitalize_first_letter')) {
         // Gabungkan huruf pertama besar dengan sisa string
         $capitalizedString = $firstLetter . $restOfString;
         return $capitalizedString;
+    }
+}
+
+if (!function_exists('create_slug')) {
+    function create_slug($string)
+    {
+        // Convert the string to lowercase
+        $slug = strtolower($string);
+
+        // Remove special characters
+        $slug = preg_replace('/[^a-z0-9-]/', ' ', $slug);
+
+        // Replace spaces with hyphens
+        $slug = preg_replace('/\s+/', '-', $slug);
+
+        // Trim hyphens from the beginning and end of the string
+        $slug = trim($slug, '-');
+
+        return $slug;
     }
 }

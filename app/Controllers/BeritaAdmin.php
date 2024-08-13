@@ -6,6 +6,7 @@ use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
 
+use function App\Helpers\create_slug;
 use function App\Helpers\delete_many;
 use function App\Helpers\format_tanggal;
 
@@ -58,7 +59,7 @@ class BeritaAdmin extends BaseControllerAdmin
         $berita = $this->beritaModel->getBerita($limit, $start, $search, $order, $dir);
 
         if ($search) {
-            $totalFiltered = $this->beritaModel->getTotalRecords($search);
+            $totalFiltered = 0; //$this->beritaModel->getTotalRecords($search);
         }
 
         $data = [];
@@ -83,6 +84,13 @@ class BeritaAdmin extends BaseControllerAdmin
         ];
 
         return $this->response->setJSON($json_data);
+    }
+
+    public function test()
+    {
+        return $this->response->setJSON(json_encode([
+            "data" => format_tanggal($this->beritaModel->paginate(10))
+        ]));
     }
 
 
@@ -134,15 +142,18 @@ class BeritaAdmin extends BaseControllerAdmin
 
         // Simpan rilis media
         if ($id == null) {
-            // Jika ID kosong, buat entri baru
-            $this->beritaModel->save([
+            $user = [
                 'id_penulis' => auth()->id(),
                 'judul' => $this->request->getVar('judul'),
+                'slug' => create_slug($this->request->getVar('judul')),
                 'konten' => $this->request->getVar('konten'),
                 'ringkasan' => $this->request->getVar('ringkasan'),
                 'id_kategori' => $kategori['id'],
                 'status' => $this->request->getVar('status'),
-            ]);
+            ];
+
+            // Jika ID kosong, buat entri baru
+            $this->beritaModel->save($user);
 
             // Pesan berhasil diperbarui
             session()->setFlashdata('sukses', lang('Admin.berhasilDibuat'));

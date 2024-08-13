@@ -4,6 +4,8 @@ namespace App\Models;
 
 use DateTime;
 
+use function App\Helpers\format_tanggal;
+
 class GaleriModel extends \CodeIgniter\Model
 {
     protected $table = 'galeri';
@@ -51,7 +53,7 @@ class GaleriModel extends \CodeIgniter\Model
             ->findAll($perPage, $offset);
 
         return [
-            'data' => $data,
+            'data' => format_tanggal($data),
             'total' => $total,
             'perPage' => $perPage,
             'currentPage' => $page

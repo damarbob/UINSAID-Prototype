@@ -29,9 +29,13 @@ $routes->set404Override();
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'Home::index');
-$routes->get('/tentang-kami', 'TentangKami');
-$routes->get('pendidikan', 'PendidikanController::index');
+$routes->get('/', 'Home');
+$routes->get('pendidikan', 'PendidikanController');
+$routes->get('riset-publikasi', 'RisetPublikasi');
+$routes->get('tentang-kami', 'TentangKami');
+$routes->get('/berita', 'Berita');
+$routes->get('/berita/(:any)', 'Berita::get/$1');
+$routes->get('test', 'BeritaAdmin::test');
 
 // Admin
 $routes->group('admin', ['filter' => 'group:admin,superadmin'], function ($routes) {

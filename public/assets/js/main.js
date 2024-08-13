@@ -210,7 +210,7 @@ $(document).ready(function () {
   function handleClick(event) {
     clearTextSelection();
     // Prevent default triple-click behavior
-    event.preventDefault();
+    // event.preventDefault();
     event.stopPropagation();
   }
 

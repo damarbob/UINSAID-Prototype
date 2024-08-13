@@ -4,13 +4,15 @@ namespace App\Models;
 
 use DateTime;
 
+use function App\Helpers\format_tanggal;
+
 class BeritaModel extends \CodeIgniter\Model
 {
     protected $table = 'berita';
 
     protected $useTimestamps = true;
 
-    protected $allowedFields = ['id_penulis', 'judul', 'konten', 'ringkasan', 'id_kategori', 'status'];
+    protected $allowedFields = ['id_penulis', 'judul', 'slug', 'konten', 'ringkasan', 'id_kategori', 'status'];
 
     public function getBerita($limit, $start, $search = null, $order = 'judul', $dir = 'asc')
     {
@@ -18,7 +20,7 @@ class BeritaModel extends \CodeIgniter\Model
             ->select('berita.*, users.username as penulis_username, kategori.nama as kategori')
             ->join('users', 'users.id = berita.id_penulis', 'left')
             ->join('kategori', 'kategori.id = berita.id_kategori', 'left')
-            ->orderBy($order, $dir)
+            // ->orderBy($order, $dir)
             ->limit($limit, $start);
 
         if ($search) {
@@ -82,6 +84,15 @@ class BeritaModel extends \CodeIgniter\Model
             ->first());
     }
 
+    public function getBySlug($slug)
+    {
+        return $this->formatSampul($this->select('berita.*, users.username as penulis_username, kategori.nama as kategori')
+            ->join('users', 'users.id = berita.id_penulis', 'left')
+            ->join('kategori', 'kategori.id = berita.id_kategori', 'left')
+            ->where('berita.slug', $slug)
+            ->first());
+    }
+
     public function getDipublikasikan()
     {
         return $this->formatSampul($this->select('berita.*, users.username as penulis_username, kategori.nama as kategori')
@@ -112,7 +123,10 @@ class BeritaModel extends \CodeIgniter\Model
         foreach ($data as &$item) {
             // Check if $item is an array
             if (is_array($item)) {
-                $item['gambar_sampul'] = base_url('uploads/' . $this->extract_first_image_filename($item['konten'], base_url('assets/img/esmonde-yong-wFpJV5EWrSM-unsplash.jpg')));
+                $item['gambar_sampul'] = $this->extract_first_image($item['konten'], base_url('assets/img/esmonde-yong-wFpJV5EWrSM-unsplash.jpg'), false);
+
+                // Uncomment the following and comment above code if the image is from base url
+                // $item['gambar_sampul'] = base_url('uploads/' . $this->extract_first_image_filename($item['konten'], base_url('assets/img/esmonde-yong-wFpJV5EWrSM-unsplash.jpg')));
             }
         }
 
@@ -126,7 +140,7 @@ class BeritaModel extends \CodeIgniter\Model
      * @param string $defaultImageUrl The default image URL if no image found.
      * @return string The filename with extension of the first image found.
      */
-    function extract_first_image_filename(string $html, string $defaultImageUrl): string
+    function extract_first_image(string $html, string $defaultImageUrl, bool $filenameOnly): string
     {
         // Create a DOMDocument object
         $dom = new \DOMDocument();
@@ -146,7 +160,7 @@ class BeritaModel extends \CodeIgniter\Model
             $firstImageSrc = $images->item(0)->getAttribute('src');
             // Extract the filename with extension from the src attribute
             $filenameWithExtension = basename($firstImageSrc);
-            return $filenameWithExtension;
+            return $filenameOnly ? $filenameWithExtension : $firstImageSrc;
         } else {
             // If no image found, return the filename with extension of the default image URL
             return basename(parse_url($defaultImageUrl, PHP_URL_PATH));

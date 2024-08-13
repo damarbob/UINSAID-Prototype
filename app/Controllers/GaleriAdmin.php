@@ -22,9 +22,7 @@ class GaleriAdmin extends BaseControllerAdmin
         $data = $this->galeriModel->getPaginated($page, $perPage, $search);
 
         // Format the data and return as JSON
-        return $this->response->setJSON([
-            "data" => format_tanggal($data)
-        ]);
+        return $this->response->setJSON($data);
     }
 
     public function index()
