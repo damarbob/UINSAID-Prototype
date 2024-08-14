@@ -11,7 +11,7 @@
 <!-- Section CTNA -->
 <section class="fluid section-batik mt-navbar d-flex" id="akademik">
 
-    <div class="lurik align-self-center mt-5"></div>
+    <div class="lurik align-self-center mt-7"></div>
 
     <div class="container p-5">
         <div class="row g-5">
@@ -25,7 +25,7 @@
 
                         <!-- TODO: Hardcoded breadcrumb -->
                         <li class="breadcrumb-item"><a href="/">Beranda</a></li>
-                        <li class="breadcrumb-item"><a href="/rilis-media">Rilis Media</a></li>
+                        <li class="breadcrumb-item"><a href="/berita">Berita</a></li>
                         <li class="breadcrumb-item active fw-bold" aria-current="page">
                             <?= $berita['judul']; ?>
                         </li>
@@ -55,7 +55,9 @@
                 <!-- Picture grid -->
                 <div class="row g-0">
                     <div class="col">
-                        <img data-aos="fade-up" class="" style="border-radius: 5rem; width: 100%; max-height: 512px;object-fit: contain;" src="/assets/img/rektor-lurik.png" />
+                        <div class="ratio ratio-4x3">
+                            <img data-aos="fade-up" class="border border-white object-fit-cover" style="border-width: 16px !important;" src="<?= $berita['gambar_sampul']; ?>" />
+                        </div>
                     </div>
                 </div>
 
@@ -90,7 +92,7 @@
 
                     <!-- Input link siap copy -->
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control bg-light text-secondary" placeholder="" aria-label="" aria-describedby="copy-link" value="<?= base_url("berita/" . $berita["slug"]) ?>" id="beritaUrl" />
+                        <input type="text" class="form-control text-secondary" placeholder="" aria-label="" aria-describedby="copy-link" value="<?= base_url("berita/" . $berita["slug"]) ?>" id="beritaUrl" />
                         <div class="input-group-append">
                             <div class="tooltip"></div>
                             <button class="btn btn-primary btn-lg rounded-start-0" type="button" onclick="myFunction()" onmouseout="outFunc()">
@@ -110,43 +112,51 @@
                     <!-- Artikel pilihan -->
                     <h5 class="mt-5 mb-3">Untuk Anda</h5>
 
-                    <!-- Item artikel -->
-                    <div class="card mb-2">
-                        <div class="row g-0">
+                    <?php foreach ($beritaTerbaru as $key => $bt) : ?>
 
-                            <!-- Gambar kegiatan -->
-                            <div class="col-3 position-relative">
-                                <img src="" class="card-img object-fit-cover w-100 h-100" alt="..." />
-                            </div>
+                        <!-- Item artikel -->
+                        <div class="card mb-2">
+                            <div class="row g-0">
 
-                            <!-- Ringkasan kegiatan -->
-                            <div class="col-9">
-
-                                <!-- Body kegiatan -->
-                                <div class="card-body p-2">
-
-                                    <!-- Judul kegiatan -->
-                                    <p class="card-title">
-                                        <a class="link-dark text-decoration-none crop-text-2" href="<?= base_url() ?>rilis-media/" target="_blank">
-                                            <b>
-                                                Judul
-                                            </b>
-                                        </a>
-                                    </p>
-
-                                    <!-- Kategori dan tanggal terbit -->
-                                    <small class="card-text crop-text-2">
-                                        Kamis, 30 Juni 2024. <b>Kategori</b>
-                                    </small>
+                                <!-- Gambar kegiatan -->
+                                <div class="col-3 position-relative">
+                                    <div class="ratio ratio-4x3">
+                                        <img src="<?= $bt['gambar_sampul'] ?>" class="card-img object-fit-cover" alt="..." />
+                                    </div>
                                 </div>
-                                <!-- Akhir body kegiatan -->
+
+                                <!-- Ringkasan kegiatan -->
+                                <div class="col-9">
+
+                                    <!-- Body kegiatan -->
+                                    <div class="card-body p-2">
+
+                                        <!-- Judul kegiatan -->
+                                        <p class="card-title">
+                                            <a class="text-decoration-none crop-text-2" href="<?= base_url("berita/" . $bt['slug']) ?>" target="_blank">
+                                                <b>
+                                                    <?= $bt['judul'] ?>
+                                                </b>
+                                            </a>
+                                        </p>
+
+                                        <!-- Kategori dan tanggal terbit -->
+                                        <small class="card-text crop-text-2">
+                                            <?= $bt['created_at_terformat'] ?> <b><?= $bt['kategori'] ?></b>
+                                        </small>
+                                    </div>
+                                    <!-- Akhir body kegiatan -->
+
+                                </div>
+
+                                <!-- Akhir ringkasan kegiatan -->
 
                             </div>
-                            <!-- Akhir ringkasan kegiatan -->
-
                         </div>
-                    </div>
-                    <!-- Akhir item artikel -->
+                        <!-- Akhir item artikel -->
+
+
+                    <?php endforeach; ?>
 
                 </div>
             </div>

@@ -211,7 +211,7 @@ $(document).ready(function () {
     clearTextSelection();
     // Prevent default triple-click behavior
     // event.preventDefault();
-    event.stopPropagation();
+    // event.stopPropagation();
   }
 
   // Target buttons, links, and .btn elements
@@ -223,7 +223,7 @@ $(document).ready(function () {
   $(document).on("mousedown", function (event) {
     if (event.originalEvent.detail > 2) {
       // This indicates a triple click
-      event.preventDefault();
+      // event.preventDefault();
     }
   });
 });
@@ -304,32 +304,6 @@ var swiperHero = new Swiper("#swiper-hero", {
     delay: 5000,
     disableOnInteraction: false,
   },
-});
-
-$(document).ready(function () {
-  var hero = daftarHero;
-  var currentIndex = swiperHero.realIndex;
-
-  function changeBackgroundImage(index) {
-    $("#hero .section-slideshow").fadeOut("slow", function () {
-      // Update the background image
-      $(this).css(
-        "background-image",
-        "url(" + hero[index].featured_image + ")"
-        // "url(https://www.uinsaid.ac.id/files/upload/IMG-20231104-WA0020.jpg)"
-      );
-      // Fade back in
-      $(this).fadeIn("slow");
-    });
-  }
-
-  // Initialize with the first image
-  changeBackgroundImage(currentIndex);
-
-  swiperHero.on("slideChange", function () {
-    currentIndex = swiperHero.realIndex;
-    changeBackgroundImage(currentIndex);
-  });
 });
 
 // Light mode/dark mode

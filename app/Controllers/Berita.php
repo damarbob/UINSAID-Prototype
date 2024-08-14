@@ -17,9 +17,11 @@ class Berita extends BaseController
         helper('format');
         $this->data['judul'] = lang('Admin.berita');
 
-        $berita = format_tanggal($this->beritaModel->get());
+        $berita = format_tanggal($this->beritaModel->getPaginated());
         // dd(format_tanggal($berita));
-        $this->data['berita'] = $berita;
+        $this->data['berita'] = format_tanggal($berita);
+        $this->data['pagerBerita'] = $this->beritaModel->pager;
+        $this->data['beritaTerbaru'] = format_tanggal($this->beritaModel->getTerbaru(3));
 
         return view('berita', $this->data);
     }
@@ -32,6 +34,9 @@ class Berita extends BaseController
         $berita = $this->beritaModel->getBySlug($slug);
         // dd(format_tanggal($berita));
         $this->data['berita'] = format_tanggal($berita);
+        $this->data['beritaTerbaru'] = format_tanggal($this->beritaModel->getTerbaru(3));
+
+        // dd($berita);
 
         return view('berita_item', $this->data);
     }

@@ -66,6 +66,15 @@ class BeritaModel extends \CodeIgniter\Model
             ->findAll());
     }
 
+    public function getPaginated()
+    {
+        return $this->formatSampul($this->select('berita.*, users.username as penulis_username, kategori.nama as kategori')
+            ->join('users', 'users.id = berita.id_penulis', 'left')
+            ->join('kategori', 'kategori.id = berita.id_kategori', 'left')
+            ->orderBy('berita.created_at', 'DESC')
+            ->paginate(10, 'berita'));
+    }
+
     public function getTerbaru($jumlah)
     {
         return $this->formatSampul($this->select('berita.*, users.username as penulis_username, kategori.nama as kategori')
@@ -86,7 +95,7 @@ class BeritaModel extends \CodeIgniter\Model
 
     public function getBySlug($slug)
     {
-        return $this->formatSampul($this->select('berita.*, users.username as penulis_username, kategori.nama as kategori')
+        return $this->formatSampulSingle($this->select('berita.*, users.username as penulis_username, kategori.nama as kategori')
             ->join('users', 'users.id = berita.id_penulis', 'left')
             ->join('kategori', 'kategori.id = berita.id_kategori', 'left')
             ->where('berita.slug', $slug)
@@ -129,6 +138,20 @@ class BeritaModel extends \CodeIgniter\Model
                 // $item['gambar_sampul'] = base_url('uploads/' . $this->extract_first_image_filename($item['konten'], base_url('assets/img/esmonde-yong-wFpJV5EWrSM-unsplash.jpg')));
             }
         }
+
+        // dd($data);
+
+        return $data;
+    }
+
+    public function formatSampulSingle($data)
+    {
+        // tampilan error kalau tidak ada slug artikel yang ada di database
+        if (empty($data)) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Artikel tidak ditemukan.');
+        }
+
+        $data['gambar_sampul'] = $this->extract_first_image($data['konten'], base_url('assets/img/esmonde-yong-wFpJV5EWrSM-unsplash.jpg'), false);
 
         return $data;
     }

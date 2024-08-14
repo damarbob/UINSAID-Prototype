@@ -60,7 +60,7 @@
 
             <div class="col-3">
 
-                <div class="container bg-light bg-gradient border rounded-5">
+                <div class="container bg-gradient border rounded-5">
                     <div class="row">
                         <div class="col">
 
