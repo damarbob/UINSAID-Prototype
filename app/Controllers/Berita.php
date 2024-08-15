@@ -23,6 +23,8 @@ class Berita extends BaseController
         $this->data['pagerBerita'] = $this->beritaModel->pager;
         $this->data['beritaTerbaru'] = format_tanggal($this->beritaModel->getTerbaru(3));
 
+        $this->data['kategori'] = $this->kategoriModel->findAll();
+
         return view('berita', $this->data);
     }
 
@@ -39,5 +41,24 @@ class Berita extends BaseController
         // dd($berita);
 
         return view('berita_item', $this->data);
+    }
+
+    public function getByKategori($kategori)
+    {
+        helper('format');
+        $this->data['judul'] = lang('Admin.berita');
+
+        $berita = $this->beritaModel->getByKategori($kategori);
+        // dd(format_tanggal($berita));
+        $this->data['berita'] = format_tanggal($berita);
+        $this->data['pagerBerita'] = $this->beritaModel->pager;
+        $this->data['beritaTerbaru'] = null;
+
+        $this->data['kategori'] = $this->kategoriModel->findAll();
+        $this->data['namaKategori'] = $kategori;
+
+        // dd(sizeof($berita));
+
+        return view('berita_kategori', $this->data);
     }
 }

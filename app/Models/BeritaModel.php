@@ -14,6 +14,15 @@ class BeritaModel extends \CodeIgniter\Model
 
     protected $allowedFields = ['id_penulis', 'judul', 'slug', 'konten', 'ringkasan', 'id_kategori', 'status'];
 
+    public function getByKategori($kategori)
+    {
+        return $this->formatSampul($this->select('berita.*, users.username as penulis_username, kategori.nama as kategori')
+            ->join('users', 'users.id = berita.id_penulis', 'left')
+            ->join('kategori', 'kategori.id = berita.id_kategori', 'left')
+            ->where('kategori.nama', $kategori)
+            ->paginate(10, 'berita'));
+    }
+
     public function getBerita($limit, $start, $search = null, $order = 'judul', $dir = 'asc')
     {
         $builder = $this->db->table($this->table)

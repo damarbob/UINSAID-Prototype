@@ -35,6 +35,7 @@ $routes->get('riset-publikasi', 'RisetPublikasi');
 $routes->get('tentang-kami', 'TentangKami');
 $routes->get('/berita', 'Berita');
 $routes->get('/berita/(:any)', 'Berita::get/$1');
+$routes->get('/kategori/(:any)', 'Berita::getByKategori/$1');
 $routes->get('test', 'BeritaAdmin::test');
 
 // Admin

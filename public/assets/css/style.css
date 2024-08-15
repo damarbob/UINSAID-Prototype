@@ -467,7 +467,8 @@ body {
   background-repeat: no-repeat;
   /* background-attachment: fixed; */
   /* background-size: cover; */
-  width: 530px;
+  width: 100%;
+  max-width: 530px;
   /* max-width: 1920px; */
   /* height: 192px; */
   height: 20px;
