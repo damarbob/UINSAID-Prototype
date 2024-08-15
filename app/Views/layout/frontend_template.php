@@ -256,46 +256,46 @@
 
       <!-- Toggle button -->
       <button class="navbar-toggler" type="button" data-mdb-toggle="collapse"
-        data-mdb-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+        data-mdb-target="#mobileNavbar" aria-controls="mobileNavbar" aria-expanded="false"
         aria-label="Toggle navigation">
         <i class="fas fa-bars text-light"></i>
       </button>
 
       <!-- Collapsible wrapper -->
-      <div class="collapse navbar-collapse justify-content-evenly" id="navbarSupportedContent">
+      <div class="collapse navbar-collapse justify-content-evenly" id="mobileNavbar">
         <!-- Left links -->
-        <ul class="navbar-nav d-inline-flex flex-row">
-          <li class="nav-item text-center" style="flex: 1;">
+        <ul class="navbar-nav d-inline-flex flex-row w-100">
+          <li class="nav-item text-center" style="flex: 1;"> <!-- todo: style -->
             <a class="nav-link active" aria-current="page" href="#!">
               <div>
                 <i class="fas fa-home fa-lg mb-1"></i>
               </div>
-              <span style="font-size: small;">Beranda</span>
+              <span style="font-size: small;">Beranda</span> <!-- todo: style -->
             </a>
           </li>
-          <li class="nav-item text-center" style="flex: 1;">
+          <li class="nav-item text-center" style="flex: 1;"> <!-- todo: style -->
             <a class="nav-link" href="#!">
               <div>
                 <i class="fas fa-globe-americas fa-lg mb-1"></i>
                 <!-- <span class="badge rounded-pill badge-notification bg-success">11</span> -->
               </div>
-              <span style="font-size: small;">Berita</span>
+              <span style="font-size: small;">Berita</span> <!-- todo: style -->
             </a>
           </li>
-          <li class="nav-item text-center" style="flex: 1;">
+          <li class="nav-item text-center" style="flex: 1;"> <!-- todo: style -->
             <a class="nav-link" href="#!">
               <div>
                 <i class="fa-solid fa-user-plus fa-lg mb-1"></i>
               </div>
-              <span style="font-size: small;">Mahasiswa Baru</span>
+              <span style="font-size: small;">Penerimaan</span> <!-- todo: style -->
             </a>
           </li>
-          <li class="nav-item text-center" style="flex: 1;">
+          <li class="nav-item text-center" style="flex: 1;"> <!-- todo: style -->
             <a class="nav-link" href="#!">
               <div>
                 <i class="fa-solid fa-user-plus fa-lg mb-1"></i>
               </div>
-              <span style="font-size: small;">Aksesibilitas</span>
+              <span style="font-size: small;">Aksesibilitas</span> <!-- todo: style -->
             </a>
           </li>
           <!-- <li class="nav-item dropup text-center mx-2 mx-lg-1">

@@ -114,8 +114,7 @@
         <div class="col-lg-6" data-aos="fade-right">
           <div class="card d-flex flex-sm-row border border-dark border-1">
             <div class="card-body pe-0">
-              <!-- <h5 class="card-title display-5"><i class="bi bi-buildings text-primary"></i></h5> -->
-              <img src="<?= $key['gambar'] ?>" style="width: 128px;">
+              <img src="<?= $key['gambar'] ?>" style="width: 128px;"> <!-- todo: style -->
             </div>
             <div class="card-body flex-grow-1">
               <h5 class="card-title fw-bold"><?= $key['judul'] ?></h5>
@@ -154,9 +153,6 @@
                   <h5 class="card-title fw-bold"><?= $key['judul'] ?></h5>
                   <p class="card-text"><?= $key['keterangan'] ?></p>
                 </div>
-                <!-- <div class="card-body"> -->
-                <img src="<?= $key['gambar'] ?>" style="width: 64px;">
-                <!-- </div> -->
               </div>
             </div>
           <?php endforeach ?>
@@ -186,7 +182,7 @@
         <div class="row g-2 mb-4">
           <?php foreach ($statistik['utama'] as $s => $key) : ?>
             <!-- <div class="col-md-4"> -->
-            <div class="p-3 me-4 border border-dark border-1" style="width:fit-content;">
+            <div class="p-3 me-4 border border-dark border-1" style="width:fit-content;"> <!-- todo: style -->
               <div class="d-inline-flex align-items-center">
                 <img src="<?= $key['gambar'] ?>" class="wh-64px me-2">
                 <div class="d-flex text-start flex-column justify-content-center">
@@ -202,7 +198,7 @@
         <div class="row g-2 mb-4">
           <?php foreach ($statistik['lainnya'] as $s => $key) : ?>
             <!-- <div class="col-md-4"> -->
-            <div class="p-3 me-4 border border-dark border-1" style="width: auto;">
+            <div class="p-3 me-4 border border-dark border-1" style="width: auto;"> <!-- todo: style -->
               <p class=""><span class="h5 fw-bold"><?= $key['nilai'] ?>
                 </span><?= $key['namaStatistik'] ?></p>
             </div>
@@ -226,9 +222,9 @@
     <div class="row mb-4">
       <h2>Prestasi Mahasiswa</h2>
       <div class="d-flex justify-content-evenly align-items-center">
-        <div class="prestasi-swiper-button-prev"><img src="assets/img/icons8-back-to-96.png" style="width: 48px; height: 48px" /></div>
+        <div class="prestasi-swiper-button-prev d-none d-md-block"><img src="assets/img/icons8-back-to-96.png" style="width: 48px; height: 48px" /></div> <!-- todo: style -->
 
-        <div class="swiper" id="swiper-prestasi" data-aos="fade-up" data-aos-delay="300" style="width: 80%;">
+        <div class="swiper" id="swiper-prestasi" data-aos="fade-up" data-aos-delay="300" style="width: 80%;"> <!-- todo: style -->
           <div class="swiper-wrapper ">
 
             <!-- Swiper prestasi terbaru -->
@@ -254,7 +250,7 @@
           <div class="swiper-pagination"></div>
 
         </div>
-        <div class="prestasi-swiper-button-next"><img src="assets/img/icons8-next-page-96.png" style="width: 48px; height: 48px" /></div>
+        <div class="prestasi-swiper-button-next d-none d-md-block"><img src="assets/img/icons8-next-page-96.png" style="width: 48px; height: 48px" /></div> <!-- todo: style -->
       </div>
 
     </div>
@@ -319,7 +315,7 @@
     <div class="row g-4 mb-4 justify-content-center" data-aos="fade-up">
       <div class="d-flex justify-content-evenly align-items-center">
 
-        <div class="berita-swiper-button-prev"><img src="assets/img/icons8-back-to-96.png" style="width: 48px; height: 48px" /></div>
+        <div class="berita-swiper-button-prev d-none d-md-block"><img src="assets/img/icons8-back-to-96.png" style="width: 48px; height: 48px" /></div> <!-- todo: style -->
 
 
         <!-- Slider berita -->
@@ -347,7 +343,7 @@
           </div>
         </div>
 
-        <div class="berita-swiper-button-next"><img src="assets/img/icons8-next-page-96.png" style="width: 48px; height: 48px" /></div>
+        <div class="berita-swiper-button-next d-none d-md-block"><img src="assets/img/icons8-next-page-96.png" style="width: 48px; height: 48px" /></div> <!-- todo: style -->
 
       </div>
     </div>
@@ -517,19 +513,19 @@
     <!-- Logo -->
     <div class="row gx-4 gy-5 align-items-center align-self-center justify-content-center" data-aos="fade-up">
       <div class="col-xl-2 col-lg-3 col-md-4 d-flex justify-content-center">
-        <img src="assets/img/LOGO BLU_SPEEDCIRCLE.png" style="width: 128px;height: 100%;object-fit: scale-down;" />
+        <img src="assets/img/LOGO BLU_SPEEDCIRCLE.png" style="width: 128px;height: 100%;object-fit: scale-down;" /> <!-- todo: style -->
       </div>
       <div class="col-xl-2 col-lg-3 col-md-4 d-flex justify-content-center">
-        <img src="https://th.bing.com/th/id/OIP.fineWnFIFMDVRCzgORCDFQHaHa?pid=ImgDetMain" style="width: 128px;height: 100%;object-fit: scale-down;" />
+        <img src="https://th.bing.com/th/id/OIP.fineWnFIFMDVRCzgORCDFQHaHa?pid=ImgDetMain" style="width: 128px;height: 100%;object-fit: scale-down;" /> <!-- todo: style -->
       </div>
       <div class="col-xl-2 col-lg-3 col-md-4 d-flex justify-content-center">
-        <img src="https://iconlogovector.com/uploads/images/2023/05/lg-7a359c6dfcb72ca61d94df92ac78afdf98.jpg" style="width: 128px;height: 100%;object-fit: scale-down;" />
+        <img src="https://iconlogovector.com/uploads/images/2023/05/lg-7a359c6dfcb72ca61d94df92ac78afdf98.jpg" style="width: 128px;height: 100%;object-fit: scale-down;" /> <!-- todo: style -->
       </div>
       <div class="col-xl-2 col-lg-3 col-md-4 d-flex justify-content-center">
-        <img src="https://logosmarcas.net/wp-content/uploads/2020/09/SpaceX-Simbolo.jpg" style="width: 128px;height: 100%;object-fit: scale-down;" />
+        <img src="https://logosmarcas.net/wp-content/uploads/2020/09/SpaceX-Simbolo.jpg" style="width: 128px;height: 100%;object-fit: scale-down;" /> <!-- todo: style -->
       </div>
       <div class="col-xl-2 col-lg-3 col-md-4 d-flex justify-content-center">
-        <img src="https://th.bing.com/th/id/OIP.arezqGrVeKUAmuKTaXGGEgHaEK?pid=ImgDetMain" style="width: 128px;height: 100%;object-fit: scale-down;" />
+        <img src="https://th.bing.com/th/id/OIP.arezqGrVeKUAmuKTaXGGEgHaEK?pid=ImgDetMain" style="width: 128px;height: 100%;object-fit: scale-down;" /> <!-- todo: style -->
       </div>
     </div>
 

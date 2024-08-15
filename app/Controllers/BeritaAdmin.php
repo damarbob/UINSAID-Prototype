@@ -132,9 +132,12 @@ class BeritaAdmin extends BaseControllerAdmin
 
         // Cek kategori
         $kategoriNama = $this->request->getVar('kategori');
-        $kategori = $this->kategoriModel->getKategoriByNama($kategoriNama);
 
-        // Simpan kategori baru
+        if ($kategoriNama == '') {
+            $kategoriNama = $this->request->getVar('kategori_lainnya');
+        }
+        $kategori = $this->kategoriModel->getKategoriByNama($kategoriNama);
+        // Cek kategori. Jika baru, simpan kategori baru
         if (!$kategori) {
             $this->kategoriModel->save(['nama' => $kategoriNama]);
             $kategori = $this->kategoriModel->getKategoriByNama($kategoriNama);

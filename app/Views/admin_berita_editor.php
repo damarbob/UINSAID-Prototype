@@ -38,20 +38,20 @@ if ($mode == "tambah") {
     </div>
 <?php endif; ?>
 
-<form method="post" action="<?= ($mode == "tambah") ? base_url('/admin/berita/tambah/simpan') : base_url('/admin/berita/sunting/simpan/') . $berita['id'] ?>" class="form-container" enctype="multipart/form-data">
+<form method="post" action="<?= ($mode == "tambah") ? base_url('/admin/berita/tambah/simpan') : base_url('/admin/berita/sunting/simpan/') . $berita['id'] ?>" class="form-container needs-validation" enctype="multipart/form-data" novalidate>
     <div class="row mb-3">
         <div class="col-md-9">
             <!-- Judul -->
             <div class="form-floating mb-3">
                 <input id="judul" name="judul" class="form-control <?= (validation_show_error('judul')) ? 'is-invalid' : ''; ?>" type="text" value="<?= $valueJudul ?>" placeholder="<?= lang('Admin.judul') ?>" required />
+                <label for="judul"><?= lang('Admin.judul') ?></label>
                 <div class="invalid-feedback">
                     <?= validation_show_error('judul'); ?>
                 </div>
-                <label for="judul"><?= lang('Admin.judul') ?></label>
             </div>
             <!-- Konten editor -->
-            <div class="mb-3">
-                <textarea id="konten" name="konten" class="form-control tinymce <?= (validation_show_error('konten')) ? 'is-invalid' : ''; ?>" rows="20" type="text"><?= $valueKonten ?></textarea>
+            <div class="form mb-3">
+                <textarea id="konten" name="konten" class="form-control tinymce <?= (validation_show_error('konten')) ? 'is-invalid' : ''; ?>" rows="20" type="text" required><?= $valueKonten ?></textarea>
                 <div class="invalid-feedback">
                     <?= validation_show_error('konten'); ?>
                 </div>
@@ -64,14 +64,29 @@ if ($mode == "tambah") {
                 <label class="control-label mb-2"><?= lang('Admin.ringkasan') ?></label>
             </div>
             <!-- Kategori -->
-            <div class="form-floating mb-3">
+            <!-- <div class="form-floating mb-3">
                 <input id="kategori" name="kategori" class="form-control" type="text" value="<?= $valueKategori ?>" placeholder="<?= lang('Admin.kategori') ?>" />
                 <label for="kategori"><?= lang('Admin.kategori') ?></label>
                 <input type="hidden" id="is_new_category" name="is_new_category" value="0">
                 <div class="invalid-feedback">
                     <?= validation_show_error('kategori'); ?>
                 </div>
+            </div> -->
+            <?php foreach ($kategori as $k => $key): ?>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="kategori" id="kategoriRadio<?= $key['nama'] ?>" value="<?= $key['nama'] ?>" <?= $key['nama'] == $valueKategori ? 'checked' : '' ?> required />
+                    <label class="form-check-label" for="kategoriRadio<?= $key['nama'] ?>"><?= $key['nama'] ?></label>
+                </div>
+            <?php endforeach ?>
+            <div class="form-check mb-5">
+                <input class="form-check-input" type="radio" name="kategori" id="kategoriRadioLainnya" value="" required />
+                <label class="form-check-label" for="kategoriRadioLainnya"><?= lang('Admin.lainnya') ?></label>
+                <input type="text" class="form-control mt-2 mb-3" id="inputKategoriLainnya" name="kategori_lainnya" placeholder="input kategori" disabled>
+                <div class="invalid-feedback">
+                    <?= lang('pilihAtauInputKategori') ?>
+                </div>
             </div>
+
             <!-- Status -->
             <div class="form-floating mb-3">
                 <select id="status" name="status" class="form-select <?= (validation_show_error('status')) ? 'is-invalid' : ''; ?>" aria-label="Default select">
@@ -200,9 +215,63 @@ if ($mode == "tambah") {
     }
 </script>
 
+<!-- Handle kategori lainnya -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const radioLainnya = document.getElementById('kategoriRadioLainnya');
+        const inputKategoriLainnya = document.getElementById('inputKategoriLainnya');
+        const form = document.querySelector('form');
+
+        // Event listener for radio buttons
+        document.querySelectorAll('input[name="kategori"]').forEach(function(radio) {
+            radio.addEventListener('change', function() {
+                if (radioLainnya.checked) {
+                    inputKategoriLainnya.disabled = false;
+                    inputKategoriLainnya.required = true;
+                } else {
+                    inputKategoriLainnya.disabled = true;
+                    inputKategoriLainnya.required = false;
+                    inputKategoriLainnya.value = ''; // Clear the input if another option is selected
+                }
+            });
+        });
+
+        // Form submission handler
+        // form.addEventListener('submit', function(event) {
+        //     if (radioLainnya.checked && inputKategoriLainnya.value.trim() === '') {
+        //         inputKategoriLainnya.classList.add('is-invalid');
+        //         event.preventDefault(); // Prevent form submission if the input is empty
+        //     } else {
+        //         inputKategoriLainnya.classList.remove('is-invalid');
+        //     }
+        // });
+    });
+</script>
+
+<script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (() => {
+        'use strict';
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        const forms = document.querySelectorAll('.needs-validation');
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms).forEach((form) => {
+            form.addEventListener('submit', (event) => {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    form.classList.add('was-validated');
+                }
+            }, false);
+        });
+    })();
+</script>
+
 <!-- Auto complete kategori -->
 <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
-<script>
+<!-- <script>
     $(function() {
         var kategori = <?= json_encode(array_column($kategori, 'nama')) ?>;
         $("#kategori").autocomplete({
@@ -224,5 +293,5 @@ if ($mode == "tambah") {
             }
         });
     });
-</script>
+</script> -->
 <?= $this->endSection() ?>
