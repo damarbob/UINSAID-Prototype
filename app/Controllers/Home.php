@@ -89,17 +89,17 @@ class Home extends BaseController
             'keterangan'    => 'Universitas Islam Negeri Raden Mas Said Surakarta (UIN RM Said), yang  dahulu bernama Sekolah Tinggi Agama Islam Negeri (STAIN) Surakarta  kemudian berubah alih status... ',
             'poin'          => [
                 [
-                    'gambar'        => '',
+                    'gambar'        => 'assets/img/icon/ikon-akademik.png',
                     'judul'         => 'Pendidikan',
                     'keterangan'    => 'Temukan program pendidikan terbaik untuk Anda di UIN Raden Mas Said Surakarta berdasarkan pilihan  program studi dan jenis gelar yang kamu mau. Bergabunglah dengan kami  dan wujudkan potensi diri Anda melalui pendidikan bermutu.'
                 ],
                 [
-                    'gambar'        => '',
+                    'gambar'        => 'assets/img/icon/ikon-orang.png',
                     'judul'         => 'Pengabdian Masyarakat',
                     'keterangan'    => 'UIN Raden Mas Said Surakarta bertujuan mewujudkan pengabdian kepada  masyarakat yang berlandaskan Tri Dharma Perguruan Tinggi. Pengabdian  kepada masyarakat dilakukan melalui kegiatan fakultas, dosen, dan  mahasiswa dalam berbagai bidang. '
                 ],
                 [
-                    'gambar'        => 'assets/img/wisuda.jpeg',
+                    'gambar'        => 'assets/img/icon/ikon-cari.png',
                     'judul'         => 'Riset dan Penelitian',
                     'keterangan'    => 'Kami berkomitmen untuk mewujudkan penelitian  yang berlandaskan Tri Dharma Perguruan Tinggi. Dalam upaya mewujudkan  penelitian yang berhasil, kami mendorong kolaborasi interdisipliner dan  kemitraan dengan berbagai institusi.'
                 ]
@@ -109,17 +109,17 @@ class Home extends BaseController
         $this->data['statistik'] = [
             'utama' => [
                 [
-                    'gambar'        => '',
+                    'gambar'        => 'assets/img/icon/ikon-orang-oranye.png',
                     'namaStatistik' => 'Mahasiswa Aktif',
                     'nilai'         => '21536'
                 ],
                 [
-                    'gambar'        => '',
+                    'gambar'        => 'assets/img/icon/ikon-akademik-oranye.png',
                     'namaStatistik' => 'Program Studi',
                     'nilai'         => '33'
                 ],
                 [
-                    'gambar'        => '',
+                    'gambar'        => 'assets/img/icon/ikon-akademik-oranye.png',
                     'namaStatistik' => 'Program Pascasarjana',
                     'nilai'         => '9'
                 ]
@@ -313,17 +313,63 @@ class Home extends BaseController
             [
                 "judul" => "Prosedur Pembuatan KTM Untuk Mahasiswa Baru",
                 "slug" => "Catat, UIN RM Said Masuk Jajaran Top 10 PTKIN",
-                "tgl_terbit" => "30 Maret 2024"
+                "tanggal" => $this->formatDateToArray("30 Maret 2024")[0],
+                "bulan" => $this->formatDateToArray("30 Maret 2024")[1]
             ],
             [
                 "judul" => "Pendaftaran Wisuda Ke-56 UIN Raden Mas Said Surakarta Juli 2024",
-                "tgl_terbit" => "30 Maret 2024"
+                "tanggal" => $this->formatDateToArray("30 Maret 2024")[0],
+                "bulan" => $this->formatDateToArray("30 Maret 2024")[1]
             ],
             [
                 "judul" => "Registrasi Mahasiswa Baru UIN Raden Mas Said Surakarta Jalur SNBT ",
-                "tgl_terbit" => "30 Maret 2024"
+                "tanggal" => $this->formatDateToArray("30 Maret 2024")[0],
+                "bulan" => $this->formatDateToArray("30 Maret 2024")[1]
             ],
         ];
         return view('beranda', $this->data);
+    }
+
+    function formatDate($date)
+    {
+        // Convert the date string to a timestamp
+        $timestamp = strtotime($date);
+
+        // Format the date to display only the day and the first three letters of the month
+        return date('d M', $timestamp);
+    }
+
+    function formatDateToArray($date)
+    {
+        // Array to map Indonesian month names to their English equivalents
+        $indonesian_months = [
+            'Januari' => 'January',
+            'Februari' => 'February',
+            'Maret' => 'March',
+            'April' => 'April',
+            'Mei' => 'May',
+            'Juni' => 'June',
+            'Juli' => 'July',
+            'Agustus' => 'August',
+            'September' => 'September',
+            'Oktober' => 'October',
+            'November' => 'November',
+            'Desember' => 'December'
+        ];
+
+        // Replace Indonesian month name with English equivalent
+        foreach ($indonesian_months as $indonesian => $english) {
+            $date = str_replace($indonesian, $english, $date);
+        }
+
+        // Convert the date string to a timestamp
+        $timestamp = strtotime($date);
+
+        // Extract the day and the abbreviated month name
+        $day = date('d', $timestamp);
+        $month = date('M', $timestamp);
+
+        // Return them as an array
+        return [$day, $month];
     }
 }

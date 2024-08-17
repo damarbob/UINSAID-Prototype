@@ -78,8 +78,11 @@
     <!-- Container wrapper -->
     <div class="container-fluid px-5">
 
-      <!-- Navbar brand -->
-      <a class="navbar-brand" href="#"></a>
+
+      <div class="bg-white position-absolute top-0 py-4 px-4 shadow-lg">
+        <!-- Navbar brand -->
+        <a class="navbar-brand" href="#"></a>
+      </div>
 
       <!-- Toggle button -->
       <button data-mdb-collapse-init class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
