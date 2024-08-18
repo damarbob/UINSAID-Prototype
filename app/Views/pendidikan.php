@@ -26,7 +26,7 @@
         Berbagai program pendidikan sarjana, magister, dan doktoral tersedia sesuai minat Anda untuk mendukung karir dan keahlian profesional di masa depan.
       </div>
       <div class="col-lg-2 col-md-4">
-        <button class="btn btn-primary">Program Pendidikan</button>
+        <button class="btn btn-primary">Mulai Pendaftaran</button>
       </div>
     </div>
   </div>

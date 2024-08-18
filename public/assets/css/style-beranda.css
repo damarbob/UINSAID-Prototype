@@ -1,3 +1,8 @@
+#hero .swiper-button-prev,
+#hero .swiper-button-next {
+  font-weight: 900;
+  color: var(--mdb-body-bg);
+}
 /* Section about */
 #about {
   background: linear-gradient(
@@ -50,14 +55,13 @@
 #section-sambutan-rektor .row {
   position: relative;
 }
-#section-sambutan-rektor img.foto-kecil {
+#section-sambutan-rektor .foto-kecil {
   position: absolute;
   width: 50%;
-  bottom: 0px;
-  right: 0px;
-  border-color: white;
-  border-radius: 8px;
-  border-width: 4px;
+  bottom: -32px;
+  right: -32px;
+  border: 1rem solid var(--mdb-body-bg);
+  border-radius: 1rem;
 }
 
 /* Section Statistik */
@@ -90,7 +94,10 @@
   object-fit: cover;
 }
 .prestasi-card .card-img-overlay {
-  background: linear-gradient(rgba(0, 0, 0, 0), rgba(47, 81, 81, 0.8));
+  background: linear-gradient(
+    rgba(0, 0, 0, 0),
+    rgba(var(--mdb-secondary-rgb), 0.8)
+  );
   position: absolute;
   top: 0;
   left: 0;
@@ -185,7 +192,7 @@
 
 /* Section Pojok Pimpinan */
 #section-pojok-pimpinan .container .row {
-  background-color: #f1f1f1;
+  background: var(--mdb-secondary-bg);
   border-radius: 8px;
   padding-bottom: 24px;
 }
@@ -284,7 +291,7 @@ section.fluid .container {
   background-position: center;
   position: relative;
 }
-.section-slideshow {
+/* .section-slideshow {
   position: absolute;
   width: 100%;
   max-width: 1920px;
@@ -307,7 +314,7 @@ section.fluid .container {
     transparent 60%
   );
   pointer-events: none;
-}
+} */
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (max-width: 768px) {
   #section-kegiatan .section-slideshow::after {

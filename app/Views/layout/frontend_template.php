@@ -42,7 +42,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
   <!-- Bootstrap -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"> -->
   <!-- MDB -->
   <link id="mdbCSS" rel="stylesheet" href="<?= base_url("assets/css/b.css") ?>" />
   <!-- Custom CSS -->
@@ -76,11 +76,10 @@
   <!-- Navbar -->
   <nav class="navbar navbar-expand-xl navbar-dark fixed-top" id="frontend-navbar">
     <!-- Container wrapper -->
-    <div class="container-fluid px-5">
+    <div class="container px-4 px-sm-5">
 
-
-      <div class="bg-white position-absolute top-0 py-4 px-4 shadow-lg">
-        <!-- Navbar brand -->
+      <!-- Navbar brand -->
+      <div id="navbarBrandWrapper" class="bg-white position-absolute top-0 py-2 px-2 rounded-bottom-3 shadow-lg">
         <a class="navbar-brand" href="/"></a>
       </div>
 
@@ -91,7 +90,7 @@
 
       <!-- Collapsible wrapper -->
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 me-4 fw-bold">
 
           <!-- Dropdown Tentang Kami -->
           <li class="nav-item dropdown">
@@ -245,6 +244,8 @@
         </form>
 
       </div>
+      <!-- Akhir daro collapsible wrapper -->
+
     </div>
     <!-- Container wrapper -->
   </nav>
@@ -339,23 +340,34 @@
   </div>
 
   <!-- Footer -->
-  <footer id="footer" class="section-batik rev-90">
+  <footer id="footer" class="section-batik rev-90 text-light">
     <!-- Footer bagian atas -->
-    <div class="footer-top">
-      <div class="container p-5">
-        <div class="row">
-          <!-- Footer & alamat -->
-          <div class="col-lg-3 col-md-6">
-            <img class="mb-4" width="128px" src="assets/img/icon.png" />
-            <p>
-              Jl. Pandawa, Pucangan, Kartasura, <br>
-              Sukoharjo, Jawa Tengah, <br>
-              Indonesia.
-            </p>
+    <div class="footer-top container p-5 rounded-top-5" style="background: #013316;">
+      <div class="row">
+        <!-- Footer & alamat -->
+        <div class="col-lg-3 col-md-6">
+          <img class="mb-4" width="256px" src="assets/img/logo-uin-only-horizontal-white.png" />
+          <p>
+            Jl. Pandawa, Pucangan, Kartasura, <br>
+            Sukoharjo, Jawa Tengah, <br>
+            Indonesia.
+          </p>
+          <div class="footer-links">
+            <ul>
+              <li>
+                <img src="assets/img/icon/ikon-telepon.png" class="me-2" width="24px">
+                <a href="#">+62271 7815 16</a>
+              </li>
+              <li>
+                <img src="assets/img/icon/ikon-surel.png" class="me-2" width="24px">
+                <a href="#">humas@uinsaid.ac.id</a>
+              </li>
+            </ul>
           </div>
+        </div>
 
-          <!-- Kontak -->
-          <div class="col-lg-3 col-md-6 footer-links">
+        <!-- Kontak -->
+        <!-- <div class="col-lg-3 col-md-6 footer-links">
             <h4>Kontak</h4>
             <ul>
               <li>
@@ -371,67 +383,121 @@
                 <a href="#">humas@uinsaid.ac.id</a>
               </li>
             </ul>
-          </div>
+          </div> -->
 
-          <!-- Fakultas dan pascasarjana -->
-          <div class="col-lg-3 col-md-6 footer-links">
-            <h4>Fakultas dan Pascasarjana</h4>
-            <ul>
-              <li>
-                <a href="#" onclick="tampilkanInformasiPengembangan()">Fakultas Usluhuddin dan Dakwah</a>
-              </li>
-              <li>
-                <a href="#" onclick="tampilkanInformasiPengembangan()">Fakultas Syariah</a>
-              </li>
-              <li>
-                <a href="#" target="_blank">Fakultas Ilmu Tarbiyah</a>
-              </li>
-              <li>
-                <a href="#" target="_blank">Fakultas Ekonomi dan Bisnis Islam</a>
-              </li>
-              <li>
-                <a href="#" target="_blank">Fakultas Adab dan Bahasa</a>
-              </li>
-              <li>
-                <a href="#" target="_blank">Pascasarjana</a>
-              </li>
-            </ul>
-          </div>
-
-          <!-- Media sosial -->
-          <div class="col-lg-3 col-md-6">
-            <h4>Ikuti kami</h4>
-
-            <a class="fs-1" href="#" target="_blank">
-              <i class="bx bxl-instagram me-2"></i>
-            </a>
-            <a class="fs-1" href="#" target="_blank">
-              <i class="bx bxl-tiktok me-2"></i>
-            </a>
-            <a class="fs-1" href="#" target="_blank">
-              <i class="bx bxl-twitter me-2"></i>
-            </a>
-            <a class="fs-1" href="#" target="_blank">
-              <i class="bx bxl-facebook me-2"></i>
-            </a>
-            <a class="fs-1" href="#" target="_blank">
-              <i class="bx bxl-youtube me-2"></i>
-            </a>
-          </div>
-          <!-- Akhir media sosial -->
+        <!-- Fakultas dan pascasarjana -->
+        <div class="col-lg-3 col-md-6 footer-links">
+          <h4>Fakultas dan Pascasarjana</h4>
+          <ul>
+            <li>
+              <a href="#" onclick="tampilkanInformasiPengembangan()">Fakultas Usluhuddin dan Dakwah</a>
+            </li>
+            <li>
+              <a href="#" onclick="tampilkanInformasiPengembangan()">Fakultas Syariah</a>
+            </li>
+            <li>
+              <a href="#" target="_blank">Fakultas Ilmu Tarbiyah</a>
+            </li>
+            <li>
+              <a href="#" target="_blank">Fakultas Ekonomi dan Bisnis Islam</a>
+            </li>
+            <li>
+              <a href="#" target="_blank">Fakultas Adab dan Bahasa</a>
+            </li>
+            <li>
+              <a href="#" target="_blank">Pascasarjana</a>
+            </li>
+          </ul>
         </div>
+
+        <!-- Lembaga -->
+        <div class="col-lg-3 col-md-6 footer-links">
+          <h4>Lembaga</h4>
+          <ul>
+            <li>
+              <a href="#" onclick="tampilkanInformasiPengembangan()">Lembaga Penelitian dan Pengabdian Masyarakat</a>
+            </li>
+            <li>
+              <a href="#" onclick="tampilkanInformasiPengembangan()">Lembaga Penjaminan Mutu</a>
+            </li>
+            <li>
+              <a href="#" target="_blank">Satuan Pengawas Internal</a>
+            </li>
+            <li>
+              <a href="#" target="_blank">Pusat Pengembangan Bisnis</a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Unit Pelaksana Teknis -->
+        <div class="col-lg-3 col-md-6 footer-links">
+          <h4>Lembaga</h4>
+          <ul>
+            <li>
+              <a href="#" onclick="tampilkanInformasiPengembangan()">UPT Perpustakaan</a>
+            </li>
+            <li>
+              <a href="#" onclick="tampilkanInformasiPengembangan()">UPT Bahasa</a>
+            </li>
+            <li>
+              <a href="#" target="_blank">UPT Teknologi Informasi dan Pengkalan Data</a>
+            </li>
+            <li>
+              <a href="#" target="_blank">UPT Ma’had Al-Jami’ah</a>
+            </li>
+            <li>
+              <a href="#" target="_blank">UPT Pengembangan Karir</a>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="row">
+        <!-- Media sosial -->
+        <div class="col text-center">
+          <a class="fs-1" href="#" target="_blank">
+            <i class="bx bxl-instagram me-2"></i>
+          </a>
+          <a class="fs-1" href="#" target="_blank">
+            <i class="bx bxl-tiktok me-2"></i>
+          </a>
+          <a class="fs-1" href="#" target="_blank">
+            <i class="bx bxl-twitter me-2"></i>
+          </a>
+          <a class="fs-1" href="#" target="_blank">
+            <i class="bx bxl-facebook me-2"></i>
+          </a>
+          <a class="fs-1" href="#" target="_blank">
+            <i class="bx bxl-youtube me-2"></i>
+          </a>
+        </div>
+        <!-- Akhir media sosial -->
+      </div>
+
+      <div class="row">
+        <a id="themeToggle" class="card" data-mdb-ripple-init>
+          <div class="card-body row">
+            <div class="col-auto">
+              <img class="wh-64px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAACXBIWXMAAAsTAAALEwEAmpwYAAAGJUlEQVR4nO2ce2wURRzHF443BQGNipTSmQMfFREVedP6hxIitTySnalYsb4ahQQIRFpJ4Gpi/MP4B8ZHWqBCpEKKaesDEUIQRAkC1USDIQb78B+JQESjAUrLfc3ecVhrb2/3bh93098nmf+6ycznOzv7m9m9ahpBEARBEARBEARBEAqC+mnlqB17BrvmjvK7L71T/qZ+QJUGbB9znkLwS37VtUYh+Ci/ikLwX34VheCu/IZpFQnlUwhpIJ9CSAP5FEIayKcQ0kA+hZAc+Ch/Jar7OyP/egjZtFmzAg6VLUZNVthR+RSCNdAUmovGGR2uyKcQLMhvCl1EzTD35HcNYff8kQm61AvlH33JffkUQhz5TZXAN2uTF7p1FLBpIIVgX37lpYj8WNt2k3WJ1QGgYSrw1fLotTs43QkpyTfavkXWJNbdBXy9osu1IWDLYFqOUpIfa40z44uszQEOPvX/a74so2eCFTr2ri40lR9rB0uB+inAjiBQlwfsfvjfpaanZixF9GA259yqaRWts7LClz8sM5dvt51YD2wZ4lB1pOjrzfMFw19unhS42jxRQ+vUQXA0hP260yXqOTQWjNBU4VzB8IqWe/rAkB9rjoawcwLtE+zIb3YyhGProuUobdbsyW92KoRUqx9Vd8wdC3MK2yYHwmbyY61t+hC0N7yQXACHn6dji+5A5s6F5BfbF2Sj7d5AwgBSuhOOrwOq+lII1+UXs0cM+ZAcRvMkhLq73Q8gthylc4naXT68CuHIKqBmqDch1I49o6Uj0PMGQLKz3eV7F8JKYNdEYOsIYEsWsP02oP5BYO8C4PCLwJEVQG12avKr+xk77g1aOoKQ1heC/x0vAM+WI7P2cb6a8mNAsm1mAfgegnG2pKp8A0g2J1EAvobw/ugk5AeMpewVLVOA4KfSMoRjFfbL1UyZ+V2B5OVWAvA8hAMl6ss3gAyOheThtAthz3zr8t8bGcan+Wu1TAWCf281AM9C2LfQmvxNg4DG/HItk4Hkr9kJwJMQjq4GNg8wl7/z9qvYrz+jZToQfJbdADwJ4eDT0Y1a9yrH2MB9UXoFTaFCTQWgawFIfiHpECa7uRxtAA49F32Ldqg0+j7hRGW7MvJjQPL9yQTgTQhdmoryDSDY68kG4FkIqso3QDFbnkoAroegsnwDiODSVANwLQTV5RtA8vVOBOB4CL1DPpsDwX93KgDHQugl8nUIfslJ+Y6EoLp86PwGCFZt5xzIsxBUlo+yB/pDsmch+K9uikeXdrlojOUdc9vsYeGOA2sWa6oBPS8Lgi2D5C1eiYfdO2FS3/DZZfeHNJWAznMg+RuQ/A8/xMNiCMYXeWdnZ6kjH8VsEgT/AIJd8Vs8EoSglHzo2YMh2JuQvNNv2bAQQkR+/nBF5JfwmyH5Ub8Fw2IIrfcFwurIL7pjGAT7zmVxFyDYmsjGTQ/OQHFuUeSdsmD1tjdygl/qWJRbpClTWgr2ucvyOyH4o6bvFHQ+O7L8JSxxWTskU6fOv1bluLtsCP6q5f4YYQj2GATbA8Gvdp/5KA7O01QhOuu6DdL51mI83JPq35IJHIJthGR/QbA/1ZJfOHoIJDvt/uwPLk25r/PGDzSaphIQfK3r8iU7jYKCfn6PNV2PFn5zP4DcJ/0ea+bN/uhn5zWQvAKSv2P2OwCYP3h/Mh6ofo81LYFkP8YR9wPk+GAPR88HbAegsxL/Rpju5zw9r9eXoY/P6/EafdytkOy8jdl/imZ/vAAk3xBH3CemwQn+lvXZzx93YrIoCQRriDNr33WkahLspPETJu9GlGFAsJ/jBLDP9DrJN1sIIAwZfMi70WQg8c/4WQcEn9jjNU/kjI7sRBMHsNn7EWUYCY4eWiDGTf/P3y/JHQfJvrUg/3iyRw69Ckh+JoHIzsjpqOBvQ7JGS5+dCHbSuEv8HltGAMn32q7pzUvOw1iSk3n/YcQvIINlzslnG433CX6PKQPf+/K2FGd9q1JHw14DGZyZ1CeFRiUkeAgltwz1vNOqAZ1NtfGhlfF35Vh4541+91spov/1hJdGqh3Jf4ncFcZpaGSJYp9BskoU8ynQtD5+95UgCIIgCIIgCIIgCC0N+AfTSdrsuM+sQAAAAABJRU5ErkJggg==">
+            </div>
+            <div class="col d-flex align-items-center">
+              Tema gelap/terang
+            </div>
+          </div>
+        </a>
       </div>
     </div>
     <!-- Akhir footer bagian atas -->
 
     <!-- Hak cipta -->
-    <div class="container z-3">
-      <div class="copyright-wrap d-md-flex py-4">
-        <div class="me-md-auto text-center text-md-start">
+    <div class="container z-3 bg-black py-4">
+      <div class="row">
+        <div class="col text-center">
           <!-- Teks hak cipta -->
-          <div class="copyright">
+          <p class="">
             &copy; 2024 UIN Raden Mas Said Surakarta
-          </div>
+          </p>
           <!-- Akhir teks hak cipta -->
         </div>
       </div>
@@ -459,7 +525,7 @@
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
   <!-- Custom scripts -->
-  <!-- <script type="text/javascript" src="<?= base_url("assets/js/main.js") ?>"></script> -->
+  <script type="text/javascript" src="<?= base_url("assets/js/main.js") ?>"></script>
 
   <?= $this->renderSection('script') ?>
 
@@ -476,26 +542,6 @@
   </script>
   <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit2"></script>
   <script type="text/javascript">
-    // /* <![CDATA[ */
-    // eval(function(p, a, c, k, e, r) {
-    //   e = function(c) {
-    //     return (c < a ? '' : e(parseInt(c / a))) + ((c = c % a) > 35 ? String.fromCharCode(c + 29) : c.toString(36))
-    //   };
-    //   if (!''.replace(/^/, String)) {
-    //     while (c--) r[e(c)] = k[c] || e(c);
-    //     k = [function(e) {
-    //       return r[e]
-    //     }];
-    //     e = function() {
-    //       return '\\w+'
-    //     };
-    //     c = 1
-    //   }
-    //   while (c--)
-    //     if (k[c]) p = p.replace(new RegExp('\\b' + e(c) + '\\b', 'g'), k[c]);
-    //   return p
-    // }('6 7(a,b){n{4(2.9){3 c=2.9("o");c.p(b,f,f);a.q(c)}g{3 c=2.r();a.s(\'t\'+b,c)}}u(e){}}6 h(a){4(a.8)a=a.8;4(a==\'\')v;3 b=a.w(\'|\')[1];3 c;3 d=2.x(\'y\');z(3 i=0;i<d.5;i++)4(d[i].A==\'B-C-D\')c=d[i];4(2.j(\'k\')==E||2.j(\'k\').l.5==0||c.5==0||c.l.5==0){F(6(){h(a)},G)}g{c.8=b;7(c,\'m\');7(c,\'m\')}}', 43, 43, '||document|var|if|length|function|GTranslateFireEvent|value|createEvent||||||true|else|doGTranslate||getElementById|google_translate_element2|innerHTML|change|try|HTMLEvents|initEvent|dispatchEvent|createEventObject|fireEvent|on|catch|return|split|getElementsByTagName|select|for|className|goog|te|combo|null|setTimeout|500'.split('|'), 0, {}))
-    // /* ]]> */
     $(document).ready(function() {
       $("#translateToID").on("click", function() {
         doGTranslate('id|id');
