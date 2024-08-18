@@ -81,11 +81,11 @@
 
       <div class="bg-white position-absolute top-0 py-4 px-4 shadow-lg">
         <!-- Navbar brand -->
-        <a class="navbar-brand" href="#"></a>
+        <a class="navbar-brand" href="/"></a>
       </div>
 
       <!-- Toggle button -->
-      <button data-mdb-collapse-init class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <button data-mdb-collapse-init class="navbar-toggler ms-auto" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <i class="fas fa-bars"></i>
       </button>
 
@@ -102,7 +102,7 @@
             </a>
             <!-- Dropdown menu -->
             <ul class="dropdown-menu" aria-labelledby="navbarDropdownTentangKami">
-              <li><a href="#" class="dropdown-item">Tentang UIN RM Said</a></li>
+              <li><a href="/tentang-kami" class="dropdown-item">Tentang UIN RM Said</a></li>
               <li><a href="#" class="dropdown-item">Sambutan Rektor</a></li>
               <li><a href="#" class="dropdown-item">Sejarah</a></li>
               <li><a href="#" class="dropdown-item">Profil Universitas</a></li>
@@ -117,12 +117,11 @@
           <li class="nav-item dropdown">
             <a
               class="nav-link dropdown-toggle"
-              type="button"
               role="button"
               data-mdb-dropdown-init
               data-mdb-ripple-init
               data-mdb-auto-close="true"
-              href="#" id="navbarDropdownPendidikan"
+              href="/pendidikan" id="navbarDropdownPendidikan"
               data-mdb-toggle="dropdown"
               aria-expanded="false">
               Pendidikan
@@ -296,7 +295,7 @@
           <li class="nav-item text-center" style="flex: 1;"> <!-- todo: style -->
             <a class="nav-link" href="#!">
               <div>
-                <i class="fa-solid fa-user-plus fa-lg mb-1"></i>
+                <i class="fa-solid fa-universal-access fa-lg mb-1"></i>
               </div>
               <span style="font-size: small;">Aksesibilitas</span> <!-- todo: style -->
             </a>

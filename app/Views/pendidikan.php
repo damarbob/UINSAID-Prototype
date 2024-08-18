@@ -14,9 +14,11 @@
 <!-- End section Hero -->
 
 <!-- Section Call to Action -->
-<section id="call-to-action">
-  <div class="container p-5">
-    <div class="row g-4 align-items-center">
+<section id="call-to-action" class="fluid d-flex justify-content-center">
+  <div class="lurik align-self-start"></div>
+
+  <div class="container p-5 mt-2">
+    <div class="row g-2 align-items-center">
       <div class="col-lg-2">
         <h2>Program Pendidikan</h2>
       </div>
@@ -28,6 +30,7 @@
       </div>
     </div>
   </div>
+  <div class="lurik-2 align-self-end"></div>
 </section>
 <!-- End of Section Call to Action -->
 
@@ -56,9 +59,10 @@
       <!-- program sarjana -->
       <div class="col">
         <h1>Program Sarjana</h1>
-        <h3>Mari Raih Gelar Pertama Anda!</h3>
+        <div class="lurik-3 mb-4"></div>
+        <h4>Mari Raih Gelar Pertama Anda!</h4>
         <p>Program sarjana merupakan gelar pertama yang dapat diperoleh di universitas bagi para lulusan SMA/SMK/MA atau lembaga pendidikan yang setara, yang tengah mencari kesempatan untuk melanjutkan pendidikan di tingkat perguruan tinggi.<br /><br />Mahasiswa dapat memilih dari berbagai program pendidikan yang kami tawarkan, yakni 33 program sarjana. Untuk informasi lebih lanjut mengenai profil setiap program pendidikan, persyaratan penerimaan, perkiraan biaya studi, serta informasi penting lainnya, silakan kunjungi tautan yang tersedia di bawah ini.</p>
-        <h2><span style="color: #99cc00;">Program Studi Sarjana (S1)</span></h2>
+        <h4><span class="text-primary fw-bold">Program Studi Sarjana (S1)</span></h4>
         <p>Program Studi Sarjana (S1) yang ditawarkan di UIN Raden Mas Said Surakarta:</p>
         <p><strong>Fakultas Adab dan Bahasa</strong></p>
         <ul>
@@ -113,9 +117,10 @@
       <!-- program pascasarjana -->
       <div class="col">
         <h1>Program Pascasarjana</h1>
-        <h3>Mari Tingkatkan Kompetensi Profesional Anda!</h3>
+        <div class="lurik-3 mb-4"></div>
+        <h4>Mari Tingkatkan Kompetensi Profesional Anda!</h4>
         <p>UIN Raden Mas Said menyediakan berbagai macam program pendidikan lanjutan, termasuk gelar master (S2), doktor (S3). Anda dapat menemukan daftar lengkap program-program ini untuk melanjutkan studi Anda dan memperdalam pengalaman belajar di kampus kami.<br /><br />Terdapat 9 pilihan program pasca sarjana yang dapat Anda pilih sesuai dengan kebutuhan Anda.</p>
-        <h2><span style="color: #99cc00;">Program Studi Magister (S2)</span></h2>
+        <h4><span class="text-primary fw-bold">Program Studi Magister (S2)</span></h4>
         <p>Program Studi Magister (S2) yang ditawarkan di UIN Raden Mas Said Surakarta:</p>
         <ul>
           <li>Hukum Ekonomi Syariah</li>
@@ -126,7 +131,7 @@
           <li>Hukum Ekonomi Syariah</li>
           <li>Tadris Bahasa Inggris</li>
         </ul>
-        <h2><span style="color: #99cc00;">Program Doktor (S3)</span></h2>
+        <h4><span class="text-primary fw-bold">Program Doktor (S3)</span></h4>
         <p>Program Studi Doktor (S3) yang ditawarkan di UIN Raden Mas Said Surakarta:</p>
         <ul>
           <li>Manajemen Pendidikan Islam</li>
