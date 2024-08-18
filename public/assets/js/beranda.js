@@ -26,9 +26,9 @@ $(document).ready(function () {
 
 // Initialize Swiper JS for Berita
 var swiperBerita = new Swiper("#swiper-berita", {
-  slidesPerView: 3,
+  slidesPerView: 1,
   grabCursor: true,
-  spaceBetween: 30,
+  spaceBetween: 10,
   loop: true,
   pagination: {
     el: ".swiper-pagination",
@@ -40,16 +40,29 @@ var swiperBerita = new Swiper("#swiper-berita", {
   },
   autoplay: {
     delay: 2500,
-    disableOnInteraction: false,
+    disableOnInteraction: true,
   },
-  cssMode: true,
+  breakpoints: {
+    640: {
+      slidesPerView: 1,
+      spaceBetween: 10,
+    },
+    768: {
+      slidesPerView: 2,
+      spaceBetween: 20,
+    },
+    1024: {
+      slidesPerView: 3,
+      spaceBetween: 30,
+    },
+  },
 });
 
 // Initialize Swiper JS for Prestasi
 var swiperPrestasi = new Swiper("#swiper-prestasi", {
-  slidesPerView: 3,
+  slidesPerView: 1,
   grabCursor: true,
-  spaceBetween: 30,
+  spaceBetween: 10,
   loop: true,
   pagination: {
     el: ".swiper-pagination",
@@ -63,7 +76,20 @@ var swiperPrestasi = new Swiper("#swiper-prestasi", {
     delay: 2500,
     disableOnInteraction: false,
   },
-  cssMode: true,
+  breakpoints: {
+    640: {
+      slidesPerView: 1,
+      spaceBetween: 10,
+    },
+    768: {
+      slidesPerView: 2,
+      spaceBetween: 20,
+    },
+    1024: {
+      slidesPerView: 3,
+      spaceBetween: 30,
+    },
+  },
 });
 
 // Initialize Swiper JS for Kegiatan

@@ -140,28 +140,30 @@
 <section id="telusuri-prodi">
   <div class="container p-5">
     <div class="row g-4">
-      <div class="card">
-        <div class="card-body text-center">
-          <h4 class="card-title">Telusuri Program Studi Berdasarkan Fakultas</h4>
-          <p class="text-light">Kunjungi situs web fakultas untuk mendapatkan informasi tentang program studi dan beragam aktivitas lainnya</p>
-          <a class="btn btn-primary">
-            Fakultas Adab dan Bahasa
-          </a>
-          <a class="btn btn-primary">
-            Fakultas Ekonomi dan Bisnis Islam
-          </a>
-          <a class="btn btn-primary">
-            Fakultas Ushuluddin dan Dakwah
-          </a>
-          <a class="btn btn-primary">
-            Fakultas Ilmu Tarbiyah
-          </a>
-          <a class="btn btn-primary">
-            Fakultas Syariah
-          </a>
-          <a class="btn btn-primary">
-            Pascasarjana
-          </a>
+      <div class="col">
+        <div class="card">
+          <div class="card-body text-center">
+            <h4 class="card-title">Telusuri Program Studi Berdasarkan Fakultas</h4>
+            <p class="text-light">Kunjungi situs web fakultas untuk mendapatkan informasi tentang program studi dan beragam aktivitas lainnya</p>
+            <a class="btn btn-primary">
+              Fakultas Adab dan Bahasa
+            </a>
+            <a class="btn btn-primary">
+              Fakultas Ekonomi dan Bisnis Islam
+            </a>
+            <a class="btn btn-primary">
+              Fakultas Ushuluddin dan Dakwah
+            </a>
+            <a class="btn btn-primary">
+              Fakultas Ilmu Tarbiyah
+            </a>
+            <a class="btn btn-primary">
+              Fakultas Syariah
+            </a>
+            <a class="btn btn-primary">
+              Pascasarjana
+            </a>
+          </div>
         </div>
       </div>
     </div>

@@ -99,4 +99,7 @@ return [
 
     'hapusBanyakSukses' => 'Berhasil dihapus',
     'hapusBanyakGagal' => 'Penghapusan gagal',
+
+    'lainnya' => 'Lainnya',
+    'pilihAtauInputKategori' => 'Pilih atau input kategori',
 ];

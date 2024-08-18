@@ -120,8 +120,7 @@
         <div class="col-lg-6" data-aos="fade-right">
           <div class="card d-flex flex-sm-row border border-dark border-1">
             <div class="card-body pe-0">
-              <!-- <h5 class="card-title display-5"><i class="bi bi-buildings text-primary"></i></h5> -->
-              <img src="<?= $key['gambar'] ?>" style="width: 128px;">
+              <img src="<?= $key['gambar'] ?>" style="width: 128px;"> <!-- todo: style -->
             </div>
             <div class="card-body flex-grow-1">
               <h5 class="card-title fw-bold"><?= $key['judul'] ?></h5>
@@ -234,45 +233,39 @@
 
     <!-- Swiper prestasi -->
     <div class="row mb-4">
-      <div class="col">
-        <h2>Prestasi Mahasiswa</h2>
-        <div class="lurik-4 mb-4"></div>
-        <div class="d-flex justify-content-evenly align-items-center">
-          <div class="prestasi-swiper-button-prev"><img src="assets/img/icons8-back-to-96.png" style="width: 48px; height: 48px" /></div>
+      <h2>Prestasi Mahasiswa</h2>
+      <div class="d-flex justify-content-evenly align-items-center">
+        <div class="prestasi-swiper-button-prev d-none d-md-block"><img src="assets/img/icons8-back-to-96.png" style="width: 48px; height: 48px" /></div>
 
-          <div class="swiper" id="swiper-prestasi" data-aos="fade-up" data-aos-delay="300" style="width: 80%;">
-            <div class="swiper-wrapper ">
+        <div class="swiper" id="swiper-prestasi" data-aos="fade-up" data-aos-delay="300" style="width: 80%;">
+          <div class="swiper-wrapper ">
 
-              <!-- Swiper prestasi terbaru -->
-              <?php foreach ($prestasiTerbaru as $i => $a) : ?>
-                <div class="swiper-slide">
-                  <div class="swiper-slide-transform">
-                    <div class="card prestasi-card text-light">
-                      <img src="<?= $a['gambar'] ?>" class="card-img" alt="Agenda Image">
-                      <div class="card-img-overlay d-flex flex-column justify-content-end text-light">
-                        <div class="d-flex align-items-center mb-2">
-                        </div>
-                        <a href="">
-                          <h5 class="card-title"><a class="text-decoration-none text-light" href="<?= $a['slug']; ?>"><?= $a['judul']; ?></a></h5>
-                        </a>
+            <!-- Swiper prestasi terbaru -->
+            <?php foreach ($prestasiTerbaru as $i => $a) : ?>
+              <div class="swiper-slide">
+                <div class="swiper-slide-transform">
+                  <div class="card prestasi-card text-light">
+                    <img src="<?= $a['gambar'] ?>" class="card-img" alt="Agenda Image">
+                    <div class="card-img-overlay d-flex flex-column justify-content-end text-light">
+                      <div class="d-flex align-items-center mb-2">
                       </div>
+                      <a href="">
+                        <h5 class="card-title"><a class="text-decoration-none text-light" href="<?= $a['slug']; ?>"><?= $a['judul']; ?></a></h5>
+                      </a>
                     </div>
                   </div>
                 </div>
-              <?php endforeach; ?>
-              <!-- Akhir swiper prestasi terbaru -->
-            </div>
-
-            <div class="swiper-pagination"></div>
-
+              </div>
+            <?php endforeach; ?>
+            <!-- Akhir swiper prestasi terbaru -->
           </div>
-          <div class="prestasi-swiper-button-next"><img src="assets/img/icons8-next-page-96.png" style="width: 48px; height: 48px" /></div>
+
+          <div class="swiper-pagination"></div>
+
         </div>
+        <div class="prestasi-swiper-button-next d-none d-md-block"><img src="assets/img/icons8-next-page-96.png" style="width: 48px; height: 48px" /></div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col">
-      </div>
+
     </div>
     <script>
       var daftarPrestasi = <?= json_encode($prestasiTerbaru) ?>;
@@ -339,7 +332,7 @@
     <div class="row g-4 mb-4 justify-content-center" data-aos="fade-up">
       <div class="d-flex justify-content-evenly align-items-center">
 
-        <div class="berita-swiper-button-prev"><img src="assets/img/icons8-back-to-96.png" style="width: 48px; height: 48px" /></div>
+        <div class="berita-swiper-button-prev d-none d-md-block"><img src="assets/img/icons8-back-to-96.png" style="width: 48px; height: 48px" /></div> <!-- todo: style -->
 
 
         <!-- Slider berita -->
@@ -367,7 +360,7 @@
           </div>
         </div>
 
-        <div class="berita-swiper-button-next"><img src="assets/img/icons8-next-page-96.png" style="width: 48px; height: 48px" /></div>
+        <div class="berita-swiper-button-next d-none d-md-block"><img src="assets/img/icons8-next-page-96.png" style="width: 48px; height: 48px" /></div> <!-- todo: style -->
 
       </div>
     </div>
@@ -558,19 +551,19 @@
     <!-- Logo -->
     <div class="row gx-4 gy-5 align-items-center align-self-center justify-content-center" data-aos="fade-up">
       <div class="col-xl-2 col-lg-3 col-md-4 d-flex justify-content-center">
-        <img src="assets/img/LOGO BLU_SPEEDCIRCLE.png" style="width: 128px;height: 100%;object-fit: scale-down;" />
+        <img src="assets/img/LOGO BLU_SPEEDCIRCLE.png" style="width: 128px;height: 100%;object-fit: scale-down;" /> <!-- todo: style -->
       </div>
       <div class="col-xl-2 col-lg-3 col-md-4 d-flex justify-content-center">
-        <img src="https://th.bing.com/th/id/OIP.fineWnFIFMDVRCzgORCDFQHaHa?pid=ImgDetMain" style="width: 128px;height: 100%;object-fit: scale-down;" />
+        <img src="https://th.bing.com/th/id/OIP.fineWnFIFMDVRCzgORCDFQHaHa?pid=ImgDetMain" style="width: 128px;height: 100%;object-fit: scale-down;" /> <!-- todo: style -->
       </div>
       <div class="col-xl-2 col-lg-3 col-md-4 d-flex justify-content-center">
-        <img src="https://iconlogovector.com/uploads/images/2023/05/lg-7a359c6dfcb72ca61d94df92ac78afdf98.jpg" style="width: 128px;height: 100%;object-fit: scale-down;" />
+        <img src="https://iconlogovector.com/uploads/images/2023/05/lg-7a359c6dfcb72ca61d94df92ac78afdf98.jpg" style="width: 128px;height: 100%;object-fit: scale-down;" /> <!-- todo: style -->
       </div>
       <div class="col-xl-2 col-lg-3 col-md-4 d-flex justify-content-center">
-        <img src="https://logosmarcas.net/wp-content/uploads/2020/09/SpaceX-Simbolo.jpg" style="width: 128px;height: 100%;object-fit: scale-down;" />
+        <img src="https://logosmarcas.net/wp-content/uploads/2020/09/SpaceX-Simbolo.jpg" style="width: 128px;height: 100%;object-fit: scale-down;" /> <!-- todo: style -->
       </div>
       <div class="col-xl-2 col-lg-3 col-md-4 d-flex justify-content-center">
-        <img src="https://th.bing.com/th/id/OIP.arezqGrVeKUAmuKTaXGGEgHaEK?pid=ImgDetMain" style="width: 128px;height: 100%;object-fit: scale-down;" />
+        <img src="https://th.bing.com/th/id/OIP.arezqGrVeKUAmuKTaXGGEgHaEK?pid=ImgDetMain" style="width: 128px;height: 100%;object-fit: scale-down;" /> <!-- todo: style -->
       </div>
     </div>
 
