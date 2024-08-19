@@ -117,11 +117,11 @@
 <!-- End section Poin Utama -->
 
 <!-- Section Poin Utama UIN RM Said (Mobile) -->
-<section class="fluid d-flex justify-content-center z-3 d-block d-lg-none position-relative" id="section-poin-utama">
+<section class="fluid d-flex justify-content-center z-3 d-lg-none position-relative" id="section-poin-utama">
 
   <div class="lurik align-self-start mt-5"></div>
 
-  <div class="container ms-n4 ">
+  <div class="container ms-n4">
     <div class="row">
       <?php foreach ($poinUtama as $i => $p) : ?>
         <?php
@@ -132,7 +132,7 @@
           <div class="card shadow-none" style="<?= $isFirst ? 'border-top-left-radius: 1.5rem; border-top-right-radius: 1.5rem;' : (!$isNotLast ? 'border-bottom-left-radius: 1.5rem; border-bottom-right-radius: 1.5rem;' : '') ?>">
             <div class="card-body d-inline-flex <?= $isNotLast ? 'pb-0' : '' ?> pb-lg-4">
 
-              <div class="ps-3 h-100">
+              <div class="ms-2 ps-4 h-100">
                 <h5 class="card-title fw-bold"><?= $p['judul'] ?></h5>
                 <p class="card-text"><?= $p['keterangan'] ?></p>
                 <?php if ($isNotLast): ?>
@@ -590,12 +590,13 @@
                       <span class="h3 fw-bold">
                         <?= $key['tanggal'] ?>
                       </span>
+                      <br>
                       <?= $key['bulan'] ?>
                     </p>
                   </div>
-                  <div class="flex-grow-1">
+                  <div class="flex-grow-1 d-flex align-items-center">
                     <a href="#">
-                      <p class="card-title text-body fw-bold">
+                      <p class="card-title text-body fw-bold fs-6 mb-0">
                         <?= $key['judul'] ?>
                       </p>
                     </a>

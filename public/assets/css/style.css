@@ -126,6 +126,28 @@ body {
   background: none;
 }
 
+/* Button */
+.btn-fab-lg {
+  --mdb-btn-width-lg: 64px;
+  --mdb-btn-height-lg: 64px;
+  --mdb-btn-padding-top: 0.75rem;
+  --mdb-btn-padding-bottom: 0.6875rem;
+  --mdb-btn-padding-x: 1.6875rem;
+  --mdb-btn-font-size: 2rem;
+  --mdb-btn-line-height: 1.6;
+}
+@media only screen and (max-width: 768px) {
+  .btn-fab-lg {
+    --mdb-btn-width-lg: 48px;
+    --mdb-btn-height-lg: 48px;
+    --mdb-btn-padding-top: 0.75rem;
+    --mdb-btn-padding-bottom: 0.6875rem;
+    --mdb-btn-padding-x: 1.6875rem;
+    --mdb-btn-font-size: 1.5rem;
+    --mdb-btn-line-height: 1.6;
+  }
+}
+
 /* Image */
 .img-section {
   width: 100%;
@@ -185,12 +207,20 @@ body {
   height: var(--logo-scrolled-height);
 }
 
-@media (max-width: 575px) {
+@media (min-width: 374.5px) and (max-width: 575px) {
   #frontend-navbar .navbar-brand {
     --logo: url("../img/logo-horizontal-pb.png");
     --logo-width: 256px; /* Logo's actual width */
     --logo-scrolled: url("../img/logo-horizontal-pb.png");
     --logo-scrolled-width: 342px; /* Logo-scrolled's actual width */
+  }
+}
+
+@media (max-width: 374.5px) {
+  #frontend-navbar .navbar-brand {
+    --logo: url("../img/icon.png");
+    --logo-width: 90px; /* Logo's actual width */
+    --logo-height: 90px; /* Logo's actual height */
   }
 }
 

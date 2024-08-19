@@ -73,14 +73,18 @@
 
 <body>
 
+  <button id="themeToggle" class="btn btn-lg btn-fab-lg btn-primary btn-floating rounded-pill position-fixed start-0 bottom-0 ms-7 mb-10" style="z-index: 50000;" data-mdb-ripple-init>
+    <i class="bi bi-moon-stars"></i>
+  </button>
+
   <!-- Navbar -->
-  <nav class="navbar navbar-expand-xl navbar-dark fixed-top" id="frontend-navbar">
+  <nav class="navbar navbar-expand-xxl navbar-dark fixed-top" id="frontend-navbar">
     <!-- Container wrapper -->
     <div class="container px-4 px-sm-5">
 
       <!-- Navbar brand -->
       <div id="navbarBrandWrapper" class="bg-white position-absolute top-0 py-2 px-2 rounded-bottom-3 shadow-lg">
-        <a class="navbar-brand" href="/"></a>
+        <a class="navbar-brand mx-0" href="/"></a>
       </div>
 
       <!-- Toggle button -->
@@ -89,7 +93,7 @@
       </button>
 
       <!-- Collapsible wrapper -->
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <div class="collapse navbar-collapse mb-2 mb-sm-0" id="navbarSupportedContent">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0 me-4 fw-bold">
 
           <!-- Dropdown Tentang Kami -->
@@ -244,7 +248,7 @@
         </form>
 
       </div>
-      <!-- Akhir daro collapsible wrapper -->
+      <!-- Akhir dari collapsible wrapper -->
 
     </div>
     <!-- Container wrapper -->
@@ -253,7 +257,7 @@
 
   <!-- Mobile bottom Navbar -->
   <!-- Navbar -->
-  <nav class="navbar navbar-expand navbar-dark bg-dark d-md-none fixed-bottom">
+  <nav class="navbar navbar-expand navbar-dark d-md-none fixed-bottom rounded-top-2" style="background: #F7990CE8;">
     <!-- Container wrapper -->
     <div class="container-fluid">
 
@@ -271,7 +275,9 @@
           <li class="nav-item text-center" style="flex: 1;"> <!-- todo: style -->
             <a class="nav-link active" aria-current="page" href="#!">
               <div>
-                <i class="fas fa-home fa-lg mb-1"></i>
+                <!-- <i class="fas fa-home fa-lg mb-1"></i> -->
+                <i class="bi bi-house-door fs-1 mb-1"></i>
+                <!-- <img src="assets/img/icon/ikon-beranda.png"> -->
               </div>
               <span style="font-size: small;">Beranda</span> <!-- todo: style -->
             </a>
@@ -279,7 +285,9 @@
           <li class="nav-item text-center" style="flex: 1;"> <!-- todo: style -->
             <a class="nav-link" href="#!">
               <div>
-                <i class="fas fa-globe-americas fa-lg mb-1"></i>
+                <!-- <i class="fas fa-globe-americas fa-lg mb-1"></i> -->
+                <i class="bi bi-newspaper fs-1 mb-1"></i>
+                <!-- <img src="assets/img/icon/ikon-berita.png"> -->
                 <!-- <span class="badge rounded-pill badge-notification bg-success">11</span> -->
               </div>
               <span style="font-size: small;">Berita</span> <!-- todo: style -->
@@ -288,7 +296,9 @@
           <li class="nav-item text-center" style="flex: 1;"> <!-- todo: style -->
             <a class="nav-link" href="#!">
               <div>
-                <i class="fa-solid fa-user-plus fa-lg mb-1"></i>
+                <!-- <i class="fa-solid fa-user-plus fa-lg mb-1"></i> -->
+                <i class="bi bi-mortarboard fs-1 mb-1"></i>
+                <!-- <img src="assets/img/icon/ikon-akademik-white.png"> -->
               </div>
               <span style="font-size: small;">Penerimaan</span> <!-- todo: style -->
             </a>
@@ -296,7 +306,9 @@
           <li class="nav-item text-center" style="flex: 1;"> <!-- todo: style -->
             <a class="nav-link" href="#!">
               <div>
-                <i class="fa-solid fa-universal-access fa-lg mb-1"></i>
+                <!-- <i class="fa-solid fa-universal-access fa-lg mb-1"></i> -->
+                <i class="bi bi-universal-access-circle fs-1 mb-1"></i>
+                <!-- <img src="assets/img/icon/ikon-beranda.png"> -->
               </div>
               <span style="font-size: small;">Aksesibilitas</span> <!-- todo: style -->
             </a>
@@ -475,8 +487,8 @@
         <!-- Akhir media sosial -->
       </div>
 
-      <div class="row">
-        <a id="themeToggle" class="card" data-mdb-ripple-init>
+      <!-- <div class="row">
+        <a id="themeToggleUnused" class="card" data-mdb-ripple-init>
           <div class="card-body row">
             <div class="col-auto">
               <img class="wh-64px" src="data:image/png;base64,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">
@@ -486,12 +498,12 @@
             </div>
           </div>
         </a>
-      </div>
+      </div> -->
     </div>
     <!-- Akhir footer bagian atas -->
 
     <!-- Hak cipta -->
-    <div class="container z-3 bg-black py-4">
+    <div class="container z-3 bg-black py-4 pb-8 pb-md-0">
       <div class="row">
         <div class="col text-center">
           <!-- Teks hak cipta -->
