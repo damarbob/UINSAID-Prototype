@@ -8,7 +8,7 @@
 
 <?= $this->section('content') ?>
 <!-- Section Hero -->
-<section id="hero" class="fluid bg-body p-0 mt-navbar">
+<section id="hero" class="fluid bg-body p-0 mt-navbar position-relative">
 
   <!-- <iframe id="player" class="m-0" src="https://www.youtube.com/embed/nd8aKZ8dvko?enablejsapi=1&version=3&controls=0&rel=0&autoplay=1&loop=1&mute=1&playlist=nd8aKZ8dvko&playsinline=1" title="YouTube video player" frameborder="0" referrerpolicy="strict-origin-when-cross-origin" allow="autoplay" allowfullscreen></iframe> -->
 
@@ -21,7 +21,7 @@
 
     <!-- Swiper hero -->
     <!-- <div class="row mb-4"> -->
-    <div class="swiper d-flex align-items-center z-0" id="swiper-hero">
+    <div class="swiper d-flex align-items-center" id="swiper-hero">
       <div class="swiper-wrapper">
 
         <!-- Swiper hero terbaru -->
@@ -32,13 +32,28 @@
             <!-- <div class="col-md-6 position-relative order-1 order-md-2" style="height: 20vh; min-height: 128px; max-height:256px;">
                 </div> -->
             <!-- <div class="ratio" style="--bs-aspect-ratio: 36.36%;"> -->
-            <img
+
+            <!-- Slideshow -->
+            <img class="d-none d-lg-block"
               style="
             background: url('<?= $a['featured_image'] ?>');
             background-size: cover;
             width: 100vw;
             max-width: 1920px;
+            /* Mengikuti aspek ratio hero versi desktop di figma */
             height: calc(100vw * 0.3636);
+            max-height: 700px;
+            ">
+
+            <!-- Slideshow mobile -->
+            <img class="d-block d-lg-none"
+              style="
+            background: url('<?= $a['featured_image_mobile'] ?>');
+            background-size: cover;
+            width: 100vw;
+            max-width: 1920px;
+            /* Mengikuti aspek ratio hero versi mobile di figma */
+            height: calc(100vw * 0.5581395348837209);
             max-height: 700px;
             ">
             <!-- </div> -->
@@ -47,8 +62,8 @@
         <?php endforeach; ?>
         <!-- Akhir swiper hero terbaru -->
       </div>
-      <div class="swiper-button-prev ms-4"></div>
-      <div class="swiper-button-next me-4"></div>
+      <div class="swiper-button-prev ms-4 d-none d-lg-block"></div>
+      <div class="swiper-button-next me-4 d-none d-lg-block"></div>
 
       <!-- <div class="swiper-pagination mb-4"></div> -->
 
@@ -68,20 +83,61 @@
 </section>
 <!-- End section Hero -->
 
-<!-- Section Poin Utama UIN RM Said -->
-<section class="fluid d-flex justify-content-center z-3" id="section-poin-utama">
+<!-- Section Poin Utama UIN RM Said (Desktop) -->
+<section class="fluid d-flex justify-content-center z-3 d-none d-lg-block position-relative" id="section-poin-utama">
 
-  <div class="lurik align-self-start mt-4"></div>
+  <div class="lurik align-self-start mt-8"></div>
 
-  <div class="container p-5">
-    <div class="row g-4">
-      <?php foreach ($poinUtama as $p => $key) : ?>
-        <div class="col-md-3">
-          <div class="card">
-            <div class="card-body">
-              <div class="border-start border-primary border-4 ps-3 h-100">
-                <h5 class="card-title fw-bold"><?= $key['judul'] ?></h5>
-                <p class="card-text"><?= $key['keterangan'] ?></p>
+  <div class="container p-5 ms-0">
+    <div class="row g-lg-4">
+      <?php foreach ($poinUtama as $i => $p) : ?>
+        <?php
+        $isFirst = $i == 0;
+        $isNotLast = $i < sizeof($poinUtama) - 1;
+        ?>
+        <div class="col-lg-3">
+          <div class="card rounded-9">
+            <div class="card-body d-inline-flex pb-4">
+
+              <div class="border-start border-primary border-4 h-100 d-none d-lg-block"></div>
+              <div class="ps-3 h-100">
+                <h5 class="card-title fw-bold"><?= $p['judul'] ?></h5>
+                <p class="card-text"><?= $p['keterangan'] ?></p>
+                <?php if ($isNotLast): ?>
+                  <div class="border-top border-primary border-4 w-50 d-block d-lg-none"></div>
+                <?php endif; ?>
+              </div>
+            </div>
+          </div>
+        </div>
+      <?php endforeach; ?>
+    </div>
+  </div>
+</section>
+<!-- End section Poin Utama -->
+
+<!-- Section Poin Utama UIN RM Said (Mobile) -->
+<section class="fluid d-flex justify-content-center z-3 d-block d-lg-none position-relative" id="section-poin-utama">
+
+  <div class="lurik align-self-start mt-5"></div>
+
+  <div class="container ms-n4 ">
+    <div class="row">
+      <?php foreach ($poinUtama as $i => $p) : ?>
+        <?php
+        $isFirst = $i == 0;
+        $isNotLast = $i < sizeof($poinUtama) - 1;
+        ?>
+        <div class="col-lg-3">
+          <div class="card shadow-none" style="<?= $isFirst ? 'border-top-left-radius: 1.5rem; border-top-right-radius: 1.5rem;' : (!$isNotLast ? 'border-bottom-left-radius: 1.5rem; border-bottom-right-radius: 1.5rem;' : '') ?>">
+            <div class="card-body d-inline-flex <?= $isNotLast ? 'pb-0' : '' ?> pb-lg-4">
+
+              <div class="ps-3 h-100">
+                <h5 class="card-title fw-bold"><?= $p['judul'] ?></h5>
+                <p class="card-text"><?= $p['keterangan'] ?></p>
+                <?php if ($isNotLast): ?>
+                  <div class="border-top border-primary border-4 w-50"></div>
+                <?php endif; ?>
               </div>
             </div>
           </div>
@@ -101,8 +157,8 @@
       <div class="col-lg-6 pe-5">
         <div class="row">
           <img src="assets/img/rektor-lurik-noborder.png" />
-          <div class="foto-kecil ratio ratio-16x9">
-            <img src="assets/img/uinsaid3.png" class="object-fit-cover" />
+          <div class="foto-kecil ratio ratio-16x9 overflow-hidden">
+            <img src="assets/img/uinsaid3.png" class="object-fit-cover " />
           </div>
         </div>
       </div>
@@ -126,19 +182,19 @@
 <section class="fluid" id="section-poin-akademik">
   <div class="lurik-silk">
   </div>
-  <div class="container p-5">
+  <div class="container p-5 pe-5">
     <div class="row g-4">
 
       <!-- Poin-poin -->
       <?php foreach ($poinAkademik as $p => $key) : ?>
         <div class="col-lg-6" data-aos="fade-right">
           <div class="card d-flex flex-sm-row border border-primary-subtle border-1 rounded-5 overflow-hidden gradient-1">
-            <div class="ratio ratio-1x1 border-start border-primary border-5 rounded-5 overflow-hidden" style="min-width: 256px; max-width: 256px; max-height: 256px; background: url('<?= $key['gambar'] ?>'); background-size: cover;">
+            <div class="poin-akademik-gambar ratio ratio-1x1 border-start border-primary border-2 border-lg-5 rounded-5 overflow-hidden" style="background: url('<?= $key['gambar'] ?>'); background-repeat: no-repeat; background-size: cover;">
               <!-- <img src="" class="object-fit-cover"> -->
             </div>
             <div class="card-body flex-grow-1">
               <h5 class="card-title fw-bold"><?= $key['judul'] ?></h5>
-              <p class="card-text"><?= $key['keterangan'] ?></p>
+              <p class="card-text fs-6"><?= $key['keterangan'] ?></p>
               <a href="" class="text-body fw-bold">Selengkapnya <span class="ms-2">›</span></a>
             </div>
           </div>
@@ -156,7 +212,7 @@
     <div class="row g-4">
 
       <!-- Tulisan -->
-      <div class="col-lg-4">
+      <div class="col-xl-4">
         <h2 class="fw-bold"><?= $poinUinRmSaid['judul'] ?></h2>
         <div class="lurik-3 mt-2 mb-4"></div>
         <p><?= $poinUinRmSaid['keterangan'] ?></p>
@@ -164,20 +220,18 @@
       </div>
 
       <!-- Poin-poin -->
-      <div class="col-lg-8">
+      <div class="col-xl-8">
         <div class="row g-4">
           <?php foreach ($poinUinRmSaid['poin'] as $p => $key) : ?>
             <div class="col-md-4">
-              <div class="card rounded-2 d-flex flex-sm-col <?= $p == 0 ? 'bg-primary text-light' : ($p == 1 ? 'bg-secondary text-light' : 'bg-body-secondary text-body-emphasis') ?>" style="height: 328px">
-                <div class="card-body flex-grow-1">
+              <div class="card rounded-2 d-flex flex-sm-col <?= $p == 0 ? 'bg-primary text-light' : ($p == 1 ? 'bg-secondary text-light' : 'bg-body-secondary text-body-emphasis') ?>">
+                <div class="card-body flex-grow-1 pb-0">
                   <h5 class="card-title fw-bold"><?= $key['judul'] ?></h5>
                   <p class="card-text" style="font-size: 12px"><?= $key['keterangan'] ?></p>
-                  <div class="w-100 text-end d-flex justify-content-end">
-                    <img src="<?= $key['gambar'] ?>" style="width: 54px;" class="bg-light p-2 rounded-2 align-self-end">
-                  </div>
                 </div>
-                <!-- <div class="card-body"> -->
-                <!-- </div> -->
+                <div class="d-flex flex-grow-1 justify-content-end pe-4 pb-4">
+                  <img src="<?= $key['gambar'] ?>" style="width: 54px;" class="bg-light p-2 rounded-2 align-self-end">
+                </div>
               </div>
             </div>
           <?php endforeach ?>
@@ -192,7 +246,7 @@
 <!-- Section Statistik -->
 <section class="fluid" id="section-statistik">
   <div class="container p-5">
-    <div class="row g-4 p-5">
+    <div class="row g-4 p-2 p-sm-5">
 
       <!-- Tulisan -->
       <div class="col-lg-2 d-flex align-items-center">
@@ -225,7 +279,7 @@
         <div class="row g-2 mb-4">
           <div class="col">
             <?php foreach ($statistik['lainnya'] as $s => $key) : ?>
-              <div class="d-inline-flex p-3 me-2 text-light rounded-3 shadow" style="width: auto; background-color: #D27E00; border-color: #462A00 !important;">
+              <div class="d-inline-flex p-3 me-2 mb-2 text-light rounded-3 shadow fs-6" style="width: auto; background-color: #D27E00; border-color: #462A00 !important;">
                 <p class="h5 fw-bold me-2 m-0"><?= $key['nilai'] ?></p>
                 <p class="m-0"><?= $key['namaStatistik'] ?></p>
               </div>
@@ -309,12 +363,12 @@
   <div class="container p-5">
 
     <div class="row mb-5 text-start">
-      <div class="col">
+      <div class="col-sm-6">
         <h1 class="fw-bold" data-aos="fade-up">Berita</h1>
         <div class="lurik-4"></div>
         <!-- <p class="fs-4" data-aos="fade-up">Akademik, kampus, penelitian, dan lainnya</p> -->
       </div>
-      <div class="col d-flex align-items-center justify-content-end">
+      <div class="col-sm-6 d-flex align-items-center justify-content-end">
         <a href="" class="text-body fw-bold">Selengkapnya <span class="ms-2">›</span></a>
       </div>
     </div>
@@ -385,13 +439,13 @@
     </div>
 
     <!-- Row tombol lebih banyak berita -->
-    <div class="row mt-2 mb-2">
+    <!-- <div class="row mt-2 mb-2">
       <div class="col text-center">
         <a class="btn btn-lg btn-outline-body border-3 mb-4 border-start-0 border-end-0 border-top-0 rounded-0 px-0" href="#" data-aos="fade-up">
           <i class="bi bi-newspaper me-2"></i>Lebih banyak berita
         </a>
       </div>
-    </div>
+    </div> -->
 
   </div>
 
@@ -406,7 +460,7 @@
       <!-- Pojok Pimpinan -->
       <div class="col-lg-6" id="pojok-pimpinan">
 
-        <div class="row">
+        <div class="row g-4">
           <div class="col">
             <h2 class="fw-bold">Pojok Pimpinan</h2>
             <div class="lurik-4"></div>
@@ -414,19 +468,21 @@
         </div>
 
         <div class="row g-4">
+          <div class="col">
 
-          <?php foreach ($pojokPimpinan as $p => $key) : ?>
-            <div class="card">
-              <div class="card-body">
-                <h5 class="fw-bold"><?= $key['judul'] ?></h5>
-                <p>
-                  <?= $key['ringkasan'] ?>
-                </p>
-                <a href="" class="text-body fw-bold">Selengkapnya <span class="ms-2">›</span></a>
+            <?php foreach ($pojokPimpinan as $p => $key) : ?>
+              <div class="card mb-4">
+                <div class="card-body">
+                  <h5 class="fw-bold"><?= $key['judul'] ?></h5>
+                  <p>
+                    <?= $key['ringkasan'] ?>
+                  </p>
+                  <a href="" class="text-body fw-bold">Selengkapnya <span class="ms-2">›</span></a>
+                </div>
               </div>
-            </div>
-          <?php endforeach ?>
+            <?php endforeach ?>
 
+          </div>
         </div>
 
       </div>
@@ -442,19 +498,21 @@
         </div>
 
         <div class="row g-4">
+          <div class="col">
 
-          <?php foreach ($opini as $p => $key) : ?>
-            <div class="card">
-              <div class="card-body">
-                <h5 class="fw-bold"><?= $key['judul'] ?></h5>
-                <p>
-                  <?= $key['ringkasan'] ?>
-                </p>
-                <a href="" class="text-body fw-bold">Selengkapnya <span class="ms-2">›</span></a>
+            <?php foreach ($opini as $p => $key) : ?>
+              <div class="card mb-4">
+                <div class="card-body">
+                  <h5 class="fw-bold"><?= $key['judul'] ?></h5>
+                  <p>
+                    <?= $key['ringkasan'] ?>
+                  </p>
+                  <a href="" class="text-body fw-bold">Selengkapnya <span class="ms-2">›</span></a>
+                </div>
               </div>
-            </div>
-          <?php endforeach ?>
+            <?php endforeach ?>
 
+          </div>
         </div>
       </div>
 
@@ -468,10 +526,10 @@
   <div class="container p-5">
 
     <div class="row border-bottom border-1 border-primary-subtle mb-4">
-      <div class="col text-start">
+      <div class="col-sm-6 text-start">
         <h1 class="fw-bold text-primary" data-aos="fade-up">Agenda</h1>
       </div>
-      <div class="col d-flex align-items-center justify-content-end">
+      <div class="col-sm-6 d-flex align-items-center justify-content-end">
         <a href="" class="text-body fw-bold" data-aos="fade-up">Selengkapnya <span class="ms-2">›</span></a>
       </div>
     </div>
@@ -507,11 +565,11 @@
 <!-- Section Pengumuman -->
 <section class="fluid" id="section-pengumuman">
   <div class="container p-5">
-    <div class="row rounded-3" style="background: var(--mdb-secondary-bg)">
+    <div class="row rounded-3 px-2 px-lg-4" style="background: var(--mdb-secondary-bg)">
       <div class="col">
 
 
-        <div class="row pt-4 px-4 mb-3">
+        <div class="row pt-4 mb-3">
           <div class="col text-start">
             <h1 class="fw-bold text-primary" data-aos="fade-up">Pengumuman</h1>
           </div>
@@ -520,7 +578,7 @@
           </div>
         </div>
 
-        <div class="row px-4 pb-4">
+        <div class="row pb-4">
 
           <?php foreach ($pengumuman as $p => $key) : ?>
             <div class="col-lg-4">

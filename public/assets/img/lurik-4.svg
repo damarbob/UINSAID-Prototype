@@ -1,4 +1,54 @@
-<svg width="260" height="20" viewBox="0 0 260 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect width="259.597" height="7" fill="#7DBA00"/>
-<rect width="72.6589" height="7" fill="#007A33"/>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="256"
+   height="8.3647366"
+   viewBox="0 0 256 8.3647366"
+   fill="none"
+   version="1.1"
+   id="svg4"
+   sodipodi:docname="lurik-4.svg"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="1.9124321"
+     inkscape:cx="133.59952"
+     inkscape:cy="3.9217079"
+     inkscape:window-width="1920"
+     inkscape:window-height="1001"
+     inkscape:window-x="-9"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg4" />
+  <defs
+     id="defs4" />
+  <g
+     id="g8"
+     transform="scale(0.42535414,1)">
+    <rect
+       style="fill:#007a33;fill-opacity:1;stroke-width:43.9124"
+       id="rect5"
+       width="168.47281"
+       height="8.3647366"
+       x="-168.47281"
+       y="0"
+       transform="scale(-1,1)" />
+    <rect
+       style="fill:#7dba00;fill-opacity:1;stroke-width:70.4299"
+       id="rect6"
+       width="433.37863"
+       height="8.3647366"
+       x="168.47281"
+       y="0" />
+  </g>
 </svg>

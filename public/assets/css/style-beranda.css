@@ -3,44 +3,21 @@
   font-weight: 900;
   color: var(--mdb-body-bg);
 }
-/* Section about */
-#about {
-  background: linear-gradient(
-      270deg,
-      var(--mdb-body-bg) 0%,
-      var(--mdb-body-bg) 50%,
-      rgba(var(--mdb-body-bg-rgb), 0) 50%,
-      rgba(var(--mdb-body-bg-rgb), 0) 100%
-    ),
-    url("../img/akademik.jpeg") left top no-repeat;
-  height: 100%;
-  background-size: cover;
-  background-attachment: fixed;
-}
-
-#about .container {
-  background: none;
-}
-
-@media (max-width: 991px) {
-  #about {
-    background: var(--mdb-body-bg);
-  }
-}
 
 /* Section poin utama */
 #section-poin-utama {
-  height: 128px;
-}
-#section-poin-utama .container {
-  position: absolute;
+  /* height: 128px; */
+  height: auto;
   margin-top: -96px;
 }
+/* #section-poin-utama .container {
+  position: absolute;
+} */
 #section-poin-utama .card {
   background: var(--mdb-secondary);
   color: var(--mdb-light);
-  border-radius: 8px;
   flex-direction: row;
+  /* border-radius: 0px; */
   height: 100%;
 }
 #section-poin-utama .card-title {
@@ -49,6 +26,15 @@
 #section-poin-utama .card-text {
   font-size: small;
   flex-grow: 1;
+}
+
+@media (max-width: 991.5px) {
+  #section-poin-utama {
+    margin-top: -32px;
+  }
+  /* #section-poin-utama .container {
+    margin-top: -32px;
+  } */
 }
 
 /* Section sambutan rektor */
@@ -61,7 +47,32 @@
   bottom: -32px;
   right: -32px;
   border: 1rem solid var(--mdb-body-bg);
-  border-radius: 1rem;
+  border-radius: 2rem;
+}
+
+/* Poin akademik */
+.poin-akademik-gambar {
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+}
+
+@media (min-width: 576.5px) {
+  .poin-akademik-gambar {
+    min-width: 256px;
+    max-width: 256px;
+    max-height: 256px;
+  }
+}
+
+/* Section poin uin rm said */
+#section-uin-said .card {
+  height: 328px;
+}
+@media (min-width: 1200.5px) and (max-width: 1400.5px) {
+  #section-uin-said .card {
+    height: 360px;
+  }
 }
 
 /* Section Statistik */
@@ -196,14 +207,14 @@
   border-radius: 8px;
   padding-bottom: 24px;
 }
-#pojok-pimpinan {
+/* #pojok-pimpinan {
   padding-inline: 36px;
-}
+} */
 #pojok-pimpinan .card {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 100%;
+  /* height: 100%; */
   border-radius: 8px;
 }
 #pojok-pimpinan .card-body {
@@ -252,7 +263,7 @@
 
 /* Sections General */
 section {
-  background: var(--mdb-body-bg);
+  /* background: var(--mdb-body-bg); */
   padding: 6rem 0;
   overflow: hidden;
 }

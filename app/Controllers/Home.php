@@ -12,7 +12,8 @@ class Home extends BaseController
                 "judul"                 => "UIN Raden Mas Said",
                 "slug"                  => "",
                 "meta_description"      => "Dengan sejarahnya yang kaya dan potensinya yang melimpah, UIN Raden Mas Said Surakarta siap melangkah ke masa depan yang lebih cerah",
-                "featured_image"        => base_url("assets/img/hero-oren.jpg"),
+                "featured_image"        => base_url("assets/img/hero-oranye.jpg"),
+                "featured_image_mobile"        => base_url("assets/img/hero-oranye-mobile.jpg"),
                 "tgl_terbit_terformat"  => ""
             ],
             [
@@ -21,6 +22,7 @@ class Home extends BaseController
                 "slug"                  => "",
                 "meta_description"      => "Dengan sejarahnya yang kaya dan potensinya yang melimpah, UIN Raden Mas Said Surakarta siap melangkah ke masa depan yang lebih cerah",
                 "featured_image"        => base_url("assets/img/akademik.jpeg"),
+                "featured_image_mobile"        => base_url("assets/img/akademik.jpeg"),
                 "tgl_terbit_terformat"  => ""
             ],
             [
@@ -29,6 +31,7 @@ class Home extends BaseController
                 "slug"                  => "",
                 "meta_description"      => "Dengan sejarahnya yang kaya dan potensinya yang melimpah, UIN Raden Mas Said Surakarta siap melangkah ke masa depan yang lebih cerah",
                 "featured_image"        => base_url("assets/img/wisuda.jpeg"),
+                "featured_image_mobile"        => base_url("assets/img/wisuda.jpeg"),
                 "tgl_terbit_terformat"  => ""
             ],
             [
@@ -37,6 +40,7 @@ class Home extends BaseController
                 "slug"                  => "https://www.uinsaid.ac.id/id/catat-uin-rm-said-masuk-jajaran-top-10-ptkin",
                 "meta_description"      => "Masuknya nama UIN RM Said Surakarta di rangking 9 PTKIN dengan rerata nilai UTBK tertinggi tahun 2024 mengindikasikan bahwa pendaftar untuk kuliah di kampus ini memiliki latar belakang dalam bidang akademik yang cukup bagus.",
                 "featured_image"        => base_url("assets/img/uin-raden-mas-said.png"),
+                "featured_image_mobile"        => base_url("assets/img/uin-raden-mas-said.png"),
                 "tgl_terbit_terformat"  => ""
             ]
         ];
