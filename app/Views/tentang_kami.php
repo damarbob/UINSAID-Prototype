@@ -9,7 +9,7 @@
 <?= $this->section('content') ?>
 
 <!-- Hero -->
-<section id="hero" class="bg-primary p-0 d-flex align-items-center justify-content-center">
+<section id="hero" class="bg-primary p-0 d-flex align-items-center justify-content-center mt-navbar">
 
 </section>
 
