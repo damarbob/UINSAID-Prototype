@@ -85,6 +85,32 @@ $currentRoute = $request->uri->getPath();
     <i class="bi bi-moon-stars"></i>
   </button>
 
+  <!-- Language dropup button -->
+  <div class="dropup position-fixed end-0 bottom-0 me-3 mb-10" style="z-index: 50000;">
+    <button
+      type="button"
+      class="btn btn-primary dropdown-toggle fs-2"
+      id="menuLanguage"
+      data-mdb-dropdown-init
+      data-mdb-ripple-init aria-expanded="false">
+      <i class="bi bi-globe"></i>
+    </button>
+    <ul class="dropdown-menu">
+      <li><a id="translateToID" class="dropdown-item no-translate" href="#" onclick="">
+          <img src="<?= base_url("/assets/img/country-flags/indonesia.png") ?>" width="16px" class="me-2">
+          IDN (Bahasa Indonesia)
+        </a></li>
+      <li><a id="translateToAR" class="dropdown-item no-translate" href="#" onclick="">
+          <img src="<?= base_url("/assets/img/country-flags/saudi-arabia.png") ?>" width="16px" class="me-2">
+          AR (Arab)
+        </a></li>
+      <li><a id="translateToEN" class="dropdown-item no-translate" href="#" onclick="">
+          <img src="<?= base_url("/assets/img/country-flags/united-states-of-america.png") ?>" width="16px" class="me-2">
+          EN (Inggris)
+        </a></li>
+    </ul>
+  </div>
+
   <!-- Navbar -->
   <nav class="navbar navbar-expand-xxl navbar-dark fixed-top" id="frontend-navbar">
     <!-- Container wrapper -->
@@ -477,20 +503,17 @@ $currentRoute = $request->uri->getPath();
       <div class="row">
         <!-- Media sosial -->
         <div class="col text-center">
-          <a class="fs-1" href="#" target="_blank">
-            <i class="bx bxl-instagram me-2"></i>
+          <a class="fs-1" href="https://www.youtube.com/channel/UClhJVwPyu449bZDXIH6yS0w" target="_blank">
+            <img src="assets/img/icon/ikon-youtube.png" width="64px" />
+          </a>
+          <a class="fs-1" href="https://www.facebook.com/UIN.RMSaid.Official/" target="_blank">
+            <img src="assets/img/icon/ikon-facebook.png" width="64px" />
+          </a>
+          <a class="fs-1" href="https://x.com/uinsurakarta" target="_blank">
+            <img src="assets/img/icon/ikon-twitter.png" width="64px" />
           </a>
           <a class="fs-1" href="#" target="_blank">
-            <i class="bx bxl-tiktok me-2"></i>
-          </a>
-          <a class="fs-1" href="#" target="_blank">
-            <i class="bx bxl-twitter me-2"></i>
-          </a>
-          <a class="fs-1" href="#" target="_blank">
-            <i class="bx bxl-facebook me-2"></i>
-          </a>
-          <a class="fs-1" href="#" target="_blank">
-            <i class="bx bxl-youtube me-2"></i>
+            <img src="assets/img/icon/ikon-tiktok.png" width="64px" />
           </a>
         </div>
         <!-- Akhir media sosial -->

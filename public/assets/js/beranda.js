@@ -61,20 +61,38 @@ $(document).ready(function () {
     },
     autoplay: {
       delay: 2500,
-      disableOnInteraction: true,
+      disableOnInteraction: false,
     },
+    grid: {
+      fill: 'row',
+      rows: 3
+    },
+    loopAddBlankSlides: true,
     breakpoints: {
       640: {
         slidesPerView: 1,
         spaceBetween: 10,
+        grid: {
+          fill: 'row',
+          rows: 3
+        },
+        loopAddBlankSlides: true,
       },
       768: {
         slidesPerView: 2,
         spaceBetween: 20,
+        grid: {
+          fill: 'column',
+          rows: 1
+        }
       },
       1024: {
         slidesPerView: 3,
         spaceBetween: 30,
+        grid: {
+          fill: 'column',
+          rows: 1
+        }
       },
     },
   });
