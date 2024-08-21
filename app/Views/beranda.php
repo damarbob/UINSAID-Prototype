@@ -8,7 +8,7 @@
 
 <?= $this->section('content') ?>
 <!-- Section Hero -->
-<section id="hero" class="fluid bg-body p-0 mt-navbar position-relative">
+<section id="hero" class="fluid bg-body p-0 mt-navbar position-relative h-auto">
 
   <!-- <iframe id="player" class="m-0" src="https://www.youtube.com/embed/nd8aKZ8dvko?enablejsapi=1&version=3&controls=0&rel=0&autoplay=1&loop=1&mute=1&playlist=nd8aKZ8dvko&playsinline=1" title="YouTube video player" frameborder="0" referrerpolicy="strict-origin-when-cross-origin" allow="autoplay" allowfullscreen></iframe> -->
 
