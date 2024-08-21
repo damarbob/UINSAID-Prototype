@@ -95,3 +95,70 @@ if (!function_exists('create_slug')) {
         return $slug;
     }
 }
+
+if (!function_exists('format_date_to_array')) {
+    function format_date_to_array($date)
+    {
+        // Array to map Indonesian month names to their English equivalents
+        $indonesian_months = [
+            'Januari' => 'January',
+            'Februari' => 'February',
+            'Maret' => 'March',
+            'April' => 'April',
+            'Mei' => 'May',
+            'Juni' => 'June',
+            'Juli' => 'July',
+            'Agustus' => 'August',
+            'September' => 'September',
+            'Oktober' => 'October',
+            'November' => 'November',
+            'Desember' => 'December'
+        ];
+
+        // Replace Indonesian month name with English equivalent
+        foreach ($indonesian_months as $indonesian => $english) {
+            $date = str_replace($indonesian, $english, $date);
+        }
+
+        // Convert the date string to a timestamp
+        $timestamp = strtotime($date);
+
+        // Extract the day and the abbreviated month name
+        $day = date('d', $timestamp);
+        $month = date('M', $timestamp);
+
+        // Return them as an array
+        return [$day, $month];
+    }
+}
+
+if (!function_exists('format_tanggal_suatu_kolom')) {
+    /**
+     * --------------------------------------------------------------------------
+     * Format Tanggal Suatu Kolom
+     * --------------------------------------------------------------------------
+     * 
+     * Format datetime of selected column from database
+     * 
+     * Added 'formatted_datetime' key on returned array
+     * 
+     * @return $data with added 'formatted_datetime'
+     */
+    function format_tanggal_suatu_kolom($data, $kolom = 'created_at')
+    {
+        $isNotArray = false; // For use in return statement
+
+        // Ensure $data is always an array
+        if (!is_array($data) || isset($data[$kolom])) {
+            $isNotArray = true;
+            $data = array($data);
+        }
+
+        foreach ($data as &$item) {
+            $date = date_create($item[$kolom]);
+            $item['formatted_datetime'] = date_format($date, 'j M Y');
+        }
+
+        return $isNotArray ? $data[0] : $data; // Return first data directly if it's not array (single data), otherwise return array
+    }
+}

@@ -2,10 +2,14 @@
 
 namespace App\Controllers;
 
+use function App\Helpers\format_tanggal;
+use function App\Helpers\format_tanggal_suatu_kolom;
+
 class Home extends BaseController
 {
     public function index()
     {
+        helper('format');
         $this->data['heroTerbaru'] = [
             [
                 "kategori"              => "",
@@ -246,34 +250,39 @@ class Home extends BaseController
             ]
         ];
 
-        $this->data['berita'] = [
-            [
-                "image" => "https://www.uinsaid.ac.id/files/post/cover/persiapan-akreditasi-internasional-uin-surakarta-m-1714970024.JPG",
-                "judul" => "Persiapan Akreditasi Internasional, UIN Surakarta Undang Rafiazka Hilman",
-                "slug" => "Catat, UIN RM Said Masuk Jajaran Top 10 PTKIN",
-                "tgl_terbit" => "30 Maret 2024"
-            ],
-            [
-                "image" => "https://www.uinsaid.ac.id/files/post/cover/jauh-datang-dari-batam-kami-ucapkan-selamat-datang-1715059577.jpg",
-                "judul" => "Jauh Datang Dari Batam, Kami Ucapkan Selamat Datang. Kami Sambut Dengan Senyuman",
-                "tgl_terbit" => "30 Maret 2024"
-            ],
-            [
-                "image" => "https://www.uinsaid.ac.id/files/post/cover/uin-raden-mas-said-surakarta-raih-wtp-atas-laporan-1715060511.jpg",
-                "judul" => "UIN Raden Mas Said Surakarta Raih WTP atas Laporan Keuangan BLU Tahun Laporan 2023 dari Kantor Akuntan Publik",
-                "tgl_terbit" => "30 Maret 2024"
-            ],
-            [
-                "image" => "https://www.uinsaid.ac.id/files/post/cover/fab-uin-rm-said-holds-iccl-1716892667.jpg",
-                "judul" => "FAB UIN RM Said Holds 2nd ICCL 2024",
-                "tgl_terbit" => "30 Maret 2024"
-            ],
-            [
-                "image" => "https://www.uinsaid.ac.id/files/post/cover/optimalkan-blu-uin-rm-said-perkuat-kerjasama-1717059990.jpg",
-                "judul" => "Optimalkan BLU, UIN RM Said Perkuat Kerjasama",
-                "tgl_terbit" => "30 Maret 2024"
-            ],
-        ];
+        $beritaCard = $this->beritaModel->getTerbaru(5);
+        $beritaSwiper = $this->beritaModel->getTerbaru(5, 5);
+        $this->data['beritaCard'] = format_tanggal($beritaCard);
+        $this->data['beritaSwiper'] = format_tanggal($beritaSwiper);
+
+        // $this->data['berita'] = [
+        //     [
+        //         "image" => "https://www.uinsaid.ac.id/files/post/cover/persiapan-akreditasi-internasional-uin-surakarta-m-1714970024.JPG",
+        //         "judul" => "Persiapan Akreditasi Internasional, UIN Surakarta Undang Rafiazka Hilman",
+        //         "slug" => "Catat, UIN RM Said Masuk Jajaran Top 10 PTKIN",
+        //         "tgl_terbit" => "30 Maret 2024"
+        //     ],
+        //     [
+        //         "image" => "https://www.uinsaid.ac.id/files/post/cover/jauh-datang-dari-batam-kami-ucapkan-selamat-datang-1715059577.jpg",
+        //         "judul" => "Jauh Datang Dari Batam, Kami Ucapkan Selamat Datang. Kami Sambut Dengan Senyuman",
+        //         "tgl_terbit" => "30 Maret 2024"
+        //     ],
+        //     [
+        //         "image" => "https://www.uinsaid.ac.id/files/post/cover/uin-raden-mas-said-surakarta-raih-wtp-atas-laporan-1715060511.jpg",
+        //         "judul" => "UIN Raden Mas Said Surakarta Raih WTP atas Laporan Keuangan BLU Tahun Laporan 2023 dari Kantor Akuntan Publik",
+        //         "tgl_terbit" => "30 Maret 2024"
+        //     ],
+        //     [
+        //         "image" => "https://www.uinsaid.ac.id/files/post/cover/fab-uin-rm-said-holds-iccl-1716892667.jpg",
+        //         "judul" => "FAB UIN RM Said Holds 2nd ICCL 2024",
+        //         "tgl_terbit" => "30 Maret 2024"
+        //     ],
+        //     [
+        //         "image" => "https://www.uinsaid.ac.id/files/post/cover/optimalkan-blu-uin-rm-said-perkuat-kerjasama-1717059990.jpg",
+        //         "judul" => "Optimalkan BLU, UIN RM Said Perkuat Kerjasama",
+        //         "tgl_terbit" => "30 Maret 2024"
+        //     ],
+        // ];
         $this->data['pojokPimpinan'] = [
             [
                 "judul"     => "KKN Internasional & Upaya Peningkatan Daya Saing Global",
@@ -294,43 +303,49 @@ class Home extends BaseController
                 "ringkasan" => "Mahasiswa UIN Raden Mas Said Surakarta, seperti mahasiswa di seluruh dunia lainnya, dihadapkan pada persaingan global yang menuntut kemampuan adaptasi dan bersaing di berbagai bidang."
             ],
         ];
-        $this->data['agenda'] = [
-            [
-                "judul" => "Piala Rektor UIN RM Said Surakarta Tahun 2024 Piala Rektor 2024",
-                "slug" => "Catat, UIN RM Said Masuk Jajaran Top 10 PTKIN",
-                "tgl_terbit" => "30 Maret 2024"
-            ],
-            [
-                "judul" => "Wisuda Ke-56 UIN Raden Mas Said Surakarta Juli 2024",
-                "tgl_terbit" => "30 Maret 2024"
-            ],
-            [
-                "judul" => "Seminar Moderasi & Toleransi bersama Kemenag Sukoharjo ",
-                "tgl_terbit" => "30 Maret 2024"
-            ],
-            [
-                "judul" => "Call for Papers and Participants 4th International Conference",
-                "tgl_terbit" => "30 Maret 2024"
-            ]
-        ];
-        $this->data['pengumuman'] = [
-            [
-                "judul" => "Prosedur Pembuatan KTM Untuk Mahasiswa Baru",
-                "slug" => "Catat, UIN RM Said Masuk Jajaran Top 10 PTKIN",
-                "tanggal" => $this->formatDateToArray("30 Maret 2024")[0],
-                "bulan" => $this->formatDateToArray("30 Maret 2024")[1]
-            ],
-            [
-                "judul" => "Pendaftaran Wisuda Ke-56 UIN Raden Mas Said Surakarta Juli 2024",
-                "tanggal" => $this->formatDateToArray("30 Maret 2024")[0],
-                "bulan" => $this->formatDateToArray("30 Maret 2024")[1]
-            ],
-            [
-                "judul" => "Registrasi Mahasiswa Baru UIN Raden Mas Said Surakarta Jalur SNBT ",
-                "tanggal" => $this->formatDateToArray("30 Maret 2024")[0],
-                "bulan" => $this->formatDateToArray("30 Maret 2024")[1]
-            ],
-        ];
+
+        $agenda = $this->agendaModel->getTerbaru(4);
+        $this->data['agenda'] = format_tanggal_suatu_kolom($agenda, 'waktu');
+        // $this->data['agenda'] = [
+        //     [
+        //         "judul" => "Piala Rektor UIN RM Said Surakarta Tahun 2024 Piala Rektor 2024",
+        //         "slug" => "Catat, UIN RM Said Masuk Jajaran Top 10 PTKIN",
+        //         "tgl_terbit" => "30 Maret 2024"
+        //     ],
+        //     [
+        //         "judul" => "Wisuda Ke-56 UIN Raden Mas Said Surakarta Juli 2024",
+        //         "tgl_terbit" => "30 Maret 2024"
+        //     ],
+        //     [
+        //         "judul" => "Seminar Moderasi & Toleransi bersama Kemenag Sukoharjo ",
+        //         "tgl_terbit" => "30 Maret 2024"
+        //     ],
+        //     [
+        //         "judul" => "Call for Papers and Participants 4th International Conference",
+        //         "tgl_terbit" => "30 Maret 2024"
+        //     ]
+        // ];
+
+        $pengumuman = $this->pengumumanModel->getTerbaru(3);
+        $this->data['pengumuman'] = $pengumuman;
+        // $this->data['pengumuman'] = [
+        //     [
+        //         "judul" => "Prosedur Pembuatan KTM Untuk Mahasiswa Baru",
+        //         "slug" => "Catat, UIN RM Said Masuk Jajaran Top 10 PTKIN",
+        //         "tanggal" => $this->formatDateToArray("30 Maret 2024")[0],
+        //         "bulan" => $this->formatDateToArray("30 Maret 2024")[1]
+        //     ],
+        //     [
+        //         "judul" => "Pendaftaran Wisuda Ke-56 UIN Raden Mas Said Surakarta Juli 2024",
+        //         "tanggal" => $this->formatDateToArray("30 Maret 2024")[0],
+        //         "bulan" => $this->formatDateToArray("30 Maret 2024")[1]
+        //     ],
+        //     [
+        //         "judul" => "Registrasi Mahasiswa Baru UIN Raden Mas Said Surakarta Jalur SNBT ",
+        //         "tanggal" => $this->formatDateToArray("30 Maret 2024")[0],
+        //         "bulan" => $this->formatDateToArray("30 Maret 2024")[1]
+        //     ],
+        // ];
         return view('beranda', $this->data);
     }
 
@@ -341,39 +356,5 @@ class Home extends BaseController
 
         // Format the date to display only the day and the first three letters of the month
         return date('d M', $timestamp);
-    }
-
-    function formatDateToArray($date)
-    {
-        // Array to map Indonesian month names to their English equivalents
-        $indonesian_months = [
-            'Januari' => 'January',
-            'Februari' => 'February',
-            'Maret' => 'March',
-            'April' => 'April',
-            'Mei' => 'May',
-            'Juni' => 'June',
-            'Juli' => 'July',
-            'Agustus' => 'August',
-            'September' => 'September',
-            'Oktober' => 'October',
-            'November' => 'November',
-            'Desember' => 'December'
-        ];
-
-        // Replace Indonesian month name with English equivalent
-        foreach ($indonesian_months as $indonesian => $english) {
-            $date = str_replace($indonesian, $english, $date);
-        }
-
-        // Convert the date string to a timestamp
-        $timestamp = strtotime($date);
-
-        // Extract the day and the abbreviated month name
-        $day = date('d', $timestamp);
-        $month = date('M', $timestamp);
-
-        // Return them as an array
-        return [$day, $month];
     }
 }

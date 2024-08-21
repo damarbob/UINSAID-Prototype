@@ -213,10 +213,10 @@
 
       <!-- Tulisan -->
       <div class="col-xl-4">
-        <h2 class="fw-bold"><?= $poinUinRmSaid['judul'] ?></h2>
+        <h2 class="fw-bold" data-aos="fade-right"><?= $poinUinRmSaid['judul'] ?></h2>
         <div class="lurik-3 mt-2 mb-4"></div>
-        <p><?= $poinUinRmSaid['keterangan'] ?></p>
-        <a href="" class="fw-bold">Selengkapnya</a>
+        <p data-aos="fade-right"><?= $poinUinRmSaid['keterangan'] ?></p>
+        <a href="" class="fw-bold" data-aos="fade-right">Selengkapnya</a>
       </div>
 
       <!-- Poin-poin -->
@@ -224,7 +224,7 @@
         <div class="row g-4">
           <?php foreach ($poinUinRmSaid['poin'] as $p => $key) : ?>
             <div class="col-md-4">
-              <div class="card rounded-2 d-flex flex-sm-col <?= $p == 0 ? 'bg-primary text-light' : ($p == 1 ? 'bg-secondary text-light' : 'bg-body-secondary text-body-emphasis') ?>">
+              <div class="card rounded-2 d-flex flex-sm-col <?= $p == 0 ? 'bg-primary text-light' : ($p == 1 ? 'bg-secondary text-light' : 'bg-body-secondary text-body-emphasis') ?>" data-aos="fade-left" data-aos-delay="<?= $p == 0 ? '100' : ($p == 1 ? '200' : '300') ?>">
                 <div class="card-body flex-grow-1 pb-0">
                   <h5 class="card-title fw-bold"><?= $key['judul'] ?></h5>
                   <p class="card-text" style="font-size: 12px"><?= $key['keterangan'] ?></p>
@@ -249,7 +249,7 @@
     <div class="row g-4 p-2 p-sm-5">
 
       <!-- Tulisan -->
-      <div class="col-lg-2 d-flex align-items-center">
+      <div class="col-lg-2 d-flex align-items-center" data-aos="fade-up">
         <div>
           <h2 class="fw-bold" style="color: #955900;">Data Statistik</h2>
           <p class="text-light">UIN Raden Mas Said Surakarta</p>
@@ -261,7 +261,7 @@
         <div class="row g-2 mb-4">
           <?php foreach ($statistik['utama'] as $s => $key) : ?>
             <div class="col-md-4">
-              <div class="d-inline-flex align-items-center rounded-3 p-3 w-100 shadow" style="background-color: #FFC42E;  border-color: #573400 !important;">
+              <div class="d-inline-flex align-items-center rounded-3 p-3 w-100 shadow" style="background-color: #FFC42E;  border-color: #573400 !important;" data-aos="fade-up" data-aos-delay="<?= $s == 0 ? '100' : ($s == 1 ? '200' : '300') ?>">
 
                 <div class="d-flex wh-64px rounded-2 p-2 me-3" style="background-color: #D57301; border-color: #573400 !important;">
                   <img src="<?= $key['gambar'] ?>" class="w-100 me-2 align-self-center">
@@ -279,7 +279,7 @@
         <div class="row g-2 mb-4">
           <div class="col">
             <?php foreach ($statistik['lainnya'] as $s => $key) : ?>
-              <div class="d-inline-flex p-3 me-2 mb-2 text-light rounded-3 shadow fs-6" style="width: auto; background-color: #D27E00; border-color: #462A00 !important;">
+              <div class="d-inline-flex p-3 me-2 mb-2 text-light rounded-3 shadow fs-6" style="width: auto; background-color: #D27E00; border-color: #462A00 !important;" data-aos="fade-left" data-aos-delay="<?= $s == 0 ? '100' : ($s == 1 ? '200' : ($s == 2 ? '300' : ($s == 3 ? '400' : ($s == 4 ? '500' : '600')))) ?>">
                 <p class="h5 fw-bold me-2 m-0"><?= $key['nilai'] ?></p>
                 <p class="m-0"><?= $key['namaStatistik'] ?></p>
               </div>
@@ -377,18 +377,19 @@
     <div class="row g-4 mb-4 justify-content-center">
 
       <!-- Item berita -->
-      <?php foreach ($berita as $b => $key) : ?>
+      <?php foreach ($beritaCard as $b => $key) : ?>
         <div class="col-lg-4 col-xl-15 col-md-6" id="item-berita" data-aos="fade-up">
-          <div class="card" data-mdb-ripple-init>
+          <div class="card">
 
             <!-- Gambar berita -->
-            <img src="<?= $key['image'] ?>" class="card-img-top" alt="...">
-
+            <div class="bg-image hover-overlay d-flex align-items-center" data-mdb-ripple-init data-mdb-ripple-color="light" style="max-height: 256px;">
+              <img src="<?= $key['gambar_sampul'] ?>" class="card-img-top img-fluid object-fit-cover" alt="...">
+            </div>
             <!-- Konten berita -->
             <!-- <div class="card-header">
             </div> -->
             <div class="card-body">
-              <p class="card-text"><?= $key['tgl_terbit'] ?></p>
+              <p class="card-text"><?= $key['created_at_terformat'] ?></p>
               <a href="#">
                 <p class="card-title text-body">
                   <?= $key['judul'] ?>
@@ -409,27 +410,41 @@
 
 
         <!-- Slider berita -->
-        <div class="swiper" id="swiper-berita">
+        <div class="swiper py-3 px-2" id="swiper-berita">
           <!-- Additional required wrapper -->
           <div class="swiper-wrapper">
             <!-- Slides -->
-            <?php foreach ($berita as $i => $b) : ?>
+            <?php foreach ($beritaSwiper as $i => $b) : ?>
               <div class="swiper-slide">
                 <div class="swiper-slide-transform">
                   <div class="card berita-card text-body border-3 rounded-4">
-                    <img src="<?= $b['image'] ?>" class="card-img" alt="Agenda Image">
+                    <div class="d-flex align-items-center" data-mdb-ripple-init data-mdb-ripple-color="light" style="width: 96px;">
+                      <img src="<?= $b['gambar_sampul'] ?>" class="card-img" alt="Gambar Berita">
+                    </div>
                     <div class="d-flex flex-column justify-content-center ps-3">
                       <a href="">
                         <h6 class="card-title text-body"><?= $b['judul'] ?></h6>
                       </a>
                       <div class="d-flex align-items-center mb-2">
-                        <span><small><?= $b['tgl_terbit'] ?></small></span>
+                        <span style="font-size:small"><?= $b['created_at_terformat'] ?></span>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             <?php endforeach; ?>
+            <div class="swiper-slide">
+              <div class="swiper-slide-transform">
+                <div class="card berita-card text-body border-3 rounded-4">
+                  <div class="d-flex flex-column justify-content-center ps-3 align-items-center">
+                    <a href="">
+                      <h5 class="card-title text-body">Follow Instagram UIN RM Said</h5>
+                    </a>
+                  </div>
+                  <img src="assets/img/mahasiswa/mahasiswa-1.png" class="card-img" alt="Gambar">
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -461,14 +476,14 @@
       <div class="col-lg-6" id="pojok-pimpinan">
 
         <div class="row g-4">
-          <div class="col">
+          <div class="col" data-aos="fade-up">
             <h2 class="fw-bold">Pojok Pimpinan</h2>
             <div class="lurik-4"></div>
           </div>
         </div>
 
         <div class="row g-4">
-          <div class="col">
+          <div class="col" data-aos="fade-up">
 
             <?php foreach ($pojokPimpinan as $p => $key) : ?>
               <div class="card mb-4">
@@ -491,14 +506,14 @@
       <div class="col-lg-6" id="pojok-pimpinan">
 
         <div class="row">
-          <div class="col">
+          <div class="col" data-aos="fade-up">
             <h2 class="fw-bold">Opini</h2>
             <div class="lurik-4"></div>
           </div>
         </div>
 
         <div class="row g-4">
-          <div class="col">
+          <div class="col" data-aos="fade-up">
 
             <?php foreach ($opini as $p => $key) : ?>
               <div class="card mb-4">
@@ -544,10 +559,10 @@
 
             <!-- Konten agenda -->
             <div class="card-body">
-              <p class="card-text"><?= $key['tgl_terbit'] ?></p>
+              <p class="card-text"><?= $key['formatted_datetime'] ?></p>
               <a href="#">
                 <p class="card-title text-body">
-                  <?= $key['judul'] ?>
+                  <?= $key['agenda'] ?>
                 </p>
               </a>
             </div>
@@ -581,23 +596,23 @@
         <div class="row pb-4">
 
           <?php foreach ($pengumuman as $p => $key) : ?>
-            <div class="col-lg-4">
+            <div class="col-lg-4" data-aos="fade-up">
               <div class="card">
                 <div class="d-flex p-3">
 
                   <div class="px-3">
                     <p class="mb-0 text-primary">
                       <span class="h3 fw-bold">
-                        <?= $key['tanggal'] ?>
+                        <?= $key['waktu_terformat'][0] ?>
                       </span>
                       <br>
-                      <?= $key['bulan'] ?>
+                      <?= $key['waktu_terformat'][1] ?>
                     </p>
                   </div>
                   <div class="flex-grow-1 d-flex align-items-center">
                     <a href="#">
                       <p class="card-title text-body fw-bold fs-6 mb-0">
-                        <?= $key['judul'] ?>
+                        <?= $key['pengumuman'] ?>
                       </p>
                     </a>
                   </div>
@@ -628,19 +643,19 @@
 
     <!-- Logo -->
     <div class="row gx-4 gy-5 align-items-center align-self-center justify-content-center" data-aos="fade-up">
-      <div class="col-xl-2 col-lg-3 col-md-4 d-flex justify-content-center">
+      <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 d-flex justify-content-center">
         <img src="assets/img/LOGO BLU_SPEEDCIRCLE.png" style="width: 128px;height: 100%;object-fit: scale-down;" /> <!-- todo: style -->
       </div>
-      <div class="col-xl-2 col-lg-3 col-md-4 d-flex justify-content-center">
+      <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 d-flex justify-content-center">
         <img src="https://th.bing.com/th/id/OIP.fineWnFIFMDVRCzgORCDFQHaHa?pid=ImgDetMain" style="width: 128px;height: 100%;object-fit: scale-down;" /> <!-- todo: style -->
       </div>
-      <div class="col-xl-2 col-lg-3 col-md-4 d-flex justify-content-center">
+      <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 d-flex justify-content-center">
         <img src="https://iconlogovector.com/uploads/images/2023/05/lg-7a359c6dfcb72ca61d94df92ac78afdf98.jpg" style="width: 128px;height: 100%;object-fit: scale-down;" /> <!-- todo: style -->
       </div>
-      <div class="col-xl-2 col-lg-3 col-md-4 d-flex justify-content-center">
+      <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 d-flex justify-content-center">
         <img src="https://logosmarcas.net/wp-content/uploads/2020/09/SpaceX-Simbolo.jpg" style="width: 128px;height: 100%;object-fit: scale-down;" /> <!-- todo: style -->
       </div>
-      <div class="col-xl-2 col-lg-3 col-md-4 d-flex justify-content-center">
+      <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 d-flex justify-content-center">
         <img src="https://th.bing.com/th/id/OIP.arezqGrVeKUAmuKTaXGGEgHaEK?pid=ImgDetMain" style="width: 128px;height: 100%;object-fit: scale-down;" /> <!-- todo: style -->
       </div>
     </div>

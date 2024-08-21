@@ -84,12 +84,13 @@ class BeritaModel extends \CodeIgniter\Model
             ->paginate(10, 'berita'));
     }
 
-    public function getTerbaru($jumlah)
+    public function getTerbaru($jumlah, $offset = 0)
     {
         return $this->formatSampul($this->select('berita.*, users.username as penulis_username, kategori.nama as kategori')
             ->join('users', 'users.id = berita.id_penulis', 'left')
             ->join('kategori', 'kategori.id = berita.id_kategori', 'left')
             ->orderBy('berita.created_at', 'DESC')
+            ->offset($offset)
             ->findAll($jumlah));
     }
 
