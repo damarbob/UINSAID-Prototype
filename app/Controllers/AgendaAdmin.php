@@ -212,7 +212,7 @@ class AgendaAdmin extends BaseControllerAdmin
                 'rules' => 'required',
             ],
             'file_gambar' => [
-                'rules' => 'max_size[file_gambar,4096]|mime_in[file_gambar,image/png,image/jpeg,image/jpg|is_image[file_gambar]',
+                'rules' => 'max_size[file_gambar,4096]|mime_in[file_gambar,image/png,image/jpeg,image/jpg]|is_image[file_gambar]',
             ]
         ];
 

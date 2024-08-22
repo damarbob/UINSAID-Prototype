@@ -3,6 +3,28 @@
 <?= $this->section('style') ?>
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
 <link href="https://unpkg.com/gijgo@1.9.14/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+<style>
+    .card-gallery {
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+        border: 2px solid transparent;
+        /* Default border */
+    }
+
+    .card-gallery:hover {
+        transform: scale(1.05);
+        /* Scale up on hover */
+    }
+
+    .card-gallery.selected {
+        border: 2px solid var(--mdb-primary);
+        /* Blue border when selected */
+        box-shadow: 0 0 10px rgba(var(--mdb-primary-rgb) 0.5);
+        /* Add shadow for emphasis */
+        transform: scale(1.1);
+        /* Slightly larger when selected */
+    }
+</style>
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
@@ -122,6 +144,11 @@ if ($mode == "tambah") {
         <div class="col-md-12">
             <!-- Select from Gallery Section -->
             <div id="gallery-section" style="display:none;">
+                <div id="loading-spinner" class="text-center" style="display:none;">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
                 <div class="row" id="gallery-thumbnails"></div>
                 <div id="pagination"></div>
                 <input type="hidden" name="galeri" id="selected-image-id">
@@ -166,13 +193,21 @@ if ($mode == "tambah") {
                 } else {
                     uploadSection.style.display = 'none';
                     gallerySection.style.display = 'block';
-                    loadGallery(1); // Load the first page of the gallery
+                    // loadGallery(1); // Load the first page of the gallery
+
+                    // Load the gallery only if it's the first time opening this section
+                    if ($('#gallery-thumbnails').is(':empty')) {
+                        loadGallery(1);
+                    }
                 }
             });
         });
     });
 
     function loadGallery(page) {
+        // Show the spinner
+        $('#loading-spinner').show();
+
         $.ajax({
             url: '/api/galeri',
             data: {
@@ -189,7 +224,7 @@ if ($mode == "tambah") {
                 response.data.forEach(function(item) {
                     const thumbnail = `
                     <div class="col-md-3 mb-4 gallery-item">
-    <div class="card"><img src="${item.uri}" data-id="${item.id}" class="thumbnail"><div class="card-body">
+    <div class="card card-gallery" data-id="${item.id}"><img src="${item.uri}" class="thumbnail"><div class="card-body">
             <h6 class="card-title">${item.judul}</h6>
         </div>
     </div>
@@ -220,18 +255,37 @@ if ($mode == "tambah") {
 
                 paginationContainer.html(paginationHtml);
 
-                // Handle thumbnail click
-                $('.thumbnail').click(function() {
-                    $('.thumbnail').removeClass('selected');
+                // Handle card-gallery click
+                $('.card-gallery').click(function() {
+                    $('.card-gallery').removeClass('selected');
                     $(this).addClass('selected');
                     $('#selected-image-id').val($(this).data('id')); // Store the selected image ID
+
+                    // Show a small notification
+                    // const message = $('<div class="selection-message">Image Selected!</div>');
+                    // $('body').append(message);
+                    // message.css({
+                    //     position: 'absolute',
+                    //     left: $(this).offset().left + $(this).width() / 2 - message.width() / 2,
+                    //     top: $(this).offset().top - 30,
+                    //     display: 'none'
+                    // });
+                    // message.fadeIn().delay(1000).fadeOut(function() {
+                    //     $(this).remove();
+                    // });
                 });
 
                 // Handle pagination click
                 $('.page-link').click(function(e) {
                     e.preventDefault();
+                    thumbnailsContainer.empty()
                     loadGallery($(this).data('page'));
                 });
+            },
+
+            complete: function() {
+                // Hide the spinner when the request completes
+                $('#loading-spinner').hide();
             }
         });
     }
