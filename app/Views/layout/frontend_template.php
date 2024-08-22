@@ -72,6 +72,13 @@
 </head>
 
 <body>
+  <?php
+  // Get the current request instance
+  $request = service('request');
+
+  // Get the URI string
+  $currentRoute = $request->uri->getPath();
+  ?>
 
   <button id="themeToggle" class="btn btn-lg btn-fab-lg btn-primary btn-floating rounded-pill position-fixed start-0 bottom-0 ms-7 mb-10" style="z-index: 50000;" data-mdb-ripple-init>
     <i class="bi bi-moon-stars"></i>
@@ -122,15 +129,20 @@
       <div class="collapse navbar-collapse mb-2 mb-sm-0" id="navbarSupportedContent">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0 me-4 fw-bold">
 
+          <!-- Link Tentang kami -->
+          <li class="nav-item">
+            <a data-mdb-ripple-init class="nav-link <?= $currentRoute == "tentang-kami" ? "active" : "" ?>" href="<?= base_url('tentang-kami') ?>">Tentang Kami</a>
+          </li>
+
           <!-- Dropdown Tentang Kami -->
-          <li class="nav-item dropdown">
+          <!-- <li class="nav-item dropdown">
             <a data-mdb-dropdown-init
               data-mdb-ripple-init
               data-mdb-auto-close="true" class="nav-link dropdown-toggle" href="#" id="navbarDropdownTentangKami" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
               Tentang Kami
-            </a>
-            <!-- Dropdown menu -->
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdownTentangKami">
+            </a> -->
+          <!-- Dropdown menu -->
+          <!-- <ul class="dropdown-menu" aria-labelledby="navbarDropdownTentangKami">
               <li><a href="/tentang-kami" class="dropdown-item">Tentang UIN RM Said</a></li>
               <li><a href="#" class="dropdown-item">Sambutan Rektor</a></li>
               <li><a href="#" class="dropdown-item">Sejarah</a></li>
@@ -140,12 +152,12 @@
               <li><a href="#" class="dropdown-item">Fasilitas</a></li>
               <li><a href="#" class="dropdown-item">Peta Kampus</a></li>
             </ul>
-          </li>
+          </li> -->
 
           <!-- Dropdown Pendidikan -->
           <li class="nav-item dropdown">
             <a
-              class="nav-link dropdown-toggle"
+              class="nav-link dropdown-toggle <?= $currentRoute == "pendidikan" ? "active" : "" ?>"
               role="button"
               data-mdb-dropdown-init
               data-mdb-ripple-init
@@ -189,8 +201,8 @@
             </a>
             <!-- Dropdown menu -->
             <ul class="dropdown-menu" aria-labelledby="navbarDropdownRisetDanPublikasi">
-              <li><a href="#" class="dropdown-item">Omah Jurnal</a></li>
-              <li><a href="#" class="dropdown-item">Repositori Jurnal</a></li>
+              <li><a href="https://ejournal.uinsaid.ac.id/" class="dropdown-item">Omah Jurnal</a></li>
+              <li><a href="https://eprints.iain-surakarta.ac.id/" class="dropdown-item">Repositori Jurnal</a></li>
             </ul>
           </li>
 

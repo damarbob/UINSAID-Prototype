@@ -102,4 +102,27 @@ return [
 
     'lainnya' => 'Lainnya',
     'pilihAtauInputKategori' => 'Pilih atau input kategori',
+
+    'waktu' => 'Waktu',
+    'unggah' => 'Unggah',
+
+    'agenda' => 'Agenda',
+    'kelolaAgenda' => 'Kelola agenda',
+    'suntingAgenda' => 'Sunting Agenda',
+    'tambahAgenda' => 'Tambah Agenda',
+    'hapusAgenda' => 'Hapus Agenda',
+    'hapusAgendaKonfirmasi' => 'Lanjutkan untuk menghapus? Agenda yang terhapus tidak dapat dikembalikan.',
+
+    'pengumuman' => 'Pengumuman',
+    'kelolaPengumuman' => 'Kelola pengumuman',
+    'suntingPengumuman' => 'Sunting Pengumuman',
+    'tambahPengumuman' => 'Tambah Pengumuman',
+    'hapusPengumuman' => 'Hapus Pengumuman',
+    'hapusPengumumanKonfirmasi' => 'Lanjutkan untuk menghapus? Pengumuman yang terhapus tidak dapat dikembalikan.',
+
+    'galeri' => 'Galeri',
+    'deskripsi' => 'Deskripsi',
+    'judulGambar' => 'Judul gambar',
+
+    'harusDiinput' => 'Harus diinput',
 ];
