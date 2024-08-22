@@ -28,7 +28,9 @@
 
                                         <!-- Gambar artikel -->
                                         <div class="col-md-6">
-                                            <img src="<?= $a['gambar_sampul'] ?>" class="object-fit-cover w-100 border border-white" style="height: 384px; border-width: 16px !important;" alt="..." />
+                                            <div style="height: 384px; border: 1rem solid var(--mdb-body-bg);">
+                                                <img src="<?= $a['gambar_sampul'] ?>" class="w-100 object-fit-cover" style="height: 384px;" alt="..." />
+                                            </div>
                                         </div>
 
                                         <!-- Body artikel -->
@@ -40,7 +42,7 @@
 
                                                 <!-- Judul -->
                                                 <h3 class="card-title mb-3">
-                                                    <a class="link-dark text-decoration-none crop-text-2" href="<?= base_url('berita/' . $a['slug']) ?>"><?= $a['judul']; ?></a>
+                                                    <a class="text-decoration-none crop-text-2" href="<?= base_url('berita/' . $a['slug']) ?>"><?= $a['judul']; ?></a>
                                                 </h3>
 
                                                 <!-- Ringkasan -->

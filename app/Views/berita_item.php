@@ -56,7 +56,7 @@
                 <div class="row g-0">
                     <div class="col">
                         <div class="ratio ratio-4x3">
-                            <img data-aos="fade-up" class="border border-white object-fit-cover" style="border-width: 16px !important;" src="<?= $berita['gambar_sampul']; ?>" />
+                            <img data-aos="fade-up" class="object-fit-cover" style="border: 1rem solid var(--mdb-body-bg);" src="<?= $berita['gambar_sampul']; ?>" />
                         </div>
                     </div>
                 </div>

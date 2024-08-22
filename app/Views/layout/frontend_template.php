@@ -1,3 +1,10 @@
+<?php
+// Get the current request instance
+$request = service('request');
+
+// Get the URI string
+$currentRoute = $request->uri->getPath();
+?>
 <!DOCTYPE html>
 <html lang="id" dir="">
 
@@ -42,7 +49,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
   <!-- Bootstrap -->
-  <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"> -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <!-- MDB -->
   <link id="mdbCSS" rel="stylesheet" href="<?= base_url("assets/css/c.css") ?>" />
   <!-- Custom CSS -->
@@ -80,6 +87,7 @@
   $currentRoute = $request->uri->getPath();
   ?>
 
+  <!-- Toggle tema gelap terang -->
   <button id="themeToggle" class="btn btn-lg btn-fab-lg btn-primary btn-floating rounded-pill position-fixed start-0 bottom-0 ms-7 mb-10" style="z-index: 50000;" data-mdb-ripple-init>
     <i class="bi bi-moon-stars"></i>
   </button>
@@ -162,7 +170,7 @@
               data-mdb-dropdown-init
               data-mdb-ripple-init
               data-mdb-auto-close="true"
-              href="/pendidikan" id="navbarDropdownPendidikan"
+              href="<?= base_url('pendidikan') ?>" id="navbarDropdownPendidikan"
               data-mdb-toggle="dropdown"
               aria-expanded="false">
               Pendidikan
@@ -213,7 +221,7 @@
 
           <!-- Link Mahasiswa Baru -->
           <li class="nav-item">
-            <a data-mdb-ripple-init class="nav-link" href="#">Mahasiswa Baru</a>
+            <a data-mdb-ripple-init class="nav-link" href="https://admisi.uinsaid.ac.id/id">Mahasiswa Baru</a>
           </li>
 
           <!-- Link PPID -->
@@ -311,7 +319,7 @@
         <!-- Left links -->
         <ul class="navbar-nav d-inline-flex flex-row w-100">
           <li class="nav-item text-center" style="flex: 1;"> <!-- todo: style -->
-            <a class="nav-link active" aria-current="page" href="#!">
+            <a class="nav-link <?= $currentRoute == "/" ? "active" : "" ?>" aria-current="page" href="<?= base_url() ?>">
               <div>
                 <!-- <i class="fas fa-home fa-lg mb-1"></i> -->
                 <i class="bi bi-house-door fs-1 mb-1"></i>
@@ -321,7 +329,7 @@
             </a>
           </li>
           <li class="nav-item text-center" style="flex: 1;"> <!-- todo: style -->
-            <a class="nav-link" href="#!">
+            <a class="nav-link <?= $currentRoute == "kategori/berita" ? "active" : "" ?>" href="<?= base_url('kategori/berita') ?>">
               <div>
                 <!-- <i class="fas fa-globe-americas fa-lg mb-1"></i> -->
                 <i class="bi bi-newspaper fs-1 mb-1"></i>
@@ -332,7 +340,7 @@
             </a>
           </li>
           <li class="nav-item text-center" style="flex: 1;"> <!-- todo: style -->
-            <a class="nav-link" href="#!">
+            <a class="nav-link" href="https://admisi.uinsaid.ac.id/id">
               <div>
                 <!-- <i class="fa-solid fa-user-plus fa-lg mb-1"></i> -->
                 <i class="bi bi-mortarboard fs-1 mb-1"></i>
@@ -342,13 +350,14 @@
             </a>
           </li>
           <li class="nav-item text-center" style="flex: 1;"> <!-- todo: style -->
-            <a class="nav-link" href="#!">
+            <a class="nav-link <?= $currentRoute == "kategori/artikel" ? "active" : "" ?>" href="<?= base_url('kategori/artikel') ?>">
               <div>
                 <!-- <i class="fa-solid fa-universal-access fa-lg mb-1"></i> -->
-                <i class="bi bi-universal-access-circle fs-1 mb-1"></i>
-                <!-- <img src="assets/img/icon/ikon-beranda.png"> -->
+                <!-- <i class="bi bi-universal-access-circle fs-1 mb-1"></i> -->
+                <i class="bi bi-journal-text fs-1 mb-1"></i>
+                <!-- <img src=" assets/img/icon/ikon-beranda.png"> -->
               </div>
-              <span style="font-size: small;">Aksesibilitas</span> <!-- todo: style -->
+              <span style="font-size: small;">Artikel</span> <!-- todo: style -->
             </a>
           </li>
           <!-- <li class="nav-item dropup text-center mx-2 mx-lg-1">
@@ -538,7 +547,7 @@
     <!-- Akhir footer bagian atas -->
 
     <!-- Hak cipta -->
-    <div class="container z-3 bg-black py-4 pb-8 pb-md-0">
+    <div class="container z-3 bg-black py-4 pb-9 pb-md-0">
       <div class="row">
         <div class="col text-center">
           <!-- Teks hak cipta -->

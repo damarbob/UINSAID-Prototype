@@ -260,18 +260,16 @@ body {
 }
 
 /* Hero Section */
-/* #hero {
-  background: url("../img/uinsaid-video-bg-blur-new.png") center center no-repeat;
-  background-attachment: fixed;
-  background-size: contain;
+#hero {
+  background-image: url("../img/wisuda.jpeg");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
   width: 100%;
   min-height: 576px;
   height: 100vh;
-  max-height: 742.5px;
-  max-height: 700px;
-  z-index: -3;
-  overflow: hidden;
-} */
+  max-height: 1080px;
+}
 
 @media (max-width: 991.5px) {
   /* Hero behavior on large screens */

@@ -1,17 +1,4 @@
-/* Section Hero */
-#hero {
-  background: url("../img/wisuda.jpeg") center center no-repeat;
-  /* background-attachment: fixed; */
-  background-size: cover;
-  width: 100%;
-  min-height: 576px;
-  height: 100vh;
-  /* max-height: 742.5px; */
-  max-height: 1080px;
-  z-index: -3;
-}
-
-/* Section cari prodi */
+Z/* Section cari prodi */
 #text-cari-prodi {
   background: var(--mdb-primary);
   border-radius: 8px;
