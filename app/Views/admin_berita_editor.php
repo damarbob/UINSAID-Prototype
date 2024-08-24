@@ -39,6 +39,7 @@ if ($mode == "tambah") {
 <?php endif; ?>
 
 <form method="post" action="<?= ($mode == "tambah") ? base_url('/admin/berita/tambah/simpan') : base_url('/admin/berita/sunting/simpan/') . $berita['id'] ?>" class="form-container needs-validation" enctype="multipart/form-data" novalidate>
+    <?= csrf_field() ?>
     <div class="row mb-3">
         <div class="col-md-9">
             <!-- Judul -->
@@ -83,7 +84,7 @@ if ($mode == "tambah") {
                 <label class="form-check-label" for="kategoriRadioLainnya"><?= lang('Admin.lainnya') ?></label>
                 <input type="text" class="form-control mt-2 mb-3" id="inputKategoriLainnya" name="kategori_lainnya" placeholder="input kategori" disabled>
                 <div class="invalid-feedback">
-                    <?= lang('pilihAtauInputKategori') ?>
+                    <?= lang('Admin.pilihAtauInputKategori') ?>
                 </div>
             </div>
 
