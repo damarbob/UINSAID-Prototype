@@ -603,10 +603,10 @@
                   <div class="px-3">
                     <p class="mb-0 text-primary">
                       <span class="h3 fw-bold">
-                        <?= $key['waktu_terformat'][0] ?>
+                        <?= $key['waktu_terformat_tanggal'] ?>
                       </span>
                       <br>
-                      <?= $key['waktu_terformat'][1] ?>
+                      <?= $key['waktu_terformat_bulan'] ?>
                     </p>
                   </div>
                   <div class="flex-grow-1 d-flex align-items-center">

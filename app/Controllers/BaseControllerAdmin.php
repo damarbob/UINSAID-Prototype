@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\AnggotaModel;
+use App\Models\BeritaDiajukanModel;
 use App\Models\MasukanModel;
 use App\Models\BeritaModel;
 use App\Models\GaleriModel;
@@ -57,6 +58,7 @@ abstract class BaseControllerAdmin extends Controller
     // Initialize models
     protected $userModel;
     protected $beritaModel;
+    protected $beritaDiajukanModel;
     protected $galeriModel;
     protected $masukanModel;
     protected $anggotaModel;
@@ -72,6 +74,7 @@ abstract class BaseControllerAdmin extends Controller
 
         // Preload any models, libraries, etc, here.
         $this->beritaModel = new BeritaModel();
+        $this->beritaDiajukanModel = new BeritaDiajukanModel();
         $this->galeriModel = new GaleriModel();
         $this->masukanModel = new MasukanModel();
         $this->anggotaModel = null; //new AnggotaModel();

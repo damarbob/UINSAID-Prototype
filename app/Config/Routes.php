@@ -54,9 +54,18 @@ $routes->group('admin', ['filter' => 'group:admin,superadmin'], function ($route
     $routes->post('berita/sunting/simpan/(:num)', 'BeritaAdmin::simpan/$1');
     $routes->post('berita/hapus', 'BeritaAdmin::hapusBanyak');
 
+    // Berita (selain web utama)
+    $routes->post('berita/ajukan', 'BeritaAdmin::ajukanBanyak');
+    $routes->post('berita/batal-ajukan', 'BeritaAdmin::batalAjukanBanyak');
+
     // Unggah dan hapus gambar berita
     $routes->post('berita/unggah-gambar', 'BeritaAdmin::unggahGambar');
     $routes->post('berita/hapus-gambar', 'BeritaAdmin::hapusGambar');
+
+    // Berita diajukan (web utama)
+    $routes->get('berita-diajukan', 'BeritaDiajukanAdmin');
+    $routes->post('berita-diajukan/publikasi', 'BeritaDiajukanAdmin::publikasiBanyak');
+    $routes->post('berita-diajukan/hapus', 'BeritaDiajukanAdmin::hapusBanyak');
 
     // Galeri
     $routes->group('galeri', ['namespace' => 'App\Controllers'], function ($routes) {
@@ -75,7 +84,6 @@ $routes->group('admin', ['filter' => 'group:admin,superadmin'], function ($route
     $routes->post('kotak-masuk/tandai/terbaca', 'KotakMasukAdmin::tandaiTerbacaBanyak');
     $routes->post('kotak-masuk/tandai/belum_terbaca', 'KotakMasukAdmin::tandaiBelumTerbacaBanyak');
 
-
     // Manajemen pengguna
     $routes->get('pengguna', 'PenggunaAdmin::index');
     $routes->post('pengguna/edit/(:num)', 'PenggunaAdmin::edit/$1');
@@ -92,17 +100,28 @@ $routes->get('/keluar', 'UserController::keluar');
 
 // API
 $routes->group('api', static function ($routes) {
+
+    // Berita
     // $routes->get('berita', 'BeritaAdmin::get');
     $routes->post('berita', 'BeritaAdmin::fetchData');
     $routes->get('berita/dipublikasikan', 'BeritaAdmin::getDipublikasikan');
     $routes->get('berita/draf', 'BeritaAdmin::getDraf');
 
+    // Berita pengajuan (web utama)
+    $routes->post('berita-diajukan/terima-berita', 'BeritaDiajukanAdmin::terimaBeritaBanyak');
+
+    // Berita diajukan (selain web utama)
+    $routes->post('berita-diajukan', 'BeritaDiajukanAdmin::fetchData');
+
+    // Berita
     $routes->get('galeri', 'GaleriAdmin::get');
 
+    // Kotak masuk
     $routes->get('kotak-masuk', 'KotakMasukAdmin::getKotakMasuk');
     $routes->get('kotak-masuk/kritik-dan-saran', 'KotakMasukAdmin::getKotakMasukKritikDanSaran');
     $routes->get('kotak-masuk/pelaporan', 'KotakMasukAdmin::getKotakMasukPelaporan');
 
+    // Pengguna
     $routes->get('pengguna', 'PenggunaAdmin::get');
 });
 

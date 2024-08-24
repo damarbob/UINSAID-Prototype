@@ -2,6 +2,26 @@
 
 namespace App\Helpers;
 
+if (!function_exists('create_many')) {
+    function create_many(array $createDataArray, $model)
+    {
+        if (!empty($createDataArray)) {
+            // Perform the creation based on the provided data array
+            foreach ($createDataArray as $createData) {
+                // Add your creation logic here
+                $model->save($createData);
+            }
+
+            // Return true indicating success
+            return true;
+        } else {
+            // Return false indicating failure
+            return false;
+        }
+    }
+}
+
+
 if (!function_exists('update_many')) {
     function update_many(array $selectedIds, $model, array $updateData)
     {

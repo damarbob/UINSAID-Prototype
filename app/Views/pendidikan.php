@@ -8,7 +8,7 @@
 
 <?= $this->section('content') ?>
 <!-- Section Hero -->
-<section id="hero" class="">
+<section class="hero">
 
 </section>
 <!-- End section Hero -->

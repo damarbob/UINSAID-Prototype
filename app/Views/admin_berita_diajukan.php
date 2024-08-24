@@ -48,15 +48,14 @@
 
 
         <!-- <div class="table-responsive mt-3"> -->
-        <table class="table table-hover" id="tabelBerita" style="width: 100%;">
+        <table class="table table-hover" id="tabelRilisMedia" style="width: 100%;">
             <thead>
                 <tr>
                     <td><?= lang('Admin.judul') ?></td>
-                    <td><?= lang('Admin.penulis') ?></td>
                     <td><?= lang('Admin.kategori') ?></td>
-                    <td>Pengajuan</td>
                     <td><?= lang('Admin.tanggal') ?></td>
                     <td><?= lang('Admin.status') ?></td>
+                    <td>Sumber</td>
                 </tr>
             </thead>
             <tbody>
@@ -71,17 +70,14 @@
 
 <?= $this->section('script') ?>
 <script src="<?= base_url('assets/js/formatter.js') ?>" type="text/javascript"></script>
-<!-- TODO: Migrate to the new process bulk -->
-<script src="<?= base_url('assets/js/datatables_process_bulk.js') ?>" type="text/javascript"></script>
 <script src="<?= base_url('assets/js/datatables_process_bulk_new.js') ?>" type="text/javascript"></script>
 <script>
     $(document).ready(function() {
-        var table1 = $('#tabelBerita').DataTable({
+        var table1 = $('#tabelRilisMedia').DataTable({
             processing: true,
             serverSide: true,
-            // ajax: "/api/berita",
             ajax: {
-                "url": "<?= site_url('api/berita') ?>",
+                "url": "<?= site_url('api/berita-diajukan') ?>",
                 "type": "POST"
             },
             "rowCallback": function(row, data, index) {
@@ -90,24 +86,15 @@
                     // Get the ID from the data
                     var id = data.id;
 
-                    // Navigate to the Edit page
-                    window.location.href = "/admin/berita/sunting?id=" + id;
+                    // Navigate to the View page
+
                 });
             },
             "columns": [{
                     "data": "judul",
                 },
                 {
-                    "data": "penulis",
-                },
-                {
                     "data": "kategori",
-                },
-                {
-                    "data": "pengajuan",
-                    "render": function(data, type, row) {
-                        return data == "tidak diajukan" ? "Tidak Diajukan" : (data == "diajukan" ? "Diajukan" : (data == "diterima" ? "Diterima" : (data == "ditolak" ? "Ditolak" : "Diblokir"))) // TODO: Translasi
-                    }
                 },
                 {
                     "data": "created_at",
@@ -121,44 +108,34 @@
                         return data == "published" ? "Dipublikasi" : "Draf" // TODO: Translasi
                     }
                 },
+                {
+                    "data": "sumber",
+                },
             ],
             "language": {
                 url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/id.json'
             },
             columnDefs: [{
                     type: 'date',
-                    targets: 5
+                    targets: 3
                 } // Specify the type of the fourth column as 'date'
             ],
             order: [
-                [4, 'desc']
+                [2, 'desc']
             ],
             select: true,
             dom: '<"row gy-2 mb-2"<"col-lg-6"B><"col-lg-6"f>>r<"table-responsive"t><"row gy-2"<"col-md-6"i><"col-md-6"p>><"row my-2"<"col">>',
-            buttons: [{
-                    text: '<i class="bi bi-plus-lg"></i>',
+            buttons: [
+                // TOmbol publikasi
+                {
+                    extend: 'selected',
+                    text: '<i class="bi bi-check"></i>',
                     action: function(e, dt, node, config) {
-                        window.location.href = '/admin/berita/tambah'
+                        publikasiBanyak();
                     }
                 },
                 {
                     text: '<i id="iconFilterRilisMedia" class="bx bx-filter-alt me-2"></i><span id="loaderFilterRilisMedia" class="loader me-2" style="display: none;"></span><span id="textFilterRilisMedia"><?= lang('Admin.semua') ?></span>',
-                },
-                {
-                    // Tombol ajukan
-                    extend: 'selected',
-                    text: '<i class="bi bi-forward"></i>',
-                    action: function(e, dt, node, config) {
-                        ajukan();
-                    }
-                },
-                {
-                    // Tombol batal ajukan
-                    extend: 'selected',
-                    text: '<i class="bi bi-arrow-return-left"></i>',
-                    action: function(e, dt, node, config) {
-                        batalAjukan();
-                    }
                 },
                 {
                     extend: 'colvis',
@@ -182,6 +159,20 @@
             ],
         });
 
+        // Terima postingan massal
+        function publikasiBanyak() {
+            var options = {
+                title: "Publikasi Berita",
+                confirmMessage: "Publikasikan berita?",
+                errorMessage: "<?= lang('Admin.pilihItemDahulu') ?>",
+                type: "info",
+                confirmButtonText: "Tambahkan",
+                cancelButtonText: "<?= lang('Admin.batal') ?>"
+            };
+
+            processBulkNew(table1, "/admin/berita-diajukan/publikasi", options);
+        }
+
         // Fitur hapus massal
         function hapusBanyak() {
             var options = {
@@ -193,45 +184,17 @@
                 cancelButtonText: "<?= lang('Admin.batal') ?>"
             };
 
-            processBulk(table1, "/admin/berita/hapus", options);
-        }
-
-        function ajukan() {
-            var options = {
-                title: "Ajukan Postingan",
-                confirmMessage: "Kirimkan postingan ini ke website induk?",
-                errorMessage: "<?= lang('Admin.pilihItemDahulu') ?>",
-                type: "warning",
-                confirmButtonText: "Kirimkan",
-                cancelButtonText: "<?= lang('Admin.batal') ?>"
-            };
-
-            // processBulkNew(table1, "/admin/berita/ajukan", options);
-            processBulkNew(table1, "/api/berita-diajukan/terima-berita", options);
-        }
-
-        function batalAjukan() {
-            var options = {
-                title: "Batalkan Pengajuan Postingan",
-                confirmMessage: "Batal pengajuan postingan ini ke website induk?",
-                errorMessage: "<?= lang('Admin.pilihItemDahulu') ?>",
-                type: "warning",
-                confirmButtonText: "Kirimkan",
-                cancelButtonText: "<?= lang('Admin.batal') ?>"
-            };
-
-            processBulk(table1, "/admin/berita/batal-ajukan", options);
+            var columnsToSend = ['id']; // specify the columns you want to send
+            processBulkNew(table1, "/admin/berita-diajukan/hapus", options, columnsToSend);
         }
 
 
         // Change button styles
-        $('#tabelBerita').on('preInit.dt', function() {
+        $('#tabelRilisMedia').on('preInit.dt', function() {
             var buttons = $(".dt-buttons.btn-group.flex-wrap .btn.btn-secondary");
             var lastButton = buttons.last();
 
             buttons.eq(0).removeClass("btn-secondary").addClass("btn-primary").addClass("rounded-0");
-            buttons.eq(2).removeClass("btn-secondary").addClass("btn-primary").addClass("rounded-0");
-            buttons.eq(3).removeClass("btn-secondary").addClass("btn-warning").addClass("rounded-0");
             lastButton.removeClass("btn-secondary").addClass("btn-danger").addClass("rounded-0");
 
             $(".dt-buttons.btn-group.flex-wrap").addClass("btn-group-lg");
@@ -255,9 +218,9 @@
             secondButton.after(newElement);
 
             var filterButtons = {
-                '#btnFilterRilisMediaSemua': '/api/berita',
-                '#btnFilterRilisMediaDipublikasikan': '/api/berita/dipublikasikan',
-                '#btnFilterRilisMediaDraft': '/api/berita/draf'
+                '#btnFilterRilisMediaSemua': '/api/berita-diajukan',
+                '#btnFilterRilisMediaDipublikasikan': '/api/berita-diajukan/dipublikasikan',
+                '#btnFilterRilisMediaDraft': '/api/berita-diajukan/draf'
             };
 
             $.each(filterButtons, function(btnId, apiUrl) {

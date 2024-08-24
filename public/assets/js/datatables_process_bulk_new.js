@@ -1,5 +1,5 @@
 // Fungsi multifungsi untuk pemrosesan kuantitas
-function processBulk(dataTable, actionUrl, options) {
+function processBulkNew(dataTable, actionUrl, options, columnsToSend = null) {
   // Default options
   var defaultOptions = {
     title: "Test",
@@ -28,14 +28,27 @@ function processBulk(dataTable, actionUrl, options) {
   }).then((result) => {
     if (result.isConfirmed) {
       if (selectedRows.length > 0) {
-        var selectedIds = selectedRows.map(function (row) {
-          return row["id"]; // Put ID to the map
+        // If columnsToSend is specified, only send those columns, otherwise send all data
+        var selectedData = selectedRows.map(function (row) {
+          if (columnsToSend) {
+            // Send only specified columns
+            let data = {};
+            columnsToSend.forEach((column) => {
+              data[column] = row[column];
+            });
+            return data;
+          } else {
+            // Send entire row data
+            return row;
+          }
         });
+
+        console.log(selectedData);
 
         $.ajax({
           url: actionUrl,
           type: "POST",
-          data: { selectedIds: selectedIds },
+          data: { selectedData: selectedData },
           success: function (response) {
             dataTable.ajax.reload(); // Reload data
 
