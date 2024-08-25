@@ -5,7 +5,7 @@
     .loader {
         width: 12px;
         height: 12px;
-        border: 2px solid var(--color-primary);
+        border: 2px solid var(--mdb-primary);
         border-bottom-color: transparent;
         border-radius: 50%;
         display: inline-block;
@@ -77,7 +77,7 @@
 <script>
     $(document).ready(function() {
         var table1 = $('#tabel').DataTable({
-            // processing: true,
+            processing: true,
             // serverSide: true,
             // ajax: "/api/berita",
             ajax: {
@@ -144,7 +144,7 @@
                 },
                 {
                     extend: 'selected',
-                    text: '<i class="bi bi-pause"></i>',
+                    text: '<i class="bi bi-power"></i>',
                     action: function(e, dt, node, config) {
                         manageSites('shutdown');
                     }
@@ -207,8 +207,7 @@
             }
 
             var apiUrl = (action === 'shutdown') ? '/api/shutdown' : '/api/restore';
-            var successSites = [];
-            var failedSites = [];
+            var responseMessages = [];
             var totalRequests = 0;
 
             // Iterate over each selected site and send an individual AJAX request
@@ -225,32 +224,21 @@
                     }),
                     contentType: 'application/json',
                     success: function(response) {
-                        if (response.success) {
-                            successSites.push(site.nama); // Assuming site.nama is the name of the site
-                        } else {
-                            failedSites.push({
-                                name: site.nama,
-                                message: response.message || 'Unknown error'
-                            });
-                        }
+                        // TODO: Translasi
+                        responseMessages.push(`<p>${site.nama}: ${response.message || 'No message provided'}</p>`);
                     },
                     error: function(xhr, status, error) {
-                        failedSites.push({
-                            name: site.nama,
-                            message: xhr.responseText || error
-                        });
+                        responseMessages.push(`<p>${site.nama}: ${xhr.responseText || error}</p>`);
                     },
                     complete: function() {
                         totalRequests++;
 
                         // After each request, check if all requests are done
                         if (totalRequests === selectedData.length) {
-                            let failedText = failedSites.map(site => `<p>${site.name}: ${site.message}</p>`).join('');
                             Swal.fire({
                                 icon: 'info',
                                 title: 'Action Completed',
-                                html: '<p>Successfully ' + action + ': ' + successSites.join(', ') + '</p>' +
-                                    (failedSites.length > 0 ? '<p>Failed to ' + action + ':</p>' + failedText : ''),
+                                html: responseMessages.join(''),
                             });
 
                             // Optionally, reload the DataTable to reflect changes
@@ -260,6 +248,7 @@
                 });
             });
         }
+
 
 
 
@@ -284,20 +273,21 @@
                 "aria-expanded": "false"
             });
 
+            // TODO: Translasi
             var newElement = $(
                 '<ul class="dropdown-menu">' +
                 '<li><button id="btnFilterRilisMediaSemua" class="dropdown-item" type="button"><?= lang('Admin.semua') ?></button></li>' +
-                '<li><button id="btnFilterRilisMediaDipublikasikan" class="dropdown-item" type="button"><?= lang('Admin.dipublikasikan') ?></button></li>' +
-                '<li><button id="btnFilterRilisMediaDraft" class="dropdown-item" type="button"><?= lang('Admin.draf') ?></button></li>' +
+                '<li><button id="btnFilterRilisMediaDipublikasikan" class="dropdown-item" type="button">Aktif</button></li>' +
+                '<li><button id="btnFilterRilisMediaDraft" class="dropdown-item" type="button">Tidak Aktif</button></li>' +
                 '</ul>'
             );
 
             secondButton.after(newElement);
 
             var filterButtons = {
-                '#btnFilterRilisMediaSemua': '/api/berita',
-                '#btnFilterRilisMediaDipublikasikan': '/api/berita/dipublikasikan',
-                '#btnFilterRilisMediaDraft': '/api/berita/draf'
+                '#btnFilterRilisMediaSemua': '/api/situs',
+                '#btnFilterRilisMediaDipublikasikan': '/api/situs/aktif',
+                '#btnFilterRilisMediaDraft': '/api/situs/tidak-aktif'
             };
 
             $.each(filterButtons, function(btnId, apiUrl) {

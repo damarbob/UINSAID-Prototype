@@ -369,7 +369,7 @@
         <!-- <p class="fs-4" data-aos="fade-up">Akademik, kampus, penelitian, dan lainnya</p> -->
       </div>
       <div class="col-sm-6 d-flex align-items-center justify-content-end">
-        <a href="" class="text-body fw-bold">Selengkapnya <span class="ms-2">›</span></a>
+        <a href="<?= base_url("berita") ?>" class="text-body fw-bold">Selengkapnya <span class="ms-2">›</span></a>
       </div>
     </div>
 

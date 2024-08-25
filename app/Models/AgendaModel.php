@@ -66,17 +66,11 @@ class AgendaModel extends \CodeIgniter\Model
      */
     public function getAgenda($limit, $start, $status = null, $search = null, $order = 'waktu', $dir = 'DESC')
     {
+        $builder = $this->db->table($this->table)
+            ->select('*');
+
         if ($status) {
-            $builder = $this->db->table($this->table)
-                ->select('*')
-                ->where('status', $status)
-                ->orderBy($order, $dir)
-                ->limit($limit, $start);
-        } else {
-            $builder = $this->db->table($this->table)
-                ->select('*')
-                ->orderBy($order, $dir)
-                ->limit($limit, $start);
+            $builder->where('status', $status);
         }
 
         if ($search) {

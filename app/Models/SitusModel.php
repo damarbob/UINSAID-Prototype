@@ -18,7 +18,6 @@ class SitusModel extends \CodeIgniter\Model
     public function getByID($id)
     {
         return $this->select('*')
-            ->where('situs.id', $id)
             ->first();
     }
 
@@ -26,5 +25,19 @@ class SitusModel extends \CodeIgniter\Model
     {
         // return $this->orderBy('created_at', 'DESC')->findAll();
         return $this->findAll();
+    }
+
+    public function getAktif()
+    {
+        return $this
+            ->where('status', 'active')
+            ->findAll();
+    }
+
+    public function getTidakAktif()
+    {
+        return $this
+            ->where('status', 'inactive')
+            ->findAll();
     }
 }

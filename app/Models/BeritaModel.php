@@ -25,21 +25,15 @@ class BeritaModel extends \CodeIgniter\Model
 
     public function getBerita($limit, $start, $status = null, $search = null, $order = 'judul', $dir = 'asc')
     {
+        $builder = $this->db->table($this->table)
+            ->select('berita.*, users.username as penulis, kategori.nama as kategori')
+            ->join('users', 'users.id = berita.id_penulis', 'left')
+            ->join('kategori', 'kategori.id = berita.id_kategori', 'left')
+            ->orderBy($order, $dir)
+            ->limit($limit, $start);
+
         if ($status) {
-            $builder = $this->db->table($this->table)
-                ->select('berita.*, users.username as penulis, kategori.nama as kategori')
-                ->where('berita.status', $status)
-                ->join('users', 'users.id = berita.id_penulis', 'left')
-                ->join('kategori', 'kategori.id = berita.id_kategori', 'left')
-                ->orderBy($order, $dir)
-                ->limit($limit, $start);
-        } else {
-            $builder = $this->db->table($this->table)
-                ->select('berita.*, users.username as penulis, kategori.nama as kategori')
-                ->join('users', 'users.id = berita.id_penulis', 'left')
-                ->join('kategori', 'kategori.id = berita.id_kategori', 'left')
-                ->orderBy($order, $dir)
-                ->limit($limit, $start);
+            $builder->where('berita.status', $status);
         }
 
         if ($search) {

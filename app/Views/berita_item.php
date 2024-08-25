@@ -2,6 +2,31 @@
 
 <?= $this->extend('layout/frontend_template') ?>
 
+<?= $this->section('meta') ?>
+
+<!-- Dynamic Meta Tags -->
+<meta itemprop="image" content="<?= $berita['gambar_sampul']; ?>" />
+
+<!-- TODO: Add tags to meta keywords -->
+<!-- Open Graph Dynamic Meta Tags -->
+<meta property="og:title" content="<?= $berita['judul']; ?>" />
+<meta property="og:keywords" content="uinsaid, rmsaid, uinsurakarta, <?= $berita['kategori']; ?>" />
+<meta property="og:image" content="<?= $berita['gambar_sampul']; ?>" />
+<meta property="og:image:alt" content="<?= $berita['judul']; ?>" />
+<meta property="og:image:width" content="400" />
+<meta property="og:image:height" content="400" />
+<meta property="og:url" content="<?= base_url("berita/" . $berita['slug']); ?>" />
+<meta property="og:description" content="<?= character_limiter(strip_tags($berita['konten']), 160); ?>" />
+
+<!-- Twitter Dynamic Meta Tags -->
+<meta name="twitter:title" content="<?= $berita['judul']; ?>" />
+<meta name="twitter:description" content="<?= character_limiter(strip_tags($berita['konten']), 160); ?>" />
+<meta name="twitter:image" content="<?= $berita['gambar_sampul']; ?>" />
+<meta name="twitter:image:alt" content="<?= $berita['judul']; ?>" />
+
+<?= $this->endSection() ?>
+
+
 <?= $this->section('style') ?>
 <link href="../assets/css/style-berita.css" rel="stylesheet" />
 <?= $this->endSection() ?>
@@ -85,7 +110,7 @@
 
             <!-- Sidebar sticky -->
             <div class="col-lg-4">
-                <div class="sticky-top">
+                <div class="sticky-top pt-3" style="top: var(--navbar-height)">
 
                     <!-- Judul sidebar -->
                     <h5>Bagikan</h5>
@@ -95,7 +120,7 @@
                         <input type="text" class="form-control text-secondary" placeholder="" aria-label="" aria-describedby="copy-link" value="<?= base_url("berita/" . $berita["slug"]) ?>" id="beritaUrl" />
                         <div class="input-group-append">
                             <div class="tooltip"></div>
-                            <button class="btn btn-primary btn-lg rounded-start-0" type="button" onclick="myFunction()" onmouseout="outFunc()">
+                            <button class="btn btn-primary btn-lg rounded-start-0" type="button" onclick="salinBeritaUrl()" onmouseout="outFunc()">
                                 <span class="bi-link"></span>
                             </button>
                         </div>
@@ -171,7 +196,7 @@
 
 <?= $this->section('script') ?>
 <script>
-    function myFunction() {
+    function salinBeritaUrl() {
         var copyText = document.getElementById('beritaUrl');
         copyText.select();
         copyText.setSelectionRange(0, 99999);

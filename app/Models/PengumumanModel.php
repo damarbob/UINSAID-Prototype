@@ -38,11 +38,11 @@ class PengumumanModel extends \CodeIgniter\Model
      */
     public function getTerbaru($jumlah)
     {
-        return $this->select('pengumuman.*, galeri.uri')
+        return $this->formatDateToArray($this->select('pengumuman.*, galeri.uri')
             ->where('status', 'dipublikasikan')
             ->join('galeri', 'galeri.id = pengumuman.id_galeri', 'left')
             ->orderBy('pengumuman.waktu', 'DESC')
-            ->findAll($jumlah);
+            ->findAll($jumlah));
     }
 
     /**
@@ -52,17 +52,13 @@ class PengumumanModel extends \CodeIgniter\Model
      */
     public function getPengumuman($limit, $start, $status = null, $search = null, $order = 'waktu', $dir = 'DESC')
     {
+        $builder = $this->db->table($this->table)
+            ->select('*')
+            ->orderBy($order, $dir)
+            ->limit($limit, $start);
+
         if ($status) {
-            $builder = $this->db->table($this->table)
-                ->select('*')
-                ->where('status', $status)
-                ->orderBy($order, $dir)
-                ->limit($limit, $start);
-        } else {
-            $builder = $this->db->table($this->table)
-                ->select('*')
-                ->orderBy($order, $dir)
-                ->limit($limit, $start);
+            $builder->where('status', $status);
         }
 
         if ($search) {

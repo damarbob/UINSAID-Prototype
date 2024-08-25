@@ -18,6 +18,8 @@ $currentRoute = $request->uri->getPath();
   <link rel="canonical" href="https://webdemo.uinsaid.id" />
   <meta name="google-site-verification" content="wVOBtikI0s7xKLkglkAAc2ZereV7l0NrQZH8LPCoKSk">
 
+  <!-- TODO: Optimize meta usage -->
+  <!-- Old meta -->
   <meta name="author" content="UIN Raden Mas Said Surakarta" />
   <meta name="copyright" content="UIN Raden Mas Said Surakarta" />
   <meta name="application-name" content="UIN Raden Mas Said Surakarta" />
@@ -33,6 +35,25 @@ $currentRoute = $request->uri->getPath();
   <meta property="og:url" content="https://webdemo.uinsaid.id" />
   <meta property="og:description" content="Demo web UIN Raden Mas Said Surakarta" />
   <meta property="og:locale" content="id_ID" />
+
+  <!-- TODO: Change hard coded meta like site name and social media to variable -->
+  <!-- New meta -->
+  <!-- Static Meta Tags -->
+  <meta name="author" content="UIN Raden Mas Said Surakarta" />
+  <meta name="copyright" content="UIN Raden Mas Said Surakarta" />
+  <meta name="application-name" content="UIN Raden Mas Said Surakarta" />
+
+  <!-- Open Graph Static Meta Tags -->
+  <meta property="og:site_name" content="<?= base_url() ?>">
+  <meta property="og:type" content="article" />
+  <meta property="og:locale" content="id_ID" />
+
+  <!-- Twitter Static Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@uinsurakarta" />
+
+  <!-- Meta section -->
+  <?= $this->renderSection('meta'); ?>
 
   <!-- Favicon -->
   <link rel="shortcut icon" href="https://www.uinsaid.ac.id/files/icon-1704942188.png">

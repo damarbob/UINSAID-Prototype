@@ -48,6 +48,20 @@ class SitusAdmin extends BaseControllerAdmin
         ]));
     }
 
+    public function getAktif()
+    {
+        return $this->response->setJSON(json_encode([
+            "data" => format_tanggal($this->situsModel->getAktif())
+        ]));
+    }
+
+    public function getTidakAktif()
+    {
+        return $this->response->setJSON(json_encode([
+            "data" => format_tanggal($this->situsModel->getTidakAktif())
+        ]));
+    }
+
     // Tambah rilis media. Jika ID kosong, buat baru. Jika id berisi, perbarui yang sudah ada.
     public function simpan($id = null)
     {

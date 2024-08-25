@@ -26,7 +26,7 @@ class BeritaDiajukanAdmin extends BaseControllerAdmin
     }
 
     // Fetch data untuk datatable
-    public function fetchData()
+    public function fetchData($status = null)
     {
         $columns = ['judul', 'kategori', 'created_at', 'status', 'sumber'];
 
@@ -39,10 +39,10 @@ class BeritaDiajukanAdmin extends BaseControllerAdmin
         $totalData = $this->beritaDiajukanModel->countAll();
         $totalFiltered = $totalData;
 
-        $berita = $this->beritaDiajukanModel->getBerita($limit, $start, $search, $order, $dir);
+        $berita = $this->beritaDiajukanModel->getBerita($limit, $start, $status, $search, $order, $dir);
 
-        if ($search) {
-            $totalFiltered = 0;
+        if ($search || $status) {
+            $totalFiltered = $this->beritaDiajukanModel->getTotalRecords($status, $search);
         }
 
         $data = [];

@@ -23,7 +23,7 @@ class BeritaDiajukanModel extends \CodeIgniter\Model
             ->paginate(10, 'berita_diajukan'));
     }
 
-    public function getBerita($limit, $start, $search = null, $order = 'judul', $dir = 'asc')
+    public function getBerita($limit, $start, $status = null, $search = null, $order = 'judul', $dir = 'asc')
     {
         $builder = $this->db->table($this->table)
             ->select('berita_diajukan.*, users.username as penulis_username, kategori.nama as kategori')
@@ -31,6 +31,10 @@ class BeritaDiajukanModel extends \CodeIgniter\Model
             ->join('kategori', 'kategori.id = berita_diajukan.id_kategori', 'left')
             ->orderBy($order, $dir)
             ->limit($limit, $start);
+
+        if ($status) {
+            $builder->where('berita_diajukan.status', $status);
+        }
 
         if ($search) {
             $builder->groupStart()
@@ -49,12 +53,20 @@ class BeritaDiajukanModel extends \CodeIgniter\Model
         return $builder->get()->getResult();
     }
 
-    public function getTotalRecords($search = null)
+    public function getTotalRecords($status = null, $search = null)
     {
-        $builder = $this->db->table($this->table)
-            ->select('berita_diajukan.*, users.username as penulis_username, kategori.nama as kategori')
-            ->join('users', 'users.id = berita_diajukan.id_penulis', 'left')
-            ->join('kategori', 'kategori.id = berita_diajukan.id_kategori', 'left');
+        if ($status) {
+            $builder = $this->db->table($this->table)
+                ->select('berita_diajukan.*, users.username as penulis, kategori.nama as kategori')
+                ->where('berita_diajukan.status', $status)
+                ->join('users', 'users.id = berita_diajukan.id_penulis', 'left')
+                ->join('kategori', 'kategori.id = berita_diajukan.id_kategori', 'left');
+        } else {
+            $builder = $this->db->table($this->table)
+                ->select('berita_diajukan.*, users.username as penulis, kategori.nama as kategori')
+                ->join('users', 'users.id = berita_diajukan.id_penulis', 'left')
+                ->join('kategori', 'kategori.id = berita_diajukan.id_kategori', 'left');
+        }
 
         if ($search) {
             $builder->groupStart()

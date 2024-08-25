@@ -5,7 +5,7 @@
     .loader {
         width: 12px;
         height: 12px;
-        border: 2px solid var(--color-primary);
+        border: 2px solid var(--mdb-primary);
         border-bottom-color: transparent;
         border-radius: 50%;
         display: inline-block;

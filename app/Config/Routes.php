@@ -149,6 +149,7 @@ $routes->group('api', static function ($routes) {
 
     // Berita pengajuan (web utama)
     $routes->post('berita-diajukan/terima-berita', 'BeritaDiajukanAdmin::terimaBeritaBanyak');
+    $routes->post('berita-diajukan/(:any)', 'BeritaDiajukanAdmin::fetchData/$1');
 
     // Berita diajukan (selain web utama)
     $routes->post('berita-diajukan', 'BeritaDiajukanAdmin::fetchData');
@@ -166,6 +167,8 @@ $routes->group('api', static function ($routes) {
 
     // Situs
     $routes->get('situs', 'SitusAdmin::get');
+    $routes->get('situs/aktif', 'SitusAdmin::getAktif');
+    $routes->get('situs/tidak-aktif', 'SitusAdmin::getTIdakAktif');
 
     // Shutdown dan restore sistem
     $routes->post('shutdown', 'Shutdown::shutdown');

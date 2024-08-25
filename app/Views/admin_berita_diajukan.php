@@ -5,7 +5,7 @@
     .loader {
         width: 12px;
         height: 12px;
-        border: 2px solid var(--color-primary);
+        border: 2px solid var(--mdb-primary);
         border-bottom-color: transparent;
         border-radius: 50%;
         display: inline-block;
@@ -219,8 +219,8 @@
 
             var filterButtons = {
                 '#btnFilterRilisMediaSemua': '/api/berita-diajukan',
-                '#btnFilterRilisMediaDipublikasikan': '/api/berita-diajukan/dipublikasikan',
-                '#btnFilterRilisMediaDraft': '/api/berita-diajukan/draf'
+                '#btnFilterRilisMediaDipublikasikan': '/api/berita-diajukan/published',
+                '#btnFilterRilisMediaDraft': '/api/berita-diajukan/draft'
             };
 
             $.each(filterButtons, function(btnId, apiUrl) {
