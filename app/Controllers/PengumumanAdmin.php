@@ -10,7 +10,7 @@ use function App\Helpers\create_slug;
 use function App\Helpers\delete_many;
 use function App\Helpers\format_tanggal;
 
-class AgendaAdmin extends BaseControllerAdmin
+class PengumumanAdmin extends BaseControllerAdmin
 {
 
     public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
@@ -20,56 +20,55 @@ class AgendaAdmin extends BaseControllerAdmin
 
     public function index(): string
     {
-        $this->data['judul'] = lang('Admin.agenda');
-        return view('admin_agenda', $this->data);
+        $this->data['judul'] = lang('Admin.pengumuman');
+        return view('admin_pengumuman', $this->data);
     }
 
     public function tambah(): string
     {
-        $this->data['judul'] = lang('Admin.tambahAgenda');
+        $this->data['judul'] = lang('Admin.tambahPengumuman');
         $this->data['mode'] = "tambah";
-        return view('admin_agenda_editor', $this->data);
+        return view('admin_pengumuman_editor', $this->data);
     }
 
     public function sunting(): string
     {
         $id = $this->request->getGet('id');
-        $agenda = $this->agendaModel->getByID($id); // 
-        if (empty($agenda)) {
-            throw new \CodeIgniter\Exceptions\PageNotFoundException('Agenda tidak ditemukan.');
+        $pengumuman = $this->pengumumanModel->getByID($id);
+        if (empty($pengumuman)) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Artikel tidak ditemukan.');
         }
-
-        $this->data['judul'] = lang('Admin.suntingAgenda');
+        $this->data['judul'] = lang('Admin.suntingPengumuman');
         $this->data['mode'] = "sunting";
-        $this->data['agenda'] = $agenda;
-        return view('admin_agenda_editor', $this->data);
+        $this->data['pengumuman'] = $pengumuman; // 
+        return view('admin_pengumuman_editor', $this->data);
     }
 
     public function fetchData($status = null)
     {
         // $columns = [lang('Admin.judul'), lang('Admin.penulis'), lang('Admin.kategori'), lang('Admin.tanggal'), lang('Admin.status')];
-        $columns = ['agenda', 'waktu', 'status'];
+        $columns = ['pengumuman', 'waktu', 'status'];
         $limit = $this->request->getPost('length');
         $start = $this->request->getPost('start');
         $order = $columns[$this->request->getPost('order')[0]['column']];
         $dir = $this->request->getPost('order')[0]['dir'];
 
         $search = $this->request->getPost('search')['value'] ?? null;
-        $totalData = $this->agendaModel->countAll();
+        $totalData = $this->pengumumanModel->countAll();
         $totalFiltered = $totalData;
 
-        // $agenda = format_tanggal($this->agendaModel->getAgenda($limit, $start, $search, $order, $dir));
-        $agenda = $this->agendaModel->getAgenda($limit, $start, $status, $search, $order, $dir);
+        // $pengumuman = format_tanggal($this->pengumumanModel->getPengumuman($limit, $start, $search, $order, $dir));
+        $pengumuman = $this->pengumumanModel->getPengumuman($limit, $start, $status, $search, $order, $dir);
 
         if ($search || $status) {
-            $totalFiltered = $this->agendaModel->getTotalRecords($status, $search);
+            $totalFiltered = $this->pengumumanModel->getTotalRecords($status, $search);
         }
 
         $data = [];
-        if (!empty($agenda)) {
-            foreach ($agenda as $row) {
+        if (!empty($pengumuman)) {
+            foreach ($pengumuman as $row) {
                 $nestedData['id'] = $row->id;
-                $nestedData['agenda'] = $row->agenda;
+                $nestedData['pengumuman'] = $row->pengumuman;
                 $nestedData['waktu'] = $row->waktu;
                 $nestedData['status'] = $row->status;
                 $data[] = $nestedData;
@@ -89,7 +88,7 @@ class AgendaAdmin extends BaseControllerAdmin
     public function test()
     {
         return $this->response->setJSON(json_encode([
-            "data" => format_tanggal($this->agendaModel->paginate(10))
+            "data" => format_tanggal($this->pengumumanModel->paginate(10))
         ]));
     }
 
@@ -97,21 +96,21 @@ class AgendaAdmin extends BaseControllerAdmin
     public function get()
     {
         return $this->response->setJSON(json_encode([
-            "data" => format_tanggal($this->agendaModel->get())
+            "data" => format_tanggal($this->pengumumanModel->get())
         ]));
     }
 
     public function getDipublikasikan()
     {
         return $this->response->setJSON(json_encode([
-            "data" => format_tanggal($this->agendaModel->getDipublikasikan())
+            "data" => format_tanggal($this->pengumumanModel->getDipublikasikan())
         ]));
     }
 
     public function getDraf()
     {
         return $this->response->setJSON(json_encode([
-            "data" => format_tanggal($this->agendaModel->getDraf())
+            "data" => format_tanggal($this->pengumumanModel->getDraf())
         ]));
     }
 
@@ -122,7 +121,7 @@ class AgendaAdmin extends BaseControllerAdmin
         $rules = $this->formRules();
 
         // Redireksi
-        $redirectTo = ($id == null) ? '/admin/agenda/' : '/admin/agenda/sunting?id=' . $id;
+        $redirectTo = ($id == null) ? '/admin/pengumuman/' : '/admin/pengumuman/sunting?id=' . $id;
 
         // Cek validasi
         if (!$this->validate($rules)) {
@@ -152,30 +151,30 @@ class AgendaAdmin extends BaseControllerAdmin
                 ];
                 $galeriModel->save($data);
                 $galeriId = $galeriModel->getInsertID();
-            } else $galeriId = $this->request->getVar('galeri'); // Jika gambar tidak valid, ambil galeri (memungkinkan bernilai NULL)
+            } else $galeriId = $this->request->getVar('galeri'); // Jika gambar tidak valid, ambil galeri (memungkinkan bernilai NULL) 
         } else {
             $galeriId = $this->request->getVar('galeri');
         }
 
-        // Simpan agenda
+        // Simpan pengumuman
         if ($id == null) {
             // Jika ID kosong, buat entri baru
             $data = [
-                'agenda' => $this->request->getVar('agenda'),
+                'pengumuman' => $this->request->getVar('pengumuman'),
                 'waktu' => $this->request->getVar('waktu'),
                 'status' => $this->request->getVar('status'),
                 'id_galeri' => $galeriId,
             ];
 
-            $this->agendaModel->save($data);
+            $this->pengumumanModel->save($data);
 
             // Pesan berhasil diperbarui
             session()->setFlashdata('sukses', lang('Admin.berhasilDibuat'));
         } else {
             // Jika id terisi, perbarui yang sudah ada
-            $this->agendaModel->save([
+            $this->pengumumanModel->save([
                 'id' => $id,
-                'agenda' => $this->request->getVar('agenda'),
+                'pengumuman' => $this->request->getVar('pengumuman'),
                 'waktu' => $this->request->getVar('waktu'),
                 'status' => $this->request->getVar('status'),
                 'id_galeri' => $galeriId,
@@ -192,7 +191,7 @@ class AgendaAdmin extends BaseControllerAdmin
     {
         $selectedIds = $this->request->getPost('selectedIds');
 
-        $result = delete_many($selectedIds, $this->agendaModel);
+        $result = delete_many($selectedIds, $this->pengumumanModel);
 
         if ($result) {
             return $this->response->setJSON(['status' => 'success', 'message' => lang('Admin.hapusBanyakSukses')]);
@@ -206,7 +205,7 @@ class AgendaAdmin extends BaseControllerAdmin
     public function formRules()
     {
         $rules = [
-            'agenda' => [
+            'pengumuman' => [
                 'rules' => 'required',
             ],
             'waktu' => [

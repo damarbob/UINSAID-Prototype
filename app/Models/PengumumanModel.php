@@ -17,26 +17,89 @@ class PengumumanModel extends \CodeIgniter\Model
 
     public function getByID($id)
     {
-        return $this->select('*')
-            ->join('galeri', 'galeri.id = pengumuman.id_galeri', 'left')
+        return $this->select('pengumuman.*, galeri.uri')
             ->where('pengumuman.id', $id)
+            ->join('galeri', 'galeri.id = pengumuman.id_galeri', 'left')
             ->first();
     }
 
     public function get()
     {
-        return $this->formatDateToArray($this->select('*')
+        return $this->select('pengumuman.*, galeri.uri')
             ->join('galeri', 'galeri.id = pengumuman.id_galeri', 'left')
             ->orderBy('pengumuman.waktu', 'DESC')
-            ->findAll());
+            ->findAll();
     }
 
+    /**
+     * -------------------------------------------
+     * Get Pengumuman Terbaru yang berstatus dipublikasikan
+     * -------------------------------------------
+     */
     public function getTerbaru($jumlah)
     {
-        return $this->formatDateToArray($this->select('*')
+        return $this->select('pengumuman.*, galeri.uri')
+            ->where('status', 'dipublikasikan')
             ->join('galeri', 'galeri.id = pengumuman.id_galeri', 'left')
             ->orderBy('pengumuman.waktu', 'DESC')
-            ->findAll($jumlah));
+            ->findAll($jumlah);
+    }
+
+    /**
+     * -------------------------------------------------------------
+     * Get Pengumuman for datatable
+     * -------------------------------------------------------------
+     */
+    public function getPengumuman($limit, $start, $status = null, $search = null, $order = 'waktu', $dir = 'DESC')
+    {
+        if ($status) {
+            $builder = $this->db->table($this->table)
+                ->select('*')
+                ->where('status', $status)
+                ->orderBy($order, $dir)
+                ->limit($limit, $start);
+        } else {
+            $builder = $this->db->table($this->table)
+                ->select('*')
+                ->orderBy($order, $dir)
+                ->limit($limit, $start);
+        }
+
+        if ($search) {
+            $builder->groupStart()
+                ->like('pengumuman', $search)
+                ->orLike('waktu', $search)
+                ->groupEnd();
+        }
+
+        // return $this->formatSampul($builder->get()->getResult());
+        return $builder->get()->getResult();
+    }
+
+    /**
+     * -------------------------------------------------------------
+     * Get total record of Pengumuman for datatable
+     * -------------------------------------------------------------
+     */
+    public function getTotalRecords($status = null, $search = null)
+    {
+        if ($status) {
+            $builder = $this->db->table($this->table)
+                ->select('*')
+                ->where('status', $status);
+        } else {
+            $builder = $this->db->table($this->table)
+                ->select('*');
+        }
+
+        if ($search) {
+            $builder->groupStart()
+                ->like('pengumuman', $search)
+                ->orLike('waktu', $search)
+                ->groupEnd();
+        }
+
+        return $builder->countAllResults();
     }
 
     function formatDateToArray($data)

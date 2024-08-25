@@ -34,22 +34,22 @@ helper('form');
 
 if ($mode == "tambah") {
     // Apabila mode tambah, bawa nilai lama form agar setelah validasi tidak hilang
-    $valueAgenda = (old('agenda'));
+    $valuePengumuman = (old('pengumuman'));
     $valueWaktu = (old('waktu'));
     $valueStatus = (old('status'));
     $valueGaleri = (old('galeri'));
     $valueIdGaleri = (old('id_galeri'));
     $valueUploadImage = (old('uploadimage'));
 } else {
-    $waktu = strtotime($agenda['waktu']);
+    $waktu = strtotime($pengumuman['waktu']);
     $waktuFormat = date("Y-m-d H:i", $waktu);
     // Apabila mode edit, apabila ada nilai lama (old), gunakan nilai lama. Apabila tidak ada nilai lama (old), gunakan nilai dari rilis media
-    $valueAgenda = (old('agenda')) ? old('agenda') : $agenda['agenda'];
+    $valuePengumuman = (old('pengumuman')) ? old('pengumuman') : $pengumuman['pengumuman'];
     $valueWaktu = (old('waktu')) ? old('waktu') : $waktuFormat;
-    $valueStatus = (old('status')) ? old('status') : $agenda['status'];
-    $valueGaleri = $agenda['uri'];
-    $valueIdGaleri = (old('id_galeri')) ? old('id_galeri') : $agenda['id_galeri'];
-    $valueUploadImage = (old('uploadimage')) ? old('uploadimage') : $agenda['uri'];
+    $valueStatus = (old('status')) ? old('status') : $pengumuman['status'];
+    $valueGaleri = $pengumuman['uri'];
+    $valueIdGaleri = (old('id_galeri')) ? old('id_galeri') : $pengumuman['id_galeri'];
+    $valueUploadImage = (old('uploadimage')) ? old('uploadimage') : $pengumuman['uri'];
 }
 ?>
 <?php if (session()->getFlashdata('sukses')) : ?>
@@ -66,14 +66,14 @@ if ($mode == "tambah") {
     </div>
 <?php endif; ?>
 
-<form method="post" action="<?= ($mode == "tambah") ? base_url('/admin/agenda/tambah/simpan') : base_url('/admin/agenda/sunting/simpan/') . $agenda['id'] ?>" class="form-container needs-validation" enctype="multipart/form-data" novalidate>
+<form method="post" action="<?= ($mode == "tambah") ? base_url('/admin/pengumuman/tambah/simpan') : base_url('/admin/pengumuman/sunting/simpan/') . $pengumuman['id'] ?>" class="form-container needs-validation" enctype="multipart/form-data" novalidate>
     <?= csrf_field() ?>
     <div class="row mb-3">
         <div class="col-12">
-            <!-- Agenda -->
+            <!-- Pengumuman -->
             <div class="form-floating mb-3">
-                <input id="agenda" name="agenda" class="form-control <?= (validation_show_error('agenda')) ? 'is-invalid' : ''; ?>" type="text" value="<?= $valueAgenda ?>" placeholder="<?= lang('Admin.agenda') ?>" required />
-                <label for="agenda"><?= lang('Admin.agenda') ?></label>
+                <input id="pengumuman" name="pengumuman" class="form-control <?= (validation_show_error('pengumuman')) ? 'is-invalid' : ''; ?>" type="text" value="<?= $valuePengumuman ?>" placeholder="<?= lang('Admin.pengumuman') ?>" required />
+                <label for="pengumuman"><?= lang('Admin.pengumuman') ?></label>
                 <div class="invalid-feedback">
                     <?= lang('Admin.harusDiinput'); ?>
                 </div>
@@ -223,7 +223,7 @@ if ($mode == "tambah") {
         if (gambarInputFile.value != "") {
             gambarTerpilihSection.style.display = 'none';
             resetGambarButton.style.display = 'block';
-            document.getElementsByClassName('card-gallery').classList.remove('selected');
+            document.getElementsByClassName('.card-gallery').classList.remove('selected');
         };
     })
 

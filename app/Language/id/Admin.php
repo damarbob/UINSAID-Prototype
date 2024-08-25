@@ -123,6 +123,9 @@ return [
     'galeri' => 'Galeri',
     'deskripsi' => 'Deskripsi',
     'judulGambar' => 'Judul gambar',
+    'gambar' => 'Gambar',
+    'ubah' => 'Ubah',
+    'ubahGambar' => 'Ubah gambar',
 
     'harusDiinput' => 'Harus diinput',
 ];

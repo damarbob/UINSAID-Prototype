@@ -39,22 +39,22 @@
             </div>
         <?php endif; ?>
 
-        <?php if ($peringatanPostingBerita) : ?>
+        <!-- <?php // if ($peringatanPostingPengumuman) : 
+                ?>
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 <?= lang('Admin.peringatanPosting') ?>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
-        <?php endif; ?>
+        <?php // endif; 
+        ?> -->
 
 
         <!-- <div class="table-responsive mt-3"> -->
-        <table class="table table-hover" id="tabelRilisMedia" style="width: 100%;">
+        <table class="table table-hover" id="tabelPengumuman" style="width: 100%;">
             <thead>
                 <tr>
-                    <td><?= lang('Admin.judul') ?></td>
-                    <td><?= lang('Admin.penulis') ?></td>
-                    <td><?= lang('Admin.kategori') ?></td>
-                    <td><?= lang('Admin.tanggal') ?></td>
+                    <td><?= lang('Admin.pengumuman') ?></td>
+                    <td><?= lang('Admin.waktu') ?></td>
                     <td><?= lang('Admin.status') ?></td>
                 </tr>
             </thead>
@@ -73,18 +73,13 @@
 <script src="<?= base_url('assets/js/datatables_process_bulk.js') ?>" type="text/javascript"></script>
 <script>
     $(document).ready(function() {
-        var table1 = $('#tabelRilisMedia').DataTable({
+        var table1 = $('#tabelPengumuman').DataTable({
             processing: true,
             serverSide: true,
-            // ajax: "/api/berita",
             ajax: {
-                "url": "<?= site_url('api/berita') ?>",
+                "url": "<?= site_url('api/pengumuman') ?>",
                 "type": "POST"
             },
-            // "ajax": {
-            //     "url": "<?= site_url('api/berita') ?>",
-            //     "type": "POST"
-            // },
             "rowCallback": function(row, data, index) {
                 // Add double-click event to navigate to Edit page
                 $(row).on('dblclick', function() {
@@ -92,29 +87,14 @@
                     var id = data.id;
 
                     // Navigate to the Edit page
-                    window.location.href = "/admin/berita/sunting?id=" + id;
+                    window.location.href = "/admin/pengumuman/sunting?id=" + id;
                 });
             },
             "columns": [{
-                    "data": "judul",
-                },
-                // {
-                //     "data": "penulis",
-                // },
-                {
-                    "data": "penulis",
+                    "data": "pengumuman",
                 },
                 {
-                    "data": "kategori",
-                },
-                // {
-                //     "data": "created_at_timestamp",
-                //     "render": function(data, type, row) {
-                //         return timestampToIndonesianDateTime(data); // Tampilkan tanggal dengan format Indonesia
-                //     },
-                // },
-                {
-                    "data": "created_at",
+                    "data": "waktu",
                     "render": function(data, type, row) {
                         return formatDate(data);
                     }
@@ -128,22 +108,22 @@
             },
             columnDefs: [{
                     type: 'date',
-                    targets: 3
-                } // Specify the type of the fourth column as 'date'
+                    targets: 1
+                } // Specify the type of the second column as 'date'
             ],
             order: [
-                [3, 'desc']
+                [1, 'desc']
             ],
             select: true,
             dom: '<"row gy-2 mb-2"<"col-lg-6"B><"col-lg-6"f>>r<"table-responsive"t><"row gy-2"<"col-md-6"i><"col-md-6"p>><"row my-2"<"col">>',
             buttons: [{
                     text: '<i class="bi bi-plus-lg"></i>',
                     action: function(e, dt, node, config) {
-                        window.location.href = '/admin/berita/tambah'
+                        window.location.href = '/admin/pengumuman/tambah'
                     }
                 },
                 {
-                    text: '<i id="iconFilterRilisMedia" class="bx bx-filter-alt me-2"></i><span id="loaderFilterRilisMedia" class="loader me-2" style="display: none;"></span><span id="textFilterRilisMedia"><?= lang('Admin.semua') ?></span>',
+                    text: '<i id="iconFilterPengumuman" class="bx bx-filter-alt me-2"></i><span id="loaderFilterPengumuman" class="loader me-2" style="display: none;"></span><span id="textFilterPengumuman"><?= lang('Admin.semua') ?></span>',
                 },
                 {
                     extend: 'colvis',
@@ -170,20 +150,20 @@
         // Fitur hapus massal
         function hapusBanyak() {
             var options = {
-                title: "<?= lang('Admin.hapusBerita') ?>",
-                confirmMessage: "<?= lang('Admin.hapusBeritaKonfirmasi') ?>",
+                title: "<?= lang('Admin.hapusPengumuman') ?>",
+                confirmMessage: "<?= lang('Admin.hapusPengumumanKonfirmasi') ?>",
                 errorMessage: "<?= lang('Admin.pilihItemDahulu') ?>",
                 type: "warning",
                 confirmButtonText: "<?= lang('Admin.hapus') ?>",
                 cancelButtonText: "<?= lang('Admin.batal') ?>"
             };
 
-            processBulk(table1, "/admin/berita/hapus", options);
+            processBulk(table1, "/admin/pengumuman/hapus", options);
         }
 
 
         // Change button styles
-        $('#tabelRilisMedia').on('preInit.dt', function() {
+        $('#tabelPengumuman').on('preInit.dt', function() {
             var buttons = $(".dt-buttons.btn-group.flex-wrap .btn.btn-secondary");
             var lastButton = buttons.last();
 
@@ -194,7 +174,7 @@
 
             var secondButton = buttons.eq(1);
             secondButton.addClass("dropdown-toggle").wrap('<div class="btn-group"></div>').attr({
-                id: "btnFilterRilisMedia",
+                id: "btnFilterPengumuman",
                 "data-mdb-ripple-init": "",
                 "data-mdb-dropdown-init": "",
                 "aria-expanded": "false"
@@ -202,28 +182,28 @@
 
             var newElement = $(
                 '<ul class="dropdown-menu">' +
-                '<li><button id="btnFilterRilisMediaSemua" class="dropdown-item" type="button"><?= lang('Admin.semua') ?></button></li>' +
-                '<li><button id="btnFilterRilisMediaDipublikasikan" class="dropdown-item" type="button"><?= lang('Admin.dipublikasikan') ?></button></li>' +
-                '<li><button id="btnFilterRilisMediaDraft" class="dropdown-item" type="button"><?= lang('Admin.draf') ?></button></li>' +
+                '<li><button id="btnFilterPengumumanSemua" class="dropdown-item" type="button"><?= lang('Admin.semua') ?></button></li>' +
+                '<li><button id="btnFilterPengumumanDipublikasikan" class="dropdown-item" type="button"><?= lang('Admin.dipublikasikan') ?></button></li>' +
+                '<li><button id="btnFilterPengumumanDraft" class="dropdown-item" type="button"><?= lang('Admin.draf') ?></button></li>' +
                 '</ul>'
             );
 
             secondButton.after(newElement);
 
             var filterButtons = {
-                '#btnFilterRilisMediaSemua': '/api/berita',
-                '#btnFilterRilisMediaDipublikasikan': '/api/berita/published',
-                '#btnFilterRilisMediaDraft': '/api/berita/draft'
+                '#btnFilterPengumumanSemua': '/api/pengumuman',
+                '#btnFilterPengumumanDipublikasikan': '/api/pengumuman/dipublikasikan',
+                '#btnFilterPengumumanDraft': '/api/pengumuman/draf'
             };
 
             $.each(filterButtons, function(btnId, apiUrl) {
                 $(btnId).on('click', function() {
-                    $('#iconFilterRilisMedia').hide();
-                    $('#loaderFilterRilisMedia').show();
+                    $('#iconFilterPengumuman').hide();
+                    $('#loaderFilterPengumuman').show();
                     table1.ajax.url(apiUrl).load(function() {
-                        $('#iconFilterRilisMedia').show();
-                        $('#loaderFilterRilisMedia').hide();
-                        $('#textFilterRilisMedia').html($(btnId).html());
+                        $('#iconFilterPengumuman').show();
+                        $('#loaderFilterPengumuman').hide();
+                        $('#textFilterPengumuman').html($(btnId).html());
                     });
                 });
             });
