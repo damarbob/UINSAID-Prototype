@@ -6,9 +6,9 @@ use DateTime;
 
 use function App\Helpers\format_tanggal;
 
-class BeritaModel extends \CodeIgniter\Model
+class BeritaDiajukanModel extends \CodeIgniter\Model
 {
-    protected $table = 'berita';
+    protected $table = 'berita_diajukan';
 
     protected $useTimestamps = true;
 
@@ -16,68 +16,53 @@ class BeritaModel extends \CodeIgniter\Model
 
     public function getByKategori($kategori)
     {
-        return $this->formatSampul($this->select('berita.*, users.username as penulis, kategori.nama as kategori')
-            ->join('users', 'users.id = berita.id_penulis', 'left')
-            ->join('kategori', 'kategori.id = berita.id_kategori', 'left')
+        return $this->formatSampul($this->select('berita_diajukan.*, users.username as penulis_username, kategori.nama as kategori')
+            ->join('users', 'users.id = berita_diajukan.id_penulis', 'left')
+            ->join('kategori', 'kategori.id = berita_diajukan.id_kategori', 'left')
             ->where('kategori.nama', $kategori)
-            ->paginate(10, 'berita'));
+            ->paginate(10, 'berita_diajukan'));
     }
 
-    public function getBerita($limit, $start, $status = null, $search = null, $order = 'judul', $dir = 'asc')
+    public function getBerita($limit, $start, $search = null, $order = 'judul', $dir = 'asc')
     {
-        if ($status) {
-            $builder = $this->db->table($this->table)
-                ->select('berita.*, users.username as penulis, kategori.nama as kategori')
-                ->where('berita.status', $status)
-                ->join('users', 'users.id = berita.id_penulis', 'left')
-                ->join('kategori', 'kategori.id = berita.id_kategori', 'left')
-                ->orderBy($order, $dir)
-                ->limit($limit, $start);
-        } else {
-            $builder = $this->db->table($this->table)
-                ->select('berita.*, users.username as penulis, kategori.nama as kategori')
-                ->join('users', 'users.id = berita.id_penulis', 'left')
-                ->join('kategori', 'kategori.id = berita.id_kategori', 'left')
-                ->orderBy($order, $dir)
-                ->limit($limit, $start);
-        }
+        $builder = $this->db->table($this->table)
+            ->select('berita_diajukan.*, users.username as penulis_username, kategori.nama as kategori')
+            ->join('users', 'users.id = berita_diajukan.id_penulis', 'left')
+            ->join('kategori', 'kategori.id = berita_diajukan.id_kategori', 'left')
+            ->orderBy($order, $dir)
+            ->limit($limit, $start);
 
         if ($search) {
             $builder->groupStart()
-                ->like('berita.judul', $search)
+                ->like('berita_diajukan.judul', $search)
                 ->orLike('users.username', $search)
                 ->orLike('kategori.nama', $search)
-                ->orLike('berita.created_at', $search)
-                ->orLike('berita.status', $search)
+                ->orLike('berita_diajukan.created_at', $search)
+                ->orLike('berita_diajukan.status', $search)
                 ->groupEnd();
         }
+
+        // dd($builder->getCompiledSelect());
+        // dd($builder->get()->getResult());
 
         // return $this->formatSampul($builder->get()->getResult());
         return $builder->get()->getResult();
     }
 
-    public function getTotalRecords($status = null, $search = null)
+    public function getTotalRecords($search = null)
     {
-        if ($status) {
-            $builder = $this->db->table($this->table)
-                ->select('berita.*, users.username as penulis, kategori.nama as kategori')
-                ->where('berita.status', $status)
-                ->join('users', 'users.id = berita.id_penulis', 'left')
-                ->join('kategori', 'kategori.id = berita.id_kategori', 'left');
-        } else {
-            $builder = $this->db->table($this->table)
-                ->select('berita.*, users.username as penulis, kategori.nama as kategori')
-                ->join('users', 'users.id = berita.id_penulis', 'left')
-                ->join('kategori', 'kategori.id = berita.id_kategori', 'left');
-        }
+        $builder = $this->db->table($this->table)
+            ->select('berita_diajukan.*, users.username as penulis_username, kategori.nama as kategori')
+            ->join('users', 'users.id = berita_diajukan.id_penulis', 'left')
+            ->join('kategori', 'kategori.id = berita_diajukan.id_kategori', 'left');
 
         if ($search) {
             $builder->groupStart()
-                ->like('berita.judul', $search)
+                ->like('berita_diajukan.judul', $search)
                 ->orLike('users.username', $search)
                 ->orLike('kategori.nama', $search)
-                ->orLike('berita.created_at', $search)
-                ->orLike('berita.status', $search)
+                ->orLike('berita_diajukan.created_at', $search)
+                ->orLike('berita_diajukan.status', $search)
                 ->groupEnd();
         }
 
@@ -86,67 +71,67 @@ class BeritaModel extends \CodeIgniter\Model
 
     public function get()
     {
-        return $this->formatSampul($this->select('berita.*, users.username as penulis, kategori.nama as kategori')
-            ->join('users', 'users.id = berita.id_penulis', 'left')
-            ->join('kategori', 'kategori.id = berita.id_kategori', 'left')
-            ->orderBy('berita.created_at', 'DESC')
+        return $this->formatSampul($this->select('berita_diajukan.*, users.username as penulis_username, kategori.nama as kategori')
+            ->join('users', 'users.id = berita_diajukan.id_penulis', 'left')
+            ->join('kategori', 'kategori.id = berita_diajukan.id_kategori', 'left')
+            ->orderBy('berita_diajukan.created_at', 'DESC')
             ->findAll());
     }
 
     public function getPaginated()
     {
-        return $this->formatSampul($this->select('berita.*, users.username as penulis, kategori.nama as kategori')
-            ->join('users', 'users.id = berita.id_penulis', 'left')
-            ->join('kategori', 'kategori.id = berita.id_kategori', 'left')
-            ->orderBy('berita.created_at', 'DESC')
-            ->paginate(10, 'berita'));
+        return $this->formatSampul($this->select('berita_diajukan.*, users.username as penulis_username, kategori.nama as kategori')
+            ->join('users', 'users.id = berita_diajukan.id_penulis', 'left')
+            ->join('kategori', 'kategori.id = berita_diajukan.id_kategori', 'left')
+            ->orderBy('berita_diajukan.created_at', 'DESC')
+            ->paginate(10, 'berita_diajukan'));
     }
 
     public function getTerbaru($jumlah, $offset = 0)
     {
-        return $this->formatSampul($this->select('berita.*, users.username as penulis, kategori.nama as kategori')
-            ->join('users', 'users.id = berita.id_penulis', 'left')
-            ->join('kategori', 'kategori.id = berita.id_kategori', 'left')
-            ->orderBy('berita.created_at', 'DESC')
+        return $this->formatSampul($this->select('berita_diajukan.*, users.username as penulis_username, kategori.nama as kategori')
+            ->join('users', 'users.id = berita_diajukan.id_penulis', 'left')
+            ->join('kategori', 'kategori.id = berita_diajukan.id_kategori', 'left')
+            ->orderBy('berita_diajukan.created_at', 'DESC')
             ->offset($offset)
             ->findAll($jumlah));
     }
 
     public function getByID($id)
     {
-        return $this->formatSampul($this->select('berita.*, users.username as penulis, kategori.nama as kategori')
-            ->join('users', 'users.id = berita.id_penulis', 'left')
-            ->join('kategori', 'kategori.id = berita.id_kategori', 'left')
-            ->where('berita.' . $this->primaryKey, $id)
+        return $this->formatSampul($this->select('berita_diajukan.*, users.username as penulis_username, kategori.nama as kategori')
+            ->join('users', 'users.id = berita_diajukan.id_penulis', 'left')
+            ->join('kategori', 'kategori.id = berita_diajukan.id_kategori', 'left')
+            ->where('berita_diajukan.' . $this->primaryKey, $id)
             ->first());
     }
 
     public function getBySlug($slug)
     {
-        return $this->formatSampulSingle($this->select('berita.*, users.username as penulis, kategori.nama as kategori')
-            ->join('users', 'users.id = berita.id_penulis', 'left')
-            ->join('kategori', 'kategori.id = berita.id_kategori', 'left')
-            ->where('berita.slug', $slug)
+        return $this->formatSampulSingle($this->select('berita_diajukan.*, users.username as penulis_username, kategori.nama as kategori')
+            ->join('users', 'users.id = berita_diajukan.id_penulis', 'left')
+            ->join('kategori', 'kategori.id = berita_diajukan.id_kategori', 'left')
+            ->where('berita_diajukan.slug', $slug)
             ->first());
     }
 
     public function getDipublikasikan()
     {
-        return $this->formatSampul($this->select('berita.*, users.username as penulis, kategori.nama as kategori')
-            ->join('users', 'users.id = berita.id_penulis', 'left')
-            ->join('kategori', 'kategori.id = berita.id_kategori', 'left')
-            ->where('berita.status', 'published')
-            ->orderBy('berita.created_at', 'DESC')
+        return $this->formatSampul($this->select('berita_diajukan.*, users.username as penulis_username, kategori.nama as kategori')
+            ->join('users', 'users.id = berita_diajukan.id_penulis', 'left')
+            ->join('kategori', 'kategori.id = berita_diajukan.id_kategori', 'left')
+            ->where('berita_diajukan.status', 'published')
+            ->orderBy('berita_diajukan.created_at', 'DESC')
             ->findAll());
     }
 
     public function getDraf()
     {
-        return $this->formatSampul($this->select('berita.*, users.username as penulis, kategori.nama as kategori')
-            ->join('users', 'users.id = berita.id_penulis', 'left')
-            ->join('kategori', 'kategori.id = berita.id_kategori', 'left')
-            ->where('berita.status', 'draft')
-            ->orderBy('berita.created_at', 'DESC')
+        return $this->formatSampul($this->select('berita_diajukan.*, users.username as penulis_username, kategori.nama as kategori')
+            ->join('users', 'users.id = berita_diajukan.id_penulis', 'left')
+            ->join('kategori', 'kategori.id = berita_diajukan.id_kategori', 'left')
+            ->where('berita_diajukan.status', 'draft')
+            ->orderBy('berita_diajukan.created_at', 'DESC')
             ->findAll());
     }
 

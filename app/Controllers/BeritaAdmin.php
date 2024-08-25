@@ -9,6 +9,7 @@ use Psr\Log\LoggerInterface;
 use function App\Helpers\create_slug;
 use function App\Helpers\delete_many;
 use function App\Helpers\format_tanggal;
+use function App\Helpers\update_many;
 
 class BeritaAdmin extends BaseControllerAdmin
 {
@@ -42,10 +43,12 @@ class BeritaAdmin extends BaseControllerAdmin
         return view('admin_berita_editor', $this->data);
     }
 
+    // Fetch data untuk datatable
     public function fetchData($status = null)
     {
         // $columns = [lang('Admin.judul'), lang('Admin.penulis'), lang('Admin.kategori'), lang('Admin.tanggal'), lang('Admin.status')];
-        $columns = ['judul', 'penulis', 'kategori', 'created_at', 'status'];
+        $columns = ['judul', 'penulis', 'kategori', 'pengajuan', 'created_at', 'status'];
+
         $limit = $this->request->getPost('length');
         $start = $this->request->getPost('start');
         $order = $columns[$this->request->getPost('order')[0]['column']];
@@ -65,13 +68,17 @@ class BeritaAdmin extends BaseControllerAdmin
         $data = [];
         if (!empty($berita)) {
             foreach ($berita as $row) {
+
                 $nestedData['id'] = $row->id;
                 $nestedData['judul'] = $row->judul;
                 $nestedData['penulis'] = $row->penulis;
                 $nestedData['kategori'] = $row->kategori;
-                // $nestedData['created_at_timestamp'] = $row->created_at_timestamp;
+                $nestedData['konten'] = $row->konten;
+                $nestedData['ringkasan'] = $row->ringkasan;
+                $nestedData['pengajuan'] = $row->pengajuan;
                 $nestedData['created_at'] = $row->created_at;
                 $nestedData['status'] = $row->status;
+                $nestedData['sumber'] = $row->sumber;
                 $data[] = $nestedData;
             }
         }
@@ -92,7 +99,6 @@ class BeritaAdmin extends BaseControllerAdmin
             "data" => format_tanggal($this->beritaModel->paginate(10))
         ]));
     }
-
 
     public function get()
     {
@@ -153,6 +159,7 @@ class BeritaAdmin extends BaseControllerAdmin
                 'ringkasan' => $this->request->getVar('ringkasan'),
                 'id_kategori' => $kategori['id'],
                 'status' => $this->request->getVar('status'),
+                'sumber' => base_url(),
             ];
 
             // Jika ID kosong, buat entri baru
@@ -177,6 +184,122 @@ class BeritaAdmin extends BaseControllerAdmin
         }
 
         return redirect()->to($redirectTo)->withInput();
+    }
+
+    // TODO: HAPUS
+    public function ajukanBanyakLama()
+    {
+        $selectedIds = $this->request->getPost('selectedIds');
+
+        // Define the data to update for each record
+        $updateData = [
+            'pengajuan' => 'diajukan',
+        ];
+
+        $result = update_many($selectedIds, $this->beritaModel, $updateData);
+
+        if ($result) {
+            return $this->response->setJSON(['status' => 'success', 'message' => 'Berhasil diajukan!']);
+        } else {
+            // Return an error message or any relevant response
+            return $this->response->setJSON(['status' => 'error', 'message' => 'Gagal diajukan.']);
+        }
+    }
+
+    // TODO: Translasi
+    public function ajukanBanyak()
+    {
+        $selectedData = $this->request->getPost('selectedData');
+
+        // Extract IDs from the selected data
+        $ids = array_column($selectedData, 'id');
+
+        // Define the data to update for all selected records
+        $updateData = [
+            'pengajuan' => 'diajukan',
+        ];
+
+        // Call update_many with the array of IDs
+        $result = update_many($ids, $this->beritaModel, $updateData);
+
+        // Tambahkan data ke array selected data
+        foreach ($selectedData as $data) {
+            $data['konten'] = "Ini konten";
+            $data['ringkasan'] = "Ini ringkasan";
+        }
+
+        // If the update was successful, send the data to another route
+        if ($result) {
+            // Send the data to the 'terima-berita' route
+            $response = $this->sendToTerimaBerita($selectedData);
+
+            $statusCode = $response->getStatusCode();
+            $responseBody = json_decode((string) $response->getBody(), true);
+
+            switch ($statusCode) {
+                case 200:
+                    if ($responseBody['status'] === 'success') {
+                        return $this->response->setJSON(['status' => 'success', 'message' => 'Berhasil diajukan dan diterima!']);
+                    } else {
+                        return $this->response->setJSON(['status' => 'error', 'message' => 'Berhasil diajukan, tapi ada masalah dengan penerimaan.']);
+                    }
+
+                case 400:
+                    return $this->response->setJSON(['status' => 'error', 'message' => 'Permintaan tidak valid.']);
+
+                case 401:
+                    return $this->response->setJSON(['status' => 'error', 'message' => 'Tidak diizinkan. Anda perlu login terlebih dahulu.']);
+
+                case 403:
+                    return $this->response->setJSON(['status' => 'error', 'message' => 'Akses ditolak. Anda tidak memiliki izin.']);
+
+                case 404:
+                    return $this->response->setJSON(['status' => 'error', 'message' => 'Rute atau sumber daya tidak ditemukan.']);
+
+                case 500:
+                    return $this->response->setJSON(['status' => 'error', 'message' => 'Kesalahan server. Silakan coba lagi nanti.']);
+
+                default:
+                    return $this->response->setJSON(['status' => 'error', 'message' => 'Terjadi kesalahan yang tidak terduga. Kode status: ' . $statusCode]);
+            }
+        } else {
+            return $this->response->setJSON(['status' => 'error', 'message' => 'Gagal diajukan.']);
+        }
+    }
+
+
+    private function sendToTerimaBerita($selectedData)
+    {
+        $client = \Config\Services::curlrequest();
+
+        $response = $client->post(base_url('api/berita-diajukan/terima-berita'), [
+            'form_params' => [
+                'selectedData' => $selectedData
+            ]
+        ]);
+
+        return $response;
+    }
+
+
+    // TODO: USE TRANSLATION
+    public function batalAjukanBanyak()
+    {
+        $selectedIds = $this->request->getPost('selectedIds');
+
+        // Define the data to update for each record
+        $updateData = [
+            'pengajuan' => 'tidak diajukan',
+        ];
+
+        $result = update_many($selectedIds, $this->beritaModel, $updateData);
+
+        if ($result) {
+            return $this->response->setJSON(['status' => 'success', 'message' => 'Berhasil dibatalkan!']);
+        } else {
+            // Return an error message or any relevant response
+            return $this->response->setJSON(['status' => 'error', 'message' => 'Gagal dibatalkan.']);
+        }
     }
 
     public function hapusBanyak()

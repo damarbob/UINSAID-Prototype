@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\AnggotaModel;
+use App\Models\BeritaDiajukanModel;
 use App\Models\AgendaModel;
 use App\Models\PengumumanModel;
 use App\Models\MasukanModel;
@@ -32,64 +33,66 @@ use function App\Helpers\format_tanggal;
 abstract class BaseControllerAdmin extends Controller
 {
 
-    protected $data;
+        protected $data;
 
-    /**
-     * Instance of the main Request object.
-     *
-     * @var CLIRequest|IncomingRequest
-     */
-    protected $request;
+        /**
+         * Instance of the main Request object.
+         *
+         * @var CLIRequest|IncomingRequest
+         */
+        protected $request;
 
-    /**
-     * An array of helpers to be loaded automatically upon
-     * class instantiation. These helpers will be available
-     * to all other controllers that extend BaseController.
-     *
-     * @var array
-     */
-    protected $helpers = ['format', 'operation'];
+        /**
+         * An array of helpers to be loaded automatically upon
+         * class instantiation. These helpers will be available
+         * to all other controllers that extend BaseController.
+         *
+         * @var array
+         */
+        protected $helpers = ['format', 'operation'];
 
-    /**
-     * Be sure to declare properties for any property fetch you initialized.
-     * The creation of dynamic property is deprecated in PHP 8.2.
-     */
-    // protected $session;
+        /**
+         * Be sure to declare properties for any property fetch you initialized.
+         * The creation of dynamic property is deprecated in PHP 8.2.
+         */
+        // protected $session;
 
-    // Initialize models
-    protected $userModel;
-    protected $agendaModel;
-    protected $pengumumanModel;
-    protected $beritaModel;
-    protected $galeriModel;
-    protected $masukanModel;
-    protected $anggotaModel;
-    protected $kategoriModel;
+        // Initialize models
+        protected $userModel;
+        protected $agendaModel;
+        protected $pengumumanModel;
+        protected $beritaModel;
+        protected $beritaDiajukanModel;
+        protected $galeriModel;
+        protected $masukanModel;
+        protected $anggotaModel;
+        protected $kategoriModel;
 
-    /**
-     * Constructor.
-     */
-    public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
-    {
-        // Do Not Edit This Line
-        parent::initController($request, $response, $logger);
+        /**
+         * Constructor.
+         */
+        public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
+        {
+                // Do Not Edit This Line
+                parent::initController($request, $response, $logger);
 
-        // Preload any models, libraries, etc, here.
-        $this->beritaModel = new BeritaModel();
-        $this->agendaModel = new AgendaModel();
-        $this->pengumumanModel = new PengumumanModel();
-        $this->galeriModel = new GaleriModel();
-        $this->masukanModel = new MasukanModel();
-        $this->anggotaModel = null; //new AnggotaModel();
-        $this->userModel = new UserModel();
-        $this->kategoriModel = new KategoriModel();
+                // Preload any models, libraries, etc, here.
+                $this->beritaModel = new BeritaModel();
+                $this->beritaDiajukanModel = new BeritaDiajukanModel();
+                $this->agendaModel = new AgendaModel();
+                $this->pengumumanModel = new PengumumanModel();
+                $this->galeriModel = new GaleriModel();
+                $this->masukanModel = new MasukanModel();
+                $this->anggotaModel = null; //new AnggotaModel();
+                $this->userModel = new UserModel();
+                $this->kategoriModel = new KategoriModel();
 
-        // Untuk notifikasi
-        $this->data['peringatanBeritaKosong'] = count($this->beritaModel->get()) == 0;
-        $this->data['peringatanPostingBerita'] = $this->beritaModel->isLatestDataOverThreeMonthsOld();
-        $this->data['jumlahKotakMasukBelumTerbaca'] = count(format_tanggal($this->masukanModel->getKotakMasukBelumTerbaca()));
-        $this->data['adaKotakMasukBelumTerbaca'] = ($this->data['jumlahKotakMasukBelumTerbaca'] > 0); // Ada kotak masuk yang belum terbaca
+                // Untuk notifikasi
+                $this->data['peringatanBeritaKosong'] = count($this->beritaModel->get()) == 0;
+                $this->data['peringatanPostingBerita'] = $this->beritaModel->isLatestDataOverThreeMonthsOld();
+                $this->data['jumlahKotakMasukBelumTerbaca'] = count(format_tanggal($this->masukanModel->getKotakMasukBelumTerbaca()));
+                $this->data['adaKotakMasukBelumTerbaca'] = ($this->data['jumlahKotakMasukBelumTerbaca'] > 0); // Ada kotak masuk yang belum terbaca
 
-        // E.g.: $this->session = \Config\Services::session();
-    }
+                // E.g.: $this->session = \Config\Services::session();
+        }
 }

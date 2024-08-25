@@ -34,6 +34,12 @@ $currentRoute = $request->uri->getPath();
                 </a>
             </div>
             <div class="nav_list">
+                <a href="<?= base_url('admin/berita-diajukan') ?>" class="nav_link <?= $currentRoute == "admin/berita-diajukan" ? "active" : "" ?>">
+                    <i class='bx bx-mail-send nav_icon'></i>
+                    <span class="nav_name">Berita diajukan</span>
+                </a>
+            </div>
+            <div class="nav_list">
                 <a href="<?= base_url('admin/agenda') ?>" class="nav_link <?= $currentRoute == "admin/agenda" ? "active" : "" ?>">
                     <i class='bx bx-calendar-event nav_icon'></i>
                     <span class="nav_name">Agenda</span>

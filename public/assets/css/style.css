@@ -255,12 +255,13 @@ body {
   height: 100vh;
   z-index: 9999999;
 }
+
 #search .container {
   height: 100vh;
 }
 
 /* Hero Section */
-#hero {
+.hero {
   background-image: url("../img/wisuda.jpeg");
   background-position: center center;
   background-repeat: no-repeat;
@@ -268,48 +269,12 @@ body {
   width: 100%;
   min-height: 576px;
   height: 100vh;
-  max-height: 1080px;
+  max-height: 542px;
 }
 
-@media (max-width: 991.5px) {
-  /* Hero behavior on large screens */
-  #hero {
-    /* Set hero text alignment to center */
-    text-align: center;
-  }
-}
-
-#hero iframe {
-  position: absolute;
-  width: 100%;
-  max-width: 1920px;
-  height: auto;
-  max-height: 100vh;
-  aspect-ratio: 16/9;
-  object-fit: cover;
-}
-
-#hero .overlay {
-  background: linear-gradient(
-    180deg,
-    rgba(var(--mdb-primary-rgb), 1) 0%,
-    rgba(0, 0, 0, 0.2) 25%,
-    rgba(0, 0, 0, 0.2) 75%,
-    rgba(var(--mdb-primary-rgb), 1) 100%
-  );
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  min-height: 576px;
-  height: 100vh;
-  /* max-height: 742.5px; */
-  max-height: 1080px;
-}
-
-#hero h1,
-#hero h2,
-#hero p {
+.hero h1,
+.hero h2,
+.hero p {
   /* Set line height equal to lh-base to give more space between line */
   line-height: 1.5;
 }

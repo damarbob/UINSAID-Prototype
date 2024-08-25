@@ -107,6 +107,8 @@ class PengumumanModel extends \CodeIgniter\Model
         foreach ($data as &$d) {
             if (is_array($d)) {
                 $d['waktu_terformat'] = format_date_to_array($d['waktu']);
+                $d['waktu_terformat_tanggal'] = $d['waktu_terformat'][0];
+                $d['waktu_terformat_bulan'] = $d['waktu_terformat'][1];
             }
         }
         return $data;
