@@ -10,6 +10,7 @@ use App\Models\MasukanModel;
 use App\Models\BeritaModel;
 use App\Models\GaleriModel;
 use App\Models\KategoriModel;
+use App\Models\SitusModel;
 use CodeIgniter\Controller;
 use CodeIgniter\HTTP\CLIRequest;
 use CodeIgniter\HTTP\IncomingRequest;
@@ -67,6 +68,7 @@ abstract class BaseControllerAdmin extends Controller
         protected $masukanModel;
         protected $anggotaModel;
         protected $kategoriModel;
+        protected $situsModel;
 
         /**
          * Constructor.
@@ -86,6 +88,7 @@ abstract class BaseControllerAdmin extends Controller
                 $this->anggotaModel = null; //new AnggotaModel();
                 $this->userModel = new UserModel();
                 $this->kategoriModel = new KategoriModel();
+                $this->situsModel = new SitusModel();
 
                 // Untuk notifikasi
                 $this->data['peringatanBeritaKosong'] = count($this->beritaModel->get()) == 0;

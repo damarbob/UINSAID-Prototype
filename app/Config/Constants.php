@@ -92,3 +92,7 @@ define('EVENT_PRIORITY_NORMAL', 100);
  * @deprecated Use \CodeIgniter\Events\Events::PRIORITY_HIGH instead.
  */
 define('EVENT_PRIORITY_HIGH', 10);
+
+// CUSTOM CONSTANTS
+defined('SAID_API_KEY') || define('SAID_API_KEY', 'your_shared_secret_key');
+defined('SITE_TYPE') || define('SITE_TYPE', 'child'); // or 'parent' for the parent site

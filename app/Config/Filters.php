@@ -2,6 +2,7 @@
 
 namespace Config;
 
+use App\Filters\CekStatusSitus;
 use CodeIgniter\Config\BaseConfig;
 use CodeIgniter\Filters\CSRF;
 use CodeIgniter\Filters\DebugToolbar;
@@ -21,6 +22,7 @@ class Filters extends BaseConfig
         'honeypot'      => Honeypot::class,
         'invalidchars'  => InvalidChars::class,
         'secureheaders' => SecureHeaders::class,
+        'cekStatusSitus' => CekStatusSitus::class
     ];
 
     /**
@@ -32,6 +34,7 @@ class Filters extends BaseConfig
             // 'honeypot',
             // 'csrf',
             // 'invalidchars',
+            'cekStatusSitus' => ['except' => ['maintenance/*', 'api/*', 'admin/*']],
         ],
         'after' => [
             'toolbar',

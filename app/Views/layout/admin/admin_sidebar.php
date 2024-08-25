@@ -79,7 +79,15 @@ $currentRoute = $request->uri->getPath();
                     </span>
                 </a>
             </div>
-            <div class="nav_list d-lg-none">
+            <div class="nav_list">
+                <a href="<?= base_url('admin/situs') ?>" class="nav_link <?= $currentRoute == "admin/situs" ? "active" : "" ?>">
+                    <i class='bx bxs-network-chart nav_icon'></i>
+                    <span class="nav_name">
+                        Kelola Situs
+                    </span>
+                </a>
+            </div>
+            <!-- <div class="nav_list d-lg-none">
                 <a href="<?= base_url('admin/atur-profil') ?>" class="nav_link">
                     <i class='bx bx-user-circle nav_icon'></i>
                     <span class="nav_name">Atur Profil</span>
@@ -90,7 +98,7 @@ $currentRoute = $request->uri->getPath();
                     <i class='bx bx-exit nav_icon'></i>
                     <span class="nav_name">Logout</span>
                 </a>
-            </div>
+            </div> -->
         </div>
     </nav>
 </div>

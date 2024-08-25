@@ -38,6 +38,11 @@ $routes->get('/berita/(:any)', 'Berita::get/$1');
 $routes->get('/kategori/(:any)', 'Berita::getByKategori/$1');
 $routes->get('test', 'BeritaAdmin::test');
 
+// Maintenance
+$routes->get('maintenance', function () {
+    return view('maintenance');
+});
+
 // Admin
 $routes->group('admin', ['filter' => 'group:admin,superadmin'], function ($routes) {
 
@@ -103,10 +108,18 @@ $routes->group('admin', ['filter' => 'group:admin,superadmin'], function ($route
     $routes->post('kotak-masuk/tandai/belum_terbaca', 'KotakMasukAdmin::tandaiBelumTerbacaBanyak');
 
     // Manajemen pengguna
-    $routes->get('pengguna', 'PenggunaAdmin::index');
+    $routes->get('pengguna', 'PenggunaAdmin');
     $routes->post('pengguna/edit/(:num)', 'PenggunaAdmin::edit/$1');
     $routes->post('pengguna/tambah', 'PenggunaAdmin::tambahPengguna');
     $routes->post('pengguna/hapus', 'PenggunaAdmin::hapusBanyak');
+
+    // Manajemen situs
+    $routes->get('situs', 'SitusAdmin');
+    $routes->get('situs/tambah', 'SitusAdmin::tambah');
+    $routes->post('situs/tambah/simpan', 'SitusAdmin::simpan');
+    $routes->get('situs/sunting', 'SitusAdmin::sunting');
+    $routes->post('situs/sunting/simpan', 'SitusAdmin::simpan');
+    $routes->post('situs/sunting/simpan/(:num)', 'SitusAdmin::simpan/$1');
 });
 
 // Redirect to dasbor
@@ -122,8 +135,8 @@ $routes->group('api', static function ($routes) {
     // Berita
     // $routes->get('berita', 'BeritaAdmin::get');
     $routes->post('berita', 'BeritaAdmin::fetchData');
-    $routes->get('berita/(dipublikasikan)', 'BeritaAdmin::fetchData/$1'); // TOASK: Kenapa pakai (dipublikasikan)?
-    $routes->get('berita/draf', 'BeritaAdmin::fetchData/$1');
+    $routes->post('berita/dipublikasikan', 'BeritaAdmin::fetchData/$1'); // TOASK: Kenapa pakai (dipublikasikan)?
+    $routes->post('berita/draf', 'BeritaAdmin::fetchData/$1');
 
     $routes->post('agenda', 'AgendaAdmin::fetchData');
     $routes->post('agenda/(:any)', 'AgendaAdmin::fetchData/$1');
@@ -149,6 +162,13 @@ $routes->group('api', static function ($routes) {
 
     // Pengguna
     $routes->get('pengguna', 'PenggunaAdmin::get');
+
+    // Situs
+    $routes->get('situs', 'SitusAdmin::get');
+
+    // Shutdown dan restore sistem
+    $routes->post('shutdown', 'Shutdown::shutdown');
+    $routes->post('restore', 'Shutdown::restore');
 });
 
 service('auth')->routes($routes);
