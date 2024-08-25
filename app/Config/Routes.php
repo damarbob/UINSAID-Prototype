@@ -78,7 +78,7 @@ $routes->group('admin', ['filter' => 'group:admin,superadmin'], function ($route
     $routes->post('pengumuman/tambah/simpan', 'PengumumanAdmin::simpan', ['as' => 'pengumuman_admin_simpan']);
     $routes->get('pengumuman/sunting', 'PengumumanAdmin::sunting', ['as' => 'pengumuman_admin_sunting']);
     $routes->get('pengumuman/sunting/(:num)', 'PengumumanAdmin::sunting/$1', ['as' => 'pengumuman_admin_sunting']);
-    $routes->post('pengumuman/sunting/simpan/(:num)', 'PengumumanAdmin::simpan/$1', ['as' => 'pengumuman_admin_simpan']);
+    $routes->post('pengumuman/sunting/simpan/(:num)', 'PengumumanAdmin::simpan/$1', ['as' => 'pengumuman_admin_simpan_sunting']);
     $routes->post('pengumuman/hapus', 'PengumumanAdmin::hapusBanyak', ['as' => 'pengumuman_admin_hapus']);
 
     // Unggah dan hapus gambar berita
@@ -135,7 +135,8 @@ $routes->group('api', static function ($routes) {
     // Berita
     // $routes->get('berita', 'BeritaAdmin::get');
     $routes->post('berita', 'BeritaAdmin::fetchData');
-    $routes->post('berita/dipublikasikan', 'BeritaAdmin::fetchData/$1'); // TOASK: Kenapa pakai (dipublikasikan)?
+    $routes->post('berita/(:any)', 'BeritaAdmin::fetchData/$1');
+    $routes->post('berita/(dipublikasikan)', 'BeritaAdmin::fetchData/$1');
     $routes->post('berita/draf', 'BeritaAdmin::fetchData/$1');
 
     $routes->post('agenda', 'AgendaAdmin::fetchData');
@@ -143,7 +144,7 @@ $routes->group('api', static function ($routes) {
     // $routes->post('agenda/draf', 'AgendaAdmin::fetchData/$1');
 
     $routes->post('pengumuman', 'PengumumanAdmin::fetchData');
-    $routes->get('pengumuman/(:any)', 'PengumumanAdmin::getDipublikasikan');
+    $routes->post('pengumuman/(:any)', 'PengumumanAdmin::fetchData/$1');
     // $routes->get('pengumuman/draf', 'PengumumanAdmin::getDraf');
 
     // Berita pengajuan (web utama)

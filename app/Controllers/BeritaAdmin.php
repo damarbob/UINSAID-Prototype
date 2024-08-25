@@ -44,7 +44,7 @@ class BeritaAdmin extends BaseControllerAdmin
     }
 
     // Fetch data untuk datatable
-    public function fetchData()
+    public function fetchData($status = null)
     {
         // $columns = [lang('Admin.judul'), lang('Admin.penulis'), lang('Admin.kategori'), lang('Admin.tanggal'), lang('Admin.status')];
         $columns = ['judul', 'penulis', 'kategori', 'pengajuan', 'created_at', 'status'];
@@ -59,10 +59,10 @@ class BeritaAdmin extends BaseControllerAdmin
         $totalFiltered = $totalData;
 
         // $berita = format_tanggal($this->beritaModel->getBerita($limit, $start, $search, $order, $dir));
-        $berita = $this->beritaModel->getBerita($limit, $start, $search, $order, $dir);
+        $berita = $this->beritaModel->getBerita($limit, $start, $status, $search, $order, $dir);
 
-        if ($search) {
-            $totalFiltered = 0; //$this->beritaModel->getTotalRecords($search);
+        if ($search || $status) {
+            $totalFiltered = $this->beritaModel->getTotalRecords($status, $search);
         }
 
         $data = [];
@@ -71,7 +71,7 @@ class BeritaAdmin extends BaseControllerAdmin
 
                 $nestedData['id'] = $row->id;
                 $nestedData['judul'] = $row->judul;
-                $nestedData['penulis'] = $row->penulis_username;
+                $nestedData['penulis'] = $row->penulis;
                 $nestedData['kategori'] = $row->kategori;
                 $nestedData['konten'] = $row->konten;
                 $nestedData['ringkasan'] = $row->ringkasan;

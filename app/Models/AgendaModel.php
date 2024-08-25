@@ -52,7 +52,7 @@ class AgendaModel extends \CodeIgniter\Model
      */
     public function getTerbaru($jumlah)
     {
-        return $this->select('*')
+        return $this->select('agenda.*, galeri.uri')
             ->where('status', 'dipublikasikan')
             ->join('galeri', 'galeri.id = agenda.id_galeri', 'left')
             ->orderBy('agenda.waktu', 'DESC')
