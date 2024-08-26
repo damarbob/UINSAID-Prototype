@@ -100,10 +100,10 @@ class PengumumanAdmin extends BaseControllerAdmin
         ]));
     }
 
-    public function getDipublikasikan()
+    public function getPublikasi()
     {
         return $this->response->setJSON(json_encode([
-            "data" => format_tanggal($this->pengumumanModel->getDipublikasikan())
+            "data" => format_tanggal($this->pengumumanModel->getPublikasi())
         ]));
     }
 
@@ -161,6 +161,7 @@ class PengumumanAdmin extends BaseControllerAdmin
             // Jika ID kosong, buat entri baru
             $data = [
                 'pengumuman' => $this->request->getVar('pengumuman'),
+                'deskripsi' => $this->request->getVar('deskripsi'),
                 'waktu' => $this->request->getVar('waktu'),
                 'status' => $this->request->getVar('status'),
                 'id_galeri' => $galeriId,
@@ -175,6 +176,7 @@ class PengumumanAdmin extends BaseControllerAdmin
             $this->pengumumanModel->save([
                 'id' => $id,
                 'pengumuman' => $this->request->getVar('pengumuman'),
+                'deskripsi' => $this->request->getVar('deskripsi'),
                 'waktu' => $this->request->getVar('waktu'),
                 'status' => $this->request->getVar('status'),
                 'id_galeri' => $galeriId,

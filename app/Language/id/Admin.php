@@ -46,7 +46,7 @@ return [
     'peringatanPosting' => 'Tampaknya sudah lebih dari 3 bulan sejak postingan terakhir. Buat postingan baru agar pengunjung tertarik.',
     'isiPeringatanPosting' => 'Sudah lebih dari 3 bulan sejak {judulPostinganTerbaru} dirilis, segera buat postingan baru untuk menjaga minat pengunjung',
 
-    'dipublikasikan' => 'Dipublikasikan',
+    'publikasi' => 'Publikasi',
     'draf' => 'Draf',
 
     'judul' => 'Judul',

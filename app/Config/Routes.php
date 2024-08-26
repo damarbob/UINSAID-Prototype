@@ -37,6 +37,8 @@ $routes->get('/berita', 'Berita');
 $routes->get('/berita/(:any)', 'Berita::get/$1');
 $routes->get('/kategori/(:any)', 'Berita::getByKategori/$1');
 $routes->get('test', 'BeritaAdmin::test');
+$routes->get('xml-migration', 'XmlMigrationController::migrate');
+$routes->get('xml-migration-lampiran', 'XmlMigrationLampiranController::migrate');
 
 // Maintenance
 $routes->get('maintenance', function () {

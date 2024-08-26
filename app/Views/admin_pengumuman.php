@@ -183,7 +183,7 @@
             var newElement = $(
                 '<ul class="dropdown-menu">' +
                 '<li><button id="btnFilterPengumumanSemua" class="dropdown-item" type="button"><?= lang('Admin.semua') ?></button></li>' +
-                '<li><button id="btnFilterPengumumanDipublikasikan" class="dropdown-item" type="button"><?= lang('Admin.dipublikasikan') ?></button></li>' +
+                '<li><button id="btnFilterPengumumanPublikasi" class="dropdown-item" type="button"><?= lang('Admin.publikasi') ?></button></li>' +
                 '<li><button id="btnFilterPengumumanDraft" class="dropdown-item" type="button"><?= lang('Admin.draf') ?></button></li>' +
                 '</ul>'
             );
@@ -192,7 +192,7 @@
 
             var filterButtons = {
                 '#btnFilterPengumumanSemua': '/api/pengumuman',
-                '#btnFilterPengumumanDipublikasikan': '/api/pengumuman/dipublikasikan',
+                '#btnFilterPengumumanPublikasi': '/api/pengumuman/publikasi',
                 '#btnFilterPengumumanDraft': '/api/pengumuman/draf'
             };
 

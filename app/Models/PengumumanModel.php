@@ -13,7 +13,7 @@ class PengumumanModel extends \CodeIgniter\Model
 
     protected $useTimestamps = true;
 
-    protected $allowedFields = ['id_galeri', 'pengumuman', 'waktu'];
+    protected $allowedFields = ['id_galeri', 'pengumuman', 'deskripsi', 'waktu'];
 
     public function getByID($id)
     {
@@ -33,13 +33,13 @@ class PengumumanModel extends \CodeIgniter\Model
 
     /**
      * -------------------------------------------
-     * Get Pengumuman Terbaru yang berstatus dipublikasikan
+     * Get Pengumuman Terbaru yang berstatus publikasi
      * -------------------------------------------
      */
     public function getTerbaru($jumlah)
     {
         return $this->formatDateToArray($this->select('pengumuman.*, galeri.uri')
-            ->where('status', 'dipublikasikan')
+            ->where('status', 'publikasi')
             ->join('galeri', 'galeri.id = pengumuman.id_galeri', 'left')
             ->orderBy('pengumuman.waktu', 'DESC')
             ->findAll($jumlah));

@@ -8,7 +8,7 @@ class AgendaModel extends \CodeIgniter\Model
 
     protected $useTimestamps = true;
 
-    protected $allowedFields = ['id_galeri', 'agenda', 'waktu', 'status'];
+    protected $allowedFields = ['id_galeri', 'agenda', 'deskripsi', 'waktu', 'status'];
 
     public function getByID($id)
     {
@@ -27,10 +27,10 @@ class AgendaModel extends \CodeIgniter\Model
             ->findAll();
     }
 
-    public function getDipublikasikan()
+    public function getPublikasi()
     {
         return $this->select('*')
-            ->where('agenda.status', 'dipublikasikan')
+            ->where('agenda.status', 'publikasi')
             ->join('galeri', 'galeri.id = agenda.id_galeri', 'left')
             ->orderBy('agenda.waktu', 'DESC')
             ->findAll();
@@ -47,13 +47,13 @@ class AgendaModel extends \CodeIgniter\Model
 
     /**
      * -------------------------------------------
-     * Get Agenda Terbaru yang berstatus dipublikasikan
+     * Get Agenda Terbaru yang berstatus publikasi
      * -------------------------------------------
      */
     public function getTerbaru($jumlah)
     {
         return $this->select('agenda.*, galeri.uri')
-            ->where('status', 'dipublikasikan')
+            ->where('status', 'publikasi')
             ->join('galeri', 'galeri.id = agenda.id_galeri', 'left')
             ->orderBy('agenda.waktu', 'DESC')
             ->findAll($jumlah);

@@ -124,7 +124,7 @@ class BeritaModel extends \CodeIgniter\Model
             ->first());
     }
 
-    public function getDipublikasikan()
+    public function getPublikasi()
     {
         return $this->formatSampul($this->select('berita.*, users.username as penulis, kategori.nama as kategori')
             ->join('users', 'users.id = berita.id_penulis', 'left')

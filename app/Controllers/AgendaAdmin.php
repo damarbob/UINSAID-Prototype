@@ -101,10 +101,10 @@ class AgendaAdmin extends BaseControllerAdmin
         ]));
     }
 
-    public function getDipublikasikan()
+    public function getPublikasi()
     {
         return $this->response->setJSON(json_encode([
-            "data" => format_tanggal($this->agendaModel->getDipublikasikan())
+            "data" => format_tanggal($this->agendaModel->getPublikasi())
         ]));
     }
 
@@ -162,6 +162,7 @@ class AgendaAdmin extends BaseControllerAdmin
             // Jika ID kosong, buat entri baru
             $data = [
                 'agenda' => $this->request->getVar('agenda'),
+                'deskripsi' => $this->request->getVar('deskripsi'),
                 'waktu' => $this->request->getVar('waktu'),
                 'status' => $this->request->getVar('status'),
                 'id_galeri' => $galeriId,
@@ -176,6 +177,7 @@ class AgendaAdmin extends BaseControllerAdmin
             $this->agendaModel->save([
                 'id' => $id,
                 'agenda' => $this->request->getVar('agenda'),
+                'deskripsi' => $this->request->getVar('deskripsi'),
                 'waktu' => $this->request->getVar('waktu'),
                 'status' => $this->request->getVar('status'),
                 'id_galeri' => $galeriId,

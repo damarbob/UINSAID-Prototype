@@ -247,7 +247,7 @@
             var newElement = $(
                 '<ul class="dropdown-menu">' +
                 '<li><button id="btnFilterRilisMediaSemua" class="dropdown-item" type="button"><?= lang('Admin.semua') ?></button></li>' +
-                '<li><button id="btnFilterRilisMediaDipublikasikan" class="dropdown-item" type="button"><?= lang('Admin.dipublikasikan') ?></button></li>' +
+                '<li><button id="btnFilterRilisMediaPublikasi" class="dropdown-item" type="button"><?= lang('Admin.publikasi') ?></button></li>' +
                 '<li><button id="btnFilterRilisMediaDraft" class="dropdown-item" type="button"><?= lang('Admin.draf') ?></button></li>' +
                 '</ul>'
             );
@@ -256,7 +256,7 @@
 
             var filterButtons = {
                 '#btnFilterRilisMediaSemua': '/api/berita',
-                '#btnFilterRilisMediaDipublikasikan': '/api/berita/published',
+                '#btnFilterRilisMediaPublikasi': '/api/berita/published',
                 '#btnFilterRilisMediaDraft': '/api/berita/draft'
             };
 
