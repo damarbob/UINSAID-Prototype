@@ -177,6 +177,8 @@ $routes->group('api', static function ($routes) {
     $routes->post('restore', 'Shutdown::restore');
 });
 
+$routes->get('fakultas', 'BerandaFakultas');
+
 service('auth')->routes($routes);
 
 /*

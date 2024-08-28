@@ -590,7 +590,6 @@
     <div class="row rounded-3 px-2 px-lg-4" style="background: var(--mdb-secondary-bg)">
       <div class="col">
 
-
         <div class="row pt-4 mb-3">
           <div class="col text-start">
             <h1 class="fw-bold text-primary" data-aos="fade-up">Pengumuman</h1>
@@ -640,24 +639,6 @@
       </div>
     </div>
   </div>
-
-  <!-- Modal beranda -->
-  <div class="modal fade" id="berandaModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-mdb-backdrop="true" data-mdb-keyboard="true">
-    <div class="modal-dialog modal-dialog-scrollable modal-lg modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header bg-primary">
-          <h5 class="modal-title text-light" id="modalTitle">Modal title</h5>
-          <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <img id="modalImageContent" class="w-100" /><!-- Image content will be here -->
-          <p id="modalWaktuContent"><!-- Waktu content will be here --></p>
-          <p id="modalDescriptionContent"><!-- Description content will be here --></p>
-        </div>
-      </div>
-    </div>
-  </div>
-
 </section>
 <!-- End of Section Pengumuman -->
 
@@ -693,6 +674,24 @@
 
   </div>
 </section>
+
+<!-- Modal beranda -->
+<div class="modal fade" id="berandaModal" tabindex="-1" aria-labelledby="berandaModalLabel" aria-hidden="true" data-mdb-backdrop="true" data-mdb-keyboard="true" aria-modal="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-secondary border-bottom-0">
+        <h5 class="modal-title text-secondary-emphasis" id="modalTitle">Modal title</h5>
+        <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="bg-primary w-100" style="height: 4px;"></div>
+      <div class="modal-body">
+        <img id="modalImageContent" class="w-100" /><!-- Image content will be here -->
+        <p id="modalWaktuContent"><!-- Waktu content will be here --></p>
+        <p id="modalDescriptionContent"><!-- Description content will be here --></p>
+      </div>
+    </div>
+  </div>
+</div>
 
 <?= $this->endSection() ?>
 
