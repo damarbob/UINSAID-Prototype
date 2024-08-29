@@ -370,31 +370,6 @@ $currentRoute = $request->uri->getPath();
           </ul>
         </div>
 
-        <!-- Program Studi -->
-        <div class="col-lg-3 col-md-6 footer-links">
-          <h4>Program Studi</h4>
-          <ul>
-            <li>
-              <a href="#" onclick="tampilkanInformasiPengembangan()">Bimbingan dan Konseling Islam</a>
-            </li>
-            <li>
-              <a href="#" onclick="tampilkanInformasiPengembangan()">Komunikasi dan Penyiaran Islam</a>
-            </li>
-            <li>
-              <a href="#" target="_blank">Ilmu Al Quran dan Tafsir</a>
-            </li>
-            <li>
-              <a href="#" target="_blank">Tasawuf Psikoterapi</a>
-            </li>
-            <li>
-              <a href="#" target="_blank">Aqidah dan Filsafat Islam</a>
-            </li>
-            <li>
-              <a href="#" target="_blank">Pemikiran Politik Islam</a>
-            </li>
-          </ul>
-        </div>
-
         <!-- Sosial Media -->
         <div class="col-lg-3 col-md-6 footer-links">
           <h4>Sosial Media</h4>
