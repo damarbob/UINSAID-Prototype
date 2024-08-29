@@ -177,7 +177,15 @@ $routes->group('api', static function ($routes) {
     $routes->post('restore', 'Shutdown::restore');
 });
 
-$routes->get('fakultas', 'BerandaFakultas');
+$routes->group('fakultas', static function ($routes) {
+    $routes->get('/', 'BerandaFakultas', ['as' => 'beranda_fakultas']);
+    $routes->get('profil', 'BerandaFakultas', ['as' => 'profil_fakultas']);
+});
+
+$routes->group('prodi', static function ($routes) {
+    $routes->get('/', 'BerandaProdi', ['as' => 'beranda_prodi']);
+    $routes->get('profil', 'BerandaProdi', ['as' => 'profil_prodi']);
+});
 
 service('auth')->routes($routes);
 

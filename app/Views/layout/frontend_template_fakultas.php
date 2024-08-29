@@ -12,7 +12,7 @@ $currentRoute = $request->uri->getPath();
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <meta http-equiv="x-ua-compatible" content="ie=edge" />
-  <title>UIN Raden Mas Said Surakarta</title>
+  <title><?= $fakultas ?></title>
   <meta name="googlebot" content="index,follow">
   <meta name="language" content="id" />
   <link rel="canonical" href="https://webdemo.uinsaid.id" />
@@ -158,159 +158,63 @@ $currentRoute = $request->uri->getPath();
       <div class="collapse navbar-collapse mb-2 mb-sm-0" id="navbarSupportedContent">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0 me-4 fw-bold">
 
-          <!-- Link Tentang kami -->
+          <!-- Link Profil -->
           <li class="nav-item">
-            <a data-mdb-ripple-init class="nav-link <?= $currentRoute == "tentang-kami" ? "active" : "" ?>" href="<?= base_url('tentang-kami') ?>">Tentang Kami</a>
+            <a data-mdb-ripple-init class="nav-link <?= $currentRoute == url_to('profil_fakultas') ? "active" : "" ?>" href="<?= url_to('profil_fakultas') ?>">Profil</a>
           </li>
 
-          <!-- Dropdown Tentang Kami -->
-          <!-- <li class="nav-item dropdown">
-            <a data-mdb-dropdown-init
-              data-mdb-ripple-init
-              data-mdb-auto-close="true" class="nav-link dropdown-toggle" href="#" id="navbarDropdownTentangKami" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
-              Tentang Kami
-            </a> -->
-          <!-- Dropdown menu -->
-          <!-- <ul class="dropdown-menu" aria-labelledby="navbarDropdownTentangKami">
-              <li><a href="/tentang-kami" class="dropdown-item">Tentang UIN RM Said</a></li>
-              <li><a href="#" class="dropdown-item">Sambutan Rektor</a></li>
-              <li><a href="#" class="dropdown-item">Sejarah</a></li>
-              <li><a href="#" class="dropdown-item">Profil Universitas</a></li>
-              <li><a href="#" class="dropdown-item">Arti Lambang</a></li>
-              <li><a href="#" class="dropdown-item">Visi Misi</a></li>
-              <li><a href="#" class="dropdown-item">Fasilitas</a></li>
-              <li><a href="#" class="dropdown-item">Peta Kampus</a></li>
-            </ul>
-          </li> -->
-
-          <!-- Dropdown Pendidikan -->
+          <!-- Dropdown Prodi -->
           <li class="nav-item dropdown">
             <a
-              class="nav-link dropdown-toggle <?= $currentRoute == "pendidikan" ? "active" : "" ?>"
+              class="nav-link dropdown-toggle"
               role="button"
               data-mdb-dropdown-init
               data-mdb-ripple-init
               data-mdb-auto-close="true"
-              href="<?= base_url('pendidikan') ?>" id="navbarDropdownPendidikan"
+              href="<?= base_url('pendidikan') ?>" id="navbarDropdownProdi"
               data-mdb-toggle="dropdown"
               aria-expanded="false">
-              Pendidikan
+              Program Studi
             </a>
             <!-- Dropdown menu -->
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdownPendidikan">
-              <li><a href="#" class="dropdown-item">Fakultas Usluhuddin dan Dakwah</a></li>
-              <li><a href="#" class="dropdown-item">Fakultas Syariah</a></li>
-              <li><a href="#" class="dropdown-item">Fakultas Ilmu Tarbiyah</a></li>
-              <li><a href="#" class="dropdown-item">Fakultas Ekonomi dan Bisnis Islam</a></li>
-              <li><a href="#" class="dropdown-item">Fakultas Adab dan Bahasa</a></li>
-              <li><a href="#" class="dropdown-item">Pascasarjana</a></li>
-              <li><a href="#" class="dropdown-item">Lembaga</a></li>
-              <li><a href="#" class="dropdown-item">Unit Pelaksana Teknis</a></li>
-              <!-- <li>
-                <a class="dropdown-item" href="#">Action</a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="#">Another action</a>
-              </li>
-              <li>
-                <hr class="dropdown-divider" />
-              </li>
-              <li>
-                <a class="dropdown-item" href="#">Something else here</a>
-              </li> -->
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdownProdi">
+              <li><a href="#" class="dropdown-item">Bimbingan dan Konseling Islam</a></li>
+              <li><a href="#" class="dropdown-item">Komunikasi dan Penyiaran Islam</a></li>
+              <li><a href="#" class="dropdown-item">Ilmu Al Quran dan Tafsir</a></li>
+              <li><a href="#" class="dropdown-item">Tasawuf Psikoterapi</a></li>
+              <li><a href="#" class="dropdown-item">Aqidah dan Filsafat Islam</a></li>
+              <li><a href="#" class="dropdown-item">Pemikiran Politik Islam</a></li>
             </ul>
           </li>
 
-          <!-- Dropdown Riset dan Publikasi -->
-          <li class="nav-item dropdown">
-            <a data-mdb-dropdown-init
-              data-mdb-ripple-init
-              data-mdb-auto-close="true" class="nav-link dropdown-toggle" href="#" id="navbarDropdownRisetDanPublikasi" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
-              Riset dan Publikasi
-            </a>
-            <!-- Dropdown menu -->
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdownRisetDanPublikasi">
-              <li><a href="https://ejournal.uinsaid.ac.id/" class="dropdown-item">Omah Jurnal</a></li>
-              <li><a href="https://eprints.iain-surakarta.ac.id/" class="dropdown-item">Repositori Jurnal</a></li>
-            </ul>
-          </li>
-
-          <!-- Link Pengabdian -->
+          <!-- Link Layanan -->
           <li class="nav-item">
-            <a data-mdb-ripple-init class="nav-link" href="#">Pengabdian</a>
+            <a data-mdb-ripple-init class="nav-link" href="#">Layanan</a>
           </li>
-
-          <!-- Link Mahasiswa Baru -->
+          <!-- Link Kerjasama -->
           <li class="nav-item">
-            <a data-mdb-ripple-init class="nav-link" href="https://admisi.uinsaid.ac.id/id">Mahasiswa Baru</a>
+            <a data-mdb-ripple-init class="nav-link" href="#">Kerjasama</a>
           </li>
-
-          <!-- Link PPID -->
+          <!-- Link Kemahasiswaan -->
           <li class="nav-item">
-            <a data-mdb-ripple-init class="nav-link" href="#">PPID</a>
+            <a data-mdb-ripple-init class="nav-link" href="#">Kemahasiswaan</a>
           </li>
-
+          <!-- Link Tri Dharma -->
+          <li class="nav-item">
+            <a data-mdb-ripple-init class="nav-link" href="#">Tri Dharma</a>
+          </li>
+          <!-- Link Unduhan -->
+          <li class="nav-item">
+            <a data-mdb-ripple-init class="nav-link" href="#">Unduhan</a>
+          </li>
+          <!-- Link Alumni -->
+          <li class="nav-item">
+            <a data-mdb-ripple-init class="nav-link" href="#">Layanan</a>
+          </li>
         </ul>
 
-        <!-- Notifications -->
-        <!-- <div class="dropdown">
-          <a
-            data-mdb-dropdown-init
-            class="text-reset me-3 dropdown-toggle hidden-arrow"
-            href="#"
-            id="navbarDropdownMenuLink"
-            role="button"
-            aria-expanded="false">
-            <i class="fas fa-bell"></i>
-            <span class="badge rounded-pill badge-notification bg-danger">1</span>
-          </a>
-          <ul
-            class="dropdown-menu dropdown-menu-end"
-            aria-labelledby="navbarDropdownMenuLink">
-            <li>
-              <a class="dropdown-item" href="#">Some news</a>
-            </li>
-            <li>
-              <a class="dropdown-item" href="#">Another news</a>
-            </li>
-            <li>
-              <a class="dropdown-item" href="#">Something else here</a>
-            </li>
-          </ul>
-        </div> -->
-        <!-- Avatar -->
-        <!-- <div class="dropdown">
-          <a
-            data-mdb-dropdown-init
-            class="dropdown-toggle d-flex align-items-center hidden-arrow"
-            href="#"
-            id="navbarDropdownMenuAvatar"
-            role="button"
-            aria-expanded="false">
-            <img
-              src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
-              class="rounded-circle"
-              height="25"
-              alt="Black and White Portrait of a Man"
-              loading="lazy" />
-          </a>
-          <ul
-            class="dropdown-menu dropdown-menu-end"
-            aria-labelledby="navbarDropdownMenuAvatar">
-            <li>
-              <a class="dropdown-item" href="#">My profile</a>
-            </li>
-            <li>
-              <a class="dropdown-item" href="#">Settings</a>
-            </li>
-            <li>
-              <a class="dropdown-item" href="#">Logout</a>
-            </li>
-          </ul>
-        </div> -->
-
         <!-- Search -->
-        <form class="w-auto">
+        <form style="width: 128px;">
           <input type="search" class="form-control" placeholder="Cari" aria-label="Search">
         </form>
 
@@ -465,76 +369,82 @@ $currentRoute = $request->uri->getPath();
             </ul>
           </div> -->
 
-        <!-- Fakultas dan pascasarjana -->
+        <!-- Menu -->
         <div class="col-lg-3 col-md-6 footer-links">
-          <h4>Fakultas dan Pascasarjana</h4>
+          <h4>Menu</h4>
           <ul>
             <li>
-              <a href="#" onclick="tampilkanInformasiPengembangan()">Fakultas Usluhuddin dan Dakwah</a>
+              <a href="#" onclick="tampilkanInformasiPengembangan()">Profil</a>
             </li>
             <li>
-              <a href="#" onclick="tampilkanInformasiPengembangan()">Fakultas Syariah</a>
+              <a href="#" onclick="tampilkanInformasiPengembangan()">Layanan</a>
             </li>
             <li>
-              <a href="#" target="_blank">Fakultas Ilmu Tarbiyah</a>
+              <a href="#" target="_blank">Kemahasiswaan</a>
             </li>
             <li>
-              <a href="#" target="_blank">Fakultas Ekonomi dan Bisnis Islam</a>
+              <a href="#" target="_blank">Alumni</a>
             </li>
             <li>
-              <a href="#" target="_blank">Fakultas Adab dan Bahasa</a>
+              <a href="#" target="_blank">Kerjasama</a>
             </li>
             <li>
-              <a href="#" target="_blank">Pascasarjana</a>
+              <a href="#" target="_blank">Unduhan</a>
             </li>
           </ul>
         </div>
 
-        <!-- Lembaga -->
+        <!-- Program Studi -->
         <div class="col-lg-3 col-md-6 footer-links">
-          <h4>Lembaga</h4>
+          <h4>Program Studi</h4>
           <ul>
             <li>
-              <a href="#" onclick="tampilkanInformasiPengembangan()">Lembaga Penelitian dan Pengabdian Masyarakat</a>
+              <a href="#" onclick="tampilkanInformasiPengembangan()">Bimbingan dan Konseling Islam</a>
             </li>
             <li>
-              <a href="#" onclick="tampilkanInformasiPengembangan()">Lembaga Penjaminan Mutu</a>
+              <a href="#" onclick="tampilkanInformasiPengembangan()">Komunikasi dan Penyiaran Islam</a>
             </li>
             <li>
-              <a href="#" target="_blank">Satuan Pengawas Internal</a>
+              <a href="#" target="_blank">Ilmu Al Quran dan Tafsir</a>
             </li>
             <li>
-              <a href="#" target="_blank">Pusat Pengembangan Bisnis</a>
+              <a href="#" target="_blank">Tasawuf Psikoterapi</a>
+            </li>
+            <li>
+              <a href="#" target="_blank">Aqidah dan Filsafat Islam</a>
+            </li>
+            <li>
+              <a href="#" target="_blank">Pemikiran Politik Islam</a>
             </li>
           </ul>
         </div>
 
-        <!-- Unit Pelaksana Teknis -->
+        <!-- Sosial Media -->
         <div class="col-lg-3 col-md-6 footer-links">
-          <h4>Unit Pelaksana Teknis</h4>
+          <h4>Sosial Media</h4>
           <ul>
             <li>
-              <a href="#" onclick="tampilkanInformasiPengembangan()">UPT Perpustakaan</a>
+              <a href="#" onclick="tampilkanInformasiPengembangan()" target="_blank"><i class="bx bxl-instagram me-2"></i> Instagram</a>
             </li>
             <li>
-              <a href="#" onclick="tampilkanInformasiPengembangan()">UPT Bahasa</a>
+              <a href="#" onclick="tampilkanInformasiPengembangan()" target="_blank"><i class="bx bxl-tiktok me-2"></i> Tiktok</a>
             </li>
             <li>
-              <a href="#" target="_blank">UPT Teknologi Informasi dan Pengkalan Data</a>
+              <a href="#" target="_blank"><i class="bx bxl-twitter me-2"></i> Twitter</a>
             </li>
             <li>
-              <a href="#" target="_blank">UPT Ma’had Al-Jami’ah</a>
+              <a href="#" target="_blank"><i class="bx bxl-facebook me-2"></i> Facebook</a>
             </li>
             <li>
-              <a href="#" target="_blank">UPT Pengembangan Karir</a>
+              <a href="#" target="_blank"><i class="bx bxl-youtube me-2"></i> YouTube</a>
             </li>
           </ul>
         </div>
 
       </div>
 
-      <div class="row">
-        <!-- Media sosial -->
+      <!-- Media sosial -->
+      <!-- <div class="row">
         <div class="col text-center">
           <a class="fs-1" href="https://www.youtube.com/channel/UClhJVwPyu449bZDXIH6yS0w" target="_blank">
             <img src="assets/img/icon/ikon-youtube.png" width="64px" />
@@ -549,8 +459,8 @@ $currentRoute = $request->uri->getPath();
             <img src="assets/img/icon/ikon-tiktok.png" width="64px" />
           </a>
         </div>
-        <!-- Akhir media sosial -->
-      </div>
+      </div> -->
+      <!-- Akhir media sosial -->
 
       <!-- <div class="row">
         <a id="themeToggleUnused" class="card" data-mdb-ripple-init>

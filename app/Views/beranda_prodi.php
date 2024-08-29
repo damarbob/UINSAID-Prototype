@@ -1,9 +1,9 @@
 <?php helper('text'); ?>
 
-<?= $this->extend('layout/frontend_template_fakultas') ?>
+<?= $this->extend('layout/frontend_template_prodi') ?>
 
 <?= $this->section('style') ?>
-<link rel="stylesheet" href="<?= base_url("assets/css/style-beranda-fakultas.css") ?>" type="text/css" />
+<link rel="stylesheet" href="<?= base_url("assets/css/style-beranda-prodi.css") ?>" type="text/css" />
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
@@ -114,38 +114,6 @@
   </div>
 </section>
 <!-- End section Sambutan Rektor -->
-
-<!-- Section Prodi -->
-<section class="fluid" id="section-prodi">
-  <!-- <div class="lurik-silk">
-  </div> -->
-  <div class="container p-5 pe-5">
-    <div class="row g-4 p-5">
-
-      <div class="col-12">
-        <h2 class="text-light fw-bold">Prestasi Mahasiswa</h2>
-        <h4 class="fw-bold"><?= $fakultas ?></h4>
-      </div>
-
-      <!-- Poin-poin -->
-      <?php foreach ($prodi as $key) : ?>
-        <div class="col-md-6 col-lg-4" data-aos="fade-right">
-          <div class="card d-flex flex-sm-row border border-primary-subtle border-1 rounded-5 overflow-hidden gradient-1">
-            <div class="prodi-gambar ratio ratio-1x1 border-start border-primary border-2 border-lg-5 rounded-5 overflow-hidden" style="background: url('<?= $key['gambar'] ?>'); background-repeat: no-repeat; background-size: cover;">
-              <!-- <img src="" class="object-fit-cover"> -->
-            </div>
-            <div class="card-body flex-grow-1 align-content-center">
-              <h5 class="card-title fw-bold"><?= $key['judul'] ?></h5>
-              <!-- <a href="" class="text-body fw-bold">Selengkapnya <span class="ms-2">›</span></a> -->
-            </div>
-          </div>
-        </div>
-      <?php endforeach ?>
-
-    </div>
-  </div>
-</section>
-<!-- Section Prodi -->
 
 <!-- Section Berita -->
 <section id="news" class="fluid section-batik">
@@ -282,32 +250,6 @@
   </div>
 </section>
 <!-- End of section agenda -->
-
-<!-- Section Menu -->
-<section id="menu-pintas-fakultas" class="fluid">
-  <div class="container p-5">
-
-    <!-- Row menu-pintas-fakultas -->
-    <div class="row g-4 mb-0 justify-content-center">
-
-      <!-- Item menu-pintas-fakultas -->
-      <div class="col d-flex justify-content-center flex-wrap" id="item-menu-pintas-fakultas" data-aos="fade-up">
-        <?php foreach ($menu as $key) : ?>
-          <div class="p-3 me-3 mb-2 text-primary rounded-3 shadow fs-6 bg-secondary menu-pintas-fakultas" data-aos="fade-up" data-mdb-ripple-init>
-            <p class="h6 fw-bold me-2 m-0 d-flex align-items-center">
-              <span><i class="<?= $key['icon'] ?> text-light fs-4 me-2"></i></span>
-              <?= $key['menu'] ?>
-            </p>
-            <a href="<?= $key['link'] ?>" class="stretched-link"></a>
-          </div>
-        <?php endforeach ?>
-      </div>
-
-    </div>
-
-  </div>
-</section>
-<!-- End of section menu-pintas-fakultas -->
 
 <!-- Modal beranda -->
 <div class="modal fade" id="berandaModal" tabindex="-1" aria-labelledby="berandaModalLabel" aria-hidden="true" data-mdb-backdrop="true" data-mdb-keyboard="true" aria-modal="true">
