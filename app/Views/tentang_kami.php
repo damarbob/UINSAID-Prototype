@@ -58,7 +58,7 @@
     <div class="container p-5">
         <div class="row d-flex g-5">
 
-            <div class="col-lg-3">
+            <div class="col-md-4 col-lg-3">
 
                 <div class="container bg-gradient border rounded-5">
                     <div class="row">
@@ -94,7 +94,7 @@
 
             </div>
 
-            <div class="col-lg-9">
+            <div class="col-md-8 col-lg-9">
                 <!-- Tab content -->
                 <div class="tab-content" id="v-tabs-tabContent">
                     <!-- Home / sambutan rektor -->

@@ -420,7 +420,7 @@ $currentRoute = $request->uri->getPath();
   </div>
 
   <!-- Footer -->
-  <footer id="footer" class="section-batik rev-90 text-light">
+  <footer id="footer" class="text-light">
     <!-- Footer bagian atas -->
     <div class="footer-top container p-5 rounded-top-5" style="background: #013316;">
       <div class="row">
@@ -511,7 +511,7 @@ $currentRoute = $request->uri->getPath();
 
         <!-- Unit Pelaksana Teknis -->
         <div class="col-lg-3 col-md-6 footer-links">
-          <h4>Lembaga</h4>
+          <h4>Unit Pelaksana Teknis</h4>
           <ul>
             <li>
               <a href="#" onclick="tampilkanInformasiPengembangan()">UPT Perpustakaan</a>

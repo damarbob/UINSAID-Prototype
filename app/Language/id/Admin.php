@@ -69,7 +69,7 @@ return [
     'kirimkanBeritaIniKeWebsiteUtama' => 'Kirimkan berita ini ke website utama?',
     'kirimkan' => 'Kirimkan',
 
-    'publikasi' => 'Dipublikasikan',
+    'publikasi' => 'Publikasi',
     'draf' => 'Draf',
 
     'fileTidakValid' => 'File tidak valid!',

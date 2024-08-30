@@ -107,10 +107,10 @@ class BeritaAdmin extends BaseControllerAdmin
         ]));
     }
 
-    public function getDipublikasikan()
+    public function getPublikasi()
     {
         return $this->response->setJSON(json_encode([
-            "data" => format_tanggal($this->beritaModel->getDipublikasikan())
+            "data" => format_tanggal($this->beritaModel->getPublikasi())
         ]));
     }
 

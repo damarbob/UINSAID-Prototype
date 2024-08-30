@@ -555,16 +555,23 @@
       <!-- Item agenda -->
       <?php foreach ($agenda as $b => $key) : ?>
         <div class="col-lg-4 col-xl-3 col-md-6" id="item-agenda" data-aos="fade-up">
-          <div class="card" data-mdb-ripple-init>
+          <div class="card" data-mdb-ripple-init
+            data-mdb-ripple-init
+            data-mdb-modal-init
+            data-mdb-target="#berandaModal"
+            data-uri="<?= $key['uri'] ?>"
+            data-title="<?= $key['agenda'] ?>"
+            data-deskripsi="<?= $key['deskripsi'] ?>"
+            data-waktu="<?= $key['waktu'] ?>">
 
             <!-- Konten agenda -->
             <div class="card-body">
               <p class="card-text"><?= $key['formatted_datetime'] ?></p>
-              <a href="#">
-                <p class="card-title text-body">
-                  <?= $key['agenda'] ?>
-                </p>
-              </a>
+              <!-- <a href="#"> -->
+              <p class="card-title text-body">
+                <?= $key['agenda'] ?>
+              </p>
+              <!-- </a> -->
             </div>
 
           </div>
@@ -583,7 +590,6 @@
     <div class="row rounded-3 px-2 px-lg-4" style="background: var(--mdb-secondary-bg)">
       <div class="col">
 
-
         <div class="row pt-4 mb-3">
           <div class="col text-start">
             <h1 class="fw-bold text-primary" data-aos="fade-up">Pengumuman</h1>
@@ -597,7 +603,14 @@
 
           <?php foreach ($pengumuman as $p => $key) : ?>
             <div class="col-lg-4" data-aos="fade-up">
-              <div class="card">
+              <div class="card"
+                data-mdb-ripple-init
+                data-mdb-modal-init
+                data-mdb-target="#berandaModal"
+                data-uri="<?= $key['uri'] ?>"
+                data-title="<?= $key['pengumuman'] ?>"
+                data-deskripsi="<?= $key['deskripsi'] ?>"
+                data-waktu="<?= $key['waktu'] ?>">
                 <div class="d-flex p-3">
 
                   <div class="px-3">
@@ -610,11 +623,11 @@
                     </p>
                   </div>
                   <div class="flex-grow-1 d-flex align-items-center">
-                    <a href="#">
-                      <p class="card-title text-body fw-bold fs-6 mb-0">
-                        <?= $key['pengumuman'] ?>
-                      </p>
-                    </a>
+                    <!-- <a href=""> -->
+                    <p class="card-title text-body fw-bold fs-6 mb-0">
+                      <?= $key['pengumuman'] ?>
+                    </p>
+                    <!-- </a> -->
                   </div>
 
                 </div>
@@ -622,7 +635,6 @@
             </div>
           <?php endforeach ?>
         </div>
-
 
       </div>
     </div>
@@ -663,8 +675,27 @@
   </div>
 </section>
 
+<!-- Modal beranda -->
+<div class="modal fade" id="berandaModal" tabindex="-1" aria-labelledby="berandaModalLabel" aria-hidden="true" data-mdb-backdrop="true" data-mdb-keyboard="true" aria-modal="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-secondary border-bottom-0">
+        <h5 class="modal-title text-secondary-emphasis" id="modalTitle">Modal title</h5>
+        <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="bg-primary w-100" style="height: 4px;"></div>
+      <div class="modal-body">
+        <img id="modalImageContent" class="w-100" /><!-- Image content will be here -->
+        <p id="modalWaktuContent"><!-- Waktu content will be here --></p>
+        <p id="modalDescriptionContent"><!-- Description content will be here --></p>
+      </div>
+    </div>
+  </div>
+</div>
+
 <?= $this->endSection() ?>
 
 <?= $this->section('script') ?>
+<script type="text/javascript" src="<?= base_url("assets/js/formatter.js") ?>"></script>
 <script type="text/javascript" src="<?= base_url("assets/js/beranda.js") ?>"></script>
 <?= $this->endSection() ?>

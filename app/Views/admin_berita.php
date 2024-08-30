@@ -249,7 +249,7 @@
             var newElement = $(
                 '<ul class="dropdown-menu">' +
                 '<li><button id="btnFilterRilisMediaSemua" class="dropdown-item" type="button"><?= lang('Admin.semua') ?></button></li>' +
-                '<li><button id="btnFilterRilisMediaDipublikasikan" class="dropdown-item" type="button"><?= lang('Admin.publikasi') ?></button></li>' +
+                '<li><button id="btnFilterRilisMediaPublikasi" class="dropdown-item" type="button"><?= lang('Admin.publikasi') ?></button></li>' +
                 '<li><button id="btnFilterRilisMediaDraft" class="dropdown-item" type="button"><?= lang('Admin.draf') ?></button></li>' +
                 '</ul>'
             );
@@ -257,9 +257,9 @@
             secondButton.after(newElement);
 
             var filterButtons = {
-                '#btnFilterRilisMediaSemua': '<?= base_url('/api/berita') ?>',
-                '#btnFilterRilisMediaDipublikasikan': '<?= base_url('/api/berita/published') ?>',
-                '#btnFilterRilisMediaDraft': '<?= base_url('/api/berita/draft') ?>'
+                '#btnFilterRilisMediaSemua': '/api/berita',
+                '#btnFilterRilisMediaPublikasi': '/api/berita/published',
+                '#btnFilterRilisMediaDraft': '/api/berita/draft'
             };
 
             $.each(filterButtons, function(btnId, apiUrl) {

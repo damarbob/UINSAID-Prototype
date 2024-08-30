@@ -17,16 +17,18 @@
 <section id="call-to-action" class="fluid d-flex justify-content-center">
   <div class="lurik align-self-start"></div>
 
-  <div class="container p-5 mt-2">
+  <div class="container p-5 mt-4">
     <div class="row g-2 align-items-center">
-      <div class="col-lg-2 pt-3">
+      <div class="col-lg-3 pt-3">
         <h2>Program Pendidikan</h2>
       </div>
-      <div class="col-lg-8 col-md-8">
-        Berbagai program pendidikan sarjana, magister, dan doktoral tersedia sesuai minat Anda untuk mendukung karir dan keahlian profesional di masa depan.
-      </div>
-      <div class="col-lg-2 col-md-4">
-        <button class="btn btn-primary">Mulai Pendaftaran</button>
+      <div class="col-lg-9 col-md-12 d-flex flex-wrap flex-sm-wrap flex-md-nowrap">
+        <div class="p-2 flex-shrink-1 mb-2">
+          Berbagai program pendidikan sarjana, magister, dan doktoral tersedia sesuai minat Anda untuk mendukung karir dan keahlian profesional di masa depan.
+        </div>
+        <div class="text-center align-self-center flex-shrink-0">
+          <button class="btn btn-primary">Mulai Pendaftaran</button>
+        </div>
       </div>
     </div>
   </div>

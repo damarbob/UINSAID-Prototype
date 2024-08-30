@@ -37,6 +37,8 @@ $routes->get('/berita', 'Berita');
 $routes->get('/berita/(:any)', 'Berita::get/$1');
 $routes->get('/kategori/(:any)', 'Berita::getByKategori/$1');
 $routes->get('test', 'BeritaAdmin::test');
+$routes->get('xml-migration', 'XmlMigrationController::migrate');
+$routes->get('xml-migration-lampiran', 'XmlMigrationLampiranController::migrate');
 
 // Dynamic routes for each page based on slug
 $routes->group('halaman', function ($routes) {
@@ -211,6 +213,16 @@ $routes->group('api', static function ($routes) {
     // Shutdown dan restore sistem
     $routes->post('shutdown', 'Shutdown::shutdown');
     $routes->post('restore', 'Shutdown::restore');
+});
+
+$routes->group('fakultas', static function ($routes) {
+    $routes->get('/', 'BerandaFakultas', ['as' => 'beranda_fakultas']);
+    $routes->get('profil', 'BerandaFakultas', ['as' => 'profil_fakultas']);
+});
+
+$routes->group('prodi', static function ($routes) {
+    $routes->get('/', 'BerandaProdi', ['as' => 'beranda_prodi']);
+    $routes->get('profil', 'BerandaProdi', ['as' => 'profil_prodi']);
 });
 
 service('auth')->routes($routes);

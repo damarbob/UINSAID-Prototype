@@ -35,6 +35,7 @@ helper('form');
 if ($mode == "tambah") {
     // Apabila mode tambah, bawa nilai lama form agar setelah validasi tidak hilang
     $valueAgenda = (old('agenda'));
+    $valueDeskripsi = (old('deskripsi'));
     $valueWaktu = (old('waktu'));
     $valueStatus = (old('status'));
     $valueGaleri = (old('galeri'));
@@ -45,6 +46,7 @@ if ($mode == "tambah") {
     $waktuFormat = date("Y-m-d H:i", $waktu);
     // Apabila mode edit, apabila ada nilai lama (old), gunakan nilai lama. Apabila tidak ada nilai lama (old), gunakan nilai dari rilis media
     $valueAgenda = (old('agenda')) ? old('agenda') : $agenda['agenda'];
+    $valueDeskripsi = (old('deskripsi')) ? old('deskripsi') : $agenda['deskripsi'];
     $valueWaktu = (old('waktu')) ? old('waktu') : $waktuFormat;
     $valueStatus = (old('status')) ? old('status') : $agenda['status'];
     $valueGaleri = $agenda['uri'];
@@ -79,6 +81,13 @@ if ($mode == "tambah") {
                 </div>
             </div>
         </div>
+        <div class="col-12">
+            <!-- Deskripsi -->
+            <div class="form-floating mb-3">
+                <textarea id="deskripsi" name="deskripsi" class="form-control <?= (validation_show_error('deskripsi')) ? 'is-invalid' : ''; ?>" type="text" rows="3" placeholder="<?= lang('Admin.deskripsi') ?>"><?= $valueDeskripsi ?></textarea>
+                <label for="deskripsi"><?= lang('Admin.deskripsi') ?></label>
+            </div>
+        </div>
         <div class="col-md-6">
             <!-- Waktu picker -->
             <div class="form mb-3">
@@ -93,13 +102,13 @@ if ($mode == "tambah") {
                 <select id="status" name="status" class="form-select <?= (validation_show_error('status')) ? 'is-invalid' : ''; ?>" aria-label="Default select">
                     <?php if ($valueStatus == 'draf') : ?>
                         <option selected value="draf"><?= lang('Admin.draf') ?></option>
-                        <option value="dipublikasikan"><?= lang('Admin.publikasi') ?></option>
-                    <?php elseif ($valueStatus == 'dipublikasikan') : ?>
+                        <option value="publikasi"><?= lang('Admin.publikasi') ?></option>
+                    <?php elseif ($valueStatus == 'publikasi') : ?>
                         <option value="draf"><?= lang('Admin.draf') ?></option>
-                        <option selected value="dipublikasikan"><?= lang('Admin.publikasi') ?></option>
+                        <option selected value="publikasi"><?= lang('Admin.publikasi') ?></option>
                     <?php else : ?>
                         <option value="draf"><?= lang('Admin.draf') ?></option>
-                        <option selected value="dipublikasikan"><?= lang('Admin.publikasi') ?></option>
+                        <option selected value="publikasi"><?= lang('Admin.publikasi') ?></option>
                     <?php endif; ?>
                 </select>
                 <label for="status"><?= lang('Admin.status') ?></label>

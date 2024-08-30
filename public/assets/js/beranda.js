@@ -193,3 +193,37 @@ $(document).ready(function () {
   //     setEqualHeight();
   //     window.addEventListener("resize", setEqualHeight);
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+  const berandaModal = document.getElementById('berandaModal');
+
+  berandaModal.addEventListener('show.bs.modal', function (event) {
+    // Card (or button) that triggered the modal
+    const card = event.relatedTarget;
+    // Extract the uri, title, and description values from the card's data-* attributes
+    const uriValue = card.getAttribute('data-uri');
+    const titleValue = card.getAttribute('data-title');
+    const descriptionValue = card.getAttribute('data-deskripsi');
+    const waktuValue = formatDate(card.getAttribute('data-waktu'));
+
+    // Update the modal's content with the extracted values
+    const modalTitle = berandaModal.querySelector('#modalTitle');
+    const modalImageContent = berandaModal.querySelector('#modalImageContent');
+    const modalWaktuContent = berandaModal.querySelector('#modalWaktuContent');
+    const modalDescriptionContent = berandaModal.querySelector('#modalDescriptionContent');
+
+    modalTitle.textContent = titleValue; // Update the title
+    modalImageContent.src = uriValue; // Update the uri content
+    modalWaktuContent.textContent = waktuValue; // Update the uri content
+    modalDescriptionContent.textContent = descriptionValue; // Update the description content
+  });
+
+  // Ensure the card itself is clickable to trigger the modal
+  const cards = document.querySelectorAll('.card[data-mdb-target="#berandaModal"]');
+  cards.forEach(function (card) {
+    card.addEventListener('click', function () {
+      const modal = new bootstrap.Modal(berandaModal);
+      modal.show();
+    });
+  });
+});
