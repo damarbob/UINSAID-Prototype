@@ -39,14 +39,6 @@
             </div>
         <?php endif; ?>
 
-        <?php if ($peringatanPostingBerita) : ?>
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <?= lang('Admin.peringatanPosting') ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        <?php endif; ?>
-
-
         <!-- <div class="table-responsive mt-3"> -->
         <table class="table table-hover" id="tabelRilisMedia" style="width: 100%;">
             <thead>
@@ -55,7 +47,7 @@
                     <td><?= lang('Admin.kategori') ?></td>
                     <td><?= lang('Admin.tanggal') ?></td>
                     <td><?= lang('Admin.status') ?></td>
-                    <td>Sumber</td>
+                    <td><?= lang('Admin.sumber') ?></td>
                 </tr>
             </thead>
             <tbody>
@@ -77,7 +69,7 @@
             processing: true,
             serverSide: true,
             ajax: {
-                "url": "<?= site_url('api/berita-diajukan') ?>",
+                "url": "<?= base_url('api/berita-diajukan') ?>",
                 "type": "POST"
             },
             "rowCallback": function(row, data, index) {
@@ -86,7 +78,7 @@
                     // Get the ID from the data
                     var id = data.id;
 
-                    // Navigate to the View page
+                    // TODO: Navigate to the View page
 
                 });
             },
@@ -95,6 +87,12 @@
                 },
                 {
                     "data": "kategori",
+                    "render": function(data, type, row) {
+                        if (type === "display") {
+                            return capitalizeFirstLetter(data);
+                        }
+                        return data;
+                    }
                 },
                 {
                     "data": "created_at",
@@ -105,7 +103,10 @@
                 {
                     "data": "status",
                     "render": function(data, type, row) {
-                        return data == "published" ? "Dipublikasi" : "Draf" // TODO: Translasi
+                        if (type === "display") {
+                            return data == "published" ? "<?= lang('Admin.publikasi') ?>" : "<?= lang('Admin.draf') ?>";
+                        }
+                        return data;
                     }
                 },
                 {
@@ -170,14 +171,14 @@
                 cancelButtonText: "<?= lang('Admin.batal') ?>"
             };
 
-            processBulkNew(table1, "/admin/berita-diajukan/publikasi", options);
+            processBulkNew(table1, "<?= base_url('/admin/berita-diajukan/publikasi') ?>", options);
         }
 
         // Fitur hapus massal
         function hapusBanyak() {
             var options = {
-                title: "<?= lang('Admin.hapusBerita') ?>",
-                confirmMessage: "<?= lang('Admin.hapusBeritaKonfirmasi') ?>",
+                title: "<?= lang('Admin.hapusItem') ?>",
+                confirmMessage: "<?= lang('Admin.lanjutkanUntukMenghapusItem') ?>",
                 errorMessage: "<?= lang('Admin.pilihItemDahulu') ?>",
                 type: "warning",
                 confirmButtonText: "<?= lang('Admin.hapus') ?>",
@@ -185,7 +186,7 @@
             };
 
             var columnsToSend = ['id']; // specify the columns you want to send
-            processBulkNew(table1, "/admin/berita-diajukan/hapus", options, columnsToSend);
+            processBulkNew(table1, "<?= base_url('/admin/berita-diajukan/hapus') ?>", options, columnsToSend);
         }
 
 
@@ -210,7 +211,7 @@
             var newElement = $(
                 '<ul class="dropdown-menu">' +
                 '<li><button id="btnFilterRilisMediaSemua" class="dropdown-item" type="button"><?= lang('Admin.semua') ?></button></li>' +
-                '<li><button id="btnFilterRilisMediaDipublikasikan" class="dropdown-item" type="button"><?= lang('Admin.dipublikasikan') ?></button></li>' +
+                '<li><button id="btnFilterRilisMediaDipublikasikan" class="dropdown-item" type="button"><?= lang('Admin.publikasi') ?></button></li>' +
                 '<li><button id="btnFilterRilisMediaDraft" class="dropdown-item" type="button"><?= lang('Admin.draf') ?></button></li>' +
                 '</ul>'
             );

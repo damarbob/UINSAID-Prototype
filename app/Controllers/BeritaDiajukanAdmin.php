@@ -7,9 +7,7 @@ use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
 
 use function App\Helpers\create_slug;
-use function App\Helpers\delete_many;
 use function App\Helpers\format_tanggal;
-use function App\Helpers\update_many;
 
 class BeritaDiajukanAdmin extends BaseControllerAdmin
 {
@@ -21,7 +19,7 @@ class BeritaDiajukanAdmin extends BaseControllerAdmin
 
     public function index(): string
     {
-        $this->data['judul'] = "Berita Diajukan";
+        $this->data['judul'] = lang('Admin.beritaDiajukan');
         return view('admin_berita_diajukan', $this->data);
     }
 
@@ -79,7 +77,7 @@ class BeritaDiajukanAdmin extends BaseControllerAdmin
         $rules = ($id == null) ? $this->formRules('required|is_unique[berita.judul]') : $this->formRules('required');
 
         // Redireksi
-        $redirectTo = ($id == null) ? '/admin/berita/' : '/admin/berita/sunting?id=' . $id;
+        $redirectTo = ($id == null) ? base_url('/admin/berita/') : base_url('/admin/berita/sunting?id=' . $id);
 
         // Cek validasi
         if (!$this->validate($rules)) {
@@ -187,7 +185,7 @@ class BeritaDiajukanAdmin extends BaseControllerAdmin
             // Insert the new entry into the database
             if (!$this->beritaModel->insert($newEntry)) {
                 $result = false;
-                $errors[] = "Gagal menyimpan entri dengan judul: " . $data['judul'];
+                $errors[] =  lang('Admin.gagalMenyimpanEntriDenganJudul', ['judul' => $data['judul']]);
             } else {
                 // Jika berhasil, hapus permintaan pengajuan TODO: Tambah error-checking apabila gagal hapus
                 $this->beritaDiajukanModel->delete($data['id']);
@@ -214,6 +212,7 @@ class BeritaDiajukanAdmin extends BaseControllerAdmin
 
         // Loop through each selected row's data
         foreach ($selectedData as $rowData) {
+
             // Extract the ID
             $id = $rowData['id'];
 
@@ -225,9 +224,9 @@ class BeritaDiajukanAdmin extends BaseControllerAdmin
         }
 
         if ($result) {
-            return $this->response->setJSON(['status' => 'success', 'message' => lang('Admin.hapusBanyakSukses')]);
+            return $this->response->setJSON(['status' => 'success', 'message' => lang('Admin.berhasilDihapus')]);
         } else {
-            return $this->response->setJSON(['status' => 'error', 'message' => lang('Admin.hapusBanyakGagal')]);
+            return $this->response->setJSON(['status' => 'error', 'message' => lang('Admin.penghapusanGagal')]);
         }
     }
 
@@ -291,7 +290,7 @@ class BeritaDiajukanAdmin extends BaseControllerAdmin
             // Insert the new entry into the database
             if (!$this->beritaDiajukanModel->insert($newEntry)) {
                 $result = false;
-                $errors[] = "Failed to save entry with title: " . $data['judul'];
+                $errors[] = lang('Admin.gagalMenyimpanEntriDenganJudul', ['judul' => $data['judul']]);
             }
         }
 
@@ -300,7 +299,7 @@ class BeritaDiajukanAdmin extends BaseControllerAdmin
         } else {
             return $this->response->setJSON([
                 'status' => 'error',
-                'message' => 'Permintaan gagal dikirim.',
+                'message' => lang('Admin.permintaanGagalDikirim'),
                 'errors' => $errors,
             ]);
         }

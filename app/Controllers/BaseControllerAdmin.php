@@ -9,8 +9,11 @@ use App\Models\PengumumanModel;
 use App\Models\MasukanModel;
 use App\Models\BeritaModel;
 use App\Models\GaleriModel;
+use App\Models\HalamanModel;
 use App\Models\KategoriModel;
+use App\Models\KomponenModel;
 use App\Models\SitusModel;
+use CodeIgniter\BaseModel;
 use CodeIgniter\Controller;
 use CodeIgniter\HTTP\CLIRequest;
 use CodeIgniter\HTTP\IncomingRequest;
@@ -19,6 +22,7 @@ use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\Shield\Models\UserModel;
 use Psr\Log\LoggerInterface;
 
+use function App\Helpers\delete_many;
 use function App\Helpers\format_tanggal;
 
 /**
@@ -59,16 +63,21 @@ abstract class BaseControllerAdmin extends Controller
         // protected $session;
 
         // Initialize models
-        protected $userModel;
-        protected $agendaModel;
-        protected $pengumumanModel;
-        protected $beritaModel;
-        protected $beritaDiajukanModel;
-        protected $galeriModel;
-        protected $masukanModel;
-        protected $anggotaModel;
-        protected $kategoriModel;
-        protected $situsModel;
+        protected BaseModel $model; // MUST BE DECLARED ON EACH CONTROLLER
+
+        protected UserModel $userModel;
+        protected AgendaModel $agendaModel;
+        protected PengumumanModel $pengumumanModel;
+        protected BeritaModel $beritaModel;
+        protected BeritaDiajukanModel $beritaDiajukanModel;
+        protected GaleriModel $galeriModel;
+        protected MasukanModel $masukanModel;
+        protected KategoriModel $kategoriModel;
+        protected SitusModel $situsModel;
+
+        // Page builder models
+        protected HalamanModel $halamanModel;
+        protected KomponenModel $komponenModel;
 
         /**
          * Constructor.
@@ -85,10 +94,12 @@ abstract class BaseControllerAdmin extends Controller
                 $this->pengumumanModel = new PengumumanModel();
                 $this->galeriModel = new GaleriModel();
                 $this->masukanModel = new MasukanModel();
-                $this->anggotaModel = null; //new AnggotaModel();
                 $this->userModel = new UserModel();
                 $this->kategoriModel = new KategoriModel();
                 $this->situsModel = new SitusModel();
+
+                $this->halamanModel = new HalamanModel();
+                $this->komponenModel = new KomponenModel();
 
                 // Untuk notifikasi
                 $this->data['peringatanBeritaKosong'] = count($this->beritaModel->get()) == 0;
@@ -97,5 +108,26 @@ abstract class BaseControllerAdmin extends Controller
                 $this->data['adaKotakMasukBelumTerbaca'] = ($this->data['jumlahKotakMasukBelumTerbaca'] > 0); // Ada kotak masuk yang belum terbaca
 
                 // E.g.: $this->session = \Config\Services::session();
+        }
+
+        /**
+         * AJAX operation API endpoint. Hapus banyak or delete many data using operation helper.
+         * Use DataTables and processBulkNew.js to make life easier.
+         */
+        function hapusBanyak()
+        {
+                $selectedData = $this->request->getPost('selectedData');
+
+                // Extract IDs from the selected data
+                $ids = array_column($selectedData, 'id');
+
+                $result = delete_many($ids, $this->model);
+
+                if ($result) {
+                        return $this->response->setJSON(['status' => 'success', 'message' => lang('Admin.berhasilDihapus')]);
+                } else {
+                        // Return an error message or any relevant response
+                        return $this->response->setJSON(['status' => 'error', 'message' => lang('Admin.penghapusanGagal')]);
+                }
         }
 }

@@ -27,7 +27,7 @@ class GaleriAdmin extends BaseControllerAdmin
 
     public function index()
     {
-        $this->data['judul'] = 'Galeri';
+        $this->data['judul'] = lang('Admin.galeri');
 
         $page = $this->request->getGet('page') ?? 1;
         $perPage = $this->request->getGet('per_page') ?? 20;
@@ -44,7 +44,7 @@ class GaleriAdmin extends BaseControllerAdmin
         return view('admin_galeri', $this->data);
     }
 
-    public function upload()
+    public function unggah()
     {
         $galeriModel = $this->galeriModel;
         $imageFile = $this->request->getFile('image');
@@ -52,7 +52,7 @@ class GaleriAdmin extends BaseControllerAdmin
         if ($imageFile->isValid() && !$imageFile->hasMoved()) {
             $validTypes = ['image/jpeg', 'image/png', 'image/gif'];
             if (!in_array($imageFile->getMimeType(), $validTypes)) {
-                return redirect()->back()->withInput()->with('error', 'Invalid file type. Only JPEG, PNG, and GIF files are allowed.');
+                return redirect()->back()->withInput()->with('error', lang('Admin.jenisFileTidakValidHanyaJPEGPNGGIFYangDiperbolehkan'));
             }
 
             $newName = $imageFile->getRandomName();
@@ -67,13 +67,13 @@ class GaleriAdmin extends BaseControllerAdmin
 
             $galeriModel->save($data);
 
-            return redirect()->to('admin/galeri')->with('success', 'Image uploaded successfully.');
+            return redirect()->to('admin/galeri')->with('success', lang('Admin.gambarBerhasilDiunggah'));
         }
 
-        return redirect()->back()->withInput()->with('error', 'Image upload failed.');
+        return redirect()->back()->withInput()->with('error', lang('Admin.gagalMengunggahGambar'));
     }
 
-    public function updateMetadata($id)
+    public function simpanMetadata($id)
     {
         $galeriModel = $this->galeriModel;
 
@@ -85,13 +85,13 @@ class GaleriAdmin extends BaseControllerAdmin
         ];
 
         if ($galeriModel->save($data)) {
-            return redirect()->to('admin/galeri')->with('success', 'Metadata updated successfully.');
+            return redirect()->to('admin/galeri')->with('success', lang('Admin.berhasilDiperbarui'));
         }
 
-        return redirect()->back()->with('error', 'Metadata update failed.');
+        return redirect()->back()->with('error', lang('Admin.gagalDiperbarui'));
     }
 
-    public function delete($id)
+    public function hapus($id)
     {
         $galeriModel = $this->galeriModel;
         $image = $galeriModel->find($id);
@@ -103,13 +103,13 @@ class GaleriAdmin extends BaseControllerAdmin
             }
 
             $galeriModel->delete($id);
-            return redirect()->to('admin/galeri')->with('success', 'Image deleted successfully.');
+            return redirect()->to('admin/galeri')->with('success', lang('Admin.berhasilDihapus'));
         }
 
-        return redirect()->to('admin/galeri')->with('error', 'Image not found.');
+        return redirect()->to('admin/galeri')->with('error', lang('Admin.penghapusanGagal'));
     }
 
-    public function deleteMultiple()
+    public function hapusBanyak()
     {
         $galeriModel = $this->galeriModel;
         $ids = $this->request->getPost('image_ids');
@@ -126,9 +126,9 @@ class GaleriAdmin extends BaseControllerAdmin
             }
 
             $galeriModel->delete($ids);
-            return redirect()->to('admin/galeri')->with('success', 'Selected images deleted successfully.');
+            return redirect()->to('admin/galeri')->with('success', lang('Admin.berhasilDihapus'));
         }
 
-        return redirect()->to('admin/galeri')->with('error', 'No images selected for deletion.');
+        return redirect()->to('admin/galeri')->with('error', lang('Admin.pilihItemDahulu'));
     }
 }

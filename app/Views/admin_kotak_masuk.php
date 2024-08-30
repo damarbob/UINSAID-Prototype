@@ -27,7 +27,7 @@
     <div class="col">
 
         <!-- <div class="table-responsive mt-3"> -->
-        <table class="table table-hover" id="tabelKotakMasuk" style="width: 100%;">
+        <table class="table table-hover w-100" id="tabelKotakMasuk">
             <thead>
                 <tr>
                     <td><?= lang('Admin.tanggal') ?></td>
@@ -51,7 +51,7 @@
 <script>
     $(document).ready(function() {
         var table1 = $('#tabelKotakMasuk').DataTable({
-            ajax: "/api/kotak-masuk",
+            ajax: "<?= base_url('/api/kotak-masuk') ?>",
             "rowCallback": function(row, data, index) {
                 // Add double-click event to navigate to Edit page
                 $(row).on('dblclick', function() {
@@ -59,7 +59,7 @@
                     var id = data.id;
 
                     // Navigate to the Edit page
-                    window.location.href = "/admin/kotak-masuk/sunting?id=" + id;
+                    window.location.href = "<?= base_url('/admin/kotak-masuk/sunting?id=') ?>" + id;
                 });
             },
             "columns": [{
@@ -145,7 +145,7 @@
                 cancelButtonText: "<?= lang('Admin.batal') ?>"
             };
 
-            processBulk(table1, "/admin/kotak-masuk/tandai/terbaca", options);
+            processBulk(table1, "<?= base_url('/admin/kotak-masuk/tandai/terbaca') ?>", options);
         }
 
         // Fitur tandai massal
@@ -159,21 +159,21 @@
                 cancelButtonText: "<?= lang('Admin.batal') ?>"
             };
 
-            processBulk(table1, "/admin/kotak-masuk/tandai/belum_terbaca", options);
+            processBulk(table1, "<?= base_url('/admin/kotak-masuk/tandai/belum_terbaca') ?>", options);
         }
 
         // Fitur hapus massal
         function hapusBanyak() {
             var options = {
                 title: "<?= lang('Admin.hapusPesan') ?>",
-                confirmMessage: "<?= lang('Admin.hapusPesanKonfirmasi') ?>",
+                confirmMessage: "<?= lang('Admin.lanjutkanUntukMenghapusPesan') ?>",
                 errorMessage: "<?= lang('Admin.pilihItemDahulu') ?>",
                 type: "warning",
                 confirmButtonText: "<?= lang('Admin.hapus') ?>",
                 cancelButtonText: "<?= lang('Admin.batal') ?>"
             };
 
-            processBulk(table1, "/admin/kotak-masuk/hapus", options);
+            processBulk(table1, "<?= base_url('/admin/kotak-masuk/hapus') ?>", options);
         }
 
 
@@ -206,9 +206,9 @@
             secondButton.after(newElement);
 
             var filterButtons = {
-                '#btnFilterKotakMasukSemua': '/api/kotak-masuk',
-                '#btnFilterKotakMasukKritikDanSaran': '/api/kotak-masuk/kritik-dan-saran',
-                '#btnFilterKotakMasukPelaporan': '/api/kotak-masuk/pelaporan'
+                '#btnFilterKotakMasukSemua': '<?= base_url('/api/kotak-masuk') ?>',
+                '#btnFilterKotakMasukKritikDanSaran': '<?= base_url('/api/kotak-masuk/kritik-dan-saran') ?>',
+                '#btnFilterKotakMasukPelaporan': '<?= base_url('/api/kotak-masuk/pelaporan') ?>'
             };
 
             $.each(filterButtons, function(btnId, apiUrl) {

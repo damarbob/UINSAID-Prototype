@@ -39,22 +39,14 @@
             </div>
         <?php endif; ?>
 
-        <?php if ($peringatanPostingBerita) : ?>
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <?= lang('Admin.peringatanPosting') ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        <?php endif; ?>
-
-
         <!-- <div class="table-responsive mt-3"> -->
         <table class="table table-hover" id="tabel" style="width: 100%;">
             <thead>
                 <tr>
-                    <td>ID</td>
-                    <td>Nama</td>
-                    <td>Alamat</td>
-                    <td>Status</td>
+                    <td><?= lang('Admin.id') ?></td>
+                    <td><?= lang('Admin.nama') ?></td>
+                    <td><?= lang('Admin.alamatSitus') ?></td>
+                    <td><?= lang('Admin.statusSitus') ?></td>
                     <td><?= lang('Admin.tanggal') ?></td>
                 </tr>
             </thead>
@@ -91,7 +83,7 @@
                     var id = data.id;
 
                     // Navigate to the Edit page
-                    window.location.href = "/admin/situs/sunting?id=" + id;
+                    window.location.href = "<?= base_url('/admin/situs/sunting?id=') ?>" + id;
                 });
             },
             "columns": [{
@@ -106,7 +98,10 @@
                 {
                     "data": "status",
                     "render": function(data, type, row) {
-                        return data == "active" ? "Aktif" : "Tidak Aktif" // TODO: Translasi
+                        if (type === "display") {
+                            return data == "active" ? "<?= lang('Admin.aktif') ?>" : "<?= lang('Admin.nonaktif') ?>"; // TODO: Translasi
+                        }
+                        return data;
                     }
                 },
                 {
@@ -136,7 +131,7 @@
             buttons: [{
                     text: '<i class="bi bi-plus-lg"></i>',
                     action: function(e, dt, node, config) {
-                        window.location.href = '/admin/situs/tambah'
+                        window.location.href = '<?= base_url('/admin/situs/tambah') ?>'
                     }
                 },
                 {
@@ -146,14 +141,40 @@
                     extend: 'selected',
                     text: '<i class="bi bi-power"></i>',
                     action: function(e, dt, node, config) {
-                        manageSites('shutdown');
+                        // Konfirmasi nonaktifkan situs
+                        Swal.fire({
+                            icon: 'warning',
+                            title: '<?= lang('Admin.kelolaSitus') ?>',
+                            text: '<?= lang('Admin.lanjutkanMenonaktifkanSitus') ?>',
+                            showCancelButton: true,
+                            confirmButtonColor: "var(--mdb-danger)",
+                            confirmButtonText: "<?= lang('Admin.nonaktifkan') ?>",
+                            cancelButtonText: "<?= lang('Admin.batal') ?>",
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                manageSites('shutdown');
+                            }
+                        });;
                     }
                 },
                 {
                     extend: 'selected',
                     text: '<i class="bi bi-play"></i>',
                     action: function(e, dt, node, config) {
-                        manageSites('restore');
+                        // Konfirmasi aktifkan situs
+                        Swal.fire({
+                            icon: 'info',
+                            title: '<?= lang('Admin.kelolaSitus') ?>',
+                            text: '<?= lang('Admin.lanjutkanMengaktifkanSitus') ?>',
+                            showCancelButton: true,
+                            confirmButtonColor: "var(--mdb-primary)",
+                            confirmButtonText: "<?= lang('Admin.aktifkan') ?>",
+                            cancelButtonText: "<?= lang('Admin.batal') ?>",
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                manageSites('restore');
+                            }
+                        });;
                     }
                 },
                 {
@@ -181,15 +202,15 @@
         // Fitur hapus massal
         function hapusBanyak() {
             var options = {
-                title: "<?= lang('Admin.hapusBerita') ?>",
-                confirmMessage: "<?= lang('Admin.hapusBeritaKonfirmasi') ?>",
+                title: "<?= lang('Admin.hapusItem') ?>",
+                confirmMessage: "<?= lang('Admin.lanjutkanUntukMenghapusItem') ?>",
                 errorMessage: "<?= lang('Admin.pilihItemDahulu') ?>",
                 type: "warning",
                 confirmButtonText: "<?= lang('Admin.hapus') ?>",
                 cancelButtonText: "<?= lang('Admin.batal') ?>"
             };
 
-            processBulk(table1, "/admin/situs/hapus", options);
+            processBulk(table1, "<?= base_url('/admin/situs/hapus') ?>", options);
         }
 
         // Kelola shutdown/restore situs
@@ -200,8 +221,8 @@
             if (selectedData.length === 0) {
                 Swal.fire({
                     icon: 'warning',
-                    title: 'No sites selected',
-                    text: 'Please select at least one site to ' + action + '.',
+                    title: '<?= lang('Admin.kelolaSitus') ?>',
+                    text: '<?= lang('Admin.pilihItemDahulu') ?>',
                 });
                 return;
             }
@@ -225,7 +246,7 @@
                     contentType: 'application/json',
                     success: function(response) {
                         // TODO: Translasi
-                        responseMessages.push(`<p>${site.nama}: ${response.message || 'No message provided'}</p>`);
+                        responseMessages.push(`<p>${site.nama}: ${response.message || '<?= lang('Admin.tidakAdaResponsDiterima') ?>'}</p>`);
                     },
                     error: function(xhr, status, error) {
                         responseMessages.push(`<p>${site.nama}: ${xhr.responseText || error}</p>`);
@@ -237,7 +258,7 @@
                         if (totalRequests === selectedData.length) {
                             Swal.fire({
                                 icon: 'info',
-                                title: 'Action Completed',
+                                title: '<?= lang('Admin.tindakanSelesai') ?>',
                                 html: responseMessages.join(''),
                             });
 
@@ -277,17 +298,17 @@
             var newElement = $(
                 '<ul class="dropdown-menu">' +
                 '<li><button id="btnFilterRilisMediaSemua" class="dropdown-item" type="button"><?= lang('Admin.semua') ?></button></li>' +
-                '<li><button id="btnFilterRilisMediaDipublikasikan" class="dropdown-item" type="button">Aktif</button></li>' +
-                '<li><button id="btnFilterRilisMediaDraft" class="dropdown-item" type="button">Tidak Aktif</button></li>' +
+                '<li><button id="btnFilterRilisMediaDipublikasikan" class="dropdown-item" type="button"><?= lang('Admin.aktif') ?></button></li>' +
+                '<li><button id="btnFilterRilisMediaDraft" class="dropdown-item" type="button"><?= lang('Admin.nonaktif') ?></button></li>' +
                 '</ul>'
             );
 
             secondButton.after(newElement);
 
             var filterButtons = {
-                '#btnFilterRilisMediaSemua': '/api/situs',
-                '#btnFilterRilisMediaDipublikasikan': '/api/situs/aktif',
-                '#btnFilterRilisMediaDraft': '/api/situs/tidak-aktif'
+                '#btnFilterRilisMediaSemua': '<?= base_url('/api/situs') ?>',
+                '#btnFilterRilisMediaDipublikasikan': '<?= base_url('/api/situs/aktif') ?>',
+                '#btnFilterRilisMediaDraft': '<?= base_url('/api/situs/tidak-aktif') ?>'
             };
 
             $.each(filterButtons, function(btnId, apiUrl) {

@@ -19,7 +19,7 @@
 
   <div class="container p-5 mt-2">
     <div class="row g-2 align-items-center">
-      <div class="col-lg-2">
+      <div class="col-lg-2 pt-3">
         <h2>Program Pendidikan</h2>
       </div>
       <div class="col-lg-8 col-md-8">
@@ -37,14 +37,14 @@
 <!-- Section cari prodi -->
 <section id="cari-prodi">
   <div class="container p-5">
-    <div class="row align-items-center" id="text-cari-prodi">
+    <div class="row align-items-center bg-secondary rounded-3" id="text-cari-prodi">
       <div class="col-lg-4 col-md-6 text-center text-light">
         Cari Program Studi
       </div>
-      <div class="col-lg-8 col-md-6">
+      <div class="col-lg-8 col-md-6 p-0">
         <form class="d-flex" role="search">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="cari" type="submit">Search</button>
+          <input class="form-control rounded-0 border-primary" type="search" placeholder="Search" aria-label="Search">
+          <button class="cari me-0 btn btn-primary rounded-0 rounded-end-3" type="submit" data-mdb-ripple-init>Search</button>
         </form>
       </div>
     </div>

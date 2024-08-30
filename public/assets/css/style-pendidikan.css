@@ -1,13 +1,13 @@
-Z/* Section cari prodi */
-#text-cari-prodi {
+/* Section cari prodi */
+/* #text-cari-prodi {
   background: var(--mdb-primary);
   border-radius: 8px;
-}
-#cari-prodi .cari {
+} */
+/* #cari-prodi .cari {
   background: transparent;
   color: rgb(var(--mdb-light-rgb));
   border: 0;
-}
+} */
 
 /* Section Telusuri Prodi */
 #telusuri-prodi .card {

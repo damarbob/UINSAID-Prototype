@@ -19,23 +19,16 @@
             </div>
         <?php endif; ?>
 
-        <?php if ($peringatanPostingBerita) : ?>
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <?= lang('Admin.peringatanPosting') ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        <?php endif; ?>
-
 
         <!-- <div class="table-responsive mt-3"> -->
         <table class="table table-hover" id="tabel" style="width: 100%;">
             <thead>
                 <tr>
-                    <td>User ID</td>
-                    <td>Username</td>
-                    <td>Email</td>
-                    <td>Grup</td>
-                    <td>Dibuat pada</td>
+                    <td><?= lang('Admin.id') ?></td>
+                    <td><?= lang('Admin.username') ?></td>
+                    <td><?= lang('Admin.email') ?></td>
+                    <td><?= lang('Admin.grup') ?></td>
+                    <td><?= lang('Admin.dibuatPada') ?></td>
                 </tr>
             </thead>
             <tbody>
@@ -52,32 +45,32 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editModalLabel">Sunting</h5>
+                <h5 class="modal-title" id="editModalLabel"><?= lang('Admin.sunting') ?></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form id="editForm" action="" method="post">
                     <div class="form-outline mb-3" data-mdb-input-init>
                         <input type="text" id="editUsername" name="username" class="form-control" />
-                        <label class="form-label" for="editUsername">Nama Pengguna</label>
+                        <label class="form-label" for="editUsername"><?= lang('Admin.username') ?></label>
                     </div>
                     <div class="form-outline mb-3" data-mdb-input-init>
                         <input type="text" id="editEmail" name="secret" class="form-control" />
-                        <label class="form-label" for="editEmail">Email</label>
+                        <label class="form-label" for="editEmail"><?= lang('Admin.email') ?></label>
                     </div>
                     <div class="form-outline mb-3" data-mdb-input-init>
                         <input type="text" id="editGrup" class="form-control" name="group" />
-                        <label class="form-label" for="editGrup">Grup</label>
+                        <label class="form-label" for="editGrup"><?= lang('Admin.grup') ?></label>
                     </div>
                     <div class="form-outline mb-3" data-mdb-input-init>
                         <input type="password" id="editKataSandi" class="form-control" name="secret2" />
-                        <label class="form-label" for="editKataSandi">Kata Sandi</label>
+                        <label class="form-label" for="editKataSandi"><?= lang('Admin.kataSandi') ?></label>
                     </div>
                     <div class="mb-3">
                         <input type="checkbox" class="form-check-input" name="force_reset" id="editMintaAturUlangKataSandiCheck" value="" placeholder="Minta Atur Ulang Kata Sandi">
-                        <label for="editMintaAturUlangKataSandi" class="form-check-label">Minta Atur Ulang Kata Sandi</label>
+                        <label for="editMintaAturUlangKataSandi" class="form-check-label"><?= lang('Admin.mintaAturUlangKataSandi') ?></label>
                     </div>
-                    <button type="submit" class="btn btn-success" data-mdb-ripple-init><i class='bx bx-check me-2'></i>Update</button>
+                    <button type="submit" class="btn btn-success" data-mdb-ripple-init><i class='bx bx-check me-2'></i><?= lang('Admin.simpan') ?></button>
                 </form>
 
             </div>
@@ -90,32 +83,32 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="tambahModalLabel">Tambah</h5>
+                <h5 class="modal-title" id="tambahModalLabel"><?= lang('Admin.tambah') ?></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form id="tambahForm" action="/admin/pengguna/tambah" method="post">
                     <div class="form-outline mb-3" data-mdb-input-init>
                         <input type="text" id="username" name="username" class="form-control" />
-                        <label class="form-label" for="username">Nama Pengguna</label>
+                        <label class="form-label" for="username"><?= lang('Admin.username') ?></label>
                     </div>
                     <div class="form-outline mb-3" data-mdb-input-init>
                         <input type="text" id="email" name="secret" class="form-control" />
-                        <label class="form-label" for="email">Email</label>
+                        <label class="form-label" for="email"><?= lang('Admin.email') ?></label>
                     </div>
                     <div class="form-outline mb-3" data-mdb-input-init>
                         <input type="text" id="grup" class="form-control" name="group" />
-                        <label class="form-label" for="grup">Grup</label>
+                        <label class="form-label" for="grup"><?= lang('Admin.grup') ?></label>
                     </div>
                     <div class="form-outline mb-3" data-mdb-input-init>
                         <input type="password" id="kataSandi" class="form-control" name="secret2" />
-                        <label class="form-label" for="kataSandi">Kata Sandi</label>
+                        <label class="form-label" for="kataSandi"><?= lang('Admin.kataSandi') ?></label>
                     </div>
                     <div class="mb-3">
                         <input type="checkbox" class="form-check-input" name="force_reset" id="editMintaAturUlangKataSandiCheck" value="" placeholder="Minta Atur Ulang Kata Sandi">
-                        <label for="editMintaAturUlangKataSandi" class="form-check-label">Minta Atur Ulang Kata Sandi</label>
+                        <label for="editMintaAturUlangKataSandi" class="form-check-label"><?= lang('Admin.mintaAturUlangKataSandi') ?></label>
                     </div>
-                    <button type="submit" class="btn btn-success" data-mdb-ripple-init><i class='bx bx-check me-2'></i>Tambah</button>
+                    <button type="submit" class="btn btn-success" data-mdb-ripple-init><i class='bx bx-check me-2'></i><?= lang('Admin.tambah') ?></button>
                 </form>
 
             </div>
@@ -131,7 +124,7 @@
 <script>
     $(document).ready(function() {
         var table1 = $('#tabel').DataTable({
-            ajax: "/api/pengguna",
+            ajax: "<?= base_url('/api/pengguna') ?>",
             "rowCallback": function(row, data, index) {
                 // Add double-click event to navigate to Edit page
                 $(row).on('dblclick', function() {
@@ -144,7 +137,7 @@
                     $('#editGrup').val(data.group);
                     $('#editKataSandi').val(''); // Clear password field for security
                     $('#editMintaAturUlangKataSandiCheck').prop('checked', data.force_reset === "1" ? true : false); // Uncheck the checkbox
-                    $('#editForm').attr('action', `/admin/pengguna/edit/${id}`);
+                    $('#editForm').attr('action', `<?= base_url('/admin/pengguna/edit/') ?>${id}`);
 
                     // Navigate to the Edit page
                     $('#editModal').modal('show');
@@ -161,11 +154,14 @@
                 },
                 {
                     "data": "group",
+                    "render": function(data, type, row) {
+                        return capitalizeFirstLetter(data);
+                    },
                 },
                 {
-                    "data": "created_at_timestamp",
+                    "data": "created_at",
                     "render": function(data, type, row) {
-                        return timestampToIndonesianDateTime(data); // Tampilkan tanggal dengan format Indonesia
+                        return formatDate(data); // Tampilkan tanggal dengan format Indonesia
                     },
                 },
             ],
@@ -217,15 +213,15 @@
         // Fitur hapus massal
         function hapusBanyak() {
             var options = {
-                title: "<?= lang('Admin.hapusBerita') ?>",
-                confirmMessage: "<?= lang('Admin.hapusBeritaKonfirmasi') ?>",
+                title: "<?= lang('Admin.hapusItem') ?>",
+                confirmMessage: "<?= lang('Admin.lanjutkanUntukMenghapusItem') ?>",
                 errorMessage: "<?= lang('Admin.pilihItemDahulu') ?>",
                 type: "warning",
                 confirmButtonText: "<?= lang('Admin.hapus') ?>",
                 cancelButtonText: "<?= lang('Admin.batal') ?>"
             };
 
-            processBulk(table1, "/admin/pengguna/hapus", options);
+            processBulk(table1, "<?= base_url('/admin/pengguna/hapus') ?>", options);
         }
 
 
@@ -250,7 +246,7 @@
             var newElement = $(
                 '<ul class="dropdown-menu">' +
                 '<li><button id="btnFilterSemua" class="dropdown-item" type="button"><?= lang('Admin.semua') ?></button></li>' +
-                '<li><button id="btnFilterDipublikasikan" class="dropdown-item" type="button"><?= lang('Admin.dipublikasikan') ?></button></li>' +
+                '<li><button id="btnFilterDipublikasikan" class="dropdown-item" type="button"><?= lang('Admin.publikasi') ?></button></li>' +
                 '<li><button id="btnFilterDraft" class="dropdown-item" type="button"><?= lang('Admin.draf') ?></button></li>' +
                 '</ul>'
             );
@@ -258,9 +254,9 @@
             secondButton.after(newElement);
 
             var filterButtons = {
-                '#btnFilterSemua': '/api/berita',
-                '#btnFilterDipublikasikan': '/api/berita/dipublikasikan',
-                '#btnFilterDraft': '/api/berita/draf'
+                '#btnFilterSemua': '<?= base_url('/api/berita') ?>',
+                '#btnFilterDipublikasikan': '<?= base_url('/api/berita/dipublikasikan') ?>',
+                '#btnFilterDraft': '<?= base_url('/api/berita/draf') ?>'
             };
 
             $.each(filterButtons, function(btnId, apiUrl) {

@@ -39,16 +39,6 @@
             </div>
         <?php endif; ?>
 
-        <!-- <?php // if ($peringatanPostingPengumuman) : 
-                ?>
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <?= lang('Admin.peringatanPosting') ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        <?php // endif; 
-        ?> -->
-
-
         <!-- <div class="table-responsive mt-3"> -->
         <table class="table table-hover" id="tabelPengumuman" style="width: 100%;">
             <thead>
@@ -183,7 +173,7 @@
             var newElement = $(
                 '<ul class="dropdown-menu">' +
                 '<li><button id="btnFilterPengumumanSemua" class="dropdown-item" type="button"><?= lang('Admin.semua') ?></button></li>' +
-                '<li><button id="btnFilterPengumumanDipublikasikan" class="dropdown-item" type="button"><?= lang('Admin.dipublikasikan') ?></button></li>' +
+                '<li><button id="btnFilterPengumumanDipublikasikan" class="dropdown-item" type="button"><?= lang('Admin.publikasi') ?></button></li>' +
                 '<li><button id="btnFilterPengumumanDraft" class="dropdown-item" type="button"><?= lang('Admin.draf') ?></button></li>' +
                 '</ul>'
             );

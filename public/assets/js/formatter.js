@@ -33,8 +33,12 @@ function formatDate(timestamp) {
     minute: "numeric",
     hour12: false,
     timeZone: "Asia/Jakarta", // Set the timezone to Indonesia
-    timeZoneName: "short"
+    timeZoneName: "short",
   };
 
   return new Intl.DateTimeFormat("ID-id", options).format(date);
+}
+
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
 }

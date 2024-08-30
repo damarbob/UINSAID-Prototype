@@ -1,4 +1,9 @@
-<?php helper('text'); ?>
+<?php
+helper('text');
+
+// URL Berita
+$beritaUrl = base_url("berita/" . $berita['slug']);
+?>
 
 <?= $this->extend('layout/frontend_template') ?>
 
@@ -15,7 +20,7 @@
 <meta property="og:image:alt" content="<?= $berita['judul']; ?>" />
 <meta property="og:image:width" content="400" />
 <meta property="og:image:height" content="400" />
-<meta property="og:url" content="<?= base_url("berita/" . $berita['slug']); ?>" />
+<meta property="og:url" content="<?= $beritaUrl ?>" />
 <meta property="og:description" content="<?= character_limiter(strip_tags($berita['konten']), 160); ?>" />
 
 <!-- Twitter Dynamic Meta Tags -->
@@ -117,10 +122,10 @@
 
                     <!-- Input link siap copy -->
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control text-secondary" placeholder="" aria-label="" aria-describedby="copy-link" value="<?= base_url("berita/" . $berita["slug"]) ?>" id="beritaUrl" />
+                        <input type="text" class="form-control text-secondary" placeholder="" aria-label="" aria-describedby="copy-link" value="<?= $beritaUrl ?>" id="beritaUrl" />
                         <div class="input-group-append">
                             <div class="tooltip"></div>
-                            <button class="btn btn-primary btn-lg rounded-start-0" type="button" onclick="salinBeritaUrl()" onmouseout="outFunc()">
+                            <button class="btn btn-primary btn-lg rounded-start-0" type="button" onclick="salinBeritaUrl()">
                                 <span class="bi-link"></span>
                             </button>
                         </div>
@@ -128,10 +133,10 @@
 
                     <!-- Tombol share sosmed -->
                     <div class="col">
-                        <a class="btn btn-facebook-1 m-2 m-xl-0 mb-lg-2 me-2" href="https://www.facebook.com/sharer/sharer.php?u=" target="_blank"><small><span class="bi bi-facebook me-2"></span>Facebook</small></a>
-                        <a class="btn btn-twitter-1 m-2 m-xl-0 mb-lg-2 me-2" href="https://twitter.com/intent/tweet?url=" target="_blank"><small><span class="bi bi-twitter me-2"></span>Twitter</small></a>
+                        <a class="btn btn-facebook-1 m-2 m-xl-0 mb-lg-2 me-2" href="https://www.facebook.com/sharer/sharer.php?u=<?= $beritaUrl ?>" target="_blank"><small><span class="bi bi-facebook me-2"></span>Facebook</small></a>
+                        <a class="btn btn-twitter-1 m-2 m-xl-0 mb-lg-2 me-2" href="https://twitter.com/intent/tweet?url=<?= $beritaUrl ?>" target="_blank"><small><span class="bi bi-twitter me-2"></span>Twitter</small></a>
 
-                        <a class="btn btn-linkedin-1 m-2 m-xl-0 mb-lg-2 me-2" href="https://www.linkedin.com/sharing/share-offsite/?url=" target="_blank"><small><span class="bi bi-linkedin me-2"></span>LinkedIn</small></a>
+                        <a class="btn btn-linkedin-1 m-2 m-xl-0 mb-lg-2 me-2" href="https://www.linkedin.com/sharing/share-offsite/?url=<?= $beritaUrl ?>" target="_blank"><small><span class="bi bi-linkedin me-2"></span>LinkedIn</small></a>
                     </div>
 
                     <!-- Artikel pilihan -->

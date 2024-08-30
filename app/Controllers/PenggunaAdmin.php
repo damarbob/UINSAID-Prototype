@@ -2,24 +2,30 @@
 
 namespace App\Controllers;
 
+use CodeIgniter\HTTP\RequestInterface;
+use CodeIgniter\HTTP\ResponseInterface;
+use Psr\Log\LoggerInterface;
+
 use App\Models\CombinedModel;
-use CodeIgniter\Controller;
 use CodeIgniter\I18n\Time;
 use CodeIgniter\Shield\Entities\User;
-use CodeIgniter\Shield\Models\UserModel;
-use CodeIgniter\Shield\Models\UserIdentityModel;
 use CodeIgniter\Shield\Models\GroupModel;
 
 use function App\Helpers\format_tanggal;
 
 class PenggunaAdmin extends BaseControllerAdmin
 {
-    private $indexRoute = "/admin/pengguna";
+    private string $indexRoute;
+
+    public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
+    {
+        parent::initController($request, $response, $logger);
+        $this->indexRoute = base_url("/admin/pengguna");
+    }
 
     public function index()
     {
-        $this->data['judul'] = "Pengguna";
-
+        $this->data['judul'] = lang('Admin.pengguna');
         $combinedModel = new CombinedModel();
         $this->data['usersWithAuthIdentities'] = $combinedModel->getAllUsersWithAuthIdentities();
         return view('admin_users', $this->data);
@@ -161,10 +167,10 @@ class PenggunaAdmin extends BaseControllerAdmin
             }
 
             // Return true indicating success
-            return $this->response->setJSON(['status' => 'success', 'message' => lang('Admin.hapusBanyakSukses')]);;
+            return $this->response->setJSON(['status' => 'success', 'message' => lang('Admin.berhasilDihapus')]);;
         } else {
             // Return false indicating failure
-            return $this->response->setJSON(['status' => 'error', 'message' => lang('Admin.hapusBanyakGagal')]);
+            return $this->response->setJSON(['status' => 'error', 'message' => lang('Admin.penghapusanGagal')]);
         }
 
         return redirect()->to($this->indexRoute);

@@ -20,7 +20,7 @@ class KotakMasukAdmin extends BaseControllerAdmin
 
     public function index()
     {
-        $this->data['judul'] = "Kotak Masuk";
+        $this->data['judul'] = lang('Admin.kotakMasuk');
         return view('admin_kotak_masuk', $this->data);
     }
 
@@ -100,10 +100,10 @@ class KotakMasukAdmin extends BaseControllerAdmin
         $result = delete_many($selectedIds, $this->masukanModel);
 
         if ($result) {
-            return $this->response->setJSON(['status' => 'success', 'message' => lang('Admin.hapusBanyakSukses')]);
+            return $this->response->setJSON(['status' => 'success', 'message' => lang('Admin.berhasilDihapus')]);
         } else {
             // Return an error message or any relevant response
-            return $this->response->setJSON(['status' => 'error', 'message' => lang('Admin.hapusBanyakGagal')]);
+            return $this->response->setJSON(['status' => 'error', 'message' => lang('Admin.penghapusanGagal')]);
         }
     }
 }

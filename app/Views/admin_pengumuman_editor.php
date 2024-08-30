@@ -93,13 +93,13 @@ if ($mode == "tambah") {
                 <select id="status" name="status" class="form-select <?= (validation_show_error('status')) ? 'is-invalid' : ''; ?>" aria-label="Default select">
                     <?php if ($valueStatus == 'draf') : ?>
                         <option selected value="draf"><?= lang('Admin.draf') ?></option>
-                        <option value="dipublikasikan"><?= lang('Admin.dipublikasikan') ?></option>
+                        <option value="dipublikasikan"><?= lang('Admin.publikasi') ?></option>
                     <?php elseif ($valueStatus == 'dipublikasikan') : ?>
                         <option value="draf"><?= lang('Admin.draf') ?></option>
-                        <option selected value="dipublikasikan"><?= lang('Admin.dipublikasikan') ?></option>
+                        <option selected value="dipublikasikan"><?= lang('Admin.publikasi') ?></option>
                     <?php else : ?>
                         <option value="draf"><?= lang('Admin.draf') ?></option>
-                        <option selected value="dipublikasikan"><?= lang('Admin.dipublikasikan') ?></option>
+                        <option selected value="dipublikasikan"><?= lang('Admin.publikasi') ?></option>
                     <?php endif; ?>
                 </select>
                 <label for="status"><?= lang('Admin.status') ?></label>

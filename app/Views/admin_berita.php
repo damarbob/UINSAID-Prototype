@@ -39,9 +39,10 @@
             </div>
         <?php endif; ?>
 
+        <!-- Peringatan posting berita -->
         <?php if ($peringatanPostingBerita) : ?>
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <?= lang('Admin.peringatanPosting') ?>
+                <?= lang('Admin.tampaknyaSudahLebihDari3BulanSejakBeritaTerakhir') ?>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         <?php endif; ?>
@@ -54,7 +55,7 @@
                     <td><?= lang('Admin.judul') ?></td>
                     <td><?= lang('Admin.penulis') ?></td>
                     <td><?= lang('Admin.kategori') ?></td>
-                    <td>Pengajuan</td>
+                    <td><?= lang('Admin.pengajuan') ?></td>
                     <td><?= lang('Admin.tanggal') ?></td>
                     <td><?= lang('Admin.status') ?></td>
                 </tr>
@@ -79,9 +80,10 @@
         var table1 = $('#tabelBerita').DataTable({
             processing: true,
             serverSide: true,
+            select: true,
             // ajax: "/api/berita",
             ajax: {
-                "url": "<?= site_url('api/berita') ?>",
+                "url": "<?= base_url('api/berita') ?>",
                 "type": "POST"
             },
             "rowCallback": function(row, data, index) {
@@ -91,7 +93,7 @@
                     var id = data.id;
 
                     // Navigate to the Edit page
-                    window.location.href = "/admin/berita/sunting?id=" + id;
+                    window.location.href = "<?= base_url('/admin/berita/sunting?id=') ?>" + id;
                 });
             },
             "columns": [{
@@ -106,7 +108,7 @@
                 {
                     "data": "pengajuan",
                     "render": function(data, type, row) {
-                        return data == "tidak diajukan" ? "Tidak Diajukan" : (data == "diajukan" ? "Diajukan" : (data == "diterima" ? "Diterima" : (data == "ditolak" ? "Ditolak" : "Diblokir"))) // TODO: Translasi
+                        return data == "tidak diajukan" ? "Tidak Diajukan" : (data == "diajukan" ? "<?= lang('diajukan') ?>" : (data == "diterima" ? "<?= lang('diterima') ?>" : (data == "ditolak" ? "<?= lang('ditolak') ?>" : "<?= lang('diblokir') ?>"))) // TODO: Translasi
                     }
                 },
                 {
@@ -118,7 +120,7 @@
                 {
                     "data": "status",
                     "render": function(data, type, row) {
-                        return data == "published" ? "Dipublikasi" : "Draf" // TODO: Translasi
+                        return data == "published" ? "<?= lang('publikasi') ?>" : "<?= lang('draf') ?>" // TODO: Translasi
                     }
                 },
             ],
@@ -133,12 +135,11 @@
             order: [
                 [4, 'desc']
             ],
-            select: true,
             dom: '<"row gy-2 mb-2"<"col-lg-6"B><"col-lg-6"f>>r<"table-responsive"t><"row gy-2"<"col-md-6"i><"col-md-6"p>><"row my-2"<"col">>',
             buttons: [{
                     text: '<i class="bi bi-plus-lg"></i>',
                     action: function(e, dt, node, config) {
-                        window.location.href = '/admin/berita/tambah'
+                        window.location.href = '<?= base_url('/admin/berita/tambah') ?>'
                     }
                 },
                 {
@@ -185,47 +186,49 @@
         // Fitur hapus massal
         function hapusBanyak() {
             var options = {
-                title: "<?= lang('Admin.hapusBerita') ?>",
-                confirmMessage: "<?= lang('Admin.hapusBeritaKonfirmasi') ?>",
+                title: "<?= lang('Admin.hapusItem') ?>",
+                confirmMessage: "<?= lang('Admin.lanjutkanUntukMenghapusItem') ?>",
                 errorMessage: "<?= lang('Admin.pilihItemDahulu') ?>",
                 type: "warning",
                 confirmButtonText: "<?= lang('Admin.hapus') ?>",
                 cancelButtonText: "<?= lang('Admin.batal') ?>"
             };
 
-            processBulk(table1, "/admin/berita/hapus", options);
+            processBulk(table1, "<?= base_url('/admin/berita/hapus') ?>", options);
         }
 
         function ajukan() {
             var options = {
-                title: "Ajukan Postingan",
-                confirmMessage: "Kirimkan postingan ini ke website induk?",
+                title: "<?= lang('Admin.ajukanBerita') ?>",
+                confirmMessage: "<?= lang('Admin.kirimkanBeritaIniKeWebsiteUtama') ?>",
                 errorMessage: "<?= lang('Admin.pilihItemDahulu') ?>",
                 type: "warning",
-                confirmButtonText: "Kirimkan",
+                confirmButtonText: "<?= lang('Admin.kirimkan') ?>",
                 cancelButtonText: "<?= lang('Admin.batal') ?>"
             };
 
-            // processBulkNew(table1, "/admin/berita/ajukan", options);
-            processBulkNew(table1, "/api/berita-diajukan/terima-berita", options);
+            processBulkNew(table1, "<?= base_url('/api/berita-diajukan/terima-berita') ?>", options);
         }
 
         function batalAjukan() {
             var options = {
-                title: "Batalkan Pengajuan Postingan",
-                confirmMessage: "Batal pengajuan postingan ini ke website induk?",
+                title: "<?= lang('Admin.batalkanPengajuanBerita') ?>",
+                confirmMessage: "<?= lang('Admin.batalkanPengajuanBeritaIni?') ?>",
                 errorMessage: "<?= lang('Admin.pilihItemDahulu') ?>",
                 type: "warning",
-                confirmButtonText: "Kirimkan",
+                confirmButtonText: "<?= lang('Admin.kirimkan') ?>",
                 cancelButtonText: "<?= lang('Admin.batal') ?>"
             };
 
-            processBulk(table1, "/admin/berita/batal-ajukan", options);
+            processBulkNew(table1, "<?= base_url('/admin/berita/batal-ajukan') ?>", options);
         }
 
 
         // Change button styles
         $('#tabelBerita').on('preInit.dt', function() {
+
+            $(".dt-buttons.btn-group.flex-wrap").addClass("btn-group-lg"); // Buat grup tombol jadi besar
+
             var buttons = $(".dt-buttons.btn-group.flex-wrap .btn.btn-secondary");
             var lastButton = buttons.last();
 
@@ -234,7 +237,6 @@
             buttons.eq(3).removeClass("btn-secondary").addClass("btn-warning").addClass("rounded-0");
             lastButton.removeClass("btn-secondary").addClass("btn-danger").addClass("rounded-0");
 
-            $(".dt-buttons.btn-group.flex-wrap").addClass("btn-group-lg");
 
             var secondButton = buttons.eq(1);
             secondButton.addClass("dropdown-toggle").wrap('<div class="btn-group"></div>').attr({
@@ -247,7 +249,7 @@
             var newElement = $(
                 '<ul class="dropdown-menu">' +
                 '<li><button id="btnFilterRilisMediaSemua" class="dropdown-item" type="button"><?= lang('Admin.semua') ?></button></li>' +
-                '<li><button id="btnFilterRilisMediaDipublikasikan" class="dropdown-item" type="button"><?= lang('Admin.dipublikasikan') ?></button></li>' +
+                '<li><button id="btnFilterRilisMediaDipublikasikan" class="dropdown-item" type="button"><?= lang('Admin.publikasi') ?></button></li>' +
                 '<li><button id="btnFilterRilisMediaDraft" class="dropdown-item" type="button"><?= lang('Admin.draf') ?></button></li>' +
                 '</ul>'
             );
@@ -255,9 +257,9 @@
             secondButton.after(newElement);
 
             var filterButtons = {
-                '#btnFilterRilisMediaSemua': '/api/berita',
-                '#btnFilterRilisMediaDipublikasikan': '/api/berita/published',
-                '#btnFilterRilisMediaDraft': '/api/berita/draft'
+                '#btnFilterRilisMediaSemua': '<?= base_url('/api/berita') ?>',
+                '#btnFilterRilisMediaDipublikasikan': '<?= base_url('/api/berita/published') ?>',
+                '#btnFilterRilisMediaDraft': '<?= base_url('/api/berita/draft') ?>'
             };
 
             $.each(filterButtons, function(btnId, apiUrl) {

@@ -10,19 +10,27 @@ $currentRoute = $request->uri->getPath();
 <div class="l-navbar" id="nav-bar">
     <nav class="nav-sidebar">
         <div>
-            <a href="#" class="nav_logo">
-                <!-- <i class="bx bx-layer nav_logo-icon"></i> -->
+            <a href="#" class="nav-logo">
+                <!-- <i class="bx bx-layer nav-logo-icon"></i> -->
                 <img src="<?= base_url('assets/img/icon-notext-transparent.png') ?>" width="24" class="rounded-circle">
-                <span class=" nav_logo-name">UINSAID</span>
+                <span class=" nav-logo-name">UINSAID</span>
             </a>
-            <div class="nav_list">
-                <a href="<?= base_url('admin/dasbor') ?>" class="nav_link <?= $currentRoute == "admin/dasbor" ? "active" : "" ?>">
+            <div class="nav-list">
+                <a href="<?= base_url('admin/dasbor') ?>" class="nav-link-admin <?= $currentRoute == "admin/dasbor" ? "active" : "" ?>">
                     <i class='bx bx-grid nav_icon'></i>
                     <span class="nav_name">Dasbor</span>
                 </a>
             </div>
-            <div class="nav_list">
-                <a href="<?= base_url('admin/berita') ?>" class="nav_link <?= $currentRoute == "admin/berita" ? "active" : "" ?>">
+            <div class="nav-list">
+                <a href="<?= base_url('admin/halaman') ?>" class="nav-link-admin <?= $currentRoute == "admin/situs" ? "active" : "" ?>">
+                    <i class='bx bx-file nav_icon'></i>
+                    <span class="nav_name">
+                        Halaman
+                    </span>
+                </a>
+            </div>
+            <div class="nav-list">
+                <a href="<?= base_url('admin/berita') ?>" class="nav-link-admin <?= $currentRoute == "admin/berita" ? "active" : "" ?>">
                     <i class='bx bx-news nav_icon'></i>
                     <span class="nav_name"><?= lang('Admin.berita') ?></span>
                     <?php if ($peringatanBeritaKosong || $peringatanPostingBerita) : ?>
@@ -33,32 +41,32 @@ $currentRoute = $request->uri->getPath();
                     <?php endif ?>
                 </a>
             </div>
-            <div class="nav_list">
-                <a href="<?= base_url('admin/berita-diajukan') ?>" class="nav_link <?= $currentRoute == "admin/berita-diajukan" ? "active" : "" ?>">
+            <div class="nav-list">
+                <a href="<?= base_url('admin/berita-diajukan') ?>" class="nav-link-admin <?= $currentRoute == "admin/berita-diajukan" ? "active" : "" ?>">
                     <i class='bx bx-mail-send nav_icon'></i>
                     <span class="nav_name">Berita diajukan</span>
                 </a>
             </div>
-            <div class="nav_list">
-                <a href="<?= base_url('admin/agenda') ?>" class="nav_link <?= $currentRoute == "admin/agenda" ? "active" : "" ?>">
+            <div class="nav-list">
+                <a href="<?= base_url('admin/agenda') ?>" class="nav-link-admin <?= $currentRoute == "admin/agenda" ? "active" : "" ?>">
                     <i class='bx bx-calendar-event nav_icon'></i>
                     <span class="nav_name">Agenda</span>
                 </a>
             </div>
-            <div class="nav_list">
-                <a href="<?= base_url('admin/pengumuman') ?>" class="nav_link <?= $currentRoute == "admin/pengumuman" ? "active" : "" ?>">
+            <div class="nav-list">
+                <a href="<?= base_url('admin/pengumuman') ?>" class="nav-link-admin <?= $currentRoute == "admin/pengumuman" ? "active" : "" ?>">
                     <i class='bx bxs-megaphone nav_icon'></i>
                     <span class="nav_name">Pengumuman</span>
                 </a>
             </div>
-            <div class="nav_list">
-                <a href="<?= base_url('admin/galeri') ?>" class="nav_link <?= $currentRoute == "admin/galeri" ? "active" : "" ?>">
+            <div class="nav-list">
+                <a href="<?= base_url('admin/galeri') ?>" class="nav-link-admin <?= $currentRoute == "admin/galeri" ? "active" : "" ?>">
                     <i class='bx bx-images nav_icon'></i>
                     <span class="nav_name">Galeri</span>
                 </a>
             </div>
-            <div class="nav_list">
-                <a href="<?= base_url('admin/kotak-masuk') ?>" class="nav_link <?= $currentRoute == "admin/kotak-masuk" ? "active" : "" ?>">
+            <div class="nav-list">
+                <a href="<?= base_url('admin/kotak-masuk') ?>" class="nav-link-admin <?= $currentRoute == "admin/kotak-masuk" ? "active" : "" ?>">
                     <i class='bx bxs-inbox nav_icon'></i>
                     <span class="nav_name">
                         Kotak Masuk
@@ -71,30 +79,30 @@ $currentRoute = $request->uri->getPath();
                     </span>
                 </a>
             </div>
-            <div class="nav_list">
-                <a href="<?= base_url('admin/pengguna') ?>" class="nav_link <?= $currentRoute == "admin/pengguna" ? "active" : "" ?>">
+            <div class="nav-list">
+                <a href="<?= base_url('admin/pengguna') ?>" class="nav-link-admin <?= $currentRoute == "admin/pengguna" ? "active" : "" ?>">
                     <i class='bx bxs-user-account nav_icon'></i>
                     <span class="nav_name">
                         Pengguna
                     </span>
                 </a>
             </div>
-            <div class="nav_list">
-                <a href="<?= base_url('admin/situs') ?>" class="nav_link <?= $currentRoute == "admin/situs" ? "active" : "" ?>">
+            <div class="nav-list">
+                <a href="<?= base_url('admin/situs') ?>" class="nav-link-admin <?= $currentRoute == "admin/situs" ? "active" : "" ?>">
                     <i class='bx bxs-network-chart nav_icon'></i>
                     <span class="nav_name">
                         Kelola Situs
                     </span>
                 </a>
             </div>
-            <!-- <div class="nav_list d-lg-none">
-                <a href="<?= base_url('admin/atur-profil') ?>" class="nav_link">
+            <!-- <div class="nav-list d-lg-none">
+                <a href="<?= base_url('admin/atur-profil') ?>" class="nav-link">
                     <i class='bx bx-user-circle nav_icon'></i>
                     <span class="nav_name">Atur Profil</span>
                 </a>
             </div>
-            <div class="nav_list d-lg-none">
-                <a href="<?= base_url('akun/logout') ?>" class="nav_link">
+            <div class="nav-list d-lg-none">
+                <a href="<?= base_url('akun/logout') ?>" class="nav-link">
                     <i class='bx bx-exit nav_icon'></i>
                     <span class="nav_name">Logout</span>
                 </a>

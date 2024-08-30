@@ -109,7 +109,7 @@ $currentRoute = $request->uri->getPath();
   ?>
 
   <!-- Toggle tema gelap terang -->
-  <button id="themeToggle" class="btn btn-lg btn-fab-lg btn-primary btn-floating rounded-pill position-fixed start-0 bottom-0 ms-7 mb-10" style="z-index: 50000;" data-mdb-ripple-init>
+  <button id="themeToggle" class="btn btn-lg btn-fab-lg btn-primary btn-floating rounded-pill position-fixed start-0 bottom-0 ms-7 mb-10" style="z-index: 50001;" data-mdb-ripple-init>
     <i class="bi bi-moon-stars"></i>
   </button>
 
@@ -117,7 +117,7 @@ $currentRoute = $request->uri->getPath();
   <div class="dropup position-fixed end-0 bottom-0 me-3 mb-10" style="z-index: 50000;">
     <button
       type="button"
-      class="btn btn-primary dropdown-toggle fs-2"
+      class="btn btn-primary dropdown-toggle fs-2 float-end"
       id="menuLanguage"
       data-mdb-dropdown-init
       data-mdb-ripple-init aria-expanded="false">
@@ -604,8 +604,6 @@ $currentRoute = $request->uri->getPath();
   <!-- Custom scripts -->
   <script type="text/javascript" src="<?= base_url("assets/js/main.js") ?>"></script>
 
-  <?= $this->renderSection('script') ?>
-
   <!-- Google translate element -->
   <div id="google_translate_element2" class="d-none"></div>
 
@@ -724,6 +722,9 @@ $currentRoute = $request->uri->getPath();
       //
     });
   </script>
+
+  <!-- Section script -->
+  <?= $this->renderSection('script') ?>
 
 </body>
 

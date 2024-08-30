@@ -5,6 +5,8 @@ namespace App\Controllers;
 use App\Models\BeritaModel;
 use App\Models\KategoriModel;
 use App\Models\AgendaModel;
+use App\Models\HalamanModel;
+use App\Models\KomponenModel;
 use App\Models\PengumumanModel;
 use CodeIgniter\Controller;
 use CodeIgniter\HTTP\CLIRequest;
@@ -55,6 +57,10 @@ abstract class BaseController extends Controller
     protected $agendaModel;
     protected $pengumumanModel;
 
+    // Page builder models
+    protected $halamanModel;
+    protected $komponenModel;
+
     /**
      * Constructor.
      */
@@ -72,5 +78,8 @@ abstract class BaseController extends Controller
         $this->kategoriModel = new KategoriModel();
         $this->agendaModel = new AgendaModel();
         $this->pengumumanModel = new PengumumanModel();
+
+        $this->halamanModel = new HalamanModel();
+        $this->komponenModel = new KomponenModel();
     }
 }

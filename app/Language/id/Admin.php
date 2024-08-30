@@ -7,8 +7,13 @@ return [
     // 'galat' => 'Galat',
     'tutup' => 'Tutup',
 
+    // Pengguna
+    'pengguna' => 'Pengguna',
     'id' => 'ID',
     'status' => 'Status',
+    'username' => 'Username',
+    'kataSandi' => 'Kata Sandi',
+    'nama' => 'Nama',
     'namaLengkap' => 'Nama Lengkap',
     'email' => 'Email',
     'nomorHp' => 'Nomor HP',
@@ -19,10 +24,12 @@ return [
     'dibuatPada' => 'Dibuat pada',
     'diperbaruiPada' => 'Diperbarui pada',
 
+    'tambah' => 'Tambah',
+    'mintaAturUlangKataSandi' => 'Minta Atur Ulang Kata Sandi',
+
     'dasborAdmin' => 'Dasbor Admin',
     // 'beritaTerbaru' => 'Berita terbaru',
     'pesanTerbaru' => 'Pesan terbaru',
-    'permintaanAnggotaTerbaru' => 'Permintaan anggota terbaru',
     'dibuatPada' => 'Dibuat pada',
     'diterimaPada' => 'Diterima pada',
     'baca' => 'Baca',
@@ -30,30 +37,78 @@ return [
 
     'semua' => 'Semua',
 
+    // Umum
+    'hapusItem' => 'Hapus Item',
+    'lanjutkanUntukMenghapusItem' => 'Lanjutkan untuk menghapus? Item yang terhapus tidak dapat dikembalikan.',
+
+    // Halaman
+    'halaman' => 'Halaman',
+    'buatHalaman' => 'Buat Halaman',
+    'suntingHalaman' => 'Sunting Halaman',
+    'alamatHalaman' => 'Alamat Halaman',
+
+    // Komponen
+    'komponen' => 'Komponen',
+    'buatKomponen' => 'Buat Komponen',
+    'suntingKomponen' => 'Sunting Komponen',
+    'grup' => 'Grup',
+    'konten' => 'Konten',
+
+    // Berita
     'berita' => 'Berita',
     'kelolaBerita' => 'Kelola berita',
     'suntingBerita' => 'Sunting Berita',
     'tambahBerita' => 'Tambah Berita',
     'berhasilDibuat' => 'Berhasil dibuat',
     'berhasilDiperbarui' => 'Berhasil diperbarui',
-    'hapusBerita' => 'Hapus Berita',
-    'hapusBeritaKonfirmasi' => 'Lanjutkan untuk menghapus? Berita yang terhapus tidak dapat dikembalikan.',
 
-    'mulaiMembuatPostingan' => 'Mulai dengan membuat postingan pertama',
-    'isiMulaiMembuatPostingan' => 'Segera buat postingan pertama untuk menarik pengunjung',
-    'peringatanRilisMedia' => 'Peringatan rilis media',
-    'segeraBuatPostingan' => 'Segera buat postingan',
-    'peringatanPosting' => 'Tampaknya sudah lebih dari 3 bulan sejak postingan terakhir. Buat postingan baru agar pengunjung tertarik.',
-    'isiPeringatanPosting' => 'Sudah lebih dari 3 bulan sejak {judulPostinganTerbaru} dirilis, segera buat postingan baru untuk menjaga minat pengunjung',
+    'tampaknyaSudahLebihDari3BulanSejakBeritaTerakhir' => 'Tampaknya sudah lebih dari 3 bulan sejak berita terakhir. Buat berita baru agar pengunjung tertarik.',
 
-    'dipublikasikan' => 'Dipublikasikan',
+    'pengajuan' => 'Pengajuan',
+    'ajukanBerita' => 'Ajukan Berita',
+    'kirimkanBeritaIniKeWebsiteUtama' => 'Kirimkan berita ini ke website utama?',
+    'kirimkan' => 'Kirimkan',
+
+    'publikasi' => 'Dipublikasikan',
     'draf' => 'Draf',
+
+    'fileTidakValid' => 'File tidak valid!',
+    'gambarTerhapus' => 'Gambar terhapus.',
+    'gambarTidakDitemukan' => 'Gambar tidak ditemukan',
+
+    // Berita diajukan
+    'beritaDiajukan' => 'Berita Diajukan',
+    'gagalMenyimpanEntriDenganJudul' => 'Gagal menyimpan entri dengan judul: {judul}',
+    'permintaanGagalDikirim' => 'Permintaan gagal dikirim.',
+
+    'batalkanPengajuanBerita' => 'Batalkan Pengajuan Berita',
+    'batalkanPengajuanBeritaIni?' => 'Batalkan pengajuan berita ini?',
+
+    'diajukan' => 'Diajukan',
+    'diterima' => 'Diterima',
+    'ditolak' => 'Ditolak',
+    'diblokir' => 'Diblokir',
 
     'judul' => 'Judul',
     'penulis' => 'Penulis',
     'kategori' => 'Kategori',
     'ringkasan' => 'Ringkasan',
-    'simpan' => 'simpan',
+    'sumber' => 'Sumber',
+    'simpan' => 'Simpan',
+
+    'berhasilDiajukan' => 'Berhasil diajukan!',
+    'berhasilDiajukanTapiAdaMasalahPenerimaan' => 'Berhasil diajukan, tapi ada masalah dengan penerimaan.',
+    'gagalDiajukan' => 'Gagal diajukan!',
+    'permintaanTidakValid' => 'Permintaan tidak valid.',
+    'tidakDiizinkanAndaPerluLogin' => 'Tidak diizinkan. Anda perlu login terlebih dahulu.',
+    'aksesDitolakAndaTidakMemilikiIzin' => 'Akses ditolak. Anda tidak memiliki izin.',
+    'ruteAtauSumberDayaTidakDitemukan' => 'Rute atau sumber daya tidak ditemukan.',
+    'kesalahanServerSilakanCobaLagiNanti' => 'Kesalahan server. Silakan coba lagi nanti.',
+    'terjadiKesalahanTidakTerdugaKodeStatus' => 'Terjadi kesalahan yang tidak terduga. Kode status: {kode}',
+
+    'berhasilDibatalkan' => 'Berhasil dibatalkan!',
+    'gagalDibatalkan' => 'Gagal dibatalkan.',
+
 
     'kotakMasuk' => 'Kotak Masuk',
     'kelolaMasukanDanPelaporan' => 'Kelola masukan dan pelaporan',
@@ -61,7 +116,7 @@ return [
     'pesan' => 'Pesan',
     'kategori' => 'Kategori',
     'hapusPesan' => 'Hapus Pesan',
-    'hapusPesanKonfirmasi' => 'Lanjutkan untuk menghapus? Pesan yang terhapus tidak dapat dikembalikan.',
+    'lanjutkanUntukMenghapusPesan' => 'Lanjutkan untuk menghapus? Pesan yang terhapus tidak dapat dikembalikan.',
     'tandaiBelumTerbaca' => 'Tandai Belum Terbaca',
     'berhasilDitandai' => 'Berhasil ditandai',
     'gagalDitandai' => 'Gagal ditandai',
@@ -72,24 +127,6 @@ return [
     'kritikDanSaran' => 'Kritik dan saran',
     'pelaporan' => 'Pelaporan',
 
-    'daftarAnggota' => 'Daftar Anggota',
-    'kelolaAnggota' => 'Kelola anggota',
-    'daftarAnggotaDiterimaSukses' => 'Berhasil diterima',
-    'daftarAnggotaDiterimaGagal' => 'Galat saat menerima',
-    'daftarAnggotaDitolakSukses' => 'Berhasil ditolak',
-    'daftarAnggotaDitolakGagal' => 'Galat saat menolak',
-
-    'menunggu' => 'Menunggu',
-    'diterima' => 'Diterima',
-    'ditolak' => 'Ditolak',
-
-    'terimaAnggota' => 'Terima Anggota',
-    'terimaAnggotaKonfirmasi' => 'Terima permintaan pendaftaran anggota?',
-    'tolakAnggota' => 'Tolak Anggota',
-    'tolakAnggotaKonfirmasi' => 'Tolak permintaan pendaftaran anggota?',
-    'hapusAnggota' => 'Hapus Anggota',
-    'hapusAnggotaKonfirmasi' => 'Hapus permintaan pendaftaran anggota?',
-
     'pilihItemDahulu' => 'Pilih item terlebih dahulu!',
 
     'terima' => 'Terima',
@@ -97,8 +134,8 @@ return [
     'hapus' => 'Hapus',
     'batal' => 'Batal',
 
-    'hapusBanyakSukses' => 'Berhasil dihapus',
-    'hapusBanyakGagal' => 'Penghapusan gagal',
+    'berhasilDihapus' => 'Berhasil dihapus',
+    'penghapusanGagal' => 'Penghapusan gagal',
 
     'lainnya' => 'Lainnya',
     'pilihAtauInputKategori' => 'Pilih atau input kategori',
@@ -120,6 +157,7 @@ return [
     'hapusPengumuman' => 'Hapus Pengumuman',
     'hapusPengumumanKonfirmasi' => 'Lanjutkan untuk menghapus? Pengumuman yang terhapus tidak dapat dikembalikan.',
 
+    // Galeri
     'galeri' => 'Galeri',
     'deskripsi' => 'Deskripsi',
     'judulGambar' => 'Judul gambar',
@@ -127,5 +165,38 @@ return [
     'ubah' => 'Ubah',
     'ubahGambar' => 'Ubah gambar',
 
+    'unggahGambar' => 'Unggah Gambar',
+    'teksAlternatif' => 'Teks Alternatif',
+    'hapusGambarTerpilih' => 'Hapus Gambar Terpilih',
+    'tampilkan' => 'Tampilkan',
+
+    'itemYangTerhapusTidakDapatKembali' => 'Item yang terhapus tidak dapat dikembalikan lagi!',
+
+    'berhasilDiperbarui' => 'Berhasil diperbarui.',
+    'gagalDiperbarui' => 'Gagal diperbarui.',
     'harusDiinput' => 'Harus diinput',
+
+    'gambarBerhasilDiunggah' => 'Gambar berhasil diunggah.',
+    'gagalMengunggahGambar' => 'Gagal mengunggah gambar.',
+    'jenisFileTidakValidHanyaJPEGPNGGIFYangDiperbolehkan' => 'Jenis file tidak valid. Hanya file JPEG, PNG, dan GIF yang diperbolehkan.',
+
+    // Situs
+    'situs' => 'Situs',
+    'kelolaSitus' => 'Kelola Situs',
+    'tambahSitus' => 'Tambah Situs',
+    'suntingSitus' => 'Sunting Situs',
+
+    'alamatSitus' => 'Alamat Situs',
+    'statusSitus' => 'Status Situs',
+    'aktif' => 'Aktif',
+    'nonaktif' => 'Nonaktif',
+
+    'lanjutkanMenonaktifkanSitus' => 'Lanjutkan menonaktifkan situs? Situs yang dinonaktifkan tidak dapat diakses pengunjung.',
+    'lanjutkanMengaktifkanSitus' => 'Lanjutkan mengaktifkan situs? Pengunjung dapat mengakses situs.',
+
+    'aktifkan' => 'Aktifkan',
+    'nonaktifkan' => 'Nonaktifkan',
+
+    'tidakAdaResponsDiterima' => 'Tidak ada respons diterima.',
+    'tindakanSelesai' => 'Tindakan Selesai',
 ];

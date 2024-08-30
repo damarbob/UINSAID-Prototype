@@ -195,10 +195,10 @@ class AgendaAdmin extends BaseControllerAdmin
         $result = delete_many($selectedIds, $this->agendaModel);
 
         if ($result) {
-            return $this->response->setJSON(['status' => 'success', 'message' => lang('Admin.hapusBanyakSukses')]);
+            return $this->response->setJSON(['status' => 'success', 'message' => lang('Admin.berhasilDihapus')]);
         } else {
             // Return an error message or any relevant response
-            return $this->response->setJSON(['status' => 'error', 'message' => lang('Admin.hapusBanyakGagal')]);
+            return $this->response->setJSON(['status' => 'error', 'message' => lang('Admin.penghapusanGagal')]);
         }
     }
 

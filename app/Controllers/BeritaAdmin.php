@@ -129,7 +129,7 @@ class BeritaAdmin extends BaseControllerAdmin
         $rules = ($id == null) ? $this->formRules('required|is_unique[berita.judul]') : $this->formRules('required');
 
         // Redireksi
-        $redirectTo = ($id == null) ? '/admin/berita/' : '/admin/berita/sunting?id=' . $id;
+        $redirectTo = ($id == null) ? base_url('/admin/berita/') : base_url('/admin/berita/sunting?id=') . $id;
 
         // Cek validasi
         if (!$this->validate($rules)) {
@@ -186,27 +186,6 @@ class BeritaAdmin extends BaseControllerAdmin
         return redirect()->to($redirectTo)->withInput();
     }
 
-    // TODO: HAPUS
-    public function ajukanBanyakLama()
-    {
-        $selectedIds = $this->request->getPost('selectedIds');
-
-        // Define the data to update for each record
-        $updateData = [
-            'pengajuan' => 'diajukan',
-        ];
-
-        $result = update_many($selectedIds, $this->beritaModel, $updateData);
-
-        if ($result) {
-            return $this->response->setJSON(['status' => 'success', 'message' => 'Berhasil diajukan!']);
-        } else {
-            // Return an error message or any relevant response
-            return $this->response->setJSON(['status' => 'error', 'message' => 'Gagal diajukan.']);
-        }
-    }
-
-    // TODO: Translasi
     public function ajukanBanyak()
     {
         $selectedData = $this->request->getPost('selectedData');
@@ -222,12 +201,6 @@ class BeritaAdmin extends BaseControllerAdmin
         // Call update_many with the array of IDs
         $result = update_many($ids, $this->beritaModel, $updateData);
 
-        // Tambahkan data ke array selected data
-        foreach ($selectedData as $data) {
-            $data['konten'] = "Ini konten";
-            $data['ringkasan'] = "Ini ringkasan";
-        }
-
         // If the update was successful, send the data to another route
         if ($result) {
             // Send the data to the 'terima-berita' route
@@ -239,31 +212,31 @@ class BeritaAdmin extends BaseControllerAdmin
             switch ($statusCode) {
                 case 200:
                     if ($responseBody['status'] === 'success') {
-                        return $this->response->setJSON(['status' => 'success', 'message' => 'Berhasil diajukan dan diterima!']);
+                        return $this->response->setJSON(['status' => 'success', 'message' => lang('Admin.berhasilDiajukan')]);
                     } else {
-                        return $this->response->setJSON(['status' => 'error', 'message' => 'Berhasil diajukan, tapi ada masalah dengan penerimaan.']);
+                        return $this->response->setJSON(['status' => 'error', 'message' => lang('Admin.berhasilDiajukanTapiAdaMasalahPenerimaan')]);
                     }
 
                 case 400:
-                    return $this->response->setJSON(['status' => 'error', 'message' => 'Permintaan tidak valid.']);
+                    return $this->response->setJSON(['status' => 'error', 'message' => lang('Admin.permintaanTidakValid')]);
 
                 case 401:
-                    return $this->response->setJSON(['status' => 'error', 'message' => 'Tidak diizinkan. Anda perlu login terlebih dahulu.']);
+                    return $this->response->setJSON(['status' => 'error', 'message' => lang('Admin.tidakDiizinkanAndaPerluLogin')]);
 
                 case 403:
-                    return $this->response->setJSON(['status' => 'error', 'message' => 'Akses ditolak. Anda tidak memiliki izin.']);
+                    return $this->response->setJSON(['status' => 'error', 'message' => lang('Admin.aksesDitolakAndaTidakMemilikiIzin')]);
 
                 case 404:
-                    return $this->response->setJSON(['status' => 'error', 'message' => 'Rute atau sumber daya tidak ditemukan.']);
+                    return $this->response->setJSON(['status' => 'error', 'message' => lang('Admin.ruteAtauSumberDayaTidakDitemukan')]);
 
                 case 500:
-                    return $this->response->setJSON(['status' => 'error', 'message' => 'Kesalahan server. Silakan coba lagi nanti.']);
+                    return $this->response->setJSON(['status' => 'error', 'message' => lang('Admin.kesalahanServerSilakanCobaLagiNanti')]);
 
                 default:
-                    return $this->response->setJSON(['status' => 'error', 'message' => 'Terjadi kesalahan yang tidak terduga. Kode status: ' . $statusCode]);
+                    return $this->response->setJSON(['status' => 'error', 'message' => lang('Admin.terjadiKesalahanTidakTerdugaKodeStatus', ['kode' => $statusCode])]);
             }
         } else {
-            return $this->response->setJSON(['status' => 'error', 'message' => 'Gagal diajukan.']);
+            return $this->response->setJSON(['status' => 'error', 'message' => lang('Admin.gagalDiajukan')]);
         }
     }
 
@@ -285,7 +258,10 @@ class BeritaAdmin extends BaseControllerAdmin
     // TODO: USE TRANSLATION
     public function batalAjukanBanyak()
     {
-        $selectedIds = $this->request->getPost('selectedIds');
+        $selectedData = $this->request->getPost('selectedData');
+
+        // Extract IDs from the selected data
+        $selectedIds = array_column($selectedData, 'id');
 
         // Define the data to update for each record
         $updateData = [
@@ -295,10 +271,10 @@ class BeritaAdmin extends BaseControllerAdmin
         $result = update_many($selectedIds, $this->beritaModel, $updateData);
 
         if ($result) {
-            return $this->response->setJSON(['status' => 'success', 'message' => 'Berhasil dibatalkan!']);
+            return $this->response->setJSON(['status' => 'success', 'message' => lang('Admin.berhasilDibatalkan')]);
         } else {
             // Return an error message or any relevant response
-            return $this->response->setJSON(['status' => 'error', 'message' => 'Gagal dibatalkan.']);
+            return $this->response->setJSON(['status' => 'error', 'message' => lang('Admin.gagalDibatalkan')]);
         }
     }
 
@@ -309,10 +285,10 @@ class BeritaAdmin extends BaseControllerAdmin
         $result = delete_many($selectedIds, $this->beritaModel);
 
         if ($result) {
-            return $this->response->setJSON(['status' => 'success', 'message' => lang('Admin.hapusBanyakSukses')]);
+            return $this->response->setJSON(['status' => 'success', 'message' => lang('Admin.berhasilDihapus')]);
         } else {
             // Return an error message or any relevant response
-            return $this->response->setJSON(['status' => 'error', 'message' => lang('Admin.hapusBanyakGagal')]);
+            return $this->response->setJSON(['status' => 'error', 'message' => lang('Admin.penghapusanGagal')]);
         }
     }
 
@@ -351,7 +327,7 @@ class BeritaAdmin extends BaseControllerAdmin
 
             return $this->response->setStatusCode(200)->setJSON($response);
         } else {
-            return $this->response->setStatusCode(400)->setJSON(['error' => 'File tidak valid!']);
+            return $this->response->setStatusCode(400)->setJSON(['error' => lang('Admin.fileTidakValid')]);
         }
     }
 
@@ -370,9 +346,9 @@ class BeritaAdmin extends BaseControllerAdmin
         if (file_exists($filePath)) {
             unlink($filePath);
 
-            return $this->response->setStatusCode(200)->setJSON(['message' => 'Gambar terhapus.']);
+            return $this->response->setStatusCode(200)->setJSON(['message' => lang('Admin.gambarTerhapus')]);
         } else {
-            return $this->response->setStatusCode(404)->setJSON(['error' => 'Gambar tidak ditemukan']);
+            return $this->response->setStatusCode(404)->setJSON(['error' => lang('Admin.gambarTidakDitemukan')]);
         }
     }
 }

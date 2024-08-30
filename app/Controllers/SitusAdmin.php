@@ -21,13 +21,13 @@ class SitusAdmin extends BaseControllerAdmin
 
     public function index(): string
     {
-        $this->data['judul'] = "Situs";
+        $this->data['judul'] = lang('Admin.situs');
         return view('admin_situs', $this->data);
     }
 
     public function tambah(): string
     {
-        $this->data['judul'] = "Tambah SItus";
+        $this->data['judul'] = lang('Admin.tambahSitus');
         $this->data['mode'] = "tambah";
         return view('admin_situs_editor', $this->data);
     }
@@ -35,9 +35,10 @@ class SitusAdmin extends BaseControllerAdmin
     public function sunting(): string
     {
         $id = $this->request->getGet('id');
-        $this->data['judul'] = "Sunting Situs";
+        $this->data['judul'] = lang('Admin.suntingSitus');
         $this->data['mode'] = "sunting";
         $this->data['situs'] = $this->situsModel->getById($id); // 
+        // dd($this->data['situs']);
         return view('admin_situs_editor', $this->data);
     }
 
@@ -70,7 +71,7 @@ class SitusAdmin extends BaseControllerAdmin
         $rules = ($id == null) ? $this->formRulesTambah() : $this->formRulesSunting();
 
         // Redireksi
-        $redirectTo = ($id == null) ? '/admin/situs/' : '/admin/situs/sunting?id=' . $id;
+        $redirectTo = ($id == null) ? base_url('/admin/situs/') : base_url('/admin/situs/sunting?id=') . $id;
 
         // Cek validasi
         if (!$this->validate($rules)) {
@@ -112,10 +113,10 @@ class SitusAdmin extends BaseControllerAdmin
         $result = delete_many($selectedIds, $this->beritaModel);
 
         if ($result) {
-            return $this->response->setJSON(['status' => 'success', 'message' => lang('Admin.hapusBanyakSukses')]);
+            return $this->response->setJSON(['status' => 'success', 'message' => lang('Admin.berhasilDihapus')]);
         } else {
             // Return an error message or any relevant response
-            return $this->response->setJSON(['status' => 'error', 'message' => lang('Admin.hapusBanyakGagal')]);
+            return $this->response->setJSON(['status' => 'error', 'message' => lang('Admin.penghapusanGagal')]);
         }
     }
 

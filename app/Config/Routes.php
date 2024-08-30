@@ -38,6 +38,17 @@ $routes->get('/berita/(:any)', 'Berita::get/$1');
 $routes->get('/kategori/(:any)', 'Berita::getByKategori/$1');
 $routes->get('test', 'BeritaAdmin::test');
 
+// Dynamic routes for each page based on slug
+$routes->group('halaman', function ($routes) {
+    $halamanModel = new \App\Models\HalamanModel();
+    $pages = $halamanModel->findAll();
+
+    foreach ($pages as $page) {
+        $slug = $page['slug'];
+        $routes->get($slug, 'HalamanAdmin::view/' . $page['id']);
+    }
+});
+
 // Maintenance
 $routes->get('maintenance', function () {
     return view('maintenance');
@@ -49,6 +60,14 @@ $routes->group('admin', ['filter' => 'group:admin,superadmin'], function ($route
     // Dasbor
     $routes->get('dasbor', 'DasborAdmin', ['as' => 'dashboard']);
     $routes->addRedirect('/', 'dashboard');
+
+    // Manajemen halaman
+    $routes->get('halaman', 'HalamanAdmin::index');
+    $routes->get('halaman/tambah', 'HalamanAdmin::tambah');
+    $routes->get('halaman/sunting/(:num)', 'HalamanAdmin::sunting/$1');
+    $routes->post('halaman/simpan', 'HalamanAdmin::simpan');
+    $routes->post('halaman/simpan/(:num)', 'HalamanAdmin::simpan/$1');
+    $routes->post('halaman/hapus', 'HalamanAdmin::hapusBanyak');
 
     // Berita
     $routes->get('berita', 'BeritaAdmin');
@@ -93,10 +112,10 @@ $routes->group('admin', ['filter' => 'group:admin,superadmin'], function ($route
     // Galeri
     $routes->group('galeri', ['namespace' => 'App\Controllers'], function ($routes) {
         $routes->get('/', 'GaleriAdmin::index');
-        $routes->post('upload', 'GaleriAdmin::upload');
-        $routes->post('updateMetadata/(:num)', 'GaleriAdmin::updateMetadata/$1');
-        $routes->post('delete/(:num)', 'GaleriAdmin::delete/$1');
-        $routes->post('delete-multiple', 'GaleriAdmin::deleteMultiple');
+        $routes->post('unggah', 'GaleriAdmin::unggah');
+        $routes->post('simpanMetadata/(:num)', 'GaleriAdmin::simpanMetadata/$1');
+        $routes->post('hapus/(:num)', 'GaleriAdmin::hapus/$1');
+        $routes->post('hapus-banyak', 'GaleriAdmin::hapusBanyak');
     });
 
     // Kotak masuk
@@ -122,6 +141,17 @@ $routes->group('admin', ['filter' => 'group:admin,superadmin'], function ($route
     $routes->post('situs/sunting/simpan/(:num)', 'SitusAdmin::simpan/$1');
 });
 
+$routes->group('admin/komponen', ['namespace' => 'App\Controllers'], function ($routes) {
+    $routes->get('/', 'KomponenAdmin::index');
+    $routes->get('tambah', 'KomponenAdmin::tambah');
+    $routes->post('simpan', 'KomponenAdmin::simpan');
+    $routes->post('simpan/(:num)', 'KomponenAdmin::simpan/$1');
+    // $routes->post('store', 'KomponenAdmin::store');
+    // $routes->post('update/(:num)', 'KomponenAdmin::update/$1');
+    $routes->get('sunting/(:num)', 'KomponenAdmin::sunting/$1');
+    $routes->post('hapus', 'KomponenAdmin::hapusBanyak');
+});
+
 // Redirect to dasbor
 $routes->addRedirect('dasbor', 'dashboard');
 $routes->addRedirect('dashboard', 'dashboard');
@@ -131,6 +161,14 @@ $routes->get('/keluar', 'UserController::keluar');
 
 // API
 $routes->group('api', static function ($routes) {
+
+    // Halaman
+    $routes->post('halaman', 'HalamanAdmin::getDT');
+    $routes->post('halaman/(:any)', 'HalamanAdmin::getDT/$1');
+
+    // Komponen
+    $routes->post('komponen', 'KomponenAdmin::getDT');
+    $routes->post('komponen/(:any)', 'KomponenAdmin::getDT/$1');
 
     // Berita
     // $routes->get('berita', 'BeritaAdmin::get');
