@@ -13,7 +13,7 @@ class PengumumanModel extends \CodeIgniter\Model
 
     protected $useTimestamps = true;
 
-    protected $allowedFields = ['id_galeri', 'pengumuman', 'deskripsi', 'waktu'];
+    protected $allowedFields = ['id_galeri', 'pengumuman', 'deskripsi', 'waktu_mulai'];
 
     public function getByID($id)
     {
@@ -27,7 +27,7 @@ class PengumumanModel extends \CodeIgniter\Model
     {
         return $this->select('pengumuman.*, galeri.uri')
             ->join('galeri', 'galeri.id = pengumuman.id_galeri', 'left')
-            ->orderBy('pengumuman.waktu', 'DESC')
+            ->orderBy('pengumuman.waktu_mulai', 'DESC')
             ->findAll();
     }
 
@@ -38,11 +38,30 @@ class PengumumanModel extends \CodeIgniter\Model
      */
     public function getTerbaru($jumlah)
     {
-        return $this->formatDateToArray($this->select('pengumuman.*, galeri.uri')
+        $today = date('Y-m-d H:i:s');
+        return $this->formatDateToArray($this->db->table($this->table)
+            ->select('pengumuman.*, galeri.uri')
             ->where('status', 'publikasi')
             ->join('galeri', 'galeri.id = pengumuman.id_galeri', 'left')
-            ->orderBy('pengumuman.waktu', 'DESC')
-            ->findAll($jumlah));
+            ->orderBy("
+                CASE
+                    WHEN waktu_mulai <= '$today' AND waktu_selesai >= '$today' THEN 1
+                    WHEN waktu_mulai > '$today' THEN 2
+                    ELSE 3
+                END", 'ASC')
+            ->orderBy("
+                CASE
+                    WHEN waktu_mulai > '$today' THEN waktu_mulai
+                    ELSE NULL
+                END", 'ASC')
+            ->orderBy("
+                CASE
+                    WHEN waktu_selesai < '$today' THEN waktu_selesai
+                    ELSE NULL
+                END", 'DESC')
+            ->limit($jumlah)
+            ->get()
+            ->getResultArray());
     }
 
     /**
@@ -50,7 +69,7 @@ class PengumumanModel extends \CodeIgniter\Model
      * Get Pengumuman for datatable
      * -------------------------------------------------------------
      */
-    public function getPengumuman($limit, $start, $status = null, $search = null, $order = 'waktu', $dir = 'DESC')
+    public function getPengumuman($limit, $start, $status = null, $search = null, $order = 'waktu_mulai', $dir = 'DESC')
     {
         $builder = $this->db->table($this->table)
             ->select('*')
@@ -64,7 +83,7 @@ class PengumumanModel extends \CodeIgniter\Model
         if ($search) {
             $builder->groupStart()
                 ->like('pengumuman', $search)
-                ->orLike('waktu', $search)
+                ->orLike('waktu_mulai', $search)
                 ->groupEnd();
         }
 
@@ -91,7 +110,7 @@ class PengumumanModel extends \CodeIgniter\Model
         if ($search) {
             $builder->groupStart()
                 ->like('pengumuman', $search)
-                ->orLike('waktu', $search)
+                ->orLike('waktu_mulai', $search)
                 ->groupEnd();
         }
 
@@ -102,9 +121,15 @@ class PengumumanModel extends \CodeIgniter\Model
     {
         foreach ($data as &$d) {
             if (is_array($d)) {
-                $d['waktu_terformat'] = format_date_to_array($d['waktu']);
-                $d['waktu_terformat_tanggal'] = $d['waktu_terformat'][0];
-                $d['waktu_terformat_bulan'] = $d['waktu_terformat'][1];
+                $d['waktu_mulai_terformat'] = format_date_to_array($d['waktu_mulai']);
+                $d['waktu_mulai_terformat_tanggal'] = $d['waktu_mulai_terformat'][0];
+                $d['waktu_mulai_terformat_bulan'] = $d['waktu_mulai_terformat'][1];
+
+                if ($d) {
+                    $d['waktu_selesai_terformat'] = format_date_to_array($d['waktu_selesai']);
+                    $d['waktu_selesai_terformat_tanggal'] = $d['waktu_selesai_terformat'][0];
+                    $d['waktu_selesai_terformat_bulan'] = $d['waktu_selesai_terformat'][1];
+                }
             }
         }
         return $data;

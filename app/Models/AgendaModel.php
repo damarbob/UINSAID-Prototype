@@ -8,7 +8,7 @@ class AgendaModel extends \CodeIgniter\Model
 
     protected $useTimestamps = true;
 
-    protected $allowedFields = ['id_galeri', 'agenda', 'deskripsi', 'waktu', 'status'];
+    protected $allowedFields = ['id_galeri', 'agenda', 'deskripsi', 'waktu_mulai', 'waktu_selesai', 'status'];
 
     public function getByID($id)
     {
@@ -23,7 +23,7 @@ class AgendaModel extends \CodeIgniter\Model
     {
         return $this->select('agenda.*, galeri.uri')
             ->join('galeri', 'galeri.id = agenda.id_galeri', 'left')
-            ->orderBy('agenda.waktu', 'DESC')
+            ->orderBy('agenda.waktu_mulai', 'DESC')
             ->findAll();
     }
 
@@ -32,7 +32,7 @@ class AgendaModel extends \CodeIgniter\Model
         return $this->select('*')
             ->where('agenda.status', 'publikasi')
             ->join('galeri', 'galeri.id = agenda.id_galeri', 'left')
-            ->orderBy('agenda.waktu', 'DESC')
+            ->orderBy('agenda.waktu_mulai', 'DESC')
             ->findAll();
     }
 
@@ -41,7 +41,7 @@ class AgendaModel extends \CodeIgniter\Model
         return $this->select('*')
             ->where('agenda.status', 'draf')
             ->join('galeri', 'galeri.id = agenda.id_galeri', 'left')
-            ->orderBy('agenda.waktu', 'DESC')
+            ->orderBy('agenda.waktu_mulai', 'DESC')
             ->findAll();
     }
 
@@ -49,14 +49,38 @@ class AgendaModel extends \CodeIgniter\Model
      * -------------------------------------------
      * Get Agenda Terbaru yang berstatus publikasi
      * -------------------------------------------
+     * 
+     * @return array
      */
     public function getTerbaru($jumlah)
     {
-        return $this->select('agenda.*, galeri.uri')
+        $today = date('Y-m-d H:i:s');
+        // return $this->select('agenda.*, galeri.uri')
+        return $this->db->table($this->table)
+            ->select('agenda.*, galeri.uri')
             ->where('status', 'publikasi')
             ->join('galeri', 'galeri.id = agenda.id_galeri', 'left')
-            ->orderBy('agenda.waktu', 'DESC')
-            ->findAll($jumlah);
+            ->orderBy("
+                CASE
+                    WHEN waktu_mulai <= '$today' AND waktu_selesai >= '$today' THEN 1
+                    WHEN waktu_mulai > '$today' THEN 2
+                    ELSE 3
+                END", 'ASC')
+            ->orderBy("
+                CASE
+                    WHEN waktu_mulai > '$today' THEN waktu_mulai
+                    ELSE NULL
+                END", 'ASC')
+            ->orderBy("
+                CASE
+                    WHEN waktu_selesai < '$today' THEN waktu_selesai
+                    ELSE NULL
+                END", 'DESC')
+            ->limit($jumlah)
+            ->get()
+            ->getResultArray();
+        // ->orderBy('agenda.waktu_mulai', 'DESC')
+        // ->findAll($jumlah);
     }
 
     /**
@@ -64,10 +88,12 @@ class AgendaModel extends \CodeIgniter\Model
      * Get Agenda for datatable
      * -------------------------------------------------------------
      */
-    public function getAgenda($limit, $start, $status = null, $search = null, $order = 'waktu', $dir = 'DESC')
+    public function getAgenda($limit, $start, $status = null, $search = null, $order = 'waktu_mulai', $dir = 'DESC')
     {
         $builder = $this->db->table($this->table)
-            ->select('*');
+            ->select('*')
+            ->orderBy($order, $dir)
+            ->limit($limit, $start);
 
         if ($status) {
             $builder->where('status', $status);
@@ -76,7 +102,7 @@ class AgendaModel extends \CodeIgniter\Model
         if ($search) {
             $builder->groupStart()
                 ->like('agenda', $search)
-                ->orLike('waktu', $search)
+                ->orLike('waktu_mulai', $search)
                 ->groupEnd();
         }
 
@@ -103,7 +129,7 @@ class AgendaModel extends \CodeIgniter\Model
         if ($search) {
             $builder->groupStart()
                 ->like('agenda', $search)
-                ->orLike('waktu', $search)
+                ->orLike('waktu_mulai', $search)
                 ->groupEnd();
         }
 

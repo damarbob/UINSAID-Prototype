@@ -305,7 +305,7 @@ class Home extends BaseController
         ];
 
         $agenda = $this->agendaModel->getTerbaru(4);
-        $this->data['agenda'] = format_tanggal_suatu_kolom($agenda, 'waktu');
+        $this->data['agenda'] = format_tanggal_suatu_kolom($agenda, 'waktu_mulai');
         // $this->data['agenda'] = [
         //     [
         //         "judul" => "Piala Rektor UIN RM Said Surakarta Tahun 2024 Piala Rektor 2024",
