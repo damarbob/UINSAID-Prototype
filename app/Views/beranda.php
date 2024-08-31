@@ -562,11 +562,15 @@
             data-uri="<?= $key['uri'] ?>"
             data-title="<?= $key['agenda'] ?>"
             data-deskripsi="<?= $key['deskripsi'] ?>"
-            data-waktu="<?= $key['waktu'] ?>">
+            data-waktu_mulai="<?= $key['waktu_mulai'] ?>">
 
             <!-- Konten agenda -->
             <div class="card-body">
-              <p class="card-text"><?= $key['formatted_datetime'] ?></p>
+              <p class="card-text"><?= $key['formatted_datetime'] ?>
+                <?php if (strtotime($key['waktu_mulai']) < time()): ?>
+                  <span class="badge badge-danger" style="width: max-content;">Finished</span>
+                <?php endif; ?>
+              </p>
               <!-- <a href="#"> -->
               <p class="card-title text-body">
                 <?= $key['agenda'] ?>
@@ -602,7 +606,7 @@
         <div class="row pb-4">
 
           <?php foreach ($pengumuman as $p => $key) : ?>
-            <div class="col-lg-4" data-aos="fade-up">
+            <div class="col-lg-4" data-aos="fade-up" id="item-pengumuman">
               <div class="card"
                 data-mdb-ripple-init
                 data-mdb-modal-init
@@ -610,20 +614,23 @@
                 data-uri="<?= $key['uri'] ?>"
                 data-title="<?= $key['pengumuman'] ?>"
                 data-deskripsi="<?= $key['deskripsi'] ?>"
-                data-waktu="<?= $key['waktu'] ?>">
+                data-waktu_mulai="<?= $key['waktu_mulai'] ?>">
                 <div class="d-flex p-3">
 
                   <div class="px-3">
                     <p class="mb-0 text-primary">
                       <span class="h3 fw-bold">
-                        <?= $key['waktu_terformat_tanggal'] ?>
+                        <?= $key['waktu_mulai_terformat_tanggal'] ?>
                       </span>
                       <br>
-                      <?= $key['waktu_terformat_bulan'] ?>
+                      <?= $key['waktu_mulai_terformat_bulan'] ?>
                     </p>
                   </div>
-                  <div class="flex-grow-1 d-flex align-items-center">
+                  <div class="flex-grow-1 d-flex flex-column justify-content-center">
                     <!-- <a href=""> -->
+                    <?php if (strtotime($key['waktu_mulai']) < time()): ?>
+                      <span class="badge badge-danger" style="width: max-content;">Finished</span>
+                    <?php endif; ?>
                     <p class="card-title text-body fw-bold fs-6 mb-0">
                       <?= $key['pengumuman'] ?>
                     </p>

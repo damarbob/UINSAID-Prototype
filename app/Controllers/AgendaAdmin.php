@@ -48,7 +48,7 @@ class AgendaAdmin extends BaseControllerAdmin
     public function fetchData($status = null)
     {
         // $columns = [lang('Admin.judul'), lang('Admin.penulis'), lang('Admin.kategori'), lang('Admin.tanggal'), lang('Admin.status')];
-        $columns = ['agenda', 'waktu', 'status'];
+        $columns = ['agenda', 'waktu_mulai', 'status'];
         $limit = $this->request->getPost('length');
         $start = $this->request->getPost('start');
         $order = $columns[$this->request->getPost('order')[0]['column']];
@@ -70,7 +70,7 @@ class AgendaAdmin extends BaseControllerAdmin
             foreach ($agenda as $row) {
                 $nestedData['id'] = $row->id;
                 $nestedData['agenda'] = $row->agenda;
-                $nestedData['waktu'] = $row->waktu;
+                $nestedData['waktu'] = $row->waktu_mulai;
                 $nestedData['status'] = $row->status;
                 $data[] = $nestedData;
             }
@@ -163,7 +163,7 @@ class AgendaAdmin extends BaseControllerAdmin
             $data = [
                 'agenda' => $this->request->getVar('agenda'),
                 'deskripsi' => $this->request->getVar('deskripsi'),
-                'waktu' => $this->request->getVar('waktu'),
+                'waktu_mulai' => $this->request->getVar('waktu_mulai'),
                 'status' => $this->request->getVar('status'),
                 'id_galeri' => $galeriId,
             ];
@@ -178,7 +178,7 @@ class AgendaAdmin extends BaseControllerAdmin
                 'id' => $id,
                 'agenda' => $this->request->getVar('agenda'),
                 'deskripsi' => $this->request->getVar('deskripsi'),
-                'waktu' => $this->request->getVar('waktu'),
+                'waktu_mulai' => $this->request->getVar('waktu_mulai'),
                 'status' => $this->request->getVar('status'),
                 'id_galeri' => $galeriId,
             ]);
@@ -211,7 +211,7 @@ class AgendaAdmin extends BaseControllerAdmin
             'agenda' => [
                 'rules' => 'required',
             ],
-            'waktu' => [
+            'waktu_mulai' => [
                 'rules' => 'required',
             ],
             'status' => [

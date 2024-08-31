@@ -253,7 +253,7 @@
 #item-agenda .card-title {
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 4; /* Limit to 3 lines */
+  -webkit-line-clamp: 4; /* Limit to 4 lines */
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: normal;
@@ -353,6 +353,25 @@ section.fluid .container {
 }
 
 /* Pengumuman */
+#item-pengumuman .card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  border-radius: 8px;
+}
+#item-pengumuman .card-title {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4; /* Limit to 4 lines */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  font-size: 0.9rem;
+  font-weight: bold;
+  /* height: calc(1.2em * 3); Adjust based on the line height */
+}
+
 .pengumuman-widget {
   border: 1px solid #e0e0e0;
   border-radius: 8px;
@@ -385,7 +404,7 @@ section.fluid .container {
 }
 
 /* Agenda */
-.agenda-card {
+/* .agenda-card {
   position: relative;
   width: 100%;
   height: 100%;
@@ -413,7 +432,7 @@ section.fluid .container {
   padding: 20px;
   box-sizing: border-box;
   color: var(--mdb-body-bg);
-}
+} */
 
 /* Flexbox to make columns stretch to the same height */
 /* .row.align-items-stretch {

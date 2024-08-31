@@ -107,7 +107,7 @@ class BerandaFakultas extends BaseController
         ];
 
         $agenda = $this->agendaModel->getTerbaru(4);
-        $this->data['agenda'] = format_tanggal_suatu_kolom($agenda, 'waktu');
+        $this->data['agenda'] = format_tanggal_suatu_kolom($agenda, 'waktu_mulai');
 
         $pengumuman = $this->pengumumanModel->getTerbaru(3);
         $this->data['pengumuman'] = $pengumuman;
