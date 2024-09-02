@@ -79,6 +79,10 @@ abstract class BaseControllerAdmin extends Controller
         protected HalamanModel $halamanModel;
         protected KomponenModel $komponenModel;
 
+        // Site type
+        protected bool $isParentSite;
+        protected bool $isChildSite;
+
         /**
          * Constructor.
          */
@@ -86,6 +90,11 @@ abstract class BaseControllerAdmin extends Controller
         {
                 // Do Not Edit This Line
                 parent::initController($request, $response, $logger);
+
+                // Custom init
+                // Site type
+                $this->isParentSite = (env('app.siteType') == 'parent' || env('app.siteType') == 'super');
+                $this->isChildSite = (env('app.siteType') == null || env('app.siteType') == 'child' || env('app.siteType') == 'super');
 
                 // Preload any models, libraries, etc, here.
                 $this->beritaModel = new BeritaModel();

@@ -127,7 +127,7 @@
                 [0, 'asc']
             ],
             select: true,
-            dom: '<"row gy-2 mb-2"<"col-lg-6"B><"col-lg-6"f>>r<"table-responsive"t><"row gy-2"<"col-md-6"i><"col-md-6"p>><"row my-2"<"col">>',
+            dom: '<"mb-4"<"d-flex flex-column flex-md-row align-items-center mb-2"<"flex-grow-1 align-self-start"B><"align-self-end ps-2 pt-2 pt-md-0 mb-0"f>>r<"table-responsive"t><"d-flex flex-column flex-md-row align-items-center mt-2"<"flex-grow-1 order-2 order-md-1 mt-2 mt-md-0"i><"align-self-end order-1 order-md-2"p>>>',
             buttons: [{
                     text: '<i class="bi bi-plus-lg"></i>',
                     action: function(e, dt, node, config) {
@@ -237,7 +237,7 @@
                     url: site.alamat + apiUrl,
                     type: 'POST',
                     headers: {
-                        'X-API-Key': '<?= SAID_API_KEY ?>' // Ensure API_KEY is defined as a JS constant
+                        'X-API-Key': '<?= env('app.apiKey') ?>' // API Key from .env
                     },
                     data: JSON.stringify({
                         id: site.id,
@@ -269,10 +269,6 @@
                 });
             });
         }
-
-
-
-
 
         // Change button styles
         $('#tabel').on('preInit.dt', function() {

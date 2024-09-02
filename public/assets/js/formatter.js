@@ -40,5 +40,8 @@ function formatDate(timestamp) {
 }
 
 function capitalizeFirstLetter(string) {
+  if (!string || string.length === 0) {
+    return ""; // Return an empty string if the input is null or empty
+  }
   return string.charAt(0).toUpperCase() + string.slice(1);
 }

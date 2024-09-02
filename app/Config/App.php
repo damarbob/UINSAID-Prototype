@@ -442,4 +442,15 @@ class App extends BaseConfig
      * @see http://www.w3.org/TR/CSP/
      */
     public bool $CSPEnabled = false;
+
+    // public function __construct()
+    // {
+    //     // CUSTOM CONSTANTS
+
+    //     // Site type
+    //     defined('SITE_TYPE') || define('SITE_TYPE', $_SERVER['app.siteType']);
+
+    //     // API Key
+    //     defined('API_KEY') || define('API_KEY', $_SERVER['app.apiKey']);
+    // }
 }

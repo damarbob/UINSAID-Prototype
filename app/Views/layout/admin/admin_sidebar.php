@@ -22,7 +22,7 @@ $currentRoute = $request->uri->getPath();
                 </a>
             </div>
             <div class="nav-list">
-                <a href="<?= base_url('admin/halaman') ?>" class="nav-link-admin <?= $currentRoute == "admin/situs" ? "active" : "" ?>">
+                <a href="<?= base_url('admin/halaman') ?>" class="nav-link-admin <?= $currentRoute == "admin/halaman" ? "active" : "" ?>">
                     <i class='bx bx-file nav_icon'></i>
                     <span class="nav_name">
                         Halaman
@@ -41,12 +41,15 @@ $currentRoute = $request->uri->getPath();
                     <?php endif ?>
                 </a>
             </div>
-            <div class="nav-list">
-                <a href="<?= base_url('admin/berita-diajukan') ?>" class="nav-link-admin <?= $currentRoute == "admin/berita-diajukan" ? "active" : "" ?>">
-                    <i class='bx bx-mail-send nav_icon'></i>
-                    <span class="nav_name">Berita diajukan</span>
-                </a>
-            </div>
+            <?php if (env('app.siteType') == 'parent' || env('app.siteType') == 'super'): ?>
+                <!-- Kelola berita diajukan khusus parent atau super -->
+                <div class="nav-list">
+                    <a href="<?= base_url('admin/berita-diajukan') ?>" class="nav-link-admin <?= $currentRoute == "admin/berita-diajukan" ? "active" : "" ?>">
+                        <i class='bx bx-mail-send nav_icon'></i>
+                        <span class="nav_name">Berita diajukan</span>
+                    </a>
+                </div>
+            <?php endif ?>
             <div class="nav-list">
                 <a href="<?= base_url('admin/agenda') ?>" class="nav-link-admin <?= $currentRoute == "admin/agenda" ? "active" : "" ?>">
                     <i class='bx bx-calendar-event nav_icon'></i>
@@ -87,14 +90,17 @@ $currentRoute = $request->uri->getPath();
                     </span>
                 </a>
             </div>
-            <div class="nav-list">
-                <a href="<?= base_url('admin/situs') ?>" class="nav-link-admin <?= $currentRoute == "admin/situs" ? "active" : "" ?>">
-                    <i class='bx bxs-network-chart nav_icon'></i>
-                    <span class="nav_name">
-                        Kelola Situs
-                    </span>
-                </a>
-            </div>
+            <?php if (env('app.siteType') == 'parent' || env('app.siteType') == 'super'): ?>
+                <!-- Kelola situs khusus parent atau super -->
+                <div class="nav-list">
+                    <a href="<?= base_url('admin/situs') ?>" class="nav-link-admin <?= $currentRoute == "admin/situs" ? "active" : "" ?>">
+                        <i class='bx bxs-network-chart nav_icon'></i>
+                        <span class="nav_name">
+                            Kelola Situs
+                        </span>
+                    </a>
+                </div>
+            <?php endif ?>
             <!-- <div class="nav-list d-lg-none">
                 <a href="<?= base_url('admin/atur-profil') ?>" class="nav-link">
                     <i class='bx bx-user-circle nav_icon'></i>

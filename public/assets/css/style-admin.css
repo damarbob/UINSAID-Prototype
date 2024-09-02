@@ -39,6 +39,10 @@ a {
   /* Hilangkan branding di statusbar tinyMCE */
   display: none;
 }
+div.dataTables_wrapper div.dataTables_info {
+  /* Hilangkan padding top */
+  padding-top: 0 !important;
+}
 /* End of overrides */
 
 .header {

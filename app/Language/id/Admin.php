@@ -84,6 +84,7 @@ return [
     'batalkanPengajuanBerita' => 'Batalkan Pengajuan Berita',
     'batalkanPengajuanBeritaIni?' => 'Batalkan pengajuan berita ini?',
 
+    'tidakDiajukan' => 'Tidak Diajukan',
     'diajukan' => 'Diajukan',
     'diterima' => 'Diterima',
     'ditolak' => 'Ditolak',
@@ -199,4 +200,9 @@ return [
 
     'tidakAdaResponsDiterima' => 'Tidak ada respons diterima.',
     'tindakanSelesai' => 'Tindakan Selesai',
+
+    'kunciAPISalah' => 'Kunci API salah!',
+    'situsBerhasilDinonaktifkan' => 'Situs berhasil dinonaktifkan',
+    'situsBerhasilDipulihkan' => 'Situs berhasil dipulihkan',
+    'situsTidakDitemukan' => 'Situs tidak ditemukan',
 ];

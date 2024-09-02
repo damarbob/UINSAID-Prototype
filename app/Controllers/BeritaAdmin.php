@@ -22,6 +22,8 @@ class BeritaAdmin extends BaseControllerAdmin
     public function index(): string
     {
         $this->data['judul'] = lang('Admin.berita');
+        $this->data['is_parent_site'] = $this->isParentSite;
+        $this->data['is_child_site'] = $this->isChildSite;
         return view('admin_berita', $this->data);
     }
 
@@ -47,7 +49,12 @@ class BeritaAdmin extends BaseControllerAdmin
     public function fetchData($status = null)
     {
         // $columns = [lang('Admin.judul'), lang('Admin.penulis'), lang('Admin.kategori'), lang('Admin.tanggal'), lang('Admin.status')];
-        $columns = ['judul', 'penulis', 'kategori', 'pengajuan', 'created_at', 'status'];
+        if ($this->isChildSite) {
+            // Child dan super ada kolom pengajuan (di view juga)
+            $columns = ['judul', 'penulis', 'kategori', 'pengajuan', 'created_at', 'status'];
+        } else {
+            $columns = ['judul', 'penulis', 'kategori', 'created_at', 'status'];
+        }
 
         $limit = $this->request->getPost('length');
         $start = $this->request->getPost('start');

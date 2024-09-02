@@ -12,8 +12,9 @@ class Shutdown extends ResourceController
     {
         $apiKey = $this->request->getHeaderLine('X-API-Key');
 
-        if ($apiKey !== SAID_API_KEY) {
-            return $this->failUnauthorized('Invalid API Key');
+        // Cek API Key apakah sesuai dengan di file .env
+        if ($apiKey !== env('app.apiKey')) {
+            return $this->failUnauthorized(lang('Admin.kunciAPISalah'));
         }
 
         $situsModel = new SitusModel();
@@ -21,10 +22,10 @@ class Shutdown extends ResourceController
 
         if ($site) {
             $situsModel->update($site['id'], ['status' => 'inactive']);
-            return $this->respond(['message' => 'Site successfully shut down'], 200);
+            return $this->respond(['message' => lang('Admin.situsBerhasilDinonaktifkan')], 200);
         }
 
-        return $this->failNotFound('Site not found.');
+        return $this->failNotFound(lang('Admin.situsTidakDitemukan'));
     }
 
     // Untuk mengembalikan website
@@ -32,8 +33,9 @@ class Shutdown extends ResourceController
     {
         $apiKey = $this->request->getHeaderLine('X-API-Key');
 
-        if ($apiKey !== SAID_API_KEY) {
-            return $this->failUnauthorized('Invalid API Key');
+        // Cek API Key apakah sesuai dengan di file .env
+        if ($apiKey !== env('app.apiKey')) {
+            return $this->failUnauthorized(lang('Admin.kunciAPISalah'));
         }
 
         $situsModel = new SitusModel();
@@ -41,9 +43,9 @@ class Shutdown extends ResourceController
 
         if ($site) {
             $situsModel->update($site['id'], ['status' => 'active']);
-            return $this->respond(['message' => 'Site successfully restored'], 200);
+            return $this->respond(['message' => lang('Admin.situsBerhasilDipulihkan')], 200);
         }
 
-        return $this->failNotFound('Site not found.');
+        return $this->failNotFound(lang('Admin.situsTidakDitemukan'));
     }
 }

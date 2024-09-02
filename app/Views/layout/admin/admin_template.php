@@ -14,19 +14,22 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,600,600i,700,700i&display=swap|Lato:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet" />
     <!-- End Font -->
     <!-- MDB -->
-    <link id="mdbCSS" rel="stylesheet" href="<?= base_url('/assets/css/mdb-dsm-custom-new.css') ?>" />
+    <link id="mdbCSS" rel="stylesheet" href="<?= base_url('/assets/css/c.css') ?>" />
     <!-- End MDB -->
     <!-- Import Bootstrap Icon -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" />
     <!-- End Bootstrap Icon -->
+    <!-- Boxicons -->
     <link href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" rel="stylesheet" />
-    <link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+
+    <!-- Datatables -->
+    <!-- <link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet">
     </link>
-    <link ref="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link ref="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" rel="stylesheet" /> -->
     <link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-1.13.8/af-2.6.0/b-2.4.2/b-colvis-2.4.2/b-html5-2.4.2/b-print-2.4.2/cr-1.7.0/date-1.5.1/fc-4.3.0/fh-3.4.0/kt-2.11.0/r-2.5.0/rg-1.4.1/rr-1.4.1/sc-2.3.0/sb-1.6.0/sp-2.2.0/sl-1.7.0/sr-1.3.0/datatables.min.css" rel="stylesheet">
 
     <!-- Import Custom CSS -->
-    <link rel="stylesheet" href="<?= base_url('/assets/css/style.css') ?>" />
+    <!-- <link rel="stylesheet" href="<?= base_url('/assets/css/style.css') ?>" /> -->
     <link rel="stylesheet" href="<?= base_url('/assets/css/style-admin.css') ?>" />
     <?= $this->renderSection('style') ?>
     <title>Dashboard</title>

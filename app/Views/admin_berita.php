@@ -49,13 +49,16 @@
 
 
         <!-- <div class="table-responsive mt-3"> -->
-        <table class="table table-hover" id="tabelBerita" style="width: 100%;">
+        <table class="table table-hover table-sm" id="tabelBerita" style="width: 100%;">
             <thead>
                 <tr>
                     <td><?= lang('Admin.judul') ?></td>
                     <td><?= lang('Admin.penulis') ?></td>
                     <td><?= lang('Admin.kategori') ?></td>
-                    <td><?= lang('Admin.pengajuan') ?></td>
+                    <?php if ($is_child_site): ?>
+                        <!-- Kolom pengajuan untuk child dan super -->
+                        <td><?= lang('Admin.pengajuan') ?></td>
+                    <?php endif ?>
                     <td><?= lang('Admin.tanggal') ?></td>
                     <td><?= lang('Admin.status') ?></td>
                 </tr>
@@ -104,14 +107,18 @@
                 },
                 {
                     "data": "kategori",
-                },
-                {
-                    "data": "pengajuan",
                     "render": function(data, type, row) {
-                        return data == "tidak diajukan" ? "Tidak Diajukan" : (data == "diajukan" ? "<?= lang('diajukan') ?>" : (data == "diterima" ? "<?= lang('diterima') ?>" : (data == "ditolak" ? "<?= lang('ditolak') ?>" : "<?= lang('diblokir') ?>"))) // TODO: Translasi
+                        return capitalizeFirstLetter(data);
                     }
                 },
-                {
+                <?php if ($is_child_site): ?> {
+                        // Kolom pengajuan untuk child dan super
+                        "data": "pengajuan",
+                        "render": function(data, type, row) {
+                            return data == "tidak diajukan" ? "<?= lang('Admin.tidakDiajukan') ?>" : (data == "diajukan" ? "<?= lang('Admin.diajukan') ?>" : (data == "diterima" ? "<?= lang('Admin.diterima') ?>" : (data == "ditolak" ? "<?= lang('Admin.ditolak') ?>" : "<?= lang('Admin.diblokir') ?>"))) // TODO: Translasi
+                        }
+                    },
+                <?php endif ?> {
                     "data": "created_at",
                     "render": function(data, type, row) {
                         return formatDate(data);
@@ -120,22 +127,23 @@
                 {
                     "data": "status",
                     "render": function(data, type, row) {
-                        return data == "published" ? "<?= lang('publikasi') ?>" : "<?= lang('draf') ?>" // TODO: Translasi
+                        return data == "published" ? "<?= lang('Admin.publikasi') ?>" : "<?= lang('Admin.draf') ?>" // TODO: Translasi
                     }
                 },
             ],
             "language": {
                 url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/id.json'
             },
-            columnDefs: [{
-                    type: 'date',
-                    targets: 5
-                } // Specify the type of the fourth column as 'date'
-            ],
             order: [
-                [4, 'desc']
+                <?php if ($is_child_site): ?>
+                    // Apabila child atau super
+                    [4, 'desc']
+                <?php else: ?>
+                    // Apabila parent
+                    [3, 'desc']
+                <?php endif ?>
             ],
-            dom: '<"row gy-2 mb-2"<"col-lg-6"B><"col-lg-6"f>>r<"table-responsive"t><"row gy-2"<"col-md-6"i><"col-md-6"p>><"row my-2"<"col">>',
+            dom: '<"mb-4"<"d-flex flex-column flex-md-row align-items-center mb-2"<"flex-grow-1 align-self-start"B><"align-self-end ps-2 pt-2 pt-md-0 mb-0"f>>r<"table-responsive"t><"d-flex flex-column flex-md-row align-items-center mt-2"<"flex-grow-1 order-2 order-md-1 mt-2 mt-md-0"i><"align-self-end order-1 order-md-2"p>>>',
             buttons: [{
                     text: '<i class="bi bi-plus-lg"></i>',
                     action: function(e, dt, node, config) {
@@ -145,23 +153,25 @@
                 {
                     text: '<i id="iconFilterRilisMedia" class="bx bx-filter-alt me-2"></i><span id="loaderFilterRilisMedia" class="loader me-2" style="display: none;"></span><span id="textFilterRilisMedia"><?= lang('Admin.semua') ?></span>',
                 },
-                {
-                    // Tombol ajukan
-                    extend: 'selected',
-                    text: '<i class="bi bi-forward"></i>',
-                    action: function(e, dt, node, config) {
-                        ajukan();
-                    }
-                },
-                {
-                    // Tombol batal ajukan
-                    extend: 'selected',
-                    text: '<i class="bi bi-arrow-return-left"></i>',
-                    action: function(e, dt, node, config) {
-                        batalAjukan();
-                    }
-                },
-                {
+                <?php if ($is_child_site):
+                    // Tampilkan tombol ajukan dan batal ajukan di website child dan super
+                ?> {
+                        // Tombol ajukan
+                        extend: 'selected',
+                        text: '<i class="bi bi-forward"></i>',
+                        action: function(e, dt, node, config) {
+                            ajukan();
+                        }
+                    },
+                    {
+                        // Tombol batal ajukan
+                        extend: 'selected',
+                        text: '<i class="bi bi-arrow-return-left"></i>',
+                        action: function(e, dt, node, config) {
+                            batalAjukan();
+                        }
+                    },
+                <?php endif ?> {
                     extend: 'colvis',
                     text: '<i class="bx bx-table"></i>'
                 },
@@ -223,9 +233,15 @@
             processBulkNew(table1, "<?= base_url('/admin/berita/batal-ajukan') ?>", options);
         }
 
+        table1.on('select.dt', function(e, dt, type, indexes) {
+            if (type === 'row') {
+                var data = table1.row(indexes).data();
+                console.log('Selected row data:', data);
+            }
+        });
 
         // Change button styles
-        $('#tabelBerita').on('preInit.dt', function() {
+        table1.on('preInit.dt', function() {
 
             $(".dt-buttons.btn-group.flex-wrap").addClass("btn-group-lg"); // Buat grup tombol jadi besar
 
@@ -233,8 +249,11 @@
             var lastButton = buttons.last();
 
             buttons.eq(0).removeClass("btn-secondary").addClass("btn-primary").addClass("rounded-0");
-            buttons.eq(2).removeClass("btn-secondary").addClass("btn-primary").addClass("rounded-0");
-            buttons.eq(3).removeClass("btn-secondary").addClass("btn-warning").addClass("rounded-0");
+            <?php if ($is_child_site): ?>
+                // Warnai tombol ajukan dan batal ajukan di website child dan super
+                buttons.eq(2).removeClass("btn-secondary").addClass("btn-primary").addClass("rounded-0");
+                buttons.eq(3).removeClass("btn-secondary").addClass("btn-warning").addClass("rounded-0");
+            <?php endif ?>
             lastButton.removeClass("btn-secondary").addClass("btn-danger").addClass("rounded-0");
 
 
