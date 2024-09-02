@@ -141,6 +141,8 @@ return [
     'pilihAtauInputKategori' => 'Pilih atau input kategori',
 
     'waktu' => 'Waktu',
+    'waktuMulai' => 'Waktu mulai',
+    'waktuSelesai' => 'Waktu selesai',
     'unggah' => 'Unggah',
 
     'agenda' => 'Agenda',

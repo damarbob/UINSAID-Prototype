@@ -163,6 +163,7 @@ class PengumumanAdmin extends BaseControllerAdmin
                 'pengumuman' => $this->request->getVar('pengumuman'),
                 'deskripsi' => $this->request->getVar('deskripsi'),
                 'waktu_mulai' => $this->request->getVar('waktu_mulai'),
+                'waktu_selesai' => $this->request->getVar('waktu_selesai'),
                 'status' => $this->request->getVar('status'),
                 'id_galeri' => $galeriId,
             ];
@@ -178,6 +179,7 @@ class PengumumanAdmin extends BaseControllerAdmin
                 'pengumuman' => $this->request->getVar('pengumuman'),
                 'deskripsi' => $this->request->getVar('deskripsi'),
                 'waktu_mulai' => $this->request->getVar('waktu_mulai'),
+                'waktu_selesai' => $this->request->getVar('waktu_selesai'),
                 'status' => $this->request->getVar('status'),
                 'id_galeri' => $galeriId,
             ]);

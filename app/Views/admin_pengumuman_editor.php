@@ -42,12 +42,15 @@ if ($mode == "tambah") {
     $valueIdGaleri = (old('id_galeri'));
     $valueUploadImage = (old('uploadimage'));
 } else {
-    $waktu = strtotime($pengumuman['waktu']);
-    $waktuFormat = date("Y-m-d H:i", $waktu);
+    $waktuMulai = strtotime($pengumuman['waktu_mulai']);
+    $waktuMulaiFormat = date("Y-m-d H:i", $waktuMulai);
+    $waktuSelesai = $pengumuman['waktu_selesai'] ? strtotime($pengumuman['waktu_selesai']) : null;
+    $waktuSelesaiFormat = $waktuSelesai ? date("Y-m-d H:i", $waktuSelesai) : '';
     // Apabila mode edit, apabila ada nilai lama (old), gunakan nilai lama. Apabila tidak ada nilai lama (old), gunakan nilai dari rilis media
     $valuePengumuman = (old('pengumuman')) ? old('pengumuman') : $pengumuman['pengumuman'];
     $valueDeskripsi = (old('deskripsi')) ? old('deskripsi') : $pengumuman['deskripsi'];
-    $valueWaktu = (old('waktu')) ? old('waktu') : $waktuFormat;
+    $valueWaktuMulai = (old('waktu_mulai')) ? old('waktu_mulai') : $waktuMulaiFormat;
+    $valueWaktuSelesai = (old('waktu_selesai')) ? old('waktu_selesai') : $waktuSelesaiFormat;
     $valueStatus = (old('status')) ? old('status') : $pengumuman['status'];
     $valueGaleri = $pengumuman['uri'];
     $valueIdGaleri = (old('id_galeri')) ? old('id_galeri') : $pengumuman['id_galeri'];
@@ -89,13 +92,18 @@ if ($mode == "tambah") {
             </div>
         </div>
         <div class="col-md-6">
-            <!-- Waktu picker -->
+            <!-- Waktu mulai picker -->
             <div class="form mb-3">
-                <label for="waktu"><?= lang('Admin.waktu') ?></label>
-                <input id="waktu" name="waktu" class="form-control <?= (validation_show_error('waktu')) ? 'is-invalid' : ''; ?>" required value="<?= $valueWaktu ?>" />
+                <label for="waktu-mulai"><?= lang('Admin.waktuMulai') ?></label>
+                <input id="waktu-mulai" name="waktu_mulai" class="form-control <?= (validation_show_error('waktu-mulai')) ? 'is-invalid' : ''; ?>" required value="<?= $valueWaktuMulai ?>" />
                 <div class="invalid-feedback">
                     <?= lang('Admin.harusDiinput'); ?>
                 </div>
+            </div>
+            <!-- Waktu selesai picker -->
+            <div class="form mb-3">
+                <label for="waktu-selesai"><?= lang('Admin.waktuSelesai') ?></label>
+                <input id="waktu-selesai" name="waktu_selesai" class="form-control <?= (validation_show_error('waktu-selesai')) ? 'is-invalid' : ''; ?>" value="<?= $valueWaktuSelesai ?>" />
             </div>
             <!-- Status -->
             <div class="form-floating mb-4">
@@ -187,15 +195,38 @@ if ($mode == "tambah") {
 
 <!-- Datetime picker -->
 <script>
-    $('#waktu').datetimepicker({
+    $('#waktu-mulai').datetimepicker({
         datepicker: {
-            showOtherMonths: true
+            showOtherMonths: true,
+            maxDate: function() {
+                return $('#waktu-selesai').val();
+            },
+            keyboardNavigation: false,
         },
         footer: true,
         modal: true,
-        // locale: 'id-id',
         format: 'yyyy-mm-dd HH:MM',
-        uiLibrary: 'materialdesign'
+        uiLibrary: 'materialdesign',
+    });
+    $('#waktu-selesai').datetimepicker({
+        datepicker: {
+            showOtherMonths: true,
+            keyboardNavigation: false,
+            minDate: function() {
+                var waktuMulai = $('#waktu-mulai').val();
+                if (waktuMulai) {
+                    // Parse the date and subtract one day
+                    var date = new Date(waktuMulai);
+                    date.setDate(date.getDate() - 1);
+                    return date;
+                }
+                return 0; // Default to current date if waktu-mulai is not set
+            },
+        },
+        footer: true,
+        modal: true,
+        format: 'yyyy-mm-dd HH:MM',
+        uiLibrary: 'materialdesign',
     });
 </script>
 

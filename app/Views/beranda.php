@@ -553,7 +553,7 @@
     <div class="row g-4 mb-4 justify-content-center">
 
       <!-- Item agenda -->
-      <?php foreach ($agenda as $b => $key) : ?>
+      <?php foreach ($agenda as $key) : ?>
         <div class="col-lg-4 col-xl-3 col-md-6" id="item-agenda" data-aos="fade-up">
           <div class="card" data-mdb-ripple-init
             data-mdb-ripple-init
@@ -567,8 +567,10 @@
             <!-- Konten agenda -->
             <div class="card-body">
               <p class="card-text"><?= $key['formatted_datetime'] ?>
-                <?php if (strtotime($key['waktu_mulai']) < time()): ?>
-                  <span class="badge badge-danger" style="width: max-content;">Finished</span>
+                <?php if ($key['waktu_selesai'] && strtotime($key['waktu_selesai']) < time()): ?>
+                  <span class="badge badge-danger">Selesai</span>
+                <?php elseif (!$key['waktu_selesai'] && strtotime($key['waktu_mulai']) < time()): ?>
+                  <span class="badge badge-danger">Selesai</span>
                 <?php endif; ?>
               </p>
               <!-- <a href="#"> -->
@@ -628,8 +630,10 @@
                   </div>
                   <div class="flex-grow-1 d-flex flex-column justify-content-center">
                     <!-- <a href=""> -->
-                    <?php if (strtotime($key['waktu_mulai']) < time()): ?>
-                      <span class="badge badge-danger" style="width: max-content;">Finished</span>
+                    <?php if ($key['waktu_selesai'] && strtotime($key['waktu_selesai']) < time()): ?>
+                      <span class="badge badge-danger" style="width: max-content;">Selesai</span>
+                    <?php elseif (!$key['waktu_selesai'] && strtotime($key['waktu_mulai']) < time()): ?>
+                      <span class="badge badge-danger" style="width: max-content;">Selesai</span>
                     <?php endif; ?>
                     <p class="card-title text-body fw-bold fs-6 mb-0">
                       <?= $key['pengumuman'] ?>

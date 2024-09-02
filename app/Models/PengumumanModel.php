@@ -13,7 +13,7 @@ class PengumumanModel extends \CodeIgniter\Model
 
     protected $useTimestamps = true;
 
-    protected $allowedFields = ['id_galeri', 'pengumuman', 'deskripsi', 'waktu_mulai'];
+    protected $allowedFields = ['id_galeri', 'pengumuman', 'deskripsi', 'waktu_mulai', 'waktu_selesai', 'status'];
 
     public function getByID($id)
     {
@@ -39,29 +39,62 @@ class PengumumanModel extends \CodeIgniter\Model
     public function getTerbaru($jumlah)
     {
         $today = date('Y-m-d H:i:s');
-        return $this->formatDateToArray($this->db->table($this->table)
-            ->select('pengumuman.*, galeri.uri')
-            ->where('status', 'publikasi')
-            ->join('galeri', 'galeri.id = pengumuman.id_galeri', 'left')
-            ->orderBy("
+        // return $this->formatDateToArray($this->db->table($this->table)
+        //     ->select('pengumuman.*, galeri.uri')
+        //     ->where('status', 'publikasi')
+        //     ->join('galeri', 'galeri.id = pengumuman.id_galeri', 'left')
+        //     ->orderBy("
+        //         CASE
+        //             WHEN waktu_mulai <= '$today' AND waktu_selesai >= '$today' THEN 1
+        //             WHEN waktu_mulai > '$today' THEN 2
+        //             ELSE 3
+        //         END", 'ASC')
+        //     ->orderBy("
+        //         CASE
+        //             WHEN waktu_mulai > '$today' THEN waktu_mulai
+        //             ELSE NULL
+        //         END", 'ASC')
+        //     ->orderBy("
+        //         CASE
+        //             WHEN waktu_selesai < '$today' THEN waktu_selesai
+        //             ELSE NULL
+        //         END", 'DESC')
+
+        // ->orderBy("
+        // CASE
+        //     WHEN waktu_mulai <= '$today' AND waktu_selesai >= '$today' THEN 1
+        //     WHEN waktu_mulai > '$today' THEN 2
+        //     ELSE 3
+        // END", 'ASC')
+        // ->orderBy("
+        // CASE
+        //     WHEN waktu_mulai > '$today' THEN waktu_mulai
+        //     ELSE NULL
+        // END", 'ASC')
+        // ->orderBy('COALESCE(waktu_selesai, waktu_mulai)', 'DESC')
+        // ->limit($jumlah)
+        // ->get()
+        // ->getResultArray());
+        $sql = "
+            SELECT $this->table.*, galeri.uri
+            FROM $this->table
+            LEFT JOIN galeri ON $this->table.id_galeri = galeri.id
+            WHERE status = 'publikasi'
+            ORDER BY
                 CASE
                     WHEN waktu_mulai <= '$today' AND waktu_selesai >= '$today' THEN 1
                     WHEN waktu_mulai > '$today' THEN 2
                     ELSE 3
-                END", 'ASC')
-            ->orderBy("
+                END ASC,
                 CASE
                     WHEN waktu_mulai > '$today' THEN waktu_mulai
                     ELSE NULL
-                END", 'ASC')
-            ->orderBy("
-                CASE
-                    WHEN waktu_selesai < '$today' THEN waktu_selesai
-                    ELSE NULL
-                END", 'DESC')
-            ->limit($jumlah)
-            ->get()
-            ->getResultArray());
+                END ASC,
+                COALESCE(waktu_selesai, waktu_mulai) DESC
+            LIMIT $jumlah
+        ";
+        $query = $this->db->query($sql);
+        return $this->formatDateToArray($query->getResultArray());
     }
 
     /**
