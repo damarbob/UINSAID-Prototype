@@ -18,7 +18,8 @@ class Email extends BaseConfig
     /**
      * The mail sending protocol: mail, sendmail, smtp
      */
-    public string $protocol = 'mail';
+    // public string $protocol = 'mail';
+    public string $protocol = 'smtp';
 
     /**
      * The server path to Sendmail.
@@ -28,7 +29,8 @@ class Email extends BaseConfig
     /**
      * SMTP Server Address
      */
-    public string $SMTPHost = '';
+    // public string $SMTPHost = '';
+    public string $SMTPHost = '127.0.0.1';
 
     /**
      * SMTP Username
@@ -43,7 +45,8 @@ class Email extends BaseConfig
     /**
      * SMTP Port
      */
-    public int $SMTPPort = 25;
+    // public int $SMTPPort = 25;
+    public int $SMTPPort = 1025;
 
     /**
      * SMTP Timeout (in seconds)
@@ -58,7 +61,8 @@ class Email extends BaseConfig
     /**
      * SMTP Encryption. Either tls or ssl
      */
-    public string $SMTPCrypto = 'tls';
+    // public string $SMTPCrypto = 'tls';
+    public string $SMTPCrypto = '';
 
     /**
      * Enable word-wrap

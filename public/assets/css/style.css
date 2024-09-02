@@ -523,11 +523,11 @@ body {
 }
 
 /* Slideshow */
-#hero .container .row {
+/* #hero .container .row {
   height: 100vh;
   max-height: 1080px;
 }
-/* #hero .section-slideshow {
+#hero .section-slideshow {
   position: static;
   width: 100%;
   max-width: 1920px;
@@ -536,7 +536,7 @@ body {
   max-height: 700px;
   background-size: cover;
   background-position: center;
-} */
+} 
 #hero .card-body {
   background: rgba(var(--mdb-black-rgb), 0.5);
-}
+} */

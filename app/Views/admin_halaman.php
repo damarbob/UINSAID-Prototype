@@ -38,7 +38,7 @@
             "language": {
                 url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/id.json'
             },
-            dom: '<"row gy-2 mb-2"<"col-lg-6"B><"col-lg-6"f>>r<"table-responsive"t><"row gy-2"<"col-md-6"i><"col-md-6"p>><"row my-2"<"col">>',
+            dom: '<"d-flex align-items-center mb-2"<"flex-grow-1"B><""f>>r<"table-responsive"t><"row gy-2"<"col-md-6"i><"col-md-6"p>><"row my-2"<"col">>',
             "rowCallback": function(row, data, index) {
                 // Add double-click event to navigate to Edit page
                 $(row).on('dblclick', function() {
@@ -135,6 +135,12 @@
             buttons.eq(2).removeClass("btn-secondary").addClass("btn-primary");
             lastButton.removeClass("btn-secondary").addClass("btn-danger").addClass("rounded-0");
 
+        });
+
+        // Add MDB styles to the search input after initialization
+        tabel.on('init.dt', function() {
+            $('div.dataTables_filter input').addClass('form-control form-control-md'); // Apply MDB form control styles
+            $('div.dataTables_filter label').addClass('form-label'); // Apply MDB label styles
         });
     });
 </script>
