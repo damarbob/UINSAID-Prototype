@@ -36,11 +36,13 @@ if ($mode == "tambah") {
     // Apabila mode tambah, bawa nilai lama form agar setelah validasi tidak hilang
     $valuePengumuman = (old('pengumuman'));
     $valueDeskripsi = (old('deskripsi'));
-    $valueWaktu = (old('waktu'));
+    $valueWaktuMulai = (old('waktu_mulai'));
+    $valueWaktuSelesai = (old('waktu_selesai'));
     $valueStatus = (old('status'));
     $valueGaleri = (old('galeri'));
     $valueIdGaleri = (old('id_galeri'));
     $valueUploadImage = (old('uploadimage'));
+    $pengumuman['uri'] = null;
 } else {
     $waktuMulai = strtotime($pengumuman['waktu_mulai']);
     $waktuMulaiFormat = date("Y-m-d H:i", $waktuMulai);
@@ -74,7 +76,7 @@ if ($mode == "tambah") {
 <form method="post" action="<?= ($mode == "tambah") ? base_url('/admin/pengumuman/tambah/simpan') : base_url('/admin/pengumuman/sunting/simpan/') . $pengumuman['id'] ?>" class="form-container needs-validation" enctype="multipart/form-data" novalidate>
     <?= csrf_field() ?>
     <div class="row mb-3">
-        <div class="col-12">
+        <div class="col-12 mb-3">
             <!-- Pengumuman -->
             <div class="form-floating mb-3">
                 <input id="pengumuman" name="pengumuman" class="form-control <?= (validation_show_error('pengumuman')) ? 'is-invalid' : ''; ?>" type="text" value="<?= $valuePengumuman ?>" placeholder="<?= lang('Admin.pengumuman') ?>" required />
@@ -127,10 +129,10 @@ if ($mode == "tambah") {
 
             <!-- Pre-selected or newly selected Image Section -->
             <div id="section-gambar-terpilih" class="mb-3" <?= !$valueIdGaleri ? 'style="display:none;"' : '' ?>>
-                <img id="gambar-terpilih" src="<?= $valueGaleri ? $valueGaleri : '' ?>" alt="Selected Image" style="max-width: 200px; max-height: 200px" />
+                <img id="gambar-terpilih" src="<?= $valueGaleri ? $valueGaleri : null ?>" alt="Selected Image" style="max-width: 200px; max-height: 200px" />
                 <button type="button" id="hapus-gambar-terpilih" class="btn btn-danger btn-sm"><?= lang('Admin.hapus') ?></button>
                 <!-- <button type="button" id="ubah-gambar-terpilih" class="btn btn-warning btn-sm"><?= lang('Admin.ubah') ?></button> -->
-                <input type="hidden" name="galeri" value="<?= $valueIdGaleri ? $valueIdGaleri : '' ?>" id="selected-image-id">
+                <input type="hidden" name="galeri" value="<?= $valueIdGaleri ? $valueIdGaleri : null ?>" id="selected-image-id">
             </div>
 
             <!-- Radio sumber gambar -->

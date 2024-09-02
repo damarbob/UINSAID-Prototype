@@ -151,9 +151,11 @@ class PengumumanAdmin extends BaseControllerAdmin
                 ];
                 $galeriModel->save($data);
                 $galeriId = $galeriModel->getInsertID();
-            } else $galeriId = $this->request->getVar('galeri'); // Jika gambar tidak valid, ambil galeri (memungkinkan bernilai NULL) 
+            } else {
+                $galeriId = $this->request->getVar('galeri') != '' ? $this->request->getVar('galeri') : null; // Jika gambar tidak valid, ambil galeri (memungkinkan bernilai NULL)
+            }
         } else {
-            $galeriId = $this->request->getVar('galeri');
+            $galeriId = $this->request->getVar('galeri')  != '' ? $this->request->getVar('galeri') : null;
         }
 
         // Simpan pengumuman
@@ -163,7 +165,7 @@ class PengumumanAdmin extends BaseControllerAdmin
                 'pengumuman' => $this->request->getVar('pengumuman'),
                 'deskripsi' => $this->request->getVar('deskripsi'),
                 'waktu_mulai' => $this->request->getVar('waktu_mulai'),
-                'waktu_selesai' => $this->request->getVar('waktu_selesai'),
+                'waktu_selesai' => $this->request->getVar('waktu_selesai') != '' ? $this->request->getVar('waktu_selesai') : null,
                 'status' => $this->request->getVar('status'),
                 'id_galeri' => $galeriId,
             ];
@@ -179,7 +181,7 @@ class PengumumanAdmin extends BaseControllerAdmin
                 'pengumuman' => $this->request->getVar('pengumuman'),
                 'deskripsi' => $this->request->getVar('deskripsi'),
                 'waktu_mulai' => $this->request->getVar('waktu_mulai'),
-                'waktu_selesai' => $this->request->getVar('waktu_selesai'),
+                'waktu_selesai' => $this->request->getVar('waktu_selesai') != '' ? $this->request->getVar('waktu_selesai') : null,
                 'status' => $this->request->getVar('status'),
                 'id_galeri' => $galeriId,
             ]);

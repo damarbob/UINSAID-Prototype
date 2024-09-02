@@ -2,6 +2,7 @@
 
 <?= $this->section('style') ?>
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
+<link href="https://unpkg.com/gijgo@1.9.14/css/gijgo.min.css" rel="stylesheet" type="text/css" />
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
@@ -15,13 +16,17 @@ if ($mode == "tambah") {
     $valueRingkasan = (old('ringkasan'));
     $valueKategori = (old('kategori'));
     $valueStatus = (old('status'));
+    $valueTglTerbit = (old('tgl_terbit'));
 } else {
+    $tglTerbit = strtotime($berita['tgl_terbit']);
+    $tglTerbitFormat = date("Y-m-d H:i", $tglTerbit);
     // Apabila mode edit, apabila ada nilai lama (old), gunakan nilai lama. Apabila tidak ada nilai lama (old), gunakan nilai dari variabel
     $valueJudul = (old('judul')) ? old('judul') : $berita['judul'];
     $valueKonten = (old('konten')) ? old('konten') : $berita['konten'];
     $valueRingkasan = (old('ringkasan')) ? old('ringkasan') : $berita['ringkasan'];
     $valueKategori = (old('kategori')) ? old('kategori') : $berita['kategori'];
     $valueStatus = (old('status')) ? old('status') : $berita['status'];
+    $valueTglTerbit = (old('tgl_terbit')) ? old('tgl_terbit') : $berita['tgl_terbit'];
 }
 ?>
 <?php if (session()->getFlashdata('sukses')) : ?>
@@ -73,7 +78,7 @@ if ($mode == "tambah") {
                     <?= validation_show_error('kategori'); ?>
                 </div>
             </div> -->
-            <?php foreach ($kategori as $k => $key): ?>
+            <!-- <?php foreach ($kategori as $k => $key): ?>
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="kategori" id="kategoriRadio<?= $key['nama'] ?>" value="<?= $key['nama'] ?>" <?= $key['nama'] == $valueKategori ? 'checked' : '' ?> required />
                     <label class="form-check-label" for="kategoriRadio<?= $key['nama'] ?>"><?= $key['nama'] ?></label>
@@ -86,7 +91,24 @@ if ($mode == "tambah") {
                 <div class="invalid-feedback">
                     <?= lang('Admin.pilihAtauInputKategori') ?>
                 </div>
+            </div> -->
+            <div class="mb-3">
+                <label for="kategoriSelect" class="form-label"><?= lang('Admin.kategori') ?></label>
+                <select class="form-select" id="kategoriSelect" name="kategori" required>
+                    <?php foreach ($kategori as $key): ?>
+                        <option value="<?= $key['nama'] ?>" <?= $key['nama'] == $valueKategori ? 'selected' : '' ?>><?= $key['nama'] ?></option>
+                    <?php endforeach ?>
+                    <option value=""><?= lang('Admin.tambahBaru') ?></option>
+                </select>
+                <!-- <div class="invalid-feedback">
+                    <?= lang('Admin.pilihAtauInputKategori') ?>
+                </div> -->
             </div>
+
+            <div class="mb-3">
+                <input type="text" class="form-control mt-2 mb-3" id="inputKategoriLainnya" name="kategori_lainnya" placeholder="input kategori" disabled>
+            </div>
+
 
             <!-- Status -->
             <div class="form-floating mb-3">
@@ -105,6 +127,18 @@ if ($mode == "tambah") {
                 <label for="status"><?= lang('Admin.status') ?></label>
                 <div class="invalid-feedback">
                     <?= validation_show_error('status'); ?>
+                </div>
+
+            </div>
+            <div class="form-floating mb-3">
+                <!-- Tanggal terbit -->
+                <div class="form mb-3">
+                    <label for="terbit"><?= lang('Admin.tanggalTerbit') ?></label>
+                    <input id="terbit" name="tgl_terbit" class="form-control <?= (validation_show_error('terbit')) ? 'is-invalid' : ''; ?>" required value="<?= $valueTglTerbit ?>" />
+                    <div class="invalid-feedback">
+                        <?= lang('Admin.harusDiinput'); ?>
+                    </div>
+
                 </div>
             </div>
             <!-- Tombol simpan -->
@@ -218,10 +252,28 @@ if ($mode == "tambah") {
 
 <!-- Handle kategori lainnya -->
 <script>
+    // Select
     document.addEventListener('DOMContentLoaded', function() {
+        const selectKategori = document.getElementById('kategoriSelect');
+        const inputKategoriLainnya = document.getElementById('inputKategoriLainnya');
+
+        selectKategori.addEventListener('change', function() {
+            if (selectKategori.value === '') { // If "Lainnya" is selected
+                inputKategoriLainnya.disabled = false;
+                inputKategoriLainnya.required = true;
+            } else {
+                inputKategoriLainnya.disabled = true;
+                inputKategoriLainnya.required = false;
+                inputKategoriLainnya.value = ''; // Clear the input if another option is selected
+            }
+        });
+    });
+
+    // Radio
+    /* document.addEventListener('DOMContentLoaded', function() {
         const radioLainnya = document.getElementById('kategoriRadioLainnya');
         const inputKategoriLainnya = document.getElementById('inputKategoriLainnya');
-        const form = document.querySelector('form');
+        // const form = document.querySelector('form');
 
         // Event listener for radio buttons
         document.querySelectorAll('input[name="kategori"]').forEach(function(radio) {
@@ -246,6 +298,20 @@ if ($mode == "tambah") {
         //         inputKategoriLainnya.classList.remove('is-invalid');
         //     }
         // });
+    }); */
+</script>
+
+<!-- datetimepicker -->
+<script src="https://unpkg.com/gijgo@1.9.14/js/gijgo.min.js" type="text/javascript"></script>
+<script>
+    $('#terbit').datetimepicker({
+        datepicker: {
+            showOtherMonths: true,
+        },
+        footer: true,
+        modal: true,
+        format: 'yyyy-mm-dd HH:MM',
+        uiLibrary: 'materialdesign',
     });
 </script>
 

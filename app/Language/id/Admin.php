@@ -76,6 +76,8 @@ return [
     'gambarTerhapus' => 'Gambar terhapus.',
     'gambarTidakDitemukan' => 'Gambar tidak ditemukan',
 
+    'tanggalTerbit' => 'Tanggal terbit',
+
     // Berita diajukan
     'beritaDiajukan' => 'Berita Diajukan',
     'gagalMenyimpanEntriDenganJudul' => 'Gagal menyimpan entri dengan judul: {judul}',
@@ -138,6 +140,7 @@ return [
     'penghapusanGagal' => 'Penghapusan gagal',
 
     'lainnya' => 'Lainnya',
+    'tambahBaru' => 'Tambah baru',
     'pilihAtauInputKategori' => 'Pilih atau input kategori',
 
     'waktu' => 'Waktu',

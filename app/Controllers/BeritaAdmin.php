@@ -136,18 +136,19 @@ class BeritaAdmin extends BaseControllerAdmin
             return redirect()->to($redirectTo)->withInput();
         }
 
-        // Cek kategori
-        $kategoriNama = $this->request->getVar('kategori');
+        // Get kategori from the request
+        $kategoriNama = $this->request->getVar('kategori') ?: $this->request->getVar('kategori_lainnya');
 
-        if ($kategoriNama == '') {
-            $kategoriNama = $this->request->getVar('kategori_lainnya');
-        }
+        // Check if the kategori exists
         $kategori = $this->kategoriModel->getKategoriByNama($kategoriNama);
-        // Cek kategori. Jika baru, simpan kategori baru
+
+        // If the kategori does not exist, create a new one
         if (!$kategori) {
             $this->kategoriModel->save(['nama' => $kategoriNama]);
             $kategori = $this->kategoriModel->getKategoriByNama($kategoriNama);
         }
+
+        // dd($kategori);
 
         // Simpan rilis media
         if ($id == null) {
@@ -160,6 +161,7 @@ class BeritaAdmin extends BaseControllerAdmin
                 'id_kategori' => $kategori['id'],
                 'status' => $this->request->getVar('status'),
                 'sumber' => base_url(),
+                'tgl_terbit' => $this->request->getVar('tgl_terbit'),
             ];
 
             // Jika ID kosong, buat entri baru
@@ -177,6 +179,7 @@ class BeritaAdmin extends BaseControllerAdmin
                 'ringkasan' => $this->request->getVar('ringkasan'),
                 'id_kategori' => $kategori['id'],
                 'status' => $this->request->getVar('status'),
+                'tgl_terbit' => $this->request->getVar('tgl_terbit'),
             ]);
 
             // Pesan berhasil diperbarui
@@ -303,6 +306,9 @@ class BeritaAdmin extends BaseControllerAdmin
                 'rules' => 'required',
             ],
             'status' => [
+                'rules' => 'required',
+            ],
+            'tgl_terbit' => [
                 'rules' => 'required',
             ],
         ];
