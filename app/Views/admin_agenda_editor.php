@@ -36,18 +36,23 @@ if ($mode == "tambah") {
     // Apabila mode tambah, bawa nilai lama form agar setelah validasi tidak hilang
     $valueAgenda = (old('agenda'));
     $valueDeskripsi = (old('deskripsi'));
-    $valueWaktu = (old('waktu'));
+    $valueWaktuMulai = (old('waktu_mulai'));
+    $valueWaktuSelesai = (old('waktu_selesai'));
     $valueStatus = (old('status'));
     $valueGaleri = (old('galeri'));
     $valueIdGaleri = (old('id_galeri'));
     $valueUploadImage = (old('uploadimage'));
+    $agenda['uri'] = null;
 } else {
-    $waktu = strtotime($agenda['waktu']);
-    $waktuFormat = date("Y-m-d H:i", $waktu);
+    $waktuMulai = strtotime($agenda['waktu_mulai']);
+    $waktuMulaiFormat = date("Y-m-d H:i", $waktuMulai);
+    $waktuSelesai = $agenda['waktu_selesai'] ? strtotime($agenda['waktu_selesai']) : null;
+    $waktuSelesaiFormat = $waktuSelesai ? date("Y-m-d H:i", $waktuSelesai) : '';
     // Apabila mode edit, apabila ada nilai lama (old), gunakan nilai lama. Apabila tidak ada nilai lama (old), gunakan nilai dari rilis media
     $valueAgenda = (old('agenda')) ? old('agenda') : $agenda['agenda'];
     $valueDeskripsi = (old('deskripsi')) ? old('deskripsi') : $agenda['deskripsi'];
-    $valueWaktu = (old('waktu')) ? old('waktu') : $waktuFormat;
+    $valueWaktuMulai = (old('waktu_mulai')) ? old('waktu_mulai') : $waktuMulaiFormat;
+    $valueWaktuSelesai = (old('waktu_selesai')) ? old('waktu_selesai') : $waktuSelesaiFormat;
     $valueStatus = (old('status')) ? old('status') : $agenda['status'];
     $valueGaleri = $agenda['uri'];
     $valueIdGaleri = (old('id_galeri')) ? old('id_galeri') : $agenda['id_galeri'];
@@ -71,7 +76,7 @@ if ($mode == "tambah") {
 <form method="post" action="<?= ($mode == "tambah") ? base_url('/admin/agenda/tambah/simpan') : base_url('/admin/agenda/sunting/simpan/') . $agenda['id'] ?>" class="form-container needs-validation" enctype="multipart/form-data" novalidate>
     <?= csrf_field() ?>
     <div class="row mb-3">
-        <div class="col-12">
+        <div class="col-12 mb-3">
             <!-- Agenda -->
             <div class="form-floating mb-3">
                 <input id="agenda" name="agenda" class="form-control <?= (validation_show_error('agenda')) ? 'is-invalid' : ''; ?>" type="text" value="<?= $valueAgenda ?>" placeholder="<?= lang('Admin.agenda') ?>" required />
@@ -89,13 +94,18 @@ if ($mode == "tambah") {
             </div>
         </div>
         <div class="col-md-6">
-            <!-- Waktu picker -->
+            <!-- Waktu mulai picker -->
             <div class="form mb-3">
-                <label for="waktu"><?= lang('Admin.waktu') ?></label>
-                <input id="waktu" name="waktu" class="form-control <?= (validation_show_error('waktu')) ? 'is-invalid' : ''; ?>" required value="<?= $valueWaktu ?>" />
+                <label for="waktu-mulai"><?= lang('Admin.waktuMulai') ?></label>
+                <input id="waktu-mulai" name="waktu_mulai" class="form-control <?= (validation_show_error('waktu-mulai')) ? 'is-invalid' : ''; ?>" required value="<?= $valueWaktuMulai ?>" />
                 <div class="invalid-feedback">
                     <?= lang('Admin.harusDiinput'); ?>
                 </div>
+            </div>
+            <!-- Waktu selesai picker -->
+            <div class="form mb-3">
+                <label for="waktu-selesai"><?= lang('Admin.waktuSelesai') ?></label>
+                <input id="waktu-selesai" name="waktu_selesai" class="form-control <?= (validation_show_error('waktu-selesai')) ? 'is-invalid' : ''; ?>" value="<?= $valueWaktuSelesai ?>" />
             </div>
             <!-- Status -->
             <div class="form-floating mb-4">
@@ -119,10 +129,10 @@ if ($mode == "tambah") {
 
             <!-- Pre-selected or newly selected Image Section -->
             <div id="section-gambar-terpilih" class="mb-3" <?= !$valueIdGaleri ? 'style="display:none;"' : '' ?>>
-                <img id="gambar-terpilih" src="<?= $valueGaleri ? $valueGaleri : '' ?>" alt="Selected Image" style="max-width: 200px; max-height: 200px" />
+                <img id="gambar-terpilih" src="<?= $valueGaleri ? $valueGaleri : null ?>" alt="Selected Image" style="max-width: 200px; max-height: 200px" />
                 <button type="button" id="hapus-gambar-terpilih" class="btn btn-danger btn-sm"><?= lang('Admin.hapus') ?></button>
                 <!-- <button type="button" id="ubah-gambar-terpilih" class="btn btn-warning btn-sm"><?= lang('Admin.ubah') ?></button> -->
-                <input type="hidden" name="galeri" value="<?= $valueIdGaleri ? $valueIdGaleri : '' ?>" id="selected-image-id">
+                <input type="hidden" name="galeri" value="<?= $valueIdGaleri ? $valueIdGaleri : null ?>" id="selected-image-id">
             </div>
 
             <!-- Radio sumber gambar -->
@@ -187,15 +197,38 @@ if ($mode == "tambah") {
 
 <!-- Datetime picker -->
 <script>
-    $('#waktu').datetimepicker({
+    $('#waktu-mulai').datetimepicker({
         datepicker: {
-            showOtherMonths: true
+            showOtherMonths: true,
+            maxDate: function() {
+                return $('#waktu-selesai').val();
+            },
+            keyboardNavigation: false,
         },
         footer: true,
         modal: true,
-        // locale: 'id-id',
         format: 'yyyy-mm-dd HH:MM',
-        uiLibrary: 'materialdesign'
+        uiLibrary: 'materialdesign',
+    });
+    $('#waktu-selesai').datetimepicker({
+        datepicker: {
+            showOtherMonths: true,
+            keyboardNavigation: false,
+            minDate: function() {
+                var waktuMulai = $('#waktu-mulai').val();
+                if (waktuMulai) {
+                    // Parse the date and subtract one day
+                    var date = new Date(waktuMulai);
+                    date.setDate(date.getDate() - 1);
+                    return date;
+                }
+                return 0; // Default to current date if waktu-mulai is not set
+            },
+        },
+        footer: true,
+        modal: true,
+        format: 'yyyy-mm-dd HH:MM',
+        uiLibrary: 'materialdesign',
     });
 </script>
 

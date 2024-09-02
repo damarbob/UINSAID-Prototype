@@ -55,32 +55,50 @@ class AgendaModel extends \CodeIgniter\Model
     public function getTerbaru($jumlah)
     {
         $today = date('Y-m-d H:i:s');
-        // return $this->select('agenda.*, galeri.uri')
-        return $this->db->table($this->table)
-            ->select('agenda.*, galeri.uri')
-            ->where('status', 'publikasi')
-            ->join('galeri', 'galeri.id = agenda.id_galeri', 'left')
-            ->orderBy("
+        // return $this->db->table($this->table)
+        //     ->select('agenda.*, galeri.uri')
+        //     ->where('status', 'publikasi')
+        //     ->join('galeri', 'galeri.id = agenda.id_galeri', 'left')
+        //     ->orderBy("
+        //         CASE
+        //             WHEN waktu_mulai <= '$today' AND waktu_selesai >= '$today' THEN 1
+        //             WHEN waktu_mulai > '$today' THEN 2
+        //             ELSE 3
+        //         END", 'ASC')
+        //     ->orderBy("
+        //         CASE
+        //             WHEN waktu_mulai > '$today' THEN waktu_mulai
+        //             ELSE NULL
+        //         END", 'ASC')
+        //     ->orderBy("
+        //         CASE
+        //             WHEN waktu_selesai < '$today' THEN waktu_selesai
+        //             ELSE NULL
+        //         END", 'DESC')
+        //     ->limit($jumlah)
+        //     ->get()
+        //     ->getResultArray();
+
+        $sql = "
+            SELECT $this->table.*, galeri.uri
+            FROM $this->table
+            LEFT JOIN galeri ON $this->table.id_galeri = galeri.id
+            WHERE status = 'publikasi'
+            ORDER BY
                 CASE
                     WHEN waktu_mulai <= '$today' AND waktu_selesai >= '$today' THEN 1
                     WHEN waktu_mulai > '$today' THEN 2
                     ELSE 3
-                END", 'ASC')
-            ->orderBy("
+                END ASC,
                 CASE
                     WHEN waktu_mulai > '$today' THEN waktu_mulai
                     ELSE NULL
-                END", 'ASC')
-            ->orderBy("
-                CASE
-                    WHEN waktu_selesai < '$today' THEN waktu_selesai
-                    ELSE NULL
-                END", 'DESC')
-            ->limit($jumlah)
-            ->get()
-            ->getResultArray();
-        // ->orderBy('agenda.waktu_mulai', 'DESC')
-        // ->findAll($jumlah);
+                END ASC,
+                COALESCE(waktu_selesai, waktu_mulai) DESC
+            LIMIT $jumlah
+        ";
+        $query = $this->db->query($sql);
+        return $query->getResultArray();
     }
 
     /**
