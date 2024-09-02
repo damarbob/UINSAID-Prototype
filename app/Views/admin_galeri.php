@@ -87,7 +87,21 @@
                 </div>
             </div>
             <div>
-                <!-- TODO: Pencarian gambar -->
+                <!-- Pencarian gambar -->
+                <form class="row row-cols-lg-auto g-3 align-items-center" method="get" action="/admin/galeri">
+                    <div class="col-12">
+                        <label class="visually-hidden" for="judulGambar"><?= lang('Admin.judulGambar') ?></label>
+                        <div class="input-group">
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="judulGambar"
+                                placeholder="<?= lang('Admin.judulGambar') ?>"
+                                name="search" />
+                            <button data-mdb-ripple-init type="submit" class="btn btn-primary"><?= lang('Admin.cari') ?></button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
 
