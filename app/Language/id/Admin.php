@@ -187,6 +187,7 @@ return [
     'jenisFileTidakValidHanyaJPEGPNGGIFYangDiperbolehkan' => 'Jenis file tidak valid. Hanya file JPEG, PNG, dan GIF yang diperbolehkan.',
 
     'cari' => 'Cari',
+    'cariGambar' => 'Cari gambar',
 
     // Situs
     'situs' => 'Situs',

@@ -229,11 +229,17 @@
             data-uri="<?= $key['uri'] ?>"
             data-title="<?= $key['agenda'] ?>"
             data-deskripsi="<?= $key['deskripsi'] ?>"
-            data-waktu="<?= $key['waktu'] ?>">
+            data-waktu_mulai="<?= $key['waktu_mulai'] ?>">
 
             <!-- Konten agenda -->
             <div class="card-body">
-              <p class="card-text"><?= $key['formatted_datetime'] ?></p>
+              <p class="card-text"><?= $key['formatted_datetime'] ?>
+                <?php if ($key['waktu_selesai'] && strtotime($key['waktu_selesai']) < time()): ?>
+                  <span class="badge badge-danger">Selesai</span>
+                <?php elseif (!$key['waktu_selesai'] && strtotime($key['waktu_mulai']) < time()): ?>
+                  <span class="badge badge-danger">Selesai</span>
+                <?php endif; ?>
+              </p>
               <!-- <a href="#"> -->
               <p class="card-title text-body">
                 <?= $key['agenda'] ?>

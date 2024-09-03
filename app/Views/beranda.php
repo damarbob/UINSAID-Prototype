@@ -605,7 +605,7 @@
           </div>
         </div>
 
-        <div class="row pb-4">
+        <div class="row pb-4 g-3">
 
           <?php foreach ($pengumuman as $p => $key) : ?>
             <div class="col-lg-4" data-aos="fade-up" id="item-pengumuman">

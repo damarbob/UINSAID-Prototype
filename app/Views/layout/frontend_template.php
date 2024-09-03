@@ -310,8 +310,8 @@ $currentRoute = $request->uri->getPath();
         </div> -->
 
         <!-- Search -->
-        <form class="w-auto">
-          <input type="search" class="form-control" placeholder="Cari" aria-label="Search">
+        <form class="w-auto" method="get" action="/berita">
+          <input name="search" type="search" class="form-control" placeholder="Cari" aria-label="Search">
         </form>
 
       </div>

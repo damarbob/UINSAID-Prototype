@@ -20,6 +20,7 @@ class BeritaModel extends \CodeIgniter\Model
             ->join('users', 'users.id = berita.id_penulis', 'left')
             ->join('kategori', 'kategori.id = berita.id_kategori', 'left')
             ->where('kategori.nama', $kategori)
+            ->where('berita.status', 'publikasi')
             ->paginate(10, 'berita'));
     }
 
@@ -87,9 +88,16 @@ class BeritaModel extends \CodeIgniter\Model
             ->findAll());
     }
 
-    public function getPaginated()
+    public function getPaginated($search = '')
     {
-        return $this->formatSampul($this->select('berita.*, users.username as penulis, kategori.nama as kategori')
+        $builder = $this->table($this->table);
+
+        if (!empty($search)) {
+            $builder->like('judul', $search);
+        }
+
+        return $this->formatSampul($builder->select('berita.*, users.username as penulis, kategori.nama as kategori')
+            ->where('berita.status', 'publikasi')
             ->join('users', 'users.id = berita.id_penulis', 'left')
             ->join('kategori', 'kategori.id = berita.id_kategori', 'left')
             ->orderBy('berita.created_at', 'DESC')

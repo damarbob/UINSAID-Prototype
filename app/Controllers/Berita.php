@@ -17,7 +17,9 @@ class Berita extends BaseController
         helper('format');
         $this->data['judul'] = lang('Admin.berita');
 
-        $berita = format_tanggal($this->beritaModel->getPaginated());
+        $search = $this->request->getGet('search') ?? '';
+
+        $berita = format_tanggal($this->beritaModel->getPaginated($search));
         // dd(format_tanggal($berita));
         $this->data['berita'] = format_tanggal($berita);
         $this->data['pagerBerita'] = $this->beritaModel->pager;

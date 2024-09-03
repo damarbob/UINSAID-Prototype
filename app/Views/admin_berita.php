@@ -49,7 +49,7 @@
 
 
         <!-- <div class="table-responsive mt-3"> -->
-        <table class="table table-hover table-sm" id="tabelBerita" style="width: 100%;">
+        <table class="table table-hover" id="tabelBerita" style="width: 100%;">
             <thead>
                 <tr>
                     <td><?= lang('Admin.judul') ?></td>
