@@ -50,6 +50,7 @@ class BeritaDiajukanAdmin extends BaseControllerAdmin
                 $nestedData['id'] = $row->id;
                 $nestedData['judul'] = $row->judul;
                 $nestedData['penulis'] = $row->penulis_username;
+                $nestedData['konten'] = $row->konten;
                 $nestedData['kategori'] = $row->kategori;
                 $nestedData['pengajuan'] = $row->pengajuan;
                 $nestedData['created_at'] = $row->created_at;

@@ -1,7 +1,11 @@
 <?= $this->extend('layout/admin/admin_template') ?>
 
-<?= $this->section('content') ?>
+<?= $this->section('style') ?>
 <style>
+    #lihatModalKonten img {
+        max-width: 100%;
+    }
+
     .loader {
         width: 12px;
         height: 12px;
@@ -23,6 +27,39 @@
         }
     }
 </style>
+<?= $this->endSection() ?>
+
+<?= $this->section('content') ?>
+<!-- Modal -->
+<div class="modal fade" id="lihatModal" tabindex="-1" aria-labelledby="lihatModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="lihatModalLabel"><?= lang('Admin.judul') ?></h5>
+                <button type="button" class="btn-close" data-mdb-ripple-init data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p id="lihatModalKonten">
+                    ...
+                </p>
+            </div>
+            <div class="modal-footer d-flex justify-content-between">
+                <button type="button" class="btn btn-secondary" data-mdb-ripple-init data-bs-dismiss="modal">
+                    <i class="bi bi-chevron-left me-2"></i>
+                    <?= lang('Admin.batal') ?>
+                </button>
+                <button id="lihatModalTombolPublikasi" type="button" class="btn btn-primary" data-mdb-ripple-init>
+                    <i class="bi bi-check me-2"></i>
+                    <?= lang('Admin.publikasi') ?>
+                </button>
+                <button id="lihatModalTombolHapus" type="button" class="btn btn-danger" data-mdb-ripple-init>
+                    <i class="bi bi-trash me-2"></i>
+                    <?= lang('Admin.hapus') ?>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="row">
     <div class="col">
 
@@ -65,6 +102,9 @@
 <script src="<?= base_url('assets/js/datatables_process_bulk_new.js') ?>" type="text/javascript"></script>
 <script>
     $(document).ready(function() {
+
+        var lastDoubleClickedRowIndex = null;
+
         var table1 = $('#tabelRilisMedia').DataTable({
             processing: true,
             serverSide: true,
@@ -78,8 +118,16 @@
                     // Get the ID from the data
                     var id = data.id;
 
-                    // TODO: Navigate to the View page
+                    // Update input value from data
+                    $('#lihatModalLabel').html(data.judul);
+                    $('#lihatModalKonten').html(data.konten);
 
+                    $('#lihatModal').modal('show'); // Tampilkan modal lihat
+
+                    // Simpan indeks row yang terakhir terpilih
+                    lastDoubleClickedRowIndex = index;
+
+                    // console.log(index);
                 });
             },
             "columns": [{
@@ -160,6 +208,21 @@
             ],
         });
 
+        // Publikasi postingan terpilih aktif
+        $('#lihatModalTombolPublikasi').click(function() {
+            table1.row(lastDoubleClickedRowIndex).select();
+            console.log(table1.row(lastDoubleClickedRowIndex).data);
+            publikasiBanyak();
+            $('#lihatModal').modal('hide'); // Sembunyikan modal lihat
+        });
+
+        // Hapus postingan terpilih aktif
+        $('#lihatModalTombolHapus').click(function() {
+            table1.row(lastDoubleClickedRowIndex).select();
+            hapusBanyak();
+            $('#lihatModal').modal('hide'); // Sembunyikan modal lihat
+        });
+
         // Terima postingan massal
         function publikasiBanyak() {
             var options = {
@@ -192,7 +255,7 @@
         table1.on('select.dt', function(e, dt, type, indexes) {
             if (type === 'row') {
                 var data = table1.row(indexes).data();
-                console.log('Selected row data:', data);
+                // console.log('Selected row data:', data);
             }
         });
 
