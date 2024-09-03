@@ -10,7 +10,7 @@
 
 <section class="fluid mt-navbar d-flex">
 
-    <div class="lurik align-self-center mt-10"></div>
+    <div class="lurik align-self-center mt-10 d-none d-md-block"></div>
     <div class="container pt-5">
 
         <div class="row mb-4">

@@ -185,6 +185,7 @@ $currentRoute = $request->uri->getPath();
 
           <!-- Dropdown Pendidikan -->
           <li class="nav-item dropdown">
+            <!-- <div class="btn-group"> -->
             <a
               class="nav-link dropdown-toggle <?= $currentRoute == "pendidikan" ? "active" : "" ?>"
               role="button"
@@ -196,8 +197,10 @@ $currentRoute = $request->uri->getPath();
               aria-expanded="false">
               Pendidikan
             </a>
+            <!-- </div> -->
             <!-- Dropdown menu -->
             <ul class="dropdown-menu" aria-labelledby="navbarDropdownPendidikan">
+              <li><a href="<?= base_url('pendidikan') ?>" class="dropdown-item">Pendidikan</a></li>
               <li><a href="#" class="dropdown-item">Fakultas Usluhuddin dan Dakwah</a></li>
               <li><a href="#" class="dropdown-item">Fakultas Syariah</a></li>
               <li><a href="#" class="dropdown-item">Fakultas Ilmu Tarbiyah</a></li>
@@ -350,7 +353,7 @@ $currentRoute = $request->uri->getPath();
             </a>
           </li>
           <li class="nav-item text-center" style="flex: 1;"> <!-- todo: style -->
-            <a class="nav-link <?= $currentRoute == "kategori/berita" ? "active" : "" ?>" href="<?= base_url('kategori/berita') ?>">
+            <a class="nav-link <?= $currentRoute == "berita" ? "active" : "" ?>" href="<?= base_url('berita') ?>">
               <div>
                 <!-- <i class="fas fa-globe-americas fa-lg mb-1"></i> -->
                 <i class="bi bi-newspaper fs-1 mb-1"></i>
