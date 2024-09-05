@@ -124,6 +124,7 @@
 <script>
     $(document).ready(function() {
         var table1 = $('#tabel').DataTable({
+            // processing: true,
             ajax: "<?= base_url('/api/pengguna') ?>",
             "rowCallback": function(row, data, index) {
                 // Add double-click event to navigate to Edit page
@@ -201,6 +202,12 @@
                     text: '<i class="bx bx-printer"></i>'
                 },
                 {
+                    text: '<i class="bx bx-printer"></i>',
+                    action: function(e, dt, node, config) {
+                        window.location.href = "<?= base_url('admin/login-log') ?>";
+                    }
+                },
+                {
                     extend: 'selected',
                     text: '<i class="bx bx-trash"></i>',
                     action: function(e, dt, node, config) {
@@ -243,33 +250,52 @@
                 "aria-expanded": "false"
             });
 
+            // LATERTODO : ubah ke data dinamis berdasarkan grup user yang ada 
             var newElement = $(
                 '<ul class="dropdown-menu">' +
-                '<li><button id="btnFilterSemua" class="dropdown-item" type="button"><?= lang('Admin.semua') ?></button></li>' +
-                '<li><button id="btnFilterDipublikasikan" class="dropdown-item" type="button"><?= lang('Admin.publikasi') ?></button></li>' +
-                '<li><button id="btnFilterDraft" class="dropdown-item" type="button"><?= lang('Admin.draf') ?></button></li>' +
+                '<li><button id="btnFilterSemua" class="dropdown-item" type="button"><?= lang('Admin.semua') ?></button></li>'
+                <?php foreach ($auth_groups as $key => $a): ?> + '<li><button id="btnFilter<?= $key ?>" class="dropdown-item" type="button"><?= $key ?></button></li>'
+                <?php endforeach; ?>
+                // '<li><button id="btnFilterDraft" class="dropdown-item" type="button"><?= lang('Admin.user') ?></button></li>' +
+                +
                 '</ul>'
             );
 
             secondButton.after(newElement);
 
+            // Filter buttons and their respective group names
             var filterButtons = {
-                '#btnFilterSemua': '<?= base_url('/api/berita') ?>',
-                '#btnFilterDipublikasikan': '<?= base_url('/api/berita/dipublikasikan') ?>',
-                '#btnFilterDraft': '<?= base_url('/api/berita/draf') ?>'
+                '#btnFilterSemua': '',
+                <?php foreach ($auth_groups as $key => $a): ?> '#btnFilter<?= $key ?>': '<?= $key ?>',
+                <?php endforeach; ?>
             };
 
-            $.each(filterButtons, function(btnId, apiUrl) {
-                $(btnId).on('click', function() {
-                    $('#iconFilter').hide();
-                    $('#loaderFilter').show();
-                    table1.ajax.url(apiUrl).load(function() {
-                        $('#iconFilter').show();
-                        $('#loaderFilter').hide();
-                        $('#textFilter').html($(btnId).html());
-                    });
+            // Add click events to each button
+            $.each(filterButtons, function(button, groupName) {
+                $(button).on('click', function() {
+                    // Filter by group name in the 'Group' column
+                    table1.column(3).search(groupName).draw();
+                    $('#textFilter').html($(button).html());
                 });
             });
+
+            // var filterButtons = {
+            //     '#btnFilterSemua': '<?= base_url('/api/pengguna') ?>',
+            //     <?php foreach ($auth_groups as $key => $a): ?> '#btnFilter<?= $key ?>': '<?= base_url('/api/pengguna/' . $key) ?>',
+            //     <?php endforeach; ?> // ,'#btnFilterDraft': '<?= base_url('/api/berita/draf') ?>'
+            // };
+
+            // $.each(filterButtons, function(btnId, apiUrl) {
+            //     $(btnId).on('click', function() {
+            //         $('#iconFilter').hide();
+            //         $('#loaderFilter').show();
+            //         table1.ajax.url(apiUrl).load(function() {
+            //             $('#iconFilter').show();
+            //             $('#loaderFilter').hide();
+            //             $('#textFilter').html($(btnId).html());
+            //         });
+            //     });
+            // });
         });
 
     });

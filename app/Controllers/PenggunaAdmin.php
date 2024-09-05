@@ -27,16 +27,18 @@ class PenggunaAdmin extends BaseControllerAdmin
     {
         $this->data['judul'] = lang('Admin.pengguna');
         $combinedModel = new CombinedModel();
-        $this->data['usersWithAuthIdentities'] = $combinedModel->getAllUsersWithAuthIdentities();
+        $this->data['users_with_auth_identities'] = $combinedModel->getAllUsersWithAuthIdentities();
+
+        $this->data['auth_groups'] = config('AuthGroups')->groups;
         return view('admin_users', $this->data);
     }
 
-    public function get()
+    public function get($group = null)
     {
         $combinedModel = new CombinedModel();
 
         return $this->response->setJSON(json_encode([
-            "data" => format_tanggal($combinedModel->getAllUsersWithAuthIdentities())
+            "data" => format_tanggal($combinedModel->getAllUsersWithAuthIdentities($group))
         ]));
     }
 
