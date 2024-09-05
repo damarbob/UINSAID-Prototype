@@ -12,12 +12,22 @@ class CombinedModel extends Model
     // Define relationships
     protected $authIdentitiesTable = 'auth_identities';
 
-    public function getAllUsersWithAuthIdentities()
+    public function getAllUsersWithAuthIdentities($group = null)
     {
-        return $this->select('users.*, auth_groups_users.group, auth_identities.id as auth_identity_id, auth_identities.type, auth_identities.name, auth_identities.secret, auth_identities.secret2, auth_identities.expires, auth_identities.extra, auth_identities.force_reset, auth_identities.last_used_at')
+        $this->select('users.*, auth_groups_users.group, auth_identities.id as auth_identity_id, auth_identities.type, auth_identities.name, auth_identities.secret, auth_identities.secret2, auth_identities.expires, auth_identities.extra, auth_identities.force_reset, auth_identities.last_used_at')
             ->join('auth_identities', 'auth_identities.user_id = users.id')
-            ->join('auth_groups_users', 'auth_groups_users.user_id = users.id')
-            ->findAll();
+            ->join('auth_groups_users', 'auth_groups_users.user_id = users.id');
+
+        if ($group) {
+            $this->where('auth_groups_users.group', $group);
+        }
+
+        return $this->findAll();
+        // return $this->select('users.*, auth_groups_users.group, auth_identities.id as auth_identity_id, auth_identities.type, auth_identities.name, auth_identities.secret, auth_identities.secret2, auth_identities.expires, auth_identities.extra, auth_identities.force_reset, auth_identities.last_used_at')
+        //     ->join('auth_identities', 'auth_identities.user_id = users.id')
+        //     ->join('auth_groups_users', 'auth_groups_users.user_id = users.id')
+        //     ->where('auth_groups_users.group', $group)
+        //     ->findAll();
     }
 
     public function updateUser($userId, $userData)

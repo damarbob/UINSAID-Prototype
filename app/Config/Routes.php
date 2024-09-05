@@ -210,6 +210,7 @@ $routes->group('api', static function ($routes) {
 
     // Pengguna
     $routes->get('pengguna', 'PenggunaAdmin::get');
+    $routes->get('pengguna/(:any)', 'PenggunaAdmin::get/$1');
 
     // Situs
     $routes->get('situs', 'SitusAdmin::get');
