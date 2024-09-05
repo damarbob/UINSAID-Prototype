@@ -39,8 +39,12 @@ $routes->get('/kategori/(:any)', 'Berita::getByKategori/$1');
 $routes->get('test', 'BeritaAdmin::test');
 $routes->get('xml-migration', 'XmlMigrationController::migrate');
 $routes->get('xml-migration-lampiran', 'XmlMigrationLampiranController::migrate');
+$routes->get('entitas', 'Entitas');
 
-// Dynamic routes for each page based on slug
+// TESTING ROUTES
+// $routes->get('/entitas', 'Entitas');
+
+// Route dinamis untuk halaman yang dibuat
 $routes->group('halaman', function ($routes) {
     $halamanModel = new \App\Models\HalamanModel();
     $pages = $halamanModel->findAll();
@@ -48,6 +52,17 @@ $routes->group('halaman', function ($routes) {
     foreach ($pages as $page) {
         $slug = $page['slug'];
         $routes->get($slug, 'HalamanAdmin::view/' . $page['id']);
+    }
+});
+
+// Route dinamis untuk entitas yang dibuat
+$routes->group('entitas', function ($routes) {
+    $entitasModel = new \App\Models\EntitasModel();
+    $entitas = $entitasModel->findAll();
+
+    foreach ($entitas as $e) {
+        $slug = $e['slug'];
+        $routes->get($slug, 'Entitas::get/' . $e['slug']);
     }
 });
 

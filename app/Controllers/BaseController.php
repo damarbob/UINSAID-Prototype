@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\BeritaModel;
 use App\Models\KategoriModel;
 use App\Models\AgendaModel;
+use App\Models\EntitasModel;
 use App\Models\HalamanModel;
 use App\Models\KomponenModel;
 use App\Models\PengumumanModel;
@@ -52,10 +53,11 @@ abstract class BaseController extends Controller
      */
     // protected $session;
 
-    protected $beritaModel;
-    protected $kategoriModel;
-    protected $agendaModel;
-    protected $pengumumanModel;
+    protected BeritaModel $beritaModel;
+    protected KategoriModel $kategoriModel;
+    protected AgendaModel $agendaModel;
+    protected PengumumanModel $pengumumanModel;
+    protected EntitasModel $entitasModel;
 
     // Page builder models
     protected $halamanModel;
@@ -78,6 +80,7 @@ abstract class BaseController extends Controller
         $this->kategoriModel = new KategoriModel();
         $this->agendaModel = new AgendaModel();
         $this->pengumumanModel = new PengumumanModel();
+        $this->entitasModel = new EntitasModel();
 
         $this->halamanModel = new HalamanModel();
         $this->komponenModel = new KomponenModel();

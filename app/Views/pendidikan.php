@@ -58,8 +58,8 @@
   <div class="container p-5">
     <div class="row g-5">
 
-      <!-- program sarjana -->
-      <div class="col">
+      <!-- Program sarjana -->
+      <div class="col-lg-6">
         <h1>Program Sarjana</h1>
         <div class="lurik-3 mb-4"></div>
         <h4>Mari Raih Gelar Pertama Anda!</h4>
@@ -116,8 +116,8 @@
         </ul>
       </div>
 
-      <!-- program pascasarjana -->
-      <div class="col">
+      <!-- Program pascasarjana -->
+      <div class="col-lg-6">
         <h1>Program Pascasarjana</h1>
         <div class="lurik-3 mb-4"></div>
         <h4>Mari Tingkatkan Kompetensi Profesional Anda!</h4>
@@ -180,5 +180,4 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('script') ?>
-<script type="text/javascript" src="<?= base_url("assets/js/beranda.js") ?>"></script>
 <?= $this->endSection() ?>

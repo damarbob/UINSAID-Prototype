@@ -16,12 +16,12 @@
             </a>
             <!-- Dropdown - User Information -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="<?= base_url('admin/atur-profil') ?>">
+                <!-- <a class="dropdown-item" href="<?= base_url('admin/atur-profil') ?>">
                     <i class="icon bi bi-person-circle me-2 text-gray-400"></i>
                     Atur Profil
-                </a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="<?= base_url('akun/logout') ?>">
+                </a> 
+                <div class="dropdown-divider"></div>-->
+                <a class="dropdown-item" href="<?= base_url('logout') ?>">
                     <i class="bi bi-box-arrow-left me-2 text-gray-400"></i>
                     Logout
                 </a>

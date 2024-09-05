@@ -153,7 +153,7 @@
         <!-- Akhir paginasi -->
     </div>
 </div>
-<div class="container mt-4">
+<div class="container mt-4 mb-5">
     <div class="row">
         <div class="col text-center">
             <?php foreach ($kategori as $key => $k) : ?>

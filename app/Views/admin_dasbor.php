@@ -37,7 +37,7 @@ $date = format_tanggal_dari_timestamp(time());
             </div>
 
             <!-- Kotak Masuk -->
-            <div class="col-lg-6 col-xl-4">
+            <div class="col-lg-6 col-xl-4 d-none">
                 <a href="<?= base_url('admin/kotak-masuk') ?>">
                     <div class="card border <?= ($adaKotakMasukBelumTerbaca) ? 'border-success' : 'border-primary' ?>">
                         <div class="card-body">

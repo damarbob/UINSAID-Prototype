@@ -21,7 +21,7 @@ $currentRoute = $request->uri->getPath();
                     <span class="nav_name">Dasbor</span>
                 </a>
             </div>
-            <div class="nav-list">
+            <div class="nav-list d-none">
                 <a href="<?= base_url('admin/halaman') ?>" class="nav-link-admin <?= $currentRoute == "admin/halaman" ? "active" : "" ?>">
                     <i class='bx bx-file nav_icon'></i>
                     <span class="nav_name">
@@ -68,7 +68,7 @@ $currentRoute = $request->uri->getPath();
                     <span class="nav_name">Galeri</span>
                 </a>
             </div>
-            <div class="nav-list">
+            <div class="nav-list d-none">
                 <a href="<?= base_url('admin/kotak-masuk') ?>" class="nav-link-admin <?= $currentRoute == "admin/kotak-masuk" ? "active" : "" ?>">
                     <i class='bx bxs-inbox nav_icon'></i>
                     <span class="nav_name">

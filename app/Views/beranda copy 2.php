@@ -181,36 +181,17 @@
 <!-- Section Poin Akademik -->
 <section class="fluid" id="section-poin-akademik">
 
+  <!-- <div class="lurik-silk"></div> -->
+
   <div class="container p-5 pe-5">
     <div class="row g-4">
 
       <!-- Poin-poin -->
       <?php foreach ($poinAkademik as $p => $key) : ?>
-        <div class="col-xl-6" data-aos="fade-right">
-          <div class="card mb-3 border border-primary-subtle border-1 rounded-5 gradient-1">
-            <div class="row g-0">
-              <div class="col-md-4">
-                <img
-                  src="<?= $key['gambar'] ?>"
-                  alt="Trendy Pants and Shoes"
-                  class="poin-akademik-gambar rounded-start object-fit-cover" />
-              </div>
-              <div class="col-md-8">
-                <div class="card-body">
-                  <h5 class="card-title fw-bold"><?= $key['judul'] ?></h5>
-                  <p class="card-text">
-                    <?= $key['keterangan'] ?>
-                  </p>
-                  <a href="" class="text-body fw-bold">Selengkapnya <span class="ms-2">›</span></a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- <div class="col-lg-6" data-aos="fade-right">
+        <div class="col-lg-6" data-aos="fade-right">
           <div class="card d-flex flex-sm-row border border-primary-subtle border-1 rounded-5 overflow-hidden gradient-1">
-            <div class="poin-akademik-gambar h-100 border-start border-primary border-2 border-lg-5 rounded-5 overflow-hidden" style="background: url('<?= $key['gambar'] ?>'); background-repeat: no-repeat; background-size: cover;">
-              <img src="" class="object-fit-cover">
+            <div class="poin-akademik-gambar ratio ratio-1x1 border-start border-primary border-2 border-lg-5 rounded-5 overflow-hidden" style="background: url('<?= $key['gambar'] ?>'); background-repeat: no-repeat; background-size: cover;">
+              <!-- <img src="" class="object-fit-cover"> -->
             </div>
             <div class="card-body flex-grow-1">
               <h5 class="card-title fw-bold"><?= $key['judul'] ?></h5>
@@ -218,7 +199,7 @@
               <a href="" class="text-body fw-bold">Selengkapnya <span class="ms-2">›</span></a>
             </div>
           </div>
-        </div> -->
+        </div>
       <?php endforeach ?>
 
     </div>
@@ -410,7 +391,7 @@
             </div> -->
             <div class="card-body">
               <p class="card-text"><?= $key['created_at_terformat'] ?></p>
-              <a href="<?= base_url('berita/' . $key['slug']) ?>">
+              <a href="#">
                 <p class="card-title text-body">
                   <?= $key['judul'] ?>
                 </p>
@@ -442,7 +423,7 @@
                       <img src="<?= $b['gambar_sampul'] ?>" class="card-img" alt="Gambar Berita">
                     </div>
                     <div class="d-flex flex-column justify-content-center ps-3">
-                      <a href="<?= base_url('berita/' . $b['slug']) ?>">
+                      <a href="">
                         <h6 class="card-title text-body"><?= $b['judul'] ?></h6>
                       </a>
                       <div class="d-flex align-items-center mb-2">
@@ -672,6 +653,39 @@
   </div>
 </section>
 <!-- End of Section Pengumuman -->
+
+<!-- Section Kerjasama -->
+<section id="kerjasama" class="d-flex section-batik rev-180 align-items-center">
+  <div class="container p-5">
+
+    <div class="row mb-5 text-center" data-aos="fade-up">
+      <div class="col">
+        <h1 class="fw-bold">Kerjasama</h1>
+        <p class="fs-4">Pendidikan, penelitian, bisnis, dan lainnya</p>
+      </div>
+    </div>
+
+    <!-- Logo -->
+    <div class="row gx-4 gy-5 align-items-center align-self-center justify-content-center" data-aos="fade-up">
+      <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 d-flex justify-content-center">
+        <img src="assets/img/LOGO BLU_SPEEDCIRCLE.png" style="width: 128px;height: 100%;object-fit: scale-down;" /> <!-- todo: style -->
+      </div>
+      <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 d-flex justify-content-center">
+        <img src="https://th.bing.com/th/id/OIP.fineWnFIFMDVRCzgORCDFQHaHa?pid=ImgDetMain" style="width: 128px;height: 100%;object-fit: scale-down;" /> <!-- todo: style -->
+      </div>
+      <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 d-flex justify-content-center">
+        <img src="https://iconlogovector.com/uploads/images/2023/05/lg-7a359c6dfcb72ca61d94df92ac78afdf98.jpg" style="width: 128px;height: 100%;object-fit: scale-down;" /> <!-- todo: style -->
+      </div>
+      <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 d-flex justify-content-center">
+        <img src="https://logosmarcas.net/wp-content/uploads/2020/09/SpaceX-Simbolo.jpg" style="width: 128px;height: 100%;object-fit: scale-down;" /> <!-- todo: style -->
+      </div>
+      <div class="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 d-flex justify-content-center">
+        <img src="https://th.bing.com/th/id/OIP.arezqGrVeKUAmuKTaXGGEgHaEK?pid=ImgDetMain" style="width: 128px;height: 100%;object-fit: scale-down;" /> <!-- todo: style -->
+      </div>
+    </div>
+
+  </div>
+</section>
 
 <!-- Modal beranda -->
 <div class="modal fade" id="berandaModal" tabindex="-1" aria-labelledby="berandaModalLabel" aria-hidden="true" data-mdb-backdrop="true" data-mdb-keyboard="true" aria-modal="true">

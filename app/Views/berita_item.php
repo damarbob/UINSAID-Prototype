@@ -49,33 +49,37 @@ $beritaUrl = base_url("berita/" . $berita['slug']);
             <!-- Akademik column -->
             <div class="col-lg-6 ps-5 pt-5" data-aos="fade-left">
 
-                <!-- Breadcrumb -->
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb">
+                <div class="p-3 rounded-5" style="background: rgba(var(--bs-body-bg-rgb), 0.9);">
 
-                        <!-- TODO: Hardcoded breadcrumb -->
-                        <li class="breadcrumb-item"><a href="/">Beranda</a></li>
-                        <li class="breadcrumb-item"><a href="/berita">Berita</a></li>
-                        <li class="breadcrumb-item active fw-bold" aria-current="page">
-                            <?= $berita['judul']; ?>
-                        </li>
-                    </ol>
-                </nav>
+                    <!-- Breadcrumb -->
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
 
-                <h1 class="pb-2 fw-bold">
-                    <?= $berita['judul']; ?>
-                </h1>
+                            <!-- TODO: Hardcoded breadcrumb -->
+                            <li class="breadcrumb-item"><a href="/">Beranda</a></li>
+                            <li class="breadcrumb-item"><a href="/berita">Berita</a></li>
+                            <li class="breadcrumb-item active fw-bold" aria-current="page">
+                                <?= $berita['judul']; ?>
+                            </li>
+                        </ol>
+                    </nav>
 
-                <p>
-                    Diterbitkan pada<br>
-                    <span class="fw-bold">
-                        <?= $berita['created_at_terformat']; ?>
-                    </span>
-                </p>
+                    <h1 class="pb-2 fw-bold">
+                        <?= $berita['judul']; ?>
+                    </h1>
 
-                <a href="#" class="btn btn-primary d-none">
-                    Baca
-                </a>
+                    <p>
+                        Diterbitkan pada<br>
+                        <span class="fw-bold">
+                            <?= $berita['created_at_terformat']; ?>
+                        </span>
+                    </p>
+
+                    <a href="#" class="btn btn-primary d-none">
+                        Baca
+                    </a>
+
+                </div>
 
             </div>
 
@@ -100,7 +104,7 @@ $beritaUrl = base_url("berita/" . $berita['slug']);
 
 <!-- Detail berita -->
 <section id="berita-konten">
-    <div class="container px-5 mt-sm-5 pt-md-5">
+    <div class="container px-5 mt-sm-5 pt-md-5 mb-5">
         <div class="row">
 
             <!-- Konten artikel -->

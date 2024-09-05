@@ -95,6 +95,89 @@ $currentRoute = $request->uri->getPath();
   <!-- Swiper JS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
+  <style>
+    /* .loader {
+      width: 25vh;
+      height: 25vh;
+      border-radius: 50%;
+      display: inline-block;
+      border-top: 1rem solid var(--mdb-primary);
+      border-right: 1rem solid transparent;
+      box-sizing: border-box;
+      animation: rotation 1s linear infinite;
+    }
+
+    @keyframes rotation {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    } */
+
+    .loader {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 16rem;
+      margin-top: 3rem;
+      margin-bottom: 3rem;
+    }
+
+    .loader:before,
+    .loader:after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      animation: pulsOut 1.8s ease-in-out infinite;
+      filter: drop-shadow(0 0 1rem rgba(var(--mdb-primary-rgb), 0.75));
+    }
+
+    .loader:before {
+      width: 100%;
+      padding-bottom: 100%;
+      box-shadow: inset 0 0 0 1rem var(--mdb-primary);
+      animation-name: pulsIn;
+    }
+
+    .loader:after {
+      width: calc(100% - 2rem);
+      padding-bottom: calc(100% - 2rem);
+      box-shadow: 0 0 0 0 var(--mdb-primary);
+    }
+
+    @keyframes pulsIn {
+      0% {
+        box-shadow: inset 0 0 0 1rem var(--mdb-primary);
+        opacity: 1;
+      }
+
+      50%,
+      100% {
+        box-shadow: inset 0 0 0 0 var(--mdb-primary);
+        opacity: 0;
+      }
+    }
+
+    @keyframes pulsOut {
+
+      0%,
+      50% {
+        box-shadow: 0 0 0 0 var(--mdb-primary);
+        opacity: 0;
+      }
+
+      100% {
+        box-shadow: 0 0 0 1rem var(--mdb-primary);
+        opacity: 1;
+      }
+    }
+  </style>
+
   <!-- Script -->
   <?= $this->renderSection('style'); ?>
 </head>
@@ -108,13 +191,20 @@ $currentRoute = $request->uri->getPath();
   $currentRoute = $request->uri->getPath();
   ?>
 
+  <div id="loaderBody" class="d-none position-fixed d-flex justify-content-center align-items-center top-0" style="background-color: var(--mdb-body-bg); width: 100vw; height: 100vh; z-index: 1000000000;">
+    <!-- <div class="spinner-grow text-primary" style="width: 25vh; height: 25vh;" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div> -->
+    <span class="loader"></span>
+  </div>
+
   <!-- Toggle tema gelap terang -->
-  <button id="themeToggle" class="btn btn-lg btn-fab-lg btn-primary btn-floating rounded-pill position-fixed start-0 bottom-0 ms-7 mb-10" style="z-index: 50001;" data-mdb-ripple-init>
+  <button id="themeToggle" class="btn btn-lg btn-fab-lg btn-primary btn-floating rounded-pill position-fixed start-0 bottom-0 ms-6 ms-md-7 mb-9" style="z-index: 50001;" data-mdb-ripple-init>
     <i class="bi bi-moon-stars"></i>
   </button>
 
   <!-- Language dropup button -->
-  <div class="dropup position-fixed end-0 bottom-0 me-3 mb-10" style="z-index: 50000;">
+  <div class="dropup position-fixed end-0 bottom-0 me-3 mb-9" style="z-index: 50000;">
     <button
       type="button"
       class="btn btn-primary dropdown-toggle fs-2 float-end"
@@ -144,13 +234,16 @@ $currentRoute = $request->uri->getPath();
     <!-- Container wrapper -->
     <div class="container px-4 px-sm-5">
 
-      <!-- Navbar brand -->
-      <div id="navbarBrandWrapper" class="bg-white position-absolute top-0 py-2 px-2 rounded-bottom-3 shadow-lg">
-        <a class="navbar-brand mx-0" href="/"></a>
+      <!-- Wrapped by empty div for placeholder -->
+      <div>
+        <!-- Navbar brand -->
+        <div id="navbarBrandWrapper" class="bg-white position-absolute top-0 py-2 px-2 rounded-bottom-3 shadow-lg">
+          <a class="navbar-brand mx-0" href="/"></a>
+        </div>
       </div>
 
       <!-- Toggle button -->
-      <button data-mdb-collapse-init class="navbar-toggler ms-auto" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <button data-mdb-collapse-init class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <i class="fas fa-bars"></i>
       </button>
 
@@ -201,14 +294,14 @@ $currentRoute = $request->uri->getPath();
             <!-- Dropdown menu -->
             <ul class="dropdown-menu" aria-labelledby="navbarDropdownPendidikan">
               <li><a href="<?= base_url('pendidikan') ?>" class="dropdown-item">Pendidikan</a></li>
-              <li><a href="#" class="dropdown-item">Fakultas Usluhuddin dan Dakwah</a></li>
-              <li><a href="#" class="dropdown-item">Fakultas Syariah</a></li>
-              <li><a href="#" class="dropdown-item">Fakultas Ilmu Tarbiyah</a></li>
-              <li><a href="#" class="dropdown-item">Fakultas Ekonomi dan Bisnis Islam</a></li>
-              <li><a href="#" class="dropdown-item">Fakultas Adab dan Bahasa</a></li>
-              <li><a href="#" class="dropdown-item">Pascasarjana</a></li>
-              <li><a href="#" class="dropdown-item">Lembaga</a></li>
-              <li><a href="#" class="dropdown-item">Unit Pelaksana Teknis</a></li>
+              <li><a href="<?= base_url('entitas/fakultas-ushuluddin-dan-dakwah') ?>" class="dropdown-item">Fakultas Ushuluddin dan Dakwah</a></li>
+              <li><a href="<?= base_url('entitas/fakultas-syariah') ?>" class="dropdown-item">Fakultas Syariah</a></li>
+              <li><a href="<?= base_url('entitas/fakultas-ilmu-tarbiyah') ?>" class="dropdown-item">Fakultas Ilmu Tarbiyah</a></li>
+              <li><a href="<?= base_url('entitas/fakultas-ekonomi-dan-bisnis-islam') ?>" class="dropdown-item">Fakultas Ekonomi dan Bisnis Islam</a></li>
+              <li><a href="<?= base_url('entitas/fakultas-adab-dan-bahasa') ?>" class="dropdown-item">Fakultas Adab dan Bahasa</a></li>
+              <li><a href="<?= base_url('entitas/pascasarjana') ?>" class="dropdown-item">Pascasarjana</a></li>
+              <li><a href="<?= base_url('entitas?grup_id=2') ?>" class="dropdown-item">Lembaga</a></li>
+              <li><a href="<?= base_url('entitas?grup_id=3') ?>" class="dropdown-item">Unit Pelaksana Teknis</a></li>
               <!-- <li>
                 <a class="dropdown-item" href="#">Action</a>
               </li>
@@ -239,9 +332,9 @@ $currentRoute = $request->uri->getPath();
           </li>
 
           <!-- Link Pengabdian -->
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a data-mdb-ripple-init class="nav-link" href="#">Pengabdian</a>
-          </li>
+          </li> -->
 
           <!-- Link Mahasiswa Baru -->
           <li class="nav-item">
@@ -327,7 +420,7 @@ $currentRoute = $request->uri->getPath();
 
   <!-- Mobile bottom Navbar -->
   <!-- Navbar -->
-  <nav class="navbar navbar-expand navbar-dark d-md-none fixed-bottom rounded-top-2" style="background: #F7990CE8;">
+  <nav class="navbar navbar-expand navbar-dark py-0 d-md-none fixed-bottom rounded-top-2" style="background: #F7990CE8;">
     <!-- Container wrapper -->
     <div class="container-fluid">
 
@@ -343,7 +436,7 @@ $currentRoute = $request->uri->getPath();
         <!-- Left links -->
         <ul class="navbar-nav d-inline-flex flex-row w-100">
           <li class="nav-item text-center" style="flex: 1;"> <!-- todo: style -->
-            <a class="nav-link <?= $currentRoute == "/" ? "active" : "" ?>" aria-current="page" href="<?= base_url() ?>">
+            <a class="nav-link py-1 <?= $currentRoute == "/" ? "active" : "" ?>" aria-current="page" href="<?= base_url() ?>">
               <div>
                 <!-- <i class="fas fa-home fa-lg mb-1"></i> -->
                 <i class="bi bi-house-door fs-1 mb-1"></i>
@@ -353,7 +446,7 @@ $currentRoute = $request->uri->getPath();
             </a>
           </li>
           <li class="nav-item text-center" style="flex: 1;"> <!-- todo: style -->
-            <a class="nav-link <?= $currentRoute == "berita" ? "active" : "" ?>" href="<?= base_url('berita') ?>">
+            <a class="nav-link py-1 <?= $currentRoute == "berita" ? "active" : "" ?>" href="<?= base_url('berita') ?>">
               <div>
                 <!-- <i class="fas fa-globe-americas fa-lg mb-1"></i> -->
                 <i class="bi bi-newspaper fs-1 mb-1"></i>
@@ -364,7 +457,7 @@ $currentRoute = $request->uri->getPath();
             </a>
           </li>
           <li class="nav-item text-center" style="flex: 1;"> <!-- todo: style -->
-            <a class="nav-link" href="https://admisi.uinsaid.ac.id/id">
+            <a class="nav-link py-1" href="https://admisi.uinsaid.ac.id/id">
               <div>
                 <!-- <i class="fa-solid fa-user-plus fa-lg mb-1"></i> -->
                 <i class="bi bi-mortarboard fs-1 mb-1"></i>
@@ -374,7 +467,7 @@ $currentRoute = $request->uri->getPath();
             </a>
           </li>
           <li class="nav-item text-center" style="flex: 1;"> <!-- todo: style -->
-            <a class="nav-link <?= $currentRoute == "kategori/artikel" ? "active" : "" ?>" href="<?= base_url('kategori/artikel') ?>">
+            <a class="nav-link py-1 <?= $currentRoute == "kategori/artikel" ? "active" : "" ?>" href="<?= base_url('kategori/artikel') ?>">
               <div>
                 <!-- <i class="fa-solid fa-universal-access fa-lg mb-1"></i> -->
                 <!-- <i class="bi bi-universal-access-circle fs-1 mb-1"></i> -->
@@ -418,10 +511,6 @@ $currentRoute = $request->uri->getPath();
 
   <?= $this->renderSection('content') ?>
 
-  <div class="lurik-silk position-relative">
-
-  </div>
-
   <!-- Footer -->
   <footer id="footer" class="text-light">
     <!-- Footer bagian atas -->
@@ -429,7 +518,7 @@ $currentRoute = $request->uri->getPath();
       <div class="row">
         <!-- Footer & alamat -->
         <div class="col-lg-3 col-md-6">
-          <img class="mb-4" width="256px" src="assets/img/logo-uin-only-horizontal-white.png" />
+          <img class="mb-4" width="256px" src="<?= base_url('assets/img/logo-uin-only-horizontal-white.png') ?>" />
           <p>
             Jl. Pandawa, Pucangan, Kartasura, <br>
             Sukoharjo, Jawa Tengah, <br>
@@ -438,11 +527,11 @@ $currentRoute = $request->uri->getPath();
           <div class="footer-links">
             <ul>
               <li>
-                <img src="assets/img/icon/ikon-telepon.png" class="me-2" width="24px">
+                <img src="<?= base_url('assets/img/icon/ikon-telepon.png') ?>" class="me-2" width="24px">
                 <a href="#">+62271 7815 16</a>
               </li>
               <li>
-                <img src="assets/img/icon/ikon-surel.png" class="me-2" width="24px">
+                <img src="<?= base_url('assets/img/icon/ikon-surel.png') ?>" class="me-2" width="24px">
                 <a href="#">humas@uinsaid.ac.id</a>
               </li>
             </ul>
@@ -473,22 +562,22 @@ $currentRoute = $request->uri->getPath();
           <h4>Fakultas dan Pascasarjana</h4>
           <ul>
             <li>
-              <a href="#" onclick="tampilkanInformasiPengembangan()">Fakultas Usluhuddin dan Dakwah</a>
+              <a href="<?= base_url('entitas/fakultas-ushuluddin-dan-dakwah') ?>" onclick="tampilkanInformasiPengembangan()">Fakultas Usluhuddin dan Dakwah</a>
             </li>
             <li>
-              <a href="#" onclick="tampilkanInformasiPengembangan()">Fakultas Syariah</a>
+              <a href="<?= base_url('entitas/fakultas-syariah') ?>" onclick="tampilkanInformasiPengembangan()">Fakultas Syariah</a>
             </li>
             <li>
-              <a href="#" target="_blank">Fakultas Ilmu Tarbiyah</a>
+              <a href="<?= base_url('entitas/fakultas-ilmu-tarbiyah') ?>" target="_blank">Fakultas Ilmu Tarbiyah</a>
             </li>
             <li>
-              <a href="#" target="_blank">Fakultas Ekonomi dan Bisnis Islam</a>
+              <a href="<?= base_url('entitas/fakultas-ekonomi-dan-bisnis-islam') ?>" target="_blank">Fakultas Ekonomi dan Bisnis Islam</a>
             </li>
             <li>
-              <a href="#" target="_blank">Fakultas Adab dan Bahasa</a>
+              <a href="<?= base_url('entitas/fakultas-adab-dan-bahasa') ?>" target="_blank">Fakultas Adab dan Bahasa</a>
             </li>
             <li>
-              <a href="#" target="_blank">Pascasarjana</a>
+              <a href="<?= base_url('entitas/pascasarjana') ?>" target="_blank">Pascasarjana</a>
             </li>
           </ul>
         </div>
@@ -498,16 +587,16 @@ $currentRoute = $request->uri->getPath();
           <h4>Lembaga</h4>
           <ul>
             <li>
-              <a href="#" onclick="tampilkanInformasiPengembangan()">Lembaga Penelitian dan Pengabdian Masyarakat</a>
+              <a href="<?= base_url('entitas/lembaga-penelitian-dan-pengabdian-masyarakat') ?>" onclick="tampilkanInformasiPengembangan()">Lembaga Penelitian dan Pengabdian Masyarakat</a>
             </li>
             <li>
-              <a href="#" onclick="tampilkanInformasiPengembangan()">Lembaga Penjaminan Mutu</a>
+              <a href="<?= base_url('entitas/lembaga-penjaminan-mutu') ?>" onclick="tampilkanInformasiPengembangan()">Lembaga Penjaminan Mutu</a>
             </li>
             <li>
-              <a href="#" target="_blank">Satuan Pengawas Internal</a>
+              <a href="<?= base_url('entitas/satuan-pengawas-internal') ?>" target="_blank">Satuan Pengawas Internal</a>
             </li>
             <li>
-              <a href="#" target="_blank">Pusat Pengembangan Bisnis</a>
+              <a href="<?= base_url('entitas/pusat-pengembangan-bisnis') ?>" target="_blank">Pusat Pengembangan Bisnis</a>
             </li>
           </ul>
         </div>
@@ -517,19 +606,19 @@ $currentRoute = $request->uri->getPath();
           <h4>Unit Pelaksana Teknis</h4>
           <ul>
             <li>
-              <a href="#" onclick="tampilkanInformasiPengembangan()">UPT Perpustakaan</a>
+              <a href="<?= base_url('entitas/upt-perpustakaan') ?>" onclick="tampilkanInformasiPengembangan()">UPT Perpustakaan</a>
             </li>
             <li>
-              <a href="#" onclick="tampilkanInformasiPengembangan()">UPT Bahasa</a>
+              <a href="<?= base_url('entitas/upt-bahasa') ?>" onclick="tampilkanInformasiPengembangan()">UPT Bahasa</a>
             </li>
             <li>
-              <a href="#" target="_blank">UPT Teknologi Informasi dan Pengkalan Data</a>
+              <a href="<?= base_url('entitas/upt-teknologi-informasi-dan-pangkalan-data') ?>" target="_blank">UPT Teknologi Informasi dan Pengkalan Data</a>
             </li>
             <li>
-              <a href="#" target="_blank">UPT Ma’had Al-Jami’ah</a>
+              <a href="<?= base_url('entitas/upt-ma-had-al-jami-ah') ?>" target="_blank">UPT Ma’had Al-Jami’ah</a>
             </li>
             <li>
-              <a href="#" target="_blank">UPT Pengembangan Karir</a>
+              <a href="<?= base_url('entitas/upt-pengembangan-karir') ?>" target="_blank">UPT Pengembangan Karir</a>
             </li>
           </ul>
         </div>
@@ -540,16 +629,16 @@ $currentRoute = $request->uri->getPath();
         <!-- Media sosial -->
         <div class="col text-center">
           <a class="fs-1" href="https://www.youtube.com/channel/UClhJVwPyu449bZDXIH6yS0w" target="_blank">
-            <img src="assets/img/icon/ikon-youtube.png" width="64px" />
+            <img src="<?= base_url('assets/img/icon/ikon-youtube.png') ?>" width="64px" />
           </a>
           <a class="fs-1" href="https://www.facebook.com/UIN.RMSaid.Official/" target="_blank">
-            <img src="assets/img/icon/ikon-facebook.png" width="64px" />
+            <img src="<?= base_url('assets/img/icon/ikon-facebook.png') ?>" width="64px" />
           </a>
           <a class="fs-1" href="https://x.com/uinsurakarta" target="_blank">
-            <img src="assets/img/icon/ikon-twitter.png" width="64px" />
+            <img src="<?= base_url('assets/img/icon/ikon-twitter.png') ?>" width="64px" />
           </a>
           <a class="fs-1" href="#" target="_blank">
-            <img src="assets/img/icon/ikon-tiktok.png" width="64px" />
+            <img src="<?= base_url('assets/img/icon/ikon-tiktok.png') ?>" width="64px" />
           </a>
         </div>
         <!-- Akhir media sosial -->
@@ -598,9 +687,6 @@ $currentRoute = $request->uri->getPath();
     AOS.init();
   </script>
 
-  <!-- Accessibility -->
-  <script src="<?= base_url("assets/js/sienna-uinsaid.min.js") ?>" defer></script>
-
   <!-- Swiper JS -->
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
@@ -621,6 +707,8 @@ $currentRoute = $request->uri->getPath();
   <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit2"></script>
   <script type="text/javascript">
     $(document).ready(function() {
+      $("#loaderBody").hide(); // Hide loader
+
       $("#translateToID").on("click", function() {
         doGTranslate('id|id');
         return false;
@@ -649,6 +737,9 @@ $currentRoute = $request->uri->getPath();
       }
 
       function doGTranslate(a) {
+        // $("#loaderBody").show();
+        $("#loaderBody").removeClass("d-none");
+
         if (a.value) a = a.value;
         if (a == '') return;
 
@@ -679,6 +770,11 @@ $currentRoute = $request->uri->getPath();
         } else {
           disableRTL();
         }
+
+        // Reload page to take full effect
+        setTimeout(function() {
+          window.location.reload();
+        }, 500);
       }
 
       // Retrieve stored settings or default to light and LTR
@@ -688,21 +784,31 @@ $currentRoute = $request->uri->getPath();
       const htmlElement = $("html");
       const mdbCssElement = $('#mdbCSS');
       const swipers = $('.swiper');
-      const rtlCssUrl = "<?= base_url("assets/css/mdb.rtl.min.css") ?>";
+      // const rtlCssUrl = "<?= base_url("assets/css/mdb.rtl.min.css") ?>";
+      const rtlCssUrl = "<?= base_url("assets/css/c.rtl.css") ?>";
       const ltrCssUrl = "<?= base_url("assets/css/c.css") ?>";
+      const ltrAccessibilityJs = "<?= base_url("assets/js/sienna-uinsaid.min.js") ?>";
+      const rtlAccessibilityJs = "<?= base_url("assets/js/sienna-uinsaid.rtl.min.js") ?>";
 
       // Apply initial settings
-      htmlElement.attr('data-mdb-theme', currentTheme);
-      htmlElement.attr('dir', currentDirection);
-      htmlElement.attr('lang', currentDirection === 'rtl' ? 'ar' : 'en');
-      mdbCssElement.attr('href', currentDirection === 'rtl' ? rtlCssUrl : ltrCssUrl);
+      htmlElement.attr('data-mdb-theme', currentTheme); // Document theme
+      htmlElement.attr('dir', currentDirection); // Document direction
+      htmlElement.attr('lang', currentDirection === 'rtl' ? 'ar' : 'en'); // Document language
+      mdbCssElement.attr('href', currentDirection === 'rtl' ? rtlCssUrl : ltrCssUrl); // Set style
+      $.getScript(currentDirection === 'rtl' ? rtlAccessibilityJs : ltrAccessibilityJs, function() {
+        // Accessibility script loaded
+        console.log("Plugin aksesibilitas dimuat.")
+      });
 
       // Function to enable RTL
       function enableRTL() {
-        htmlElement.attr("dir", "rtl");
-        htmlElement.attr("lang", "ar");
         localStorage.setItem("html-dir", "rtl");
-        mdbCssElement.attr('href', rtlCssUrl);
+        // htmlElement.attr("dir", "rtl");
+        // htmlElement.attr("lang", "ar");
+        // mdbCssElement.attr('href', rtlCssUrl);
+        // $.getScript(rtlAccessibilityJs, function() {
+        //   // Script loaded
+        // });
 
         // Add RTL attributes and class to Swiper containers
         // swipers.each(function() {
@@ -712,10 +818,13 @@ $currentRoute = $request->uri->getPath();
 
       // Function to disable RTL (set to LTR)
       function disableRTL() {
-        htmlElement.attr("dir", "ltr");
-        htmlElement.attr("lang", "en");
-        mdbCssElement.attr('href', ltrCssUrl);
         localStorage.setItem("html-dir", "ltr");
+        // htmlElement.attr("dir", "ltr");
+        // htmlElement.attr("lang", "en");
+        // mdbCssElement.attr('href', ltrCssUrl);
+        // $.getScript(ltrAccessibilityJs, function() {
+        //   // Script loaded
+        // });
 
         // Remove RTL attributes and class from Swiper containers
         // swipers.each(function() {
@@ -725,6 +834,9 @@ $currentRoute = $request->uri->getPath();
       //
     });
   </script>
+
+  <!-- Accessibility -->
+  <!-- <script src="<?= base_url("assets/js/sienna-uinsaid.min.js") ?>" defer></script> -->
 
   <!-- Section script -->
   <?= $this->renderSection('script') ?>
