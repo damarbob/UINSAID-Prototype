@@ -343,7 +343,7 @@ $currentRoute = $request->uri->getPath();
 
           <!-- Link PPID -->
           <li class="nav-item">
-            <a data-mdb-ripple-init class="nav-link" href="#">PPID</a>
+            <a data-mdb-ripple-init class="nav-link" href="/ppid">PPID</a>
           </li>
 
         </ul>
