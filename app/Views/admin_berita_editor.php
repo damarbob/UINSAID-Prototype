@@ -114,13 +114,13 @@ if ($mode == "tambah") {
                 <select id="status" name="status" class="form-select <?= (validation_show_error('status')) ? 'is-invalid' : ''; ?>" aria-label="Default select">
                     <?php if ($valueStatus == 'draft') : ?>
                         <option selected value="draft"><?= lang('Admin.draf') ?></option>
-                        <option value="published"><?= lang('Admin.publikasi') ?></option>
-                    <?php elseif ($valueStatus == 'published') : ?>
+                        <option value="publikasi"><?= lang('Admin.publikasi') ?></option>
+                    <?php elseif ($valueStatus == 'publikasi') : ?>
                         <option value="draft"><?= lang('Admin.draf') ?></option>
-                        <option selected value="published"><?= lang('Admin.publikasi') ?></option>
+                        <option selected value="publikasi"><?= lang('Admin.publikasi') ?></option>
                     <?php else : ?>
                         <option value="draft"><?= lang('Admin.draf') ?></option>
-                        <option selected value="published"><?= lang('Admin.publikasi') ?></option>
+                        <option selected value="publikasi"><?= lang('Admin.publikasi') ?></option>
                     <?php endif; ?>
                 </select>
                 <label for="status"><?= lang('Admin.status') ?></label>

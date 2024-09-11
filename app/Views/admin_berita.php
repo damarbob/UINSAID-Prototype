@@ -127,7 +127,10 @@
                 {
                     "data": "status",
                     "render": function(data, type, row) {
-                        return data == "published" ? "<?= lang('Admin.publikasi') ?>" : "<?= lang('Admin.draf') ?>" // TODO: Translasi
+                        if (type === "display") {
+                            return data == "publikasi" ? "<?= lang('Admin.publikasi') ?>" : "<?= lang('Admin.draf') ?>"
+                        }
+                        return data;
                     }
                 },
             ],
@@ -277,7 +280,7 @@
 
             var filterButtons = {
                 '#btnFilterRilisMediaSemua': '/api/berita',
-                '#btnFilterRilisMediaPublikasi': '/api/berita/published',
+                '#btnFilterRilisMediaPublikasi': '/api/berita/publikasi',
                 '#btnFilterRilisMediaDraft': '/api/berita/draft'
             };
 
