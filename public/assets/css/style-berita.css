@@ -3,6 +3,20 @@
   object-fit: contain;
 }
 /* Button share halaman rilis media */
+.btn-whatsapp {
+  color: #fff;
+  background-color: #0dc143;
+  border-color: #0dc143;
+}
+
+.btn-whatsapp:hover,
+.btn-whatsapp:active,
+.btn-whatsapp:focus,
+.btn-whatsapp.active {
+  background: hsl(138, 87%, 30%);
+  color: #ffffff;
+  border-color: hsl(138, 87%, 30%);
+}
 .btn-twitter-1 {
   color: #fff;
   background-color: #55acee;

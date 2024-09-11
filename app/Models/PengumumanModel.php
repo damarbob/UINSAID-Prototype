@@ -31,6 +31,20 @@ class PengumumanModel extends \CodeIgniter\Model
             ->findAll();
     }
 
+    public function getPaginated($search = '')
+    {
+        $builder = $this->table($this->table);
+
+        if (!empty($search)) {
+            $builder->like('pengumuman', $search);
+        }
+
+        return $builder->select('pengumuman.*, galeri.uri')
+            ->join('galeri', 'galeri.id = pengumuman.id_galeri', 'left')
+            ->orderBy('pengumuman.waktu_mulai', 'DESC')
+            ->paginate(10, 'pengumuman');
+    }
+
     /**
      * -------------------------------------------
      * Get Pengumuman Terbaru yang berstatus publikasi

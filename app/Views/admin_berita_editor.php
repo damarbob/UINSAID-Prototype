@@ -106,9 +106,8 @@ if ($mode == "tambah") {
             </div>
 
             <div class="mb-3">
-                <input type="text" class="form-control mt-2 mb-3" id="inputKategoriLainnya" name="kategori_lainnya" placeholder="input kategori" disabled>
+                <input type="text" class="form-control mt-2 mb-3" id="inputKategoriLainnya" name="kategori_lainnya" placeholder="<?= lang("Admin.namaKategori") ?>" disabled>
             </div>
-
 
             <!-- Status -->
             <div class="form-floating mb-3">
@@ -142,7 +141,7 @@ if ($mode == "tambah") {
                 </div>
             </div>
             <!-- Tombol simpan -->
-            <button id="btn-submit" name="submit" type="submit" class="w-100 btn btn-primary"><?= lang('Admin.simpan') ?></button>
+            <button id="btn-submit" name="submit" type="submit" class="btn btn-primary w-100"><?= lang('Admin.simpan') ?></button>
         </div>
 </form>
 

@@ -21,7 +21,7 @@ $currentRoute = $request->uri->getPath();
                     <span class="nav_name">Dasbor</span>
                 </a>
             </div>
-            <div class="nav-list d-none">
+            <div class="nav-list">
                 <a href="<?= base_url('admin/halaman') ?>" class="nav-link-admin <?= $currentRoute == "admin/halaman" ? "active" : "" ?>">
                     <i class='bx bx-file nav_icon'></i>
                     <span class="nav_name">

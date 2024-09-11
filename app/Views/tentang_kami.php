@@ -17,13 +17,13 @@
 <section class="menu-title d-flex align-items-center gradient-1">
     <div class="lurik align-self-start"></div>
     <div class="container text-center">
-        <h1 class="">Menu Title</h1>
+        <h1 class=""><?= $judul ?></h1>
     </div>
     <div class="lurik-2 align-self-end"></div>
 </section>
 
 <!-- Section CTNA -->
-<section class="fluid section-batik mt-navbar" id="akademik">
+<section class="fluid section-batik mt-navbar d-none" id="akademik">
     <div class="container p-5">
         <div class="row d-flex align-items-center g-5">
 
@@ -295,7 +295,7 @@
 <!-- Section Tentang Kami -->
 
 <!-- Section CTNA -->
-<section class="fluid section-batik" id="akademik">
+<section class="fluid section-batik d-none" id="akademik">
     <div class="container p-5">
         <div class="row d-flex align-items-center g-5">
 

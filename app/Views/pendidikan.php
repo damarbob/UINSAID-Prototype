@@ -27,7 +27,7 @@
           Berbagai program pendidikan sarjana, magister, dan doktoral tersedia sesuai minat Anda untuk mendukung karir dan keahlian profesional di masa depan.
         </div>
         <div class="text-center align-self-center flex-shrink-0">
-          <button class="btn btn-primary">Mulai Pendaftaran</button>
+          <a href="" class="btn btn-primary"><i class="bi bi-arrow-right me-2"></i>Mulai Pendaftaran</a>
         </div>
       </div>
     </div>
@@ -44,8 +44,9 @@
         Cari Program Studi
       </div>
       <div class="col-lg-8 col-md-6 p-0">
-        <form class="d-flex" role="search">
-          <input class="form-control rounded-0 border-primary" type="search" placeholder="Search" aria-label="Search">
+        <form action="<?= base_url('entitas') ?>" method="GET" class="d-flex" role="search">
+          <input class="form-control rounded-0 border-primary" type="search" placeholder="Search" name="cari" aria-label="Search">
+          <input type="hidden" name="grup" value="Program Studi">
           <button class="cari me-0 btn btn-primary rounded-0 rounded-end-3" type="submit" data-mdb-ripple-init>Search</button>
         </form>
       </div>
@@ -152,24 +153,11 @@
           <div class="card-body text-center">
             <h4 class="card-title">Telusuri Program Studi Berdasarkan Fakultas</h4>
             <p class="text-light">Kunjungi situs web fakultas untuk mendapatkan informasi tentang program studi dan beragam aktivitas lainnya</p>
-            <a class="btn btn-primary">
-              Fakultas Adab dan Bahasa
-            </a>
-            <a class="btn btn-primary">
-              Fakultas Ekonomi dan Bisnis Islam
-            </a>
-            <a class="btn btn-primary">
-              Fakultas Ushuluddin dan Dakwah
-            </a>
-            <a class="btn btn-primary">
-              Fakultas Ilmu Tarbiyah
-            </a>
-            <a class="btn btn-primary">
-              Fakultas Syariah
-            </a>
-            <a class="btn btn-primary">
-              Pascasarjana
-            </a>
+            <?php foreach ($fakultas as $x): ?>
+              <a href="<?= base_url('entitas/' . $x['slug']) ?>" class="btn btn-primary">
+                <?= $x['nama'] ?>
+              </a>
+            <?php endforeach ?>
           </div>
         </div>
       </div>

@@ -6,6 +6,10 @@ class PendidikanController extends BaseController
 {
     public function index()
     {
-        return view('pendidikan');
+        $this->data['judul'] = 'Pendidikan';
+
+        $this->data['fakultas'] = $this->entitasModel->getByFilter(null, "Fakultas");
+
+        return view('pendidikan', $this->data);
     }
 }

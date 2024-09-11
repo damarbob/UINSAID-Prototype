@@ -45,3 +45,8 @@ function capitalizeFirstLetter(string) {
   }
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
+
+function getFilenameAndExtension(url) {
+  const filename = url.substring(url.lastIndexOf("/") + 1);
+  return filename;
+}

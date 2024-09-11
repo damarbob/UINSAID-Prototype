@@ -38,6 +38,42 @@ class KomponenAdmin extends BaseControllerAdmin
     {
         $data = $this->request->getPost();
 
+        // Check for file uploads
+        $cssFile = $this->request->getFile('css_file');
+        $jsFile = $this->request->getFile('js_file');
+
+        // Initialize file paths
+        $cssPath = null;
+        $jsPath = null;
+
+        // Handle CSS file upload
+        if ($cssFile && $cssFile->isValid() && !$cssFile->hasMoved()) {
+            $cssName = $cssFile->getRandomName(); // Generate a random file name
+            $cssFile->move(FCPATH . 'assets/components/css/', $cssName);
+            $cssPath = base_url('assets/components/css/' . $cssName);
+            $data['css'] = $cssPath;
+        }
+
+        // Handle JS file upload
+        if ($jsFile && $jsFile->isValid() && !$jsFile->hasMoved()) {
+            $jsName = $jsFile->getRandomName(); // Generate a random file name
+            $jsFile->move(FCPATH . 'assets/components/js/', $jsName);
+            $jsPath = base_url('assets/components/js/' . $jsName);
+            $data['js'] = $jsPath;
+        }
+
+        // Get grup from the request
+        $grupNama = $this->request->getVar('grup') ?: $this->request->getVar('grup_lainnya');
+
+        // Check if the grup exists
+        $grup = $this->komponenGrupModel->getByNama($grupNama);
+
+        // If the grup does not exist, create a new one
+        if (!$grup) {
+            $this->komponenGrupModel->save(['nama' => $grupNama]);
+            $grup = $this->komponenGrupModel->getByNama($grupNama);
+        }
+
         if ($id === null) {
             // Create new component
             $this->komponenModel->save($data);
@@ -49,10 +85,16 @@ class KomponenAdmin extends BaseControllerAdmin
         return redirect()->to('/admin/komponen');
     }
 
+
     public function sunting($id)
     {
-        $this->data['komponen'] = $this->komponenModel->find($id);
-        $this->data['judul'] = lang('Admin.suntingKomponen') . " - " . $this->data['komponen']['nama'];
+        $komponen = $this->komponenModel->getByID($id);
+        $this->data['komponen'] = $komponen;
+        $this->data['komponen_grup'] = $this->komponenGrupModel->findAll();
+        $this->data['komponen_css_file'] = (isset($komponen['css']) && $komponen['css'] != '') ? pathinfo($komponen['css'])['filename'] . "." . pathinfo($komponen['css'])['extension'] : null;
+        $this->data['komponen_js_file'] = (isset($komponen['js']) && $komponen['js'] != '') ? pathinfo($komponen['js'])['filename'] . "." . pathinfo($komponen['js'])['extension'] : null;
+
+        $this->data['judul'] = lang('Admin.suntingKomponen') . " - " . $komponen['nama'];
         return view('admin_komponen_editor', $this->data);
     }
 
@@ -70,7 +112,7 @@ class KomponenAdmin extends BaseControllerAdmin
      */
     public function getDT($status = null)
     {
-        $columns = ['nama', 'css', 'js', 'grup_id'];
+        $columns = ['nama', 'css', 'js', 'grup'];
 
         $limit = $this->request->getPost('length');
         $start = $this->request->getPost('start');
@@ -94,7 +136,7 @@ class KomponenAdmin extends BaseControllerAdmin
                 $nestedData['nama'] = $row['nama'];
                 $nestedData['css'] = $row['css'];
                 $nestedData['js'] = $row['js'];
-                $nestedData['grup_id'] = $row['grup_id'];
+                $nestedData['grup'] = $row['grup'];
                 $data[] = $nestedData;
             }
         }

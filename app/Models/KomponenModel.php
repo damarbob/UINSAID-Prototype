@@ -21,19 +21,20 @@ class KomponenModel extends \CodeIgniter\Model
      */
     public function getDT($limit, $start, $status = null, $search = null, $order = 'nama', $dir = 'asc')
     {
-        $builder = $this
-            ->select('*')
+        $builder = $this->db->table($this->table)
+            ->select('komponen.*, komponen_grup.nama as grup')
+            ->join('komponen_grup', 'komponen_grup.id = komponen.grup_id', 'left')
             ->orderBy($order, $dir)
             ->limit($limit, $start);
 
         if ($status) {
-            $builder->where('status', $status);
+            $builder->where('komponen.status', $status);
         }
 
         if ($search) {
             $builder->groupStart()
-                ->like('nama', $search)
-                ->orLike('konten', $search)
+                ->like('komponen.nama', $search)
+                ->orLike('komponen.konten', $search)
                 ->groupEnd();
         }
 
@@ -64,5 +65,13 @@ class KomponenModel extends \CodeIgniter\Model
         }
 
         return $builder->get()->getResult();
+    }
+
+    public function getByID($id)
+    {
+        return ($this->select('komponen.*, komponen_grup.nama as grup')
+            ->join('komponen_grup', 'komponen_grup.id = komponen.grup_id', 'left')
+            ->where('komponen.id', $id)
+            ->first());
     }
 }

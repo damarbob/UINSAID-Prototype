@@ -20,27 +20,20 @@
     <!-- Konten utama -->
     <div class="row g-3" data-masonry='{"percentPosition": true }'>
 
-        <?php if (sizeof($entitas) == 0): ?>
-            <div class="col">
-                <p class="text-center">
-                    Tidak ditemukan
-                </p>
-            </div>
-        <?php endif ?>
-
         <!-- Konten utama kiri -->
         <!-- Daftar artikel terbaru -->
-        <?php foreach ($entitas as $e) : ?>
+        <?php foreach ($pengumuman as $x) : ?>
             <div class="col-lg-6 col-xl-3">
                 <!-- Item berita -->
-                <div class="card shadow" mdb-ripple-init>
+                <div class="card shadow"
+                    data-mdb-ripple-init>
                     <div class="ratio ratio-4x3">
-                        <img src="<?= ($e['gambar_sampul'] != null) ? $e['gambar_sampul'] : base_url('assets/img/icon-notext-transparent.png') ?>" class="card-img-top object-fit-cover" alt="..." />
+                        <img src="<?= ($x['id_galeri'] != null) ? $x['uri'] : base_url('assets/img/logo-square.png') ?>" class="card-img-top object-fit-cover" alt="..." />
                     </div>
                     <div class="card-body text-start">
-                        <a href="<?= base_url() ?>entitas/<?= $e['slug'] ?>">
+                        <a href="<?= base_url('pengumuman/' . $x['id']) ?>">
                             <h5 class="card-title lh-sm">
-                                <?= $e['nama'] ?>
+                                <?= $x['pengumuman'] ?>
                             </h5>
                         </a>
                         <p class="card-text">
@@ -87,36 +80,13 @@
     <div class="row mt-5">
         <!-- Paginasi -->
         <div class="d-flex">
-            <?= $pagerEntitas->links('entitas', 'pager') ?>
+            <?= $pagerPengumuman->links('pengumuman', 'pager') ?>
         </div>
         <!-- Akhir paginasi -->
     </div>
 </div>
-
 <?= $this->endSection() ?>
 
 <?= $this->section('script') ?>
 <script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha384-GNFwBvfVxBkLMJpYMOABq3c+d3KnQxudP/mGPkzpZSTYykLBNsZEnG2D9G/X/+7D" crossorigin="anonymous" async></script>
-<script>
-    // Initialize Swiper JS for Berita
-    var swiperBerita = new Swiper("#swiper-berita", {
-        slidesPerView: 1,
-        grabCursor: true,
-        spaceBetween: 30,
-        loop: true,
-        pagination: {
-            el: ".swiper-pagination",
-            clickable: true,
-        },
-        navigation: {
-            nextEl: ".berita-swiper-button-next",
-            prevEl: ".berita-swiper-button-prev",
-        },
-        autoplay: {
-            delay: 2500,
-            disableOnInteraction: true,
-        },
-        cssMode: false,
-    });
-</script>
 <?= $this->endSection() ?>

@@ -27,6 +27,21 @@ class AgendaModel extends \CodeIgniter\Model
             ->findAll();
     }
 
+
+    public function getPaginated($search = '')
+    {
+        $builder = $this->table($this->table);
+
+        if (!empty($search)) {
+            $builder->like('agenda', $search);
+        }
+
+        return $builder->select('agenda.*, galeri.uri')
+            ->join('galeri', 'galeri.id = agenda.id_galeri', 'left')
+            ->orderBy('agenda.waktu_mulai', 'DESC')
+            ->paginate(10, 'agenda');
+    }
+
     public function getPublikasi()
     {
         return $this->select('*')

@@ -300,8 +300,8 @@ $currentRoute = $request->uri->getPath();
               <li><a href="<?= base_url('entitas/fakultas-ekonomi-dan-bisnis-islam') ?>" class="dropdown-item">Fakultas Ekonomi dan Bisnis Islam</a></li>
               <li><a href="<?= base_url('entitas/fakultas-adab-dan-bahasa') ?>" class="dropdown-item">Fakultas Adab dan Bahasa</a></li>
               <li><a href="<?= base_url('entitas/pascasarjana') ?>" class="dropdown-item">Pascasarjana</a></li>
-              <li><a href="<?= base_url('entitas?grup_id=2') ?>" class="dropdown-item">Lembaga</a></li>
-              <li><a href="<?= base_url('entitas?grup_id=3') ?>" class="dropdown-item">Unit Pelaksana Teknis</a></li>
+              <li><a href="<?= base_url('entitas?grup=Lembaga') ?>" class="dropdown-item">Lembaga</a></li>
+              <li><a href="<?= base_url('entitas?grup=Unit Pelaksana Teknis') ?>" class="dropdown-item">Unit Pelaksana Teknis</a></li>
               <!-- <li>
                 <a class="dropdown-item" href="#">Action</a>
               </li>
@@ -528,11 +528,11 @@ $currentRoute = $request->uri->getPath();
             <ul>
               <li>
                 <img src="<?= base_url('assets/img/icon/ikon-telepon.png') ?>" class="me-2" width="24px">
-                <a href="#">+62271 7815 16</a>
+                <a href="tel:+62271781516">+62271 7815 16</a>
               </li>
               <li>
                 <img src="<?= base_url('assets/img/icon/ikon-surel.png') ?>" class="me-2" width="24px">
-                <a href="#">humas@uinsaid.ac.id</a>
+                <a href="mailto:humas@uinsaid.ac.id">humas@uinsaid.ac.id</a>
               </li>
             </ul>
           </div>
@@ -637,7 +637,7 @@ $currentRoute = $request->uri->getPath();
           <a class="fs-1" href="https://x.com/uinsurakarta" target="_blank">
             <img src="<?= base_url('assets/img/icon/ikon-twitter.png') ?>" width="64px" />
           </a>
-          <a class="fs-1" href="#" target="_blank">
+          <a class="fs-1" href="https://www.tiktok.com/@uin_rmsaid?_t=8pT2mtKTir9&_r=1" target="_blank">
             <img src="<?= base_url('assets/img/icon/ikon-tiktok.png') ?>" width="64px" />
           </a>
         </div>

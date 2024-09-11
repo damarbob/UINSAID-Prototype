@@ -14,7 +14,7 @@
 <section
     class="hero"
     class="bg-primary p-0 d-flex align-items-center justify-content-center mt-navbar"
-    style="background: url('<?= $entitas['gambar_sampul'] ?>');">
+    style="background-image: url('<?= ($entitas['gambar_sampul'] != null) ? $entitas['gambar_sampul'] : base_url('assets/img/lurik-hijau-vector-bg.jpg') ?>');">
 </section>
 
 <!-- Nama -->
@@ -29,10 +29,12 @@
 <section>
     <div class="container px-5 mt-sm-5 pt-md-5 mb-5">
         <div class="row">
-
+            <?php
+            //dd(!$entitas['deskripsi'] && $entitasParent); 
+            ?>
             <!-- Konten -->
             <div class="col-lg-6">
-                <?= $entitas['deskripsi'] ?>
+                <?= (!$entitas['deskripsi'] && $entitasParent) ? $entitasParent['deskripsi'] : $entitas['deskripsi'] ?>
             </div>
 
             <!-- Gambar sampul dan kontak -->
@@ -46,33 +48,33 @@
                             <tr>
                                 <td class="table-fit">Alamat</td>
                                 <td class="table-fit">:</td>
-                                <td><?= $entitas['alamat'] ?></td>
+                                <td><?= (!$entitas['alamat'] && $entitasParent) ? $entitasParent['alamat'] : $entitas['alamat'] ?></td>
                             </tr>
                             <tr>
                                 <td class="table-fit">Telepon</td>
                                 <td class="table-fit">:</td>
-                                <td><?= $entitas['telepon'] ?></td>
+                                <td><?= (!$entitas['telepon'] && $entitasParent) ? $entitasParent['telepon'] : $entitas['telepon'] ?></td>
                             </tr>
                             <tr>
                                 <td class="table-fit">Fax</td>
                                 <td class="table-fit">:</td>
-                                <td><?= $entitas['fax'] ?></td>
+                                <td><?= (!$entitas['fax'] && $entitasParent) ? $entitasParent['fax'] : $entitas['fax'] ?></td>
                             </tr>
                             <tr>
                                 <td class="table-fit">Email</td>
                                 <td class="table-fit">:</td>
-                                <td><?= $entitas['email'] ?></td>
+                                <td><?= (!$entitas['email'] && $entitasParent) ? $entitasParent['email'] : $entitas['email'] ?></td>
                             </tr>
                             <tr>
                                 <td>Website</td>
                                 <td>:</td>
-                                <td><?= $entitas['website'] ?></td>
+                                <td><?= (!$entitas['website'] && $entitasParent) ? $entitasParent['website'] : $entitas['website'] ?></td>
                             </tr>
                         </tbody>
                     </table>
 
                     <!-- Tombol kunjungi website -->
-                    <a href="<?= $entitas['website'] ?>" class="btn btn-primary" target="_blank" data-mdb-ripple-init>
+                    <a href="<?= (!$entitas['website'] && $entitasParent) ? $entitasParent['website'] : $entitas['website'] ?>" class="btn btn-primary" target="_blank" data-mdb-ripple-init>
                         <i class="bi bi-box-arrow-up-right me-2"></i>
                         Kunjungi Website
                     </a>

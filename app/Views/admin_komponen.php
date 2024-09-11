@@ -23,6 +23,7 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('script') ?>
+<script src="<?= base_url('assets/js/formatter.js') ?>" type="text/javascript"></script>
 <script src="<?= base_url('assets/js/datatables_process_bulk.js') ?>" type="text/javascript"></script>
 <script src="<?= base_url('assets/js/datatables_process_bulk_new.js') ?>" type="text/javascript"></script>
 <script>
@@ -83,12 +84,28 @@
                 },
                 {
                     "data": "css",
+                    "render": function(data, type, row) {
+                        if (type === "display" && data != '') {
+                            return '<a href="' + data + '" target="_blank">' +
+                                getFilenameAndExtension(data) + '<i class="bi bi-box-arrow-up-right ms-2"></i>' +
+                                '</a>'
+                        }
+                        return data
+                    }
                 },
                 {
                     "data": "js",
+                    "render": function(data, type, row) {
+                        if (type === "display" && data != '') {
+                            return '<a href="' + data + '" target="_blank">' +
+                                getFilenameAndExtension(data) + '<i class="bi bi-box-arrow-up-right ms-2"></i>' +
+                                '</a>'
+                        }
+                        return data
+                    }
                 },
                 {
-                    "data": "grup_id",
+                    "data": "grup",
                 },
             ],
         });

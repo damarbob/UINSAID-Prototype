@@ -12,6 +12,7 @@ use App\Models\EntitasModel;
 use App\Models\GaleriModel;
 use App\Models\HalamanModel;
 use App\Models\KategoriModel;
+use App\Models\KomponenGrupModel;
 use App\Models\KomponenModel;
 use App\Models\SitusModel;
 use CodeIgniter\BaseModel;
@@ -80,6 +81,7 @@ abstract class BaseControllerAdmin extends Controller
         // Page builder models
         protected HalamanModel $halamanModel;
         protected KomponenModel $komponenModel;
+        protected KomponenGrupModel $komponenGrupModel;
 
         // Site type
         protected bool $isParentSite;
@@ -112,6 +114,7 @@ abstract class BaseControllerAdmin extends Controller
 
                 $this->halamanModel = new HalamanModel();
                 $this->komponenModel = new KomponenModel();
+                $this->komponenGrupModel = new KomponenGrupModel();
 
                 // Untuk notifikasi
                 $this->data['peringatanBeritaKosong'] = count($this->beritaModel->get()) == 0;

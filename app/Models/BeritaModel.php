@@ -24,6 +24,28 @@ class BeritaModel extends \CodeIgniter\Model
             ->paginate(10, 'berita'));
     }
 
+    public function getByKategoriLimit($kategori, $limit)
+    {
+        // return $this->formatSampul(
+        //     $this->select('berita.*, users.username as penulis, kategori.nama as kategori')
+        //         ->join('users', 'users.id = berita.id_penulis', 'left')
+        //         ->join('kategori', 'kategori.id = berita.id_kategori', 'left')
+        //         ->where('kategori.nama', $kategori)
+        //         ->where('berita.status', 'publikasi')
+        //         ->limit($limit)
+        //         ->get()
+        // );
+        return $this->formatSampul(
+            $this->select('berita.*, penulis.username as penulis, kategori.nama as kategori')
+                ->join('users penulis', 'penulis.id = berita.id_penulis', 'left') // Alias 'users' as 'penulis'
+                ->join('kategori', 'kategori.id = berita.id_kategori', 'left')
+                ->where('kategori.nama', $kategori)
+                ->where('berita.status', 'publikasi')
+                ->orderBy('berita.created_at', 'DESC')
+                ->findAll($limit)
+        );
+    }
+
     public function getBerita($limit, $start, $status = null, $search = null, $order = 'judul', $dir = 'asc')
     {
         $builder = $this->db->table($this->table)
@@ -162,7 +184,7 @@ class BeritaModel extends \CodeIgniter\Model
         foreach ($data as &$item) {
             // Check if $item is an array
             if (is_array($item)) {
-                $item['gambar_sampul'] = $this->extract_first_image($item['konten'], base_url('assets/img/esmonde-yong-wFpJV5EWrSM-unsplash.jpg'), false);
+                $item['gambar_sampul'] = $this->extract_first_image($item['konten'], base_url('assets/img/logo-square.png'), false);
 
                 // Uncomment the following and comment above code if the image is from base url
                 // $item['gambar_sampul'] = base_url('uploads/' . $this->extract_first_image_filename($item['konten'], base_url('assets/img/esmonde-yong-wFpJV5EWrSM-unsplash.jpg')));
@@ -181,7 +203,7 @@ class BeritaModel extends \CodeIgniter\Model
             throw new \CodeIgniter\Exceptions\PageNotFoundException('Artikel tidak ditemukan.');
         }
 
-        $data['gambar_sampul'] = $this->extract_first_image($data['konten'], base_url('assets/img/esmonde-yong-wFpJV5EWrSM-unsplash.jpg'), false);
+        $data['gambar_sampul'] = $this->extract_first_image($data['konten'], base_url('assets/img/logo-square.png'), false);
 
         return $data;
     }
@@ -216,7 +238,8 @@ class BeritaModel extends \CodeIgniter\Model
             return $filenameOnly ? $filenameWithExtension : $firstImageSrc;
         } else {
             // If no image found, return the filename with extension of the default image URL
-            return basename(parse_url($defaultImageUrl, PHP_URL_PATH));
+            // return basename(parse_url($defaultImageUrl, PHP_URL_PATH));
+            return $defaultImageUrl;
         }
     }
 

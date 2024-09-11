@@ -158,7 +158,7 @@
         <div class="row">
           <img src="assets/img/rektor-lurik-noborder.png" />
           <div class="foto-kecil ratio ratio-16x9 overflow-hidden">
-            <img src="assets/img/uinsaid3.png" class="object-fit-cover " />
+            <img src="<?= base_url('assets/img/uinsaid3.png') ?>" class="object-fit-cover " />
           </div>
         </div>
       </div>
@@ -169,7 +169,7 @@
         <h2 class="fw-bold"><?= $sambutanRektor['judul'] ?></h2>
         <div class="lurik-3 mt-3 mb-5"></div>
         <p><?= $sambutanRektor['sambutan'] ?></p>
-        <a href="" class="text-body fw-bold">Selengkapnya <span class="ms-2">›</span></a>
+        <a href="<?= $sambutanRektor['link'] ?>" class="text-body fw-bold">Selengkapnya <span class="ms-2">›</span></a>
 
       </div>
 
@@ -185,23 +185,22 @@
     <div class="row g-4">
 
       <!-- Poin-poin -->
-      <?php foreach ($poinAkademik as $p => $key) : ?>
+      <?php foreach ($poinAkademik as $x) : ?>
         <div class="col-xl-6" data-aos="fade-right">
           <div class="card mb-3 border border-primary-subtle border-1 rounded-5 gradient-1">
             <div class="row g-0">
               <div class="col-md-4">
                 <img
-                  src="<?= $key['gambar'] ?>"
-                  alt="Trendy Pants and Shoes"
+                  src="<?= base_url($x['gambar']) ?>"
                   class="poin-akademik-gambar rounded-start object-fit-cover" />
               </div>
               <div class="col-md-8">
                 <div class="card-body">
-                  <h5 class="card-title fw-bold"><?= $key['judul'] ?></h5>
+                  <h5 class="card-title fw-bold"><?= $x['judul'] ?></h5>
                   <p class="card-text">
-                    <?= $key['keterangan'] ?>
+                    <?= $x['keterangan'] ?>
                   </p>
-                  <a href="" class="text-body fw-bold">Selengkapnya <span class="ms-2">›</span></a>
+                  <a href="<?= $x['link'] ?>" class="text-body fw-bold">Selengkapnya <span class="ms-2">›</span></a>
                 </div>
               </div>
             </div>
@@ -209,12 +208,12 @@
         </div>
         <!-- <div class="col-lg-6" data-aos="fade-right">
           <div class="card d-flex flex-sm-row border border-primary-subtle border-1 rounded-5 overflow-hidden gradient-1">
-            <div class="poin-akademik-gambar h-100 border-start border-primary border-2 border-lg-5 rounded-5 overflow-hidden" style="background: url('<?= $key['gambar'] ?>'); background-repeat: no-repeat; background-size: cover;">
+            <div class="poin-akademik-gambar h-100 border-start border-primary border-2 border-lg-5 rounded-5 overflow-hidden" style="background: url('<?= $x['gambar'] ?>'); background-repeat: no-repeat; background-size: cover;">
               <img src="" class="object-fit-cover">
             </div>
             <div class="card-body flex-grow-1">
-              <h5 class="card-title fw-bold"><?= $key['judul'] ?></h5>
-              <p class="card-text fs-6"><?= $key['keterangan'] ?></p>
+              <h5 class="card-title fw-bold"><?= $x['judul'] ?></h5>
+              <p class="card-text fs-6"><?= $x['keterangan'] ?></p>
               <a href="" class="text-body fw-bold">Selengkapnya <span class="ms-2">›</span></a>
             </div>
           </div>
@@ -236,7 +235,7 @@
         <h2 class="fw-bold" data-aos="fade-right"><?= $poinUinRmSaid['judul'] ?></h2>
         <div class="lurik-3 mt-2 mb-4"></div>
         <p data-aos="fade-right"><?= $poinUinRmSaid['keterangan'] ?></p>
-        <a href="" class="fw-bold" data-aos="fade-right">Selengkapnya</a>
+        <a href="<?= base_url('tentang-kami') ?>" class="fw-bold" data-aos="fade-right">Selengkapnya</a>
       </div>
 
       <!-- Poin-poin -->
@@ -325,17 +324,17 @@
         <h2>Prestasi Mahasiswa</h2>
         <div class="lurik-4 mb-4"></div>
         <div class="d-flex justify-content-evenly align-items-center">
-          <div class="prestasi-swiper-button-prev d-none d-md-block"><img src="assets/img/icons8-back-to-96.png" style="width: 48px; height: 48px" /></div>
+          <div class="prestasi-swiper-button-prev d-none d-md-block"><img src="<?= base_url('assets/img/icons8-back-to-96.png') ?>" style="width: 48px; height: 48px" /></div>
 
           <div class="swiper" id="swiper-prestasi" data-aos="fade-up" data-aos-delay="300" style="width: 80%;">
             <div class="swiper-wrapper ">
 
               <!-- Swiper prestasi terbaru -->
-              <?php foreach ($prestasiTerbaru as $i => $a) : ?>
+              <?php foreach ($prestasiTerbaru as $a) : ?>
                 <div class="swiper-slide">
                   <div class="swiper-slide-transform">
-                    <div class="card prestasi-card text-light">
-                      <img src="<?= $a['gambar'] ?>" class="card-img" alt="Agenda Image">
+                    <div class="card prestasi-card text-light" style="min-height: 128px">
+                      <img src="<?= ($a['gambar_sampul'] != null) ? $a['gambar_sampul'] : base_url('uploads/1725540410_623071dfb13d7973422a.png') ?>" class="card-img" alt="Agenda Image">
                       <div class="card-img-overlay d-flex flex-column justify-content-end text-light">
                         <div class="d-flex align-items-center mb-2">
                         </div>
@@ -397,22 +396,22 @@
     <div class="row g-4 mb-4 justify-content-center">
 
       <!-- Item berita -->
-      <?php foreach ($beritaCard as $b => $key) : ?>
+      <?php foreach ($beritaCard as $b) : ?>
         <div class="col-lg-4 col-xl-15 col-md-6" id="item-berita" data-aos="fade-up">
           <div class="card">
 
             <!-- Gambar berita -->
             <div class="bg-image hover-overlay d-flex align-items-center" data-mdb-ripple-init data-mdb-ripple-color="light" style="max-height: 256px;">
-              <img src="<?= $key['gambar_sampul'] ?>" class="card-img-top img-fluid object-fit-cover" alt="...">
+              <img src="<?= ($b['gambar_sampul'] != null) ? $b['gambar_sampul'] : base_url('uploads/1725540410_623071dfb13d7973422a.png') ?>" class="card-img-top img-fluid object-fit-cover" alt="..." style="height: 256px;">
             </div>
             <!-- Konten berita -->
             <!-- <div class="card-header">
             </div> -->
             <div class="card-body">
-              <p class="card-text"><?= $key['created_at_terformat'] ?></p>
-              <a href="<?= base_url('berita/' . $key['slug']) ?>">
+              <p class="card-text"><?= $b['created_at_terformat'] ?></p>
+              <a href="<?= base_url('berita/' . $b['slug']) ?>">
                 <p class="card-title text-body">
-                  <?= $key['judul'] ?>
+                  <?= $b['judul'] ?>
                 </p>
               </a>
             </div>
@@ -505,14 +504,14 @@
         <div class="row g-4">
           <div class="col" data-aos="fade-up">
 
-            <?php foreach ($pojokPimpinan as $p => $key) : ?>
+            <?php foreach ($pojokPimpinan as $p) : ?>
               <div class="card mb-4">
                 <div class="card-body">
-                  <h5 class="fw-bold"><?= $key['judul'] ?></h5>
+                  <h5 class="fw-bold"><?= $p['judul'] ?></h5>
                   <p>
-                    <?= $key['ringkasan'] ?>
+                    <?= $p['ringkasan'] ?>
                   </p>
-                  <a href="" class="text-body fw-bold">Selengkapnya <span class="ms-2">›</span></a>
+                  <a href="<?= base_url('berita/' . $p['slug']) ?>" class="text-body fw-bold">Selengkapnya <span class="ms-2">›</span></a>
                 </div>
               </div>
             <?php endforeach ?>
@@ -535,14 +534,14 @@
         <div class="row g-4">
           <div class="col" data-aos="fade-up">
 
-            <?php foreach ($opini as $p => $key) : ?>
+            <?php foreach ($opini as $p) : ?>
               <div class="card mb-4">
                 <div class="card-body">
-                  <h5 class="fw-bold"><?= $key['judul'] ?></h5>
+                  <h5 class="fw-bold"><?= $p['judul'] ?></h5>
                   <p>
-                    <?= $key['ringkasan'] ?>
+                    <?= $p['ringkasan'] ?>
                   </p>
-                  <a href="" class="text-body fw-bold">Selengkapnya <span class="ms-2">›</span></a>
+                  <a href="<?= base_url('berita/' . $p['slug']) ?>" class="text-body fw-bold">Selengkapnya <span class="ms-2">›</span></a>
                 </div>
               </div>
             <?php endforeach ?>
@@ -565,7 +564,7 @@
         <h1 class="fw-bold text-primary" data-aos="fade-up">Agenda</h1>
       </div>
       <div class="col-sm-6 d-flex align-items-center justify-content-end">
-        <a href="" class="text-body fw-bold" data-aos="fade-up">Selengkapnya <span class="ms-2">›</span></a>
+        <a href="<?= base_url('agenda') ?>" class="text-body fw-bold" data-aos="fade-up">Selengkapnya <span class="ms-2">›</span></a>
       </div>
     </div>
 
@@ -573,6 +572,8 @@
     <div class="row g-4 mb-4 justify-content-center">
 
       <!-- Item agenda -->
+      <?php //dd($agenda) 
+      ?>
       <?php foreach ($agenda as $key) : ?>
         <div class="col-lg-4 col-xl-3 col-md-6" id="item-agenda" data-aos="fade-up">
           <div class="card" data-mdb-ripple-init
@@ -582,7 +583,7 @@
             data-uri="<?= $key['uri'] ?>"
             data-title="<?= $key['agenda'] ?>"
             data-deskripsi="<?= $key['deskripsi'] ?>"
-            data-waktu_mulai="<?= $key['waktu_mulai'] ?>">
+            data-waktu="<?= $key['waktu_mulai'] ?>">
 
             <!-- Konten agenda -->
             <div class="card-body">
@@ -621,7 +622,7 @@
             <h1 class="fw-bold text-primary" data-aos="fade-up">Pengumuman</h1>
           </div>
           <div class="col d-flex align-items-center justify-content-end">
-            <a href="" class="text-body fw-bold" data-aos="fade-up">Selengkapnya <span class="ms-2">›</span></a>
+            <a href="<?= base_url('pengumuman') ?>" class="text-body fw-bold" data-aos="fade-up">Selengkapnya <span class="ms-2">›</span></a>
           </div>
         </div>
 
@@ -636,7 +637,7 @@
                 data-uri="<?= $key['uri'] ?>"
                 data-title="<?= $key['pengumuman'] ?>"
                 data-deskripsi="<?= $key['deskripsi'] ?>"
-                data-waktu_mulai="<?= $key['waktu_mulai'] ?>">
+                data-waktu="<?= $key['waktu_mulai'] ?>">
                 <div class="d-flex p-3">
 
                   <div class="px-3">
@@ -683,8 +684,8 @@
       </div>
       <div class="bg-primary w-100" style="height: 4px;"></div>
       <div class="modal-body">
-        <img id="modalImageContent" class="w-100" /><!-- Image content will be here -->
-        <p id="modalWaktuContent"><!-- Waktu content will be here --></p>
+        <img id="modalImageContent" class="mb-2 w-100" /><!-- Image content will be here -->
+        <p id="modalWaktuContent" class="fw-bold"><!-- Waktu content will be here --></p>
         <p id="modalDescriptionContent"><!-- Description content will be here --></p>
       </div>
     </div>
@@ -696,4 +697,39 @@
 <?= $this->section('script') ?>
 <script type="text/javascript" src="<?= base_url("assets/js/formatter.js") ?>"></script>
 <script type="text/javascript" src="<?= base_url("assets/js/beranda.js") ?>"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const berandaModal = document.getElementById('berandaModal');
+
+    berandaModal.addEventListener('show.bs.modal', function(event) {
+      // Card (or button) that triggered the modal
+      const card = event.relatedTarget;
+      // Extract the uri, title, and description values from the card's data-* attributes
+      const uriValue = card.getAttribute('data-uri');
+      const titleValue = card.getAttribute('data-title');
+      const descriptionValue = card.getAttribute('data-deskripsi');
+      const waktuValue = formatDate(card.getAttribute('data-waktu'));
+
+      // Update the modal's content with the extracted values
+      const modalTitle = berandaModal.querySelector('#modalTitle');
+      const modalImageContent = berandaModal.querySelector('#modalImageContent');
+      const modalWaktuContent = berandaModal.querySelector('#modalWaktuContent');
+      const modalDescriptionContent = berandaModal.querySelector('#modalDescriptionContent');
+
+      modalTitle.textContent = titleValue; // Update the title
+      modalImageContent.src = uriValue; // Update the uri content
+      modalWaktuContent.textContent = waktuValue; // Update the uri content
+      modalDescriptionContent.textContent = descriptionValue; // Update the description content
+    });
+
+    // Ensure the card itself is clickable to trigger the modal
+    const cards = document.querySelectorAll('.card[data-mdb-target="#berandaModal"]');
+    cards.forEach(function(card) {
+      card.addEventListener('click', function() {
+        const modal = new bootstrap.Modal(berandaModal);
+        modal.show();
+      });
+    });
+  });
+</script>
 <?= $this->endSection() ?>

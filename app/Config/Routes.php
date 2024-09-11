@@ -40,6 +40,10 @@ $routes->get('test', 'BeritaAdmin::test');
 $routes->get('xml-migration', 'XmlMigrationController::migrate');
 $routes->get('xml-migration-lampiran', 'XmlMigrationLampiranController::migrate');
 $routes->get('entitas', 'Entitas');
+$routes->get('agenda', 'Agenda');
+$routes->get('agenda/(:num)', 'Agenda::get/$1');
+$routes->get('pengumuman', 'Pengumuman');
+$routes->get('pengumuman/(:num)', 'Pengumuman::get/$1');
 
 // TESTING ROUTES
 // $routes->get('/entitas', 'Entitas');

@@ -19,14 +19,15 @@ class Entitas extends BaseController
 
     public function index()
     {
-        $this->data['judul'] = "Entitas";
+        $this->data['judul'] = "Akademik";
 
-        $grup_id = $this->request->getGet('grup_id');
+        $grup = $this->request->getGet('grup') ?? '';
+        $cari = $this->request->getGet('cari') ?? '';
 
-        if (isset($grup_id)) {
-            $entitas = $this->entitasModel->getByGroup($grup_id);
-        } else {
+        if (!isset($grup) && !isset($cari)) {
             $entitas = $this->entitasModel->getParent();
+        } else {
+            $entitas = $this->entitasModel->getByFilter($cari, $grup);
         }
 
         $this->data['entitas'] = $entitas;
@@ -39,11 +40,13 @@ class Entitas extends BaseController
         helper('format');
 
         $entitas = $this->entitasModel->getBySlug($slug);
+        $parent = (isset($entitas['parent_id'])) ? $this->entitasModel->getById($entitas['parent_id']) : null;
 
         $this->data['judul'] = $entitas['nama'];
 
         // dd(format_tanggal($berita));
         $this->data['entitas'] = $entitas;
+        $this->data['entitasParent'] = $parent;
 
         // dd($berita);
 

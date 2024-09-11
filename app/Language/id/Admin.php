@@ -52,6 +52,7 @@ return [
     'buatKomponen' => 'Buat Komponen',
     'suntingKomponen' => 'Sunting Komponen',
     'grup' => 'Grup',
+    'namaGrup' => 'Nama Grup',
     'konten' => 'Konten',
 
     // Berita
@@ -142,6 +143,7 @@ return [
 
     'lainnya' => 'Lainnya',
     'tambahBaru' => 'Tambah baru',
+    'namaKategori' => 'Nama Kategori',
     'pilihAtauInputKategori' => 'Pilih atau input kategori',
 
     'waktu' => 'Waktu',
