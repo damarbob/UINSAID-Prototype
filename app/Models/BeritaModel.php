@@ -123,7 +123,7 @@ class BeritaModel extends \CodeIgniter\Model
             ->join('users', 'users.id = berita.id_penulis', 'left')
             ->join('kategori', 'kategori.id = berita.id_kategori', 'left')
             ->orderBy('berita.created_at', 'DESC')
-            ->paginate(10, 'berita'));
+            ->paginate(12, 'berita'));
     }
 
     public function getTerbaru($jumlah, $offset = 0)

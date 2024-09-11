@@ -88,7 +88,7 @@
     </div>
 
     <!-- Konten utama -->
-    <div class="row g-3">
+    <div class="row g-3" data-masonry='{"percentPosition": true }'>
 
         <!-- Konten utama kiri -->
         <!-- Daftar artikel terbaru -->
@@ -101,7 +101,7 @@
                     </div>
                     <div class="card-body text-start">
                         <a href="<?= base_url() ?>berita/<?= $r['slug'] ?>">
-                            <h5 class="card-title lh-sm">
+                            <h5 class="card-title lh-sm line-clamp-4">
                                 <?= $r['judul'] ?>
                             </h5>
                         </a>
@@ -165,6 +165,7 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('script') ?>
+<script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha384-GNFwBvfVxBkLMJpYMOABq3c+d3KnQxudP/mGPkzpZSTYykLBNsZEnG2D9G/X/+7D" crossorigin="anonymous" async></script>
 <script>
     // Initialize Swiper JS for Berita
     var swiperBerita = new Swiper("#swiper-berita", {
