@@ -9,6 +9,7 @@ use App\Models\EntitasModel;
 use App\Models\HalamanModel;
 use App\Models\KomponenModel;
 use App\Models\PengumumanModel;
+use App\Models\PPIDModel;
 use CodeIgniter\Controller;
 use CodeIgniter\HTTP\CLIRequest;
 use CodeIgniter\HTTP\IncomingRequest;
@@ -57,6 +58,7 @@ abstract class BaseController extends Controller
     protected KategoriModel $kategoriModel;
     protected AgendaModel $agendaModel;
     protected PengumumanModel $pengumumanModel;
+    protected PPIDModel $ppidModel;
     protected EntitasModel $entitasModel;
 
     // Page builder models
@@ -80,6 +82,7 @@ abstract class BaseController extends Controller
         $this->kategoriModel = new KategoriModel();
         $this->agendaModel = new AgendaModel();
         $this->pengumumanModel = new PengumumanModel();
+        $this->ppidModel = new PPIDModel();
         $this->entitasModel = new EntitasModel();
 
         $this->halamanModel = new HalamanModel();

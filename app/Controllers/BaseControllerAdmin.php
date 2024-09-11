@@ -9,6 +9,7 @@ use App\Models\PengumumanModel;
 use App\Models\MasukanModel;
 use App\Models\BeritaModel;
 use App\Models\EntitasModel;
+use App\Models\FileModel;
 use App\Models\GaleriModel;
 use App\Models\HalamanModel;
 use App\Models\KategoriModel;
@@ -72,6 +73,7 @@ abstract class BaseControllerAdmin extends Controller
         protected PengumumanModel $pengumumanModel;
         protected BeritaModel $beritaModel;
         protected BeritaDiajukanModel $beritaDiajukanModel;
+        protected FileModel $fileModel;
         protected GaleriModel $galeriModel;
         protected MasukanModel $masukanModel;
         protected KategoriModel $kategoriModel;
@@ -105,6 +107,7 @@ abstract class BaseControllerAdmin extends Controller
                 $this->beritaDiajukanModel = new BeritaDiajukanModel();
                 $this->agendaModel = new AgendaModel();
                 $this->pengumumanModel = new PengumumanModel();
+                $this->fileModel = new FileModel();
                 $this->galeriModel = new GaleriModel();
                 $this->masukanModel = new MasukanModel();
                 $this->userModel = new UserModel();

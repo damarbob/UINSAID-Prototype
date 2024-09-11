@@ -36,6 +36,9 @@ $routes->get('tentang-kami', 'TentangKami');
 $routes->get('/berita', 'Berita');
 $routes->get('/berita/(:any)', 'Berita::get/$1');
 $routes->get('/kategori/(:any)', 'Berita::getByKategori/$1');
+$routes->get('/ppid', 'PPID');
+$routes->get('/ppid/(:segment)', 'PPID::getByKategori/$1');
+$routes->get('/ppid/detail/(:any)', 'PPID::get/$1');
 $routes->get('test', 'BeritaAdmin::test');
 $routes->get('xml-migration', 'XmlMigrationController::migrate');
 $routes->get('xml-migration-lampiran', 'XmlMigrationLampiranController::migrate');
@@ -143,6 +146,15 @@ $routes->group('admin', ['filter' => 'group:admin,superadmin'], function ($route
         $routes->post('hapus-banyak', 'GaleriAdmin::hapusBanyak');
     });
 
+    // Galeri
+    $routes->group('file', ['namespace' => 'App\Controllers'], function ($routes) {
+        $routes->get('/', 'FileAdmin::index');
+        $routes->post('unggah', 'FileAdmin::unggah');
+        $routes->post('simpanMetadata/(:num)', 'FileAdmin::simpanMetadata/$1');
+        $routes->post('hapus/(:num)', 'FileAdmin::hapus/$1');
+        $routes->post('hapus-banyak', 'FileAdmin::hapusBanyak');
+    });
+
     // Kotak masuk
     $routes->get('kotak-masuk', 'KotakMasukAdmin');
     $routes->get('kotak-masuk/sunting', 'KotakMasukAdmin::sunting');
@@ -221,6 +233,10 @@ $routes->group('api', static function ($routes) {
 
     // Galeri
     $routes->get('galeri', 'GaleriAdmin::get');
+
+    // File
+    $routes->get('file', 'FileAdmin::get');
+    $routes->post('file', 'FileAdmin::get');
 
     // Kotak masuk
     $routes->get('kotak-masuk', 'KotakMasukAdmin::getKotakMasuk');

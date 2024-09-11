@@ -191,6 +191,15 @@ return [
     'cari' => 'Cari',
     'cariGambar' => 'Cari gambar',
 
+    // File
+    'file' => 'File',
+    'unggahFile' => 'Unggah File',
+    'judulFile' => 'Judul file',
+    'hapusFileTerpilih' => 'Hapus File Terpilih',
+    'jenisFileTidakValid' => 'Jenis file tidak valid.',
+    'fileBerhasilDiunggah' => 'File berhasil diunggah.',
+    'gagalMengunggahFile' => 'Gagal mengunggah file.',
+
     // Situs
     'situs' => 'Situs',
     'kelolaSitus' => 'Kelola Situs',
@@ -215,4 +224,6 @@ return [
     'situsBerhasilDinonaktifkan' => 'Situs berhasil dinonaktifkan',
     'situsBerhasilDipulihkan' => 'Situs berhasil dipulihkan',
     'situsTidakDitemukan' => 'Situs tidak ditemukan',
+
+    'ppid' => 'PPID'
 ];
