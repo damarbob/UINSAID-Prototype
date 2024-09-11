@@ -177,10 +177,10 @@ body {
   box-shadow: none;
 }
 #frontend-navbar .navbar-brand {
-  --logo: url("../img/logo-horizontal-pb.png");
+  --logo: url("../img/logo-horizontal-pb-new.png");
   --logo-width: 256px; /* Logo's actual width */
   --logo-height: 90px; /* Logo's actual height */
-  --logo-scrolled: url("../img/logo-horizontal-pb.png");
+  --logo-scrolled: url("../img/logo-horizontal-pb-new.png");
   --logo-scrolled-width: 342px; /* Logo-scrolled's actual width */
   --logo-scrolled-height: 120px; /* Logo-scrolled's actual height */
   transition: all 0.25s ease;
@@ -211,9 +211,9 @@ body {
 
 @media (min-width: 374.5px) and (max-width: 575px) {
   #frontend-navbar .navbar-brand {
-    --logo: url("../img/logo-horizontal-pb.png");
+    --logo: url("../img/logo-horizontal-pb-new.png");
     --logo-width: 256px; /* Logo's actual width */
-    --logo-scrolled: url("../img/logo-horizontal-pb.png");
+    --logo-scrolled: url("../img/logo-horizontal-pb-new.png");
     --logo-scrolled-width: 342px; /* Logo-scrolled's actual width */
   }
 }
