@@ -31,6 +31,7 @@ class KomponenAdmin extends BaseControllerAdmin
     public function tambah()
     {
         $this->data['judul'] = lang('Admin.buatKomponen');
+        $this->data['komponen_grup'] = $this->komponenGrupModel->findAll();
         return view('admin_komponen_editor', $this->data);
     }
 
@@ -103,6 +104,95 @@ class KomponenAdmin extends BaseControllerAdmin
         $this->komponenModel->delete($id);
         return redirect()->to('/admin/komponen');
     }
+
+    public function simpanMeta()
+    {
+        $response = ['success' => false, 'message' => 'An error occurred'];
+
+        // Retrieve componentId and halamanId from the request
+        $componentId = $this->request->getPost('komponen_id');
+        $halamanId = $this->request->getPost('halaman_id');
+        $metaJson = $this->request->getPost('meta');
+
+        // Initialize an array to store uploaded file URLs
+        $fileUrls = [];
+
+        // Handle file uploads
+        if ($files = $this->request->getFiles()) {
+            foreach ($files as $fileInputName => $uploadedFiles) {
+                if (!is_array($uploadedFiles)) {
+                    $uploadedFiles = [$uploadedFiles]; // Make it an array if it's a single file
+                }
+
+                foreach ($uploadedFiles as $file) {
+                    if ($file->isValid() && !$file->hasMoved()) {
+                        $newName = $file->getRandomName();
+                        $file->move(FCPATH . 'assets/components/uploads', $newName);
+                        $fileUrls[$fileInputName][] = base_url("assets/components/uploads/" . $newName);
+                    }
+                }
+            }
+        }
+
+        // Decode the existing meta JSON to a PHP array
+        $metaDataArray = json_decode($metaJson, true);
+
+        // Convert to associative array for easy lookup by 'id'
+        $metaDataAssoc = [];
+        foreach ($metaDataArray as $meta) {
+            $metaDataAssoc[$meta['id']] = $meta['value'];
+        }
+
+        // Append or update file URLs in the associative array
+        // foreach ($fileUrls as $fileInputName => $urls) {
+        //     if (isset($metaDataAssoc[$fileInputName])) {
+        //         // If the id already exists, merge existing and new URLs
+        //         $existingValue = $metaDataAssoc[$fileInputName];
+        //         if (is_array($existingValue)) {
+        //             $metaDataAssoc[$fileInputName] = array_merge($existingValue, $urls);
+        //         } else {
+        //             $metaDataAssoc[$fileInputName] = array_merge([$existingValue], $urls);
+        //         }
+        //     } else {
+        //         // If the id does not exist, add the new URLs
+        //         $metaDataAssoc[$fileInputName] = count($urls) > 1 ? $urls : $urls[0];
+        //     }
+        // }
+
+        // Append or update file URLs in the associative array
+        foreach ($fileUrls as $fileInputName => $urls) {
+            $metaDataAssoc[$fileInputName] = $urls; // Only store URLs, no merging needed
+        }
+
+        // Convert back to a simple indexed array
+        $metaDataArray = [];
+        foreach ($metaDataAssoc as $id => $value) {
+            $metaDataArray[] = [
+                'id' => $id,
+                'value' => $value
+            ];
+        }
+
+        // Re-encode the updated meta data to JSON
+        $encodedMeta = json_encode($metaDataArray);
+
+        // Save the meta data to the database
+        $komponenMetaModel = $this->komponenMetaModel;
+        $data = [
+            'komponen_id' => $componentId,
+            'halaman_id' => $halamanId,
+            'meta' => $encodedMeta,
+        ];
+
+        if ($komponenMetaModel->insert($data)) {
+            $response = ['success' => true, 'message' => 'Meta data and files processed successfully'];
+        } else {
+            $response = ['success' => false, 'message' => 'Failed to save meta data'];
+        }
+
+        return $this->response->setJSON($response);
+    }
+
 
     /**
      * Get data for DataTables server-side processing

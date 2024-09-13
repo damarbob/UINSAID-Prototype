@@ -85,7 +85,7 @@
                 {
                     "data": "css",
                     "render": function(data, type, row) {
-                        if (type === "display" && data != '') {
+                        if (type === "display" && data != null && data != '') {
                             return '<a href="' + data + '" target="_blank">' +
                                 getFilenameAndExtension(data) + '<i class="bi bi-box-arrow-up-right ms-2"></i>' +
                                 '</a>'
@@ -96,7 +96,7 @@
                 {
                     "data": "js",
                     "render": function(data, type, row) {
-                        if (type === "display" && data != '') {
+                        if (type === "display" && data != null && data != '') {
                             return '<a href="' + data + '" target="_blank">' +
                                 getFilenameAndExtension(data) + '<i class="bi bi-box-arrow-up-right ms-2"></i>' +
                                 '</a>'

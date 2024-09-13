@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
+use DateTime;
 use Psr\Log\LoggerInterface;
 
 use function App\Helpers\format_tanggal;
@@ -127,6 +128,95 @@ class HalamanAdmin extends BaseControllerAdmin
         return redirect()->to('/admin/halaman')->with('message', 'Halaman saved successfully.');
     }
 
+    // Rename the function to avoid conflicts
+    function formatDateTime($datetime)
+    {
+        return date('M Y, H:i', strtotime($datetime));
+    }
+
+    function replaceMetaSyntax($htmlSource, $metaSource)
+    {
+        // Decode the meta source JSON into an associative array
+        $metaDataArray = json_decode($metaSource, true);
+
+        // Create an associative array for quick lookup by ID
+        $metaDataMap = [];
+        foreach ($metaDataArray as $metaData) {
+            $metaDataMap[$metaData['id']] = $metaData;
+        }
+
+        // Function to replace meta syntax with values
+        $pattern = '/\/\* meta \{(.*?)\} meta \*\//';
+        $replacementCallback = function ($matches) use ($metaDataMap) {
+            // Decode the meta data from the match
+            $meta = json_decode('{' . $matches[1] . '}', true);
+
+            // Check if the meta ID exists
+            if (!isset($metaDataMap[$meta['id']])) {
+                return $matches[0]; // Return the original if not found
+            }
+
+            $metaData = $metaDataMap[$meta['id']];
+            $value = $metaData['value'];
+            $output = '';
+
+            // Handle different types
+            switch ($meta['tipe']) {
+                case 'text':
+                case 'number':
+                case 'email':
+                case 'password':
+                case 'color':
+                case 'textarea':
+                    $output = htmlspecialchars($value); // Use htmlspecialchars for safety
+                    break;
+
+                case 'datetime-local':
+                    $output = $this->formatDateTime($value);
+                    break;
+
+                case 'radio':
+                    // Assuming the value is one of the options' values
+                    foreach ($meta['options'] as $option) {
+                        if ($option['value'] === $value) {
+                            $output = $option['label'];
+                            break;
+                        }
+                    }
+                    break;
+
+                case 'checkbox':
+                    $output = $value ? 'on' : 'off'; // Assuming 'on' for checked, 'off' for unchecked
+                    break;
+
+                case 'file':
+                    $output = is_array($value) ? implode(', ', $value) : $value;
+                    break;
+
+                case 'select':
+                    // Assuming the value is one of the options' values
+                    foreach ($meta['options'] as $option) {
+                        if ($option['value'] === $value) {
+                            $output = $option['label'];
+                            break;
+                        }
+                    }
+                    break;
+
+                default:
+                    $output = htmlspecialchars($value); // Default case
+                    break;
+            }
+
+            return $output;
+        };
+
+        // Replace the meta syntax in the HTML source
+        $result = preg_replace_callback($pattern, $replacementCallback, $htmlSource);
+
+        return $result;
+    }
+
     /**
      * Frontend view
      * 
@@ -145,8 +235,16 @@ class HalamanAdmin extends BaseControllerAdmin
             }
         }
 
+        $komponenTerformat = [];
+        foreach ($komponen as $x) {
+            // dd($x['konten']);
+            $x['konten_terformat'] = $this->replaceMetaSyntax($x['konten'], '[{"id":"bold_text","value":"zzsx"},{"id":"italic_text","value":"zzzzzz"},{"id":"underline_text","value":"zzzzzzzzzzzz"},{"id":"strikethrough_text","value":"zzzzzzzzzzzzzzzzz"},{"id":"number","value":"22222"},{"id":"datetime","value":"2024-09-13T10:33"},{"id":"email","value":"simslifepbluns@gmail.com"},{"id":"password","value":"wdqwdqwdqwddqw"},{"id":"color_picker","value":"#000000"},{"id":"range","value":"57"},{"id":"accept_terms","value":"on"},{"id":"gender","value":"female"},{"id":"upload_file","value":["http:\/\/localhost:8000\/assets\/components\/uploads\/1726198454_e301f94e93b09b0533ab.json"]},{"id":"country","value":"us"},{"id":"comments","value":"greargegargerge"},{"id":"favorite_color","value":"green"},{"id":"gender2","value":"female"}]');
+            // dd($x['konten_terformat']);
+            $komponenTerformat[] = $x;
+        }
+
         $this->data['halaman'] = $halaman;
-        $this->data['komponen'] = $komponen;
+        $this->data['komponen'] = $komponenTerformat;
 
         ///////////////
         helper('format');

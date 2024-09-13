@@ -15,7 +15,7 @@
 <div class="mt-navbar">
     <?php foreach ($komponen as $k): ?>
         <div>
-            <?php eval('?>' . $k['konten']) ?>
+            <?php eval('?>' . $k['konten_terformat']) ?>
             <?php if ($k['css']): ?>
                 <link rel="stylesheet" href="<?= base_url($k['css']) ?>">
             <?php endif; ?>

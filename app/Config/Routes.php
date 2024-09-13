@@ -189,6 +189,7 @@ $routes->group('admin/komponen', ['namespace' => 'App\Controllers'], function ($
     // $routes->post('update/(:num)', 'KomponenAdmin::update/$1');
     $routes->get('sunting/(:num)', 'KomponenAdmin::sunting/$1');
     $routes->post('hapus', 'KomponenAdmin::hapusBanyak');
+    $routes->post('simpan/meta', 'KomponenAdmin::simpanMeta');
 });
 
 // Redirect to dasbor

@@ -94,11 +94,11 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="tambahForm" action="/admin/pengguna/tambah" method="post">
+                <form id="editMeta" method="post" class="needs-validation" enctype="multipart/form-data">
                     <div id="input-container">
 
                     </div>
-                    <button type="submit" class="btn btn-success" data-mdb-ripple-init><i class='bx bx-check me-2'></i><?= lang('Admin.sunting') ?></button>
+                    <button id="saveMetaButton" type="submit" class="btn btn-success" data-mdb-ripple-init><i class='bx bx-check me-2'></i><?= lang('Admin.sunting') ?></button>
                 </form>
 
             </div>
@@ -138,7 +138,12 @@
 
             // Check if the component is already in the list
             if (document.querySelector('#sortableTable [data-id="' + componentId + '"]')) {
-                alert('This component is already added.');
+                Swal.fire({
+                    icon: 'warning',
+                    title: '<?= $judul ?>',
+                    text: 'This component is already added.',
+                    confirmButtonColor: "var(--mdb-primary)",
+                });
                 return; // Prevent adding duplicate component
             }
 
@@ -188,38 +193,129 @@
          * Creates MDB styled inputs dynamically from an array of meta JSON objects.
          * @param {Array<Object>} metaDataArray - An array of parsed JSON objects.
          */
-        function createInputsFromMeta(metaDataArray) {
-            const inputContainer = document.getElementById('input-container');
-            inputContainer.innerHTML = ''; // Clear any existing inputs
+        function createInputsFromMeta(meta) {
+            const container = document.getElementById('input-container');
+            container.innerHTML = ''; // Clear the container before adding new inputs
 
-            metaDataArray.forEach(data => {
-                // Create a container div with MDB classes
-                const formOutlineDiv = document.createElement('div');
-                formOutlineDiv.className = 'form-floating mb-3';
-                formOutlineDiv.setAttribute('data-mdb-input-init', '');
+            if (meta.length == 0) {
+                // Append the generated input HTML to the container
+                container.insertAdjacentHTML('beforeend', `<p>This component contains no meta field</p>`);
+                document.getElementById('saveMetaButton').disabled = true; // Disable save button
+            } else {
+                document.getElementById('saveMetaButton').disabled = false; // Enable save button
+            }
 
-                // Create input element
-                const input = document.createElement('input');
-                input.type = data.tipe || 'text'; // Default to 'text' if type is not specified
-                input.id = data.id;
-                input.name = data.id; // Assuming 'id' as the name here, adjust if needed
-                input.className = 'form-control';
+            meta.forEach(item => {
+                const {
+                    id,
+                    nama,
+                    tipe,
+                    options
+                } = item; // Destructure necessary fields
+                let inputHTML = '';
 
-                // Create label element
-                const label = document.createElement('label');
-                label.className = 'form-label';
-                label.setAttribute('for', data.id);
-                label.textContent = data.nama;
+                // Create input elements based on type
+                switch (tipe) {
+                    case 'text':
+                    case 'email':
+                    case 'password':
+                    case 'number':
+                        inputHTML = `
+                    <div class="form-outline mb-3" data-mdb-input-init>
+                        <input type="${tipe}" id="${id}" name="${id}" class="form-control" />
+                        <label class="form-label" for="${id}">${nama}</label>
+                    </div>`;
+                        break;
+                    case 'datetime-local':
+                        inputHTML = `
+                    <div class="form-floating mb-3" data-mdb-input-init>
+                        <input type="${tipe}" id="${id}" name="${id}" class="form-control" />
+                        <label class="form-label" for="${id}">${nama}</label>
+                    </div>`;
+                        break;
+                    case 'color':
+                        inputHTML = `
+                    <div class="mb-3">
+                        <label class="form-label" for="${id}">${nama}</label>
+                        <input type="${tipe}" id="${id}" name="${id}" class="form-control form-control-color" title="${nama}" />
+                    </div>`;
+                        break;
 
-                // Append input and label to the container
-                formOutlineDiv.appendChild(input);
-                formOutlineDiv.appendChild(label);
+                    case 'textarea':
+                        inputHTML = `
+                    <div class="form-outline mb-3" data-mdb-input-init>
+                        <textarea id="${id}" name="${id}" class="form-control"></textarea>
+                        <label class="form-label" for="${id}">${nama}</label>
+                    </div>`;
+                        break;
 
-                // Append the container to the main input container
-                inputContainer.appendChild(formOutlineDiv);
+                    case 'checkbox':
+                        inputHTML = `
+                    <div class="form-check mb-3">
+                        <input type="checkbox" id="${id}" name="${id}" class="form-check-input" />
+                        <label class="form-check-label" for="${id}">${nama}</label>
+                    </div>`;
+                        break;
+
+                    case 'radio':
+                        if (options && Array.isArray(options)) {
+                            inputHTML = options.map(option => `
+                            <div class="form-check mb-3">
+                                <input type="radio" id="${id}_${option.value}" name="${id}" value="${option.value}" class="form-check-input" />
+                                <label class="form-check-label" for="${id}_${option.value}">${option.label}</label>
+                            </div>
+                            `).join('');
+                        }
+                        break;
+
+                    case 'range':
+                        inputHTML = `
+                    <label class="form-label" for="${id}">${nama}</label>
+                    <div class="range mb-3">
+                        <input type="range" id="${id}" name="${id}" class="form-range" />
+                    </div>`;
+                        break;
+
+                    case 'file':
+                        inputHTML = `
+                    <div class="mb-3">
+                        <label class="form-label" for="${id}">${nama}</label>
+                        <input type="file" id="${id}" name="${id}" class="form-control" />
+                    </div>`;
+                        break;
+
+                    case 'select':
+                        if (options && Array.isArray(options)) {
+                            let optionsHTML = options.map(option => `<option value="${option.value}">${option.label}</option>`).join('');
+                            inputHTML = `
+                        <div class="mb-3">
+                            <label class="form-label" for="${id}">${nama}</label>
+                            <select id="${id}" name="${id}" class="form-select">
+                                ${optionsHTML}
+                            </select>
+                        </div>`;
+                        }
+                        break;
+
+                    default:
+                        console.warn(`Unknown input type: ${tipe}`);
+                }
+
+                // Append the generated input HTML to the container
+                container.insertAdjacentHTML('beforeend', inputHTML);
+
+                // Re-initialize MDB input fields after adding them dynamically
+                if (typeof mdb !== 'undefined' && mdb.Input) {
+                    document.querySelectorAll('.form-outline').forEach(element => {
+                        new mdb.Input(element); // Initialize each input field
+                    });
+                    document.querySelectorAll('.range').forEach(element => {
+                        new mdb.Range(element); // Initialize each range input field
+                    });
+                    // Re-initialize other types if necessary
+                }
             });
         }
-
 
         function updateKomponenOrder() {
             var order = Array.from(sortableTable.querySelectorAll('tr')).map(function(row) {
@@ -256,8 +352,18 @@
             // alert('Opening editor for component ID: ' + componentId);
             $('#editMetaModal').modal('show');
             const content = getKontenById(`<?php echo addcslashes(json_encode($availableComponents), '\'\\'); ?>`, componentId);
-            const metaDataArray = detectMetaSyntax(content);
+            const metaDataArray = extractMetaFromHTML(content);
             createInputsFromMeta(metaDataArray);
+
+            // Remove previous event listener before attaching a new one
+            document.getElementById("editMetaModal").removeEventListener("submit", handleSubmit);
+            document.getElementById("editMetaModal").addEventListener("submit", handleSubmit);
+
+            function handleSubmit(event) {
+                event.preventDefault(); // Prevent default form submission
+                const formData = encodeInputsToMetaJSON("editMeta");
+                sendMetaJSONToServer(formData, componentId, <?= $halaman['id'] ?>);
+            }
         }
 
         /**
@@ -284,6 +390,115 @@
 
             return inputsData;
         }
+
+        function extractMetaFromHTML(content) {
+
+            // Regular expression to match meta comments
+            const regex = /\/\*\s*meta\s*({.*?})\s*meta\s*\*\//g;
+            let matches;
+            const metaDataArray = [];
+
+            // Loop to find all matches
+            while ((matches = regex.exec(content)) !== null) {
+                try {
+                    // Parse the matched JSON string into an object
+                    const metaObject = JSON.parse(matches[1]);
+                    metaDataArray.push(metaObject);
+                } catch (error) {
+                    console.error("Error parsing meta JSON:", error);
+                }
+            }
+
+            return metaDataArray;
+        }
+
+        function encodeInputsToMetaJSON(formId) {
+            const form = document.getElementById(formId);
+            const inputs = form.querySelectorAll("input, textarea, select");
+            let meta = [];
+            let formData = new FormData();
+            let processedNames = new Set(); // To keep track of processed radio button groups
+
+            inputs.forEach((input) => {
+                const {
+                    id,
+                    type,
+                    name,
+                    value,
+                    files: inputFiles,
+                    checked
+                } = input;
+
+                if (!id) return; // Skip inputs without IDs
+
+                // Handle file inputs
+                if (type === "file" && inputFiles.length > 0) {
+                    const fileArray = [];
+                    for (let i = 0; i < inputFiles.length; i++) {
+                        formData.append(id, inputFiles[i]);
+                        fileArray.push(inputFiles[i].name); // Temporary name placeholder
+                    }
+                    meta.push({
+                        id,
+                        value: fileArray
+                    });
+                }
+                // Handle radio buttons - only add the checked one, avoid duplicates
+                else if (type === "radio" && checked && !processedNames.has(name)) {
+                    meta.push({
+                        id: name,
+                        value
+                    }); // Use name to group radio buttons
+                    processedNames.add(name);
+                }
+                // Handle checkboxes - only add the checked ones
+                else if (type === "checkbox" && checked) {
+                    meta.push({
+                        id,
+                        value
+                    });
+                }
+                // Handle all other inputs
+                else if (type !== "file" && type !== "radio" && type !== "checkbox") {
+                    meta.push({
+                        id,
+                        value
+                    });
+                }
+            });
+
+            // Add the encoded JSON to FormData for sending to the server
+            formData.append("meta", JSON.stringify(meta));
+
+            return formData;
+        }
+
+
+
+
+        function sendMetaJSONToServer(formData, componentId, halamanId) {
+            // Append componentId and halamanId to the FormData
+            formData.append('komponen_id', componentId);
+            formData.append('halaman_id', halamanId);
+
+            fetch('<?= base_url('admin/komponen/simpan/meta') ?>', {
+                    method: 'POST',
+                    body: formData,
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire('Success', data.message, 'success');
+                    } else {
+                        Swal.fire('Error', data.message, 'error');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    Swal.fire('Error', 'An error occurred while processing your request.', 'error');
+                });
+        }
+
 
     });
 </script>

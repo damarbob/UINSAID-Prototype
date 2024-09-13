@@ -18,6 +18,7 @@ class SitusModel extends \CodeIgniter\Model
     public function getByID($id)
     {
         return $this->select('*')
+            ->where('id', $id)
             ->first();
     }
 

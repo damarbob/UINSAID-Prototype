@@ -47,6 +47,9 @@ function capitalizeFirstLetter(string) {
 }
 
 function getFilenameAndExtension(url) {
+  if (url == null) {
+    return "";
+  }
   const filename = url.substring(url.lastIndexOf("/") + 1);
   return filename;
 }

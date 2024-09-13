@@ -14,6 +14,7 @@ use App\Models\GaleriModel;
 use App\Models\HalamanModel;
 use App\Models\KategoriModel;
 use App\Models\KomponenGrupModel;
+use App\Models\KomponenMetaModel;
 use App\Models\KomponenModel;
 use App\Models\SitusModel;
 use CodeIgniter\BaseModel;
@@ -83,6 +84,7 @@ abstract class BaseControllerAdmin extends Controller
         // Page builder models
         protected HalamanModel $halamanModel;
         protected KomponenModel $komponenModel;
+        protected KomponenMetaModel $komponenMetaModel;
         protected KomponenGrupModel $komponenGrupModel;
 
         // Site type
@@ -117,6 +119,7 @@ abstract class BaseControllerAdmin extends Controller
 
                 $this->halamanModel = new HalamanModel();
                 $this->komponenModel = new KomponenModel();
+                $this->komponenMetaModel = new KomponenMetaModel();
                 $this->komponenGrupModel = new KomponenGrupModel();
 
                 // Untuk notifikasi

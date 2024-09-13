@@ -233,6 +233,7 @@
 
             // Iterate over each selected site and send an individual AJAX request
             selectedData.forEach(function(site) {
+                console.log(site.alamat + apiUrl)
                 $.ajax({
                     url: site.alamat + apiUrl,
                     type: 'POST',
