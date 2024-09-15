@@ -157,6 +157,9 @@ return [
     'waktuMulai' => 'Waktu mulai',
     'waktuSelesai' => 'Waktu selesai',
     'unggah' => 'Unggah',
+    'selesai' => 'Selesai',
+    'sedangBerlangsung' => 'Sedang berlangsung',
+    'akanDatang' => 'Akan datang',
 
     'agenda' => 'Agenda',
     'kelolaAgenda' => 'Kelola agenda',

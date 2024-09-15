@@ -40,9 +40,10 @@ class PengumumanModel extends \CodeIgniter\Model
         }
 
         return $builder->select('pengumuman.*, galeri.uri')
+            ->where('pengumuman.status', 'publikasi')
             ->join('galeri', 'galeri.id = pengumuman.id_galeri', 'left')
             ->orderBy('pengumuman.waktu_mulai', 'DESC')
-            ->paginate(10, 'pengumuman');
+            ->paginate(12, 'pengumuman');
     }
 
     /**

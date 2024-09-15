@@ -113,7 +113,7 @@
                 <?php foreach ($images as $image) : ?>
                     <div class="col-md-3 mb-4">
                         <div class="card">
-                            <img src="<?= $image['uri'] ?>" class="card-img-top" alt="<?= esc($image['alt']) ?>">
+                            <img src="<?= $image['uri'] ?>" class="card-img-top" alt="<?= esc($image['alt']) ?>" onerror="this.onerror=null; this.src='<?= base_url('assets/img/icon-notext.png') ?>'">
                             <!-- Checkbox hapus banyak -->
                             <input type="checkbox" name="image_ids[]" value="<?= $image['id'] ?>" class="image-checkbox form-check-input ms-4 mt-4 position-absolute">
                             <div class="card-body">

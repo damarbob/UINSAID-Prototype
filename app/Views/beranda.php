@@ -574,29 +574,34 @@
       <!-- Item agenda -->
       <?php //dd($agenda) 
       ?>
-      <?php foreach ($agenda as $key) : ?>
-        <div class="col-lg-4 col-xl-3 col-md-6" id="item-agenda" data-aos="fade-up">
+      <?php foreach ($agenda as $i => $x) : ?>
+        <div class="col-lg-3 col-xl-3 col-md-6" id="item-agenda-<?= $i ?>" data-aos="fade-up">
           <div class="card" data-mdb-ripple-init
             data-mdb-ripple-init
             data-mdb-modal-init
             data-mdb-target="#berandaModal"
-            data-uri="<?= $key['uri'] ?>"
-            data-title="<?= $key['agenda'] ?>"
-            data-deskripsi="<?= $key['deskripsi'] ?>"
-            data-waktu="<?= $key['waktu_mulai'] ?>">
+            <?php if ($x['uri']) : ?>data-uri-value="<?= $x['uri'] ?>" <?php endif ?>
+            <?php if ($x['agenda']) : ?>data-title="<?= $x['agenda'] ?>" <?php endif ?>
+            <?php if ($x['deskripsi']) : ?>data-deskripsi="<?= htmlspecialchars($x['deskripsi'], ENT_QUOTES) ?>" <?php endif ?>
+            <?php if ($x['waktu_mulai']) : ?>data-waktu="<?= $x['waktu_mulai'] ?>" <?php endif ?>
+            <?php if ($x['waktu_selesai']) : ?>data-waktu-selesai="<?= $x['waktu_selesai'] ?>" <?php endif ?>>
 
             <!-- Konten agenda -->
             <div class="card-body">
-              <p class="card-text"><?= $key['formatted_datetime'] ?>
-                <?php if ($key['waktu_selesai'] && strtotime($key['waktu_selesai']) < time()): ?>
-                  <span class="badge badge-danger">Selesai</span>
-                <?php elseif (!$key['waktu_selesai'] && strtotime($key['waktu_mulai']) < time()): ?>
-                  <span class="badge badge-danger">Selesai</span>
+              <p class="card-text"><?= $x['formatted_datetime'] ?>
+                <?php if ($x['waktu_selesai'] && strtotime($x['waktu_selesai']) < time()): ?>
+                  <span class="badge badge-danger"><?= lang('Admin.selesai') ?></span>
+                <?php elseif ($x['waktu_selesai'] && strtotime($x['waktu_mulai']) < time() && strtotime($x['waktu_selesai']) > time()): ?>
+                  <span class="badge badge-primary"><?= lang('Admin.sedangBerlangsung') ?></span>
+                <?php elseif (!$x['waktu_selesai'] && strtotime($x['waktu_mulai']) < time()): ?>
+                  <span class="badge badge-danger"><?= lang('Admin.selesai') ?></span>
+                <?php else: ?>
+                  <span class="badge badge-primary" style="width: max-content;"><?= lang('Admin.akanDatang') ?></span>
                 <?php endif; ?>
               </p>
               <!-- <a href="#"> -->
               <p class="card-title text-body">
-                <?= $key['agenda'] ?>
+                <?= $x['agenda'] ?>
               </p>
               <!-- </a> -->
             </div>
@@ -628,36 +633,41 @@
 
         <div class="row pb-4 g-3">
 
-          <?php foreach ($pengumuman as $p => $key) : ?>
-            <div class="col-lg-4" data-aos="fade-up" id="item-pengumuman">
+          <?php foreach ($pengumuman as $i => $x) : ?>
+            <div class="col-lg-4" data-aos="fade-up" id="item-pengumuman<?= $i ?>">
               <div class="card"
                 data-mdb-ripple-init
                 data-mdb-modal-init
                 data-mdb-target="#berandaModal"
-                data-uri="<?= $key['uri'] ?>"
-                data-title="<?= $key['pengumuman'] ?>"
-                data-deskripsi="<?= $key['deskripsi'] ?>"
-                data-waktu="<?= $key['waktu_mulai'] ?>">
+                <?php if ($x['uri']) : ?>data-uri-value="<?= $x['uri'] ?>" <?php endif ?>
+                <?php if ($x['pengumuman']) : ?>data-title="<?= $x['pengumuman'] ?>" <?php endif ?>
+                <?php if ($x['deskripsi']) : ?>data-deskripsi="<?= htmlspecialchars($x['deskripsi'], ENT_QUOTES) ?>" <?php endif ?>
+                <?php if ($x['waktu_mulai']) : ?>data-waktu="<?= $x['waktu_mulai'] ?>" <?php endif ?>
+                <?php if ($x['waktu_selesai']) : ?>data-waktu-selesai="<?= $x['waktu_selesai'] ?>" <?php endif ?>>
                 <div class="d-flex p-3">
 
                   <div class="px-3">
                     <p class="mb-0 text-primary">
                       <span class="h3 fw-bold">
-                        <?= $key['waktu_mulai_terformat_tanggal'] ?>
+                        <?= $x['waktu_mulai_terformat_tanggal'] ?>
                       </span>
                       <br>
-                      <?= $key['waktu_mulai_terformat_bulan'] ?>
+                      <?= $x['waktu_mulai_terformat_bulan'] ?>
                     </p>
                   </div>
                   <div class="flex-grow-1 d-flex flex-column justify-content-center">
                     <!-- <a href=""> -->
-                    <?php if ($key['waktu_selesai'] && strtotime($key['waktu_selesai']) < time()): ?>
-                      <span class="badge badge-danger" style="width: max-content;">Selesai</span>
-                    <?php elseif (!$key['waktu_selesai'] && strtotime($key['waktu_mulai']) < time()): ?>
-                      <span class="badge badge-danger" style="width: max-content;">Selesai</span>
+                    <?php if ($x['waktu_selesai'] && strtotime($x['waktu_selesai']) < time()): ?>
+                      <span class="badge badge-secondary" style="width: max-content;"><?= lang('Admin.selesai') ?></span>
+                    <?php elseif ($x['waktu_selesai'] && strtotime($x['waktu_mulai']) < time() && strtotime($x['waktu_selesai']) > time()): ?>
+                      <span class="badge badge-danger" style="width: max-content;"><?= lang('Admin.sedangBerlangsung') ?></span>
+                    <?php elseif (!$x['waktu_selesai'] && strtotime($x['waktu_mulai']) < time()): ?>
+                      <span class="badge badge-secondary" style="width: max-content;"><?= lang('Admin.selesai') ?></span>
+                    <?php else: ?>
+                      <span class="badge badge-primary" style="width: max-content;"><?= lang('Admin.akanDatang') ?></span>
                     <?php endif; ?>
                     <p class="card-title text-body fw-bold fs-6 mb-0">
-                      <?= $key['pengumuman'] ?>
+                      <?= $x['pengumuman'] ?>
                     </p>
                     <!-- </a> -->
                   </div>
@@ -675,18 +685,19 @@
 <!-- End of Section Pengumuman -->
 
 <!-- Modal beranda -->
-<div class="modal fade" id="berandaModal" tabindex="-1" aria-labelledby="berandaModalLabel" aria-hidden="true" data-mdb-backdrop="true" data-mdb-keyboard="true" aria-modal="true">
+<div class="modal fade" id="berandaModal" tabindex="-1" aria-labelledby="berandaModalLabel" aria-hidden="true" aria-modal="true">
   <div class="modal-dialog modal-dialog-scrollable modal-lg modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header bg-secondary border-bottom-0">
         <h5 class="modal-title text-secondary-emphasis" id="modalTitle">Modal title</h5>
-        <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-mdb-ripple-init data-mdb-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="bg-primary w-100" style="height: 4px;"></div>
       <div class="modal-body">
         <img id="modalImageContent" class="mb-2 w-100" /><!-- Image content will be here -->
-        <p id="modalWaktuContent" class="fw-bold"><!-- Waktu content will be here --></p>
-        <p id="modalDescriptionContent"><!-- Description content will be here --></p>
+        <span id="modalWaktuContent" class="fw-bold"><!-- Waktu content will be here --></span>
+        <span id="modalWaktuSelesaiContent" class="fw-bold"></span>
+        <div id="modalDescriptionContent"><!-- Description content will be here --></div>
       </div>
     </div>
   </div>
@@ -705,28 +716,31 @@
       // Card (or button) that triggered the modal
       const card = event.relatedTarget;
       // Extract the uri, title, and description values from the card's data-* attributes
-      const uriValue = card.getAttribute('data-uri');
-      const titleValue = card.getAttribute('data-title');
-      const descriptionValue = card.getAttribute('data-deskripsi');
-      const waktuValue = formatDate(card.getAttribute('data-waktu'));
+      const uriValue = card.getAttribute('data-uri-value') || "";
+      const titleValue = card.getAttribute('data-title') || "Agenda/Pengumuman";
+      const descriptionValue = card.getAttribute('data-deskripsi') || "";
+      const waktuValue = formatDate(card.getAttribute('data-waktu')) || "2024";
+      const waktuSelesaiValue = card.getAttribute('data-waktu-selesai') ? " - " + formatDate(card.getAttribute('data-waktu-selesai')) : "";
 
       // Update the modal's content with the extracted values
       const modalTitle = berandaModal.querySelector('#modalTitle');
       const modalImageContent = berandaModal.querySelector('#modalImageContent');
       const modalWaktuContent = berandaModal.querySelector('#modalWaktuContent');
+      const modalWaktuSelesaiContent = berandaModal.querySelector('#modalWaktuSelesaiContent');
       const modalDescriptionContent = berandaModal.querySelector('#modalDescriptionContent');
 
       modalTitle.textContent = titleValue; // Update the title
       modalImageContent.src = uriValue; // Update the uri content
-      modalWaktuContent.textContent = waktuValue; // Update the uri content
-      modalDescriptionContent.textContent = descriptionValue; // Update the description content
+      modalWaktuContent.textContent = waktuValue; // Update the waktu content
+      modalWaktuSelesaiContent.textContent = waktuSelesaiValue; // Update the waktu selesai content
+      modalDescriptionContent.innerHTML = descriptionValue; // Update the description content
     });
 
     // Ensure the card itself is clickable to trigger the modal
     const cards = document.querySelectorAll('.card[data-mdb-target="#berandaModal"]');
     cards.forEach(function(card) {
       card.addEventListener('click', function() {
-        const modal = new bootstrap.Modal(berandaModal);
+        const modal = new bootstrap.Modal(berandaModal, options);
         modal.show();
       });
     });
