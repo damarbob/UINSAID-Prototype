@@ -2,8 +2,10 @@
 
 namespace App\Controllers;
 
+use CodeIgniter\Exceptions\ConfigException;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
+use DomainException;
 use Psr\Log\LoggerInterface;
 
 use function App\Helpers\create_slug;
@@ -24,6 +26,7 @@ class BeritaAdmin extends BaseControllerAdmin
         $this->data['judul'] = lang('Admin.berita');
         $this->data['is_parent_site'] = $this->isParentSite;
         $this->data['is_child_site'] = $this->isChildSite;
+        // dd(env('app.parentSite'));
         return view('admin_berita', $this->data);
     }
 
@@ -140,6 +143,11 @@ class BeritaAdmin extends BaseControllerAdmin
 
         // Cek validasi
         if (!$this->validate($rules)) {
+
+            if ($id == null) {
+                return redirect()->back()->withInput();
+            }
+
             return redirect()->to($redirectTo)->withInput();
         }
 
@@ -196,73 +204,81 @@ class BeritaAdmin extends BaseControllerAdmin
         return redirect()->to($redirectTo)->withInput();
     }
 
-    public function ajukanBanyak()
-    {
-        $selectedData = $this->request->getPost('selectedData');
+    // API Endpoint
+    // public function ajukanBanyak()
+    // {
+    //     // Check whether parent site has been configured
+    //     $parent = env('app.parentSite');
 
-        // Extract IDs from the selected data
-        $ids = array_column($selectedData, 'id');
+    //     if ($parent == null) {
+    //         return $this->response->setJSON(['status' => 'error', 'message' => lang('Admin.permintaanGagalDikirim')]);
+    //     }
 
-        // Define the data to update for all selected records
-        $updateData = [
-            'pengajuan' => 'diajukan',
-        ];
+    //     $selectedData = $this->request->getPost('selectedData');
 
-        // Call update_many with the array of IDs
-        $result = update_many($ids, $this->beritaModel, $updateData);
+    //     // Extract IDs from the selected data
+    //     $ids = array_column($selectedData, 'id');
 
-        // If the update was successful, send the data to another route
-        if ($result) {
-            // Send the data to the 'terima-berita' route
-            $response = $this->sendToTerimaBerita($selectedData);
+    //     // Define the data to update for all selected records
+    //     $updateData = [
+    //         'pengajuan' => 'diajukan',
+    //     ];
 
-            $statusCode = $response->getStatusCode();
-            $responseBody = json_decode((string) $response->getBody(), true);
+    //     // Call update_many with the array of IDs
+    //     $result = update_many($ids, $this->beritaModel, $updateData);
 
-            switch ($statusCode) {
-                case 200:
-                    if ($responseBody['status'] === 'success') {
-                        return $this->response->setJSON(['status' => 'success', 'message' => lang('Admin.berhasilDiajukan')]);
-                    } else {
-                        return $this->response->setJSON(['status' => 'error', 'message' => lang('Admin.berhasilDiajukanTapiAdaMasalahPenerimaan')]);
-                    }
+    //     // If the update was successful, send the data to another route
+    //     if ($result) {
+    //         // Send the data to the 'terima-berita' route
+    //         $response = $this->sendToTerimaBerita($selectedData, $parent);
 
-                case 400:
-                    return $this->response->setJSON(['status' => 'error', 'message' => lang('Admin.permintaanTidakValid')]);
+    //         $statusCode = $response->getStatusCode();
+    //         $responseBody = json_decode((string) $response->getBody(), true);
 
-                case 401:
-                    return $this->response->setJSON(['status' => 'error', 'message' => lang('Admin.tidakDiizinkanAndaPerluLogin')]);
+    //         switch ($statusCode) {
+    //             case 200:
+    //                 if ($responseBody['status'] === 'success') {
+    //                     return $this->response->setJSON(['status' => 'success', 'message' => lang('Admin.berhasilDiajukan')]);
+    //                 } else {
+    //                     return $this->response->setJSON(['status' => 'error', 'message' => lang('Admin.berhasilDiajukanTapiAdaMasalahPenerimaan')]);
+    //                 }
 
-                case 403:
-                    return $this->response->setJSON(['status' => 'error', 'message' => lang('Admin.aksesDitolakAndaTidakMemilikiIzin')]);
+    //             case 400:
+    //                 return $this->response->setJSON(['status' => 'error', 'message' => lang('Admin.permintaanTidakValid')]);
 
-                case 404:
-                    return $this->response->setJSON(['status' => 'error', 'message' => lang('Admin.ruteAtauSumberDayaTidakDitemukan')]);
+    //             case 401:
+    //                 return $this->response->setJSON(['status' => 'error', 'message' => lang('Admin.tidakDiizinkanAndaPerluLogin')]);
 
-                case 500:
-                    return $this->response->setJSON(['status' => 'error', 'message' => lang('Admin.kesalahanServerSilakanCobaLagiNanti')]);
+    //             case 403:
+    //                 return $this->response->setJSON(['status' => 'error', 'message' => lang('Admin.aksesDitolakAndaTidakMemilikiIzin')]);
 
-                default:
-                    return $this->response->setJSON(['status' => 'error', 'message' => lang('Admin.terjadiKesalahanTidakTerdugaKodeStatus', ['kode' => $statusCode])]);
-            }
-        } else {
-            return $this->response->setJSON(['status' => 'error', 'message' => lang('Admin.gagalDiajukan')]);
-        }
-    }
+    //             case 404:
+    //                 return $this->response->setJSON(['status' => 'error', 'message' => lang('Admin.ruteAtauSumberDayaTidakDitemukan')]);
+
+    //             case 500:
+    //                 return $this->response->setJSON(['status' => 'error', 'message' => lang('Admin.kesalahanServerSilakanCobaLagiNanti')]);
+
+    //             default:
+    //                 return $this->response->setJSON(['status' => 'error', 'message' => lang('Admin.terjadiKesalahanTidakTerdugaKodeStatus', ['kode' => $statusCode])]);
+    //         }
+    //     } else {
+    //         return $this->response->setJSON(['status' => 'error', 'message' => lang('Admin.gagalDiajukan')]);
+    //     }
+    // }
 
 
-    private function sendToTerimaBerita($selectedData)
-    {
-        $client = \Config\Services::curlrequest();
+    // private function sendToTerimaBerita(array $selectedData, string $parent)
+    // {
+    //     $client = \Config\Services::curlrequest();
 
-        $response = $client->post(base_url('api/berita-diajukan/terima-berita'), [
-            'form_params' => [
-                'selectedData' => $selectedData
-            ]
-        ]);
+    //     $response = $client->post($parent . 'api/berita-diajukan/terima-berita', [
+    //         'form_params' => [
+    //             'selectedData' => $selectedData
+    //         ]
+    //     ]);
 
-        return $response;
-    }
+    //     return $response;
+    // }
 
 
     // TODO: USE TRANSLATION

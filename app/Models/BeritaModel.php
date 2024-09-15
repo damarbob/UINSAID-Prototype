@@ -12,7 +12,7 @@ class BeritaModel extends \CodeIgniter\Model
 
     protected $useTimestamps = true;
 
-    protected $allowedFields = ['id_penulis', 'judul', 'slug', 'konten', 'ringkasan', 'pengajuan', 'id_kategori', 'status', 'sumber', 'tgl_terbit'];
+    protected $allowedFields = ['id_penulis', 'id_kategori', 'id_jenis', 'judul', 'slug', 'konten', 'ringkasan', 'pengajuan', 'status', 'sumber', 'tgl_terbit'];
 
     public function getByKategori($kategori)
     {
@@ -103,7 +103,8 @@ class BeritaModel extends \CodeIgniter\Model
 
     public function get()
     {
-        return $this->formatSampul($this->select('berita.*, users.username as penulis, kategori.nama as kategori')
+        return $this->formatSampul($this
+            ->select('berita.*, users.username as penulis, kategori.nama as kategori')
             ->join('users', 'users.id = berita.id_penulis', 'left')
             ->join('kategori', 'kategori.id = berita.id_kategori', 'left')
             ->orderBy('berita.created_at', 'DESC')
@@ -217,6 +218,12 @@ class BeritaModel extends \CodeIgniter\Model
      */
     function extract_first_image(string $html, string $defaultImageUrl, bool $filenameOnly): string
     {
+        // Check if $html is not empty
+        if (empty($html)) {
+            // Return default image if no HTML content is provided
+            return $defaultImageUrl;
+        }
+
         // Create a DOMDocument object
         $dom = new \DOMDocument();
         // Suppress errors caused by malformed HTML
@@ -237,11 +244,11 @@ class BeritaModel extends \CodeIgniter\Model
             $filenameWithExtension = basename($firstImageSrc);
             return $filenameOnly ? $filenameWithExtension : $firstImageSrc;
         } else {
-            // If no image found, return the filename with extension of the default image URL
-            // return basename(parse_url($defaultImageUrl, PHP_URL_PATH));
+            // If no image found, return the default image URL
             return $defaultImageUrl;
         }
     }
+
 
     public function isLatestDataOverThreeMonthsOld(): bool
     {

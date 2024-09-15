@@ -33,7 +33,7 @@ $beritaUrl = base_url("berita/" . $berita['slug']);
 
 
 <?= $this->section('style') ?>
-<link href="../assets/css/style-berita.css" rel="stylesheet" />
+<link href="<?= base_url('assets/css/style-berita.css') ?>" rel="stylesheet" />
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
@@ -56,8 +56,8 @@ $beritaUrl = base_url("berita/" . $berita['slug']);
                         <ol class="breadcrumb">
 
                             <!-- TODO: Hardcoded breadcrumb -->
-                            <li class="breadcrumb-item"><a href="/">Beranda</a></li>
-                            <li class="breadcrumb-item"><a href="/berita">Berita</a></li>
+                            <li class="breadcrumb-item"><a href="<?= base_url() ?>">Beranda</a></li>
+                            <li class="breadcrumb-item"><a href="<?= base_url('berita') ?>">Berita</a></li>
                             <li class="breadcrumb-item active fw-bold" aria-current="page">
                                 <?= $berita['judul']; ?>
                             </li>
@@ -90,7 +90,7 @@ $beritaUrl = base_url("berita/" . $berita['slug']);
                 <div class="row g-0">
                     <div class="col">
                         <div class="ratio ratio-4x3">
-                            <img data-aos="fade-up" class="object-fit-cover" style="border: 1rem solid var(--mdb-body-bg);" src="<?= $berita['gambar_sampul']; ?>" />
+                            <img data-aos="fade-up" class="object-fit-cover" style="border: 1rem solid var(--mdb-body-bg);" src="<?= $berita['featured_image'] ?: $berita['gambar_sampul'] ?>" />
                         </div>
                     </div>
                 </div>
@@ -138,13 +138,13 @@ $beritaUrl = base_url("berita/" . $berita['slug']);
                     <!-- Tombol share sosmed -->
                     <div class="col">
 
-                        <a class="btn btn-whatsapp m-2 m-xl-0 mb-lg-2 me-2" href="https://api.whatsapp.com/send?text=<?= $berita['judul'] ?> %0a %0a<?= $beritaUrl ?>%0a %0aKunjungi situs UIN Raden Mas Said Surakarta untuk melihat informasi terkini: %0a<?= base_url() ?>" target="_blank" onclick="window.open('https\:\/\/api.whatsapp.com/send?text=<?= $berita['judul'] ?> %0a %0a<?= $beritaUrl ?>%0a %0aKunjungi situs UIN Raden Mas Said Surakarta untuk melihat informasi terkini: %0a<?= base_url() ?>', '_blank', 'width=600,height=600,scrollbars=yes,menubar=no,status=yes,resizable=yes,screenx=0,screeny=0'); return false;"><small><span class="bi bi-whatsapp me-2"></span>Whatsapp</small></a>
+                        <a class="btn btn-whatsapp m-2 m-xl-0 mb-lg-2 me-2" href="https://api.whatsapp.com/send?text=<?= $berita['judul'] ?> %0a %0a<?= $beritaUrl ?>%0a %0aKunjungi situs UIN Raden Mas Said Surakarta untuk melihat informasi terkini: %0a<?= base_url() ?>" target="_blank" onclick="window.open('https\:\/\/api.whatsapp.com/send?text=<?= $berita['judul'] ?> %0a %0a<?= $beritaUrl ?>%0a %0aKunjungi situs UIN Raden Mas Said Surakarta untuk melihat informasi terkini: %0a<?= base_url() ?>', '_blank', 'width=600,height=600,scrollbars=yes,menubar=no,status=yes,resizable=yes,screenx=0,screeny=0'); return false;"><span class="bi bi-whatsapp"></span></a>
 
-                        <a class="btn btn-facebook-1 m-2 m-xl-0 mb-lg-2 me-2" href="https://www.facebook.com/sharer/sharer.php?u=<?= $beritaUrl ?>" target="_blank"><small><span class="bi bi-facebook me-2"></span>Facebook</small></a>
+                        <a class="btn btn-facebook-1 m-2 m-xl-0 mb-lg-2 me-2" href="https://www.facebook.com/sharer/sharer.php?u=<?= $beritaUrl ?>" target="_blank"><span class="bi bi-facebook"></span></a>
 
-                        <a class="btn btn-twitter-1 m-2 m-xl-0 mb-lg-2 me-2" href="https://twitter.com/intent/tweet?url=<?= $beritaUrl ?>" target="_blank"><small><span class="bi bi-twitter me-2"></span>Twitter</small></a>
+                        <a class="btn btn-twitter-1 m-2 m-xl-0 mb-lg-2 me-2" href="https://twitter.com/intent/tweet?url=<?= $beritaUrl ?>" target="_blank"><span class="bi bi-twitter"></span></a>
 
-                        <a class="btn btn-linkedin-1 m-2 m-xl-0 mb-lg-2 me-2" href="https://www.linkedin.com/sharing/share-offsite/?url=<?= $beritaUrl ?>" target="_blank"><small><span class="bi bi-linkedin me-2"></span>LinkedIn</small></a>
+                        <a class="btn btn-linkedin-1 m-2 m-xl-0 mb-lg-2 me-2" href="https://www.linkedin.com/sharing/share-offsite/?url=<?= $beritaUrl ?>" target="_blank"><span class="bi bi-linkedin"></span></a>
 
                     </div>
 

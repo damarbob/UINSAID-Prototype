@@ -233,7 +233,7 @@
 
             // Iterate over each selected site and send an individual AJAX request
             selectedData.forEach(function(site) {
-                console.log(site.alamat + apiUrl)
+                // console.log(site.alamat + apiUrl);
                 $.ajax({
                     url: site.alamat + apiUrl,
                     type: 'POST',
@@ -248,9 +248,11 @@
                     success: function(response) {
                         // TODO: Translasi
                         responseMessages.push(`<p>${site.nama}: ${response.message || '<?= lang('Admin.tidakAdaResponsDiterima') ?>'}</p>`);
+                        console.log(response);
                     },
                     error: function(xhr, status, error) {
-                        responseMessages.push(`<p>${site.nama}: ${xhr.responseText || error}</p>`);
+                        responseMessages.push(`<p>${site.nama}: ${xhr.responseText || error || capitalizeFirstLetter(status)}</p>`);
+                        console.log('ERROR:' + status);
                     },
                     complete: function() {
                         totalRequests++;
@@ -273,8 +275,14 @@
 
         // Change button styles
         $('#tabel').on('preInit.dt', function() {
+
             var buttons = $(".dt-buttons.btn-group.flex-wrap .btn.btn-secondary");
             var lastButton = buttons.last();
+
+            // Reinitialize the ripple effect for the new button
+            buttons.each(function() {
+                new mdb.Ripple(this); // This will reinitialize the ripple effect on all elements with the data-mdb-ripple-init attribute
+            })
 
             buttons.eq(0).removeClass("btn-secondary").addClass("btn-primary").addClass("rounded-0");
             buttons.eq(2).removeClass("btn-secondary").addClass("btn-danger").addClass("rounded-0");
@@ -301,6 +309,7 @@
             );
 
             secondButton.after(newElement);
+            new mdb.Dropdown(secondButton); // Reinitialize dropdown
 
             var filterButtons = {
                 '#btnFilterRilisMediaSemua': '<?= base_url('/api/situs') ?>',
@@ -319,6 +328,7 @@
                     });
                 });
             });
+
         });
 
     });

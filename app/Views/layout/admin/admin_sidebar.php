@@ -21,14 +21,17 @@ $currentRoute = $request->uri->getPath();
                     <span class="nav_name">Dasbor</span>
                 </a>
             </div>
-            <div class="nav-list">
-                <a href="<?= base_url('admin/halaman') ?>" class="nav-link-admin <?= $currentRoute == "admin/halaman" ? "active" : "" ?>">
-                    <i class='bx bx-file nav_icon'></i>
-                    <span class="nav_name">
-                        Halaman
-                    </span>
-                </a>
-            </div>
+            <?php if ((ENVIRONMENT == 'development') && auth()->user()->inGroup("superadmin")): ?>
+                <!-- Halaman editor hanya untuk role superadmin -->
+                <div class="nav-list">
+                    <a href="<?= base_url('admin/halaman') ?>" class="nav-link-admin <?= $currentRoute == "admin/halaman" ? "active" : "" ?>">
+                        <i class='bx bx-file nav_icon'></i>
+                        <span class="nav_name">
+                            Halaman
+                        </span>
+                    </a>
+                </div>
+            <?php endif ?>
             <div class="nav-list">
                 <a href="<?= base_url('admin/berita') ?>" class="nav-link-admin <?= $currentRoute == "admin/berita" ? "active" : "" ?>">
                     <i class='bx bx-news nav_icon'></i>
@@ -90,8 +93,8 @@ $currentRoute = $request->uri->getPath();
                     </span>
                 </a>
             </div>
-            <?php if (env('app.siteType') == 'parent' || env('app.siteType') == 'super'): ?>
-                <!-- Kelola situs khusus parent atau super -->
+            <?php if ((env('app.siteType') == 'parent' || env('app.siteType') == 'super') && auth()->user()->inGroup("superadmin")): ?>
+                <!-- Kelola situs khusus parent atau super dan role superadmin -->
                 <div class="nav-list">
                     <a href="<?= base_url('admin/situs') ?>" class="nav-link-admin <?= $currentRoute == "admin/situs" ? "active" : "" ?>">
                         <i class='bx bxs-network-chart nav_icon'></i>

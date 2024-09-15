@@ -2,11 +2,6 @@
 
 namespace App\Models;
 
-use DateTime;
-
-use function App\Helpers\format_date_to_array;
-use function App\Helpers\format_tanggal;
-
 class SitusModel extends \CodeIgniter\Model
 {
     protected $table = 'situs';

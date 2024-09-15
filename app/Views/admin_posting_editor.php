@@ -16,17 +16,17 @@ if ($mode == "tambah") {
     $valueRingkasan = (old('ringkasan'));
     $valueKategori = (old('kategori'));
     $valueStatus = (old('status'));
-    $valueTglTerbit = (old('tgl_terbit'));
+    $valueTglTerbit = (old('tanggal_terbit'));
 } else {
-    $tglTerbit = strtotime($berita['tgl_terbit']);
+    $tglTerbit = strtotime($posting['tanggal_terbit']);
     $tglTerbitFormat = date("Y-m-d H:i", $tglTerbit);
     // Apabila mode edit, apabila ada nilai lama (old), gunakan nilai lama. Apabila tidak ada nilai lama (old), gunakan nilai dari variabel
-    $valueJudul = (old('judul')) ? old('judul') : $berita['judul'];
-    $valueKonten = (old('konten')) ? old('konten') : $berita['konten'];
-    $valueRingkasan = (old('ringkasan')) ? old('ringkasan') : $berita['ringkasan'];
-    $valueKategori = (old('kategori')) ? old('kategori') : $berita['kategori'];
-    $valueStatus = (old('status')) ? old('status') : $berita['status'];
-    $valueTglTerbit = (old('tgl_terbit')) ? old('tgl_terbit') : $berita['tgl_terbit'];
+    $valueJudul = (old('judul')) ? old('judul') : $posting['judul'];
+    $valueKonten = (old('konten')) ? old('konten') : $posting['konten'];
+    $valueRingkasan = (old('ringkasan')) ? old('ringkasan') : $posting['ringkasan'];
+    $valueKategori = (old('kategori')) ? old('kategori') : $posting['kategori'];
+    $valueStatus = (old('status')) ? old('status') : $posting['status'];
+    $valueTglTerbit = (old('tanggal_terbit')) ? old('tanggal_terbit') : $posting['tanggal_terbit'];
 }
 ?>
 <?php if (session()->getFlashdata('sukses')) : ?>
@@ -43,10 +43,14 @@ if ($mode == "tambah") {
     </div>
 <?php endif; ?>
 
-<form method="post" action="<?= ($mode == "tambah") ? base_url('/admin/berita/tambah/simpan') : base_url('/admin/berita/sunting/simpan/') . $berita['id'] ?>" class="form-container needs-validation" enctype="multipart/form-data" novalidate>
+<form method="post" action="<?= ($mode == "tambah") ? base_url('/admin/posting/tambah/simpan') : base_url('/admin/posting/sunting/simpan/') . $posting['id'] ?>" class="form-container needs-validation" enctype="multipart/form-data" novalidate>
     <?= csrf_field() ?>
     <div class="row mb-3">
         <div class="col-md-9">
+
+            <!-- Jenis postingan -->
+            <!-- <input type="hidden" name="jenis" value="berita" /> -->
+
             <!-- Judul -->
             <div class="form-floating mb-3">
                 <input id="judul" name="judul" class="form-control <?= (validation_show_error('judul')) ? 'is-invalid' : ''; ?>" type="text" value="<?= $valueJudul ?>" placeholder="<?= lang('Admin.judul') ?>" required />
@@ -55,6 +59,7 @@ if ($mode == "tambah") {
                     <?= validation_show_error('judul'); ?>
                 </div>
             </div>
+
             <!-- Konten editor -->
             <div class="form mb-3">
                 <textarea id="konten" name="konten" class="form-control tinymce <?= (validation_show_error('konten')) ? 'is-invalid' : ''; ?>" rows="20" type="text" required><?= $valueKonten ?></textarea>
@@ -64,34 +69,14 @@ if ($mode == "tambah") {
             </div>
         </div>
         <div class="col-md-3">
+
             <!-- Ringkasan -->
             <div class="form-floating mb-3">
                 <textarea id="ringkasan" name="ringkasan" class="form-control overlayscollbar" rows="5" type="text" placeholder="<?= lang('Admin.ringkasan') ?>"><?= $valueRingkasan ?></textarea>
                 <label class="control-label mb-2"><?= lang('Admin.ringkasan') ?></label>
             </div>
+
             <!-- Kategori -->
-            <!-- <div class="form-floating mb-3">
-                <input id="kategori" name="kategori" class="form-control" type="text" value="<?= $valueKategori ?>" placeholder="<?= lang('Admin.kategori') ?>" />
-                <label for="kategori"><?= lang('Admin.kategori') ?></label>
-                <input type="hidden" id="is_new_category" name="is_new_category" value="0">
-                <div class="invalid-feedback">
-                    <?= validation_show_error('kategori'); ?>
-                </div>
-            </div> -->
-            <!-- <?php foreach ($kategori as $k => $key): ?>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="kategori" id="kategoriRadio<?= $key['nama'] ?>" value="<?= $key['nama'] ?>" <?= $key['nama'] == $valueKategori ? 'checked' : '' ?> required />
-                    <label class="form-check-label" for="kategoriRadio<?= $key['nama'] ?>"><?= $key['nama'] ?></label>
-                </div>
-            <?php endforeach ?>
-            <div class="form-check mb-5">
-                <input class="form-check-input" type="radio" name="kategori" id="kategoriRadioLainnya" value="" required />
-                <label class="form-check-label" for="kategoriRadioLainnya"><?= lang('Admin.lainnya') ?></label>
-                <input type="text" class="form-control mt-2 mb-3" id="inputKategoriLainnya" name="kategori_lainnya" placeholder="input kategori" disabled>
-                <div class="invalid-feedback">
-                    <?= lang('Admin.pilihAtauInputKategori') ?>
-                </div>
-            </div> -->
             <div class="mb-3">
                 <label for="kategoriSelect" class="form-label"><?= lang('Admin.kategori') ?></label>
                 <select class="form-select" id="kategoriSelect" name="kategori" required>
@@ -130,18 +115,24 @@ if ($mode == "tambah") {
 
             </div>
             <div class="form-floating mb-3">
+
                 <!-- Tanggal terbit -->
                 <div class="form mb-3">
                     <label for="terbit"><?= lang('Admin.tanggalTerbit') ?></label>
-                    <input id="terbit" name="tgl_terbit" class="form-control <?= (validation_show_error('terbit')) ? 'is-invalid' : ''; ?>" required value="<?= $valueTglTerbit ?>" />
+                    <input id="terbit" name="tanggal_terbit" class="form-control <?= (validation_show_error('terbit')) ? 'is-invalid' : ''; ?>" required value="<?= $valueTglTerbit ?>" />
                     <div class="invalid-feedback">
                         <?= lang('Admin.harusDiinput'); ?>
+                    </div>
+                    <div class="invalid-feedback">
+                        <?= validation_show_error('tanggal_terbit'); ?>
                     </div>
 
                 </div>
             </div>
+
             <!-- Tombol simpan -->
-            <button id="btn-submit" name="submit" type="submit" class="btn btn-primary w-100" data-mdb-ripple-init><i class="bi bi-floppy me-2"></i><?= lang('Admin.simpan') ?></button>
+            <button id="btn-submit" name="submit" type="submit" class="btn btn-primary w-100"><?= lang('Admin.simpan') ?></button>
+
         </div>
 </form>
 
@@ -151,9 +142,7 @@ if ($mode == "tambah") {
 <?= $this->section('script') ?>
 <script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha384-GNFwBvfVxBkLMJpYMOABq3c+d3KnQxudP/mGPkzpZSTYykLBNsZEnG2D9G/X/+7D" crossorigin="anonymous"></script>
 <!-- Tinymce -->
-<script src="<?= base_url('assets/vendor/tinymce/tinymce/tinymce.min.js'); ?>"></script>
-<!-- DSM Gallery -->
-<script src="<?= base_url('assets/js/tinymce/dsmgallery-plugin.js'); ?>"></script>
+<script src="<?php echo base_url(); ?>assets/vendor/tinymce/tinymce/tinymce.min.js"></script>
 <script>
     tinymce.init({
         selector: '#konten',
@@ -161,17 +150,17 @@ if ($mode == "tambah") {
             'advlist', 'autolink', 'image',
             'lists', 'link', 'charmap', 'preview', 'anchor', 'searchreplace',
             'fullscreen', 'insertdatetime', 'table', 'help',
-            'wordcount', 'dsmgallery'
+            'wordcount', 'deleteimage', 'dsmgallery'
         ],
         toolbar: 'fullscreen | dsmgallery | undo redo | casechange blocks | bold italic backcolor | image | ' +
             'alignleft aligncenter alignright alignjustify | ' +
             'bullist numlist checklist outdent indent | removeformat | code table help',
         image_title: true,
         automatic_uploads: true,
-        image_gallery_api_endpoint: '<?= base_url('/api/galeri') ?>',
-        dsmgallery_api_endpoint: '<?= base_url('/api/galeri') ?>',
-        images_upload_url: '<?= base_url('/admin/berita/unggah-gambar') ?>',
-        images_delete_url: '<?= base_url('/admin/berita/hapus-gambar') ?>',
+        image_gallery_api_endpoint: '/api/galeri',
+        dsmgallery_api_endpoint: '/api/galeri',
+        images_upload_url: '/admin/posting/unggah-gambar',
+        images_delete_url: '/admin/posting/hapus-gambar',
         file_picker_types: 'image',
         file_picker_callback: (cb, value, meta) => {
             const input = document.createElement('input');
@@ -213,6 +202,9 @@ if ($mode == "tambah") {
 
     });
 </script>
+<script src="<?php echo base_url(); ?>assets/js/tinymce/deleteimage-plugin.js"></script>
+<script src="<?php echo base_url(); ?>assets/js/tinymce/dsmgallery-plugin.js"></script>
+<script src="<?php echo base_url(); ?>assets/js/tinymce/imagegallery-plugin.js"></script>
 
 <!-- Preview foto -->
 <script>
@@ -266,37 +258,6 @@ if ($mode == "tambah") {
             }
         });
     });
-
-    // Radio
-    /* document.addEventListener('DOMContentLoaded', function() {
-        const radioLainnya = document.getElementById('kategoriRadioLainnya');
-        const inputKategoriLainnya = document.getElementById('inputKategoriLainnya');
-        // const form = document.querySelector('form');
-
-        // Event listener for radio buttons
-        document.querySelectorAll('input[name="kategori"]').forEach(function(radio) {
-            radio.addEventListener('change', function() {
-                if (radioLainnya.checked) {
-                    inputKategoriLainnya.disabled = false;
-                    inputKategoriLainnya.required = true;
-                } else {
-                    inputKategoriLainnya.disabled = true;
-                    inputKategoriLainnya.required = false;
-                    inputKategoriLainnya.value = ''; // Clear the input if another option is selected
-                }
-            });
-        });
-
-        // Form submission handler
-        // form.addEventListener('submit', function(event) {
-        //     if (radioLainnya.checked && inputKategoriLainnya.value.trim() === '') {
-        //         inputKategoriLainnya.classList.add('is-invalid');
-        //         event.preventDefault(); // Prevent form submission if the input is empty
-        //     } else {
-        //         inputKategoriLainnya.classList.remove('is-invalid');
-        //     }
-        // });
-    }); */
 </script>
 
 <!-- datetimepicker -->
@@ -336,27 +297,5 @@ if ($mode == "tambah") {
 
 <!-- Auto complete kategori -->
 <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
-<!-- <script>
-    $(function() {
-        var kategori = <?= json_encode(array_column($kategori, 'nama')) ?>;
-        $("#kategori").autocomplete({
-            source: kategori,
-            select: function(event, ui) {
-                if (ui.item) {
-                    $("#is_new_category").val('0');
-                }
-            }
-        }).blur(function() {
-            var isNew = true;
-            $(".ui-autocomplete li").each(function() {
-                if ($(this).text() === $("#category").val()) {
-                    isNew = false;
-                }
-            });
-            if (isNew) {
-                $("#is_new_category").val('1');
-            }
-        });
-    });
-</script> -->
+
 <?= $this->endSection() ?>

@@ -67,7 +67,7 @@
             processing: true,
             serverSide: true,
             ajax: {
-                "url": "<?= site_url('api/pengumuman') ?>",
+                "url": "<?= base_url('api/pengumuman') ?>",
                 "type": "POST"
             },
             "rowCallback": function(row, data, index) {
@@ -77,7 +77,7 @@
                     var id = data.id;
 
                     // Navigate to the Edit page
-                    window.location.href = "/admin/pengumuman/sunting?id=" + id;
+                    window.location.href = "<?= base_url('admin/pengumuman/sunting?id=') ?>" + id;
                 });
             },
             "columns": [{
@@ -91,6 +91,12 @@
                 },
                 {
                     "data": "status",
+                    "render": function(data, type, row) {
+                        if (type === "display") {
+                            return data == "publikasi" ? "<?= lang('Admin.publikasi') ?>" : "<?= lang('Admin.draf') ?>"
+                        }
+                        return data;
+                    },
                 },
             ],
             "language": {
@@ -109,7 +115,7 @@
             buttons: [{
                     text: '<i class="bi bi-plus-lg"></i>',
                     action: function(e, dt, node, config) {
-                        window.location.href = '/admin/pengumuman/tambah'
+                        window.location.href = '<?= base_url('admin/pengumuman/tambah') ?>'
                     }
                 },
                 {
@@ -148,17 +154,23 @@
                 cancelButtonText: "<?= lang('Admin.batal') ?>"
             };
 
-            processBulk(table1, "/admin/pengumuman/hapus", options);
+            processBulk(table1, "<?= base_url('/admin/pengumuman/hapus') ?>", options);
         }
 
 
         // Change button styles
         $('#tabelPengumuman').on('preInit.dt', function() {
+
             var buttons = $(".dt-buttons.btn-group.flex-wrap .btn.btn-secondary");
             var lastButton = buttons.last();
 
             buttons.eq(0).removeClass("btn-secondary").addClass("btn-primary").addClass("rounded-0");
             lastButton.removeClass("btn-secondary").addClass("btn-danger").addClass("rounded-0");
+
+            // Reinitialize the ripple effect for the new button
+            buttons.each(function() {
+                new mdb.Ripple(this); // This will reinitialize the ripple effect on all elements with the data-mdb-ripple-init attribute
+            })
 
             $(".dt-buttons.btn-group.flex-wrap").addClass("btn-group-lg");
 
@@ -179,11 +191,12 @@
             );
 
             secondButton.after(newElement);
+            new mdb.Dropdown(secondButton); // Reinitialize dropdown
 
             var filterButtons = {
-                '#btnFilterPengumumanSemua': '/api/pengumuman',
-                '#btnFilterPengumumanPublikasi': '/api/pengumuman/publikasi',
-                '#btnFilterPengumumanDraft': '/api/pengumuman/draf'
+                '#btnFilterPengumumanSemua': '<?= base_url('/api/pengumuman') ?>',
+                '#btnFilterPengumumanPublikasi': '<?= base_url('/api/pengumuman/publikasi') ?>',
+                '#btnFilterPengumumanDraft': '<?= base_url('/api/pengumuman/draf') ?>'
             };
 
             $.each(filterButtons, function(btnId, apiUrl) {

@@ -33,7 +33,7 @@ $pengumumanUrl = base_url("pengumuman/" . $pengumuman['id']);
 
 
 <?= $this->section('style') ?>
-<link href="../assets/css/style-berita.css" rel="stylesheet" />
+<link href="<?= base_url('assets/css/style-berita.css') ?>" rel="stylesheet" />
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
@@ -56,8 +56,8 @@ $pengumumanUrl = base_url("pengumuman/" . $pengumuman['id']);
                         <ol class="breadcrumb">
 
                             <!-- TODO: Hardcoded breadcrumb -->
-                            <li class="breadcrumb-item"><a href="/">Beranda</a></li>
-                            <li class="breadcrumb-item"><a href="/pengumuman">Pengumuman</a></li>
+                            <li class="breadcrumb-item"><a href="<?= base_url() ?>">Beranda</a></li>
+                            <li class="breadcrumb-item"><a href="<?= base_url('pengumuman') ?>">Pengumuman</a></li>
                             <li class="breadcrumb-item active fw-bold" aria-current="page">
                                 <?= $pengumuman['pengumuman']; ?>
                             </li>
@@ -90,7 +90,7 @@ $pengumumanUrl = base_url("pengumuman/" . $pengumuman['id']);
                 <div class="row g-0">
                     <div class="col">
                         <div class="ratio ratio-4x3">
-                            <img data-aos="fade-up" class="object-fit-cover" style="background: white; border: 1rem solid var(--mdb-body-bg);" src="<?= ($pengumuman['id_galeri'] != null) ? $pengumuman['uri'] : base_url('assets/img/icon-notext-transparent.png') ?>" />
+                            <img data-aos="fade-up" class="object-fit-cover" style="background: white; border: 1rem solid var(--mdb-body-bg);" src="<?= ($pengumuman['id_galeri'] != null) ? $pengumuman['uri'] : base_url('assets/img/icon-notext.png') ?>" />
                         </div>
                     </div>
                 </div>
@@ -160,7 +160,7 @@ $pengumumanUrl = base_url("pengumuman/" . $pengumuman['id']);
                                 <!-- Gambar kegiatan -->
                                 <div class="col-3 position-relative">
                                     <div class="ratio ratio-4x3">
-                                        <img src="<?= ($x['id_galeri'] != null) ? $x['uri'] : base_url('assets/img/logo-square.png') ?>" class="card-img object-fit-cover" alt="..." />
+                                        <img src="<?= ($x['id_galeri'] != null) ? $x['uri'] : base_url('assets/img/icon-notext.png') ?>" class="card-img object-fit-cover" alt="..." />
                                     </div>
                                 </div>
 

@@ -39,9 +39,9 @@ if ($mode == "tambah") {
             <!-- Nama Situs -->
             <div class="form-floating mb-3">
                 <input id="nama_situs" name="nama_situs" class="form-control <?= (validation_show_error('nama_situs')) ? 'is-invalid' : ''; ?>" type="text" value="<?= $valueNama ?>" placeholder="Nama Situs" required />
-                <label for="nama_situs">Nama Situs</label>
+                <label for="nama_situs"><?= lang('Admin.namaSitus') ?></label>
                 <div class="invalid-feedback">
-                    <?= lang('Admin.harusDiinput'); ?>
+                    <?= validation_show_error('nama_situs'); ?>
                 </div>
             </div>
         </div>
@@ -49,9 +49,9 @@ if ($mode == "tambah") {
             <!-- Alamat Situs -->
             <div class="form-floating mb-3">
                 <input id="alamat_situs" name="alamat_situs" class="form-control <?= (validation_show_error('alamat_situs')) ? 'is-invalid' : ''; ?>" type="text" value="<?= $valueAlamat ?>" placeholder="Alamat Situs" required />
-                <label for="alamat_situs">Alamat Situs</label>
+                <label for="alamat_situs"><?= lang('Admin.alamatSitus') ?></label>
                 <div class="invalid-feedback">
-                    <?= lang('Admin.harusDiinput'); ?>
+                    <?= validation_show_error('alamat_situs'); ?>
                 </div>
             </div>
         </div>

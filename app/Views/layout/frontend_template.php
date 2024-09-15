@@ -238,7 +238,7 @@ $currentRoute = $request->uri->getPath();
       <div>
         <!-- Navbar brand -->
         <div id="navbarBrandWrapper" class="bg-white position-absolute top-0 py-2 px-2 rounded-bottom-3 shadow-lg">
-          <a class="navbar-brand mx-0" href="/"></a>
+          <a class="navbar-brand mx-0" href="<?= base_url() ?>"></a>
         </div>
       </div>
 
@@ -343,7 +343,7 @@ $currentRoute = $request->uri->getPath();
 
           <!-- Link PPID -->
           <li class="nav-item">
-            <a data-mdb-ripple-init class="nav-link" href="/ppid">PPID</a>
+            <a data-mdb-ripple-init class="nav-link" href="<?= base_url('/ppid') ?>">PPID</a>
           </li>
 
         </ul>

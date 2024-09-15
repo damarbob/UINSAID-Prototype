@@ -73,8 +73,13 @@ class SitusAdmin extends BaseControllerAdmin
         // Redireksi
         $redirectTo = ($id == null) ? base_url('/admin/situs/') : base_url('/admin/situs/sunting?id=') . $id;
 
-        // Cek validasi
         if (!$this->validate($rules)) {
+            // dd("Dead by input validation");
+
+            if ($id == null) {
+                return redirect()->back()->withInput();
+            }
+
             return redirect()->to($redirectTo)->withInput();
         }
 

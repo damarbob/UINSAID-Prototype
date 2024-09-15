@@ -91,7 +91,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="editMetaModalLabel"><?= lang('Admin.sunting') ?></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form id="editMeta" method="post" class="needs-validation" enctype="multipart/form-data">
@@ -228,8 +228,8 @@
                         break;
                     case 'datetime-local':
                         inputHTML = `
-                    <div class="form-floating mb-3" data-mdb-input-init>
-                        <input type="${tipe}" id="${id}" name="${id}" class="form-control" />
+                    <div class="form-outline mb-3" data-mdb-input-init>
+                        <input type="${tipe}" id="${id}" name="${id}" class="form-control form-control-lg" />
                         <label class="form-label" for="${id}">${nama}</label>
                     </div>`;
                         break;
@@ -350,7 +350,12 @@
         // Function to open the component editor
         function openComponentEditor(componentId) {
             // alert('Opening editor for component ID: ' + componentId);
-            $('#editMetaModal').modal('show');
+
+            // Initialize and show the MDB modal
+            const modalElement = document.getElementById('editMetaModal');
+            const modalInstance = new mdb.Modal(modalElement);
+            modalInstance.show();
+
             const content = getKontenById(`<?php echo addcslashes(json_encode($availableComponents), '\'\\'); ?>`, componentId);
             const metaDataArray = extractMetaFromHTML(content);
             createInputsFromMeta(metaDataArray);

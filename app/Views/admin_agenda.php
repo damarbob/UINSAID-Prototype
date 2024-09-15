@@ -67,7 +67,7 @@
             processing: true,
             serverSide: true,
             ajax: {
-                "url": "<?= site_url('api/agenda') ?>",
+                "url": "<?= base_url('api/agenda') ?>",
                 "type": "POST"
             },
             "rowCallback": function(row, data, index) {
@@ -77,7 +77,7 @@
                     var id = data.id;
 
                     // Navigate to the Edit page
-                    window.location.href = "/admin/agenda/sunting?id=" + id;
+                    window.location.href = "<?= base_url('/admin/agenda/sunting?id=') ?>" + id;
                 });
             },
             "columns": [{
@@ -91,6 +91,12 @@
                 },
                 {
                     "data": "status",
+                    "render": function(data, type, row) {
+                        if (type === "display") {
+                            return data == "publikasi" ? "<?= lang('Admin.publikasi') ?>" : "<?= lang('Admin.draf') ?>"
+                        }
+                        return data;
+                    },
                 },
             ],
             "language": {
@@ -109,11 +115,11 @@
             buttons: [{
                     text: '<i class="bi bi-plus-lg"></i>',
                     action: function(e, dt, node, config) {
-                        window.location.href = '/admin/agenda/tambah'
+                        window.location.href = '<?= base_url('/admin/agenda/tambah') ?>'
                     }
                 },
                 {
-                    text: '<i id="iconFilterAgenda" class="bx bx-filter-alt me-2"></i><span id="loaderFilterAgenda" class="loader me-2" style="display: none;"></span><span id="textFilterAgenda"><?= lang('Admin.semua') ?></span>',
+                    text: '<i id="iconFilter" class="bx bx-filter-alt me-2"></i><span id="loaderFilter" class="loader me-2" style="display: none;"></span><span id="textFilter"><?= lang('Admin.semua') ?></span>',
                 },
                 {
                     extend: 'colvis',
@@ -148,14 +154,20 @@
                 cancelButtonText: "<?= lang('Admin.batal') ?>"
             };
 
-            processBulk(table1, "/admin/agenda/hapus", options);
+            processBulk(table1, "<?= base_url('/admin/agenda/hapus') ?>", options);
         }
 
 
         // Change button styles
         $('#tabelAgenda').on('preInit.dt', function() {
+
             var buttons = $(".dt-buttons.btn-group.flex-wrap .btn.btn-secondary");
             var lastButton = buttons.last();
+
+            // Reinitialize the ripple effect for the new button
+            buttons.each(function() {
+                new mdb.Ripple(this); // This will reinitialize the ripple effect on all elements with the data-mdb-ripple-init attribute
+            })
 
             buttons.eq(0).removeClass("btn-secondary").addClass("btn-primary").addClass("rounded-0");
             lastButton.removeClass("btn-secondary").addClass("btn-danger").addClass("rounded-0");
@@ -164,7 +176,7 @@
 
             var secondButton = buttons.eq(1);
             secondButton.addClass("dropdown-toggle").wrap('<div class="btn-group"></div>').attr({
-                id: "btnFilterAgenda",
+                id: "btnFilter",
                 "data-mdb-ripple-init": "",
                 "data-mdb-dropdown-init": "",
                 "aria-expanded": "false"
@@ -172,28 +184,29 @@
 
             var newElement = $(
                 '<ul class="dropdown-menu">' +
-                '<li><button id="btnFilterAgendaSemua" class="dropdown-item" type="button"><?= lang('Admin.semua') ?></button></li>' +
-                '<li><button id="btnFilterAgendaPublikasi" class="dropdown-item" type="button"><?= lang('Admin.publikasi') ?></button></li>' +
-                '<li><button id="btnFilterAgendaDraft" class="dropdown-item" type="button"><?= lang('Admin.draf') ?></button></li>' +
+                '<li><button id="btnFilterSemua" class="dropdown-item" type="button"><?= lang('Admin.semua') ?></button></li>' +
+                '<li><button id="btnFilterPublikasi" class="dropdown-item" type="button"><?= lang('Admin.publikasi') ?></button></li>' +
+                '<li><button id="btnFilterDraft" class="dropdown-item" type="button"><?= lang('Admin.draf') ?></button></li>' +
                 '</ul>'
             );
 
             secondButton.after(newElement);
+            new mdb.Dropdown(secondButton); // Reinitialize dropdown
 
             var filterButtons = {
-                '#btnFilterAgendaSemua': '/api/agenda',
-                '#btnFilterAgendaPublikasi': '/api/agenda/publikasi',
-                '#btnFilterAgendaDraft': '/api/agenda/draf'
+                '#btnFilterSemua': '<?= base_url('/api/agenda') ?>',
+                '#btnFilterPublikasi': '<?= base_url('/api/agenda/publikasi') ?>',
+                '#btnFilterDraft': '<?= base_url('/api/agenda/draf') ?>'
             };
 
             $.each(filterButtons, function(btnId, apiUrl) {
                 $(btnId).on('click', function() {
-                    $('#iconFilterAgenda').hide();
-                    $('#loaderFilterAgenda').show();
+                    $('#iconFilter').hide();
+                    $('#loaderFilter').show();
                     table1.ajax.url(apiUrl).load(function() {
-                        $('#iconFilterAgenda').show();
-                        $('#loaderFilterAgenda').hide();
-                        $('#textFilterAgenda').html($(btnId).html());
+                        $('#iconFilter').show();
+                        $('#loaderFilter').hide();
+                        $('#textFilter').html($(btnId).html());
                     });
                 });
             });

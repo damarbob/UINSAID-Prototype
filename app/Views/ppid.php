@@ -27,10 +27,10 @@
                     <!-- Item ppid -->
                     <div class="card shadow" mdb-ripple-init>
                         <!-- <div class="ratio ratio-4x3"> -->
-                        <img src="<?= base_url('assets/img/icon.png') ?>" class="card-img-top object-fit-cover" alt="..." />
+                        <img src="<?= base_url('assets/img/icon-notext.png') ?>" class="card-img-top object-fit-cover" alt="..." />
                         <!-- </div> -->
                         <div class="card-body text-start">
-                            <a href="<?= base_url() ?>ppid/<?= urlencode($x['kategori']) ?>">
+                            <a href="<?= base_url('ppid/' . urlencode($x['kategori'])) ?>">
                                 <h5 class="card-title lh-sm">
                                     <?= $x['kategori'] ?>
                                 </h5>

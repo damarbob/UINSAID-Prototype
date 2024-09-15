@@ -28,7 +28,7 @@
                 <div class="card shadow"
                     data-mdb-ripple-init>
                     <div class="ratio ratio-4x3">
-                        <img src="<?= ($x['id_galeri'] != null) ? $x['uri'] : base_url('assets/img/logo-square.png') ?>" class="card-img-top object-fit-cover" alt="..." />
+                        <img src="<?= ($x['id_galeri'] != null) ? $x['uri'] : base_url('assets/img/icon-notext.png') ?>" class="card-img-top object-fit-cover" alt="..." />
                     </div>
                     <div class="card-body text-start">
                         <a href="<?= base_url('pengumuman/' . $x['id']) ?>">

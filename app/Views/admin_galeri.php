@@ -88,7 +88,7 @@
             </div>
             <div>
                 <!-- Pencarian gambar -->
-                <form class="row row-cols-lg-auto g-3 align-items-center" method="get" action="/admin/galeri">
+                <form class="row row-cols-lg-auto g-3 align-items-center" method="get" action="<?= base_url('/admin/galeri') ?>">
                     <div class="col-12">
                         <label class="visually-hidden" for="judulGambar"><?= lang('Admin.cariGambar') ?></label>
                         <div class="input-group">

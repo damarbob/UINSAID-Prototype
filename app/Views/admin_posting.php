@@ -30,20 +30,20 @@
         <?php if (session()->getFlashdata('sukses')) : ?>
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <?= session()->getFlashdata('sukses') ?>
-                <button type="button" class="btn-close" data-mdb-dismiss="alert" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         <?php elseif (session()->getFlashdata('gagal')) : ?>
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 <?= session()->getFlashdata('gagal') ?>
-                <button type="button" class="btn-close" data-mdb-dismiss="alert" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         <?php endif; ?>
 
-        <!-- Peringatan posting berita -->
+        <!-- Peringatan buat posting -->
         <?php if ($peringatanPostingBerita) : ?>
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 <?= lang('Admin.tampaknyaSudahLebihDari3BulanSejakBeritaTerakhir') ?>
-                <button type="button" class="btn-close" data-mdb-dismiss="alert" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         <?php endif; ?>
 
@@ -80,14 +80,23 @@
 <script src="<?= base_url('assets/js/datatables_process_bulk_new.js') ?>" type="text/javascript"></script>
 <script>
     $(document).ready(function() {
+
+        var filterStatus = null; // Define a variable to hold the filter status
+
         var table1 = $('#tabelBerita').DataTable({
             processing: true,
             serverSide: true,
             select: true,
-            // ajax: "/api/berita",
             ajax: {
-                "url": "<?= base_url('api/berita') ?>",
-                "type": "POST"
+                "url": "<?= base_url('api/posting') ?>",
+                "type": "POST",
+                "data": function(d) {
+                    // Include the filter status in the request data
+                    if (filterStatus) {
+                        d.status = filterStatus;
+                    }
+                    return d;
+                }
             },
             "rowCallback": function(row, data, index) {
                 // Add double-click event to navigate to Edit page
@@ -96,7 +105,7 @@
                     var id = data.id;
 
                     // Navigate to the Edit page
-                    window.location.href = "<?= base_url('/admin/berita/sunting?id=') ?>" + id;
+                    window.location.href = "<?= base_url('/admin/posting/sunting?id=') ?>" + id;
                 });
             },
             "columns": [{
@@ -119,9 +128,9 @@
                         }
                     },
                 <?php endif ?> {
-                    "data": "created_at",
+                    "data": "tanggal_terbit",
                     "render": function(data, type, row) {
-                        return formatDate(data);
+                        return (data) ? formatDate(data) : '';
                     }
                 },
                 {
@@ -150,11 +159,11 @@
             buttons: [{
                     text: '<i class="bi bi-plus-lg"></i>',
                     action: function(e, dt, node, config) {
-                        window.location.href = '<?= base_url('/admin/berita/tambah') ?>'
+                        window.location.href = '<?= base_url('/admin/posting/tambah') ?>'
                     }
                 },
                 {
-                    text: '<i id="iconFilter" class="bx bx-filter-alt me-2"></i><span id="loaderFilter" class="loader me-2" style="display: none;"></span><span id="textFilter"><?= lang('Admin.semua') ?></span>',
+                    text: '<i id="iconFilterRilisMedia" class="bx bx-filter-alt me-2"></i><span id="loaderFilterRilisMedia" class="loader me-2" style="display: none;"></span><span id="textFilterRilisMedia"><?= lang('Admin.semua') ?></span>',
                 },
                 <?php if ($is_child_site):
                     // Tampilkan tombol ajukan dan batal ajukan di website child dan super
@@ -207,26 +216,10 @@
                 cancelButtonText: "<?= lang('Admin.batal') ?>"
             };
 
-            processBulk(table1, "<?= base_url('/admin/berita/hapus') ?>", options);
+            processBulk(table1, "<?= base_url('/admin/posting/hapus') ?>", options);
         }
 
         function ajukan() {
-            var parentSite = '<?= env('app.parentSite') ?>';
-
-            if (parentSite == '') { // If app.siteParent is null, it will be captured by JS as empty string
-                Swal.fire({
-                    title: '<?= lang('Admin.ajukanBerita') ?>',
-                    text: '<?= lang('Admin.situsUtamaBelumDiatur') ?>',
-                    icon: 'error',
-                    showCancelButton: true,
-                    showConfirmButton: false,
-                    cancelButtonText: '<?= lang('Admin.batal') ?>',
-                    confirmButtonColor: "var(--mdb-primary)",
-                    focusCancel: true,
-                })
-                return;
-            }
-
             var options = {
                 title: "<?= lang('Admin.ajukanBerita') ?>",
                 confirmMessage: "<?= lang('Admin.kirimkanBeritaIniKeWebsiteUtama') ?>",
@@ -236,8 +229,7 @@
                 cancelButtonText: "<?= lang('Admin.batal') ?>"
             };
 
-            // NOTE: Tidak perlu base_url karena akan merequest situs eksternal
-            processBulkNew(table1, parentSite + "api/berita-diajukan/terima-berita", options);
+            processBulkNew(table1, "<?= base_url('/api/posting-diajukan/terima-posting') ?>", options);
         }
 
         function batalAjukan() {
@@ -250,76 +242,72 @@
                 cancelButtonText: "<?= lang('Admin.batal') ?>"
             };
 
-            processBulkNew(table1, "<?= base_url('admin/berita/batal-ajukan') ?>", options);
+            processBulkNew(table1, "<?= base_url('/admin/posting/batal-ajukan') ?>", options);
         }
 
         table1.on('select.dt', function(e, dt, type, indexes) {
             if (type === 'row') {
                 var data = table1.row(indexes).data();
-                // console.log('Selected row data:', data);
+                console.log('Selected row data:', data);
             }
         });
 
         // Change button styles
         table1.on('preInit.dt', function() {
 
-            $(".dt-buttons.btn-group.flex-wrap").addClass("btn-group-lg"); // Make button group larger
+            $(".dt-buttons.btn-group.flex-wrap").addClass("btn-group-lg"); // Buat grup tombol jadi besar
 
             var buttons = $(".dt-buttons.btn-group.flex-wrap .btn.btn-secondary");
             var lastButton = buttons.last();
 
-            // Reinitialize the ripple effect for the new button
-            buttons.each(function() {
-                new mdb.Ripple(this); // This will reinitialize the ripple effect on all elements with the data-mdb-ripple-init attribute
-            })
-
             buttons.eq(0).removeClass("btn-secondary").addClass("btn-primary").addClass("rounded-0");
             <?php if ($is_child_site): ?>
-                // Color "Ajukan" and "Batal Ajukan" buttons for child and super website
+                // Warnai tombol ajukan dan batal ajukan di website child dan super
                 buttons.eq(2).removeClass("btn-secondary").addClass("btn-primary").addClass("rounded-0");
-                // TODO: Hilangkan fitur batal ajukan
-                buttons.eq(3).removeClass("btn-secondary").addClass("btn-warning").addClass("rounded-0").addClass("d-none");
+                buttons.eq(3).removeClass("btn-secondary").addClass("btn-warning").addClass("rounded-0");
             <?php endif ?>
             lastButton.removeClass("btn-secondary").addClass("btn-danger").addClass("rounded-0");
 
+
             var secondButton = buttons.eq(1);
             secondButton.addClass("dropdown-toggle").wrap('<div class="btn-group"></div>').attr({
-                id: "btnFilter",
+                id: "btnFilterRilisMedia",
                 "data-mdb-ripple-init": "",
-                "data-mdb-toggle": "dropdown", // Make sure to use MDB's dropdown toggle attribute
+                "data-mdb-dropdown-init": "",
                 "aria-expanded": "false"
             });
 
             var newElement = $(
                 '<ul class="dropdown-menu">' +
-                '<li><button id="btnFilterSemua" class="dropdown-item" type="button"><?= lang('Admin.semua') ?></button></li>' +
-                '<li><button id="btnFilterPublikasi" class="dropdown-item" type="button"><?= lang('Admin.publikasi') ?></button></li>' +
-                '<li><button id="btnFilterDraft" class="dropdown-item" type="button"><?= lang('Admin.draf') ?></button></li>' +
+                '<li><button id="btnFilterRilisMediaSemua" class="dropdown-item" type="button"><?= lang('Admin.semua') ?></button></li>' +
+                '<li><button id="btnFilterRilisMediaPublikasi" class="dropdown-item" type="button"><?= lang('Admin.publikasi') ?></button></li>' +
+                '<li><button id="btnFilterRilisMediaDraft" class="dropdown-item" type="button"><?= lang('Admin.draf') ?></button></li>' +
                 '</ul>'
             );
 
             secondButton.after(newElement);
-            new mdb.Dropdown(secondButton); // Reinitialize dropdown
 
+            // Filter button and status
             var filterButtons = {
-                '#btnFilterSemua': '<?= base_url('api/berita') ?>',
-                '#btnFilterPublikasi': '<?= base_url('api/berita/publikasi') ?>',
-                '#btnFilterDraft': '<?= base_url('api/berita/draf') ?>'
+                '#btnFilterRilisMediaSemua': null,
+                '#btnFilterRilisMediaPublikasi': 'publikasi',
+                '#btnFilterRilisMediaDraft': 'draf'
             };
 
-            $.each(filterButtons, function(btnId, apiUrl) {
+            $.each(filterButtons, function(btnId, status) {
                 $(btnId).on('click', function() {
-                    $('#iconFilter').hide();
-                    $('#loaderFilter').show();
-                    table1.ajax.url(apiUrl).load(function() {
-                        $('#iconFilter').show();
-                        $('#loaderFilter').hide();
-                        $('#textFilter').html($(btnId).html());
+                    filterStatus = status; // Update the filter status
+                    table1.ajax.reload(); // Reload the DataTable with the new filter
+                    $('#iconFilterRilisMedia').hide();
+                    $('#loaderFilterRilisMedia').show();
+                    table1.ajax.reload(function() {
+                        $('#iconFilterRilisMedia').show();
+                        $('#loaderFilterRilisMedia').hide();
+                        $('#textFilterRilisMedia').html($(btnId).html());
                     });
                 });
             });
         });
-
 
     });
 </script>

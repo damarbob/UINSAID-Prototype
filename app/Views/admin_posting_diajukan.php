@@ -77,7 +77,7 @@
         <?php endif; ?>
 
         <!-- <div class="table-responsive mt-3"> -->
-        <table class="table table-hover" id="tabel" style="width: 100%;">
+        <table class="table table-hover" id="tabelRilisMedia" style="width: 100%;">
             <thead>
                 <tr>
                     <td><?= lang('Admin.judul') ?></td>
@@ -105,11 +105,11 @@
 
         var lastDoubleClickedRowIndex = null;
 
-        var table1 = $('#tabel').DataTable({
+        var table1 = $('#tabelRilisMedia').DataTable({
             processing: true,
             serverSide: true,
             ajax: {
-                "url": "<?= base_url('api/berita-diajukan') ?>",
+                "url": "<?= base_url('api/posting-diajukan') ?>",
                 "type": "POST"
             },
             "rowCallback": function(row, data, index) {
@@ -184,7 +184,7 @@
                     }
                 },
                 {
-                    text: '<i id="iconFilter" class="bx bx-filter-alt me-2"></i><span id="loaderFilter" class="loader me-2" style="display: none;"></span><span id="textFilter"><?= lang('Admin.semua') ?></span>',
+                    text: '<i id="iconFilterRilisMedia" class="bx bx-filter-alt me-2"></i><span id="loaderFilterRilisMedia" class="loader me-2" style="display: none;"></span><span id="textFilterRilisMedia"><?= lang('Admin.semua') ?></span>',
                 },
                 {
                     extend: 'colvis',
@@ -226,15 +226,15 @@
         // Terima postingan massal
         function publikasiBanyak() {
             var options = {
-                title: "Publikasi Berita",
-                confirmMessage: "Publikasikan berita?",
+                title: "Publikasi Postingan",
+                confirmMessage: "Publikasikan postingan?",
                 errorMessage: "<?= lang('Admin.pilihItemDahulu') ?>",
                 type: "info",
                 confirmButtonText: "Tambahkan",
                 cancelButtonText: "<?= lang('Admin.batal') ?>"
             };
 
-            processBulkNew(table1, "<?= base_url('/admin/berita-diajukan/publikasi') ?>", options);
+            processBulkNew(table1, "<?= base_url('/admin/posting-diajukan/publikasi') ?>", options);
         }
 
         // Fitur hapus massal
@@ -249,7 +249,7 @@
             };
 
             var columnsToSend = ['id']; // specify the columns you want to send
-            processBulkNew(table1, "<?= base_url('/admin/berita-diajukan/hapus') ?>", options, columnsToSend);
+            processBulkNew(table1, "<?= base_url('/admin/posting-diajukan/hapus') ?>", options, columnsToSend);
         }
 
         table1.on('select.dt', function(e, dt, type, indexes) {
@@ -261,14 +261,8 @@
 
         // Ganti gaya tombol
         table1.on('preInit.dt', function() {
-
             var buttons = $(".dt-buttons.btn-group.flex-wrap .btn.btn-secondary");
             var lastButton = buttons.last();
-
-            // Reinitialize the ripple effect for the new button
-            buttons.each(function() {
-                new mdb.Ripple(this); // This will reinitialize the ripple effect on all elements with the data-mdb-ripple-init attribute
-            })
 
             buttons.eq(0).removeClass("btn-secondary").addClass("btn-primary").addClass("rounded-0");
             lastButton.removeClass("btn-secondary").addClass("btn-danger").addClass("rounded-0");
@@ -277,7 +271,7 @@
 
             var secondButton = buttons.eq(1);
             secondButton.addClass("dropdown-toggle").wrap('<div class="btn-group"></div>').attr({
-                id: "btnFilter",
+                id: "btnFilterRilisMedia",
                 "data-mdb-ripple-init": "",
                 "data-mdb-dropdown-init": "",
                 "aria-expanded": "false"
@@ -285,29 +279,28 @@
 
             var newElement = $(
                 '<ul class="dropdown-menu">' +
-                '<li><button id="btnFilterSemua" class="dropdown-item" type="button"><?= lang('Admin.semua') ?></button></li>' +
-                '<li><button id="btnFilterPublikasi" class="dropdown-item" type="button"><?= lang('Admin.publikasi') ?></button></li>' +
-                '<li><button id="btnFilterDraft" class="dropdown-item" type="button"><?= lang('Admin.draf') ?></button></li>' +
+                '<li><button id="btnFilterRilisMediaSemua" class="dropdown-item" type="button"><?= lang('Admin.semua') ?></button></li>' +
+                '<li><button id="btnFilterRilisMediaPublikasi" class="dropdown-item" type="button"><?= lang('Admin.publikasi') ?></button></li>' +
+                '<li><button id="btnFilterRilisMediaDraft" class="dropdown-item" type="button"><?= lang('Admin.draf') ?></button></li>' +
                 '</ul>'
             );
 
             secondButton.after(newElement);
-            new mdb.Dropdown(secondButton); // Reinitialize dropdown
 
             var filterButtons = {
-                '#btnFilterSemua': '<?= base_url('/api/berita-diajukan') ?>',
-                '#btnFilterPublikasi': '<?= base_url('/api/berita-diajukan/published') ?>',
-                '#btnFilterDraft': '<?= base_url('/api/berita-diajukan/draft') ?>'
+                '#btnFilterRilisMediaSemua': '<?= base_url('/api/posting-diajukan') ?>',
+                '#btnFilterRilisMediaPublikasi': '<?= base_url('/api/posting-diajukan/published') ?>',
+                '#btnFilterRilisMediaDraft': '<?= base_url('/api/posting-diajukan/draft') ?>'
             };
 
             $.each(filterButtons, function(btnId, apiUrl) {
                 $(btnId).on('click', function() {
-                    $('#iconFilter').hide();
-                    $('#loaderFilter').show();
+                    $('#iconFilterRilisMedia').hide();
+                    $('#loaderFilterRilisMedia').show();
                     table1.ajax.url(apiUrl).load(function() {
-                        $('#iconFilter').show();
-                        $('#loaderFilter').hide();
-                        $('#textFilter').html($(btnId).html());
+                        $('#iconFilterRilisMedia').show();
+                        $('#loaderFilterRilisMedia').hide();
+                        $('#textFilterRilisMedia').html($(btnId).html());
                     });
                 });
             });

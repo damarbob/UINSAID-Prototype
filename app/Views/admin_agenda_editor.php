@@ -296,7 +296,7 @@ if ($mode == "tambah") {
         $('#loading-spinner').show();
 
         $.ajax({
-            url: '/api/galeri',
+            url: '<?= base_url('/api/galeri') ?>',
             data: {
                 page: page,
                 per_page: 12,

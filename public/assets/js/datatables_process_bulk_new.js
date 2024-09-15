@@ -43,7 +43,7 @@ function processBulkNew(dataTable, actionUrl, options, columnsToSend = null) {
           }
         });
 
-        console.log(selectedData);
+        // console.log(selectedData);
 
         $.ajax({
           url: actionUrl,
@@ -73,6 +73,8 @@ function processBulkNew(dataTable, actionUrl, options, columnsToSend = null) {
               icon: "error",
               title: options.title,
               text: errorMessage,
+              confirmButtonColor: "var(--mdb-primary)",
+              confirmButtonText: options.cancelButtonText,
             });
 
             // Handle the error response from the server

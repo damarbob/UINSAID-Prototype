@@ -1,3 +1,7 @@
+<?php
+
+use function App\Helpers\capitalize_first_letter;
+?>
 <?= $this->extend('layout/admin/admin_template') ?>
 
 <?= $this->section('content') ?>
@@ -10,12 +14,12 @@
         <?php if (session()->getFlashdata('sukses')) : ?>
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <?= session()->getFlashdata('sukses') ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-mdb-dismiss="alert" aria-label="Close"></button>
             </div>
         <?php elseif (session()->getFlashdata('gagal')) : ?>
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 <?= session()->getFlashdata('gagal') ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-mdb-dismiss="alert" aria-label="Close"></button>
             </div>
         <?php endif; ?>
 
@@ -46,7 +50,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="editModalLabel"><?= lang('Admin.sunting') ?></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form id="editForm" action="" method="post">
@@ -84,10 +88,10 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="tambahModalLabel"><?= lang('Admin.tambah') ?></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="tambahForm" action="/admin/pengguna/tambah" method="post">
+                <form id="tambahForm" action="<?= base_url('/admin/pengguna/tambah') ?>" method="post">
                     <div class="form-outline mb-3" data-mdb-input-init>
                         <input type="text" id="username" name="username" class="form-control" />
                         <label class="form-label" for="username"><?= lang('Admin.username') ?></label>
@@ -123,8 +127,12 @@
 <script src="<?= base_url('assets/js/datatables_process_bulk.js') ?>" type="text/javascript"></script>
 <script>
     $(document).ready(function() {
+        // Initialize the MDB modal
+        const tambahModal = new mdb.Modal($('#tambahModal'));
+        const editModal = new mdb.Modal($('#editModal'));
+
         var table1 = $('#tabel').DataTable({
-            // processing: true,
+            processing: true,
             ajax: "<?= base_url('/api/pengguna') ?>",
             "rowCallback": function(row, data, index) {
                 // Add double-click event to navigate to Edit page
@@ -141,7 +149,7 @@
                     $('#editForm').attr('action', `<?= base_url('/admin/pengguna/edit/') ?>${id}`);
 
                     // Navigate to the Edit page
-                    $('#editModal').modal('show');
+                    editModal.show();
                 });
             },
             "columns": [{
@@ -183,7 +191,7 @@
                     text: '<i class="bi bi-plus-lg"></i>',
                     action: function(e, dt, node, config) {
                         // Navigate to the Edit page
-                        $('#tambahModal').modal('show');
+                        tambahModal.show();
                     }
                 },
                 {
@@ -234,8 +242,14 @@
 
         // Change button styles
         $('#tabel').on('preInit.dt', function() {
+
             var buttons = $(".dt-buttons.btn-group.flex-wrap .btn.btn-secondary");
             var lastButton = buttons.last();
+
+            // Reinitialize the ripple effect for the new button
+            buttons.each(function() {
+                new mdb.Ripple(this); // This will reinitialize the ripple effect on all elements with the data-mdb-ripple-init attribute
+            })
 
             buttons.eq(0).removeClass("btn-secondary").addClass("btn-primary").addClass("rounded-0");
             lastButton.removeClass("btn-secondary").addClass("btn-danger").addClass("rounded-0");
@@ -250,11 +264,11 @@
                 "aria-expanded": "false"
             });
 
-            // LATERTODO : ubah ke data dinamis berdasarkan grup user yang ada 
+            // Data dinamis berdasarkan grup yang tersedia
             var newElement = $(
                 '<ul class="dropdown-menu">' +
                 '<li><button id="btnFilterSemua" class="dropdown-item" type="button"><?= lang('Admin.semua') ?></button></li>'
-                <?php foreach ($auth_groups as $key => $a): ?> + '<li><button id="btnFilter<?= $key ?>" class="dropdown-item" type="button"><?= $key ?></button></li>'
+                <?php foreach ($auth_groups as $key => $a): ?> + '<li><button id="btnFilter<?= $key ?>" class="dropdown-item" type="button"><?= capitalize_first_letter($key) ?></button></li>'
                 <?php endforeach; ?>
                 // '<li><button id="btnFilterDraft" class="dropdown-item" type="button"><?= lang('Admin.user') ?></button></li>' +
                 +
@@ -262,6 +276,7 @@
             );
 
             secondButton.after(newElement);
+            new mdb.Dropdown(secondButton); // Reinitialize dropdown
 
             // Filter buttons and their respective group names
             var filterButtons = {

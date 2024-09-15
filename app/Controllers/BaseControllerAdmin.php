@@ -16,6 +16,10 @@ use App\Models\KategoriModel;
 use App\Models\KomponenGrupModel;
 use App\Models\KomponenMetaModel;
 use App\Models\KomponenModel;
+use App\Models\PostingDiajukanModel;
+use App\Models\PostingJenisModel;
+use App\Models\PostingModel;
+use App\Models\PPIDModel;
 use App\Models\SitusModel;
 use CodeIgniter\BaseModel;
 use CodeIgniter\Controller;
@@ -72,6 +76,9 @@ abstract class BaseControllerAdmin extends Controller
         protected UserModel $userModel;
         protected AgendaModel $agendaModel;
         protected PengumumanModel $pengumumanModel;
+        protected PostingModel $postingModel;
+        protected PostingJenisModel $postingJenisModel;
+        protected PostingDiajukanModel $postingDiajukanModel;
         protected BeritaModel $beritaModel;
         protected BeritaDiajukanModel $beritaDiajukanModel;
         protected FileModel $fileModel;
@@ -80,6 +87,7 @@ abstract class BaseControllerAdmin extends Controller
         protected KategoriModel $kategoriModel;
         protected SitusModel $situsModel;
         protected EntitasModel $entitasModel;
+        protected PPIDModel $ppidModel;
 
         // Page builder models
         protected HalamanModel $halamanModel;
@@ -105,6 +113,9 @@ abstract class BaseControllerAdmin extends Controller
                 $this->isChildSite = (env('app.siteType') == null || env('app.siteType') == 'child' || env('app.siteType') == 'super');
 
                 // Preload any models, libraries, etc, here.
+                $this->postingModel = new PostingModel();
+                $this->postingJenisModel = new PostingJenisModel();
+                $this->postingDiajukanModel = new PostingDiajukanModel();
                 $this->beritaModel = new BeritaModel();
                 $this->beritaDiajukanModel = new BeritaDiajukanModel();
                 $this->agendaModel = new AgendaModel();
@@ -116,6 +127,7 @@ abstract class BaseControllerAdmin extends Controller
                 $this->kategoriModel = new KategoriModel();
                 $this->situsModel = new SitusModel();
                 $this->entitasModel = new EntitasModel();
+                $this->ppidModel = new PPIDModel();
 
                 $this->halamanModel = new HalamanModel();
                 $this->komponenModel = new KomponenModel();

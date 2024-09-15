@@ -56,6 +56,11 @@ return [
     'konten' => 'Konten',
 
     // Berita
+    'posting' => 'Posting',
+    'kelolaPosting' => 'Kelola Posting',
+    'suntingPosting' => 'Sunting Posting',
+    'tambahPosting' => 'Tambah Posting',
+
     'berita' => 'Berita',
     'kelolaBerita' => 'Kelola berita',
     'suntingBerita' => 'Sunting Berita',
@@ -80,12 +85,14 @@ return [
     'tanggalTerbit' => 'Tanggal terbit',
 
     // Berita diajukan
+    'postingDiajukan' => 'Posting Diajukan',
     'beritaDiajukan' => 'Berita Diajukan',
     'gagalMenyimpanEntriDenganJudul' => 'Gagal menyimpan entri dengan judul: {judul}',
     'permintaanGagalDikirim' => 'Permintaan gagal dikirim.',
+    'situsUtamaBelumDiatur' => 'Situs utama belum diatur pada env!',
 
-    'batalkanPengajuanBerita' => 'Batalkan Pengajuan Berita',
-    'batalkanPengajuanBeritaIni?' => 'Batalkan pengajuan berita ini?',
+    'batalkanPengajuanItem' => 'Batalkan Pengajuan Item',
+    'batalkanPengajuanItemIni?' => 'Batalkan pengajuan item ini?',
 
     'tidakDiajukan' => 'Tidak Diajukan',
     'diajukan' => 'Diajukan',
@@ -206,6 +213,7 @@ return [
     'tambahSitus' => 'Tambah Situs',
     'suntingSitus' => 'Sunting Situs',
 
+    'namaSitus' => 'Nama Situs',
     'alamatSitus' => 'Alamat Situs',
     'statusSitus' => 'Status Situs',
     'aktif' => 'Aktif',
@@ -220,6 +228,7 @@ return [
     'tidakAdaResponsDiterima' => 'Tidak ada respons diterima.',
     'tindakanSelesai' => 'Tindakan Selesai',
 
+    'situsKompatibel' => 'Situs kompatibel',
     'kunciAPISalah' => 'Kunci API salah!',
     'situsBerhasilDinonaktifkan' => 'Situs berhasil dinonaktifkan',
     'situsBerhasilDipulihkan' => 'Situs berhasil dipulihkan',

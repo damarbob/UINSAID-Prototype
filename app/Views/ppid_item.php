@@ -33,7 +33,7 @@ $ppidUrl = base_url("ppid/" . $ppid['slug']);
 
 
 <?= $this->section('style') ?>
-<link href="../assets/css/style-berita.css" rel="stylesheet" />
+<link href="<?= base_url('assets/css/style-berita.css') ?>" rel="stylesheet" />
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
@@ -56,9 +56,9 @@ $ppidUrl = base_url("ppid/" . $ppid['slug']);
                         <ol class="breadcrumb">
 
                             <!-- TODO: Hardcoded breadcrumb -->
-                            <li class="breadcrumb-item"><a href="/">Beranda</a></li>
-                            <li class="breadcrumb-item"><a href="/ppid">PPID</a></li>
-                            <li class="breadcrumb-item"><a href="/ppid/<?= urlencode($ppid['kategori']) ?>"><?= $ppid['kategori'] ?></a></li>
+                            <li class="breadcrumb-item"><a href="<?= base_url() ?>">Beranda</a></li>
+                            <li class="breadcrumb-item"><a href="<?= base_url('ppid') ?>">PPID</a></li>
+                            <li class="breadcrumb-item"><a href="<?= base_url('ppid/' . urlencode($ppid['kategori'])) ?>"><?= $ppid['kategori'] ?></a></li>
                             <li class="breadcrumb-item active fw-bold" aria-current="page">
                                 <?= $ppid['judul']; ?>
                             </li>
@@ -137,11 +137,22 @@ $ppidUrl = base_url("ppid/" . $ppid['slug']);
                     </div>
 
                     <!-- Tombol share sosmed -->
-                    <div class="col">
+                    <!-- <div class="col">
                         <a class="btn btn-facebook-1 m-2 m-xl-0 mb-lg-2 me-2" href="https://www.facebook.com/sharer/sharer.php?u=<?= $ppidUrl ?>" target="_blank"><small><span class="bi bi-facebook me-2"></span>Facebook</small></a>
                         <a class="btn btn-twitter-1 m-2 m-xl-0 mb-lg-2 me-2" href="https://twitter.com/intent/tweet?url=<?= $ppidUrl ?>" target="_blank"><small><span class="bi bi-twitter me-2"></span>Twitter</small></a>
 
                         <a class="btn btn-linkedin-1 m-2 m-xl-0 mb-lg-2 me-2" href="https://www.linkedin.com/sharing/share-offsite/?url=<?= $ppidUrl ?>" target="_blank"><small><span class="bi bi-linkedin me-2"></span>LinkedIn</small></a>
+                    </div> -->
+                    <div class="col">
+
+                        <a class="btn btn-whatsapp m-2 m-xl-0 mb-lg-2 me-2" href="https://api.whatsapp.com/send?text=<?= $ppid['judul'] ?> %0a %0a<?= $ppidUrl ?>%0a %0aKunjungi situs UIN Raden Mas Said Surakarta untuk melihat informasi terkini: %0a<?= base_url() ?>" target="_blank" onclick="window.open('https\:\/\/api.whatsapp.com/send?text=<?= $ppid['judul'] ?> %0a %0a<?= $ppidUrl ?>%0a %0aKunjungi situs UIN Raden Mas Said Surakarta untuk melihat informasi terkini: %0a<?= base_url() ?>', '_blank', 'width=600,height=600,scrollbars=yes,menubar=no,status=yes,resizable=yes,screenx=0,screeny=0'); return false;"><small><span class="bi bi-whatsapp me-2"></span>Whatsapp</small></a>
+
+                        <a class="btn btn-facebook-1 m-2 m-xl-0 mb-lg-2 me-2" href="https://www.facebook.com/sharer/sharer.php?u=<?= $ppidUrl ?>" target="_blank"><small><span class="bi bi-facebook me-2"></span>Facebook</small></a>
+
+                        <a class="btn btn-twitter-1 m-2 m-xl-0 mb-lg-2 me-2" href="https://twitter.com/intent/tweet?url=<?= $ppidUrl ?>" target="_blank"><small><span class="bi bi-twitter me-2"></span>Twitter</small></a>
+
+                        <a class="btn btn-linkedin-1 m-2 m-xl-0 mb-lg-2 me-2" href="https://www.linkedin.com/sharing/share-offsite/?url=<?= $ppidUrl ?>" target="_blank"><small><span class="bi bi-linkedin me-2"></span>LinkedIn</small></a>
+
                     </div>
 
                     <!-- Artikel pilihan -->

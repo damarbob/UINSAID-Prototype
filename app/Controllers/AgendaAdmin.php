@@ -126,6 +126,9 @@ class AgendaAdmin extends BaseControllerAdmin
 
         // Cek validasi
         if (!$this->validate($rules)) {
+            if ($id == null) {
+                return redirect()->back()->withInput();
+            }
             return redirect()->to($redirectTo)->withInput();
         }
 

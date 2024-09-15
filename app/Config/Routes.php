@@ -85,13 +85,36 @@ $routes->group('admin', ['filter' => 'group:admin,superadmin'], function ($route
     $routes->get('dasbor', 'DasborAdmin', ['as' => 'dashboard']);
     $routes->addRedirect('/', 'dashboard');
 
-    // Manajemen halaman
-    $routes->get('halaman', 'HalamanAdmin::index');
-    $routes->get('halaman/tambah', 'HalamanAdmin::tambah');
-    $routes->get('halaman/sunting/(:num)', 'HalamanAdmin::sunting/$1');
-    $routes->post('halaman/simpan', 'HalamanAdmin::simpan');
-    $routes->post('halaman/simpan/(:num)', 'HalamanAdmin::simpan/$1');
-    $routes->post('halaman/hapus', 'HalamanAdmin::hapusBanyak');
+    if (ENVIRONMENT == 'development') {
+
+        // Manajemen halaman
+        $routes->get('halaman', 'HalamanAdmin::index');
+        $routes->get('halaman/tambah', 'HalamanAdmin::tambah');
+        $routes->get('halaman/sunting/(:num)', 'HalamanAdmin::sunting/$1');
+        $routes->post('halaman/simpan', 'HalamanAdmin::simpan');
+        $routes->post('halaman/simpan/(:num)', 'HalamanAdmin::simpan/$1');
+        $routes->post('halaman/hapus', 'HalamanAdmin::hapusBanyak');
+
+        // Komponen
+        $routes->get('komponen/', 'KomponenAdmin::index');
+        $routes->get('komponen/tambah', 'KomponenAdmin::tambah');
+        $routes->post('komponen/simpan', 'KomponenAdmin::simpan');
+        $routes->post('komponen/simpan/(:num)', 'KomponenAdmin::simpan/$1');
+        $routes->get('komponen/sunting/(:num)', 'KomponenAdmin::sunting/$1');
+        $routes->post('komponen/hapus', 'KomponenAdmin::hapusBanyak');
+
+        // Komponen meta
+        $routes->post('komponen/simpan/meta', 'KomponenAdmin::simpanMeta');
+
+        // Posting
+        $routes->get('posting', 'PostingAdmin');
+        $routes->get('posting/tambah', 'PostingAdmin::tambah');
+        $routes->post('posting/tambah/simpan', 'PostingAdmin::simpan');
+        $routes->get('posting/sunting', 'PostingAdmin::sunting');
+        $routes->get('posting/sunting/(:num)', 'PostingAdmin::sunting/$1');
+        $routes->post('posting/sunting/simpan/(:num)', 'PostingAdmin::simpan/$1');
+        $routes->post('posting/hapus', 'PostingAdmin::hapusBanyak');
+    }
 
     // Berita
     $routes->get('berita', 'BeritaAdmin');
@@ -104,8 +127,9 @@ $routes->group('admin', ['filter' => 'group:admin,superadmin'], function ($route
 
     // Berita (selain web utama)
     if (env('app.siteType') == null || env('app.siteType') == 'child' || env('app.siteType') == 'super') {
-        $routes->post('berita/ajukan', 'BeritaAdmin::ajukanBanyak');
-        $routes->post('berita/batal-ajukan', 'BeritaAdmin::batalAjukanBanyak');
+        // TODO: Remove due to failed concept, instead, use parent's berita-diajukan/terima-berita
+        // $routes->post('berita/ajukan', 'BeritaAdmin::ajukanBanyak');
+        // $routes->post('berita/batal-ajukan', 'BeritaAdmin::batalAjukanBanyak');
     }
 
     // Agenda
@@ -177,19 +201,8 @@ $routes->group('admin', ['filter' => 'group:admin,superadmin'], function ($route
         $routes->get('situs/sunting', 'SitusAdmin::sunting');
         $routes->post('situs/sunting/simpan', 'SitusAdmin::simpan');
         $routes->post('situs/sunting/simpan/(:num)', 'SitusAdmin::simpan/$1');
+        $routes->post('situs/hapus', 'SitusAdmin::hapusBanyak');
     }
-});
-
-$routes->group('admin/komponen', ['namespace' => 'App\Controllers'], function ($routes) {
-    $routes->get('/', 'KomponenAdmin::index');
-    $routes->get('tambah', 'KomponenAdmin::tambah');
-    $routes->post('simpan', 'KomponenAdmin::simpan');
-    $routes->post('simpan/(:num)', 'KomponenAdmin::simpan/$1');
-    // $routes->post('store', 'KomponenAdmin::store');
-    // $routes->post('update/(:num)', 'KomponenAdmin::update/$1');
-    $routes->get('sunting/(:num)', 'KomponenAdmin::sunting/$1');
-    $routes->post('hapus', 'KomponenAdmin::hapusBanyak');
-    $routes->post('simpan/meta', 'KomponenAdmin::simpanMeta');
 });
 
 // Redirect to dasbor
@@ -202,13 +215,20 @@ $routes->get('/keluar', 'UserController::keluar');
 // API
 $routes->group('api', static function ($routes) {
 
-    // Halaman
-    $routes->post('halaman', 'HalamanAdmin::getDT');
-    $routes->post('halaman/(:any)', 'HalamanAdmin::getDT/$1');
+    if (ENVIRONMENT == 'development') {
 
-    // Komponen
-    $routes->post('komponen', 'KomponenAdmin::getDT');
-    $routes->post('komponen/(:any)', 'KomponenAdmin::getDT/$1');
+        // Halaman
+        $routes->post('halaman', 'HalamanAdmin::getDT');
+        $routes->post('halaman/(:any)', 'HalamanAdmin::getDT/$1');
+
+        // Komponen
+        $routes->post('komponen', 'KomponenAdmin::getDT');
+        $routes->post('komponen/(:any)', 'KomponenAdmin::getDT/$1');
+
+        // Posting
+        $routes->post('posting', 'PostingAdmin::fetchData');
+        $routes->post('posting/(:any)', 'PostingAdmin::fetchData/$1');
+    }
 
     // Berita
     // $routes->get('berita', 'BeritaAdmin::get');
@@ -254,8 +274,10 @@ $routes->group('api', static function ($routes) {
     $routes->get('situs/tidak-aktif', 'SitusAdmin::getTIdakAktif');
 
     // Shutdown dan restore sistem
-    $routes->post('shutdown', 'Shutdown::shutdown');
-    $routes->post('restore', 'Shutdown::restore');
+    $routes->post('site-status', 'WebService::siteStatusCheck');
+    $routes->post('compatibility-check', 'WebService::compatibilityCheck');
+    $routes->post('shutdown', 'WebService::shutdown');
+    $routes->post('restore', 'WebService::restore');
 });
 
 $routes->group('fakultas', static function ($routes) {

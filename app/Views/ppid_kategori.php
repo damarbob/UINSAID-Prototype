@@ -27,10 +27,10 @@
                     <!-- Item ppid -->
                     <div class="card shadow" mdb-ripple-init>
 
-                        <img src="<?= base_url('assets/img/icon.png') ?>" class="card-img-top object-fit-cover" alt="..." />
+                        <img src="<?= base_url('assets/img/icon-notext.png') ?>" class="card-img-top object-fit-cover" alt="..." />
 
                         <div class="card-body text-start">
-                            <a href="<?= base_url() ?>ppid/detail/<?= $x['slug'] ?>">
+                            <a href="<?= base_url('ppid/detail/' . $x['slug']) ?>">
                                 <h5 class="card-title lh-sm">
                                     <?= $x['judul'] ?>
                                 </h5>

@@ -47,7 +47,7 @@
 
                                                 <!-- Ringkasan -->
                                                 <p class="card-text crop-text-2 mb-3">
-                                                    <?= word_limiter($a['ringkasan'], 10); ?>
+                                                    <?= word_limiter($a['ringkasan'] ?? '', 10); ?>
                                                 </p>
 
                                                 <!-- Tanggal -->
@@ -92,21 +92,21 @@
 
         <!-- Konten utama kiri -->
         <!-- Daftar artikel terbaru -->
-        <?php foreach ($berita as $key => $r) : ?>
+        <?php foreach ($berita as $key => $x) : ?>
             <div class="col-lg-6 col-xl-3">
                 <!-- Item berita -->
                 <div class="card shadow" mdb-ripple-init>
                     <div class="ratio ratio-4x3">
-                        <img src="<?= $r['gambar_sampul'] ?>" class="card-img-top object-fit-cover" alt="..." />
+                        <img src="<?= $x['featured_image'] ?: $x['gambar_sampul'] ?>" class="card-img-top object-fit-cover" alt="..." />
                     </div>
                     <div class="card-body text-start">
-                        <a href="<?= base_url() ?>berita/<?= $r['slug'] ?>">
+                        <a href="<?= base_url() ?>berita/<?= $x['slug'] ?>">
                             <h5 class="card-title lh-sm line-clamp-4">
-                                <?= $r['judul'] ?>
+                                <?= $x['judul'] ?>
                             </h5>
                         </a>
                         <p class="card-text">
-                            <small class="text-body-secondary"><?= $r['created_at_terformat'] ?></small>
+                            <small class="text-body-secondary"><?= $x['created_at_terformat'] ?></small>
                         </p>
                     </div>
                 </div>

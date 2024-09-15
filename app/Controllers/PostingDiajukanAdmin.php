@@ -9,7 +9,7 @@ use Psr\Log\LoggerInterface;
 use function App\Helpers\create_slug;
 use function App\Helpers\format_tanggal;
 
-class BeritaDiajukanAdmin extends BaseControllerAdmin
+class PostingDiajukanAdmin extends BaseControllerAdmin
 {
 
     public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
@@ -19,7 +19,7 @@ class BeritaDiajukanAdmin extends BaseControllerAdmin
 
     public function index(): string
     {
-        $this->data['judul'] = lang('Admin.beritaDiajukan');
+        $this->data['judul'] = lang('Admin.postingDiajukan');
         return view('admin_berita_diajukan', $this->data);
     }
 
@@ -34,18 +34,18 @@ class BeritaDiajukanAdmin extends BaseControllerAdmin
         $dir = $this->request->getPost('order')[0]['dir'];
         $search = $this->request->getPost('search')['value'] ?? null;
 
-        $totalData = $this->beritaDiajukanModel->countAll();
+        $totalData = $this->postingDiajukanModel->countAll();
         $totalFiltered = $totalData;
 
-        $berita = $this->beritaDiajukanModel->getBerita($limit, $start, $status, $search, $order, $dir);
+        $posting = $this->postingDiajukanModel->getByFilter('berita', $limit, $start, $status, $search, $order, $dir);
 
         if ($search || $status) {
-            $totalFiltered = $this->beritaDiajukanModel->getTotalRecords($status, $search);
+            $totalFiltered = $this->postingDiajukanModel->getTotalRecords('berita', $status, $search);
         }
 
         $data = [];
-        if (!empty($berita)) {
-            foreach ($berita as $row) {
+        if (!empty($posting)) {
+            foreach ($posting as $row) {
 
                 $nestedData['id'] = $row->id;
                 $nestedData['judul'] = $row->judul;
@@ -74,17 +74,14 @@ class BeritaDiajukanAdmin extends BaseControllerAdmin
     public function simpan($id = null)
     {
         // Validasi
-        // Jika buat baru, tambahkan kondisi is_unique agar tidak ada judul berita yang sama.
-        $rules = ($id == null) ? $this->formRules('required|is_unique[berita.judul]') : $this->formRules('required');
+        // Jika buat baru, tambahkan kondisi is_unique agar tidak ada judul posting yang sama.
+        $rules = ($id == null) ? $this->formRules('required|is_unique[posting.judul]') : $this->formRules('required');
 
         // Redireksi
-        $redirectTo = ($id == null) ? base_url('/admin/berita/') : base_url('/admin/berita/sunting?id=' . $id);
+        $redirectTo = ($id == null) ? base_url('/admin/posting/') : base_url('/admin/posting/sunting?id=' . $id);
 
         // Cek validasi
         if (!$this->validate($rules)) {
-            if ($id == null) {
-                return redirect()->back()->withInput();
-            }
             return redirect()->to($redirectTo)->withInput();
         }
 
@@ -141,21 +138,21 @@ class BeritaDiajukanAdmin extends BaseControllerAdmin
     public function get()
     {
         return $this->response->setJSON(json_encode([
-            "data" => format_tanggal($this->beritaDiajukanModel->get())
+            "data" => format_tanggal($this->postingDiajukanModel->get())
         ]));
     }
 
     public function getPublikasi()
     {
         return $this->response->setJSON(json_encode([
-            "data" => format_tanggal($this->beritaDiajukanModel->getPublikasi())
+            "data" => format_tanggal($this->postingDiajukanModel->getPublikasi())
         ]));
     }
 
     public function getDraf()
     {
         return $this->response->setJSON(json_encode([
-            "data" => format_tanggal($this->beritaDiajukanModel->getDraf())
+            "data" => format_tanggal($this->postingDiajukanModel->getDraf())
         ]));
     }
 
@@ -168,8 +165,8 @@ class BeritaDiajukanAdmin extends BaseControllerAdmin
 
         foreach ($selectedData as $data) {
 
-            // Ambil beberapa konten berita dari database karena tidak ada dari selected data
-            $dataDb = $this->beritaDiajukanModel->getByID($data['id']);
+            // Ambil beberapa konten posting dari database karena tidak ada dari selected data
+            $dataDb = $this->postingDiajukanModel->getByID($data['id']);
             $konten = $dataDb['konten'];
             $ringkasan = $dataDb['ringkasan'];
 
@@ -192,7 +189,7 @@ class BeritaDiajukanAdmin extends BaseControllerAdmin
                 $errors[] =  lang('Admin.gagalMenyimpanEntriDenganJudul', ['judul' => $data['judul']]);
             } else {
                 // Jika berhasil, hapus permintaan pengajuan TODO: Tambah error-checking apabila gagal hapus
-                $this->beritaDiajukanModel->delete($data['id']);
+                $this->postingDiajukanModel->delete($data['id']);
             }
         }
 
@@ -221,7 +218,7 @@ class BeritaDiajukanAdmin extends BaseControllerAdmin
             $id = $rowData['id'];
 
             // Delete the record based on the ID
-            if (!$this->beritaDiajukanModel->delete($id)) {
+            if (!$this->postingDiajukanModel->delete($id)) {
                 $result = false;
                 break;
             }
@@ -267,7 +264,7 @@ class BeritaDiajukanAdmin extends BaseControllerAdmin
         return $kategori['id'];
     }
 
-    // Terima berita request dari API Endpoint
+    // Terima posting request dari API Endpoint
     public function terimaBeritaBanyak()
     {
         $selectedData = $this->request->getPost('selectedData');
@@ -292,7 +289,7 @@ class BeritaDiajukanAdmin extends BaseControllerAdmin
             ];
 
             // Insert the new entry into the database
-            if (!$this->beritaDiajukanModel->insert($newEntry)) {
+            if (!$this->postingDiajukanModel->insert($newEntry)) {
                 $result = false;
                 $errors[] = lang('Admin.gagalMenyimpanEntriDenganJudul', ['judul' => $data['judul']]);
             }
