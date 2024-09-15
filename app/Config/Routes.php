@@ -270,6 +270,7 @@ $routes->group('api', static function ($routes) {
 
     // Situs
     $routes->get('situs', 'SitusAdmin::get');
+    $routes->post('situs/perbarui-status', 'SitusAdmin::perbaruiStatusSitus');
     $routes->get('situs/aktif', 'SitusAdmin::getAktif');
     $routes->get('situs/tidak-aktif', 'SitusAdmin::getTIdakAktif');
 

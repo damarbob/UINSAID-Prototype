@@ -139,6 +139,43 @@
                 },
                 {
                     extend: 'selected',
+                    text: '<i class="bi bi-arrow-clockwise"></i>',
+                    action: function(e, dt, node, config) {
+                        // Konfirmasi refresh status situs
+                        Swal.fire({
+                            icon: 'warning',
+                            title: '<?= lang('Admin.kelolaSitus') ?>',
+                            text: 'Lanjutkan menyegarkan status situs?',
+                            showCancelButton: true,
+                            confirmButtonColor: "var(--mdb-danger)",
+                            confirmButtonText: "<?= lang('Admin.nonaktifkan') ?>",
+                            cancelButtonText: "<?= lang('Admin.batal') ?>",
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+
+                                // Get selected rows
+                                let selectedRows = table1.rows('.selected').data(); // 'selected' class assumes rows are selected
+
+                                // Prepare an array to hold selected site data
+                                let selectedSites = [];
+
+                                // Iterate through selected rows
+                                selectedRows.each(function(rowData) {
+                                    selectedSites.push({
+                                        id: rowData.id, // Assuming `id` is in rowData
+                                        url: rowData.alamat // Assuming `url` is in rowData
+                                    });
+                                });
+
+                                // Call the function with the selected sites
+                                updateSiteStatus(selectedSites);
+
+                            }
+                        });;
+                    }
+                },
+                {
+                    extend: 'selected',
                     text: '<i class="bi bi-power"></i>',
                     action: function(e, dt, node, config) {
                         // Konfirmasi nonaktifkan situs
@@ -263,6 +300,7 @@
                                 icon: 'info',
                                 title: '<?= lang('Admin.tindakanSelesai') ?>',
                                 html: responseMessages.join(''),
+                                confirmButtonColor: "var(--mdb-primary)",
                             });
 
                             // Optionally, reload the DataTable to reflect changes
@@ -272,6 +310,64 @@
                 });
             });
         }
+
+        function updateSiteStatus(selectedSites) {
+            var totalRequests = 0;
+            selectedSites.forEach(function(site) {
+                let siteId = site.id;
+                let siteUrl = site.url; // Assuming each `site` object contains `id` and `url`.
+
+                $.ajax({
+                    url: `${siteUrl}/api/site-status`, // Send AJAX to (site url)/api/site-status
+                    type: 'POST',
+                    headers: {
+                        'X-API-Key': '<?= env('app.apiKey') ?>' // API Key from .env
+                    },
+                    dataType: 'json',
+                    success: function(response) {
+                        let status = response.message; // Assuming `response.message` contains 'active' or 'inactive'
+
+                        if (status === 'active' || status === 'inactive') {
+                            $.ajax({
+                                url: `<?= base_url('/api/situs/perbarui-status') ?>`, // Assuming your backend route for status update
+                                type: 'POST',
+                                data: {
+                                    id: siteId,
+                                    status: status
+                                },
+                                success: function(dbResponse) {
+                                    console.log(`Site ID ${siteId} status updated to ${status}. ${dbResponse['message']}`);
+                                },
+                                error: function(jqXHR, textStatus, errorThrown) {
+                                    console.error(`Failed to update status for Site ID ${siteId}:`, errorThrown, textStatus);
+                                }
+                            });
+                        } else {
+                            console.warn(`Invalid status received for Site ID ${siteId}: ${status}`);
+                        }
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error(`Failed to get status for Site ID ${siteId}:`, errorThrown);
+                    },
+                    complete: function() {
+                        totalRequests++;
+
+                        // After each request, check if all requests are done
+                        if (totalRequests === selectedSites.length) {
+                            Swal.fire({
+                                icon: 'info',
+                                title: '<?= lang('Admin.tindakanSelesai') ?>',
+                                confirmButtonColor: "var(--mdb-primary)",
+                            });
+
+                            // Optionally, reload the DataTable to reflect changes
+                            $('#tabel').DataTable().ajax.reload();
+                        }
+                    }
+                });
+            });
+        }
+
 
         // Change button styles
         $('#tabel').on('preInit.dt', function() {
@@ -285,8 +381,9 @@
             })
 
             buttons.eq(0).removeClass("btn-secondary").addClass("btn-primary").addClass("rounded-0");
-            buttons.eq(2).removeClass("btn-secondary").addClass("btn-danger").addClass("rounded-0");
-            buttons.eq(3).removeClass("btn-secondary").addClass("btn-primary").addClass("rounded-0");
+            buttons.eq(2).removeClass("btn-secondary").addClass("btn-primary").addClass("rounded-0"); // Refresh
+            buttons.eq(3).removeClass("btn-secondary").addClass("btn-danger").addClass("rounded-0"); // Shutdown
+            buttons.eq(4).removeClass("btn-secondary").addClass("btn-primary").addClass("rounded-0"); // Restore
             lastButton.removeClass("btn-secondary").addClass("btn-danger").addClass("rounded-0");
 
             $(".dt-buttons.btn-group.flex-wrap").addClass("btn-group-lg");

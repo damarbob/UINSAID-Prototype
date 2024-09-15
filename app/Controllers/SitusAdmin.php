@@ -111,6 +111,48 @@ class SitusAdmin extends BaseControllerAdmin
         return redirect()->to($redirectTo)->withInput();
     }
 
+    public function perbaruiStatusSitus()
+    {
+        // Get the 'id' and 'status' from the POST data
+        $id = $this->request->getPost('id');
+        $status = $this->request->getPost('status');
+
+        // Check if both 'id' and 'status' are present
+        if (!$id || !$status) {
+            return $this->response->setJSON([
+                'status' => 'error',
+                'message' => lang('Admin.inputError')
+            ]);
+        }
+
+        // Fetch the site by ID
+        $site = $this->situsModel->find($id);
+
+        if (!$site) {
+            return $this->response->setJSON([
+                'status' => 'error',
+                'message' => lang('Admin.siteNotFound')
+            ]);
+        }
+
+        // Update the site status if it's valid
+        if (in_array($status, ['active', 'inactive'])) {
+            $this->situsModel->update($id, ['status' => $status]);
+
+            return $this->response->setJSON([
+                'status' => 'success',
+                'message' => lang('Admin.statusUpdated')
+            ]);
+        }
+
+        // Invalid status value
+        return $this->response->setJSON([
+            'status' => 'error',
+            'message' => lang('Admin.invalidStatus')
+        ]);
+    }
+
+
     public function hapusBanyak()
     {
         $selectedIds = $this->request->getPost('selectedIds');

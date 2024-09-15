@@ -23,7 +23,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="uploadModalLabel"><?= lang('Admin.unggahGambar') ?></h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <form action="<?= base_url('admin/galeri/unggah') ?>" method="post" enctype="multipart/form-data">
@@ -54,7 +54,7 @@
             <div class="flex-grow-1">
                 <div class="btn-group rounded-0" role="group">
                     <!-- Tombol unggah -->
-                    <button type="button" class="btn btn-primary rounded-0" data-bs-toggle="modal" data-bs-target="#uploadModal" data-mdb-ripple-init><i class='bx bx-upload me-2'></i><?= lang('Admin.unggah') ?></button>
+                    <button type="button" class="btn btn-primary rounded-0" data-mdb-toggle="modal" data-mdb-target="#uploadModal" data-mdb-ripple-init><i class='bx bx-upload me-2'></i><?= lang('Admin.unggah') ?></button>
 
                     <!-- Per Page Options -->
                     <div class="dropdown">
@@ -121,7 +121,7 @@
                                 <p class="card-text"><?= esc($image['deskripsi']) ?></p>
 
                                 <!-- Tombol sunting metadata -->
-                                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#editModal<?= $image['id'] ?>" data-mdb-ripple-init><i class='bx bx-pencil me-2'></i><?= lang('Admin.sunting') ?></button>
+                                <button type="button" class="btn btn-success" data-mdb-toggle="modal" data-mdb-target="#editModal<?= $image['id'] ?>" data-mdb-ripple-init><i class='bx bx-pencil me-2'></i><?= lang('Admin.sunting') ?></button>
 
                                 <!-- Modal sunting metadata -->
                                 <div class="modal fade" id="editModal<?= $image['id'] ?>" tabindex="-1" aria-labelledby="editModalLabel<?= $image['id'] ?>" aria-hidden="true">
@@ -129,7 +129,7 @@
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h5 class="modal-title" id="editModalLabel<?= $image['id'] ?>"><?= lang('Admin.gambar') . " " . esc($image['judul']) ?></h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
                                                 <form action="<?= base_url('admin/galeri/simpanMetadata/' . $image['id']) ?>" method="post">
