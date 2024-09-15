@@ -339,7 +339,7 @@
                         <div class="d-flex align-items-center mb-2">
                         </div>
                         <a href="">
-                          <h5 class="card-title fw-bold"><a class="text-decoration-none text-light" href="<?= $a['slug']; ?>"><?= $a['judul']; ?></a></h5>
+                          <h5 class="card-title fw-bold"><a class="text-decoration-none text-light" href="<?= base_url('berita/' . $a['slug']); ?>"><?= $a['judul']; ?></a></h5>
                         </a>
                       </div>
                     </div>
@@ -576,7 +576,7 @@
       ?>
       <?php foreach ($agenda as $i => $x) : ?>
         <div class="col-lg-3 col-xl-3 col-md-6" id="item-agenda-<?= $i ?>" data-aos="fade-up">
-          <div class="card" data-mdb-ripple-init
+          <div class="card h-100" data-mdb-ripple-init
             data-mdb-ripple-init
             data-mdb-modal-init
             data-mdb-target="#berandaModal"
@@ -635,7 +635,7 @@
 
           <?php foreach ($pengumuman as $i => $x) : ?>
             <div class="col-lg-4" data-aos="fade-up" id="item-pengumuman<?= $i ?>">
-              <div class="card"
+              <div class="card h-100"
                 data-mdb-ripple-init
                 data-mdb-modal-init
                 data-mdb-target="#berandaModal"
