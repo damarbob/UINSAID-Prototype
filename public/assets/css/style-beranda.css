@@ -239,20 +239,20 @@
 }
 
 /* Section Agenda */
-#item-agenda .card {
+.item-agenda .card {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
   border-radius: 8px;
 }
-#item-agenda .card-body {
+.item-agenda .card-body {
   flex-grow: 1;
 }
-#item-agenda .card-text {
+.item-agenda .card-text {
   font-size: 0.7rem;
 }
-#item-agenda .card-title {
+.item-agenda .card-title {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 4; /* Limit to 4 lines */
@@ -355,14 +355,14 @@ section.fluid .container {
 }
 
 /* Pengumuman */
-#item-pengumuman .card {
+.item-pengumuman .card {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
   border-radius: 8px;
 }
-#item-pengumuman .card-title {
+.item-pengumuman .card-title {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 4; /* Limit to 4 lines */

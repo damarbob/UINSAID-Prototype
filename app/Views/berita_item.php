@@ -58,9 +58,6 @@ $beritaUrl = base_url("berita/" . $berita['slug']);
                             <!-- TODO: Hardcoded breadcrumb -->
                             <li class="breadcrumb-item"><a href="<?= base_url() ?>">Beranda</a></li>
                             <li class="breadcrumb-item"><a href="<?= base_url('berita') ?>">Berita</a></li>
-                            <li class="breadcrumb-item active fw-bold" aria-current="page">
-                                <?= $berita['judul']; ?>
-                            </li>
                         </ol>
                     </nav>
 
@@ -90,7 +87,7 @@ $beritaUrl = base_url("berita/" . $berita['slug']);
                 <div class="row g-0">
                     <div class="col">
                         <div class="ratio ratio-4x3">
-                            <img data-aos="fade-up" class="object-fit-cover" style="border: 1rem solid var(--mdb-body-bg);" src="<?= $berita['featured_image'] ?: $berita['gambar_sampul'] ?>" />
+                            <img data-aos="fade-up" class="object-fit-cover" style="border: 1rem solid var(--mdb-body-bg);" src="<?= $berita['featured_image'] ?: $berita['gambar_sampul'] ?>" onerror="this.onerror=null; this.src='<?= base_url('assets/img/icon-notext.png') ?>'" />
                         </div>
                     </div>
                 </div>
