@@ -157,7 +157,7 @@ class SitusAdmin extends BaseControllerAdmin
     {
         $selectedIds = $this->request->getPost('selectedIds');
 
-        $result = delete_many($selectedIds, $this->beritaModel);
+        $result = delete_many($selectedIds, $this->situsModel);
 
         if ($result) {
             return $this->response->setJSON(['status' => 'success', 'message' => lang('Admin.berhasilDihapus')]);

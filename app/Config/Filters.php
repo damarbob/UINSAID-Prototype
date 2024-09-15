@@ -3,6 +3,7 @@
 namespace Config;
 
 use App\Filters\CekStatusSitus;
+use App\Filters\Cors;
 use CodeIgniter\Config\BaseConfig;
 use CodeIgniter\Filters\CSRF;
 use CodeIgniter\Filters\DebugToolbar;
@@ -22,7 +23,8 @@ class Filters extends BaseConfig
         'honeypot'      => Honeypot::class,
         'invalidchars'  => InvalidChars::class,
         'secureheaders' => SecureHeaders::class,
-        'cekStatusSitus' => CekStatusSitus::class
+        'cekStatusSitus' => CekStatusSitus::class,
+        'cors'          => Cors::class,
     ];
 
     /**
@@ -35,6 +37,7 @@ class Filters extends BaseConfig
             // 'csrf',
             // 'invalidchars',
             'cekStatusSitus' => ['except' => ['maintenance/*', 'api/*', 'admin/*']],
+            // 'cors',
         ],
         'after' => [
             'toolbar',
@@ -64,6 +67,11 @@ class Filters extends BaseConfig
      * 'isLoggedIn' => ['before' => ['account/*', 'profiles/*']]
      */
     public array $filters = [
-        'session' => ['before' => ['admin/*']]
+        'session' => ['before' => ['admin/*']],
+        'cors' => [
+            'before' => [
+                'api/*', // Apply CORS filter to API routes
+            ]
+        ]
     ];
 }
