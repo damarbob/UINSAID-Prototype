@@ -50,6 +50,7 @@ $routes->get('pengumuman/(:num)', 'Pengumuman::get/$1');
 
 // TESTING ROUTES
 // $routes->get('/entitas', 'Entitas');
+$routes->options('api/(:any)', 'ApiController::handleOptions');
 
 // Route dinamis untuk halaman yang dibuat
 $routes->group('halaman', function ($routes) {
