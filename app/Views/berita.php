@@ -21,7 +21,7 @@
                     <div class="swiper-wrapper">
 
                         <!-- Swiper artikel terbaru -->
-                        <?php foreach ($beritaTerbaru as $i => $a) : ?>
+                        <?php foreach ($beritaTerbaru as $i => $x) : ?>
                             <div class="swiper-slide">
                                 <div class="card bg-transparent">
                                     <div class="row">
@@ -29,7 +29,7 @@
                                         <!-- Gambar artikel -->
                                         <div class="col-md-6">
                                             <div style="height: 384px; border: 1rem solid var(--mdb-body-bg);">
-                                                <img src="<?= $a['gambar_sampul'] ?>" class="w-100 object-fit-cover" style="height: 384px;" alt="..." />
+                                                <img src="<?= $x['featured_image'] ?: $x['gambar_sampul'] ?>" class="w-100 object-fit-cover" style="height: 384px;" alt="<?= $x['judul'] ?>" onerror="this.onerror=null; this.src='<?= base_url('assets/img/icon-notext.png') ?>'" />
                                             </div>
                                         </div>
 
@@ -38,21 +38,21 @@
                                             <div class="card-body p-md-5">
 
                                                 <!-- Kategori -->
-                                                <p class="text-danger mb-3"><b><?php echo $a['kategori']; ?></b></p>
+                                                <p class="text-danger mb-3"><b><?php echo $x['kategori']; ?></b></p>
 
                                                 <!-- Judul -->
                                                 <h3 class="card-title mb-3">
-                                                    <a class="text-decoration-none crop-text-2" href="<?= base_url('berita/' . $a['slug']) ?>"><?= $a['judul']; ?></a>
+                                                    <a class="text-decoration-none crop-text-2" href="<?= base_url('berita/' . $x['slug']) ?>"><?= $x['judul']; ?></a>
                                                 </h3>
 
                                                 <!-- Ringkasan -->
                                                 <p class="card-text crop-text-2 mb-3">
-                                                    <?= word_limiter($a['ringkasan'] ?? '', 10); ?>
+                                                    <?= word_limiter($x['ringkasan'] ?? '', 10); ?>
                                                 </p>
 
                                                 <!-- Tanggal -->
                                                 <p class="card-text crop-text-2 mb-3">
-                                                    <?= $a['created_at_terformat']; ?>
+                                                    <?= $x['created_at_terformat']; ?>
                                                 </p>
                                             </div>
 
@@ -92,12 +92,12 @@
 
         <!-- Konten utama kiri -->
         <!-- Daftar artikel terbaru -->
-        <?php foreach ($berita as $key => $x) : ?>
+        <?php foreach ($berita as $i => $x) : ?>
             <div class="col-lg-6 col-xl-3">
                 <!-- Item berita -->
                 <div class="card shadow" mdb-ripple-init>
                     <div class="ratio ratio-4x3">
-                        <img src="<?= $x['featured_image'] ?: $x['gambar_sampul'] ?>" class="card-img-top object-fit-cover" alt="..." />
+                        <img src="<?= $x['featured_image'] ?: $x['gambar_sampul'] ?>" class="card-img-top object-fit-cover" alt="<?= $x['judul'] ?>" onerror="this.onerror=null; this.src='<?= base_url('assets/img/icon-notext.png') ?>'" />
                     </div>
                     <div class="card-body text-start">
                         <a href="<?= base_url() ?>berita/<?= $x['slug'] ?>">

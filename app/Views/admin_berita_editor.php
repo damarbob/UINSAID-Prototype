@@ -8,6 +8,7 @@
 <?= $this->section('content') ?>
 <?php
 helper('form');
+date_default_timezone_set("Asia/Jakarta");
 
 if ($mode == "tambah") {
     // Apabila mode tambah, bawa nilai lama form agar setelah validasi tidak hilang
@@ -16,18 +17,19 @@ if ($mode == "tambah") {
     $valueRingkasan = (old('ringkasan'));
     $valueKategori = (old('kategori'));
     $valueStatus = (old('status'));
-    $valueTglTerbit = (old('tgl_terbit'));
+    $valueTglTerbit = (old('tgl_terbit')) ? old('tgl_terbit') : date("Y-m-d H:i");
 } else {
     $tglTerbit = strtotime($berita['tgl_terbit']);
-    $tglTerbitFormat = date("Y-m-d H:i", $tglTerbit);
+    $tglTerbitFormat = $berita['tgl_terbit'] ? date("Y-m-d H:i", $tglTerbit) : date("Y-m-d H:i");
     // Apabila mode edit, apabila ada nilai lama (old), gunakan nilai lama. Apabila tidak ada nilai lama (old), gunakan nilai dari variabel
     $valueJudul = (old('judul')) ? old('judul') : $berita['judul'];
     $valueKonten = (old('konten')) ? old('konten') : $berita['konten'];
     $valueRingkasan = (old('ringkasan')) ? old('ringkasan') : $berita['ringkasan'];
     $valueKategori = (old('kategori')) ? old('kategori') : $berita['kategori'];
     $valueStatus = (old('status')) ? old('status') : $berita['status'];
-    $valueTglTerbit = (old('tgl_terbit')) ? old('tgl_terbit') : $berita['tgl_terbit'];
+    $valueTglTerbit = (old('tgl_terbit')) ? old('tgl_terbit') : $tglTerbitFormat;
 }
+
 ?>
 <?php if (session()->getFlashdata('sukses')) : ?>
     <!-- Pesan sukses -->
@@ -48,7 +50,7 @@ if ($mode == "tambah") {
     <div class="row mb-3">
         <div class="col-md-9">
             <!-- Judul -->
-            <div class="form-floating mb-3">
+            <div class="form-floating mb-5">
                 <input id="judul" name="judul" class="form-control <?= (validation_show_error('judul')) ? 'is-invalid' : ''; ?>" type="text" value="<?= $valueJudul ?>" placeholder="<?= lang('Admin.judul') ?>" required />
                 <label for="judul"><?= lang('Admin.judul') ?></label>
                 <div class="invalid-feedback">
@@ -58,7 +60,7 @@ if ($mode == "tambah") {
             <!-- Konten editor -->
             <div class="form mb-3">
                 <textarea id="konten" name="konten" class="form-control tinymce <?= (validation_show_error('konten')) ? 'is-invalid' : ''; ?>" rows="20" type="text" required><?= $valueKonten ?></textarea>
-                <div class="invalid-feedback">
+                <div class="invalid-feedback mt-2">
                     <?= validation_show_error('konten'); ?>
                 </div>
             </div>

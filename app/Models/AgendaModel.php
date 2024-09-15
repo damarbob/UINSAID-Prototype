@@ -37,9 +37,10 @@ class AgendaModel extends \CodeIgniter\Model
         }
 
         return $builder->select('agenda.*, galeri.uri')
+            ->where('agenda.status', 'publikasi')
             ->join('galeri', 'galeri.id = agenda.id_galeri', 'left')
             ->orderBy('agenda.waktu_mulai', 'DESC')
-            ->paginate(10, 'agenda');
+            ->paginate(12, 'agenda');
     }
 
     public function getPublikasi()

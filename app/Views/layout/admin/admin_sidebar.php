@@ -3,7 +3,7 @@
 $request = service('request');
 
 // Get the URI string
-$currentRoute = $request->uri->getPath();
+$currentRoute = $request->uri->getSegment(1) . "/" . $request->uri->getSegment(2);
 ?>
 
 <!-- Topbar -->
@@ -16,7 +16,7 @@ $currentRoute = $request->uri->getPath();
                 <span class=" nav-logo-name">UINSAID</span>
             </a>
             <div class="nav-list">
-                <a href="<?= base_url('admin/dasbor') ?>" class="nav-link-admin <?= $currentRoute == "admin/dasbor" ? "active" : "" ?>">
+                <a href="<?= base_url('admin/dasbor') ?>" class="nav-link-admin <?= $currentRoute == "admin/dasbor" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Dasbor">
                     <i class='bx bx-grid nav_icon'></i>
                     <span class="nav_name">Dasbor</span>
                 </a>
@@ -24,7 +24,7 @@ $currentRoute = $request->uri->getPath();
             <?php if ((ENVIRONMENT == 'development') && auth()->user()->inGroup("superadmin")): ?>
                 <!-- Halaman editor hanya untuk role superadmin -->
                 <div class="nav-list">
-                    <a href="<?= base_url('admin/halaman') ?>" class="nav-link-admin <?= $currentRoute == "admin/halaman" ? "active" : "" ?>">
+                    <a href="<?= base_url('admin/halaman') ?>" class="nav-link-admin <?= $currentRoute == "admin/halaman" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Halaman">
                         <i class='bx bx-file nav_icon'></i>
                         <span class="nav_name">
                             Halaman
@@ -33,7 +33,7 @@ $currentRoute = $request->uri->getPath();
                 </div>
             <?php endif ?>
             <div class="nav-list">
-                <a href="<?= base_url('admin/berita') ?>" class="nav-link-admin <?= $currentRoute == "admin/berita" ? "active" : "" ?>">
+                <a href="<?= base_url('admin/berita') ?>" class="nav-link-admin <?= $currentRoute == "admin/berita" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Berita">
                     <i class='bx bx-news nav_icon'></i>
                     <span class="nav_name"><?= lang('Admin.berita') ?></span>
                     <?php if ($peringatanBeritaKosong || $peringatanPostingBerita) : ?>
@@ -47,32 +47,32 @@ $currentRoute = $request->uri->getPath();
             <?php if (env('app.siteType') == 'parent' || env('app.siteType') == 'super'): ?>
                 <!-- Kelola berita diajukan khusus parent atau super -->
                 <div class="nav-list">
-                    <a href="<?= base_url('admin/berita-diajukan') ?>" class="nav-link-admin <?= $currentRoute == "admin/berita-diajukan" ? "active" : "" ?>">
+                    <a href="<?= base_url('admin/berita-diajukan') ?>" class="nav-link-admin <?= $currentRoute == "admin/berita-diajukan" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Berita Diajukan">
                         <i class='bx bx-mail-send nav_icon'></i>
                         <span class="nav_name">Berita diajukan</span>
                     </a>
                 </div>
             <?php endif ?>
             <div class="nav-list">
-                <a href="<?= base_url('admin/agenda') ?>" class="nav-link-admin <?= $currentRoute == "admin/agenda" ? "active" : "" ?>">
+                <a href="<?= base_url('admin/agenda') ?>" class="nav-link-admin <?= $currentRoute == "admin/agenda" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Agenda">
                     <i class='bx bx-calendar-event nav_icon'></i>
                     <span class="nav_name">Agenda</span>
                 </a>
             </div>
             <div class="nav-list">
-                <a href="<?= base_url('admin/pengumuman') ?>" class="nav-link-admin <?= $currentRoute == "admin/pengumuman" ? "active" : "" ?>">
+                <a href="<?= base_url('admin/pengumuman') ?>" class="nav-link-admin <?= $currentRoute == "admin/pengumuman" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Pengumuman">
                     <i class='bx bxs-megaphone nav_icon'></i>
                     <span class="nav_name">Pengumuman</span>
                 </a>
             </div>
             <div class="nav-list">
-                <a href="<?= base_url('admin/galeri') ?>" class="nav-link-admin <?= $currentRoute == "admin/galeri" ? "active" : "" ?>">
+                <a href="<?= base_url('admin/galeri') ?>" class="nav-link-admin <?= $currentRoute == "admin/galeri" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Galeri">
                     <i class='bx bx-images nav_icon'></i>
                     <span class="nav_name">Galeri</span>
                 </a>
             </div>
             <div class="nav-list d-none">
-                <a href="<?= base_url('admin/kotak-masuk') ?>" class="nav-link-admin <?= $currentRoute == "admin/kotak-masuk" ? "active" : "" ?>">
+                <a href="<?= base_url('admin/kotak-masuk') ?>" class="nav-link-admin <?= $currentRoute == "admin/kotak-masuk" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Kotak Masuk">
                     <i class='bx bxs-inbox nav_icon'></i>
                     <span class="nav_name">
                         Kotak Masuk
@@ -86,7 +86,7 @@ $currentRoute = $request->uri->getPath();
                 </a>
             </div>
             <div class="nav-list">
-                <a href="<?= base_url('admin/pengguna') ?>" class="nav-link-admin <?= $currentRoute == "admin/pengguna" ? "active" : "" ?>">
+                <a href="<?= base_url('admin/pengguna') ?>" class="nav-link-admin <?= $currentRoute == "admin/pengguna" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Pengguna">
                     <i class='bx bxs-user-account nav_icon'></i>
                     <span class="nav_name">
                         Pengguna
@@ -96,7 +96,7 @@ $currentRoute = $request->uri->getPath();
             <?php if ((env('app.siteType') == 'parent' || env('app.siteType') == 'super') && auth()->user()->inGroup("superadmin")): ?>
                 <!-- Kelola situs khusus parent atau super dan role superadmin -->
                 <div class="nav-list">
-                    <a href="<?= base_url('admin/situs') ?>" class="nav-link-admin <?= $currentRoute == "admin/situs" ? "active" : "" ?>">
+                    <a href="<?= base_url('admin/situs') ?>" class="nav-link-admin <?= $currentRoute == "admin/situs" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Situs">
                         <i class='bx bxs-network-chart nav_icon'></i>
                         <span class="nav_name">
                             Kelola Situs
@@ -120,3 +120,40 @@ $currentRoute = $request->uri->getPath();
     </nav>
 </div>
 <!-- End of Topbar -->
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const navBar = document.getElementById('nav-bar');
+        const tooltipElements = document.querySelectorAll('[data-mdb-tooltip-init]');
+
+        function toggleTooltip() {
+            if (navBar.classList.contains('show-sidebar')) {
+                tooltipElements.forEach(el => {
+                    const tooltip = mdb.Tooltip.getOrCreateInstance(el);
+                    tooltip && tooltip.enable(); // Remove the tooltip if it already exists
+                    // new mdb.Tooltip(el); // Re-enable the tooltip
+                });
+            } else {
+                tooltipElements.forEach(el => {
+                    const tooltip = mdb.Tooltip.getOrCreateInstance(el);
+                    tooltip && tooltip.disable(); // Remove the tooltip when expanded
+                });
+                console.log("haha");
+            }
+            // tooltipElements.forEach(el => {
+            //     const tooltip = mdb.Tooltip.getInstance(el);
+            //     tooltip.toggleEnabled()
+            // });
+        }
+
+        // Add event listener to your navbar toggle button
+        const navbarToggle = document.getElementById('header-toggle'); // Assuming this is your navbar toggle button
+        navbarToggle.addEventListener('click', function() {
+            // navBar.classList.toggle('collapsed');
+            toggleTooltip();
+        });
+
+        // Initialize based on default state
+        // toggleTooltip();
+    });
+</script>
