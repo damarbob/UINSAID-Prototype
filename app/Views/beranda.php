@@ -575,7 +575,7 @@
       <?php //dd($agenda) 
       ?>
       <?php foreach ($agenda as $i => $x) : ?>
-        <div class="col-lg-3 col-xl-3 col-md-6" id="item-agenda-<?= $i ?>" data-aos="fade-up">
+        <div class="col-lg-3 col-xl-3 col-md-6 item-agenda" data-aos="fade-up">
           <div class="card" data-mdb-ripple-init
             data-mdb-ripple-init
             data-mdb-modal-init
@@ -634,7 +634,7 @@
         <div class="row pb-4 g-3">
 
           <?php foreach ($pengumuman as $i => $x) : ?>
-            <div class="col-lg-4" data-aos="fade-up" id="item-pengumuman<?= $i ?>">
+            <div class="col-lg-4 item-pengumuman" data-aos="fade-up">
               <div class="card"
                 data-mdb-ripple-init
                 data-mdb-modal-init
