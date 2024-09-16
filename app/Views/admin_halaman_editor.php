@@ -20,13 +20,13 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
-<form action="/admin/halaman/simpan/<?= isset($halaman['id']) ? $halaman['id'] : ''; ?>" method="post">
+<form action="/admin/halaman/simpan/<?= isset($halaman['id']) ? $halaman['id'] : ''; ?>" method="post" enctype="multipart/form-data">
     <div class="row mb-5">
         <div class="col-12">
 
-            <div class="mb-3">
+            <div class="form-outline mb-3" data-mdb-input-init>
+                <input type="text" class="form-control form-control-lg" id="judul" name="judul" value="<?= isset($halaman['judul']) ? $halaman['judul'] : ''; ?>" required>
                 <label for="judul" class="form-label">Title</label>
-                <input type="text" class="form-control" id="judul" name="judul" value="<?= isset($halaman['judul']) ? $halaman['judul'] : ''; ?>" required>
             </div>
 
         </div>
@@ -45,7 +45,7 @@
                             <tr data-id="<?= $component['id']; ?>">
                                 <td class="sortable-handle">☰</td>
                                 <td><?= $component['nama']; ?></td>
-                                <td><button type="button" class="btn btn-danger btn-sm remove-komponen">X</button></td>
+                                <td><button type="button" class="btn btn-danger btn-sm remove-komponen"><i class="bi bi-trash"></i></button></td>
                             </tr>
                         <?php endforeach; ?>
                     <?php else: ?>
@@ -62,23 +62,27 @@
                 <label for="availableComponents" class="form-label">Available Components</label>
                 <ul id="availableComponents" class="list-group">
                     <?php foreach ($availableComponents as $component): ?>
-                        <li class="list-group-item" draggable="true" data-id="<?= $component['id']; ?>"><?= $component['nama']; ?></li>
+                        <li class="list-group-item" draggable="true" data-id="<?= $component['id']; ?>">
+                            <i class="bi bi-arrows-move me-2"></i>
+                            <?= $component['nama']; ?>
+                        </li>
                     <?php endforeach; ?>
                 </ul>
             </div>
         </div>
         <div class="col-12">
-            <div class="mb-3">
-                <label for="slug" class="form-label">Slug</label>
+            <label for="slug" class="form-label">Slug</label>
+            <div class="input-group mb-3">
+                <span class="input-group-text"><?= base_url('halaman/') ?></span>
                 <input type="text" class="form-control" id="slug" name="slug" value="<?= isset($halaman['slug']) ? $halaman['slug'] : ''; ?>" required>
             </div>
             <div class="mb-3">
                 <label for="css" class="form-label">CSS Filename</label>
-                <input type="text" class="form-control" id="css" name="css" value="<?= isset($halaman['css']) ? $halaman['css'] : ''; ?>" placeholder="e.g., style-komponen.css">
+                <input type="file" class="form-control" id="css" name="css_file">
             </div>
             <div class="mb-3">
                 <label for="js" class="form-label">JS Filename</label>
-                <input type="text" class="form-control" id="js" name="js" value="<?= isset($halaman['js']) ? $halaman['js'] : ''; ?>" placeholder="e.g., script-komponen.js">
+                <input type="file" class="form-control" id="js" name="js_file">
             </div>
             <button class="btn btn-primary" type="submit">Save</button>
         </div>
@@ -90,10 +94,17 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editMetaModalLabel"><?= lang('Admin.sunting') ?></h5>
+                <h5 class="modal-title" id="editMetaModalLabel">
+                    <?= lang('Admin.sunting') ?>
+                    <!-- Spinner -->
+                    <div class="spinner-border spinner-border-sm ms-2" id="editMetaModalSpinner" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </h5>
                 <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+                <!-- Form sunting komponen -->
                 <form id="editMeta" method="post" class="needs-validation" enctype="multipart/form-data">
                     <div id="input-container">
 
@@ -159,7 +170,7 @@
             var newRow = document.createElement('tr');
             newRow.setAttribute('data-id', componentId);
             newRow.classList.add('fade-in'); // Apply the fade-in animation class
-            newRow.innerHTML = '<td class="sortable-handle">☰</td><td>' + componentText + '</td><td><button type="button" class="btn btn-danger btn-sm remove-komponen">X</button></td>';
+            newRow.innerHTML = '<td class="sortable-handle">☰</td><td>' + componentText + '</td><td><button type="button" class="btn btn-danger btn-sm remove-komponen"><i class="bi bi-trash"></i></button></td>';
             sortableTable.appendChild(newRow);
 
             updateKomponenOrder();
@@ -351,6 +362,8 @@
         function openComponentEditor(componentId) {
             // alert('Opening editor for component ID: ' + componentId);
 
+            document.getElementById('editMetaModalSpinner').style.display = 'inline-block'; // Show edit modal spinner
+
             // Initialize and show the MDB modal
             const modalElement = document.getElementById('editMetaModal');
             const modalInstance = new mdb.Modal(modalElement);
@@ -359,6 +372,104 @@
             const content = getKontenById(`<?php echo addcslashes(json_encode($availableComponents), '\'\\'); ?>`, componentId);
             const metaDataArray = extractMetaFromHTML(content);
             createInputsFromMeta(metaDataArray);
+
+            // AJAX get existsing meta for the selected component
+            $.ajax({
+                url: '<?= base_url('api/komponen/meta') ?>',
+                type: 'POST',
+                data: {
+                    idKomponen: componentId,
+                    idHalaman: '<?= $halaman['id'] ?>'
+                },
+                success: function(response) {
+                    if (response['data']) {
+                        const responseMeta = response['data']['meta']; // Get the component's meta
+                        if (responseMeta) {
+                            const meta = JSON.parse(responseMeta); // Deserialize responseMeta
+
+                            document.getElementById('editMetaModalSpinner').style.display = 'none'; // Hide edit modal spinner
+
+                            meta.forEach(function(item) {
+                                // Find the element by id
+                                let element = document.getElementById(item['id']);
+
+                                // If element is not found by id, check for radio buttons by name
+                                if (!element) {
+                                    element = document.getElementsByName(item['id']); // Find radio buttons or other groups by name
+                                }
+
+                                if (element) {
+                                    const value = item['value'];
+
+                                    // Check if element is a NodeList (like a group of radio buttons)
+                                    if (NodeList.prototype.isPrototypeOf(element)) {
+                                        element.forEach(function(radio) {
+                                            if (radio.type === 'radio' && radio.value === value) {
+                                                radio.checked = true; // Select the correct radio button
+                                            }
+                                        });
+                                    } else {
+                                        // Determine the type and set the value dynamically
+                                        if (element.type) {
+                                            switch (element.type) {
+                                                case 'text':
+                                                case 'email':
+                                                case 'password':
+                                                case 'number':
+                                                case 'color':
+                                                case 'range':
+                                                case 'datetime-local':
+                                                    element.value = value; // Set value for basic input types
+                                                    break;
+
+                                                case 'checkbox':
+                                                    element.checked = value === 'on'; // Check/uncheck checkbox
+                                                    break;
+
+                                                case 'file':
+                                                    if (Array.isArray(value)) {
+                                                        value.forEach(fileUrl => {
+                                                            console.log('File URL:', fileUrl); // Update file preview or display
+                                                        });
+                                                    }
+                                                    break;
+
+                                                case 'select-one':
+                                                    element.value = value; // Set the value for select dropdown
+                                                    break;
+
+                                                default:
+                                                    if (element.tagName === 'TEXTAREA') {
+                                                        element.value = value; // Set value for textarea
+                                                    } else {
+                                                        element.innerHTML = value; // Fallback for any other element type
+                                                    }
+                                                    break;
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    console.log(`Element with ID or Name ${item['id']} not found.`);
+                                }
+                            });
+
+
+
+                        } else {
+                            console.log('Component meta is null');
+                        }
+                    } else {
+                        console.log('Component data is null');
+                    }
+                    console.log(response);
+                },
+                error: function(xhr, status, error) {
+                    console.log('ERROR:' + status);
+                },
+                complete: function() {
+                    // Any additional actions on completion
+                }
+            });
 
             // Remove previous event listener before attaching a new one
             document.getElementById("editMetaModal").removeEventListener("submit", handleSubmit);

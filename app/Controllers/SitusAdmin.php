@@ -136,7 +136,7 @@ class SitusAdmin extends BaseControllerAdmin
         }
 
         // Update the site status if it's valid
-        if (in_array($status, ['active', 'inactive'])) {
+        if (in_array($status, ['active', 'inactive', 'n/a'])) {
             $this->situsModel->update($id, ['status' => $status]);
 
             return $this->response->setJSON([

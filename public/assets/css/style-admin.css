@@ -89,7 +89,7 @@ div.dataTables_wrapper div.dataTables_info {
   left: -30%;
   width: var(--nav-width);
   height: 100vh;
-  /* background-color: var(--mdb-primary); */
+  background-color: rgba(var(--mdb-primary-rgb), 0.1);
   padding: 0.5rem 1rem 0 0;
   transition: 0.5s;
   z-index: var(--z-fixed);
@@ -113,7 +113,7 @@ div.dataTables_wrapper div.dataTables_info {
   grid-template-columns: max-content max-content;
   align-items: center;
   column-gap: 1rem;
-  padding: 0.5rem 0 0.5rem 1.5rem;
+  padding: 0.75rem 0 0.75rem 1.5rem;
 }
 
 .nav-logo {
@@ -135,16 +135,20 @@ div.dataTables_wrapper div.dataTables_info {
 .nav-link-admin {
   position: relative;
   /* color: rgba(var(--mdb-light-rgb), 0.5); */
-  color: rgba(var(--mdb-primary-rgb), 0.5);
+  background: rgba(var(--mdb-body-bg-rgb), 1);
+  color: rgba(var(--mdb-primary-rgb), 1);
   /* margin-bottom: 1.5rem; */
   transition: 0.3s;
   font-size: 0.8rem;
   font-weight: bold;
+  border-top-right-radius: 1rem;
+  border-bottom-right-radius: 1rem;
 }
 
 .nav-link-admin:hover {
   /* color: var(--mdb-light); */
-  color: var(--mdb-primary);
+  background: rgba(var(--mdb-primary-rgb), 0.75);
+  color: rgba(var(--mdb-body-bg-rgb), 1);
 }
 
 .nav_icon {
@@ -161,7 +165,8 @@ div.dataTables_wrapper div.dataTables_info {
 
 .nav-link-admin.active {
   /* color: var(--mdb-light); */
-  color: var(--mdb-primary);
+  background: rgba(var(--mdb-primary-rgb), 1);
+  color: rgba(var(--mdb-body-bg-rgb), 1);
 }
 
 .nav-link-admin.active::before {
@@ -171,7 +176,7 @@ div.dataTables_wrapper div.dataTables_info {
   width: 2px;
   height: 32px;
   /* background-color: var(--mdb-light); */
-  background-color: var(--mdb-primary);
+  background-color: var(--mdb-body-bg);
 }
 
 .height-100 {

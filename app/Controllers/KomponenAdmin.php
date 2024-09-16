@@ -105,6 +105,17 @@ class KomponenAdmin extends BaseControllerAdmin
         return redirect()->to('/admin/komponen');
     }
 
+    public function getMetaById()
+    {
+        // Retrieve componentId and halamanId from the request
+        $componentId = $this->request->getPost('idKomponen');
+        $halamanId = $this->request->getPost('idHalaman');
+
+        return $this->response->setJSON(json_encode([
+            "data" => $this->komponenMetaModel->getById($componentId, $halamanId)
+        ]));
+    }
+
     public function simpanMeta()
     {
         $response = ['success' => false, 'message' => 'An error occurred'];
@@ -200,7 +211,7 @@ class KomponenAdmin extends BaseControllerAdmin
      * @param string|null $status Optional status filter
      * @return $this
      */
-    public function getDT($status = null)
+    public function getDT()
     {
         $columns = ['nama', 'css', 'js', 'grup'];
 
@@ -209,7 +220,9 @@ class KomponenAdmin extends BaseControllerAdmin
         $order = $columns[$this->request->getPost('order')[0]['column']];
         $dir = $this->request->getPost('order')[0]['dir'];
 
+        $status = $this->request->getPost('status') ?? null;
         $search = $this->request->getPost('search')['value'] ?? null;
+
         $totalData = $this->komponenModel->countAll();
         $totalFiltered = $totalData;
 

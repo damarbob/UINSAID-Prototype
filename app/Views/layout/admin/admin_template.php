@@ -34,13 +34,18 @@
     <!-- <link rel="stylesheet" href="<?= base_url('/assets/css/style.css') ?>" /> -->
     <link rel="stylesheet" href="<?= base_url('/assets/css/style-admin.css') ?>" />
     <?= $this->renderSection('style') ?>
-    <title>Dashboard</title>
+    <title><?= lang('Admin.dasborAdmin') ?></title>
 </head>
 
 <body id="body-pd">
 
     <?= $this->include('layout/admin/admin_navbar'); ?>
     <?= $this->include('layout/admin/admin_sidebar'); ?>
+
+    <!-- Toggle tema gelap terang -->
+    <button id="themeToggle" class="btn btn-lg btn-fab-lg btn-primary btn-floating rounded-pill position-fixed end-0 bottom-0 me-3 me-md-5 mb-5" style="z-index: 50001;" data-mdb-ripple-init>
+        <i class="bi bi-moon-stars"></i>
+    </button>
 
     <!-- Page Wrapper -->
     <div id="wrapper">
@@ -129,6 +134,26 @@
             };
 
             showNavbar("header-toggle", "nav-bar", "body-pd", "header-admin");
+        });
+    </script>
+    <script>
+        // Light mode/dark mode
+        $(document).ready(function() {
+            const htmlElement = $("html");
+            const currentTheme = localStorage.getItem("mdb-theme") || "light";
+
+            // Set the initial theme
+            htmlElement.attr("data-mdb-theme", currentTheme);
+
+            // Toggle theme on button click
+            $("#themeToggle").click(function() {
+                console.log("Switched theme");
+                const newTheme =
+                    htmlElement.attr("data-mdb-theme") === "light" ? "dark" : "light";
+                htmlElement.attr("data-mdb-theme", newTheme);
+                localStorage.setItem("mdb-theme", newTheme);
+            });
+
         });
     </script>
 

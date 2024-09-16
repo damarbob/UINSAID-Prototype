@@ -99,6 +99,16 @@
                     "data": "status",
                     "render": function(data, type, row) {
                         if (type === "display") {
+                            switch (data) {
+                                case "active":
+                                    return "<?= lang('Admin.aktif') ?>";
+                                    break;
+                                case "inactive":
+                                    return "<?= lang('Admin.nonaktif') ?>";
+                                    break;
+                                default:
+                                    return "<?= lang('Admin.tidakBerlaku') ?>";
+                            }
                             return data == "active" ? "<?= lang('Admin.aktif') ?>" : "<?= lang('Admin.nonaktif') ?>"; // TODO: Translasi
                         }
                         return data;
@@ -138,17 +148,16 @@
                     text: '<i id="iconFilterRilisMedia" class="bx bx-filter-alt me-2"></i><span id="loaderFilterRilisMedia" class="loader me-2" style="display: none;"></span><span id="textFilterRilisMedia"><?= lang('Admin.semua') ?></span>',
                 },
                 {
-                    extend: 'selected',
                     text: '<i class="bi bi-arrow-clockwise"></i>',
                     action: function(e, dt, node, config) {
                         // Konfirmasi refresh status situs
                         Swal.fire({
                             icon: 'warning',
                             title: '<?= lang('Admin.kelolaSitus') ?>',
-                            text: 'Lanjutkan menyegarkan status situs?',
+                            text: '<?= lang('Admin.lanjutkanMenyegarkanStatusSitus') ?>',
                             showCancelButton: true,
-                            confirmButtonColor: "var(--mdb-danger)",
-                            confirmButtonText: "<?= lang('Admin.nonaktifkan') ?>",
+                            confirmButtonColor: "var(--mdb-primary)",
+                            confirmButtonText: "<?= lang('Admin.lanjutkan') ?>",
                             cancelButtonText: "<?= lang('Admin.batal') ?>",
                         }).then((result) => {
                             if (result.isConfirmed) {
@@ -156,19 +165,13 @@
                                 // Get selected rows
                                 let selectedRows = table1.rows('.selected').data(); // 'selected' class assumes rows are selected
 
-                                // Prepare an array to hold selected site data
-                                let selectedSites = [];
-
-                                // Iterate through selected rows
-                                selectedRows.each(function(rowData) {
-                                    selectedSites.push({
-                                        id: rowData.id, // Assuming `id` is in rowData
-                                        url: rowData.alamat // Assuming `url` is in rowData
-                                    });
-                                });
-
-                                // Call the function with the selected sites
-                                updateSiteStatus(selectedSites);
+                                if (selectedRows.length === 0) {
+                                    refreshSiteStatusDT();
+                                } else {
+                                    updateSiteStatusDT(
+                                        selectedRows
+                                    );
+                                }
 
                             }
                         });;
@@ -176,7 +179,7 @@
                 },
                 {
                     extend: 'selected',
-                    text: '<i class="bi bi-power"></i>',
+                    text: '<i class="bi bi-power me-2"></i><?= lang('Admin.nonaktifkan') ?>',
                     action: function(e, dt, node, config) {
                         // Konfirmasi nonaktifkan situs
                         Swal.fire({
@@ -196,7 +199,7 @@
                 },
                 {
                     extend: 'selected',
-                    text: '<i class="bi bi-play"></i>',
+                    text: '<i class="bi bi-play me-2"></i><?= lang('Admin.aktifkan') ?>',
                     action: function(e, dt, node, config) {
                         // Konfirmasi aktifkan situs
                         Swal.fire({
@@ -253,7 +256,7 @@
         // Kelola shutdown/restore situs
         function manageSites(action) {
             // Get selected rows data
-            var selectedData = $('#tabel').DataTable().rows('.selected').data().toArray();
+            var selectedData = table1.rows('.selected').data().toArray();
 
             if (selectedData.length === 0) {
                 Swal.fire({
@@ -304,11 +307,33 @@
                             });
 
                             // Optionally, reload the DataTable to reflect changes
-                            $('#tabel').DataTable().ajax.reload();
+                            // table1.ajax.reload();
+
+                            refreshSiteStatusDT(); // Refresh all site status
                         }
                     }
                 });
             });
+        }
+
+        function refreshSiteStatusDT() {
+            updateSiteStatusDT(table1.rows().data());
+        }
+
+        function updateSiteStatusDT(datatableRows) {
+            // Prepare an array to hold selected site data
+            let selectedSites = [];
+
+            // Iterate through selected rows
+            datatableRows.each(function(rowData) {
+                selectedSites.push({
+                    id: rowData.id, // Assuming `id` is in rowData
+                    url: rowData.alamat // Assuming `url` is in rowData
+                });
+            });
+
+            // Call the function with the selected sites
+            updateSiteStatus(selectedSites);
         }
 
         function updateSiteStatus(selectedSites) {
@@ -325,11 +350,11 @@
                     },
                     dataType: 'json',
                     success: function(response) {
-                        let status = response.message; // Assuming `response.message` contains 'active' or 'inactive'
+                        let status = response.message; // `response.message` should contains 'active' or 'inactive'
 
                         if (status === 'active' || status === 'inactive') {
                             $.ajax({
-                                url: `<?= base_url('/api/situs/perbarui-status') ?>`, // Assuming your backend route for status update
+                                url: `<?= base_url('/api/situs/perbarui-status') ?>`,
                                 type: 'POST',
                                 data: {
                                     id: siteId,
@@ -348,20 +373,31 @@
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
                         console.error(`Failed to get status for Site ID ${siteId}:`, errorThrown);
+
+                        let status = 'n/a';
+
+                        $.ajax({
+                            url: `<?= base_url('/api/situs/perbarui-status') ?>`,
+                            type: 'POST',
+                            data: {
+                                id: siteId,
+                                status: status
+                            },
+                            success: function(dbResponse) {
+                                console.log(`Site ID ${siteId} status updated to ${status}. ${dbResponse['message']}`);
+                            },
+                            error: function(jqXHR, textStatus, errorThrown) {
+                                console.error(`Failed to update status for Site ID ${siteId}:`, errorThrown, textStatus);
+                            }
+                        });
                     },
                     complete: function() {
                         totalRequests++;
 
                         // After each request, check if all requests are done
                         if (totalRequests === selectedSites.length) {
-                            Swal.fire({
-                                icon: 'info',
-                                title: '<?= lang('Admin.tindakanSelesai') ?>',
-                                confirmButtonColor: "var(--mdb-primary)",
-                            });
-
-                            // Optionally, reload the DataTable to reflect changes
-                            $('#tabel').DataTable().ajax.reload();
+                            // Reload the DataTable to reflect changes
+                            table1.ajax.reload();
                         }
                     }
                 });

@@ -1,4 +1,4 @@
-<header id="header-admin" class="header navbar navbar-expand bg-white">
+<header id="header-admin" class="header navbar navbar-expand" style="background: var(--mdb-body-bg)">
     <div class="header_toggle me-3 me-md-4">
         <i class="bx bx-menu" id="header-toggle"></i>
     </div>
@@ -10,7 +10,7 @@
 
         <!-- Nav Item - User Information -->
         <li class="nav-item dropdown no-arrow">
-            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-mdb-dropdown-init aria-haspopup="true" aria-expanded="false">
                 <span class="me-2 d-none d-lg-inline small"><?= auth()->user()->username ?></span>
                 <img class="img-profile rounded-circle" src="https://ui-avatars.com/api/?size=32&name=<?= urlencode(auth()->user()->username) ?>&rounded=true&background=007a33&color=ffffff&bold=true">
             </a>

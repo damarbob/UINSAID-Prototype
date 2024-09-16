@@ -54,9 +54,9 @@ class BeritaAdmin extends BaseControllerAdmin
         // $columns = [lang('Admin.judul'), lang('Admin.penulis'), lang('Admin.kategori'), lang('Admin.tanggal'), lang('Admin.status')];
         if ($this->isChildSite) {
             // Child dan super ada kolom pengajuan (di view juga)
-            $columns = ['judul', 'penulis', 'kategori', 'pengajuan', 'created_at', 'status'];
+            $columns = ['judul', 'penulis', 'kategori', 'pengajuan', 'tgl_terbit', 'status'];
         } else {
-            $columns = ['judul', 'penulis', 'kategori', 'created_at', 'status'];
+            $columns = ['judul', 'penulis', 'kategori', 'tgl_terbit', 'status'];
         }
 
         $limit = $this->request->getPost('length');
@@ -86,7 +86,7 @@ class BeritaAdmin extends BaseControllerAdmin
                 $nestedData['konten'] = $row->konten;
                 $nestedData['ringkasan'] = $row->ringkasan;
                 $nestedData['pengajuan'] = $row->pengajuan;
-                $nestedData['created_at'] = $row->created_at;
+                $nestedData['tgl_terbit'] = $row->tgl_terbit;
                 $nestedData['status'] = $row->status;
                 $nestedData['sumber'] = $row->sumber;
                 $data[] = $nestedData;

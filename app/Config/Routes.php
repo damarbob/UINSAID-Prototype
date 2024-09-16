@@ -224,7 +224,9 @@ $routes->group('api', static function ($routes) {
 
         // Komponen
         $routes->post('komponen', 'KomponenAdmin::getDT');
-        $routes->post('komponen/(:any)', 'KomponenAdmin::getDT/$1');
+
+        // Komponen Meta
+        $routes->post('komponen/meta', 'KomponenAdmin::getMetaById');
 
         // Posting
         $routes->post('posting', 'PostingAdmin::fetchData');

@@ -26,7 +26,7 @@ class BeritaDiajukanAdmin extends BaseControllerAdmin
     // Fetch data untuk datatable
     public function fetchData($status = null)
     {
-        $columns = ['judul', 'kategori', 'created_at', 'status', 'sumber'];
+        $columns = ['judul', 'kategori', 'tgl_terbit', 'status', 'sumber'];
 
         $limit = $this->request->getPost('length');
         $start = $this->request->getPost('start');
@@ -53,7 +53,7 @@ class BeritaDiajukanAdmin extends BaseControllerAdmin
                 $nestedData['konten'] = $row->konten;
                 $nestedData['kategori'] = $row->kategori;
                 $nestedData['pengajuan'] = $row->pengajuan;
-                $nestedData['created_at'] = $row->created_at;
+                $nestedData['tgl_terbit'] = $row->tgl_terbit;
                 $nestedData['status'] = $row->status;
                 $nestedData['sumber'] = $row->sumber;
                 $data[] = $nestedData;
@@ -182,7 +182,7 @@ class BeritaDiajukanAdmin extends BaseControllerAdmin
                 'ringkasan' => $ringkasan,
                 'id_kategori' => $this->getOrCreateKategori($data['kategori']),
                 'status' => $data['status'],
-                'tgl_terbit' => $data['created_at'],
+                'tgl_terbit' => $data['tgl_terbit'],
                 // Add other fields as needed
             ];
 
@@ -287,7 +287,7 @@ class BeritaDiajukanAdmin extends BaseControllerAdmin
                 'id_kategori' => $this->getOrCreateKategori($data['kategori']),
                 'status' => $data['status'],
                 'sumber' => $data['sumber'],
-                'tgl_terbit' => $data['created_at'],
+                'tgl_terbit' => $data['tgl_terbit'],
                 // Add other fields as needed
             ];
 

@@ -110,13 +110,38 @@ class HalamanAdmin extends BaseControllerAdmin
     // Save the reordered components
     public function simpan($id = null)
     {
-        $newOrder = $this->request->getPost('id_komponen');
+        $newOrder = $this->request->getPost('id_komponen'); // List ID komponen
+
+        // Check for file uploads
+        $cssFile = $this->request->getFile('css_file');
+        $jsFile = $this->request->getFile('js_file');
+
+        // Initialize file paths
+        $cssPath = null;
+        $jsPath = null;
+
+        // Handle CSS file upload
+        if ($cssFile && $cssFile->isValid() && !$cssFile->hasMoved()) {
+            $originalName = url_title(pathinfo($cssFile->getClientName(), PATHINFO_FILENAME), '-', false); // Get the original filename
+            $randomName = $cssFile->getRandomName(); // Generate a random file name
+            $cssFile->move(FCPATH . 'assets/pages/css/', $originalName . '-' . $randomName);
+            $cssPath = base_url('assets/pages/css/' . $originalName . '-' . $randomName);
+        }
+
+        // Handle JS file upload
+        if ($jsFile && $jsFile->isValid() && !$jsFile->hasMoved()) {
+            $originalName = url_title(pathinfo($jsFile->getClientName(), PATHINFO_FILENAME), '-', false); // Get the original filename
+            $randomName = $jsFile->getRandomName(); // Generate a random file name
+            $jsFile->move(FCPATH . 'assets/pages/js/', $originalName . '-' . $randomName);
+            $jsPath = base_url('assets/pages/js/' . $originalName . '-' . $randomName);
+        }
+
         $data = [
             'judul' => $this->request->getPost('judul'),
             'slug' => $this->request->getPost('slug'),
             'id_komponen' => $newOrder,
-            'css' => $this->request->getPost('css'),
-            'js' => $this->request->getPost('js'),
+            'css' => $cssPath,
+            'js' => $jsPath,
         ];
 
         if ($id) {

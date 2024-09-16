@@ -6,6 +6,7 @@ return [
     // 'sukses' => 'Sukses',
     // 'galat' => 'Galat',
     'tutup' => 'Tutup',
+    'lanjutkan' => 'Lanjutkan',
 
     // Pengguna
     'pengguna' => 'Pengguna',
@@ -221,7 +222,9 @@ return [
     'statusSitus' => 'Status Situs',
     'aktif' => 'Aktif',
     'nonaktif' => 'Nonaktif',
+    'tidakBerlaku' => 'Tidak Berlaku',
 
+    'lanjutkanMenyegarkanStatusSitus' => 'Lanjutkan menyegarkan status situs?',
     'lanjutkanMenonaktifkanSitus' => 'Lanjutkan menonaktifkan situs? Situs yang dinonaktifkan tidak dapat diakses pengunjung.',
     'lanjutkanMengaktifkanSitus' => 'Lanjutkan mengaktifkan situs? Pengunjung dapat mengakses situs.',
 

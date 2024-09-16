@@ -41,7 +41,7 @@ class BeritaDiajukanModel extends \CodeIgniter\Model
                 ->like('berita_diajukan.judul', $search)
                 ->orLike('users.username', $search)
                 ->orLike('kategori.nama', $search)
-                ->orLike('berita_diajukan.created_at', $search)
+                ->orLike('berita_diajukan.tgl_terbit', $search)
                 ->orLike('berita_diajukan.status', $search)
                 ->groupEnd();
         }
@@ -73,7 +73,7 @@ class BeritaDiajukanModel extends \CodeIgniter\Model
                 ->like('berita_diajukan.judul', $search)
                 ->orLike('users.username', $search)
                 ->orLike('kategori.nama', $search)
-                ->orLike('berita_diajukan.created_at', $search)
+                ->orLike('berita_diajukan.tgl_terbit', $search)
                 ->orLike('berita_diajukan.status', $search)
                 ->groupEnd();
         }
@@ -86,7 +86,7 @@ class BeritaDiajukanModel extends \CodeIgniter\Model
         return $this->formatSampul($this->select('berita_diajukan.*, users.username as penulis_username, kategori.nama as kategori')
             ->join('users', 'users.id = berita_diajukan.id_penulis', 'left')
             ->join('kategori', 'kategori.id = berita_diajukan.id_kategori', 'left')
-            ->orderBy('berita_diajukan.created_at', 'DESC')
+            ->orderBy('berita_diajukan.tgl_terbit', 'DESC')
             ->findAll());
     }
 
@@ -95,7 +95,7 @@ class BeritaDiajukanModel extends \CodeIgniter\Model
         return $this->formatSampul($this->select('berita_diajukan.*, users.username as penulis_username, kategori.nama as kategori')
             ->join('users', 'users.id = berita_diajukan.id_penulis', 'left')
             ->join('kategori', 'kategori.id = berita_diajukan.id_kategori', 'left')
-            ->orderBy('berita_diajukan.created_at', 'DESC')
+            ->orderBy('berita_diajukan.tgl_terbit', 'DESC')
             ->paginate(10, 'berita_diajukan'));
     }
 
@@ -104,7 +104,7 @@ class BeritaDiajukanModel extends \CodeIgniter\Model
         return $this->formatSampul($this->select('berita_diajukan.*, users.username as penulis_username, kategori.nama as kategori')
             ->join('users', 'users.id = berita_diajukan.id_penulis', 'left')
             ->join('kategori', 'kategori.id = berita_diajukan.id_kategori', 'left')
-            ->orderBy('berita_diajukan.created_at', 'DESC')
+            ->orderBy('berita_diajukan.tgl_terbit', 'DESC')
             ->offset($offset)
             ->findAll($jumlah));
     }
@@ -132,8 +132,8 @@ class BeritaDiajukanModel extends \CodeIgniter\Model
         return $this->formatSampul($this->select('berita_diajukan.*, users.username as penulis_username, kategori.nama as kategori')
             ->join('users', 'users.id = berita_diajukan.id_penulis', 'left')
             ->join('kategori', 'kategori.id = berita_diajukan.id_kategori', 'left')
-            ->where('berita_diajukan.status', 'published')
-            ->orderBy('berita_diajukan.created_at', 'DESC')
+            ->where('berita_diajukan.status', 'publikasi')
+            ->orderBy('berita_diajukan.tgl_terbit', 'DESC')
             ->findAll());
     }
 
@@ -142,8 +142,8 @@ class BeritaDiajukanModel extends \CodeIgniter\Model
         return $this->formatSampul($this->select('berita_diajukan.*, users.username as penulis_username, kategori.nama as kategori')
             ->join('users', 'users.id = berita_diajukan.id_penulis', 'left')
             ->join('kategori', 'kategori.id = berita_diajukan.id_kategori', 'left')
-            ->where('berita_diajukan.status', 'draft')
-            ->orderBy('berita_diajukan.created_at', 'DESC')
+            ->where('berita_diajukan.status', 'draf')
+            ->orderBy('berita_diajukan.tgl_terbit', 'DESC')
             ->findAll());
     }
 

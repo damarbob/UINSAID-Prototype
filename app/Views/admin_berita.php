@@ -119,7 +119,7 @@
                         }
                     },
                 <?php endif ?> {
-                    "data": "created_at",
+                    "data": "tgl_terbit",
                     "render": function(data, type, row) {
                         return formatDate(data);
                     }

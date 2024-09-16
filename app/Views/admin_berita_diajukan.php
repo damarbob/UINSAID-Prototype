@@ -36,7 +36,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="lihatModalLabel"><?= lang('Admin.judul') ?></h5>
-                <button type="button" class="btn-close" data-mdb-ripple-init data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-mdb-ripple-init data-mdb-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <p id="lihatModalKonten">
@@ -44,7 +44,7 @@
                 </p>
             </div>
             <div class="modal-footer d-flex justify-content-between">
-                <button type="button" class="btn btn-secondary" data-mdb-ripple-init data-bs-dismiss="modal">
+                <button type="button" class="btn btn-secondary" data-mdb-ripple-init data-mdb-dismiss="modal">
                     <i class="bi bi-chevron-left me-2"></i>
                     <?= lang('Admin.batal') ?>
                 </button>
@@ -67,31 +67,31 @@
         <?php if (session()->getFlashdata('sukses')) : ?>
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <?= session()->getFlashdata('sukses') ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-mdb-dismiss="alert" aria-label="Close"></button>
             </div>
         <?php elseif (session()->getFlashdata('gagal')) : ?>
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 <?= session()->getFlashdata('gagal') ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-mdb-dismiss="alert" aria-label="Close"></button>
             </div>
         <?php endif; ?>
 
-        <!-- <div class="table-responsive mt-3"> -->
-        <table class="table table-hover" id="tabel" style="width: 100%;">
-            <thead>
-                <tr>
-                    <td><?= lang('Admin.judul') ?></td>
-                    <td><?= lang('Admin.kategori') ?></td>
-                    <td><?= lang('Admin.tanggal') ?></td>
-                    <td><?= lang('Admin.status') ?></td>
-                    <td><?= lang('Admin.sumber') ?></td>
-                </tr>
-            </thead>
-            <tbody>
+        <div class="table-responsive mt-3" style="width: 100%">
+            <table class="table table-hover" id="tabel">
+                <thead>
+                    <tr>
+                        <td><?= lang('Admin.judul') ?></td>
+                        <td><?= lang('Admin.kategori') ?></td>
+                        <td><?= lang('Admin.tanggal') ?></td>
+                        <td><?= lang('Admin.status') ?></td>
+                        <td><?= lang('Admin.sumber') ?></td>
+                    </tr>
+                </thead>
+                <tbody>
 
-            </tbody>
-        </table>
-        <!-- </div> -->
+                </tbody>
+            </table>
+        </div>
 
     </div>
 </div>
@@ -102,6 +102,8 @@
 <script src="<?= base_url('assets/js/datatables_process_bulk_new.js') ?>" type="text/javascript"></script>
 <script>
     $(document).ready(function() {
+        // Initialize the MDB modal
+        const lihatModal = new mdb.Modal($('#lihatModal'));
 
         var lastDoubleClickedRowIndex = null;
 
@@ -122,7 +124,7 @@
                     $('#lihatModalLabel').html(data.judul);
                     $('#lihatModalKonten').html(data.konten);
 
-                    $('#lihatModal').modal('show'); // Tampilkan modal lihat
+                    lihatModal.show(); // Tampilkan modal lihat
 
                     // Simpan indeks row yang terakhir terpilih
                     lastDoubleClickedRowIndex = index;
@@ -143,7 +145,7 @@
                     }
                 },
                 {
-                    "data": "created_at",
+                    "data": "tgl_terbit",
                     "render": function(data, type, row) {
                         return formatDate(data);
                     }
@@ -152,7 +154,7 @@
                     "data": "status",
                     "render": function(data, type, row) {
                         if (type === "display") {
-                            return data == "published" ? "<?= lang('Admin.publikasi') ?>" : "<?= lang('Admin.draf') ?>";
+                            return data == "publikasi" ? "<?= lang('Admin.publikasi') ?>" : "<?= lang('Admin.draf') ?>";
                         }
                         return data;
                     }
@@ -211,16 +213,16 @@
         // Publikasi postingan terpilih aktif
         $('#lihatModalTombolPublikasi').click(function() {
             table1.row(lastDoubleClickedRowIndex).select();
-            console.log(table1.row(lastDoubleClickedRowIndex).data);
             publikasiBanyak();
-            $('#lihatModal').modal('hide'); // Sembunyikan modal lihat
+            lihatModal.hide(); // Sembunyikan modal lihat
+            // console.log(table1.row(lastDoubleClickedRowIndex).data);
         });
 
         // Hapus postingan terpilih aktif
         $('#lihatModalTombolHapus').click(function() {
             table1.row(lastDoubleClickedRowIndex).select();
             hapusBanyak();
-            $('#lihatModal').modal('hide'); // Sembunyikan modal lihat
+            lihatModal.hide(); // Sembunyikan modal lihat
         });
 
         // Terima postingan massal
