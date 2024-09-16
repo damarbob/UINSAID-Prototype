@@ -166,6 +166,7 @@ return [
     'kelolaAgenda' => 'Kelola agenda',
     'suntingAgenda' => 'Sunting Agenda',
     'tambahAgenda' => 'Tambah Agenda',
+    'tambahGambar' => 'Tambah Gambar',
     'hapusAgenda' => 'Hapus Agenda',
     'hapusAgendaKonfirmasi' => 'Lanjutkan untuk menghapus? Agenda yang terhapus tidak dapat dikembalikan.',
 

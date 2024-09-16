@@ -437,7 +437,7 @@
                 '<ul class="dropdown-menu">' +
                 '<li><button id="btnFilterRilisMediaSemua" class="dropdown-item" type="button"><?= lang('Admin.semua') ?></button></li>' +
                 '<li><button id="btnFilterRilisMediaDipublikasikan" class="dropdown-item" type="button"><?= lang('Admin.aktif') ?></button></li>' +
-                '<li><button id="btnFilterRilisMediaDraft" class="dropdown-item" type="button"><?= lang('Admin.nonaktif') ?></button></li>' +
+                '<li><button id="btnFilterRilisMediaDraf" class="dropdown-item" type="button"><?= lang('Admin.nonaktif') ?></button></li>' +
                 '</ul>'
             );
 
@@ -447,7 +447,7 @@
             var filterButtons = {
                 '#btnFilterRilisMediaSemua': '<?= base_url('/api/situs') ?>',
                 '#btnFilterRilisMediaDipublikasikan': '<?= base_url('/api/situs/aktif') ?>',
-                '#btnFilterRilisMediaDraft': '<?= base_url('/api/situs/tidak-aktif') ?>'
+                '#btnFilterRilisMediaDraf': '<?= base_url('/api/situs/tidak-aktif') ?>'
             };
 
             $.each(filterButtons, function(btnId, apiUrl) {

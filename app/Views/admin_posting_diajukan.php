@@ -152,7 +152,7 @@
                     "data": "status",
                     "render": function(data, type, row) {
                         if (type === "display") {
-                            return data == "published" ? "<?= lang('Admin.publikasi') ?>" : "<?= lang('Admin.draf') ?>";
+                            return data == "publikasi" ? "<?= lang('Admin.publikasi') ?>" : "<?= lang('Admin.draf') ?>";
                         }
                         return data;
                     }
@@ -281,7 +281,7 @@
                 '<ul class="dropdown-menu">' +
                 '<li><button id="btnFilterRilisMediaSemua" class="dropdown-item" type="button"><?= lang('Admin.semua') ?></button></li>' +
                 '<li><button id="btnFilterRilisMediaPublikasi" class="dropdown-item" type="button"><?= lang('Admin.publikasi') ?></button></li>' +
-                '<li><button id="btnFilterRilisMediaDraft" class="dropdown-item" type="button"><?= lang('Admin.draf') ?></button></li>' +
+                '<li><button id="btnFilterRilisMediaDraf" class="dropdown-item" type="button"><?= lang('Admin.draf') ?></button></li>' +
                 '</ul>'
             );
 
@@ -289,8 +289,8 @@
 
             var filterButtons = {
                 '#btnFilterRilisMediaSemua': '<?= base_url('/api/posting-diajukan') ?>',
-                '#btnFilterRilisMediaPublikasi': '<?= base_url('/api/posting-diajukan/published') ?>',
-                '#btnFilterRilisMediaDraft': '<?= base_url('/api/posting-diajukan/draft') ?>'
+                '#btnFilterRilisMediaPublikasi': '<?= base_url('/api/posting-diajukan/publikasi') ?>',
+                '#btnFilterRilisMediaDraf': '<?= base_url('/api/posting-diajukan/draf') ?>'
             };
 
             $.each(filterButtons, function(btnId, apiUrl) {

@@ -127,7 +127,7 @@ class PPIDModel extends \CodeIgniter\Model
     {
         return $this->formatSampul($this->select('ppid.*, users.username as penulis')
             ->join('users', 'users.id = ppid.id_penulis', 'left')
-            ->where('ppid.status', 'published')
+            ->where('ppid.status', 'publikasi')
             ->orderBy('ppid.created_at', 'DESC')
             ->findAll());
     }
@@ -136,7 +136,7 @@ class PPIDModel extends \CodeIgniter\Model
     {
         return $this->formatSampul($this->select('ppid.*, users.username as penulis')
             ->join('users', 'users.id = ppid.id_penulis', 'left')
-            ->where('ppid.status', 'draft')
+            ->where('ppid.status', 'draf')
             ->orderBy('ppid.created_at', 'DESC')
             ->findAll());
     }

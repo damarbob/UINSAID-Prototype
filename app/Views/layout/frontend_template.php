@@ -15,7 +15,7 @@ $currentRoute = $request->uri->getPath();
   <title>UIN Raden Mas Said Surakarta</title>
   <meta name="googlebot" content="index,follow">
   <meta name="language" content="id" />
-  <link rel="canonical" href="https://webdemo.uinsaid.id" />
+  <link rel="canonical" href="<?= base_url() ?>" />
   <meta name="google-site-verification" content="wVOBtikI0s7xKLkglkAAc2ZereV7l0NrQZH8LPCoKSk">
 
   <!-- TODO: Optimize meta usage -->
@@ -23,17 +23,17 @@ $currentRoute = $request->uri->getPath();
   <meta name="author" content="UIN Raden Mas Said Surakarta" />
   <meta name="copyright" content="UIN Raden Mas Said Surakarta" />
   <meta name="application-name" content="UIN Raden Mas Said Surakarta" />
-  <meta itemprop="https://webdemo.uinsaid.id" content="https://www.uinsaid.ac.id/files/icon-1704942188.png" />
+  <meta itemprop="<?= base_url() ?>" content="<?= base_url("files/icon-1704942188.png") ?>" />
   <meta property="og:title" content="UIN Raden Mas Said Surakarta" />
-  <meta property="og:site_name" content="webdemo.uinsaid.id">
+  <meta property="og:site_name" content="<?= base_url() ?>">
   <meta property="og:keywords" content="uinsaid, rmsaid, uinsurakarta">
   <meta property="og:type" content="article" />
-  <meta property="og:image" content="https://www.uinsaid.ac.id/files/icon-1704942188.png" />
+  <meta property="og:image" content="<?= base_url("files/icon-1704942188.png") ?>" />
   <meta property="og:image:alt" content="UIN Raden Mas Said Surakarta" />
   <meta property="og:image:width" content="400" />
   <meta property="og:image:height" content="400" />
-  <meta property="og:url" content="https://webdemo.uinsaid.id" />
-  <meta property="og:description" content="Demo web UIN Raden Mas Said Surakarta" />
+  <meta property="og:url" content="<?= base_url() ?>" />
+  <meta property="og:description" content="Web UIN Raden Mas Said Surakarta" />
   <meta property="og:locale" content="id_ID" />
 
   <!-- TODO: Change hard coded meta like site name and social media to variable -->
@@ -56,7 +56,7 @@ $currentRoute = $request->uri->getPath();
   <?= $this->renderSection('meta'); ?>
 
   <!-- Favicon -->
-  <link rel="shortcut icon" href="https://www.uinsaid.ac.id/files/icon-1704942188.png">
+  <link rel="shortcut icon" href="<?= base_url('files/icon-1704942188.png') ?>" />
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
   <!-- Libre baskerville font -->

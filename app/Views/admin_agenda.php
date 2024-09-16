@@ -186,7 +186,7 @@
                 '<ul class="dropdown-menu">' +
                 '<li><button id="btnFilterSemua" class="dropdown-item" type="button"><?= lang('Admin.semua') ?></button></li>' +
                 '<li><button id="btnFilterPublikasi" class="dropdown-item" type="button"><?= lang('Admin.publikasi') ?></button></li>' +
-                '<li><button id="btnFilterDraft" class="dropdown-item" type="button"><?= lang('Admin.draf') ?></button></li>' +
+                '<li><button id="btnFilterDraf" class="dropdown-item" type="button"><?= lang('Admin.draf') ?></button></li>' +
                 '</ul>'
             );
 
@@ -196,7 +196,7 @@
             var filterButtons = {
                 '#btnFilterSemua': '<?= base_url('/api/agenda') ?>',
                 '#btnFilterPublikasi': '<?= base_url('/api/agenda/publikasi') ?>',
-                '#btnFilterDraft': '<?= base_url('/api/agenda/draf') ?>'
+                '#btnFilterDraf': '<?= base_url('/api/agenda/draf') ?>'
             };
 
             $.each(filterButtons, function(btnId, apiUrl) {

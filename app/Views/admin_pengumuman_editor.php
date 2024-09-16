@@ -136,7 +136,7 @@ if ($mode == "tambah") {
             </div>
 
             <!-- Radio sumber gambar -->
-            <p><?= lang('Admin.ubahGambar') ?></p>
+            <p><?= $mode == "tambah" ? lang('Admin.tambahGambar') : lang('Admin.ubahGambar') ?></p>
             <div class="form-check form-check-inline mb-3">
                 <input class="form-check-input" id="radioUnggah" type="radio" name="image_source" value="unggah" />
                 <label class="form-check-label" for="radioUnggah"><?= lang('Admin.unggah') ?></label>

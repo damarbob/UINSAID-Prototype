@@ -228,11 +228,11 @@
         // Terima postingan massal
         function publikasiBanyak() {
             var options = {
-                title: "Publikasi Berita",
-                confirmMessage: "Publikasikan berita?",
+                title: "Terima Berita",
+                confirmMessage: "Terima berita?",
                 errorMessage: "<?= lang('Admin.pilihItemDahulu') ?>",
                 type: "info",
-                confirmButtonText: "Tambahkan",
+                confirmButtonText: "Terima",
                 cancelButtonText: "<?= lang('Admin.batal') ?>"
             };
 

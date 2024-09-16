@@ -281,7 +281,7 @@
                 '<ul class="dropdown-menu">' +
                 '<li><button id="btnFilterRilisMediaSemua" class="dropdown-item" type="button"><?= lang('Admin.semua') ?></button></li>' +
                 '<li><button id="btnFilterRilisMediaPublikasi" class="dropdown-item" type="button"><?= lang('Admin.publikasi') ?></button></li>' +
-                '<li><button id="btnFilterRilisMediaDraft" class="dropdown-item" type="button"><?= lang('Admin.draf') ?></button></li>' +
+                '<li><button id="btnFilterRilisMediaDraf" class="dropdown-item" type="button"><?= lang('Admin.draf') ?></button></li>' +
                 '</ul>'
             );
 
@@ -291,7 +291,7 @@
             var filterButtons = {
                 '#btnFilterRilisMediaSemua': null,
                 '#btnFilterRilisMediaPublikasi': 'publikasi',
-                '#btnFilterRilisMediaDraft': 'draf'
+                '#btnFilterRilisMediaDraf': 'draf'
             };
 
             $.each(filterButtons, function(btnId, status) {
