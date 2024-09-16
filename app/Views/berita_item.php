@@ -170,7 +170,7 @@ $beritaUrl = base_url("berita/" . $berita['slug']);
                                         <!-- Judul kegiatan -->
                                         <p class="card-title">
                                             <a class="text-decoration-none crop-text-2" href="<?= base_url("berita/" . $bt['slug']) ?>" target="_blank">
-                                                <b>
+                                                <b class="line-clamp-2">
                                                     <?= $bt['judul'] ?>
                                                 </b>
                                             </a>
