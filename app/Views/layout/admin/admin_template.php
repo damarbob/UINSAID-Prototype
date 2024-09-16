@@ -44,9 +44,11 @@
     <?= $this->include('layout/admin/admin_sidebar'); ?>
 
     <!-- Toggle tema gelap terang -->
-    <button id="themeToggle" class="btn btn-lg btn-fab-lg btn-primary btn-floating rounded-pill position-fixed end-0 bottom-0 me-3 me-md-5 mb-5" style="z-index: 50001;" data-mdb-ripple-init>
-        <i class="bi bi-moon-stars"></i>
-    </button>
+    <?php if (ENVIRONMENT == 'development'): ?>
+        <button id="themeToggle" class="btn btn-lg btn-fab-lg btn-primary btn-floating rounded-pill position-fixed end-0 bottom-0 me-3 me-md-5 mb-5" style="z-index: 50001;" data-mdb-ripple-init>
+            <i class="bi bi-moon-stars"></i>
+        </button>
+    <?php endif ?>
 
     <!-- Page Wrapper -->
     <div id="wrapper">

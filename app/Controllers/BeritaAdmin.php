@@ -134,17 +134,30 @@ class BeritaAdmin extends BaseControllerAdmin
     // Tambah rilis media. Jika ID kosong, buat baru. Jika id berisi, perbarui yang sudah ada.
     public function simpan($id = null)
     {
+
+        $judul = $this->request->getVar('judul');
+        $modeTambah = ($id == null);
+
         // Validasi
         // Jika buat baru, tambahkan kondisi is_unique agar tidak ada judul berita yang sama.
-        $rules = ($id == null) ? $this->formRules('required|is_unique[berita.judul]') : $this->formRules('required');
+        $rules = $this->formRules('required');
+
+        if (!$modeTambah) {
+            $berita = $this->beritaModel->getByID($id); // Get postingan
+
+            // Jika berita lama ditemukan dan jika judul berbeda dari sebelumnya, tambah validasi is_unique
+            if ($berita && $judul != $berita['judul']) {
+                $rules = $this->formRules('required|is_unique[berita.judul]');
+            }
+        }
 
         // Redireksi
-        $redirectTo = ($id == null) ? base_url('/admin/berita/') : base_url('/admin/berita/sunting?id=') . $id;
+        $redirectTo = ($modeTambah) ? base_url('/admin/berita/') : base_url('/admin/berita/sunting?id=') . $id;
 
         // Cek validasi
         if (!$this->validate($rules)) {
 
-            if ($id == null) {
+            if ($modeTambah) {
                 return redirect()->back()->withInput();
             }
 
@@ -165,11 +178,11 @@ class BeritaAdmin extends BaseControllerAdmin
 
         // dd($kategori);
 
-        // Simpan rilis media
-        if ($id == null) {
+        // Simpan rilis media TODO: Buat seperti di PostingAdmin
+        if ($modeTambah) {
             $user = [
                 'id_penulis' => auth()->id(),
-                'judul' => $this->request->getVar('judul'),
+                'judul' => $judul,
                 'slug' => create_slug($this->request->getVar('judul')),
                 'konten' => $this->request->getVar('konten'),
                 'ringkasan' => $this->request->getVar('ringkasan'),

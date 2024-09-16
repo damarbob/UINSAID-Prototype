@@ -102,11 +102,15 @@ if ($mode == "tambah") {
                     <?= lang('Admin.harusDiinput'); ?>
                 </div>
             </div>
+        </div>
+        <div class="col-md-6">
             <!-- Waktu selesai picker -->
             <div class="form mb-3">
                 <label for="waktu-selesai"><?= lang('Admin.waktuSelesai') ?></label>
                 <input id="waktu-selesai" name="waktu_selesai" class="form-control <?= (validation_show_error('waktu-selesai')) ? 'is-invalid' : ''; ?>" value="<?= $valueWaktuSelesai ?>" />
             </div>
+        </div>
+        <div class="col-md-6">
             <!-- Status -->
             <div class="form-floating mb-4">
                 <select id="status" name="status" class="form-select <?= (validation_show_error('status')) ? 'is-invalid' : ''; ?>" aria-label="Default select">
@@ -201,6 +205,7 @@ if ($mode == "tambah") {
 <script>
     tinymce.init({
         selector: '#deskripsi',
+        license_key: 'gpl',
         plugins: [
             'advlist', 'autolink', 'image',
             'lists', 'link', 'charmap', 'preview', 'anchor', 'searchreplace',

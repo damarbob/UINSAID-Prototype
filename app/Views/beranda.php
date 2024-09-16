@@ -321,7 +321,7 @@
     <!-- Swiper prestasi -->
     <div class="row mb-4">
       <div class="col">
-        <h2>Prestasi Mahasiswa</h2>
+        <h2 class="fw-bold">Prestasi Mahasiswa</h2>
         <div class="lurik-4 mb-4"></div>
         <div class="d-flex justify-content-evenly align-items-center">
           <div class="prestasi-swiper-button-prev d-none d-md-block"><img src="<?= base_url('assets/img/icons8-back-to-96.png') ?>" style="width: 48px; height: 48px" /></div>

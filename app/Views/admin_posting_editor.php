@@ -146,6 +146,7 @@ if ($mode == "tambah") {
 <script>
     tinymce.init({
         selector: '#konten',
+        license_key: 'gpl',
         plugins: [
             'advlist', 'autolink', 'image',
             'lists', 'link', 'charmap', 'preview', 'anchor', 'searchreplace',

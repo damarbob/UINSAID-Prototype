@@ -134,17 +134,17 @@ class PostingAdmin extends BaseControllerAdmin
      */
     public function simpan($id = null)
     {
-        $isCreateMode = is_null($id);
+        $modeTambah = is_null($id);
 
         // Validasi input: jika buat baru, tambahkan 'is_unique' untuk mencegah judul yang sama.
-        $rules = $this->formRules('required' . ($isCreateMode ? '|is_unique[posting.judul]' : ''));
+        $rules = $this->formRules('required' . ($modeTambah ? '|is_unique[posting.judul]' : ''));
 
         // URL untuk redireksi setelah penyimpanan
-        $redirectTo = base_url('/admin/posting/' . ($isCreateMode ? '' : 'sunting?id=' . $id));
+        $redirectTo = base_url('/admin/posting/' . ($modeTambah ? '' : 'sunting?id=' . $id));
 
         // Jika validasi gagal, kembalikan ke halaman sebelumnya (halaman buat posting) dengan input.
         if (!$this->validate($rules)) {
-            return $isCreateMode ? redirect()->back() : redirect()->to($redirectTo)->withInput();
+            return $modeTambah ? redirect()->back() : redirect()->to($redirectTo)->withInput();
         }
 
         // Dapatkan jenis postingan dan kategori dari input
@@ -164,7 +164,7 @@ class PostingAdmin extends BaseControllerAdmin
             'id_kategori' => $kategori['id'],
             'id_jenis' => $jenis['id'] ?? null, // Jenis postingan (null jika tidak ada)
             'judul' => $this->request->getVar('judul'),
-            'slug' => $isCreateMode ? create_slug($this->request->getVar('judul')) : null,
+            'slug' => create_slug($this->request->getVar('judul')),
             'konten' => $this->request->getVar('konten'),
             'ringkasan' => $this->request->getVar('ringkasan'),
             'status' => $this->request->getVar('status'),
@@ -172,7 +172,7 @@ class PostingAdmin extends BaseControllerAdmin
         ];
 
         // Jika id ada, tambahkan ke array data untuk pembaruan
-        if (!$isCreateMode) {
+        if (!$modeTambah) {
             $data['id'] = $id;
         }
 
@@ -180,7 +180,7 @@ class PostingAdmin extends BaseControllerAdmin
         $this->postingModel->save($data);
 
         // Set pesan flash untuk hasil operasi
-        session()->setFlashdata('sukses', lang('Admin.' . ($isCreateMode ? 'berhasilDibuat' : 'berhasilDiperbarui')));
+        session()->setFlashdata('sukses', lang('Admin.' . ($modeTambah ? 'berhasilDibuat' : 'berhasilDiperbarui')));
 
         return redirect()->to($redirectTo)->withInput();
     }

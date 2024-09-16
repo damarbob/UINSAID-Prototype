@@ -90,7 +90,7 @@ if ($mode == "tambah") {
             <!-- Deskripsi -->
             <div class="form-floating mb-3">
                 <textarea id="deskripsi" name="deskripsi" class="form-control <?= (validation_show_error('deskripsi')) ? 'is-invalid' : ''; ?>" type="text" rows="3" placeholder="<?= lang('Admin.deskripsi') ?>"><?= $valueDeskripsi ?></textarea>
-                <label for="deskripsi"><?= lang('Admin.deskripsi') ?></label>
+                <!-- <label for="deskripsi"><?= lang('Admin.deskripsi') ?></label> -->
             </div>
         </div>
         <div class="col-md-6">
@@ -102,11 +102,15 @@ if ($mode == "tambah") {
                     <?= lang('Admin.harusDiinput'); ?>
                 </div>
             </div>
+        </div>
+        <div class="col-md-6">
             <!-- Waktu selesai picker -->
             <div class="form mb-3">
                 <label for="waktu-selesai"><?= lang('Admin.waktuSelesai') ?></label>
                 <input id="waktu-selesai" name="waktu_selesai" class="form-control <?= (validation_show_error('waktu-selesai')) ? 'is-invalid' : ''; ?>" value="<?= $valueWaktuSelesai ?>" />
             </div>
+        </div>
+        <div class="col-md-6">
             <!-- Status -->
             <div class="form-floating mb-4">
                 <select id="status" name="status" class="form-select <?= (validation_show_error('status')) ? 'is-invalid' : ''; ?>" aria-label="Default select">
@@ -194,6 +198,72 @@ if ($mode == "tambah") {
 <?= $this->section('script') ?>
 <script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha384-GNFwBvfVxBkLMJpYMOABq3c+d3KnQxudP/mGPkzpZSTYykLBNsZEnG2D9G/X/+7D" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/gijgo@1.9.14/js/gijgo.min.js" type="text/javascript"></script>
+<!-- Tinymce -->
+<script src="<?= base_url('assets/vendor/tinymce/tinymce/tinymce.min.js'); ?>"></script>
+<!-- DSM Gallery -->
+<script src="<?= base_url('assets/js/tinymce/dsmgallery-plugin.js'); ?>"></script>
+
+<!-- Tinymce init -->
+<script>
+    tinymce.init({
+        selector: '#deskripsi',
+        license_key: 'gpl',
+        plugins: [
+            'advlist', 'autolink', 'image',
+            'lists', 'link', 'charmap', 'preview', 'anchor', 'searchreplace',
+            'fullscreen', 'insertdatetime', 'table', 'help',
+            'wordcount', 'dsmgallery'
+        ],
+        toolbar: 'fullscreen | dsmgallery | undo redo | casechange blocks | bold italic backcolor | image | ' +
+            'alignleft aligncenter alignright alignjustify | ' +
+            'bullist numlist checklist outdent indent | removeformat | code table help',
+        image_title: true,
+        automatic_uploads: true,
+        image_gallery_api_endpoint: '<?= base_url('/api/galeri') ?>',
+        dsmgallery_api_endpoint: '<?= base_url('/api/galeri') ?>',
+        images_upload_url: '<?= base_url('/admin/berita/unggah-gambar') ?>',
+        images_delete_url: '<?= base_url('/admin/berita/hapus-gambar') ?>',
+        file_picker_types: 'image',
+        file_picker_callback: (cb, value, meta) => {
+            const input = document.createElement('input');
+            input.setAttribute('type', 'file');
+            input.setAttribute('accept', 'image/*');
+
+            input.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+
+                const reader = new FileReader();
+                reader.addEventListener('load', () => {
+                    /*
+                      Note: Now we need to register the blob in TinyMCEs image blob
+                      registry. In the next release this part hopefully won't be
+                      necessary, as we are looking to handle it internally.
+                    */
+                    const id = 'blobid' + (new Date()).getTime();
+                    const blobCache = tinymce.activeEditor.editorUpload.blobCache;
+                    const base64 = reader.result.split(',')[1];
+                    const blobInfo = blobCache.create(id, file, base64);
+                    blobCache.add(blobInfo);
+
+                    /* call the callback and populate the Title field with the file name */
+                    cb(blobInfo.blobUri(), {
+                        title: file.name
+                    });
+                });
+                reader.readAsDataURL(file);
+            });
+
+            input.click();
+        },
+        // contextmenu: "image",
+        paste_preprocess: (editor, args) => {
+            // console.log(args.content);
+            // args.content += ' preprocess';
+        },
+        promotion: false
+
+    });
+</script>
 
 <!-- Datetime picker -->
 <script>
