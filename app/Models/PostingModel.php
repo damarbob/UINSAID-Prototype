@@ -187,7 +187,7 @@ class PostingModel extends \CodeIgniter\Model
         return $this->formatSampul($this->select('posting.*, users.username as penulis, kategori.nama as kategori')
             ->join('users', 'users.id = posting.id_penulis', 'left')
             ->join('kategori', 'kategori.id = posting.id_kategori', 'left')
-            ->where('posting.status', 'draft')
+            ->where('posting.status', 'draf')
 
             ->groupStart()
             ->where('posting_jenis.nama', $jenis)

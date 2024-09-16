@@ -270,7 +270,7 @@ use function App\Helpers\capitalize_first_letter;
                 '<li><button id="btnFilterSemua" class="dropdown-item" type="button"><?= lang('Admin.semua') ?></button></li>'
                 <?php foreach ($auth_groups as $key => $a): ?> + '<li><button id="btnFilter<?= $key ?>" class="dropdown-item" type="button"><?= capitalize_first_letter($key) ?></button></li>'
                 <?php endforeach; ?>
-                // '<li><button id="btnFilterDraft" class="dropdown-item" type="button"><?= lang('Admin.user') ?></button></li>' +
+                // '<li><button id="btnFilterDraf" class="dropdown-item" type="button"><?= lang('Admin.user') ?></button></li>' +
                 +
                 '</ul>'
             );
@@ -297,7 +297,7 @@ use function App\Helpers\capitalize_first_letter;
             // var filterButtons = {
             //     '#btnFilterSemua': '<?= base_url('/api/pengguna') ?>',
             //     <?php foreach ($auth_groups as $key => $a): ?> '#btnFilter<?= $key ?>': '<?= base_url('/api/pengguna/' . $key) ?>',
-            //     <?php endforeach; ?> // ,'#btnFilterDraft': '<?= base_url('/api/berita/draf') ?>'
+            //     <?php endforeach; ?> // ,'#btnFilterDraf': '<?= base_url('/api/berita/draf') ?>'
             // };
 
             // $.each(filterButtons, function(btnId, apiUrl) {

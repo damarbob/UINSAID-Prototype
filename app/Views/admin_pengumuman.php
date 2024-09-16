@@ -186,7 +186,7 @@
                 '<ul class="dropdown-menu">' +
                 '<li><button id="btnFilterPengumumanSemua" class="dropdown-item" type="button"><?= lang('Admin.semua') ?></button></li>' +
                 '<li><button id="btnFilterPengumumanPublikasi" class="dropdown-item" type="button"><?= lang('Admin.publikasi') ?></button></li>' +
-                '<li><button id="btnFilterPengumumanDraft" class="dropdown-item" type="button"><?= lang('Admin.draf') ?></button></li>' +
+                '<li><button id="btnFilterPengumumanDraf" class="dropdown-item" type="button"><?= lang('Admin.draf') ?></button></li>' +
                 '</ul>'
             );
 
@@ -196,7 +196,7 @@
             var filterButtons = {
                 '#btnFilterPengumumanSemua': '<?= base_url('/api/pengumuman') ?>',
                 '#btnFilterPengumumanPublikasi': '<?= base_url('/api/pengumuman/publikasi') ?>',
-                '#btnFilterPengumumanDraft': '<?= base_url('/api/pengumuman/draf') ?>'
+                '#btnFilterPengumumanDraf': '<?= base_url('/api/pengumuman/draf') ?>'
             };
 
             $.each(filterButtons, function(btnId, apiUrl) {

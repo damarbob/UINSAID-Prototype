@@ -170,7 +170,7 @@ class BeritaModel extends \CodeIgniter\Model
         return $this->formatSampul($this->select('berita.*, users.username as penulis, kategori.nama as kategori')
             ->join('users', 'users.id = berita.id_penulis', 'left')
             ->join('kategori', 'kategori.id = berita.id_kategori', 'left')
-            ->where('berita.status', 'draft')
+            ->where('berita.status', 'draf')
             ->orderBy('berita.created_at', 'DESC')
             ->findAll());
     }
