@@ -590,11 +590,11 @@
             <div class="card-body">
               <p class="card-text"><?= $x['formatted_datetime'] ?>
                 <?php if ($x['waktu_selesai'] && strtotime($x['waktu_selesai']) < time()): ?>
-                  <span class="badge badge-danger"><?= lang('Admin.selesai') ?></span>
+                  <span class="badge badge-secondary" style="width: max-content;"><?= lang('Admin.selesai') ?></span>
                 <?php elseif ($x['waktu_selesai'] && strtotime($x['waktu_mulai']) < time() && strtotime($x['waktu_selesai']) > time()): ?>
-                  <span class="badge badge-primary"><?= lang('Admin.sedangBerlangsung') ?></span>
+                  <span class="badge badge-danger" style="width: max-content;"><?= lang('Admin.sedangBerlangsung') ?></span>
                 <?php elseif (!$x['waktu_selesai'] && strtotime($x['waktu_mulai']) < time()): ?>
-                  <span class="badge badge-danger"><?= lang('Admin.selesai') ?></span>
+                  <span class="badge badge-secondary" style="width: max-content;"><?= lang('Admin.selesai') ?></span>
                 <?php else: ?>
                   <span class="badge badge-primary" style="width: max-content;"><?= lang('Admin.akanDatang') ?></span>
                 <?php endif; ?>
