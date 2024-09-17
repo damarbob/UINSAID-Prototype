@@ -48,26 +48,26 @@
         <?php endif; ?>
 
 
-        <!-- <div class="table-responsive mt-3"> -->
-        <table class="table table-hover" id="tabelBerita" style="width: 100%;">
-            <thead>
-                <tr>
-                    <td><?= lang('Admin.judul') ?></td>
-                    <td><?= lang('Admin.penulis') ?></td>
-                    <td><?= lang('Admin.kategori') ?></td>
-                    <?php if ($is_child_site): ?>
-                        <!-- Kolom pengajuan untuk child dan super -->
-                        <td><?= lang('Admin.pengajuan') ?></td>
-                    <?php endif ?>
-                    <td><?= lang('Admin.tanggal') ?></td>
-                    <td><?= lang('Admin.status') ?></td>
-                </tr>
-            </thead>
-            <tbody>
+        <div class="table-responsive mt-3">
+            <table class="table table-hover" id="tabelBerita" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <td><?= lang('Admin.judul') ?></td>
+                        <td><?= lang('Admin.penulis') ?></td>
+                        <td><?= lang('Admin.kategori') ?></td>
+                        <?php if ($is_child_site): ?>
+                            <!-- Kolom pengajuan untuk child dan super -->
+                            <td><?= lang('Admin.pengajuan') ?></td>
+                        <?php endif ?>
+                        <td><?= lang('Admin.tanggal') ?></td>
+                        <td><?= lang('Admin.status') ?></td>
+                    </tr>
+                </thead>
+                <tbody>
 
-            </tbody>
-        </table>
-        <!-- </div> -->
+                </tbody>
+            </table>
+        </div>
 
     </div>
 </div>

@@ -16,7 +16,8 @@ class FileModel extends \CodeIgniter\Model
 
     public function get()
     {
-        return $this->orderBy('created_at', 'DESC')->findAll();
+        // return $this->orderBy('created_at', 'DESC')->findAll();
+        return $this->orderBy('id', 'DESC')->findAll(); // Use id instead of created_at if post-migration
     }
 
     // public function getPaginated($page, $perPage, $search = '')
@@ -65,7 +66,7 @@ class FileModel extends \CodeIgniter\Model
      * Get Files for datatable
      * -------------------------------------------------------------
      */
-    public function getFiles($limit, $start, $search = null, $order = 'created_at', $dir = 'DESC')
+    public function getByFilter($limit, $start, $search = null, $order = 'created_at', $dir = 'DESC')
     {
         $builder = $this->db->table($this->table)
             ->select('*')
@@ -75,6 +76,8 @@ class FileModel extends \CodeIgniter\Model
         if ($search) {
             $builder->groupStart()
                 ->like('judul', $search)
+                ->orLike('alt', $search)
+                ->orLike('uri', $search)
                 ->groupEnd();
         }
 
@@ -95,6 +98,8 @@ class FileModel extends \CodeIgniter\Model
         if ($search) {
             $builder->groupStart()
                 ->like('judul', $search)
+                ->orLike('alt', $search)
+                ->orLike('uri', $search)
                 ->groupEnd();
         }
 

@@ -259,7 +259,8 @@ $routes->group('api', static function ($routes) {
     $routes->get('galeri', 'GaleriAdmin::get');
 
     // File
-    $routes->get('file', 'FileAdmin::fetchData');
+    $routes->get('file', 'FileAdmin::get'); // For file plugin
+    $routes->post('file', 'FileAdmin::fetchData');
     // $routes->post('file', 'FileAdmin::fetchData');
     $routes->post('file', 'FileAdmin::getFiles');
 

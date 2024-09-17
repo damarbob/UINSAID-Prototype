@@ -54,8 +54,7 @@ class FileAdmin extends BaseControllerAdmin
 
     public function fetchData()
     {
-        // $columns = [lang('Admin.judul'), lang('Admin.penulis'), lang('Admin.kategori'), lang('Admin.tanggal'), lang('Admin.status')];
-        $columns = ['judul'];
+        $columns = ['id', 'uri', 'judul', 'created_at'];
         $limit = $this->request->getPost('length');
         $start = $this->request->getPost('start');
         $order = $columns[$this->request->getPost('order')[0]['column']];
@@ -65,7 +64,7 @@ class FileAdmin extends BaseControllerAdmin
         $totalData = $this->fileModel->countAll();
         $totalFiltered = $totalData;
 
-        $file = $this->fileModel->getFiles($limit, $start, $search, $order, $dir);
+        $file = $this->fileModel->getByFilter($limit, $start, $search, $order, $dir);
 
         if ($search) {
             $totalFiltered = $this->fileModel->getTotalRecords($search);
@@ -76,6 +75,8 @@ class FileAdmin extends BaseControllerAdmin
             foreach ($file as $row) {
                 $nestedData['id'] = $row->id;
                 $nestedData['judul'] = $row->judul;
+                $nestedData['uri'] = $row->uri;
+                $nestedData['created_at'] = $row->created_at;
                 $data[] = $nestedData;
             }
         }
@@ -101,11 +102,13 @@ class FileAdmin extends BaseControllerAdmin
                 return redirect()->back()->withInput()->with('error', lang('Admin.jenisFileTidakValid'));
             }
 
-            $newName = $fileFile->getRandomName();
-            $fileFile->move(FCPATH . 'uploads', $newName);
+            $originalName = url_title(pathinfo($fileFile->getClientName(), PATHINFO_FILENAME), '-', false); // Get the original filename
+            $randomName = $fileFile->getRandomName(); // Generate a random file name
+            $fileFile->move(FCPATH . 'uploads/', $originalName . '-' . $randomName);
+            $fileUri = base_url('uploads/' . $originalName . '-' . $randomName);
 
             $data = [
-                'uri' => base_url('uploads/' . $newName),
+                'uri' => $fileUri,
                 'judul' => $this->request->getPost('judul'),
                 'alt' => $this->request->getPost('alt'),
                 'deskripsi' => $this->request->getPost('deskripsi'),
@@ -113,6 +116,7 @@ class FileAdmin extends BaseControllerAdmin
 
             $fileModel->save($data);
 
+            session()->setFlashdata('fileBaru', $data); // Set uri flashdata FUTURE: Multiple
             return redirect()->to('admin/file')->with('success', lang('Admin.fileBerhasilDiunggah'));
         }
 

@@ -17,10 +17,10 @@ class Berita extends BaseController
         helper('format');
         $this->data['judul'] = lang('Admin.berita');
 
-        $search = $this->request->getGet('search') ?? '';
+        $search = $this->request->getGet('search') ?? null;
 
-        $berita = format_tanggal($this->beritaModel->getPaginated($search));
-        // dd(format_tanggal($berita));
+        $berita = $this->beritaModel->getPaginated($search);
+        // dd(format_tanggal($this->beritaModel->getPaginated($search)));
         $this->data['berita'] = format_tanggal($berita);
         $this->data['pagerBerita'] = $this->beritaModel->pager;
         $this->data['beritaTerbaru'] = format_tanggal($this->beritaModel->getTerbaru(3));

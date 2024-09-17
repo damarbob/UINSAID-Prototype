@@ -360,7 +360,7 @@ class BeritaAdmin extends BaseControllerAdmin
         if ($file->isValid() && !$file->hasMoved()) {
             $newName = $file->getRandomName();
 
-            $file->move(ROOTPATH . 'public/uploads', $newName);
+            $file->move(FCPATH . 'uploads', $newName);
 
             // Respons yang diharapkan tinyMCE
             $response = [
@@ -382,7 +382,7 @@ class BeritaAdmin extends BaseControllerAdmin
         $filename = pathinfo($imageUrl, PATHINFO_BASENAME);
 
         // Construct the full server path
-        $filePath = ROOTPATH . 'public/uploads/' . $filename;
+        $filePath = FCPATH . 'uploads/' . $filename;
 
         // Check if the file exists before attempting to delete
         if (file_exists($filePath)) {

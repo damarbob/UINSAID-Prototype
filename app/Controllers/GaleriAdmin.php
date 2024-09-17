@@ -55,11 +55,12 @@ class GaleriAdmin extends BaseControllerAdmin
                 return redirect()->back()->withInput()->with('error', lang('Admin.jenisFileTidakValidHanyaJPEGPNGGIFYangDiperbolehkan'));
             }
 
-            $newName = $imageFile->getRandomName();
-            $imageFile->move(FCPATH . 'uploads', $newName);
+            $originalName = url_title(pathinfo($imageFile->getClientName(), PATHINFO_FILENAME), '-', false); // Get the original filename
+            $randomName = $imageFile->getRandomName(); // Generate a random file name
+            $imageFile->move(FCPATH . 'uploads', $originalName . '-' . $randomName);
 
             $data = [
-                'uri' => base_url('uploads/' . $newName),
+                'uri' => base_url('uploads/' . $originalName . '-' . $randomName),
                 'judul' => $this->request->getPost('judul'),
                 'alt' => $this->request->getPost('alt'),
                 'deskripsi' => $this->request->getPost('deskripsi'),

@@ -20,6 +20,11 @@ function timestampToIndonesianDateTime(timestamp) {
 }
 
 function formatDate(timestamp) {
+  // Check if timestamp is valid
+  if (!timestamp || isNaN(new Date(timestamp).getTime())) {
+    return "-";
+  }
+
   // Convert timestamp to Date object
   const date = new Date(timestamp);
 
@@ -36,7 +41,7 @@ function formatDate(timestamp) {
     timeZoneName: "short",
   };
 
-  return new Intl.DateTimeFormat("ID-id", options).format(date);
+  return new Intl.DateTimeFormat("id-ID", options).format(date);
 }
 
 function capitalizeFirstLetter(string) {

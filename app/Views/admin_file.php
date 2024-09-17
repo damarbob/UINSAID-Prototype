@@ -3,31 +3,52 @@
 <?= $this->section('content') ?>
 
 <!-- Notifikasi -->
-<?php if (session()->getFlashdata('success')) : ?>
+<?php if (session()->getFlashdata('success')): ?>
     <div class="alert alert-success" role="alert">
         <?= session()->getFlashdata('success') ?>
     </div>
 <?php endif; ?>
-<?php if (session()->getFlashdata('error')) : ?>
+<?php if (session()->getFlashdata('error')): ?>
     <div class="alert alert-danger" role="alert">
         <?= session()->getFlashdata('error') ?>
     </div>
+<?php endif; ?>
+<?php if (session()->getFlashdata('fileBaru')): ?>
+    <?php //dd(json_encode(session()->getFlashdata('fileBaru'))) 
+    ?>
+    <script>
+        // Deserialize the string into a JavaScript object
+        const deserializedData = JSON.parse('<?= json_encode(session()->getFlashdata('fileBaru')) ?>');
+
+        // Post the message with the deserialized data included
+        window.parent.postMessage({
+            mceAction: 'singleFileUpload',
+            data: {
+                stringData: deserializedData
+            }
+        }, '*'); // FUTURE: Use proper target origin
+    </script>
 <?php endif; ?>
 
 <div class="row">
     <div class="col">
 
+        <div class="table-responsive mt-3">
+            <table class="table table-hover w-100" id="tabelFile">
+                <thead>
+                    <tr>
+                        <td><?= lang('Admin.id') ?></td>
+                        <td><?= lang('Admin.file') ?></td>
+                        <td><?= lang('Admin.judul') ?></td>
+                        <td><?= lang('Admin.tanggal') ?></td>
+                    </tr>
+                </thead>
+                <tbody>
 
-        <table class="table table-hover w-100" id="tabelFile">
-            <thead>
-                <tr>
-                    <td><?= lang('Admin.judul') ?></td>
-                </tr>
-            </thead>
-            <tbody>
+                </tbody>
+            </table>
+        </div>
 
-            </tbody>
-        </table>
     </div>
 </div>
 
@@ -98,6 +119,7 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('script') ?>
+<script src="<?= base_url('assets/js/formatter.js') ?>" type="text/javascript"></script>
 <script src="<?= base_url('assets/js/datatables_process_bulk.js') ?>" type="text/javascript"></script>
 <script>
     $(document).ready(function() {
@@ -106,9 +128,9 @@
 
         var table1 = $('#tabelFile').DataTable({
             processing: true,
-            // serverSide: true,
+            serverSide: true,
             ajax: {
-                "url": "<?= site_url('api/file') ?>",
+                "url": "<?= base_url('api/file') ?>",
                 "type": "POST"
             },
             "rowCallback": function(row, data, index) {
@@ -130,15 +152,35 @@
                 });
             },
             "columns": [{
-                "data": "judul",
-            }],
+                    "data": "id",
+                },
+                {
+                    "data": "uri",
+                    "render": function(data, type, row) {
+                        return type === "display" ? `<a href="${data}" target="_blank">${data}<i class="bi bi-box-arrow-up-right ms-2"></i></a>` : data;
+                    }
+                },
+                {
+                    "data": "judul",
+                },
+                {
+                    "data": "created_at",
+                    "render": function(data, type, row) {
+                        // console.log(data);
+                        return type === "display" ? formatDate(data) : data;
+                    }
+                }
+            ],
+            order: [
+                [0, 'desc']
+            ],
             "language": {
                 url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/id.json'
             },
             select: true,
             dom: '<"mb-4"<"d-flex flex-column flex-md-row align-items-center mb-2"<"flex-grow-1 align-self-start"B><"align-self-end ps-2 pt-2 pt-md-0 mb-0"f>>r<"table-responsive"t><"d-flex flex-column flex-md-row align-items-center mt-2"<"flex-grow-1 order-2 order-md-1 mt-2 mt-md-0"i><"align-self-end order-1 order-md-2"p>>>',
             buttons: [{
-                    text: '<i class="bi bi-plus-lg"></i>',
+                    text: '<i class="bi bi-upload"></i>',
                     action: function(e, dt, node, config) {
                         // window.location.href = '<?= base_url('/admin/agenda/tambah') ?>'
                         uploadModal.show();

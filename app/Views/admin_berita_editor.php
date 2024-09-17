@@ -156,26 +156,33 @@ if ($mode == "tambah") {
 <script src="<?= base_url('assets/vendor/tinymce/tinymce/tinymce.min.js'); ?>"></script>
 <!-- DSM Gallery -->
 <script src="<?= base_url('assets/js/tinymce/dsmgallery-plugin.js'); ?>"></script>
+<!-- DSM File Insert -->
+<script src="<?= base_url('assets/js/tinymce/dsmfileinsert-plugin.js'); ?>"></script>
 <script>
     tinymce.init({
         selector: '#konten',
-        license_key: 'gpl',
+        license_key: 'gpl', // Important to prevent license issue
+        document_base_url: '<?= base_url() ?>', // Set the base URL for relative paths
+        convert_urls: false, // Prevent TinyMCE from converting URLs to relative
         plugins: [
             'advlist', 'autolink', 'image',
             'lists', 'link', 'charmap', 'preview', 'anchor', 'searchreplace',
             'fullscreen', 'insertdatetime', 'table', 'help',
-            'wordcount', 'dsmgallery'
+            'wordcount', 'dsmgallery', 'dsmfileinsert', 'code'
         ],
-        toolbar: 'fullscreen | dsmgallery | undo redo | casechange blocks | bold italic backcolor | image | ' +
+        toolbar: 'fullscreen | dsmgallery dsmfileinsert | undo redo | casechange blocks | bold italic backcolor | image | ' +
             'alignleft aligncenter alignright alignjustify | ' +
-            'bullist numlist checklist outdent indent | removeformat | code table help',
+            'bullist numlist checklist outdent indent | removeformat | table | code | help',
         image_title: true,
         automatic_uploads: true,
-        image_gallery_api_endpoint: '<?= base_url('/api/galeri') ?>',
+        // image_gallery_api_endpoint: '<?= base_url('/api/galeri') ?>',
         dsmgallery_api_endpoint: '<?= base_url('/api/galeri') ?>',
+        dsmgallery_gallery_url: '<?= base_url('/admin/galeri') ?>',
+        dsmfileinsert_api_endpoint: '<?= base_url('/api/file') ?>',
+        dsmfileinsert_file_manager_url: '<?= base_url('/admin/file') ?>',
         images_upload_url: '<?= base_url('/admin/berita/unggah-gambar') ?>',
-        images_delete_url: '<?= base_url('/admin/berita/hapus-gambar') ?>',
-        file_picker_types: 'image',
+        // images_delete_url: '<?= base_url('/admin/berita/hapus-gambar') ?>',
+        file_picker_types: 'file image media',
         file_picker_callback: (cb, value, meta) => {
             const input = document.createElement('input');
             input.setAttribute('type', 'file');

@@ -43,7 +43,7 @@ class BeritaModel extends \CodeIgniter\Model
                 ->where('kategori.nama', $kategori)
                 ->where('berita.status', 'publikasi')
                 ->where('berita.tgl_terbit <= ', date('Y-m-d H:i:s'))
-                ->orderBy('berita.created_at', 'DESC')
+                ->orderBy('berita.tgl_terbit', 'DESC')
                 ->findAll($limit)
         );
     }
@@ -66,7 +66,7 @@ class BeritaModel extends \CodeIgniter\Model
                 ->like('berita.judul', $search)
                 ->orLike('users.username', $search)
                 ->orLike('kategori.nama', $search)
-                ->orLike('berita.created_at', $search)
+                ->orLike('berita.tgl_terbit', $search)
                 ->orLike('berita.status', $search)
                 ->groupEnd();
         }
@@ -95,7 +95,7 @@ class BeritaModel extends \CodeIgniter\Model
                 ->like('berita.judul', $search)
                 ->orLike('users.username', $search)
                 ->orLike('kategori.nama', $search)
-                ->orLike('berita.created_at', $search)
+                ->orLike('berita.tgl_terbit', $search)
                 ->orLike('berita.status', $search)
                 ->groupEnd();
         }
@@ -109,11 +109,11 @@ class BeritaModel extends \CodeIgniter\Model
             ->select('berita.*, users.username as penulis, kategori.nama as kategori')
             ->join('users', 'users.id = berita.id_penulis', 'left')
             ->join('kategori', 'kategori.id = berita.id_kategori', 'left')
-            ->orderBy('berita.created_at', 'DESC')
+            ->orderBy('berita.tgl_terbit', 'DESC')
             ->findAll());
     }
 
-    public function getPaginated($search = '')
+    public function getPaginated($search = null)
     {
         $builder = $this->table($this->table);
 
@@ -126,7 +126,7 @@ class BeritaModel extends \CodeIgniter\Model
             ->where('berita.status', 'publikasi')
             ->join('users', 'users.id = berita.id_penulis', 'left')
             ->join('kategori', 'kategori.id = berita.id_kategori', 'left')
-            ->orderBy('berita.created_at', 'DESC')
+            ->orderBy('berita.tgl_terbit', 'DESC')
             ->paginate(12, 'berita'));
     }
 
@@ -137,7 +137,7 @@ class BeritaModel extends \CodeIgniter\Model
             ->where('berita.status', 'publikasi')
             ->join('users', 'users.id = berita.id_penulis', 'left')
             ->join('kategori', 'kategori.id = berita.id_kategori', 'left')
-            ->orderBy('berita.created_at', 'DESC')
+            ->orderBy('berita.tgl_terbit', 'DESC')
             ->offset($offset)
             ->findAll($jumlah));
     }
@@ -166,7 +166,7 @@ class BeritaModel extends \CodeIgniter\Model
             ->join('users', 'users.id = berita.id_penulis', 'left')
             ->join('kategori', 'kategori.id = berita.id_kategori', 'left')
             ->where('berita.status', 'publikasi')
-            ->orderBy('berita.created_at', 'DESC')
+            ->orderBy('berita.tgl_terbit', 'DESC')
             ->findAll());
     }
 
@@ -176,7 +176,7 @@ class BeritaModel extends \CodeIgniter\Model
             ->join('users', 'users.id = berita.id_penulis', 'left')
             ->join('kategori', 'kategori.id = berita.id_kategori', 'left')
             ->where('berita.status', 'draf')
-            ->orderBy('berita.created_at', 'DESC')
+            ->orderBy('berita.tgl_terbit', 'DESC')
             ->findAll());
     }
 
@@ -258,11 +258,11 @@ class BeritaModel extends \CodeIgniter\Model
     public function isLatestDataOverThreeMonthsOld(): bool
     {
         // Get the latest created data
-        $latestData = $this->orderBy('created_at', 'DESC')->first();
+        $latestData = $this->orderBy('tgl_terbit', 'DESC')->first();
 
         if ($latestData) {
-            // Calculate the difference in months between now and the created_at timestamp
-            $createdAt = new DateTime($latestData['created_at']);
+            // Calculate the difference in months between now and the tgl_terbit timestamp
+            $createdAt = new DateTime($latestData['tgl_terbit']);
             $now = new DateTime();
             $interval = $now->diff($createdAt);
             $monthsDiff = $interval->y * 12 + $interval->m;

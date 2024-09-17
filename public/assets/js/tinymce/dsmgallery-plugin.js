@@ -1,8 +1,9 @@
 tinymce.PluginManager.add("dsmgallery", function (editor, url) {
   const apiEndpoint = editor.getParam("dsmgallery_api_endpoint", "");
+  const galleryUrl = editor.getParam("dsmgallery_gallery_url", "");
 
   // Function to fetch images from API
-  const fetchImages = (endpoint, page = 1, perPage = 9, search = "") => {
+  const fetchImages = (endpoint, page = 1, perPage = 10, search = "") => {
     return fetch(
       `${endpoint}?page=${page}&per_page=${perPage}&search=${encodeURIComponent(
         search
@@ -20,7 +21,7 @@ tinymce.PluginManager.add("dsmgallery", function (editor, url) {
   // Function to open the custom dialog
   const openDialog = () => {
     let currentPage = 1;
-    const perPage = 9;
+    const perPage = 10;
     let searchQuery = "";
 
     const dialogConfig = {
@@ -30,14 +31,20 @@ tinymce.PluginManager.add("dsmgallery", function (editor, url) {
         type: "panel",
         items: [
           {
-            type: "input", // Change from 'textbox' to 'input'
-            name: "search",
-            label: "Search",
-          },
-          {
-            type: "button",
-            text: "Search",
-            name: "searchButton",
+            type: "bar",
+            items: [
+              {
+                type: "input", // Change from 'textbox' to 'input'
+                name: "search",
+                placeholder: "Search", // placeholder text for the input
+                maximized: true,
+              },
+              {
+                type: "button",
+                text: "Search",
+                name: "searchButton",
+              },
+            ],
           },
           {
             type: "checkbox",
@@ -47,26 +54,84 @@ tinymce.PluginManager.add("dsmgallery", function (editor, url) {
           {
             type: "htmlpanel",
             html: `
-                            <style>
-                                .image-grid-item.selected {
-                                    border: 2px solid #0073aa;
-                                    background-color: #f0f0f0;
-                                }
-                                #loading-message {
-                                    margin-top: 2rem;
-                                    margin-bottom: 2rem;
-                                    text-align: center;
-                                    font-weight: bold;
-                                }
-                            </style>
-                            <div id="image-grid" style="display: flex; flex-wrap: wrap; gap: 10px;"></div>
+            <style>
+            .image-grid {
+                display: grid !important;
+                grid-template-columns: repeat(1, 1fr); /* Default 1 column */
+                gap: 10px;
+            }
+        
+            /* For large screens (lg) */
+            @media (min-width: 992px) {
+                .image-grid {
+                    grid-template-columns: repeat(3, 1fr); /* 3 columns */
+                }
+            }
+        
+            /* For extra-large screens (xl) */
+            @media (min-width: 1200px) {
+                .image-grid {
+                    grid-template-columns: repeat(5, 1fr); /* 5 columns */
+                }
+            }
+        
+            .image-grid-item {
+                width: 100% !important;
+                height: 9rem !important;
+                cursor: pointer !important;
+                border: 1px solid #ccc !important;
+                border-radius: 1rem;
+                padding: 0.5rem !important;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+            }
+        
+            .image-grid-item.selected {
+                border: 2px solid #0073aa;
+                background-color: #f0f0f0;
+            }
+
+            .image-grid-item img {
+              width: 100% !important;
+              height: 100% !important;
+              object-fit: cover; 
+              border-radius: 1rem;
+            }
+        
+            #loading-message {
+                margin-top: 2rem;
+                margin-bottom: 2rem;
+                text-align: center;
+                font-weight: bold;
+            }
+            .loader {
+              width: 48px !important;
+              height: 48px !important;
+              border: 5px solid #000000 !important;
+              border-bottom-color: transparent !important;
+              border-radius: 50%;
+              display: inline-block;
+              box-sizing: border-box !important;
+              animation: rotation 1s linear infinite;
+            }
+          
+            @keyframes rotation {
+              0% {
+                  transform: rotate(0deg);
+              }
+              100% {
+                  transform: rotate(360deg);
+              }
+            }
+        </style>
+        
+        <div id="image-grid" class="image-grid"></div>
                         `,
           },
           {
             type: "htmlpanel",
-            html: `
-                            <div id="loading-message">Loading...</div>
-                        `,
+            html: `<div id="loading-message"><span class="loader"></span></div>`,
           },
         ],
       },
@@ -74,12 +139,24 @@ tinymce.PluginManager.add("dsmgallery", function (editor, url) {
         {
           type: "custom",
           text: "Previous",
+          icon: "arrow-left",
           name: "prev",
+          align: "start", // align the button to the left of the dialog footer
         },
         {
           type: "custom",
           text: "Next",
+          icon: "arrow-right",
           name: "next",
+          align: "start",
+        },
+        {
+          type: "custom",
+          text: "Gallery",
+          name: "gallery",
+          align: "start",
+          icon: "gallery", // will replace the text if configured
+          buttonType: "primary", // style the button as a primary button
         },
         {
           type: "cancel",
@@ -121,6 +198,11 @@ tinymce.PluginManager.add("dsmgallery", function (editor, url) {
           searchQuery = data.search;
           currentPage = 1; // Reset to first page
           loadImages(api);
+        } else if (details.name === "gallery") {
+          tinymce.activeEditor.windowManager.openUrl({
+            title: "Gallery",
+            url: galleryUrl,
+          });
         }
       },
     };
@@ -152,12 +234,10 @@ tinymce.PluginManager.add("dsmgallery", function (editor, url) {
                   image.uri
                 }" data-title="${image.judul}" data-alt="${
             image.alt
-          }" data-deskripsi="${
-            image.deskripsi || ""
-          }" style="cursor: pointer; border: 1px solid #ccc; padding: 5px;">
+          }" data-deskripsi="${image.deskripsi || ""}">
                     <img src="${image.uri}" alt="${image.alt}" title="${
             image.judul
-          }" style="width: 128px; height: 128px; object-fit: cover;" />
+          }"/>
                 </div>
             `
         )
@@ -179,6 +259,7 @@ tinymce.PluginManager.add("dsmgallery", function (editor, url) {
   // Add the button to the toolbar
   editor.ui.registry.addButton("dsmgallery", {
     text: "Gallery",
+    icon: "gallery",
     onAction: openDialog,
   });
 
