@@ -118,6 +118,7 @@ class AgendaAdmin extends BaseControllerAdmin
     // Tambah rilis media. Jika ID kosong, buat baru. Jika id berisi, perbarui yang sudah ada.
     public function simpan($id = null)
     {
+        // dd($this->request->getVar());
         // Validasi
         $rules = $this->formRules();
 
@@ -151,7 +152,7 @@ class AgendaAdmin extends BaseControllerAdmin
                     'uri' => base_url('uploads/' . $newName),
                     'judul' => $this->request->getPost('judul'),
                     'alt' => $this->request->getPost('alt'),
-                    'deskripsi' => $this->request->getPost('deskripsi'),
+                    'deskripsi' => $this->request->getPost('deskripsi_gambar'),
                 ];
                 $galeriModel->save($data);
                 $galeriId = $galeriModel->getInsertID();

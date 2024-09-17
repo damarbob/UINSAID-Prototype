@@ -150,7 +150,7 @@ class PengumumanAdmin extends BaseControllerAdmin
                     'uri' => base_url('uploads/' . $newName),
                     'judul' => $this->request->getPost('judul'),
                     'alt' => $this->request->getPost('alt'),
-                    'deskripsi' => $this->request->getPost('deskripsi'),
+                    'deskripsi' => $this->request->getPost('deskripsi_gambar'),
                 ];
                 $galeriModel->save($data);
                 $galeriId = $galeriModel->getInsertID();
