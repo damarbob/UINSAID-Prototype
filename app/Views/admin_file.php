@@ -17,76 +17,6 @@
 <div class="row">
     <div class="col">
 
-        <!-- Modal form unggah -->
-        <div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="uploadModalLabel"><?= lang('Admin.unggahFile') ?></h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form action="<?= base_url('admin/file/unggah') ?>" method="post" enctype="multipart/form-data">
-                            <div class="mb-3">
-                                <label for="file" class="form-label"><?= lang('Admin.unggahFile') ?></label>
-                                <input type="file" class="form-control" name="file" id="file" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="judul" class="form-label"><?= lang('Admin.judul') ?></label>
-                                <input type="text" class="form-control" name="judul" id="judul" placeholder="Title">
-                            </div>
-                            <div class="mb-3">
-                                <label for="alt" class="form-label"><?= lang('Admin.teksAlternatif') ?></label>
-                                <input type="text" class="form-control" name="alt" id="alt" placeholder="Alt Text">
-                            </div>
-                            <div class="mb-3">
-                                <label for="deskripsi" class="form-label"><?= lang('Admin.deskripsi') ?></label>
-                                <textarea class="form-control" name="deskripsi" id="deskripsi" placeholder="Description"></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-primary"><?= lang('Admin.unggah') ?></button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="d-flex mb-4">
-            <div class="flex-grow-1">
-                <div class="btn-group rounded-0" role="group">
-                    <!-- Tombol unggah -->
-                    <button type="button" class="btn btn-primary rounded-0" data-bs-toggle="modal" data-bs-target="#uploadModal" data-mdb-ripple-init><i class='bx bx-upload me-2'></i><?= lang('Admin.unggah') ?></button>
-
-                    <!-- Per Page Options -->
-                    <!-- <div class="dropdown">
-                        <button
-                            class="btn btn-secondary dropdown-toggle rounded-0"
-                            type="button"
-                            id="perPageDropdown"
-                            data-mdb-dropdown-init
-                            aria-expanded="false">
-                            <i class="bi bi-grid"></i>
-                            <span class="ms-2 fw-bold">
-                                <?= $perPage ?>
-                            </span>
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="perPageDropdown">
-                            <li>
-                                <a class="dropdown-item <?= $perPage == 20 ? 'active' : '' ?>" href="?per_page=20">20</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item <?= $perPage == 50 ? 'active' : '' ?>" href="?per_page=50">50</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item <?= $perPage == 100 ? 'active' : '' ?>" href="?per_page=100">100</a>
-                            </li>
-                        </ul>
-                    </div> -->
-
-                    <!-- Tombol hapus -->
-                    <!-- <button id="multiDeleteBtn" class="btn btn-danger rounded-0" data-mdb-ripple-init onclick="hapusBanyak();"><i class='bx bx-trash me-2'></i><?= lang('Admin.hapus') ?></button> -->
-                </div>
-            </div>
-        </div>
 
         <table class="table table-hover w-100" id="tabelFile">
             <thead>
@@ -95,47 +25,73 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($file as $key) : ?>
-                    <tr>
-                        <td><?= $key['judul'] ?></td>
-                    </tr>
 
-                    <!-- Modal sunting metadata -->
-                    <div class="modal fade" id="editModal<?= $key['id'] ?>" tabindex="-1" aria-labelledby="editModalLabel<?= $key['id'] ?>" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="editModalLabel<?= $key['id'] ?>"><?= lang('Admin.file') . " " . esc($key['judul']) ?></h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <form action="<?= base_url('admin/file/simpanMetadata/' . $key['id']) ?>" method="post">
-                                        <div class="mb-3">
-                                            <label for="judul_<?= $key['id'] ?>" class="form-label"><?= lang('Admin.judul') ?></label>
-                                            <input type="text" class="form-control" name="judul" id="judul_<?= $key['id'] ?>" value="<?= esc($key['judul']) ?>" placeholder="Title">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="alt_<?= $key['id'] ?>" class="form-label"><?= lang('Admin.teksAlternatif') ?></label>
-                                            <input type="text" class="form-control" name="alt" id="alt_<?= $key['id'] ?>" value="<?= esc($key['alt']) ?>" placeholder="Alt Text">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="deskripsi_<?= $key['id'] ?>" class="form-label"><?= lang('Admin.deskripsi') ?></label>
-                                            <textarea class="form-control" name="deskripsi" id="deskripsi_<?= $key['id'] ?>" placeholder="Description"><?= esc($key['deskripsi']) ?></textarea>
-                                        </div>
-                                        <button type="button" class="btn btn-danger" onclick="hapus(<?= $key['id'] ?>)"><i class='bx bx-trash me-2'></i><?= lang('Admin.hapus') ?></button>
-                                        <button type="submit" class="btn btn-success" data-mdb-ripple-init><i class='bx bx-check me-2'></i><?= lang('Admin.simpan') ?></button>
-                                    </form>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                <?php endforeach ?>
             </tbody>
         </table>
+    </div>
+</div>
 
+<!-- Modal form unggah -->
+<div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="uploadModalLabel"><?= lang('Admin.unggahFile') ?></h5>
+                <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="<?= base_url('admin/file/unggah') ?>" method="post" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="file" class="form-label"><?= lang('Admin.unggahFile') ?></label>
+                        <input type="file" class="form-control" name="file" id="file" accept=".csv, .pdf" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="judul" class="form-label"><?= lang('Admin.judul') ?></label>
+                        <input type="text" class="form-control" name="judul" id="judul" placeholder="Title">
+                    </div>
+                    <div class="mb-3">
+                        <label for="alt" class="form-label"><?= lang('Admin.teksAlternatif') ?></label>
+                        <input type="text" class="form-control" name="alt" id="alt" placeholder="Alt Text">
+                    </div>
+                    <div class="mb-3">
+                        <label for="deskripsi" class="form-label"><?= lang('Admin.deskripsi') ?></label>
+                        <textarea class="form-control" name="deskripsi" id="deskripsi" placeholder="Description"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary"><?= lang('Admin.unggah') ?></button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
+<!-- Modal sunting metadata -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel"><?= lang('Admin.file') . " " ?></h5>
+                <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="<?php // base_url('admin/file/simpanMetadata/' . $key['id']) 
+                                ?>" method="post" id="editForm">
+                    <div class="mb-3">
+                        <label for="editJudul" class="form-label"><?= lang('Admin.judul') ?></label>
+                        <input type="text" class="form-control" name="judul" id="editJudul" placeholder="Title">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editAlt" class="form-label"><?= lang('Admin.teksAlternatif') ?></label>
+                        <input type="text" class="form-control" name="alt" id="editAlt" placeholder="Alt Text">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editDeskripsi" class="form-label"><?= lang('Admin.deskripsi') ?></label>
+                        <textarea class="form-control" name="deskripsi" id="editDeskripsi" placeholder="Description"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-success" data-mdb-ripple-init><i class='bx bx-check me-2'></i><?= lang('Admin.simpan') ?></button>
+                </form>
 
+            </div>
+        </div>
     </div>
 </div>
 
@@ -145,8 +101,12 @@
 <script src="<?= base_url('assets/js/datatables_process_bulk.js') ?>" type="text/javascript"></script>
 <script>
     $(document).ready(function() {
+        const uploadModal = new mdb.Modal($('#uploadModal'));
+        const editModal = new mdb.Modal($('#editModal'));
+
         var table1 = $('#tabelFile').DataTable({
             processing: true,
+            // serverSide: true,
             ajax: {
                 "url": "<?= site_url('api/file') ?>",
                 "type": "POST"
@@ -157,11 +117,11 @@
                     // Get the ID from the data
                     var id = data.id;
 
-                    // Navigate to the Edit page
-                    // window.location.href = "/admin/file/sunting?id=" + id;
-                    const editModal = document.getElementById('editModal' + id);
-                    const modal = new bootstrap.Modal(editModal);
-                    modal.show();
+                    $('#editJudul').val(data.judul);
+                    $('#editAlt').val(data.alt);
+                    $('#editDeskripsi').val(data.deskripsi);
+                    $('#editForm').attr('action', `<?= base_url('/admin/file/simpanMetadata/') ?>${id}`);
+                    editModal.show();
                 });
 
                 $(row).on('select', function() {
@@ -176,6 +136,37 @@
                 url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/id.json'
             },
             select: true,
+            dom: '<"mb-4"<"d-flex flex-column flex-md-row align-items-center mb-2"<"flex-grow-1 align-self-start"B><"align-self-end ps-2 pt-2 pt-md-0 mb-0"f>>r<"table-responsive"t><"d-flex flex-column flex-md-row align-items-center mt-2"<"flex-grow-1 order-2 order-md-1 mt-2 mt-md-0"i><"align-self-end order-1 order-md-2"p>>>',
+            buttons: [{
+                    text: '<i class="bi bi-plus-lg"></i>',
+                    action: function(e, dt, node, config) {
+                        // window.location.href = '<?= base_url('/admin/agenda/tambah') ?>'
+                        uploadModal.show();
+                    }
+                },
+                // {
+                //     text: '<i id="iconFilter" class="bx bx-filter-alt me-2"></i><span id="loaderFilter" class="loader me-2" style="display: none;"></span><span id="textFilter"><?= lang('Admin.semua') ?></span>',
+                // },
+                {
+                    extend: 'colvis',
+                    text: '<i class="bx bx-table"></i>'
+                },
+                {
+                    extend: 'excel',
+                    text: '<i class="bx bx-download"></i>'
+                },
+                {
+                    extend: 'print',
+                    text: '<i class="bx bx-printer"></i>'
+                },
+                {
+                    extend: 'selected',
+                    text: '<i class="bx bx-trash"></i>',
+                    action: function(e, dt, node, config) {
+                        hapusBanyak();
+                    }
+                },
+            ],
         });
 
         // Fitur hapus massal
@@ -191,6 +182,60 @@
 
             processBulk(table1, "<?= base_url('/admin/file/hapus') ?>", options);
         }
+
+        // Change button styles
+        $('#tabelFile').on('preInit.dt', function() {
+
+            var buttons = $(".dt-buttons.btn-group.flex-wrap .btn.btn-secondary");
+            var lastButton = buttons.last();
+
+            // Reinitialize the ripple effect for the new button
+            buttons.each(function() {
+                new mdb.Ripple(this); // This will reinitialize the ripple effect on all elements with the data-mdb-ripple-init attribute
+            })
+
+            buttons.eq(0).removeClass("btn-secondary").addClass("btn-primary").addClass("rounded-0");
+            lastButton.removeClass("btn-secondary").addClass("btn-danger").addClass("rounded-0");
+
+            $(".dt-buttons.btn-group.flex-wrap").addClass("btn-group-lg");
+
+            // var secondButton = buttons.eq(1);
+            // secondButton.addClass("dropdown-toggle").wrap('<div class="btn-group"></div>').attr({
+            //     id: "btnFilter",
+            //     "data-mdb-ripple-init": "",
+            //     "data-mdb-dropdown-init": "",
+            //     "aria-expanded": "false"
+            // });
+
+            // var newElement = $(
+            //     '<ul class="dropdown-menu">' +
+            //     '<li><button id="btnFilterSemua" class="dropdown-item" type="button"><?= lang('Admin.semua') ?></button></li>' +
+            //     '<li><button id="btnFilterPublikasi" class="dropdown-item" type="button"><?= lang('Admin.publikasi') ?></button></li>' +
+            //     '<li><button id="btnFilterDraf" class="dropdown-item" type="button"><?= lang('Admin.draf') ?></button></li>' +
+            //     '</ul>'
+            // );
+
+            // secondButton.after(newElement);
+            // new mdb.Dropdown(secondButton); // Reinitialize dropdown
+
+            // var filterButtons = {
+            //     '#btnFilterSemua': '<?= base_url('/api/agenda') ?>',
+            //     '#btnFilterPublikasi': '<?= base_url('/api/agenda/publikasi') ?>',
+            //     '#btnFilterDraf': '<?= base_url('/api/agenda/draf') ?>'
+            // };
+
+            // $.each(filterButtons, function(btnId, apiUrl) {
+            //     $(btnId).on('click', function() {
+            //         $('#iconFilter').hide();
+            //         $('#loaderFilter').show();
+            //         table1.ajax.url(apiUrl).load(function() {
+            //             $('#iconFilter').show();
+            //             $('#loaderFilter').hide();
+            //             $('#textFilter').html($(btnId).html());
+            //         });
+            //     });
+            // });
+        });
 
     });
 </script>

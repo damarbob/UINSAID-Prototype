@@ -59,4 +59,45 @@ class FileModel extends \CodeIgniter\Model
             'currentPage' => $page
         ];
     }
+
+    /**
+     * -------------------------------------------------------------
+     * Get Files for datatable
+     * -------------------------------------------------------------
+     */
+    public function getFiles($limit, $start, $search = null, $order = 'created_at', $dir = 'DESC')
+    {
+        $builder = $this->db->table($this->table)
+            ->select('*')
+            ->orderBy($order, $dir)
+            ->limit($limit, $start);
+
+        if ($search) {
+            $builder->groupStart()
+                ->like('judul', $search)
+                ->groupEnd();
+        }
+
+        // return $this->formatSampul($builder->get()->getResult());
+        return $builder->get()->getResult();
+    }
+
+    /**
+     * -------------------------------------------------------------
+     * Get total record of Agenda for datatable
+     * -------------------------------------------------------------
+     */
+    public function getTotalRecords($search = null)
+    {
+        $builder = $this->db->table($this->table)
+            ->select('*');
+
+        if ($search) {
+            $builder->groupStart()
+                ->like('judul', $search)
+                ->groupEnd();
+        }
+
+        return $builder->countAllResults();
+    }
 }

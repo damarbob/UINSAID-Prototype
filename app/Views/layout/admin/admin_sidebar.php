@@ -71,6 +71,12 @@ $currentRoute = $request->uri->getSegment(1) . "/" . $request->uri->getSegment(2
                     <span class="nav_name">Galeri</span>
                 </a>
             </div>
+            <div class="nav-list">
+                <a href="<?= base_url('admin/file') ?>" class="nav-link-admin <?= $currentRoute == "admin/file" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Manajer File">
+                    <i class='bx bx-folder-open nav_icon'></i>
+                    <span class="nav_name">Manajer File</span>
+                </a>
+            </div>
             <div class="nav-list d-none">
                 <a href="<?= base_url('admin/kotak-masuk') ?>" class="nav-link-admin <?= $currentRoute == "admin/kotak-masuk" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Kotak Masuk">
                     <i class='bx bxs-inbox nav_icon'></i>
