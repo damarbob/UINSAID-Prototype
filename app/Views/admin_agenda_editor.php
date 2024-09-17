@@ -169,8 +169,8 @@ if ($mode == "tambah") {
                     <input type="text" class="form-control" name="alt" id="alt" placeholder="Alt Text">
                 </div>
                 <div class="mb-3">
-                    <label for="deskripsi" class="form-label"><?= lang('Admin.deskripsi') ?></label>
-                    <textarea class="form-control" name="deskripsi" id="deskripsi" placeholder="<?= lang('Admin.deskripsi') ?>"></textarea>
+                    <label for="deskripsi_gambar" class="form-label"><?= lang('Admin.deskripsi') ?></label>
+                    <textarea class="form-control" name="deskripsi_gambar" id="deskripsi_gambar" placeholder="<?= lang('Admin.deskripsi') ?>"></textarea>
                 </div>
             </div>
         </div>

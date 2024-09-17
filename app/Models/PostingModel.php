@@ -22,7 +22,9 @@ class PostingModel extends \CodeIgniter\Model
             ->where('posting.status', 'publikasi')
             ->where('posting_jenis.name', $jenis)
             ->where('kategori.id_jenis', $jenis)
-            ->paginate(10, 'posting'));
+            ->where('posting.tanggal_terbit <= ', date('Y-m-d H:i:s'))
+            ->orderBy('posting.tanggal_terbit', 'DESC')
+            ->paginate(12, 'posting'));
     }
 
     public function getByKategoriLimit($jenis, $kategori, $limit)
@@ -36,7 +38,8 @@ class PostingModel extends \CodeIgniter\Model
                 ->where('posting.status', 'publikasi')
                 ->where('posting_jenis.nama', $jenis)
                 ->where('kategori.id_jenis', $jenis)
-                ->orderBy('posting.created_at', 'DESC')
+                ->where('posting.tanggal_terbit <= ', date('Y-m-d H:i:s'))
+                ->orderBy('posting.tanggal_terbit', 'DESC')
                 ->findAll($limit)
         );
     }
@@ -132,7 +135,9 @@ class PostingModel extends \CodeIgniter\Model
             ->where('posting.status', 'publikasi')
             ->where('posting_jenis.name', $jenis)
             ->where('kategori.id_jenis', $jenis)
-            ->orderBy('posting.created_at', 'DESC')
+            ->where('posting.tanggal_terbit <= ', date('Y-m-d H:i:s'))
+            ->orderBy('posting.tanggal_terbit', 'DESC')
+            // ->orderBy('posting.created_at', 'DESC')
             ->paginate(12, 'posting'));
     }
 
@@ -143,7 +148,9 @@ class PostingModel extends \CodeIgniter\Model
             ->join('kategori', 'kategori.id = posting.id_kategori', 'left')
             ->where('posting_jenis.name', $jenis)
             ->where('kategori.id_jenis', $jenis)
-            ->orderBy('posting.created_at', 'DESC')
+            ->where('posting.tanggal_terbit <= ', date('Y-m-d H:i:s'))
+            ->orderBy('posting.tanggal_terbit', 'DESC')
+            // ->orderBy('posting.created_at', 'DESC')
             ->offset($offset)
             ->findAll($jumlah));
     }

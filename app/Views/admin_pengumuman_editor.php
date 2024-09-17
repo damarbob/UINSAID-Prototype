@@ -90,7 +90,6 @@ if ($mode == "tambah") {
             <!-- Deskripsi -->
             <div class="form-floating mb-3">
                 <textarea id="deskripsi" name="deskripsi" class="form-control <?= (validation_show_error('deskripsi')) ? 'is-invalid' : ''; ?>" type="text" rows="3" placeholder="<?= lang('Admin.deskripsi') ?>"><?= $valueDeskripsi ?></textarea>
-                <!-- <label for="deskripsi"><?= lang('Admin.deskripsi') ?></label> -->
             </div>
         </div>
         <div class="col-md-6">
@@ -169,8 +168,8 @@ if ($mode == "tambah") {
                     <input type="text" class="form-control" name="alt" id="alt" placeholder="Alt Text">
                 </div>
                 <div class="mb-3">
-                    <label for="deskripsi" class="form-label"><?= lang('Admin.deskripsi') ?></label>
-                    <textarea class="form-control" name="deskripsi" id="deskripsi" placeholder="<?= lang('Admin.deskripsi') ?>"></textarea>
+                    <label for="deskripsi_gambar" class="form-label"><?= lang('Admin.deskripsi') ?></label>
+                    <textarea class="form-control" name="deskripsi_gambar" id="deskripsi_gambar" placeholder="<?= lang('Admin.deskripsi') ?>"></textarea>
                 </div>
             </div>
         </div>

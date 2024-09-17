@@ -171,13 +171,13 @@ $routes->group('admin', ['filter' => 'group:admin,superadmin'], function ($route
         $routes->post('hapus-banyak', 'GaleriAdmin::hapusBanyak');
     });
 
-    // Galeri
+    // File
     $routes->group('file', ['namespace' => 'App\Controllers'], function ($routes) {
         $routes->get('/', 'FileAdmin::index');
         $routes->post('unggah', 'FileAdmin::unggah');
         $routes->post('simpanMetadata/(:num)', 'FileAdmin::simpanMetadata/$1');
-        $routes->post('hapus/(:num)', 'FileAdmin::hapus/$1');
-        $routes->post('hapus-banyak', 'FileAdmin::hapusBanyak');
+        $routes->post('hapus', 'FileAdmin::hapusBanyak');
+        // $routes->post('hapus-banyak', 'FileAdmin::hapusBanyak');
     });
 
     // Kotak masuk
@@ -259,8 +259,9 @@ $routes->group('api', static function ($routes) {
     $routes->get('galeri', 'GaleriAdmin::get');
 
     // File
-    $routes->get('file', 'FileAdmin::get');
-    $routes->post('file', 'FileAdmin::get');
+    $routes->get('file', 'FileAdmin::fetchData');
+    // $routes->post('file', 'FileAdmin::fetchData');
+    $routes->post('file', 'FileAdmin::getFiles');
 
     // Kotak masuk
     $routes->get('kotak-masuk', 'KotakMasukAdmin::getKotakMasuk');
