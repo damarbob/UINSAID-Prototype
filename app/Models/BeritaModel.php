@@ -21,6 +21,7 @@ class BeritaModel extends \CodeIgniter\Model
             ->join('kategori', 'kategori.id = berita.id_kategori', 'left')
             ->where('kategori.nama', $kategori)
             ->where('berita.status', 'publikasi')
+            ->where('berita.tgl_terbit <= ', date('Y-m-d H:i:s'))
             ->paginate(10, 'berita'));
     }
 
@@ -41,6 +42,7 @@ class BeritaModel extends \CodeIgniter\Model
                 ->join('kategori', 'kategori.id = berita.id_kategori', 'left')
                 ->where('kategori.nama', $kategori)
                 ->where('berita.status', 'publikasi')
+                ->where('berita.tgl_terbit <= ', date('Y-m-d H:i:s'))
                 ->orderBy('berita.created_at', 'DESC')
                 ->findAll($limit)
         );
@@ -120,6 +122,7 @@ class BeritaModel extends \CodeIgniter\Model
         }
 
         return $this->formatSampul($builder->select('berita.*, users.username as penulis, kategori.nama as kategori')
+            ->where('berita.tgl_terbit <= ', date('Y-m-d H:i:s'))
             ->where('berita.status', 'publikasi')
             ->join('users', 'users.id = berita.id_penulis', 'left')
             ->join('kategori', 'kategori.id = berita.id_kategori', 'left')
@@ -130,6 +133,8 @@ class BeritaModel extends \CodeIgniter\Model
     public function getTerbaru($jumlah, $offset = 0)
     {
         return $this->formatSampul($this->select('berita.*, users.username as penulis, kategori.nama as kategori')
+            ->where('berita.tgl_terbit <= ', date('Y-m-d H:i:s'))
+            ->where('berita.status', 'publikasi')
             ->join('users', 'users.id = berita.id_penulis', 'left')
             ->join('kategori', 'kategori.id = berita.id_kategori', 'left')
             ->orderBy('berita.created_at', 'DESC')
