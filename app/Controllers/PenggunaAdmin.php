@@ -153,6 +153,196 @@ class PenggunaAdmin extends BaseControllerAdmin
         return redirect()->to($this->indexRoute);
     }
 
+    public function tambahPenggunaAjax()
+    {
+        if ($this->request->isAJAX()) {
+            $validation = \Config\Services::validation();
+
+            // Validation rules
+            $validation->setRules([
+                'username' => [
+                    'label' => lang('Admin.username'),
+                    'rules'   => 'required|min_length[3]|max_length[30]|is_unique[users.username]'
+                ],
+                'secret'   => [
+                    'label' => lang('Admin.email'),
+                    'rules'   => 'required|valid_email|is_unique[auth_identities.secret]'
+                ],
+                'secret2'  => [
+                    'label' => lang('Admin.kataSandi'),
+                    'rules'   => 'required|min_length[6]'
+                ],
+                'group'    => [
+                    'label' => lang('Admin.grup'),
+                    'rules'   => 'required'
+                ],
+            ]);
+
+            // Validate input
+            if (!$this->validate($validation->getRules())) {
+                return $this->response->setJSON([
+                    'success' => false,
+                    'errors' => $validation->getErrors()
+                ]);
+            }
+
+            $data = $this->request->getPost();
+            $groupModel = new GroupModel();
+            $users = auth()->getProvider();
+
+            // Create user
+            $user = new User([
+                'username' => $data['username'],
+                'email'    => $data['secret'],
+                'password' => $data['secret2']
+            ]);
+            $users->save($user);
+
+            // Get ID of the newly inserted user
+            $user = $users->findById($users->getInsertID());
+            $id = $user->id;
+
+            // Assign to a group
+            $groupModel->save([
+                'user_id'    => $id,
+                'group'      => $data['group'],
+                'created_at' => Time::now('Asia/Jakarta', 'en_US')
+            ]);
+
+            return $this->response->setJSON([
+                'success' => true,
+                'message' => 'User successfully created!'
+            ]);
+        }
+    }
+
+    public function editAjax()
+    {
+        if ($this->request->isAJAX()) {
+            $validation = \Config\Services::validation();
+
+            $combinedModel = $this->combinedModel;
+            $data = $this->request->getPost();
+            $userId = $data['id']; // Get the user id
+
+            $currentUser = $combinedModel->getById($userId);
+
+            // Individual input rules
+            $usernameRule = 'required|min_length[3]|max_length[30]';
+            $emailRule = 'required|valid_email';
+
+            if ($currentUser['username'] !== $data['username']) {
+                $usernameRule = 'required|min_length[3]|max_length[30]|is_unique[users.username]';
+            }
+
+            if ($currentUser['secret'] !== $data['secret']) {
+                $emailRule = 'required|valid_email|is_unique[auth_identities.secret]';
+            }
+
+            $validationRules = [
+                'username' => [
+                    'label' => lang('Admin.username'),
+                    'rules'   => $usernameRule
+                ],
+                'secret'   => [
+                    'label' => lang('Admin.email'),
+                    'rules'   => $emailRule
+                ],
+                'group'    => [
+                    'label' => lang('Admin.grup'),
+                    'rules'   => 'required'
+                ],
+            ];
+
+            if (!empty($data['secret2'])) {
+                $validationRules = array_merge(
+                    $validationRules,
+                    [
+                        'secret2'  => [
+                            'label' => lang('Admin.kataSandi'),
+                            'rules'   => 'required|min_length[6]'
+                        ]
+                    ]
+                );
+            }
+
+            // Validation rules
+            $validation->setRules($validationRules);
+
+            // Validate input
+            if (!$this->validate($validation->getRules())) {
+                return $this->response->setJSON([
+                    'success' => false,
+                    'errors'  => $validation->getErrors()
+                ]);
+            }
+
+            // Prepare data for users table
+            $userData = [];
+            if (!empty($data['username'])) {
+                $userData['username'] = $data['username'];
+            }
+            if (!empty($data['status'])) {
+                $userData['status'] = $data['status'];
+            }
+            if (!empty($data['status_message'])) {
+                $userData['status_message'] = $data['status_message'];
+            }
+            $userData['active'] = isset($data['active']) ? 1 : 0; // Convert checkbox to integer
+            if (!empty($data['last_active'])) {
+                $userData['last_active'] = $data['last_active'];
+            }
+
+            // Prepare data for auth_identities table
+            $authIdentityData = [];
+            if (!empty($data['type'])) {
+                $authIdentityData['type'] = $data['type'];
+            }
+            if (!empty($data['name'])) {
+                $authIdentityData['name'] = $data['name'];
+            }
+            if (!empty($data['secret'])) {
+                $authIdentityData['secret'] = $data['secret'];
+            }
+            if (!empty($data['secret2'])) {
+                $authIdentityData['secret2'] = password_hash($data['secret2'], PASSWORD_BCRYPT);
+            }
+            if (!empty($data['expires'])) {
+                $authIdentityData['expires'] = $data['expires'];
+            }
+            if (!empty($data['extra'])) {
+                $authIdentityData['extra'] = $data['extra'];
+            }
+            $authIdentityData['force_reset'] = isset($data['force_reset']) ? 1 : 0; // Convert checkbox to integer
+            if (!empty($data['last_used_at'])) {
+                $authIdentityData['last_used_at'] = $data['last_used_at'];
+            }
+
+            // Prepare data for auth groups
+            $authGroupsData = [];
+            if (!empty($data['group'])) {
+                $authGroupsData['group'] = $data['group'];
+            }
+
+            // Only update if there's data to update
+            if (!empty($userData)) {
+                $combinedModel->updateUser($userId, $userData);
+            }
+            if (!empty($authIdentityData)) {
+                $combinedModel->updateAuthIdentity($userId, $authIdentityData);
+            }
+            if (!empty($authGroupsData)) {
+                $combinedModel->updateAuthGroups($userId, $authGroupsData);
+            }
+
+            return $this->response->setJSON([
+                'success' => true,
+                'message' => 'User successfully updated!'
+            ]);
+        }
+    }
+
+
     public function hapusBanyak()
     {
         //

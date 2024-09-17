@@ -54,27 +54,42 @@ use function App\Helpers\capitalize_first_letter;
             </div>
             <div class="modal-body">
                 <form id="editForm" action="" method="post">
+
+                    <!-- ID -->
+                    <input type="hidden" id="editId" name="id" />
+
+                    <!-- Username -->
                     <div class="form-outline mb-3" data-mdb-input-init>
                         <input type="text" id="editUsername" name="username" class="form-control" />
                         <label class="form-label" for="editUsername"><?= lang('Admin.username') ?></label>
                     </div>
+
+                    <!-- Email -->
                     <div class="form-outline mb-3" data-mdb-input-init>
                         <input type="text" id="editEmail" name="secret" class="form-control" />
                         <label class="form-label" for="editEmail"><?= lang('Admin.email') ?></label>
                     </div>
+
+                    <!-- Grup -->
                     <div class="form-outline mb-3" data-mdb-input-init>
                         <input type="text" id="editGrup" class="form-control" name="group" />
                         <label class="form-label" for="editGrup"><?= lang('Admin.grup') ?></label>
                     </div>
+
+                    <!-- Kata sandi -->
                     <div class="form-outline mb-3" data-mdb-input-init>
                         <input type="password" id="editKataSandi" class="form-control" name="secret2" />
                         <label class="form-label" for="editKataSandi"><?= lang('Admin.kataSandi') ?></label>
                     </div>
-                    <div class="mb-3">
+
+                    <!-- Minta atur ulang kata sandi -->
+                    <div class="mb-3 d-none">
                         <input type="checkbox" class="form-check-input" name="force_reset" id="editMintaAturUlangKataSandiCheck" value="" placeholder="Minta Atur Ulang Kata Sandi">
                         <label for="editMintaAturUlangKataSandi" class="form-check-label"><?= lang('Admin.mintaAturUlangKataSandi') ?></label>
                     </div>
-                    <button type="submit" class="btn btn-success" data-mdb-ripple-init><i class='bx bx-check me-2'></i><?= lang('Admin.simpan') ?></button>
+
+                    <!-- Submit -->
+                    <button id="editFormSubmitButton" type="submit" class="btn btn-success" data-mdb-ripple-init><i class='bx bx-check me-2'></i><?= lang('Admin.simpan') ?></button>
                 </form>
 
             </div>
@@ -92,27 +107,43 @@ use function App\Helpers\capitalize_first_letter;
             </div>
             <div class="modal-body">
                 <form id="tambahForm" action="<?= base_url('/admin/pengguna/tambah') ?>" method="post">
+
+                    <!-- Username -->
                     <div class="form-outline mb-3" data-mdb-input-init>
                         <input type="text" id="username" name="username" class="form-control" />
                         <label class="form-label" for="username"><?= lang('Admin.username') ?></label>
                     </div>
+
+                    <!-- Email -->
                     <div class="form-outline mb-3" data-mdb-input-init>
                         <input type="text" id="email" name="secret" class="form-control" />
                         <label class="form-label" for="email"><?= lang('Admin.email') ?></label>
                     </div>
+
+                    <!-- Grup -->
                     <div class="form-outline mb-3" data-mdb-input-init>
                         <input type="text" id="grup" class="form-control" name="group" />
                         <label class="form-label" for="grup"><?= lang('Admin.grup') ?></label>
                     </div>
+
+                    <!-- Kata sandi -->
                     <div class="form-outline mb-3" data-mdb-input-init>
                         <input type="password" id="kataSandi" class="form-control" name="secret2" />
                         <label class="form-label" for="kataSandi"><?= lang('Admin.kataSandi') ?></label>
                     </div>
-                    <div class="mb-3">
-                        <input type="checkbox" class="form-check-input" name="force_reset" id="editMintaAturUlangKataSandiCheck" value="" placeholder="Minta Atur Ulang Kata Sandi">
-                        <label for="editMintaAturUlangKataSandi" class="form-check-label"><?= lang('Admin.mintaAturUlangKataSandi') ?></label>
+
+                    <!-- Minta atur ulang kata sandi -->
+                    <div class="mb-3 d-none">
+                        <input type="checkbox" class="form-check-input" name="force_reset" id="tambahMintaAturUlangKataSandiCheck" value="" placeholder="Minta Atur Ulang Kata Sandi">
+                        <label for="tambahMintaAturUlangKataSandi" class="form-check-label"><?= lang('Admin.mintaAturUlangKataSandi') ?></label>
                     </div>
-                    <button type="submit" class="btn btn-success" data-mdb-ripple-init><i class='bx bx-check me-2'></i><?= lang('Admin.tambah') ?></button>
+
+                    <!-- Submit -->
+                    <button id="tambahFormSubmitButton" type="submit" class="btn btn-success" data-mdb-ripple-init>
+                        <i class='bx bx-check me-2'></i>
+                        <?= lang('Admin.tambah') ?>
+                    </button>
+
                 </form>
 
             </div>
@@ -141,12 +172,13 @@ use function App\Helpers\capitalize_first_letter;
                     var id = data.id;
 
                     // Update input value from data
+                    $('#editId').val(data.id);
                     $('#editUsername').val(data.username);
                     $('#editEmail').val(data.secret);
                     $('#editGrup').val(data.group);
                     $('#editKataSandi').val(''); // Clear password field for security
                     $('#editMintaAturUlangKataSandiCheck').prop('checked', data.force_reset === "1" ? true : false); // Uncheck the checkbox
-                    $('#editForm').attr('action', `<?= base_url('/admin/pengguna/edit/') ?>${id}`);
+                    // $('#editForm').attr('action', `<?= base_url('/admin/pengguna/edit/') ?>${id}`);
 
                     // Navigate to the Edit page
                     editModal.show();
@@ -238,6 +270,127 @@ use function App\Helpers\capitalize_first_letter;
 
             processBulk(table1, "<?= base_url('/admin/pengguna/hapus') ?>", options);
         }
+
+        // Example of adding a user using AJAX
+        $('#tambahForm').submit(function(e) {
+            e.preventDefault();
+            // console.log(this);
+
+            // Adjust UI
+            $('#tambahFormSubmitButton').prop('disabled', true);
+
+            // Send request
+            $.ajax({
+                url: '<?= base_url('/api/pengguna-ajax/tambah') ?>',
+                type: 'POST',
+                data: $(this).serialize(), // Assuming the form ID is userForm
+                dataType: 'json',
+                success: function(response) {
+
+                    if (response.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: '<?= lang('Admin.sukses') ?>',
+                            text: response.message
+                        });
+
+                        // Update the view
+                        tambahModal.hide();
+                        table1.ajax.reload();
+                    } else {
+
+                        // Show validation errors
+                        var errors = ['<div class="text-start"><ol>']
+                        $.each(response.errors, function(key, value) {
+                            errors.push('<li>' + value + '</li>'); // Assuming you have an error span for each field
+                        });
+                        errors.push('</ol></div>')
+
+                        Swal.fire({
+                            icon: 'error',
+                            title: '<?= lang('Admin.galat') ?>',
+                            html: errors.map(e => `${e}`).join('') // Using <p> tags to separate each error message
+                        });
+
+                    }
+                },
+                error: function(xhr, status, error) {
+                    // console.log(xhr);
+
+                    Swal.fire({
+                        icon: 'error',
+                        title: '<?= lang('Admin.galat') ?>',
+                        text: (xhr.responseJSON.message !== null) ? xhr.responseJSON.message : '<?= lang('Admin.galat') ?>: ' + error
+                    });
+                },
+                complete: function(xhr, status) {
+
+                    // Adjust UI
+                    $('#tambahFormSubmitButton').prop('disabled', false);
+
+                }
+            });
+        });
+
+        // Example of editing a user using AJAX
+        $('#editForm').submit(function(e) {
+            e.preventDefault();
+
+            //Adjust UI
+            $('#editFormSubmitButton').prop('disabled', true);
+
+            // Send ajax request
+            $.ajax({
+                url: '/api/pengguna-ajax/edit/',
+                type: 'POST',
+                data: $(this).serialize(), // Assuming the form ID is editUserForm
+                dataType: 'json',
+                success: function(response) {
+                    if (response.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: '<?= lang('Admin.sukses') ?>',
+                            text: response.message
+                        });
+
+                        // Update the view
+                        editModal.hide();
+                        table1.ajax.reload();
+
+                    } else {
+
+                        // Show validation errors
+                        var errors = ['<div class="text-start"><ol>']
+                        $.each(response.errors, function(key, value) {
+                            errors.push('<li>' + value + '</li>'); // Assuming you have an error span for each field
+                        });
+                        errors.push('</ol></div>')
+
+                        Swal.fire({
+                            icon: 'error',
+                            title: '<?= lang('Admin.galat') ?>',
+                            html: errors.map(e => `${e}`).join('') // Using <p> tags to separate each error message
+                        });
+
+                    }
+                },
+                error: function(xhr, status, error) {
+                    // console.log(xhr);
+
+                    Swal.fire({
+                        icon: 'error',
+                        title: '<?= lang('Admin.galat') ?>',
+                        text: (xhr.responseJSON.message !== null) ? xhr.responseJSON.message : '<?= lang('Admin.galat') ?>: ' + error
+                    });
+                },
+                complete: function() {
+
+                    // Adjust UI
+                    $('#editFormSubmitButton').prop('disabled', false);
+
+                }
+            });
+        });
 
 
         // Change button styles

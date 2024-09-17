@@ -8,6 +8,7 @@ use App\Models\AgendaModel;
 use App\Models\PengumumanModel;
 use App\Models\MasukanModel;
 use App\Models\BeritaModel;
+use App\Models\CombinedModel;
 use App\Models\EntitasModel;
 use App\Models\FileModel;
 use App\Models\GaleriModel;
@@ -89,6 +90,8 @@ abstract class BaseControllerAdmin extends Controller
         protected EntitasModel $entitasModel;
         protected PPIDModel $ppidModel;
 
+        protected CombinedModel $combinedModel;
+
         // Page builder models
         protected HalamanModel $halamanModel;
         protected KomponenModel $komponenModel;
@@ -128,6 +131,8 @@ abstract class BaseControllerAdmin extends Controller
                 $this->situsModel = new SitusModel();
                 $this->entitasModel = new EntitasModel();
                 $this->ppidModel = new PPIDModel();
+
+                $this->combinedModel = new CombinedModel();
 
                 $this->halamanModel = new HalamanModel();
                 $this->komponenModel = new KomponenModel();

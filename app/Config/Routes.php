@@ -269,6 +269,8 @@ $routes->group('api', static function ($routes) {
 
     // Pengguna
     $routes->get('pengguna', 'PenggunaAdmin::get');
+    $routes->post('pengguna-ajax/edit', 'PenggunaAdmin::editAjax/$1');
+    $routes->post('pengguna-ajax/tambah', 'PenggunaAdmin::tambahPenggunaAjax');
     $routes->get('pengguna/(:any)', 'PenggunaAdmin::get/$1');
 
     // Situs

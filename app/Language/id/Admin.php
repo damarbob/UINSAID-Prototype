@@ -3,8 +3,8 @@
 return [
     'selamatDatang' => 'Selamat datang',
     'mulai' => 'Mulai',
-    // 'sukses' => 'Sukses',
-    // 'galat' => 'Galat',
+    'sukses' => 'Sukses',
+    'galat' => 'Galat',
     'tutup' => 'Tutup',
     'lanjutkan' => 'Lanjutkan',
 

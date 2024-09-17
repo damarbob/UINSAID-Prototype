@@ -12,6 +12,17 @@ class CombinedModel extends Model
     // Define relationships
     protected $authIdentitiesTable = 'auth_identities';
 
+    public function getById($id)
+    {
+        $this->select('users.*, auth_groups_users.group, auth_identities.id as auth_identity_id, auth_identities.type, auth_identities.name, auth_identities.secret, auth_identities.secret2, auth_identities.expires, auth_identities.extra, auth_identities.force_reset, auth_identities.last_used_at')
+            ->join('auth_identities', 'auth_identities.user_id = users.id')
+            ->join('auth_groups_users', 'auth_groups_users.user_id = users.id');
+
+        $this->where('users.id', $id);
+
+        return $this->first();
+    }
+
     public function getAllUsersWithAuthIdentities($group = null)
     {
         $this->select('users.*, auth_groups_users.group, auth_identities.id as auth_identity_id, auth_identities.type, auth_identities.name, auth_identities.secret, auth_identities.secret2, auth_identities.expires, auth_identities.extra, auth_identities.force_reset, auth_identities.last_used_at')
@@ -62,5 +73,13 @@ class CombinedModel extends Model
     {
         // Insert data into auth_groups table
         $this->db->table('auth_groups')->insert($data);
+    }
+
+    public function isAuthGroupUserExists($authGroupUser)
+    {
+        return ($this->db->table('auth_groups_users')
+            ->select('*')
+            ->where('group', $authGroupUser)
+            ->countAllResults() > 0);
     }
 }

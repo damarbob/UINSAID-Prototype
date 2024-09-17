@@ -44,15 +44,6 @@ if (!isset($komponen)) {
         </div>
         <div class="col-md-3">
 
-            <!-- <div class="mb-3">
-                <label for="css" class="form-label">CSS</label>
-                <input type="text" class="form-control" id="css" name="css" value="<?= isset($komponen) ? $komponen['css'] : ''; ?>" placeholder="e.g., style-komponen.css">
-            </div>
-            <div class="mb-3">
-                <label for="js" class="form-label">JS</label>
-                <input type="text" class="form-control" id="js" name="js" value="<?= isset($komponen) ? $komponen['js'] : ''; ?>" placeholder="e.g., script-komponen.js">
-            </div> -->
-
             <!-- CSS file input -->
             <div class="form-group mb-3">
                 <label for="css">CSS</label>
