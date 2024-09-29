@@ -18,6 +18,14 @@ $date = format_tanggal_dari_timestamp(time());
         <h1 class="fs-1 fw-normal"><?= lang('Admin.selamatDatang') ?>, <?= $user->username ?></h1>
         <p class="mb-4"><?= $date ?></p>
 
+        <!-- Pesan sukses atau error -->
+        <?php if (session()->getFlashdata('galat')) : ?>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <?= session()->getFlashdata('galat') ?>
+                <!-- <button type="button" class="btn-close" data-mdb-dismiss="alert" aria-label="Close"></button> -->
+            </div>
+        <?php endif; ?>
+
         <!-- Pilihan cepat -->
         <div class="row gy-2 gx-2">
 

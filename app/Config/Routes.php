@@ -95,26 +95,26 @@ $routes->group('admin', ['filter' => 'group:admin,superadmin'], function ($route
     $routes->get('dasbor', 'DasborAdmin', ['as' => 'dashboard']);
     $routes->addRedirect('/', 'dashboard');
 
+    // Manajemen halaman
+    $routes->get('halaman', 'HalamanAdmin::index');
+    $routes->get('halaman/tambah', 'HalamanAdmin::tambah');
+    $routes->get('halaman/sunting/(:num)', 'HalamanAdmin::sunting/$1');
+    $routes->post('halaman/simpan', 'HalamanAdmin::simpan');
+    $routes->post('halaman/simpan/(:num)', 'HalamanAdmin::simpan/$1');
+    $routes->post('halaman/hapus', 'HalamanAdmin::hapusBanyak');
+
+    // Komponen
+    $routes->get('komponen/', 'KomponenAdmin::index');
+    $routes->get('komponen/tambah', 'KomponenAdmin::tambah');
+    $routes->post('komponen/simpan', 'KomponenAdmin::simpan');
+    $routes->post('komponen/simpan/(:num)', 'KomponenAdmin::simpan/$1');
+    $routes->get('komponen/sunting/(:num)', 'KomponenAdmin::sunting/$1');
+    $routes->post('komponen/hapus', 'KomponenAdmin::hapusBanyak');
+
+    // Komponen meta
+    $routes->post('komponen/simpan/meta', 'KomponenAdmin::simpanMeta');
+
     if (ENVIRONMENT == 'development') {
-
-        // Manajemen halaman
-        $routes->get('halaman', 'HalamanAdmin::index');
-        $routes->get('halaman/tambah', 'HalamanAdmin::tambah');
-        $routes->get('halaman/sunting/(:num)', 'HalamanAdmin::sunting/$1');
-        $routes->post('halaman/simpan', 'HalamanAdmin::simpan');
-        $routes->post('halaman/simpan/(:num)', 'HalamanAdmin::simpan/$1');
-        $routes->post('halaman/hapus', 'HalamanAdmin::hapusBanyak');
-
-        // Komponen
-        $routes->get('komponen/', 'KomponenAdmin::index');
-        $routes->get('komponen/tambah', 'KomponenAdmin::tambah');
-        $routes->post('komponen/simpan', 'KomponenAdmin::simpan');
-        $routes->post('komponen/simpan/(:num)', 'KomponenAdmin::simpan/$1');
-        $routes->get('komponen/sunting/(:num)', 'KomponenAdmin::sunting/$1');
-        $routes->post('komponen/hapus', 'KomponenAdmin::hapusBanyak');
-
-        // Komponen meta
-        $routes->post('komponen/simpan/meta', 'KomponenAdmin::simpanMeta');
 
         // Posting
         $routes->get('posting', 'PostingAdmin');

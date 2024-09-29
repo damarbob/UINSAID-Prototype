@@ -4,6 +4,7 @@ namespace Config;
 
 use App\Filters\CekStatusSitus;
 use App\Filters\Cors;
+use App\Filters\SuperAdminFilter;
 use CodeIgniter\Config\BaseConfig;
 use CodeIgniter\Filters\CSRF;
 use CodeIgniter\Filters\DebugToolbar;
@@ -25,6 +26,7 @@ class Filters extends BaseConfig
         'secureheaders' => SecureHeaders::class,
         'cekStatusSitus' => CekStatusSitus::class,
         'cors'          => Cors::class,
+        'superadmin'    => SuperAdminFilter::class, // Register the new filter
     ];
 
     /**
@@ -72,6 +74,7 @@ class Filters extends BaseConfig
             'before' => [
                 'api/*', // Apply CORS filter to API routes
             ]
-        ]
+        ],
+        'superadmin' => ['before' => ['admin/komponen']],
     ];
 }
