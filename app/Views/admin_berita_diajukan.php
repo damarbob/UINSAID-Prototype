@@ -1,3 +1,9 @@
+<?php
+helper('setting');
+
+$context = 'user:' . user_id(); //  Context untuk pengguna
+$barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
+?>
 <?= $this->extend('layout/admin/admin_template') ?>
 
 <?= $this->section('style') ?>
@@ -110,6 +116,7 @@
         var table1 = $('#tabel').DataTable({
             processing: true,
             serverSide: true,
+            pageLength: <?= $barisPerHalaman ?>, // Acquired from settings
             ajax: {
                 "url": "<?= base_url('api/berita-diajukan') ?>",
                 "type": "POST"

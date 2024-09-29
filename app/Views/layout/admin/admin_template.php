@@ -1,5 +1,11 @@
+<?php
+helper('setting');
+
+$context = 'user:' . user_id(); //  Context untuk pengguna
+$isTemaDasborAdminGelap = setting()->get('App.temaDasborAdmin', $context);
+?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" <?= $isTemaDasborAdminGelap === 'gelap' ? 'data-mdb-theme="dark"' : '' ?>>
 
 <head>
     <meta charset="UTF-8" />
@@ -42,13 +48,6 @@
 
     <?= $this->include('layout/admin/admin_navbar'); ?>
     <?= $this->include('layout/admin/admin_sidebar'); ?>
-
-    <!-- Toggle tema gelap terang -->
-    <?php if (ENVIRONMENT == 'development'): ?>
-        <button id="themeToggle" class="btn btn-lg btn-fab-lg btn-primary btn-floating rounded-pill position-fixed end-0 bottom-0 me-3 me-md-5 mb-5" style="z-index: 50001;" data-mdb-ripple-init>
-            <i class="bi bi-moon-stars"></i>
-        </button>
-    <?php endif ?>
 
     <!-- Page Wrapper -->
     <div id="wrapper">
@@ -142,20 +141,21 @@
     <script>
         // Light mode/dark mode
         $(document).ready(function() {
-            const htmlElement = $("html");
-            const currentTheme = localStorage.getItem("mdb-theme") || "light";
 
-            // Set the initial theme
-            htmlElement.attr("data-mdb-theme", currentTheme);
+            // const htmlElement = $("html");
+            // const currentTheme = localStorage.getItem("mdb-theme") || "light";
 
-            // Toggle theme on button click
-            $("#themeToggle").click(function() {
-                console.log("Switched theme");
-                const newTheme =
-                    htmlElement.attr("data-mdb-theme") === "light" ? "dark" : "light";
-                htmlElement.attr("data-mdb-theme", newTheme);
-                localStorage.setItem("mdb-theme", newTheme);
-            });
+            // // Set the initial theme
+            // htmlElement.attr("data-mdb-theme", currentTheme);
+
+            // // Toggle theme on button click
+            // $("#themeToggle").click(function() {
+            //     console.log("Switched theme");
+            //     const newTheme =
+            //         htmlElement.attr("data-mdb-theme") === "light" ? "dark" : "light";
+            //     htmlElement.attr("data-mdb-theme", newTheme);
+            //     localStorage.setItem("mdb-theme", newTheme);
+            // });
 
         });
     </script>

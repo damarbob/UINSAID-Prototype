@@ -50,16 +50,17 @@
             </div>
         </div>
 
-        <div class="d-flex mb-4">
-            <div class="flex-grow-1">
+        <div class="d-flex flex-column flex-md-row align-items-center mb-2">
+            <div class="flex-grow-1 align-self-start mb-2">
                 <div class="btn-group rounded-0" role="group">
+
                     <!-- Tombol unggah -->
                     <button type="button" class="btn btn-primary rounded-0" data-mdb-toggle="modal" data-mdb-target="#uploadModal" data-mdb-ripple-init><i class='bx bx-upload me-2'></i><?= lang('Admin.unggah') ?></button>
 
                     <!-- Per Page Options -->
                     <div class="dropdown">
                         <button
-                            class="btn btn-secondary dropdown-toggle rounded-0"
+                            class="btn btn-secondary dropdown-toggle rounded-0 h-100"
                             type="button"
                             id="perPageDropdown"
                             data-mdb-dropdown-init
@@ -86,22 +87,22 @@
                     <button id="multiDeleteBtn" class="btn btn-danger rounded-0" data-mdb-ripple-init disabled><i class='bx bx-trash me-2'></i><?= lang('Admin.hapus') ?></button>
                 </div>
             </div>
-            <div>
+            <div class="align-self-end">
+
                 <!-- Pencarian gambar -->
                 <form class="row row-cols-lg-auto g-3 align-items-center" method="get" action="<?= base_url('/admin/galeri') ?>">
-                    <div class="col-12">
-                        <label class="visually-hidden" for="judulGambar"><?= lang('Admin.cariGambar') ?></label>
-                        <div class="input-group">
-                            <input
-                                type="text"
-                                class="form-control"
-                                id="judulGambar"
-                                placeholder="<?= lang('Admin.cariGambar') ?>"
-                                name="search" />
-                            <button data-mdb-ripple-init type="submit" class="btn btn-primary"><i class="bi bi-search"></i></button>
-                        </div>
+                    <label class="visually-hidden" for="judulGambar"><?= lang('Admin.cariGambar') ?></label>
+                    <div class="input-group">
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="judulGambar"
+                            placeholder="<?= lang('Admin.cariGambar') ?>"
+                            name="search" />
+                        <button data-mdb-ripple-init type="submit" class="btn btn-primary"><i class="bi bi-search"></i></button>
                     </div>
                 </form>
+
             </div>
         </div>
 

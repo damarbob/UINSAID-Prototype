@@ -228,22 +228,12 @@ tinymce.PluginManager.add("dsmfileinsert", function (editor, url) {
               // Receiving event from single file upload
               if (details.mceAction === "singleFileUpload") {
                 windowApi.close(); // Close the window
-                // console.log(api);
-                // console.log(windowApi);
-                // console.log(details);
               }
             },
             onClose: () => {
               loadFiles(api); // Reload data
             },
           });
-          window.parent.postMessage(
-            {
-              mceAction: "insertContent",
-              content: "Some content",
-            },
-            "*"
-          );
         }
       },
     };

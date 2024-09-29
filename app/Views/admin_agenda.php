@@ -1,3 +1,9 @@
+<?php
+helper('setting');
+
+$context = 'user:' . user_id(); //  Context untuk pengguna
+$barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
+?>
 <?= $this->extend('layout/admin/admin_template') ?>
 
 <?= $this->section('content') ?>
@@ -66,6 +72,7 @@
         var table1 = $('#tabelAgenda').DataTable({
             processing: true,
             serverSide: true,
+            pageLength: <?= $barisPerHalaman ?>, // Acquired from settings
             ajax: {
                 "url": "<?= base_url('api/agenda') ?>",
                 "type": "POST"

@@ -1,7 +1,7 @@
 :root {
   --header-height: 3rem;
   --nav-width: 68px;
-  --z-fixed: 100;
+  --z-fixed: 1;
 
   /* Override datatables */
   --dt-row-selected: var(--mdb-secondary-bg-rgb);

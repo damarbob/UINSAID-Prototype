@@ -1,8 +1,28 @@
+<?php
+helper('setting');
+
+$context = 'user:' . user_id(); //  Context untuk pengguna
+$barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
+?>
 <?= $this->extend('layout/admin/admin_template') ?>
 
 <?= $this->section('content') ?>
 <div class="row">
     <div class="col">
+
+        <!-- Pesan sukses atau error -->
+        <?php if (session()->getFlashdata('sukses')) : ?>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <?= session()->getFlashdata('sukses') ?>
+                <button type="button" class="btn-close" data-mdb-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php elseif (session()->getFlashdata('gagal')) : ?>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <?= session()->getFlashdata('gagal') ?>
+                <button type="button" class="btn-close" data-mdb-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php endif; ?>
+
         <table id="halamanTable" class="table table-hover w-100">
             <thead>
                 <tr>
@@ -28,6 +48,7 @@
             processing: true,
             serverSide: true,
             select: true,
+            pageLength: <?= $barisPerHalaman ?>, // Acquired from settings
             order: [
                 [0, 'asc']
             ],

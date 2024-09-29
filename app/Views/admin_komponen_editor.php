@@ -1,5 +1,31 @@
 <?= $this->extend('layout/admin/admin_template') ?>
 
+<?= $this->section('style') ?>
+
+<!-- CodeMirror -->
+<link rel="stylesheet" href="/assets/vendor/codemirror/lib/codemirror.css">
+<link rel="stylesheet" href="/assets/vendor/codemirror/addon/hint/show-hint.css">
+<link rel="stylesheet" href="/assets/vendor/codemirror/theme/material-darker.css">
+<link rel="stylesheet" href="/assets/vendor/codemirror/addon/display/fullscreen.css">
+<script src="/assets/vendor/codemirror/lib/codemirror.js"></script>
+<script src="/assets/vendor/codemirror/addon/hint/show-hint.js"></script>
+<script src="/assets/vendor/codemirror/addon/hint/xml-hint.js"></script>
+<script src="/assets/vendor/codemirror/addon/hint/html-hint.js"></script>
+<script src="/assets/vendor/codemirror/addon/display/fullscreen.js"></script>
+<script src="/assets/vendor/codemirror/mode/xml/xml.js"></script>
+<script src="/assets/vendor/codemirror/mode/javascript/javascript.js"></script>
+<script src="/assets/vendor/codemirror/mode/css/css.js"></script>
+<script src="/assets/vendor/codemirror/mode/htmlmixed/htmlmixed.js"></script>
+
+<style>
+    .CodeMirror {
+        border: 1px solid #eee;
+        height: 512px;
+    }
+</style>
+
+<?= $this->endSection() ?>
+
 <?= $this->section('content') ?>
 <?php
 helper('form');
@@ -19,35 +45,55 @@ if (!isset($komponen)) {
     $valueCSS = (old('css')) ? old('css') : $komponen['css'];
     $valueJS = (old('js')) ? old('js') : $komponen['js'];
 }
+
+// Validasi
+$errorCSS = validation_show_error('css_file');
+$errorJS = validation_show_error('js_file');
 ?>
 
-<form action="<?= isset($komponen) ? base_url('/admin/komponen/simpan/') . $komponen['id'] : base_url('/admin/komponen/simpan'); ?>" method="post" enctype="multipart/form-data">
+<form id="formEditKomponen" action="<?= isset($komponen) ? base_url('/admin/komponen/simpan/') . $komponen['id'] : base_url('/admin/komponen/simpan'); ?>" method="post" enctype="multipart/form-data">
     <div class="row">
         <div class="col-md-9">
-            <!-- <div class="mb-3">
-                <label for="nama" class="form-label"><?= lang('Admin.nama') ?></label>
-                <input type="text" class="form-control" id="nama" name="nama" value="<?= isset($komponen) ? $komponen['nama'] : ''; ?>" required>
-            </div> -->
+
+            <!-- Pesan sukses atau error -->
+            <?php if (session()->getFlashdata('sukses')) : ?>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <a href="<?= base_url('admin/komponen') ?>" class="me-2"><i class="bi bi-arrow-left"></i></a>
+                    <?= session()->getFlashdata('sukses') ?>
+                    <button type="button" class="btn-close" data-mdb-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php elseif (session()->getFlashdata('gagal')) : ?>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <?= session()->getFlashdata('gagal') ?>
+                    <button type="button" class="btn-close" data-mdb-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php endif; ?>
 
             <!-- Nama komponen -->
             <div class="form-floating mb-3">
-                <input type="text" class="form-control <?= (validation_show_error('nama')) ? 'is-invalid' : ''; ?>" id="nama" name="nama" value="<?= isset($komponen) ? $komponen['nama'] : ''; ?>" required>
+                <input type="text" class="form-control <?= (validation_show_error('nama')) ? 'is-invalid' : ''; ?>" id="nama" name="nama" value="<?= isset($komponen) ? $komponen['nama'] : ''; ?>">
                 <label for="nama"><?= lang('Admin.nama') ?></label>
-                <div class="invalid-feedback">
+                <div class="invalid-tooltip end-0">
                     <?= validation_show_error('nama'); ?>
                 </div>
             </div>
 
-            <div class="mb-3">
-                <textarea class="form-control tinymce" id="konten" name="konten" rows="5" required><?= isset($komponen) ? $komponen['konten'] : ''; ?></textarea>
+            <!-- Konten komponen -->
+            <div class="form-floating mb-3">
+                <textarea class="form-control tinymce <?= (validation_show_error('konten')) ? 'is-invalid' : ''; ?>" id="konten" name="konten" rows="10" autofocus><?= htmlspecialchars($valueKonten); ?></textarea>
+                <div class="invalid-tooltip end-0">
+                    <?= validation_show_error('konten'); ?>
+                </div>
             </div>
+
+
         </div>
         <div class="col-md-3">
 
             <!-- CSS file input -->
-            <div class="form-group mb-3">
-                <label for="css">CSS</label>
+            <div class="form-floating mb-3">
                 <input type="file" class="form-control" id="css" name="css_file">
+                <label for="css">CSS</label>
                 <div class="form-helper">
                     <small>
                         <a href="<?= $valueCSS ?>" target="_blank">
@@ -58,12 +104,16 @@ if (!isset($komponen)) {
                         </a>
                     </small>
                 </div>
+                <!-- Galat validasi -->
+                <div class="alert alert-danger mt-2 <?= (!$errorCSS) ? 'd-none' : ''; ?>" role="alert">
+                    <?= $errorCSS; ?>
+                </div>
             </div>
 
             <!-- JS file input -->
-            <div class="form-group mb-3">
-                <label for="js">JS</label>
+            <div class="form-floating mb-3">
                 <input type="file" class="form-control" id="js" name="js_file">
+                <label for="js">JS</label>
                 <div class="form-helper">
                     <small>
                         <a href="<?= $valueJS ?>" target="_blank">
@@ -74,27 +124,39 @@ if (!isset($komponen)) {
                         </a>
                     </small>
                 </div>
+                <!-- Galat validasi -->
+                <div class="alert alert-danger mt-2 <?= (!$errorJS) ? 'd-none' : ''; ?>" role="alert">
+                    <?= $errorJS; ?>
+                </div>
             </div>
 
-            <div class="mb-3">
-                <label for="grup" class="form-label"><?= lang('Admin.grup') ?></label>
-                <select class="form-select" id="grup" name="grup">
+            <!-- Grup komponen -->
+            <div class="form-floating mb-3">
+                <select class="form-select <?= (validation_show_error('grup_lainnya')) ? 'is-invalid' : ''; ?>" id="grup" name="grup">
                     <?php foreach ($komponen_grup as $k): ?>
                         <option value="<?= $k['nama'] ?>" <?= $k['nama'] == $valueGrup ? 'selected' : '' ?>><?= $k['nama'] ?></option>
                     <?php endforeach ?>
                     <option value=""><?= lang('Admin.tambahBaru') ?></option>
                 </select>
-                <!-- <div class="invalid-feedback">
-                    <?= lang('Admin.pilihAtauInputKategori') ?>
-                </div> -->
+                <label for="grup" class="form-label"><?= lang('Admin.grup') ?></label>
             </div>
-            <div class="mb-3">
-                <input type="text" class="form-control mt-2 mb-3" id="inputGrupLainnya" name="grup_lainnya" placeholder="<?= lang("Admin.namaGrup") ?>" disabled>
+
+            <div class="alert alert-danger <?= (!validation_show_error('grup_lainnya')) ? 'd-none' : ''; ?>" role="alert">
+                <?= validation_show_error('grup_lainnya') ?>
             </div>
+
+            <!-- Input grup komponen baru -->
+            <div id="divInputGrupLainnya" class="form-outline mb-3" data-mdb-input-init="">
+                <input type="text" class="form-control" id="inputGrupLainnya" name="grup_lainnya">
+                <label for='inputGrupLainnya' class='form-label'><?= lang("Admin.namaGrup") ?></label>
+            </div>
+
             <!-- <div class="mb-3">
                 <label for="grup" class="form-label"><?= lang('Admin.grup') ?></label>
                 <input type="number" class="form-control" id="grup" name="grup" value="<?= isset($komponen) ? $komponen['grup'] : ''; ?>">
             </div> -->
+
+            <!-- Simpan -->
             <button type="submit" class="btn btn-primary w-100" data-mdb-ripple-init><i class="bi bi-floppy me-2"></i><?= lang('Admin.simpan') ?></button>
 
         </div>
@@ -103,84 +165,85 @@ if (!isset($komponen)) {
 <?= $this->endSection() ?>
 
 <?= $this->section('script') ?>
-<!-- Tinymce -->
-<script src="<?php echo base_url(); ?>assets/vendor/tinymce/tinymce/tinymce.min.js"></script>
-<script src="<?php echo base_url(); ?>assets/js/tinymce/dsmgallery-plugin.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.0/beautify.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.0/beautify-html.min.js"></script>
+
+<script src="/assets/vendor/codemirror/addon/comment/comment.js"></script>
+<script src="/assets/vendor/codemirror/addon/comment/continuecomment.js"></script>
+
+<!-- CodeMirror -->
 <script>
-    // tinymce.init({
-    //     selector: '#konten',
-    //     plugins: [
-    //         'advlist', 'autolink', 'image',
-    //         'lists', 'link', 'charmap', 'preview', 'anchor', 'searchreplace',
-    //         'fullscreen', 'insertdatetime', 'table', 'help',
-    //         'wordcount', 'deleteimage', 'dsmgallery', 'code'
-    //     ],
-    //     toolbar: 'fullscreen | code | dsmgallery | undo redo | casechange blocks | bold italic backcolor | image | ' +
-    //         'alignleft aligncenter alignright alignjustify | ' +
-    //         'bullist numlist checklist outdent indent | removeformat | code table help',
-    //     image_title: true,
-    //     automatic_uploads: true,
-    //     image_gallery_api_endpoint: '/api/galeri',
-    //     dsmgallery_api_endpoint: '/api/galeri',
-    //     images_upload_url: '/admin/berita/unggah-gambar',
-    //     images_delete_url: '/admin/berita/hapus-gambar',
-    //     file_picker_types: 'image',
-    //     file_picker_callback: (cb, value, meta) => {
-    //         const input = document.createElement('input');
-    //         input.setAttribute('type', 'file');
-    //         input.setAttribute('accept', 'image/*');
+    window.onload = function() {
+        var editor = CodeMirror.fromTextArea(document.getElementById("konten"), {
+            lineNumbers: true,
+            matchBrackets: true,
+            mode: "text/html",
+            theme: "material-darker",
+            hintOptions: {
+                hint: CodeMirror.hint.php
+            },
+            extraKeys: {
+                "Ctrl-Space": "autocomplete",
+                "Ctrl-Alt-Z": function(cm) {
+                    cm.setOption("fullScreen", !cm.getOption("fullScreen"));
+                },
+                "Esc": function(cm) {
+                    if (cm.getOption("fullScreen")) cm.setOption("fullScreen", false);
+                },
+                // "Ctrl-B": function(cm) {
+                //     var content = cm.getValue();
+                //     var beautified = html_beautify(content); // or js_beautify for JS
+                //     cm.setValue(beautified);
+                // },
+                "Ctrl-B": function(cm) {
+                    // Store the cursor position
+                    var cursor = cm.getCursor();
 
-    //         input.addEventListener('change', (e) => {
-    //             const file = e.target.files[0];
+                    // Store the scroll position
+                    var scrollInfo = cm.getScrollInfo();
+                    var scrollTop = scrollInfo.top;
 
-    //             const reader = new FileReader();
-    //             reader.addEventListener('load', () => {
-    //                 /*
-    //                   Note: Now we need to register the blob in TinyMCEs image blob
-    //                   registry. In the next release this part hopefully won't be
-    //                   necessary, as we are looking to handle it internally.
-    //                 */
-    //                 const id = 'blobid' + (new Date()).getTime();
-    //                 const blobCache = tinymce.activeEditor.editorUpload.blobCache;
-    //                 const base64 = reader.result.split(',')[1];
-    //                 const blobInfo = blobCache.create(id, file, base64);
-    //                 blobCache.add(blobInfo);
+                    // Get the code from the editor
+                    var content = cm.getValue();
 
-    //                 /* call the callback and populate the Title field with the file name */
-    //                 cb(blobInfo.blobUri(), {
-    //                     title: file.name
-    //                 });
-    //             });
-    //             reader.readAsDataURL(file);
-    //         });
+                    // Set the formatted code back to the editor
+                    cm.setValue(html_beautify(content));
 
-    //         input.click();
-    //     },
-    //     // contextmenu: "image",
-    //     paste_preprocess: (editor, args) => {
-    //         // console.log(args.content);
-    //         // args.content += ' preprocess';
-    //     },
-    //     promotion: false
+                    // Restore the cursor position
+                    cm.setCursor(cursor);
 
-    // });
+                    // Restore the scroll position
+                    cm.scrollTo(null, scrollTop);
+                },
+                "Ctrl-S": function(cm) {
+                    document.getElementById("formEditKomponen").submit();
+                },
+                "Ctrl-/": "toggleComment",
+            },
+            indentUnit: 4,
+            indentWithTabs: true,
+            viewportMargin: Infinity
+        });
+    };
 </script>
+
 <script>
     $(document).ready(function() {
-        const $selectGrup = $('#grup');
-        const $inputGrupLainnya = $('#inputGrupLainnya');
+        const selectGrup = $('#grup');
+        const divInputGrupLainnya = $('#divInputGrupLainnya');
 
         refreshInputGrup() // Initial refresh
 
-        $selectGrup.on('change', function() {
+        selectGrup.on('change', function() {
             refreshInputGrup()
         });
 
         function refreshInputGrup() {
-            if ($selectGrup.val() === '') { // If "Lainnya" is selected
-                $inputGrupLainnya.prop('disabled', false).prop('required', true);
+            if (selectGrup.val() === '') { // If "Lainnya" is selected
+                divInputGrupLainnya.show();
             } else {
-                $inputGrupLainnya.prop('disabled', true).prop('required', false).val(''); // Clear the input if another option is selected
+                // divInputGrupLainnya.prop('disabled', true).prop('required', false).val(''); // Clear the input if another option is selected
+                divInputGrupLainnya.hide();
             }
         }
     });

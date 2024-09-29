@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseControllerAdmin;
+use CodeIgniter\HTTP\Files\UploadedFile;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
@@ -39,10 +40,94 @@ class KomponenAdmin extends BaseControllerAdmin
     {
         $data = $this->request->getPost();
 
+        // dd($data);
+
         // Check for file uploads
         $cssFile = $this->request->getFile('css_file');
         $jsFile = $this->request->getFile('js_file');
 
+        /* Files validation */
+        $fileRules = []; // Contains file rules
+
+        $cssFileValid = $cssFile && $cssFile->isValid();
+        $jsFileValid = $jsFile && $jsFile->isValid();
+
+        if ($cssFileValid || $jsFileValid) {
+            if ($cssFileValid) {
+                $fileRules = array_merge(
+                    $fileRules,
+                    [
+                        'css_file' => [
+                            'label' => 'CSS',
+                            'rules' => [
+                                'uploaded[css_file]',
+                                'mime_in[css_file,text/css]',
+                            ]
+                        ]
+                    ]
+                );
+            }
+            if ($jsFileValid) {
+                $fileRules = array_merge(
+                    $fileRules,
+                    [
+                        'js_file' => [
+                            'label' => 'JS',
+                            'rules' => [
+                                'uploaded[js_file]',
+                                'mime_in[js_file,text/javascript]',
+                            ]
+                        ],
+                    ]
+                );
+            }
+            if (!$this->validateData([], $fileRules)) {
+                return redirect()->back()->withInput();
+            }
+        }
+        /* End of files validation */
+
+        /* Input validation */
+        $rules = [
+            'nama' => [
+                'label' => lang('Admin.nama'),
+                'rules' => 'required',
+            ],
+            'konten' => [
+                'label' => lang('Admin.konten'),
+                'rules' => 'required',
+            ],
+            'grup_lainnya' => [
+                'label' => lang('Admin.namaGrup'),
+                'rules' => 'required_without[grup]'
+            ]
+        ];
+
+        // Cek validasi input
+        if (!$this->validate($rules)) {
+
+            // dd($halamanLama);
+            // dd("Dead by validation");
+
+            return redirect()->back()->withInput();
+        }
+        /* End of input validation */
+
+        /* Grup assignment or creation */
+        // Check if the grup exists
+        $grup = $this->komponenGrupModel->getByNama($data['grup']);
+
+        // If the grup does not exist, create a new one
+        if (!$grup) {
+            $this->komponenGrupModel->save(['nama' => $data['grup']]);
+            $grup = $this->komponenGrupModel->getByNama($data['grup']);
+        }
+
+        unset($data['grup']); // Unset the data grup variable as  it's not in the model
+        $data['grup_id'] = $grup['id']; // Set  the grup ID in the data array
+        /* End of grup assignment or creation */
+
+        /* Files upload */
         // Initialize file paths
         $cssPath = null;
         $jsPath = null;
@@ -62,7 +147,9 @@ class KomponenAdmin extends BaseControllerAdmin
             $jsPath = base_url('assets/components/js/' . $jsName);
             $data['js'] = $jsPath;
         }
+        /* End of files upload */
 
+        /* CRUD */
         // Get grup from the request
         $grupNama = $this->request->getVar('grup') ?: $this->request->getVar('grup_lainnya');
 
@@ -78,12 +165,20 @@ class KomponenAdmin extends BaseControllerAdmin
         if ($id === null) {
             // Create new component
             $this->komponenModel->save($data);
+
+            // Pesan berhasil dibuat
+            session()->setFlashdata('sukses', lang('Admin.berhasilDibuat'));
+
+            return redirect()->to('admin/komponen/');
         } else {
             // Update existing component
             $this->komponenModel->update($id, $data);
+
+            // Pesan berhasil diperbarui
+            session()->setFlashdata('sukses', lang('Admin.berhasilDiperbarui'));
         }
 
-        return redirect()->to('/admin/komponen');
+        return redirect()->to('admin/komponen/sunting/' . $id);
     }
 
 
@@ -108,42 +203,89 @@ class KomponenAdmin extends BaseControllerAdmin
     public function getMetaById()
     {
         // Retrieve componentId and halamanId from the request
+        $componentInstanceId = $this->request->getPost('idInstance');
         $componentId = $this->request->getPost('idKomponen');
         $halamanId = $this->request->getPost('idHalaman');
 
         return $this->response->setJSON(json_encode([
-            "data" => $this->komponenMetaModel->getById($componentId, $halamanId)
+            "data" => $this->komponenMetaModel->getById($componentInstanceId, $componentId, $halamanId)
         ]));
     }
 
     public function simpanMeta()
     {
-        $response = ['success' => false, 'message' => 'An error occurred'];
+        $response = ['success' => false, 'message' => lang('Admin.terjadiGalat')];
+
+        $postNoMeta = $this->request->getPost();
+        // $postNoMeta['meta'] = '';
+
+        // return $this->response->setJSON(['error' => false, 'message' => json_encode($postNoMeta['meta'])]);
 
         // Retrieve componentId and halamanId from the request
+        $componentInstanceId = $this->request->getPost('instance_id');
         $componentId = $this->request->getPost('komponen_id');
         $halamanId = $this->request->getPost('halaman_id');
         $metaJson = $this->request->getPost('meta');
 
+        // Get meta lama
+        $metaLama = $this->komponenMetaModel->getById($componentInstanceId, $componentId, $halamanId);
+        // return $this->response->setJSON(['error' => false, 'message' => $componentInstanceId]);
+        // return $this->response->setJSON(['error' => false, 'message' => $metaJson]);
+        // return $this->response->setJSON(['error' => false, 'message' => $metaLama['meta']]);
+
         // Initialize an array to store uploaded file URLs
         $fileUrls = [];
+        $log = [];
+
+        $files = $this->request->getFiles();
+        // return $this->response->setJSON(['error' => false, 'message' => json_encode($files)]);
+        $log['received_files'] = $files;
+        // $log['post'] = $this->request->getPost();
 
         // Handle file uploads
-        if ($files = $this->request->getFiles()) {
+        if ($files) {
             foreach ($files as $fileInputName => $uploadedFiles) {
+                // return $this->response->setJSON(['error' => false, 'message' => json_encode($fileInputName)]);
+
                 if (!is_array($uploadedFiles)) {
                     $uploadedFiles = [$uploadedFiles]; // Make it an array if it's a single file
                 }
 
-                foreach ($uploadedFiles as $file) {
-                    if ($file->isValid() && !$file->hasMoved()) {
-                        $newName = $file->getRandomName();
-                        $file->move(FCPATH . 'assets/components/uploads', $newName);
-                        $fileUrls[$fileInputName][] = base_url("assets/components/uploads/" . $newName);
+                foreach ($uploadedFiles as $file) { // Ensure $file is an instance of UploadedFile
+                    // return $this->response->setJSON(['error' => false, 'message' => json_encode($file)]);
+
+                    if ($file instanceof UploadedFile) {
+                        if ($file->isValid() && !$file->hasMoved()) {
+
+                            // Log file details
+                            $log['file_details'][] = [
+                                'input_name' => $fileInputName,
+                                'original_name' => $file->getClientName(),
+                                'temp_path' => $file->getTempName(),
+                                'file_size' => $file->getSize(),
+                                'file_type' => $file->getMimeType(),
+                            ];
+
+                            $originalName = url_title(pathinfo($file->getClientName(), PATHINFO_FILENAME), '-', false); // Get the original filename
+                            $randomName = $file->getRandomName();
+                            $file->move(FCPATH . 'assets/components/uploads', $originalName . '-' . $randomName);
+                            $fileUrls[$fileInputName][] = base_url("assets/components/uploads/" . $originalName . '-' . $randomName);
+                        } else {
+                            // If the file is invalid, log the error
+                            $log['file_errors'][] = [
+                                'input_name' => $fileInputName,
+                                'error_message' => $file->getErrorString(),
+                            ];
+                        }
                     }
                 }
             }
         }
+
+        if (sizeof($fileUrls) == 0) {
+        }
+
+        // return $this->response->setJSON(['error' => false, 'message' => json_encode($log)]);
 
         // Decode the existing meta JSON to a PHP array
         $metaDataArray = json_decode($metaJson, true);
@@ -190,15 +332,16 @@ class KomponenAdmin extends BaseControllerAdmin
         // Save the meta data to the database
         $komponenMetaModel = $this->komponenMetaModel;
         $data = [
+            'instance_id' => $componentInstanceId,
             'komponen_id' => $componentId,
             'halaman_id' => $halamanId,
             'meta' => $encodedMeta,
         ];
 
         if ($komponenMetaModel->insert($data)) {
-            $response = ['success' => true, 'message' => 'Meta data and files processed successfully'];
+            $response = ['success' => true, 'message' => lang('Admin.metaDataBerhasilDisimpan')];
         } else {
-            $response = ['success' => false, 'message' => 'Failed to save meta data'];
+            $response = ['success' => false, 'message' => lang('Admin.gagalMenyimpanMetaData')];
         }
 
         return $this->response->setJSON($response);

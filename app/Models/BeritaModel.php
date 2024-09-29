@@ -274,4 +274,45 @@ class BeritaModel extends \CodeIgniter\Model
         // If no data is found, do not consider it as over 3 months old. Instead, there will be another warning to invite users to write their first post.
         return false;
     }
+
+    /* Refactoring */
+    public function refactorFeaturedImages()
+    {
+        $berita = $this->where('featured_image IS NULL')->findAll();
+        // dd($berita);
+
+        foreach ($berita as $b) {
+            dd($b['id']);
+            $firstImage = $this->extract_first_image($b['konten'], base_url('assets/img/logo-square.png'), false);
+            if (!$firstImage) {
+                dd('WHAT');
+            }
+            $this->save(
+                [
+                    'id' => $b['id'],
+                    'featured_image' => $firstImage,
+                ]
+            );
+        }
+    }
+
+    public function updateFeaturedImages()
+    {
+        $berita = $this->where('featured_image IS NULL')->findAll();
+
+        if (empty($berita)) {
+            echo "No records found with NULL featured_image.";
+            return;
+        }
+
+        foreach ($berita as $item) {
+            $firstImage = $this->extract_first_image($item['konten'], base_url('assets/img/logo-square.png'), false);
+            if ($firstImage) {
+                $sql = "UPDATE berita SET featured_image = '$firstImage' WHERE id = " . $item['id'];
+                $this->db->query($sql);
+            }
+        }
+
+        echo "Featured images updated successfully.";
+    }
 }

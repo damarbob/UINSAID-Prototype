@@ -1,12 +1,18 @@
 <?= $this->extend('layout/frontend_template') ?>
 
 <?= $this->section('style') ?>
+<script src="<?= base_url('assets/js/formatter_frontend.js') ?>" type="text/javascript"></script>
+<!-- jsonlint for strict JSON -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsonlint/1.6.0/jsonlint.min.js"></script>
+<!-- JSON5 for relaxed JSON -->
+<script src="https://unpkg.com/json5@2/dist/index.min.js"></script>
+
 <?php if ($halaman['css']): ?>
-    <script type="text/javascript" src="<?= base_url("assets/css/" . $halaman['css']) ?>"></script>
+    <link rel="stylesheet" href="<?= $halaman['css'] ?>" type="text/css" />
 <?php endif; ?>
 <?php foreach ($komponen as $k): ?>
     <?php if ($k['css']): ?>
-        <script type="text/javascript" src="<?= base_url("assets/css/" . $k['css']) ?>"></script>
+        <link rel="stylesheet" href="<?= $k['css'] ?>" type="text/css" />
     <?php endif; ?>
 <?php endforeach; ?>
 <?= $this->endSection() ?>
@@ -14,23 +20,23 @@
 <?= $this->section('content') ?>
 <div class="mt-navbar">
     <?php foreach ($komponen as $k): ?>
-        <div>
-            <?php eval('?>' . $k['konten_terformat']) ?>
-            <?php if ($k['css']): ?>
-                <link rel="stylesheet" href="<?= base_url($k['css']) ?>">
-            <?php endif; ?>
-        </div>
+        <?php //dd($k['konten_terformat']) 
+        ?>
+        <?php echo $k['konten_terformat'] /*eval('?>' . $k['konten_terformat'])*/ ?>
+        <?php if ($k['css']): ?>
+            <link rel="stylesheet" href="<?= base_url($k['css']) ?>">
+        <?php endif; ?>
     <?php endforeach; ?>
 </div>
 <?= $this->endSection() ?>
 
 <?= $this->section('script') ?>
 <?php if ($halaman['js']): ?>
-    <script type="text/javascript" src="<?= base_url("assets/js/" . $halaman['js']) ?>"></script>
+    <script type="text/javascript" src="<?= $halaman['js'] ?>"></script>
 <?php endif; ?>
 <?php foreach ($komponen as $k): ?>
     <?php if ($k['js']): ?>
-        <script type="text/javascript" src="<?= base_url("assets/js/" . $k['js']) ?>"></script>
+        <script type="text/javascript" src="<?= $k['js'] ?>"></script>
     <?php endif; ?>
 <?php endforeach; ?>
 <?= $this->endSection() ?>

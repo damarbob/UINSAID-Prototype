@@ -5,8 +5,23 @@ return [
     'mulai' => 'Mulai',
     'sukses' => 'Sukses',
     'galat' => 'Galat',
+    'terjadiGalat' => 'Terjadi galat',
+    'terjadiGalatSaatMemproses' => 'Terjadi galat saat memproses',
     'tutup' => 'Tutup',
     'lanjutkan' => 'Lanjutkan',
+    'memuat' => 'Memuat',
+
+    // Pengaturan
+    'pengaturan' => 'Pengaturan',
+    'judulSitus' => 'Judul Situs',
+    'deskripsiSitus' => 'Deskripsi Situs',
+    'kataKunciSitus' => 'Kata Kunci Situs',
+    'optimasiMesinPencari' => 'Optimasi Mesin Pencari',
+    'temaSitus' => 'Tema Situs',
+
+    'temaDasborAdmin' => 'Tema Dasbor Admin',
+    'barisPerHalaman' => 'Baris per Halaman',
+    'jumlahBarisPerHalamanPada' => ' Jumlah baris per halaman pada tabel data.',
 
     // Pengguna
     'pengguna' => 'Pengguna',
@@ -47,6 +62,16 @@ return [
     'buatHalaman' => 'Buat Halaman',
     'suntingHalaman' => 'Sunting Halaman',
     'alamatHalaman' => 'Alamat Halaman',
+    'daftarKomponen' => 'Daftar Komponen',
+    'halamanBaru' => 'Halaman Baru',
+
+    'urutan' => 'Urutan',
+    'aksi' => 'Aksi',
+    'pratinjau' => 'Pratinjau',
+
+    'belumAdaKomponenSeretDanTaruh' => 'Belum ada komponen. Seret dan taruh dari daftar komponen.',
+    'komponenSudahDitambahkan' => 'Komponen sudah ditambahkan',
+    'komponenIniTidakMemilikiKolomMeta' => 'Komponen ini tidak memiliki kolom meta',
 
     // Komponen
     'komponen' => 'Komponen',
@@ -55,6 +80,9 @@ return [
     'grup' => 'Grup',
     'namaGrup' => 'Nama Grup',
     'konten' => 'Konten',
+
+    'metaDataBerhasilDisimpan' => 'Meta data berhasil disimpan!',
+    'gagalMenyimpanMetaData' => 'Gagal menyimpan meta data',
 
     // Berita
     'posting' => 'Posting',

@@ -425,7 +425,7 @@
     <div class="row g-4 mb-4 justify-content-center" data-aos="fade-up">
       <div class="d-flex justify-content-evenly align-items-center">
 
-        <div class="berita-swiper-button-prev d-none d-md-block"><img src="assets/img/icons8-back-to-96.png" style="width: 48px; height: 48px" /></div> <!-- todo: style -->
+        <div class="berita-swiper-button-prev d-none d-md-block"><img src="/assets/img/icons8-back-to-96.png" style="width: 48px; height: 48px" /></div> <!-- todo: style -->
 
 
         <!-- Slider berita -->
@@ -467,7 +467,7 @@
           </div>
         </div>
 
-        <div class="berita-swiper-button-next d-none d-md-block"><img src="assets/img/icons8-next-page-96.png" style="width: 48px; height: 48px" /></div> <!-- todo: style -->
+        <div class="berita-swiper-button-next d-none d-md-block"><img src="/assets/img/icons8-next-page-96.png" style="width: 48px; height: 48px" /></div> <!-- todo: style -->
 
       </div>
     </div>

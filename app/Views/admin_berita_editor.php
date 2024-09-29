@@ -35,13 +35,13 @@ if ($mode == "tambah") {
     <!-- Pesan sukses -->
     <div class="alert alert-success alert-dismissible fade show" role="alert">
         <?= session()->getFlashdata('sukses') ?>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-mdb-dismiss="alert" aria-label="Close"></button>
     </div>
 <?php elseif (session()->getFlashdata('gagal')) : ?>
     <!-- Pesan gagal -->
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
         <?= session()->getFlashdata('gagal') ?>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-mdb-dismiss="alert" aria-label="Close"></button>
     </div>
 <?php endif; ?>
 
@@ -49,34 +49,38 @@ if ($mode == "tambah") {
     <?= csrf_field() ?>
     <div class="row mb-3">
         <div class="col-md-9">
+
             <!-- Judul -->
-            <div class="form-floating mb-5">
+            <div class="form-floating mb-3">
                 <input id="judul" name="judul" class="form-control <?= (validation_show_error('judul')) ? 'is-invalid' : ''; ?>" type="text" value="<?= $valueJudul ?>" placeholder="<?= lang('Admin.judul') ?>" required />
                 <label for="judul"><?= lang('Admin.judul') ?></label>
-                <div class="invalid-feedback">
+                <div class="invalid-tooltip end-0">
                     <?= validation_show_error('judul'); ?>
                 </div>
             </div>
+
             <!-- Konten editor -->
-            <div class="form mb-3">
+            <div class="form-outline mb-3">
                 <textarea id="konten" name="konten" class="form-control tinymce <?= (validation_show_error('konten')) ? 'is-invalid' : ''; ?>" rows="20" type="text" required><?= $valueKonten ?></textarea>
-                <div class="invalid-feedback mt-2">
+                <div class="invalid-tooltip end-0 mt-2">
                     <?= validation_show_error('konten'); ?>
                 </div>
             </div>
         </div>
         <div class="col-md-3">
+
             <!-- Ringkasan -->
             <div class="form-floating mb-3">
                 <textarea id="ringkasan" name="ringkasan" class="form-control overlayscollbar" rows="5" type="text" placeholder="<?= lang('Admin.ringkasan') ?>"><?= $valueRingkasan ?></textarea>
                 <label class="control-label mb-2"><?= lang('Admin.ringkasan') ?></label>
             </div>
+
             <!-- Kategori -->
             <!-- <div class="form-floating mb-3">
                 <input id="kategori" name="kategori" class="form-control" type="text" value="<?= $valueKategori ?>" placeholder="<?= lang('Admin.kategori') ?>" />
                 <label for="kategori"><?= lang('Admin.kategori') ?></label>
                 <input type="hidden" id="is_new_category" name="is_new_category" value="0">
-                <div class="invalid-feedback">
+                <div class="invalid-tooltip end-0">
                     <?= validation_show_error('kategori'); ?>
                 </div>
             </div> -->
@@ -90,19 +94,19 @@ if ($mode == "tambah") {
                 <input class="form-check-input" type="radio" name="kategori" id="kategoriRadioLainnya" value="" required />
                 <label class="form-check-label" for="kategoriRadioLainnya"><?= lang('Admin.lainnya') ?></label>
                 <input type="text" class="form-control mt-2 mb-3" id="inputKategoriLainnya" name="kategori_lainnya" placeholder="input kategori" disabled>
-                <div class="invalid-feedback">
+                <div class="invalid-tooltip end-0">
                     <?= lang('Admin.pilihAtauInputKategori') ?>
                 </div>
             </div> -->
-            <div class="mb-3">
-                <label for="kategoriSelect" class="form-label"><?= lang('Admin.kategori') ?></label>
+            <div class="form-floating mb-3">
                 <select class="form-select" id="kategoriSelect" name="kategori" required>
                     <?php foreach ($kategori as $key): ?>
                         <option value="<?= $key['nama'] ?>" <?= $key['nama'] == $valueKategori ? 'selected' : '' ?>><?= $key['nama'] ?></option>
                     <?php endforeach ?>
                     <option value=""><?= lang('Admin.tambahBaru') ?></option>
                 </select>
-                <!-- <div class="invalid-feedback">
+                <label for="kategoriSelect"><?= lang('Admin.kategori') ?></label>
+                <!-- <div class="invalid-tooltip end-0">
                     <?= lang('Admin.pilihAtauInputKategori') ?>
                 </div> -->
             </div>
@@ -113,37 +117,34 @@ if ($mode == "tambah") {
 
             <!-- Status -->
             <div class="form-floating mb-3">
+
                 <select id="status" name="status" class="form-select <?= (validation_show_error('status')) ? 'is-invalid' : ''; ?>" aria-label="Default select">
-                    <?php if ($valueStatus == 'draf') : ?>
-                        <option selected value="draf"><?= lang('Admin.draf') ?></option>
-                        <option value="publikasi"><?= lang('Admin.publikasi') ?></option>
-                    <?php elseif ($valueStatus == 'publikasi') : ?>
-                        <option value="draf"><?= lang('Admin.draf') ?></option>
-                        <option selected value="publikasi"><?= lang('Admin.publikasi') ?></option>
-                    <?php else : ?>
-                        <option value="draf"><?= lang('Admin.draf') ?></option>
-                        <option selected value="publikasi"><?= lang('Admin.publikasi') ?></option>
-                    <?php endif; ?>
+                    <option value="draf" <?= ($valueStatus == 'draf') ? 'selected' : ''; ?>><?= lang('Admin.draf') ?></option>
+                    <option value="publikasi" <?= ($valueStatus == 'publikasi') ? 'selected' : ''; ?>><?= lang('Admin.publikasi') ?></option>
                 </select>
                 <label for="status"><?= lang('Admin.status') ?></label>
-                <div class="invalid-feedback">
+                <div class="invalid-tooltip end-0">
                     <?= validation_show_error('status'); ?>
                 </div>
 
             </div>
+
             <div class="form-floating mb-3">
+
                 <!-- Tanggal terbit -->
                 <div class="form mb-3">
                     <label for="terbit"><?= lang('Admin.tanggalTerbit') ?></label>
                     <input id="terbit" name="tgl_terbit" class="form-control <?= (validation_show_error('terbit')) ? 'is-invalid' : ''; ?>" required value="<?= $valueTglTerbit ?>" />
-                    <div class="invalid-feedback">
+                    <div class="invalid-tooltip end-0">
                         <?= lang('Admin.harusDiinput'); ?>
                     </div>
-
                 </div>
+
             </div>
+
             <!-- Tombol simpan -->
             <button id="btn-submit" name="submit" type="submit" class="btn btn-primary w-100" data-mdb-ripple-init><i class="bi bi-floppy me-2"></i><?= lang('Admin.simpan') ?></button>
+
         </div>
 </form>
 
@@ -265,16 +266,24 @@ if ($mode == "tambah") {
         const selectKategori = document.getElementById('kategoriSelect');
         const inputKategoriLainnya = document.getElementById('inputKategoriLainnya');
 
+        updateUiInputKategori(); // Update input a
+
         selectKategori.addEventListener('change', function() {
+            updateUiInputKategori();
+        });
+
+        function updateUiInputKategori() {
             if (selectKategori.value === '') { // If "Lainnya" is selected
+                inputKategoriLainnya.style.display = 'block';
                 inputKategoriLainnya.disabled = false;
                 inputKategoriLainnya.required = true;
             } else {
+                inputKategoriLainnya.style.display = 'none';
                 inputKategoriLainnya.disabled = true;
                 inputKategoriLainnya.required = false;
                 inputKategoriLainnya.value = ''; // Clear the input if another option is selected
             }
-        });
+        }
     });
 
     // Radio

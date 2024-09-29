@@ -1,6 +1,11 @@
 <?php
 
 use function App\Helpers\capitalize_first_letter;
+
+helper('setting');
+
+$context = 'user:' . user_id(); //  Context untuk pengguna
+$barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
 ?>
 <?= $this->extend('layout/admin/admin_template') ?>
 
@@ -164,6 +169,7 @@ use function App\Helpers\capitalize_first_letter;
 
         var table1 = $('#tabel').DataTable({
             processing: true,
+            pageLength: <?= $barisPerHalaman ?>, // Acquired from settings
             ajax: "<?= base_url('/api/pengguna') ?>",
             "rowCallback": function(row, data, index) {
                 // Add double-click event to navigate to Edit page

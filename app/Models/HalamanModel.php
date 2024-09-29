@@ -8,6 +8,11 @@ class HalamanModel extends \CodeIgniter\Model
     protected $useTimestamps = true;
     protected $allowedFields = ['judul', 'slug', 'id_komponen', 'css', 'js', 'status'];
 
+    public function getByid($id)
+    {
+        return $this->select('*')->where('id', $id)->first();
+    }
+
     /**
      * Get data for DataTables server-side processing
      *

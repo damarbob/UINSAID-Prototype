@@ -18,12 +18,18 @@ $currentRoute = $request->uri->getPath();
   <link rel="canonical" href="<?= base_url() ?>" />
   <meta name="google-site-verification" content="wVOBtikI0s7xKLkglkAAc2ZereV7l0NrQZH8LPCoKSk">
 
+  <!-- Meta section -->
+  <?= $this->renderSection('meta'); // Placed before the any other meta because search engine will index the first
+  ?>
+
   <!-- TODO: Optimize meta usage -->
   <!-- Old meta -->
   <meta name="author" content="UIN Raden Mas Said Surakarta" />
   <meta name="copyright" content="UIN Raden Mas Said Surakarta" />
   <meta name="application-name" content="UIN Raden Mas Said Surakarta" />
   <meta itemprop="<?= base_url() ?>" content="<?= base_url("files/icon-1704942188.png") ?>" />
+
+  <!-- Open Graph meta -->
   <meta property="og:title" content="UIN Raden Mas Said Surakarta" />
   <meta property="og:site_name" content="<?= base_url() ?>">
   <meta property="og:keywords" content="uinsaid, rmsaid, uinsurakarta">
@@ -51,9 +57,6 @@ $currentRoute = $request->uri->getPath();
   <!-- Twitter Static Meta Tags -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:site" content="@uinsurakarta" />
-
-  <!-- Meta section -->
-  <?= $this->renderSection('meta'); ?>
 
   <!-- Favicon -->
   <link rel="shortcut icon" href="<?= base_url('files/icon-1704942188.png') ?>" />
@@ -94,29 +97,8 @@ $currentRoute = $request->uri->getPath();
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <!-- Swiper JS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-
+  <!-- Loader style -->
   <style>
-    /* .loader {
-      width: 25vh;
-      height: 25vh;
-      border-radius: 50%;
-      display: inline-block;
-      border-top: 1rem solid var(--mdb-primary);
-      border-right: 1rem solid transparent;
-      box-sizing: border-box;
-      animation: rotation 1s linear infinite;
-    }
-
-    @keyframes rotation {
-      0% {
-        transform: rotate(0deg);
-      }
-
-      100% {
-        transform: rotate(360deg);
-      }
-    } */
-
     .loader {
       position: relative;
       display: flex;
@@ -192,10 +174,8 @@ $currentRoute = $request->uri->getPath();
   ?>
 
   <div id="loaderBody" class="d-none position-fixed d-flex justify-content-center align-items-center top-0" style="background-color: var(--mdb-body-bg); width: 100vw; height: 100vh; z-index: 1000000000;">
-    <!-- <div class="spinner-grow text-primary" style="width: 25vh; height: 25vh;" role="status">
-      <span class="visually-hidden">Loading...</span>
-    </div> -->
     <span class="loader"></span>
+    <span class="visually-hidden">Loading...</span>
   </div>
 
   <!-- Toggle tema gelap terang -->

@@ -202,6 +202,9 @@ tinymce.PluginManager.add("dsmgallery", function (editor, url) {
           tinymce.activeEditor.windowManager.openUrl({
             title: "Gallery",
             url: galleryUrl,
+            onClose: () => {
+              loadImages(api); // Reload data
+            },
           });
         }
       },

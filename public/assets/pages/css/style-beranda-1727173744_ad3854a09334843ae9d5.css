@@ -1,0 +1,534 @@
+#hero .swiper-button-prev,
+#hero .swiper-button-next {
+  font-weight: 900;
+  color: var(--mdb-body-bg);
+}
+
+/* Section poin utama */
+#section-poin-utama {
+  /* height: 128px; */
+  height: auto;
+  margin-top: -96px;
+}
+/* #section-poin-utama .container {
+  position: absolute;
+} */
+#section-poin-utama .card {
+  background: var(--mdb-secondary);
+  color: var(--mdb-light);
+  flex-direction: row;
+  /* border-radius: 0px; */
+  height: 100%;
+}
+#section-poin-utama .card-title {
+  font-size: large;
+}
+#section-poin-utama .card-text {
+  font-size: small;
+  flex-grow: 1;
+}
+
+@media (max-width: 991.5px) {
+  #section-poin-utama {
+    margin-top: -32px;
+  }
+  /* #section-poin-utama .container {
+    margin-top: -32px;
+  } */
+}
+
+/* Section sambutan rektor */
+#section-sambutan-rektor .row {
+  position: relative;
+}
+#section-sambutan-rektor .foto-kecil {
+  position: absolute;
+  width: 50%;
+  bottom: -32px;
+  right: -32px;
+  border: 1rem solid var(--mdb-body-bg);
+  border-radius: 2rem;
+}
+
+/* Poin akademik */
+.poin-akademik-gambar {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  /* background-repeat: no-repeat; */
+}
+
+@media (min-width: 1200.5px) {
+  .poin-akademik-gambar {
+    /* min-width: 256px; */
+    min-height: 320px;
+    /* max-width: 256px; */
+    /* max-height: 256px; */
+  }
+}
+
+/* Section poin uin rm said */
+#section-uin-said .card {
+  height: 328px;
+}
+@media (min-width: 1200.5px) and (max-width: 1400.5px) {
+  #section-uin-said .card {
+    height: 360px;
+  }
+}
+
+/* Section Statistik */
+#section-statistik .container .row {
+  background-color: #f7990c;
+  border-radius: 8px;
+}
+
+/* Section prestasi */
+#section-prestasi .card-title {
+  height: 4.75rem; /*The height of 3 lines*/
+  -webkit-line-clamp: 3;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.prestasi-card {
+  position: relative;
+  width: 100%;
+  margin: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px;
+}
+.prestasi-card img {
+  width: 100%;
+  height: 304px;
+  object-fit: cover;
+}
+.prestasi-card .card-img-overlay {
+  background: linear-gradient(
+    rgba(0, 0, 0, 0),
+    rgba(var(--mdb-secondary-rgb), 0.8)
+  );
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-right: 20px;
+  padding-left: 20px;
+  padding-bottom: 32px;
+  box-sizing: border-box;
+  color: var(--mdb-body-bg);
+}
+#swiper-prestasi {
+  border-radius: 8px;
+  height: 100%;
+  --swiper-navigation-color: var(--mdb-primary);
+}
+
+/* Section berita */
+#news .card-title {
+  -webkit-line-clamp: 3;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.berita-card {
+  position: relative;
+  width: 100%;
+  margin: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  height: 128px;
+}
+.berita-card img {
+  width: 96px;
+  height: 100%;
+  object-fit: cover;
+}
+.berita-card .card-img-overlay {
+  background: linear-gradient(rgba(0, 0, 0, 0), rgba(47, 81, 81, 0.5));
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-right: 20px;
+  padding-left: 20px;
+  padding-bottom: 8px;
+  box-sizing: border-box;
+  color: var(--mdb-body-bg);
+  border-radius: 0px;
+}
+#swiper-berita {
+  border-radius: 8px;
+  height: 100%;
+  width: 90%;
+  --swiper-navigation-color: var(--mdb-primary);
+}
+
+#item-berita .card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  border-radius: 8px;
+}
+#item-berita .card-body {
+  flex-grow: 1;
+}
+#item-berita .card-text {
+  font-size: 0.7rem;
+}
+#item-berita .card-title {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4; /* Limit to 3 lines */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  font-size: 0.9rem;
+  font-weight: bold;
+  /* height: calc(1.2em * 3); Adjust based on the line height */
+}
+#item-berita img {
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+/* Section Pojok Pimpinan */
+#section-pojok-pimpinan .container .row {
+  background: var(--mdb-secondary-bg);
+  border-radius: 8px;
+  padding-bottom: 24px;
+}
+/* #pojok-pimpinan {
+  padding-inline: 36px;
+} */
+#pojok-pimpinan .card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  /* height: 100%; */
+  border-radius: 8px;
+}
+#pojok-pimpinan .card-body {
+  flex-grow: 1;
+}
+#pojok-pimpinan .card-text {
+  font-size: 0.7rem;
+}
+#pojok-pimpinan .card-title {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4; /* Limit to 3 lines */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  font-size: 0.9rem;
+  font-weight: bold;
+  /* height: calc(1.2em * 3); Adjust based on the line height */
+}
+
+/* Section Agenda */
+.item-agenda .card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  border-radius: 8px;
+}
+.item-agenda .card-body {
+  flex-grow: 1;
+}
+.item-agenda .card-text {
+  font-size: 0.7rem;
+}
+.item-agenda .card-title {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4; /* Limit to 4 lines */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  font-size: 0.9rem;
+  font-weight: bold;
+  /* height: calc(1.2em * 3); Adjust based on the line height */
+}
+
+/* Sections General */
+section {
+  /* background: var(--mdb-body-bg); */
+  padding: 6rem 0;
+  overflow: hidden;
+}
+section.fluid {
+  padding: 0;
+}
+section.fluid .container {
+  padding-left: 0;
+  padding-right: 0;
+}
+.section-batik {
+  position: relative;
+}
+.section-batik::before {
+  content: "";
+  position: absolute;
+  /* background-image: url(../img/pattern-batik-kawung-uinsaid.png); */
+  background-repeat: no-repeat;
+  background-size: contain;
+  display: block;
+  width: 512px;
+  height: 512px;
+}
+.swiper-pagination {
+  --swiper-pagination-color: var(--mdb-light);
+  --swiper-pagination-bullet-inactive-color: var(--mdb-gray-200);
+}
+
+/* Section kegiatan */
+#section-kegiatan {
+  width: 100%;
+  height: 100vh;
+  max-height: 768px;
+  transition: background-image 0.3s ease;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+/* .section-slideshow {
+  position: absolute;
+  width: 100%;
+  max-width: 1920px;
+  height: 100vh;
+  max-height: 512px;
+  background-size: cover;
+  background-position: center;
+}
+#section-kegiatan .section-slideshow::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(
+    to left,
+    var(--mdb-body-bg),
+    rgba(var(--mdb-body-bg-rgb), 0.8) 40%,
+    transparent 60%
+  );
+  pointer-events: none;
+} */
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (max-width: 768px) {
+  #section-kegiatan .section-slideshow::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(
+      to top,
+      var(--color-surface),
+      var(--color-surface-transparent-8) 40%,
+      transparent 60%
+    );
+    pointer-events: none;
+  }
+  .section-slideshow {
+    max-height: 768px;
+  }
+}
+#swiper-kegiatan .swiper-pagination {
+  --swiper-pagination-color: var(--mdb-link-color);
+}
+
+/* Pengumuman */
+.item-pengumuman .card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  border-radius: 8px;
+}
+.item-pengumuman .card-title {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4; /* Limit to 4 lines */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  font-size: 0.9rem;
+  font-weight: bold;
+  /* height: calc(1.2em * 3); Adjust based on the line height */
+}
+
+.pengumuman-widget {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+.list-group-item {
+  padding: 10px;
+}
+.list-group-item .badge {
+  font-size: 0.8rem;
+}
+.list-group-item .text-muted {
+  font-size: 0.8rem;
+}
+.list-group-item div.mt-2 {
+  font-size: 1rem;
+  color: #333;
+}
+.list-group-item p {
+  margin: 0;
+}
+.list-group-item img {
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+/* Agenda */
+/* .agenda-card {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+.agenda-card .card-title {
+  font-size: 1.25rem;
+  margin: 0;
+}
+.agenda-card .card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.agenda-card .card-img-overlay {
+  background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5));
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
+  box-sizing: border-box;
+  color: var(--mdb-body-bg);
+} */
+
+/* Flexbox to make columns stretch to the same height */
+/* .row.align-items-stretch {
+    display: flex;
+    flex-wrap: wrap;
+}
+.col-lg-4, .col-lg-8 {
+    display: flex;
+    flex-direction: column;
+}
+.col-lg-4 .card, .col-lg-8 .card {
+    flex: 1;
+}
+
+/* .pengumuman-widget {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+.list-group-item {
+    padding: 10px;
+}
+
+.list-group-item .badge {
+    font-size: 0.8rem;
+}
+
+.list-group-item .text-muted {
+    font-size: 0.8rem;
+}
+
+.list-group-item div.mt-2 {
+    font-size: 1rem;
+    color: #333;
+}
+
+.list-group-item p {
+    margin: 0;
+}
+
+.list-group-item img {
+    width: 64px;
+    height: 64px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.agenda-card {
+    position: relative;
+    width: 100%;
+    margin: 0;
+}
+
+.agenda-card .card-title {
+    font-size: 1.25rem;
+    margin: 0;
+}
+
+.agenda-card .card-img {
+    width: 100%;
+    height: auto;
+}
+
+.agenda-card .card-img-overlay {
+    background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5));
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 20px;
+    box-sizing: border-box;
+    color: white;
+}
+
+.row.grid {
+    display: grid;
+    flex-flow: wrap;
+    grid-template-columns: 1fr 2fr;
+    gap: 1rem;
+}
+
+.col-lg-4, .col-lg-8 {
+    display: flex;
+    flex-direction: column;
+}
+
+.col-lg-4 .card, .col-lg-8 .card {
+    flex: 1;
+} */

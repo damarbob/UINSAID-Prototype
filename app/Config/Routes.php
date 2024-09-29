@@ -117,6 +117,10 @@ $routes->group('admin', ['filter' => 'group:admin,superadmin'], function ($route
         $routes->post('posting/hapus', 'PostingAdmin::hapusBanyak');
     }
 
+    // Pengaturan
+    $routes->get('pengaturan', 'PengaturanAdmin');
+    $routes->post('pengaturan', 'PengaturanAdmin');
+
     // Berita
     $routes->get('berita', 'BeritaAdmin');
     $routes->get('berita/tambah', 'BeritaAdmin::tambah');
@@ -299,6 +303,14 @@ $routes->group('prodi', static function ($routes) {
 });
 
 service('auth')->routes($routes);
+
+
+/* REFACTORING */
+if (ENVIRONMENT == 'development') {
+    $routes->group('refactor', static function ($routes) {
+        $routes->get('berita/featured-image',  'BeritaAdmin::refactorFeaturedImages');
+    });
+}
 
 /*
  * --------------------------------------------------------------------

@@ -1,3 +1,9 @@
+<?php
+helper('setting');
+
+$context = 'user:' . user_id(); //  Context untuk pengguna
+$barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
+?>
 <?= $this->extend('layout/admin/admin_template') ?>
 
 <?= $this->section('content') ?>
@@ -72,6 +78,7 @@
             processing: true,
             // serverSide: true,
             // ajax: "/api/berita",
+            pageLength: <?= $barisPerHalaman ?>, // Acquired from settings
             ajax: {
                 "url": "<?= base_url('api/situs') ?>",
                 "type": "GET"
