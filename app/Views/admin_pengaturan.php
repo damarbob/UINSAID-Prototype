@@ -7,6 +7,7 @@ $valueDeskripsiSitus = old('deskripsiSitus') ?: setting()->get('App.deskripsiSit
 $valueKataKunciSitus = old('kataKunciSitus') ?: setting()->get('App.kataKunciSitus');
 $valueSEOSitus = old('seoSitus') ?: setting()->get('App.seoSitus');
 $valueTemaSitus = old('temaSitus') ?: setting()->get('App.temaSitus');
+$valueHalamanUtamaSitus = old('halamanUtamaSitus') ?: setting()->get('App.halamanUtamaSitus');
 
 // Pengaturan personal
 $context = 'user:' . user_id(); //  Context untuk pengguna
@@ -29,12 +30,12 @@ $valueBarisPerHalaman = old('barisPerHalaman') ?: setting()->get('App.barisPerHa
             <?php if (session()->getFlashdata('sukses')) : ?>
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                     <?= session()->getFlashdata('sukses') ?>
-                    <button type="button" class="btn-close" data-mdb-dismiss="alert" aria-label="Close"></button>
+                    <!-- <button type="button" class="btn-close" data-mdb-dismiss="alert" aria-label="Close"></button> -->
                 </div>
             <?php elseif (session()->getFlashdata('gagal')) : ?>
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                     <?= session()->getFlashdata('gagal') ?>
-                    <button type="button" class="btn-close" data-mdb-dismiss="alert" aria-label="Close"></button>
+                    <!-- <button type="button" class="btn-close" data-mdb-dismiss="alert" aria-label="Close"></button> -->
                 </div>
             <?php endif; ?>
 
@@ -68,10 +69,10 @@ $valueBarisPerHalaman = old('barisPerHalaman') ?: setting()->get('App.barisPerHa
             <!-- Default switch -->
             <div class="form-check form-switch mb-3">
                 <input type="hidden" name="seoSitus" value="off">
-                <input class="form-check-input <?= (validation_show_error('valueSEOSitus')) ? 'is-invalid' : ''; ?>" type="checkbox" role="switch" id="seoSitus" name="seoSitus" <?= ($valueSEOSitus === "on") ? 'checked' : '' ?> />
+                <input class="form-check-input <?= (validation_show_error('seoSitus')) ? 'is-invalid' : ''; ?>" type="checkbox" role="switch" id="seoSitus" name="seoSitus" <?= ($valueSEOSitus === "on") ? 'checked' : '' ?> />
                 <label class="form-check-label" for="seoSitus"><?= lang('Admin.optimasiMesinPencari') ?></label>
                 <div class="invalid-tooltip end-0">
-                    <?= validation_show_error('valueSEOSitus'); ?>
+                    <?= validation_show_error('seoSitus'); ?>
                 </div>
             </div>
 
@@ -80,11 +81,29 @@ $valueBarisPerHalaman = old('barisPerHalaman') ?: setting()->get('App.barisPerHa
                 <select class="form-select <?= (validation_show_error('temaSitus')) ? 'is-invalid' : ''; ?>" id="temaSitus" name="temaSitus">
                     <option value="uinsaid-hijau" <?= $valueTemaSitus == 'uinsaid-hijau' ? 'selected' : '' ?>>UINSAID Hijau</option>
                     <option value="kuning" <?= $valueTemaSitus == 'kuning' ? 'selected' : '' ?>>Kuning</option>
+                    <option value="" <?= $valueTemaSitus == '' ? 'selected' : '' ?>><?= lang('Admin.tidakAda') ?></option>
                 </select>
                 <label for="temaSitus" class="form-label"><?= lang('Admin.temaSitus') ?></label>
+                <div class="invalid-tooltip end-0">
+                    <?= validation_show_error('temaSitus'); ?>
+                </div>
             </div>
 
-            <h2 class="mt-4 mb-3">Personalisasi Admin</h2>
+            <!-- Halaman utama -->
+            <div class="form-floating mb-3">
+                <select class="form-select <?= (validation_show_error('halamanUtamaSitus')) ? 'is-invalid' : ''; ?>" id="halamanUtamaSitus" name="halamanUtamaSitus">
+                    <?php foreach ($halaman as $x): ?>
+                        <option value="<?= $x['slug'] ?>" <?= $valueHalamanUtamaSitus == $x['slug'] ? 'selected' : '' ?>><?= $x['judul'] ?></option>
+                    <?php endforeach; ?>
+                    <option value="" <?= $valueHalamanUtamaSitus == '' ? 'selected' : '' ?>><?= lang('Admin.tidakAda') ?></option>
+                </select>
+                <label for="halamanUtamaSitus" class="form-label"><?= lang('Admin.halamanUtamaSitus') ?></label>
+                <div class="invalid-tooltip end-0">
+                    <?= validation_show_error('halamanUtamaSitus'); ?>
+                </div>
+            </div>
+
+            <h2 class="mt-4 mb-3"><?= lang('Admin.personalisasiAdmin') ?></h2>
 
             <!-- Tema dasbor admin -->
             <div class="form-floating mb-3">
@@ -101,7 +120,7 @@ $valueBarisPerHalaman = old('barisPerHalaman') ?: setting()->get('App.barisPerHa
                     <option value="10" <?= $valueBarisPerHalaman == '10' ? 'selected' : '' ?>>10</option>
                     <option value="20" <?= $valueBarisPerHalaman == '20' ? 'selected' : '' ?>>20</option>
                     <option value="50" <?= $valueBarisPerHalaman == '50' ? 'selected' : '' ?>>50</option>
-                    <option value="100" <?= $valueBarisPerHalaman == '100' ? 'selected' : '' ?>>100</option>
+                    <option value="100" <?= $valueBarisPerHalaman == '100' ? `selected` : '' ?>>100</option>
                 </select>
                 <label for="BarisPerHalaman" class="form-label"><?= lang('Admin.barisPerHalaman') ?></label>
                 <div class="form-helper">
@@ -110,7 +129,7 @@ $valueBarisPerHalaman = old('barisPerHalaman') ?: setting()->get('App.barisPerHa
             </div>
 
             <!-- Tombol simpan -->
-            <button class="btn btn-primary me-2" type="submit" data-mdb-ripple-init>
+            <button class="btn btn-primary mb-4 me-2" type="submit" data-mdb-ripple-init>
                 <i class="bi bi-check-lg me-2"></i><?= lang('Admin.simpan') ?>
             </button>
 

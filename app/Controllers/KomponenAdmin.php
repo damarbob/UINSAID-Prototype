@@ -8,6 +8,8 @@ use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
 
+use function App\Helpers\hasAttributesSyntax;
+
 class KomponenAdmin extends BaseControllerAdmin
 {
 
@@ -38,6 +40,8 @@ class KomponenAdmin extends BaseControllerAdmin
 
     public function simpan($id = null)
     {
+        helper('syntax_processor');
+
         $data = $this->request->getPost();
 
         // dd($data);
@@ -100,6 +104,10 @@ class KomponenAdmin extends BaseControllerAdmin
             'grup_lainnya' => [
                 'label' => lang('Admin.namaGrup'),
                 'rules' => 'required_without[grup]'
+            ],
+            'tunggal' => [
+                'label' => lang('Admin.komponenTunggal'),
+                'rules' => 'required',
             ]
         ];
 
@@ -148,6 +156,11 @@ class KomponenAdmin extends BaseControllerAdmin
             $data['js'] = $jsPath;
         }
         /* End of files upload */
+
+        /* Determine whether komponen is tunggal (singular) or not */
+        // $data['tunggal'] = !hasAttributesSyntax($data['konten']); // Set to false if has attributes syntax // CANCELED
+        $data['tunggal'] = $data['tunggal'] == "on" ? true : false; // 
+        /* End of determination */
 
         /* CRUD */
         // Get grup from the request

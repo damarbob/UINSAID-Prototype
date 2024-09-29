@@ -37,13 +37,15 @@ if (!isset($komponen)) {
     $valueKonten = (old('konten'));
     $valueCSS = (old('css'));
     $valueJS = (old('js'));
+    $valueTunggal = (old('tunggal'));
 } else {
     // Apabila mode edit, apabila ada nilai lama (old), gunakan nilai lama. Apabila tidak ada nilai lama (old), gunakan nilai dari rilis media
-    $valueNama = (old('nama')) ? old('nama') : $komponen['nama'];
-    $valueGrup = (old('grup')) ? old('grup') : $komponen['grup'];
-    $valueKonten = (old('konten')) ? old('konten') : $komponen['konten'];
-    $valueCSS = (old('css')) ? old('css') : $komponen['css'];
-    $valueJS = (old('js')) ? old('js') : $komponen['js'];
+    $valueNama = old('nama') ?: $komponen['nama'];
+    $valueGrup = old('grup') ?: $komponen['grup'];
+    $valueKonten = old('konten') ?: htmlspecialchars($komponen['konten']);
+    $valueCSS = old('css') ?: $komponen['css'];
+    $valueJS = old('js') ?: $komponen['js'];
+    $valueTunggal = old('tunggal') ?: $komponen['tunggal'];
 }
 
 // Validasi
@@ -80,7 +82,7 @@ $errorJS = validation_show_error('js_file');
 
             <!-- Konten komponen -->
             <div class="form-floating mb-3">
-                <textarea class="form-control tinymce <?= (validation_show_error('konten')) ? 'is-invalid' : ''; ?>" id="konten" name="konten" rows="10" autofocus><?= htmlspecialchars($valueKonten); ?></textarea>
+                <textarea class="form-control tinymce <?= (validation_show_error('konten')) ? 'is-invalid' : ''; ?>" id="konten" name="konten" rows="10" autofocus><?= $valueKonten; ?></textarea>
                 <div class="invalid-tooltip end-0">
                     <?= validation_show_error('konten'); ?>
                 </div>
@@ -155,6 +157,13 @@ $errorJS = validation_show_error('js_file');
                 <label for="grup" class="form-label"><?= lang('Admin.grup') ?></label>
                 <input type="number" class="form-control" id="grup" name="grup" value="<?= isset($komponen) ? $komponen['grup'] : ''; ?>">
             </div> -->
+
+            <!-- Komponen tunggal -->
+            <div class="form-check form-switch mb-3">
+                <input type="hidden" name="tunggal" value="off">
+                <input class="form-check-input <?= (validation_show_error('tunggal')) ? 'is-invalid' : ''; ?>" type="checkbox" role="switch" id="tunggal" name="tunggal" <?= ($valueTunggal === "0") ? '' : 'checked' ?> />
+                <label class="form-check-label" for="tunggal"><?= lang('Admin.komponenTunggal') ?></label>
+            </div>
 
             <!-- Simpan -->
             <button type="submit" class="btn btn-primary w-100" data-mdb-ripple-init><i class="bi bi-floppy me-2"></i><?= lang('Admin.simpan') ?></button>

@@ -18,6 +18,10 @@ return [
     'kataKunciSitus' => 'Kata Kunci Situs',
     'optimasiMesinPencari' => 'Optimasi Mesin Pencari',
     'temaSitus' => 'Tema Situs',
+    'halamanUtamaSitus' => 'Halaman Utama Situs',
+    'tidakAda' => 'Tidak Ada',
+
+    'personalisasiAdmin' => 'Personalisasi Admin',
 
     'temaDasborAdmin' => 'Tema Dasbor Admin',
     'barisPerHalaman' => 'Baris per Halaman',
@@ -64,10 +68,11 @@ return [
     'alamatHalaman' => 'Alamat Halaman',
     'daftarKomponen' => 'Daftar Komponen',
     'halamanBaru' => 'Halaman Baru',
+    'opsiTambahan' => 'Opsi Tambahan',
 
     'urutan' => 'Urutan',
     'aksi' => 'Aksi',
-    'pratinjau' => 'Pratinjau',
+    'tinjau' => 'Tinjau',
 
     'belumAdaKomponenSeretDanTaruh' => 'Belum ada komponen. Seret dan taruh dari daftar komponen.',
     'komponenSudahDitambahkan' => 'Komponen sudah ditambahkan',
@@ -80,6 +85,7 @@ return [
     'grup' => 'Grup',
     'namaGrup' => 'Nama Grup',
     'konten' => 'Konten',
+    'komponenTunggal' => 'Komponen Tunggal',
 
     'metaDataBerhasilDisimpan' => 'Meta data berhasil disimpan!',
     'gagalMenyimpanMetaData' => 'Gagal menyimpan meta data',

@@ -6,7 +6,7 @@ class KomponenModel extends \CodeIgniter\Model
 {
     protected $table = 'komponen';
     protected $useTimestamps = true;
-    protected $allowedFields = ['nama', 'konten', 'css', 'js', 'grup_id'];
+    protected $allowedFields = ['nama', 'konten', 'css', 'js', 'grup_id', 'tunggal'];
 
     /**
      * Get data for DataTables server-side processing

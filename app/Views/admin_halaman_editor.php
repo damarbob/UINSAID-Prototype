@@ -117,10 +117,10 @@ $valueJS = $halaman['js'];
             <div class="mb-3">
                 <label for="daftarKomponen" class="form-label"><?= lang('Admin.daftarKomponen') ?></label>
                 <ul id="daftarKomponen" class="list-group">
-                    <?php foreach ($daftarKomponen as $component): ?>
-                        <li class="list-group-item" draggable="true" data-id="<?= $component['id']; ?>">
+                    <?php foreach ($daftarKomponen as $x): ?>
+                        <li class="list-group-item" draggable="true" data-id="<?= $x['id']; ?>" data-tunggal="<?= $x['tunggal'] ?>">
                             <i class="bi bi-arrows-move me-2"></i>
-                            <?= $component['nama']; ?>
+                            <?= $x['nama']; ?>
                         </li>
                     <?php endforeach; ?>
                 </ul>
@@ -134,56 +134,6 @@ $valueJS = $halaman['js'];
                 <div class="invalid-tooltip end-0">
                     <?= validation_show_error('slug'); ?>
                 </div>
-            </div>
-
-            <!-- CSS -->
-            <div class="position-relative mb-3">
-                <label for="css" class="form-label">CSS</label>
-                <input type="file" class="form-control <?= (validation_show_error('css_file')) ? 'is-invalid' : ''; ?>" id="css" name="css_file">
-                <div class="invalid-tooltip end-0">
-                    <?= validation_show_error('css_file'); ?>
-                </div>
-
-                <!-- CSS lama -->
-                <div class="form-helper">
-                    <small>
-                        <a href="<?= $valueCSS ?>" target="_blank">
-                            <?php if (isset($valueCSS) && !empty($valueCSS)): ?>
-                                <script>
-                                    document.write(getFilenameAndExtension('<?= $valueCSS ?>'));
-                                </script>
-
-                                <i class="bi bi-box-arrow-up-right ms-2"></i>
-                            <?php endif; ?>
-                        </a>
-                    </small>
-                </div>
-
-            </div>
-
-            <!-- JS -->
-            <div class="position-relative mb-3">
-                <label for="js" class="form-label">JS</label>
-                <input type="file" class="form-control <?= (validation_show_error('js_file')) ? 'is-invalid' : ''; ?>" id="js" name="js_file">
-                <div class="invalid-tooltip end-0">
-                    <?= validation_show_error('js_file'); ?>
-                </div>
-
-                <!-- JS lama -->
-                <div class="form-helper">
-                    <small>
-                        <a href="<?= $valueJS ?>" target="_blank">
-                            <?php if (($valueJS) && !empty($valueJS)): ?>
-                                <script>
-                                    document.write(getFilenameAndExtension('<?= $valueJS ?>'));
-                                </script>
-
-                                <i class="bi bi-box-arrow-up-right ms-2"></i>
-                            <?php endif; ?>
-                        </a>
-                    </small>
-                </div>
-
             </div>
 
             <!-- Status -->
@@ -201,14 +151,78 @@ $valueJS = $halaman['js'];
             </div>
 
             <!-- Tombol simpan -->
-            <button class="btn btn-primary me-2" type="submit" data-mdb-ripple-init>
+            <button class="btn btn-primary me-2 mb-2" type="submit" data-mdb-ripple-init>
                 <i class="bi bi-check-lg me-2"></i><?= lang('Admin.simpan') ?>
             </button>
 
             <!-- Tombol preview -->
-            <a href="<?= base_url('halaman/' . $halaman['slug']) ?>" class="btn btn-secondary" target="_blank" data-mdb-ripple-init>
-                <i class="bi bi-eye me-2"></i><?= lang('Admin.pratinjau') ?>
+            <a href="<?= base_url('halaman/' . $halaman['slug']) ?>" class="btn btn-secondary me-2 mb-2" target="_blank" data-mdb-ripple-init>
+                <i class="bi bi-eye me-2"></i><?= lang('Admin.tinjau') ?>
             </a>
+
+            <a
+                class="btn btn-secondary mb-2"
+                data-mdb-collapse-init
+                data-mdb-ripple-init
+                href="#collapseOpsiTambahan"
+                role="button"
+                aria-expanded="false"
+                aria-controls="collapseOpsiTambahan">
+                <i class="bi bi-gear"></i>
+            </a>
+
+            <!-- Opsi tambahan -->
+            <div class="collapse" id="collapseOpsiTambahan">
+                <!-- CSS -->
+                <div class="position-relative mb-3">
+                    <label for="css" class="form-label">CSS</label>
+                    <input type="file" class="form-control <?= (validation_show_error('css_file')) ? 'is-invalid' : ''; ?>" id="css" name="css_file">
+                    <div class="invalid-tooltip end-0">
+                        <?= validation_show_error('css_file'); ?>
+                    </div>
+
+                    <!-- CSS lama -->
+                    <div class="form-helper">
+                        <small>
+                            <a href="<?= $valueCSS ?>" target="_blank">
+                                <?php if (isset($valueCSS) && !empty($valueCSS)): ?>
+                                    <script>
+                                        document.write(getFilenameAndExtension('<?= $valueCSS ?>'));
+                                    </script>
+
+                                    <i class="bi bi-box-arrow-up-right ms-2"></i>
+                                <?php endif; ?>
+                            </a>
+                        </small>
+                    </div>
+
+                </div>
+
+                <!-- JS -->
+                <div class="position-relative mb-3">
+                    <label for="js" class="form-label">JS</label>
+                    <input type="file" class="form-control <?= (validation_show_error('js_file')) ? 'is-invalid' : ''; ?>" id="js" name="js_file">
+                    <div class="invalid-tooltip end-0">
+                        <?= validation_show_error('js_file'); ?>
+                    </div>
+
+                    <!-- JS lama -->
+                    <div class="form-helper">
+                        <small>
+                            <a href="<?= $valueJS ?>" target="_blank">
+                                <?php if (($valueJS) && !empty($valueJS)): ?>
+                                    <script>
+                                        document.write(getFilenameAndExtension('<?= $valueJS ?>'));
+                                    </script>
+
+                                    <i class="bi bi-box-arrow-up-right ms-2"></i>
+                                <?php endif; ?>
+                            </a>
+                        </small>
+                    </div>
+
+                </div>
+            </div>
 
         </div>
     </div>
@@ -270,7 +284,12 @@ $valueJS = $halaman['js'];
         // Handle drag and drop of new components
         var daftarKomponen = document.getElementById('daftarKomponen');
         daftarKomponen.addEventListener('dragstart', function(e) {
-            e.dataTransfer.setData('text/plain', e.target.dataset.id);
+            // e.dataTransfer.setData('text/plain', e.target.dataset.id);
+            const data = {
+                id: e.target.dataset.id,
+                tunggal: e.target.dataset.tunggal
+            };
+            e.dataTransfer.setData('text/plain', JSON.stringify(data));
         });
 
         tabelKomponen.addEventListener('dragover', function(e) {
@@ -280,22 +299,27 @@ $valueJS = $halaman['js'];
         ////
         tabelKomponen.addEventListener('drop', function(e) {
             e.preventDefault();
-            var componentId = e.dataTransfer.getData('text/plain');
+            const data = JSON.parse(e.dataTransfer.getData('text/plain'));
+            var componentId = data.id;
+            var componentIsSingular = data.tunggal; // Whether the component is SINGULAR or TUNGGAL
+
+            // console.log(data);
+            // console.log(componentIsSingular == true);
+
+            // Check if the component is SINGULAR/TUNGGAL already in the list
+            if (componentIsSingular == true && (document.querySelector('#tabelKomponen [data-id="' + componentId + '"]'))) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: '<?= lang('Admin.komponenTunggal') ?>',
+                    text: '<?= lang('Admin.komponenSudahDitambahkan') ?>',
+                    confirmButtonColor: "var(--mdb-primary)",
+                    confirmButtonText: "<?= lang('Admin.tutup') ?>",
+                });
+                return; // Prevent adding duplicate component
+            }
 
             // Generate unique komponen_instance_id
             var komponenInstanceId = `inst-${componentId}-${Date.now()}`; // NEW
-
-            // Check if the component is already in the list
-            // if (document.querySelector('#tabelKomponen [data-id="' + componentId + '"]')) {
-            //     Swal.fire({
-            //         icon: 'warning',
-            //         title: '<?= $judul ?>',
-            //         text: '<?= lang('Admin.komponenSudahDitambahkan') ?>',
-            //         confirmButtonColor: "var(--mdb-primary)",
-            //         confirmButtonText: "<?= lang('Admin.tutup') ?>",
-            //     });
-            //     return; // Prevent adding duplicate component
-            // }
 
             var componentText = document.querySelector('#daftarKomponen [data-id="' + componentId + '"]').innerText;
 

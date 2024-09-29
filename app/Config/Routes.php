@@ -58,10 +58,19 @@ $routes->group('halaman', function ($routes) {
     $pages = $halamanModel->findAll();
 
     foreach ($pages as $page) {
+        $status = $page['status'];
         $slug = $page['slug'];
-        $routes->get($slug, 'HalamanAdmin::view/' . $page['id']);
+
+        if ($status == 'draf') {
+            // Restrict access to "admin" and "superadmin" groups
+            $routes->get($slug, 'Home::view/' . $slug, ['filter' => 'group:admin,superadmin']);
+        } else {
+            // Public access for other pages
+            $routes->get($slug, 'Home::view/' . $slug);
+        }
     }
 });
+
 
 // Route dinamis untuk entitas yang dibuat
 $routes->group('entitas', function ($routes) {

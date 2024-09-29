@@ -27,7 +27,9 @@ class PengaturanAdmin extends BaseControllerAdmin
         helper('setting'); // Must be declared to use setting helper function
 
         $this->data['judul'] = lang('Admin.pengaturan');
+        $this->data['halaman'] = $this->halamanModel->getPublikasi();
 
+        /* Save settings */
         $post = $this->request->getPost();
 
         if (!empty($post)) {
@@ -52,7 +54,11 @@ class PengaturanAdmin extends BaseControllerAdmin
                 ],
                 'temaSitus' => [
                     'label' => lang('Admin.temaSitus'),
-                    'rules' => 'required',
+                    'rules' => 'permit_empty',
+                ],
+                'halamanUtamaSitus' => [
+                    'label' => lang('Admin.halamanUtamaSitus'),
+                    'rules' => 'permit_empty',
                 ],
                 'temaDasborAdmin' => [
                     'label' => lang('Admin.temaDasborAdmin'),
@@ -75,6 +81,7 @@ class PengaturanAdmin extends BaseControllerAdmin
             service('settings')->set('App.kataKunciSitus', $post['kataKunciSitus']);
             service('settings')->set('App.seoSitus', $post['seoSitus']);
             service('settings')->set('App.temaSitus', $post['temaSitus']);
+            service('settings')->set('App.halamanUtamaSitus', $post['halamanUtamaSitus']);
 
             // Pengaturan personal
             $context = 'user:' . user_id(); // Context untuk pengguna
@@ -87,6 +94,7 @@ class PengaturanAdmin extends BaseControllerAdmin
             // Return to previous page  with validation error
             return redirect()->to('admin/pengaturan')->withInput();
         }
+        /* End of save settings */
 
         return view('admin_pengaturan', $this->data);
     }

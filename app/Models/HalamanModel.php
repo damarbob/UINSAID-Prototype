@@ -8,9 +8,28 @@ class HalamanModel extends \CodeIgniter\Model
     protected $useTimestamps = true;
     protected $allowedFields = ['judul', 'slug', 'id_komponen', 'css', 'js', 'status'];
 
+    public function getPublikasi()
+    {
+        return $this
+            ->select('*')
+            ->where('status', 'publikasi')
+            ->findAll();
+    }
+
+    public function getBySlug($slug)
+    {
+        return $this
+            ->select('*')
+            ->where('slug', $slug)
+            ->first();
+    }
+
     public function getByid($id)
     {
-        return $this->select('*')->where('id', $id)->first();
+        return $this
+            ->select('*')
+            ->where('id', $id)
+            ->first();
     }
 
     /**

@@ -7,6 +7,7 @@ use App\Models\KategoriModel;
 use App\Models\AgendaModel;
 use App\Models\EntitasModel;
 use App\Models\HalamanModel;
+use App\Models\KomponenMetaModel;
 use App\Models\KomponenModel;
 use App\Models\PengumumanModel;
 use App\Models\PPIDModel;
@@ -64,6 +65,7 @@ abstract class BaseController extends Controller
     // Page builder models
     protected $halamanModel;
     protected $komponenModel;
+    protected KomponenMetaModel $komponenMetaModel;
 
     /**
      * Constructor.
@@ -87,5 +89,6 @@ abstract class BaseController extends Controller
 
         $this->halamanModel = new HalamanModel();
         $this->komponenModel = new KomponenModel();
+        $this->komponenMetaModel = new KomponenMetaModel();
     }
 }
