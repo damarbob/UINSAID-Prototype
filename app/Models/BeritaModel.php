@@ -12,7 +12,7 @@ class BeritaModel extends \CodeIgniter\Model
 
     protected $useTimestamps = true;
 
-    protected $allowedFields = ['id_penulis', 'id_kategori', 'id_jenis', 'judul', 'slug', 'konten', 'ringkasan', 'pengajuan', 'status', 'sumber', 'tgl_terbit'];
+    protected $allowedFields = ['id_penulis', 'id_kategori', 'id_jenis', 'judul', 'slug', 'konten', 'ringkasan', 'pengajuan', 'status', 'sumber', 'tgl_terbit', 'featured_image'];
 
     public function getByKategori($kategori)
     {
