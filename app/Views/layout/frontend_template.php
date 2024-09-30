@@ -1,9 +1,18 @@
 <?php
+
+use App\Models\TemaModel;
+
+helper('setting');
+
 // Get the current request instance
 $request = service('request');
 
 // Get the URI string
 $currentRoute = $request->uri->getPath();
+
+// Memperoleh tema situs
+$temaModel = new TemaModel();
+$tema = $temaModel->find(setting()->get('App.temaSitus'))
 ?>
 <!DOCTYPE html>
 <html lang="id" dir="">
@@ -12,14 +21,15 @@ $currentRoute = $request->uri->getPath();
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <meta http-equiv="x-ua-compatible" content="ie=edge" />
-  <title>UIN Raden Mas Said Surakarta</title>
-  <meta name="googlebot" content="index,follow">
+  <title><?= setting()->get('App.judulSitus') ?></title>
+  <meta name="googlebot" content="<?= (setting()->get('App.seoSitus') === "on") ? "index,follow" : "noindex,nofollow" ?>">
   <meta name="language" content="id" />
   <link rel="canonical" href="<?= base_url() ?>" />
   <meta name="google-site-verification" content="wVOBtikI0s7xKLkglkAAc2ZereV7l0NrQZH8LPCoKSk">
 
   <!-- Meta section -->
-  <?= $this->renderSection('meta'); // Placed before the any other meta because search engine will index the first
+  <?php
+  if (setting()->get('App.seoSitus') === "on") echo $this->renderSection('meta'); // Placed before the any other meta because search engine will index the first
   ?>
 
   <!-- TODO: Optimize meta usage -->
@@ -30,16 +40,16 @@ $currentRoute = $request->uri->getPath();
   <meta itemprop="<?= base_url() ?>" content="<?= base_url("files/icon-1704942188.png") ?>" />
 
   <!-- Open Graph meta -->
-  <meta property="og:title" content="UIN Raden Mas Said Surakarta" />
+  <meta property="og:title" content="<?= setting()->get('App.judulSitus') ?>" />
   <meta property="og:site_name" content="<?= base_url() ?>">
-  <meta property="og:keywords" content="uinsaid, rmsaid, uinsurakarta">
+  <meta property="og:keywords" content="<?= setting()->get('App.kataKunciSitus') ?>">
   <meta property="og:type" content="article" />
   <meta property="og:image" content="<?= base_url("files/icon-1704942188.png") ?>" />
-  <meta property="og:image:alt" content="UIN Raden Mas Said Surakarta" />
+  <meta property="og:image:alt" content="<?= setting()->get('App.judulSitus') ?>" />
   <meta property="og:image:width" content="400" />
   <meta property="og:image:height" content="400" />
   <meta property="og:url" content="<?= base_url() ?>" />
-  <meta property="og:description" content="Web UIN Raden Mas Said Surakarta" />
+  <meta property="og:description" content="<?= setting()->get('App.deskripsiSitus') ?>" />
   <meta property="og:locale" content="id_ID" />
 
   <!-- TODO: Change hard coded meta like site name and social media to variable -->
@@ -75,7 +85,7 @@ $currentRoute = $request->uri->getPath();
   <!-- Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <!-- MDB -->
-  <link id="mdbCSS" rel="stylesheet" href="<?= base_url("assets/css/c.css") ?>" />
+  <link id="mdbCSS" rel="stylesheet" href="<?= isset($tema['css']) && $tema['css'] != "" ? base_url($tema['css']) : base_url("assets/css/c.css") ?>" />
   <!-- Custom CSS -->
   <link rel="stylesheet" href="<?= base_url("assets/css/style.css") ?>" />
   <!-- Bootstrap icons -->

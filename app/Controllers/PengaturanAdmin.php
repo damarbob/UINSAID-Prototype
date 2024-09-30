@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseControllerAdmin;
+use App\Models\TemaModel;
 use CodeIgniter\HTTP\Files\UploadedFile;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
@@ -26,8 +27,11 @@ class PengaturanAdmin extends BaseControllerAdmin
     {
         helper('setting'); // Must be declared to use setting helper function
 
+        $temaModel = new TemaModel();
+
         $this->data['judul'] = lang('Admin.pengaturan');
         $this->data['halaman'] = $this->halamanModel->getPublikasi();
+        $this->data['tema'] = $temaModel->findAll();
 
         /* Save settings */
         $post = $this->request->getPost();

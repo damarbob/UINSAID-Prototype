@@ -190,6 +190,7 @@ class BeritaAdmin extends BaseControllerAdmin
                 'status' => $this->request->getVar('status'),
                 'sumber' => base_url(),
                 'tgl_terbit' => $this->request->getVar('tgl_terbit'),
+                'featured_image' => $this->beritaModel->extract_first_image($this->request->getVar('konten'), base_url('assets/img/logo-square.png'), false),
             ];
 
             // Jika ID kosong, buat entri baru
@@ -208,6 +209,7 @@ class BeritaAdmin extends BaseControllerAdmin
                 'id_kategori' => $kategori['id'],
                 'status' => $this->request->getVar('status'),
                 'tgl_terbit' => $this->request->getVar('tgl_terbit'),
+                'featured_image' => $this->beritaModel->extract_first_image($this->request->getVar('konten'), base_url('assets/img/logo-square.png'), false),
             ]);
 
             // Pesan berhasil diperbarui

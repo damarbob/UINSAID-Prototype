@@ -32,6 +32,14 @@ class DasborAdmin extends BaseControllerAdmin
         $this->data['kotakMasukBelumTerbaca'] = []; //format_tanggal($this->masukanModel->getKotakMasukBelumTerbaca());
         $this->data['anggotaMenungguTerbaru'] = []; //format_tanggal($this->anggotaModel->getAnggotaMenungguTerbaru(1));
 
+        // Statistik dasbor
+        $this->data['statistikBerita'] = $this->beritaModel->countAll();
+        $this->data['statistikAgenda'] = $this->agendaModel->countAll();
+        $this->data['statistikPengumuman'] = $this->pengumumanModel->countAll();
+        $this->data['statistikGaleri'] = $this->galeriModel->countAll();
+        $this->data['statistikPengguna'] = $this->combinedModel->countAll();
+        $this->data['statistikSitus'] = $this->situsModel->countAll();
+
         return view('admin_dasbor', $this->data);
     }
 }

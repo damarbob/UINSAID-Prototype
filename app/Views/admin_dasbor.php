@@ -39,6 +39,7 @@ $date = format_tanggal_dari_timestamp(time());
                         </div>
                         <div class="card-footer d-flex justify-content-between fs-2 fw-bold lh-1">
                             <i class='fs-1 bx bx-news nav_icon'></i>
+                            <h3 class="card-title fw-bold"><?= $statistikBerita ?></h3>
                         </div>
                     </div>
                 </a>
@@ -74,6 +75,7 @@ $date = format_tanggal_dari_timestamp(time());
                         </div>
                         <div class="card-footer d-flex justify-content-between fs-2 fw-bold lh-1">
                             <i class='fs-1 bx bx-calendar-event nav_icon'></i>
+                            <h3 class="card-title fw-bold"><?= $statistikAgenda ?></h3>
                         </div>
                     </div>
                 </a>
@@ -89,6 +91,7 @@ $date = format_tanggal_dari_timestamp(time());
                         </div>
                         <div class="card-footer d-flex justify-content-between fs-2 fw-bold lh-1">
                             <i class='fs-1 bx bxs-megaphone nav_icon'></i>
+                            <h3 class="card-title fw-bold"><?= $statistikPengumuman ?></h3>
                         </div>
                     </div>
                 </a>
@@ -104,6 +107,7 @@ $date = format_tanggal_dari_timestamp(time());
                         </div>
                         <div class="card-footer d-flex justify-content-between fs-2 fw-bold lh-1">
                             <i class='fs-1 bx bx-images nav_icon'></i>
+                            <h3 class="card-title fw-bold"><?= $statistikGaleri ?></h3>
                         </div>
                     </div>
                 </a>
@@ -119,6 +123,7 @@ $date = format_tanggal_dari_timestamp(time());
                         </div>
                         <div class="card-footer d-flex justify-content-between fs-2 fw-bold lh-1">
                             <i class='fs-1 bx bxs-user-account nav_icon'></i>
+                            <h3 class="card-title fw-bold"><?= $statistikPengguna ?></h3>
                         </div>
                     </div>
                 </a>
@@ -134,6 +139,7 @@ $date = format_tanggal_dari_timestamp(time());
                         </div>
                         <div class="card-footer d-flex justify-content-between fs-2 fw-bold lh-1">
                             <i class='fs-1 bx bxs-network-chart nav_icon'></i>
+                            <h3 class="card-title fw-bold"><?= $statistikSitus ?></h3>
                         </div>
                     </div>
                 </a>

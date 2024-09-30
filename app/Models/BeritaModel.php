@@ -22,7 +22,7 @@ class BeritaModel extends \CodeIgniter\Model
             ->where('kategori.nama', $kategori)
             ->where('berita.status', 'publikasi')
             ->where('berita.tgl_terbit <= ', date('Y-m-d H:i:s'))
-            ->paginate(10, 'berita'));
+            ->paginate(12, 'berita'));
     }
 
     public function getByKategoriLimit($kategori, $limit)
