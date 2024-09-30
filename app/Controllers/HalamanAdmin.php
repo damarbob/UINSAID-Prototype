@@ -149,10 +149,13 @@ class HalamanAdmin extends BaseControllerAdmin
 
         $halamanLama = $this->halamanModel->getByid($id);
 
+        // Check for post request
         $judul = $this->request->getPost('judul');
         $slug = $this->request->getPost('slug');
         $newOrder = $this->request->getPost('id_komponen'); // List ID komponen
         $status = $this->request->getPost('status');
+        $cssOld = $this->request->getPost('css_old');
+        $jsOld = $this->request->getPost('js_old');
 
         // Check for file uploads
         $cssFile = $this->request->getFile('css_file');
@@ -174,6 +177,7 @@ class HalamanAdmin extends BaseControllerAdmin
                             'rules' => [
                                 'uploaded[css_file]',
                                 // 'mime_in[css_file,text/css]',
+                                'ext_in[css_file,css]',
                             ]
                         ]
                     ]
@@ -188,6 +192,7 @@ class HalamanAdmin extends BaseControllerAdmin
                             'rules' => [
                                 'uploaded[js_file]',
                                 // 'mime_in[js_file,text/javascript]',
+                                'ext_in[js_file,js]',
                             ]
                         ],
                     ]
@@ -205,6 +210,7 @@ class HalamanAdmin extends BaseControllerAdmin
         /* Input validation */
         $slugRule = 'required'; // Slug input
 
+        // If slug is changed, apply slug rules
         if (!$modeTambah && $halamanLama['slug'] !== $slug) {
             $slugRule = 'required|is_unique[halaman.slug]';
         }
@@ -253,8 +259,8 @@ class HalamanAdmin extends BaseControllerAdmin
                 $cssPath = base_url('assets/pages/css/' . $originalName . '-' . $randomName);
             }
         } else {
-            // Get css from old halaman
-            $cssPath = $halamanLama['css'];
+            // Get css from old value
+            $cssPath = $cssOld;
         }
 
         // Handle JS file upload
@@ -267,8 +273,8 @@ class HalamanAdmin extends BaseControllerAdmin
                 $jsPath = base_url('assets/pages/js/' . $originalName . '-' . $randomName);
             }
         } else {
-            // Get css from old halaman
-            $jsPath = $halamanLama['js'];
+            // Get css from old value
+            $jsPath = $jsOld;
         }
         /* End of files upload */
 

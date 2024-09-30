@@ -9,6 +9,10 @@ $valueJS = $halaman['js'];
 
 // dd($komponen);
 // dd($komponenData);
+
+// Validasi
+$errorCSS = validation_show_error('css_file');
+$errorJS = validation_show_error('js_file');
 ?>
 <?= $this->extend('layout/admin/admin_template') ?>
 
@@ -63,42 +67,31 @@ $valueJS = $halaman['js'];
         <div class="col-lg-8">
 
             <!-- Daftar komponen halaman -->
-            <!-- <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th><?= lang('Admin.judul') ?></th>
-                        <th><?= lang('Admin.urutan') ?></th>
-                        <th><?= lang('Admin.aksi') ?></th>
-                    </tr>
-                </thead>
-                <tbody id="tabelKomponen">
-                    <?php if (!empty($komponen)): ?>
-                        <?php foreach ($komponen as $component): ?>
-                            <tr data-id="<?= $component['id']; ?>">
-                                <td class="sortable-handle">☰</td>
-                                <td><?= $component['nama']; ?></td>
-                                <td><button type="button" class="btn btn-danger btn-sm remove-komponen" data-mdb-ripple-init=""><i class="bi bi-trash"></i></button></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <tr class="no-components">
-                            <td colspan="3" class="text-center"><?= lang('Admin.belumAdaKomponenSeretDanTaruh') ?></td>
-                        </tr>
-                    <?php endif; ?>
-                </tbody>
-            </table> -->
             <ul class="list-group list-group-light" id="tabelKomponen">
                 <?php if (!empty($komponen)): ?>
                     <?php foreach ($komponen as $i => $x): ?>
                         <li
                             class="list-group-item d-flex justify-content-between align-items-center px-3"
                             data-id="<?= $x['id']; ?>"
+                            data-name="<?= $x['nama']; ?>"
                             data-instance-id="<?= $komponenData[$i]->komponen_instance_id ?>">
-                            <span class="sortable-handle">☰</span>
-                            <?= $x['nama']; ?>
-                            <button type="button" class="btn btn-danger btn-sm remove-komponen" onclick="deleteKomponen()">
-                                <i class="bi bi-trash"></i>
-                            </button>
+
+                            <!-- Nama komponen -->
+                            <div>
+                                <span class="sortable-handle me-4">☰</span>
+                                <?= $x['nama']; ?>
+                            </div>
+
+                            <!-- Tombol aksi -->
+                            <div>
+                                <button type="button" class="btn btn-primary btn-sm btn-floating me-2" onclick="editKomponen()">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                <button type="button" class="btn btn-danger btn-sm btn-floating remove-komponen" onclick="deleteKomponen()">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+
                         </li>
                     <?php endforeach; ?>
                 <?php else: ?>
@@ -160,8 +153,9 @@ $valueJS = $halaman['js'];
                 <i class="bi bi-eye me-2"></i><?= lang('Admin.tinjau') ?>
             </a>
 
+            <!-- Tombol opsi tambahan -->
             <a
-                class="btn btn-secondary mb-2"
+                class="btn btn-secondary btn-floating mb-2"
                 data-mdb-collapse-init
                 data-mdb-ripple-init
                 href="#collapseOpsiTambahan"
@@ -173,55 +167,138 @@ $valueJS = $halaman['js'];
 
             <!-- Opsi tambahan -->
             <div class="collapse" id="collapseOpsiTambahan">
-                <!-- CSS -->
-                <div class="position-relative mb-3">
-                    <label for="css" class="form-label">CSS</label>
-                    <input type="file" class="form-control <?= (validation_show_error('css_file')) ? 'is-invalid' : ''; ?>" id="css" name="css_file">
-                    <div class="invalid-tooltip end-0">
-                        <?= validation_show_error('css_file'); ?>
-                    </div>
 
-                    <!-- CSS lama -->
-                    <div class="form-helper">
-                        <small>
-                            <a href="<?= $valueCSS ?>" target="_blank">
-                                <?php if (isset($valueCSS) && !empty($valueCSS)): ?>
-                                    <script>
-                                        document.write(getFilenameAndExtension('<?= $valueCSS ?>'));
-                                    </script>
+                <!-- CSS file input -->
+                <div class="form-floating mb-3">
+                    <input type="file" class="form-control" id="css" name="css_file">
+                    <label for="css">CSS</label>
 
-                                    <i class="bi bi-box-arrow-up-right ms-2"></i>
-                                <?php endif; ?>
-                            </a>
-                        </small>
+                    <?php if (isset($halaman['css']) && $halaman['css'] != ''): ?>
+
+                        <!-- CSS lama -->
+                        <div class="form-helper">
+                            <small>
+                                <a href="<?= $valueCSS ?>" id="cssOldLabel" target="_blank">
+                                    <!-- Filled dynamically by script -->
+                                </a>
+                            </small>
+                        </div>
+
+                        <!-- Button delete CSS -->
+                        <button type="button" class="btn btn-danger btn-sm btn-floating" id="buttonHapusCSS" data-mdb-ripple-init="">
+                            <i class="bi bi-trash"></i>
+                        </button>
+
+                        <script>
+                            // Add old css label and handle deletion
+                            document.addEventListener('DOMContentLoaded', function() {
+                                let cssOldLabel = document.getElementById("cssOldLabel");
+                                let buttonHapusCSS = document.getElementById('buttonHapusCSS');
+
+                                cssOldLabel.innerHTML =
+                                    getFilenameAndExtension('<?= $halaman['css'] ?>') +
+                                    '<i class="bi bi-box-arrow-up-right ms-2"></i>';
+
+                                buttonHapusCSS.addEventListener("click", function() {
+                                    // Confirm delete
+                                    Swal.fire({
+                                        title: '<?= lang('Admin.hapusItem') ?>',
+                                        text: '<?= lang('Admin.itemYangTerhapusTidakDapatKembali') ?>',
+                                        icon: 'warning',
+                                        showCancelButton: true,
+                                        confirmButtonColor: 'var(--mdb-danger)',
+                                        confirmButtonText: '<?= lang('Admin.hapus') ?>',
+                                        cancelButtonText: '<?= lang('Admin.batal') ?>',
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            // Set input cssOld value to empty and hide hapus button
+                                            document.getElementById('cssOld').value = '';
+                                            buttonHapusCSS.style.display = 'none';
+                                            cssOldLabel.style.display = 'none';
+                                        }
+                                    });
+                                });
+                            });
+                        </script>
+
+                    <?php endif; ?>
+
+                    <!-- Galat validasi -->
+                    <div class="alert alert-danger mt-2 <?= (!$errorCSS) ? 'd-none' : ''; ?>" role="alert">
+                        <?= $errorCSS; ?>
                     </div>
 
                 </div>
 
-                <!-- JS -->
-                <div class="position-relative mb-3">
-                    <label for="js" class="form-label">JS</label>
-                    <input type="file" class="form-control <?= (validation_show_error('js_file')) ? 'is-invalid' : ''; ?>" id="js" name="js_file">
-                    <div class="invalid-tooltip end-0">
-                        <?= validation_show_error('js_file'); ?>
-                    </div>
+                <!-- CSS old input -->
+                <input type="hidden" class="form-control" id="cssOld" name="css_old" value="<?= $halaman['css'] ?>">
 
-                    <!-- JS lama -->
-                    <div class="form-helper">
-                        <small>
-                            <a href="<?= $valueJS ?>" target="_blank">
-                                <?php if (($valueJS) && !empty($valueJS)): ?>
-                                    <script>
-                                        document.write(getFilenameAndExtension('<?= $valueJS ?>'));
-                                    </script>
+                <!-- JS file input -->
+                <div class="form-floating mb-3">
+                    <input type="file" class="form-control" id="js" name="js_file">
+                    <label for="js">JS</label>
 
+                    <?php if (isset($halaman['js']) && $halaman['js'] != ''): ?>
+
+                        <!-- JS lama -->
+                        <div class="form-helper">
+                            <small>
+                                <a href="<?= $valueJS ?>" id="jsOldLabel" target="_blank">
+                                    <!-- Filled dynamically by script -->
                                     <i class="bi bi-box-arrow-up-right ms-2"></i>
-                                <?php endif; ?>
-                            </a>
-                        </small>
+                                </a>
+                            </small>
+                        </div>
+
+                        <!-- Button delete JS -->
+                        <button type="button" class="btn btn-danger btn-sm btn-floating" id="buttonHapusJS" data-mdb-ripple-init="">
+                            <i class="bi bi-trash"></i>
+                        </button>
+
+                        <script>
+                            // Add old js label and handle deletion
+                            document.addEventListener('DOMContentLoaded', function() {
+                                let jsOldLabel = document.getElementById("jsOldLabel");
+                                let buttonHapusJS = document.getElementById('buttonHapusJS');
+
+                                jsOldLabel.innerHTML =
+                                    getFilenameAndExtension('<?= $halaman['js'] ?>') +
+                                    '<i class="bi bi-box-arrow-up-right ms-2"></i>';
+
+                                buttonHapusJS.addEventListener("click", function() {
+                                    // Confirm delete
+                                    Swal.fire({
+                                        title: '<?= lang('Admin.hapusItem') ?>',
+                                        text: '<?= lang('Admin.itemYangTerhapusTidakDapatKembali') ?>',
+                                        icon: 'warning',
+                                        showCancelButton: true,
+                                        confirmButtonColor: 'var(--mdb-danger)',
+                                        confirmButtonText: '<?= lang('Admin.hapus') ?>',
+                                        cancelButtonText: '<?= lang('Admin.batal') ?>',
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            // Set input jsOld value to empty and hide hapus button
+                                            document.getElementById('jsOld').value = '';
+                                            buttonHapusJS.style.display = 'none';
+                                            jsOldLabel.style.display = 'none';
+                                        }
+                                    });
+                                });
+                            });
+                        </script>
+
+                    <?php endif; ?>
+
+                    <!-- Galat validasi -->
+                    <div class="alert alert-danger mt-2 <?= (!$errorJS) ? 'd-none' : ''; ?>" role="alert">
+                        <?= $errorJS; ?>
                     </div>
 
                 </div>
+
+                <!-- JS old input -->
+                <input type="hidden" class="form-control" id="jsOld" name="js_old" value="<?= $halaman['js'] ?>">
+
             </div>
 
         </div>
@@ -233,8 +310,8 @@ $valueJS = $halaman['js'];
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editMetaModalLabel">
-                    <?= lang('Admin.suntingKomponen') ?>
+                <h5 class="modal-title">
+                    <span id="editMetaModalLabel"><?= lang('Admin.suntingKomponen') ?></span>
 
                     <!-- Spinner -->
                     <div class="spinner-border spinner-border-sm ms-2" id="editMetaModalSpinner" role="status">
@@ -261,6 +338,7 @@ $valueJS = $halaman['js'];
 <?= $this->endSection() ?>
 
 <?= $this->section('script') ?>
+<?php include_once('assets/js/syntax_processor.js.php') ?>
 <script src="<?= base_url('assets/js/formatter.js') ?>"></script>
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script> -->
 <!-- Latest Sortable -->
@@ -301,6 +379,7 @@ $valueJS = $halaman['js'];
             e.preventDefault();
             const data = JSON.parse(e.dataTransfer.getData('text/plain'));
             var componentId = data.id;
+            var componentName = data.name;
             var componentIsSingular = data.tunggal; // Whether the component is SINGULAR or TUNGGAL
 
             // console.log(data);
@@ -332,47 +411,42 @@ $valueJS = $halaman['js'];
             // Add the dropped component to the table with animation
             var newRow = document.createElement('li');
             newRow.setAttribute('data-id', componentId);
+            newRow.setAttribute('data-name', componentName);
             newRow.setAttribute('data-instance-id', komponenInstanceId); // Set instance ID NEW
             newRow.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center', 'fade-in', 'px-3'); // Apply the fade-in animation class
-            newRow.innerHTML = '<span class="sortable-handle">☰</span>' + componentText +
-                '<button type="button" class="btn btn-danger btn-sm remove-komponen" onclick="deleteKomponen()">' +
-                '<i class="bi bi-trash"></i></button>';
+            // newRow.innerHTML = '<span class="sortable-handle me-4">☰</span>' + componentText +
+            //     '<button type="button" class="btn btn-danger btn-sm remove-komponen" onclick="deleteKomponen()">' +
+            //     '<i class="bi bi-trash"></i></button>';
+            newRow.innerHTML = `
+                <div>
+                    <span class="sortable-handle me-4">☰</span>
+                    ${componentText}
+                </div>
+                <div>
+                    <button type="button" class="btn btn-primary btn-sm btn-floating me-2" onclick="editKomponen()">
+                        <i class="bi bi-pencil"></i>
+                    </button>
+                    <button type="button" class="btn btn-danger btn-sm btn-floating remove-komponen" onclick="deleteKomponen()">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </div>
+                `;
             tabelKomponen.appendChild(newRow);
 
             updateKomponenOrder();
         });
 
-        // // Handle remove komponen functionality
-        // tabelKomponen.addEventListener('click', function(e) {
-        //     if (e.target.classList.contains('remove-komponen')) {
+        // Modular edit function
+        window.editKomponen = function() {
+            const button = event.target; // Get the element that triggered the event
+            const liElement = button.closest('li'); // Find the closest <li> element (the component)
+            const komponenId = liElement.getAttribute('data-id'); // Get the ID
+            const komponenNama = liElement.getAttribute('data-name'); // Get the ID
+            const komponenInstanceId = liElement.getAttribute('data-instance-id'); // Get the instance ID
 
-        //         // Confirm delete
-        //         Swal.fire({
-        //             title: '<?= lang('Admin.hapusItem') ?>',
-        //             text: '<?= lang('Admin.itemYangTerhapusTidakDapatKembali') ?>',
-        //             icon: 'warning',
-        //             showCancelButton: true,
-        //             confirmButtonColor: 'var(--mdb-danger)',
-        //             confirmButtonText: '<?= lang('Admin.hapus') ?>',
-        //             cancelButtonText: '<?= lang('Admin.batal') ?>',
-        //         }).then((result) => {
-        //             if (result.isConfirmed) {
+            openEditKomponenMetaModal(komponenId, komponenNama, komponenInstanceId); // Open edit meta modal
+        }
 
-        //                 e.target.closest('li').remove();
-        //                 updateKomponenOrder();
-
-        //                 // If there are no more components, show the placeholder row
-        //                 if (tabelKomponen.querySelectorAll('li').length === 0) {
-        //                     var noComponentsRow = document.createElement('li');
-        //                     noComponentsRow.classList.add('list-group-item', 'no-components', 'text-center');
-        //                     noComponentsRow.innerHTML = '<?= lang('Admin.belumAdaKomponenSeretDanTaruh') ?>';
-        //                     tabelKomponen.appendChild(noComponentsRow);
-        //                 }
-
-        //             }
-        //         });
-        //     }
-        // });
         // Modular delete function
         window.deleteKomponen = function() {
             const button = event.target; // Get the element that triggered the event
@@ -413,9 +487,10 @@ $valueJS = $halaman['js'];
         tabelKomponen.addEventListener('dblclick', function(e) {
             if (e.target.closest('li')) {
                 var componentId = e.target.closest('li').dataset.id;
-                var komponenInstanceId = e.target.closest('li').dataset.instanceId; // Use instance ID NEW
-                // openEditKomponenMetaModal(componentId);
-                openEditKomponenMetaModal(componentId, komponenInstanceId); // NEW
+                var componentName = e.target.closest('li').dataset.name;
+                var komponenInstanceId = e.target.closest('li').dataset.instanceId; // Use instance ID
+
+                openEditKomponenMetaModal(componentId, componentName, komponenInstanceId); // Open edit meta modal
             }
         });
 
@@ -467,7 +542,10 @@ $valueJS = $halaman['js'];
                 let element = document.getElementById(item['id']) || document.getElementsByName(item['id']);
 
                 if (element) {
-                    const value = item['value'];
+
+                    const id = item['id'];
+                    let value = item['value'];
+
                     if (NodeList.prototype.isPrototypeOf(element)) {
                         element.forEach(function(radio) {
                             if (radio.type === 'radio' && radio.value === value) {
@@ -475,6 +553,10 @@ $valueJS = $halaman['js'];
                             }
                         });
                     } else if (element.type) {
+
+                        // console.log(element.type);
+
+                        // ELEMENT TYPE MEANS THE HTML ELEMENT TYPE AND NOT THE META TIPE
                         switch (element.type) {
                             case 'text':
                             case 'email':
@@ -489,18 +571,144 @@ $valueJS = $halaman['js'];
                                 element.checked = value === 'on';
                                 break;
                             case 'file':
-                                if (Array.isArray(value)) {
+
+                                if (!element.hasAttribute('multiple')) {
+                                    // Handle single file
+
+                                    if (!value) {
+                                        // If falsy value, return
+                                        return;
+                                    }
+
+                                    // Declare variables
+                                    const fileInputOld = document.getElementById(id + '_old');
+                                    const fileFormHelper = document.getElementById(id + '_formHelper');
+                                    const fileInputParent = document.getElementById(id + '_parent');
+
+                                    fileInputOld.value = value;
+
+                                    fileFormHelper.insertAdjacentHTML('beforeend', `
+                                        <small>
+                                            <a href="${replaceEnvironmentSyntax(value)}" target="_blank">
+                                                ${getFilenameAndExtension(value)}
+                                                <i class="bi bi-box-arrow-up-right ms-2"></i>
+                                            </a>
+                                        </small>
+                                    `);
+
+                                    // Delete button alongside with its script to empty the input old
+                                    // Append the button to the parent
+                                    fileInputParent.insertAdjacentHTML('beforeend', `
+                                        <button type="button" class="btn btn-danger btn-sm btn-floating" id="${id}_buttonHapusFile" data-mdb-ripple-init="">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    `);
+
+                                    // Get reference to the button after it's added
+                                    const fileButtonHapus = document.getElementById(`${id}_buttonHapusFile`);
+
+                                    // Add the event listener
+                                    fileButtonHapus?.addEventListener("click", function() {
+                                        // Confirm delete
+                                        Swal.fire({
+                                            title: "<?= lang('Admin.hapusItem') ?>",
+                                            text: "<?= lang('Admin.itemYangTerhapusTidakDapatKembali') ?>",
+                                            icon: "warning",
+                                            showCancelButton: true,
+                                            confirmButtonColor: "var(--mdb-danger)",
+                                            confirmButtonText: "<?= lang('Admin.hapus') ?>",
+                                            cancelButtonText: "<?= lang('Admin.batal') ?>",
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+
+                                                // Set input value to empty and hide delete button
+                                                fileInputOld.value = "";
+                                                fileFormHelper.style.display = "none";
+                                                fileButtonHapus.style.display = "none";
+
+                                                console.log(fileFormHelper);
+
+                                            }
+                                        });
+                                    });
+
+                                } else {
+                                    // Handle multiple files
+
+                                    // Check whether the value is array, maybe due to user just changed the data type into files
+                                    if (!Array.isArray(value)) {
+                                        if (!value) {
+                                            // If falsy value, return
+                                            return;
+                                        }
+                                        value = [value]; // Convert it into array if it's not
+                                    }
+
+                                    // console.log(value);
 
                                     // We cannot do anything to file input including changing the text
                                     // Instead, we store the previously uploaded file to a hidden input 'old'
-                                    let elementValue = document.getElementById(item['id'] + '_old');
-                                    elementValue.value = JSON.stringify(value); // This will result in array even with a single value JUST DON'T FORGET TO PARSE BEFORE STRINGIFYING AGAIN, OTHERWISE BROKEN
+                                    const filesInputOld = document.getElementById(id + '_old');
+                                    const filesFormHelper = document.getElementById(id + '_formHelper');
+                                    const filesInputParent = document.getElementById(id + '_parent');
 
-                                    // Log
+                                    filesInputOld.value = JSON.stringify(value); // This will result in array even with a single value JUST DON'T FORGET TO PARSE BEFORE STRINGIFYING AGAIN, OTHERWISE BROKEN
+
+                                    // Show all files
                                     value.forEach(fileUrl => {
+
                                         // console.log('File URL:', fileUrl);
+
+                                        filesFormHelper.insertAdjacentHTML('beforeend', `
+                                        <small>
+                                            (
+                                            <a href="${replaceEnvironmentSyntax(fileUrl)}" target="_blank">
+                                                ${getFilenameAndExtension(fileUrl)}
+                                                <i class="bi bi-box-arrow-up-right ms-2"></i>
+                                            </a>
+                                            )
+                                        </small>
+                                    `);
+
+                                    });
+
+                                    // Delete button alongside with its script to empty the input old
+                                    // Append the button to the parent
+                                    filesInputParent.insertAdjacentHTML('beforeend', `
+                                    <button type="button" class="btn btn-danger btn-sm btn-floating" id="${id}_buttonHapusFile" data-mdb-ripple-init="">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                `);
+
+                                    // Get reference to the button after it's added
+                                    const buttonHapusFile = document.getElementById(`${id}_buttonHapusFile`);
+
+                                    // Add the event listener
+                                    buttonHapusFile?.addEventListener("click", function() {
+                                        // Confirm delete
+                                        Swal.fire({
+                                            title: "<?= lang('Admin.hapusItem') ?>",
+                                            text: "<?= lang('Admin.itemYangTerhapusTidakDapatKembali') ?>",
+                                            icon: "warning",
+                                            showCancelButton: true,
+                                            confirmButtonColor: "var(--mdb-danger)",
+                                            confirmButtonText: "<?= lang('Admin.hapus') ?>",
+                                            cancelButtonText: "<?= lang('Admin.batal') ?>",
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+
+                                                // Set input value to empty and hide delete button
+                                                filesInputOld.value = "";
+                                                filesFormHelper.style.display = "none";
+                                                buttonHapusFile.style.display = "none";
+
+                                                console.log(filesFormHelper);
+
+                                            }
+                                        });
                                     });
                                 }
+
                                 break;
                             case 'select-one':
                                 element.value = value;
@@ -551,6 +759,8 @@ $valueJS = $halaman['js'];
                 } = item; // Destructure necessary fields
                 let inputHTML = '';
 
+                // console.log(item.tipe);
+
                 // Create input elements based on type
                 switch (tipe) {
                     case 'text':
@@ -558,81 +768,87 @@ $valueJS = $halaman['js'];
                     case 'password':
                     case 'number':
                         inputHTML = `
-                    <div class="form-outline mb-3" data-mdb-input-init>
-                        <input type="${tipe}" id="${id}" name="${id}" class="form-control" />
-                        <label class="form-label" for="${id}">${nama}</label>
-                    </div>`;
+                            <div class="form-outline mb-3" data-mdb-input-init>
+                                <input type="${tipe}" id="${id}" name="${id}" class="form-control" />
+                                <label class="form-label" for="${id}">${nama}</label>
+                            </div>`;
                         break;
                     case 'datetime-local':
                         inputHTML = `
-                    <div class="form-outline mb-3" data-mdb-input-init>
-                        <input type="${tipe}" id="${id}" name="${id}" class="form-control form-control-lg" />
-                        <label class="form-label" for="${id}">${nama}</label>
-                    </div>`;
+                            <div class="form-outline mb-3" data-mdb-input-init>
+                                <input type="${tipe}" id="${id}" name="${id}" class="form-control form-control-lg" />
+                                <label class="form-label" for="${id}">${nama}</label>
+                            </div>`;
                         break;
                     case 'color':
                         inputHTML = `
-                    <div class="mb-3">
-                        <label class="form-label" for="${id}">${nama}</label>
-                        <input type="${tipe}" id="${id}" name="${id}" class="form-control form-control-color" title="${nama}" />
-                    </div>`;
+                            <div class="mb-3">
+                                <label class="form-label" for="${id}">${nama}</label>
+                                <input type="${tipe}" id="${id}" name="${id}" class="form-control form-control-color" title="${nama}" />
+                            </div>`;
                         break;
 
                     case 'textarea':
                         inputHTML = `
-                    <div class="form-outline mb-3" data-mdb-input-init>
-                        <textarea id="${id}" name="${id}" class="form-control"></textarea>
-                        <label class="form-label" for="${id}">${nama}</label>
-                    </div>`;
+                            <div class="form-outline mb-3" data-mdb-input-init>
+                                <textarea id="${id}" name="${id}" class="form-control"></textarea>
+                                <label class="form-label" for="${id}">${nama}</label>
+                            </div>`;
                         break;
 
                     case 'checkbox':
                         inputHTML = `
-                    <div class="form-check mb-3">
-                        <input type="checkbox" id="${id}" name="${id}" class="form-check-input" />
-                        <label class="form-check-label" for="${id}">${nama}</label>
-                    </div>`;
+                            <div class="form-check mb-3">
+                                <input type="checkbox" id="${id}" name="${id}" class="form-check-input" />
+                                <label class="form-check-label" for="${id}">${nama}</label>
+                            </div>`;
                         break;
 
                     case 'radio':
                         if (options && Array.isArray(options)) {
                             inputHTML = options.map(option => `
-                            <div class="form-check mb-3">
-                                <input type="radio" id="${id}_${option.value}" name="${id}" value="${option.value}" class="form-check-input" />
-                                <label class="form-check-label" for="${id}_${option.value}">${option.label}</label>
-                            </div>
+                                <div class="form-check mb-3">
+                                    <input type="radio" id="${id}_${option.value}" name="${id}" value="${option.value}" class="form-check-input" />
+                                    <label class="form-check-label" for="${id}_${option.value}">${option.label}</label>
+                                </div>
                             `).join('');
                         }
                         break;
 
                     case 'range':
                         inputHTML = `
-                    <label class="form-label" for="${id}">${nama}</label>
-                    <div class="range mb-3">
-                        <input type="range" id="${id}" name="${id}" class="form-range" />
-                    </div>`;
+                            <label class="form-label" for="${id}">${nama}</label>
+                            <div class="range mb-3">
+                                <input type="range" id="${id}" name="${id}" class="form-range" />
+                            </div>`;
                         break;
 
                     case 'file':
-                        // Create the file input as well as hidden input in case there are old files
+                    case 'file-multiple':
+                        // Common template for both single and multiple files
+                        const isMultiple = tipe === 'file-multiple' ? 'multiple' : '';
                         inputHTML = `
-                    <div class="mb-3">
-                        <label class="form-label" for="${id}">${nama}</label>
-                        <input type="file" id="${id}" name="${id}[]" class="form-control" multiple />
-                        <input type="hidden" id="${id}_old" name="${id}" />
-                    </div>`;
+                            <div class="form-floating mb-3" id="${id}_parent">
+                                <input type="file" id="${id}" name="${id}[]" class="form-control" ${isMultiple} />
+                                <label class="form-label" for="${id}">${nama}</label>
+                                <div class="form-helper" id="${id}_formHelper">
+                                    <!-- Filled dynamically -->
+                                </div>
+                                <input type="hidden" id="${id}_old" name="${id}" />
+                            </div>`;
                         break;
+
 
                     case 'select':
                         if (options && Array.isArray(options)) {
                             let optionsHTML = options.map(option => `<option value="${option.value}">${option.label}</option>`).join('');
                             inputHTML = `
-                        <div class="mb-3">
-                            <label class="form-label" for="${id}">${nama}</label>
-                            <select id="${id}" name="${id}" class="form-select">
-                                ${optionsHTML}
-                            </select>
-                        </div>`;
+                                <div class="mb-3">
+                                    <label class="form-label" for="${id}">${nama}</label>
+                                    <select id="${id}" name="${id}" class="form-select">
+                                        ${optionsHTML}
+                                    </select>
+                                </div>`;
                         }
                         break;
 
@@ -650,8 +866,9 @@ $valueJS = $halaman['js'];
         }
 
         // Function to open the component editor
-        function openEditKomponenMetaModal(componentId, componentInstanceId) {
+        function openEditKomponenMetaModal(componentId, componentName, componentInstanceId) {
             document.getElementById('editMetaModalSpinner').style.display = 'inline-block'; // Show edit modal spinner
+            document.getElementById('editMetaModalLabel').innerHTML = componentName;
 
             // Initialize and show the MDB modal
             const modalElement = document.getElementById('editKomponenMetaModal');
@@ -670,8 +887,20 @@ $valueJS = $halaman['js'];
 
             const content = getKomponenKontenById("<?php echo addcslashes(json_encode($daftarKomponen), '\"'); ?>", componentId);
             const metaDataArray = extractKomponenMetaFromHTML(content);
-            createInputsFromKomponenMeta(metaDataArray);
 
+            // console.log(metaDataArray);
+
+            createInputsFromKomponenMeta(metaDataArray); //  Create input fields for editing metadata
+
+
+            // If komponen has no meta syntax, exit
+            if (metaDataArray.length === 0) {
+                // Update UI
+                document.getElementById('editMetaModalSpinner').style.display = 'none'; // Hide edit modal spinner
+                return;
+            }
+
+            // If komponen has meta syntax, get existing meta if any
             // AJAX get existing meta for the selected component
             $.ajax({
                 url: '<?= base_url('api/komponen/meta') ?>',
@@ -682,8 +911,16 @@ $valueJS = $halaman['js'];
                     idHalaman: '<?= $halaman['id'] ?>'
                 },
                 success: function(response) {
+
+                    // Update UI
+                    document.getElementById('editMetaModalSpinner').style.display = 'none'; // Hide edit modal spinner
+                    document.getElementById('saveKomponenMetaButton').disabled = false; // Enable save button
+
+                    // If data exists, populate to meta input fields
                     if (response['data']) {
+
                         const responseMeta = response['data']['meta']; // Get the component's meta
+
                         if (responseMeta) {
 
                             const meta = JSON.parse(responseMeta); // Deserialize responseMeta
@@ -691,18 +928,17 @@ $valueJS = $halaman['js'];
                             populateEditKomponenMetaFields(meta); // Populate the inputs with retreived meta
 
                         } else {
-                            console.log('Component meta is null');
+                            // The komponen meta record is found but meta field is null
+                            console.log('Component meta field is null');
                         }
 
 
                     } else {
-                        console.log('Component data is null');
+                        // The komponen meta record is not found
+                        console.log('Component meta data is not found');
                     }
                     // console.log(response);
 
-                    // Update UI
-                    document.getElementById('editMetaModalSpinner').style.display = 'none'; // Hide edit modal spinner
-                    document.getElementById('saveKomponenMetaButton').disabled = false; // Enable save button
                 },
                 error: function(xhr, status, error) {
                     console.log('ERROR:' + status);
@@ -845,24 +1081,47 @@ $valueJS = $halaman['js'];
 
                 // Handle file inputs
                 if (type === "file") {
-                    if (inputFiles.length > 0) {
-                        for (let i = 0; i < inputFiles.length; i++) {
-                            formData.append(name, inputFiles[i]); // Append files as an array (name should include '[]')
-                            // console.log(`id: ${id} | name: ${name}`);
-                        }
-                        const fileArray = Array.from(inputFiles).map(file => file.name); // Collect file names for meta
-                        meta.push({
-                            id,
-                            value: fileArray
-                        });
-                    } else {
-                        const oldFiles = document.getElementById(id + '_old').value
 
-                        meta.push({
-                            id,
-                            value: isValidJSON(oldFiles) ? JSON.parse(oldFiles) : '' // MUST BE PARSED BACK TO JS OBJECT BECAUSE ALL META WILL BE STRINGIFIED IN THE END. TO PREVENT DOUBLE STRINGIFICATION!
-                        });
+                    if (input.hasAttribute('multiple')) {
+                        // Handle multiple files
+
+                        if (inputFiles.length > 0) {
+                            for (let i = 0; i < inputFiles.length; i++) {
+                                formData.append(name, inputFiles[i]); // Append files as an array (name should include '[]')
+                                // console.log(`id: ${id} | name: ${name}`);
+                            }
+                            const fileArray = Array.from(inputFiles).map(file => file.name); // Collect file names for meta
+                            meta.push({
+                                id,
+                                value: fileArray
+                            });
+                        } else {
+                            const oldFiles = document.getElementById(id + '_old').value
+
+                            meta.push({
+                                id,
+                                value: isValidJSON(oldFiles) ? JSON.parse(oldFiles) : '' // MUST BE PARSED BACK TO JS OBJECT BECAUSE ALL META WILL BE STRINGIFIED IN THE END. TO PREVENT DOUBLE STRINGIFICATION!
+                            });
+                        }
+
+                    } else {
+                        //Handle single file
+
+                        if (inputFiles.length > 0) {
+                            meta.push({
+                                id,
+                                value: inputFiles[0]
+                            });
+                        } else {
+                            const oldFile = document.getElementById(id + '_old').value
+
+                            meta.push({
+                                id,
+                                value: oldFile
+                            });
+                        }
                     }
+
                 }
 
                 // Handle radio buttons - only add the checked one, avoid duplicates
@@ -913,6 +1172,41 @@ $valueJS = $halaman['js'];
         /* Akhir dari use case */
 
 
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+
+        // Used in complementary
+        function metaFileAddHapusButtonScript(id) {
+            return `<script>
+    const ${id}_buttonHapusFile = document.getElementById('${id}_buttonHapusFile');
+    
+    ${id}_buttonHapusFile.addEventListener("click", function() {
+
+        // Confirm delete
+        Swal.fire({
+            title: "<?= lang('Admin.hapusItem') ?>",
+            text: "<?= lang('Admin.itemYangTerhapusTidakDapatKembali') ?>",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "var(--mdb-danger)",
+            confirmButtonText: "<?= lang('Admin.hapus') ?>",
+            cancelButtonText: "<?= lang('Admin.batal') ?>",
+        }).then((result) => {
+            
+            if (result.isConfirmed) {
+                // Set input ${id}_old value to empty and hide hapus button
+                document.getElementById('${id}_old').value = "";
+                ${id}_buttonHapusFile.style.display = "none";
+            }
+
+        });
+
+    });
+<\/script>`;
+        }
     });
 </script>
 <?= $this->endSection() ?>

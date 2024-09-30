@@ -8,6 +8,12 @@ if (!function_exists('replaceMetaSyntax')) {
         // Decode the meta source JSON into an associative array
         $metaDataArray = json_decode($metaSource, true);
 
+        // If metaDataArray is null
+        if (!$metaDataArray) {
+            // dd($htmlSource);
+            return $htmlSource; // Return initial HTML as is without modification
+        }
+
         // Create an associative array for quick lookup by ID
         $metaDataMap = [];
         foreach ($metaDataArray as $metaData) {

@@ -264,7 +264,10 @@ class Home extends BaseController
                 $x['konten_terformat'] = $this->twig->renderTemplateString(
                     $x['konten'],
                     [
+                        // Add environment variables
                         'base_url' => base_url(),
+                        'request_post' => $this->request->getPost(),
+                        'request_get' => $this->request->getGet(),
                     ]
                 );
             } else {
@@ -277,7 +280,10 @@ class Home extends BaseController
                         replaceEnvironmentSyntax($komponenMeta['meta'])
                     ),
                     [
+                        // Add environment variables
                         'base_url' => base_url(),
+                        'request_post' => $this->request->getPost(),
+                        'request_get' => $this->request->getGet(),
                     ]
                 ); // Format komponen
             }

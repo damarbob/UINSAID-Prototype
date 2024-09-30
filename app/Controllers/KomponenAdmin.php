@@ -65,7 +65,8 @@ class KomponenAdmin extends BaseControllerAdmin
                             'label' => 'CSS',
                             'rules' => [
                                 'uploaded[css_file]',
-                                'mime_in[css_file,text/css]',
+                                // 'mime_in[css_file,text/css]',
+                                'ext_in[css_file,css]',
                             ]
                         ]
                     ]
@@ -79,7 +80,8 @@ class KomponenAdmin extends BaseControllerAdmin
                             'label' => 'JS',
                             'rules' => [
                                 'uploaded[js_file]',
-                                'mime_in[js_file,text/javascript]',
+                                // 'mime_in[js_file,text/javascript]',
+                                'ext_in[js_file,js]',
                             ]
                         ],
                     ]
@@ -146,6 +148,8 @@ class KomponenAdmin extends BaseControllerAdmin
             $cssFile->move(FCPATH . 'assets/components/css/', $cssName);
             $cssPath = base_url('assets/components/css/' . $cssName);
             $data['css'] = $cssPath;
+        } else {
+            $data['css'] = $data['css_old'];
         }
 
         // Handle JS file upload
@@ -154,6 +158,8 @@ class KomponenAdmin extends BaseControllerAdmin
             $jsFile->move(FCPATH . 'assets/components/js/', $jsName);
             $jsPath = base_url('assets/components/js/' . $jsName);
             $data['js'] = $jsPath;
+        } else {
+            $data['js'] = $data['js_old'];
         }
         /* End of files upload */
 
