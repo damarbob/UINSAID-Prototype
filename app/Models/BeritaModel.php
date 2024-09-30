@@ -12,7 +12,7 @@ class BeritaModel extends \CodeIgniter\Model
 
     protected $useTimestamps = true;
 
-    protected $allowedFields = ['id_penulis', 'id_kategori', 'id_jenis', 'judul', 'slug', 'konten', 'ringkasan', 'pengajuan', 'status', 'sumber', 'tgl_terbit'];
+    protected $allowedFields = ['id_penulis', 'id_kategori', 'id_jenis', 'judul', 'slug', 'konten', 'ringkasan', 'pengajuan', 'status', 'sumber', 'tgl_terbit', 'featured_image'];
 
     public function getByKategori($kategori)
     {
@@ -22,7 +22,7 @@ class BeritaModel extends \CodeIgniter\Model
             ->where('kategori.nama', $kategori)
             ->where('berita.status', 'publikasi')
             ->where('berita.tgl_terbit <= ', date('Y-m-d H:i:s'))
-            ->paginate(10, 'berita'));
+            ->paginate(12, 'berita'));
     }
 
     public function getByKategoriLimit($kategori, $limit)

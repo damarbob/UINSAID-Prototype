@@ -79,9 +79,9 @@ $valueBarisPerHalaman = old('barisPerHalaman') ?: setting()->get('App.barisPerHa
             <!-- Tema situs -->
             <div class="form-floating mb-3">
                 <select class="form-select <?= (validation_show_error('temaSitus')) ? 'is-invalid' : ''; ?>" id="temaSitus" name="temaSitus">
-                    <option value="uinsaid-hijau" <?= $valueTemaSitus == 'uinsaid-hijau' ? 'selected' : '' ?>>UINSAID Hijau</option>
-                    <option value="kuning" <?= $valueTemaSitus == 'kuning' ? 'selected' : '' ?>>Kuning</option>
-                    <option value="" <?= $valueTemaSitus == '' ? 'selected' : '' ?>><?= lang('Admin.tidakAda') ?></option>
+                    <?php foreach ($tema as $x) : ?>
+                        <option value="<?= $x['id'] ?>" <?= $valueTemaSitus == $x['id'] ? 'selected' : '' ?>><?= $x['nama'] ?></option>
+                    <?php endforeach ?>
                 </select>
                 <label for="temaSitus" class="form-label"><?= lang('Admin.temaSitus') ?></label>
                 <div class="invalid-tooltip end-0">
