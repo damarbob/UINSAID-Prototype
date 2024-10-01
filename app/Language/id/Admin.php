@@ -275,5 +275,16 @@ return [
     'situsBerhasilDipulihkan' => 'Situs berhasil dipulihkan',
     'situsTidakDitemukan' => 'Situs tidak ditemukan',
 
-    'ppid' => 'PPID'
+    'ppid' => 'PPID',
+
+    'induk' => 'Induk',
+    'link' => 'Link',
+    'menu' => 'Menu',
+    'buatMenu' => 'Buat Menu',
+    'suntingMenu' => 'Sunting Menu',
+    'linkMenu' => 'Link Menu',
+    'menuBaru' => 'Menu Baru',
+    'uri' => 'URI/link',
+    'menuUtama' => 'Menu utama',
+    'linkEksternal' => 'Link eksternal',
 ];

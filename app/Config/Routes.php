@@ -217,6 +217,15 @@ $routes->group('admin', ['filter' => 'group:admin,superadmin'], function ($route
         $routes->post('situs/sunting/simpan/(:num)', 'SitusAdmin::simpan/$1');
         $routes->post('situs/hapus', 'SitusAdmin::hapusBanyak');
     }
+
+    // Manajemen menu
+    $routes->get('menu', 'MenuAdmin::index');
+    $routes->get('menu/tambah', 'MenuAdmin::tambah');
+    $routes->get('menu/sunting/(:num)', 'MenuAdmin::sunting/$1');
+    $routes->get('menu/sunting', 'MenuAdmin::sunting');
+    $routes->post('menu/simpan', 'MenuAdmin::simpan');
+    $routes->post('menu/simpan/(:num)', 'MenuAdmin::simpan/$1');
+    $routes->post('menu/hapus', 'MenuAdmin::hapusBanyak');
 });
 
 // Redirect to dasbor
@@ -299,6 +308,10 @@ $routes->group('api', static function ($routes) {
     $routes->post('compatibility-check', 'WebService::compatibilityCheck');
     $routes->post('shutdown', 'WebService::shutdown');
     $routes->post('restore', 'WebService::restore');
+
+    // Menu
+    $routes->post('menu', 'MenuAdmin::getDT');
+    $routes->post('menu/getUrutanOptions', 'MenuAdmin::getUrutanOptions');
 });
 
 $routes->group('fakultas', static function ($routes) {

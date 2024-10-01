@@ -135,6 +135,16 @@ $currentRoute = $request->uri->getSegment(1) . "/" . $request->uri->getSegment(2
                 </div>
             <?php endif ?>
 
+            <!-- Menu -->
+            <div class="nav-list">
+                <a href="<?= base_url('admin/menu') ?>" class="nav-link-admin <?= $currentRoute == "admin/menu" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Menu">
+                    <i class='bx bx-food-menu nav_icon'></i>
+                    <span class="nav_name">
+                        Menu
+                    </span>
+                </a>
+            </div>
+
             <!-- Pengaturan -->
             <div class="nav-list">
                 <a href="<?= base_url('admin/pengaturan') ?>" class="nav-link-admin <?= $currentRoute == "admin/pengaturan" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Pengaturan">

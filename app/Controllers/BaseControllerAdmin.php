@@ -17,6 +17,7 @@ use App\Models\KategoriModel;
 use App\Models\KomponenGrupModel;
 use App\Models\KomponenMetaModel;
 use App\Models\KomponenModel;
+use App\Models\MenuModel;
 use App\Models\PostingDiajukanModel;
 use App\Models\PostingJenisModel;
 use App\Models\PostingModel;
@@ -98,6 +99,8 @@ abstract class BaseControllerAdmin extends Controller
         protected KomponenMetaModel $komponenMetaModel;
         protected KomponenGrupModel $komponenGrupModel;
 
+        protected MenuModel $menuModel;
+
         // Site type
         protected bool $isParentSite;
         protected bool $isChildSite;
@@ -138,6 +141,8 @@ abstract class BaseControllerAdmin extends Controller
                 $this->komponenModel = new KomponenModel();
                 $this->komponenMetaModel = new KomponenMetaModel();
                 $this->komponenGrupModel = new KomponenGrupModel();
+
+                $this->menuModel = new MenuModel();
 
                 // Untuk notifikasi
                 $this->data['peringatanBeritaKosong'] = count($this->beritaModel->get()) == 0;
