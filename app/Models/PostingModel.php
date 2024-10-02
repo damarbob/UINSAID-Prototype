@@ -12,15 +12,22 @@ class PostingModel extends \CodeIgniter\Model
 
     protected $allowedFields = ['id_penulis', 'id_kategori', 'id_jenis', 'judul', 'slug', 'konten', 'ringkasan', 'pengajuan', 'status', 'gambar_sampul', 'sumber', 'tanggal_terbit'];
 
+    /**
+     * Get 12-per-page-paginated posting by jenis and kategori
+     * 
+     * @param int $jenis Jenis ID of Posting
+     * @param string $kategori Posting's kategori
+     * @return array Array of posting where the status is publikasi
+     */
     public function getByKategori($jenis, $kategori)
     {
         return $this->formatSampul($this->select('posting.*, users.username as penulis, kategori.nama as kategori')
             ->join('users', 'users.id = posting.id_penulis', 'left')
             ->join('kategori', 'kategori.id = posting.id_kategori', 'left')
-            ->join('posting_jenis', 'posting_jenis.id = posting.id_jenis', 'left')
+            ->join('posting_jenis', 'posting_jenis.id = kategori.id_jenis', 'left')
             ->where('kategori.nama', $kategori)
             ->where('posting.status', 'publikasi')
-            ->where('posting_jenis.name', $jenis)
+            // ->where('posting_jenis.name', $jenis) wrong outcome?
             ->where('kategori.id_jenis', $jenis)
             ->where('posting.tanggal_terbit <= ', date('Y-m-d H:i:s'))
             ->orderBy('posting.tanggal_terbit', 'DESC')
@@ -33,10 +40,10 @@ class PostingModel extends \CodeIgniter\Model
             $this->select('posting.*, penulis.username as penulis, kategori.nama as kategori')
                 ->join('users penulis', 'penulis.id = posting.id_penulis', 'left') // Alias table 'users' as 'penulis' due error non unique
                 ->join('kategori', 'kategori.id = posting.id_kategori', 'left')
-                ->join('posting_jenis', 'posting_jenis.id = posting.id_jenis', 'left')
+                ->join('posting_jenis', 'posting_jenis.id = kategori.id_jenis', 'left')
                 ->where('kategori.nama', $kategori)
                 ->where('posting.status', 'publikasi')
-                ->where('posting_jenis.nama', $jenis)
+                // ->where('posting_jenis.nama', $jenis)
                 ->where('kategori.id_jenis', $jenis)
                 ->where('posting.tanggal_terbit <= ', date('Y-m-d H:i:s'))
                 ->orderBy('posting.tanggal_terbit', 'DESC')
@@ -44,25 +51,25 @@ class PostingModel extends \CodeIgniter\Model
         );
     }
 
-    public function getByFilter($jenis, $limit, $start, $status = null, $search = null, $order = 'judul', $dir = 'asc')
+    public function getByFilter($jenis = null, $limit, $start, $status = null, $search = null, $order = 'judul', $dir = 'asc')
     {
         $builder = $this->db->table($this->table)
             ->select('posting.*, users.username as penulis, kategori.nama as kategori')
             ->join('users', 'users.id = posting.id_penulis', 'left')
             ->join('kategori', 'kategori.id = posting.id_kategori', 'left')
-            ->join('posting_jenis', 'posting_jenis.id = posting.id_jenis', 'left')
+            ->join('posting_jenis', 'posting_jenis.id = kategori.id_jenis', 'left')
             ->orderBy($order, $dir)
             ->limit($limit, $start);
 
-        if (!$jenis || $jenis == 'berita') {
+        if ($jenis) {
             $builder
-                ->groupStart()
-                ->where('posting_jenis.nama', $jenis)
-                ->orWhere('posting_jenis.nama IS NULL')
-                ->groupEnd();
-        } else {
-            $builder
+                // ->groupStart()
                 ->where('posting_jenis.nama', $jenis);
+            // ->orWhere('posting_jenis.nama IS NULL')
+            // ->groupEnd();
+            // } else {
+            //     $builder
+            //         ->where('posting_jenis.nama', $jenis);
         }
 
         if ($status) {
@@ -82,25 +89,25 @@ class PostingModel extends \CodeIgniter\Model
         return $builder->get()->getResult();
     }
 
-    public function getTotalRecords($jenis, $status = null, $search = null)
+    public function getTotalRecords($jenis = null, $status = null, $search = null)
     {
 
         $builder = $this->db->table($this->table)
             ->select('posting.*, users.username as penulis, kategori.nama as kategori')
             ->join('users', 'users.id = posting.id_penulis', 'left')
             ->join('kategori', 'kategori.id = posting.id_kategori', 'left')
-            ->join('posting_jenis', 'posting_jenis.id = posting.id_jenis', 'left')
+            ->join('posting_jenis', 'posting_jenis.id = kategori.id_jenis', 'left')
             ->where('kategori.id_jenis', $jenis);
 
-        if (!$jenis || $jenis == 'berita') {
+        if ($jenis) {
             $builder
-                ->groupStart()
-                ->where('posting_jenis.nama', $jenis)
-                ->orWhere('posting_jenis.nama IS NULL')
-                ->groupEnd();
-        } else {
-            $builder
+                // ->groupStart()
                 ->where('posting_jenis.nama', $jenis);
+            // ->orWhere('posting_jenis.nama IS NULL')
+            //         ->groupEnd();
+            // } else {
+            //     $builder
+            //         ->where('posting_jenis.nama', $jenis);
         }
 
         if ($status) {
@@ -121,6 +128,13 @@ class PostingModel extends \CodeIgniter\Model
         return $builder->countAllResults();
     }
 
+    /**
+     * Get paginated posting by jenis and search key
+     * 
+     * @param int $jenis Posting's jenis ID
+     * @param string $search Search key
+     *  @return array Array of posting where the status is publikasi
+     */
     public function getPaginated($jenis, $search = '')
     {
         $builder = $this->table($this->table);
@@ -133,7 +147,7 @@ class PostingModel extends \CodeIgniter\Model
             ->join('users', 'users.id = posting.id_penulis', 'left')
             ->join('kategori', 'kategori.id = posting.id_kategori', 'left')
             ->where('posting.status', 'publikasi')
-            ->where('posting_jenis.name', $jenis)
+            // ->where('posting_jenis.name', $jenis)
             ->where('kategori.id_jenis', $jenis)
             ->where('posting.tanggal_terbit <= ', date('Y-m-d H:i:s'))
             ->orderBy('posting.tanggal_terbit', 'DESC')
@@ -146,7 +160,7 @@ class PostingModel extends \CodeIgniter\Model
         return $this->formatSampul($this->select('posting.*, users.username as penulis, kategori.nama as kategori')
             ->join('users', 'users.id = posting.id_penulis', 'left')
             ->join('kategori', 'kategori.id = posting.id_kategori', 'left')
-            ->where('posting_jenis.name', $jenis)
+            // ->where('posting_jenis.name', $jenis)
             ->where('kategori.id_jenis', $jenis)
             ->where('posting.tanggal_terbit <= ', date('Y-m-d H:i:s'))
             ->orderBy('posting.tanggal_terbit', 'DESC')
@@ -157,7 +171,7 @@ class PostingModel extends \CodeIgniter\Model
 
     public function getByID($id)
     {
-        return $this->formatSampul($this->select('posting.*, users.username as penulis, kategori.nama as kategori')
+        return $this->formatSampul($this->select('posting.*, users.username as penulis, kategori.nama as kategori, kategori.id_jenis as id_jenis')
             ->join('users', 'users.id = posting.id_penulis', 'left')
             ->join('kategori', 'kategori.id = posting.id_kategori', 'left')
             ->where('posting.' . $this->primaryKey, $id)
@@ -215,7 +229,7 @@ class PostingModel extends \CodeIgniter\Model
         foreach ($data as &$item) {
             // Check if $item is an array
             if (is_array($item)) {
-                $item['gambar_sampul_sementara'] = $this->extract_first_image($item['konten'], base_url('assets/img/logo-square.png'), false);
+                $item['gambar_sampul_sementara'] = $this->extract_first_image($item['konten'], base_url('assets/img/icon-notext.png'), false);
 
                 // Uncomment the following and comment above code if the image is from base url
                 // $item['gambar_sampul'] = base_url('uploads/' . $this->extract_first_image_filename($item['konten'], base_url('assets/img/esmonde-yong-wFpJV5EWrSM-unsplash.jpg')));
@@ -232,7 +246,7 @@ class PostingModel extends \CodeIgniter\Model
             throw new \CodeIgniter\Exceptions\PageNotFoundException('Artikel tidak ditemukan.');
         }
 
-        $data['gambar_sampul_sementara'] = $this->extract_first_image($data['konten'], base_url('assets/img/logo-square.png'), false);
+        $data['gambar_sampul_sementara'] = $this->extract_first_image($data['konten'], base_url('assets/img/icon-notext.png'), false);
 
         return $data;
     }

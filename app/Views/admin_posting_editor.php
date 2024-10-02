@@ -15,6 +15,7 @@ if ($mode == "tambah") {
     $valueKonten = (old('konten'));
     $valueRingkasan = (old('ringkasan'));
     $valueKategori = (old('kategori'));
+    $valuePostingJenisId = (old('posting_jenis'));
     $valueStatus = (old('status'));
     $valueTglTerbit = (old('tanggal_terbit'));
 } else {
@@ -25,6 +26,7 @@ if ($mode == "tambah") {
     $valueKonten = (old('konten')) ? old('konten') : $posting['konten'];
     $valueRingkasan = (old('ringkasan')) ? old('ringkasan') : $posting['ringkasan'];
     $valueKategori = (old('kategori')) ? old('kategori') : $posting['kategori'];
+    $valuePostingJenisId = (old('posting_jenis')) ? old('posting_jenis') : $posting['id_jenis'];
     $valueStatus = (old('status')) ? old('status') : $posting['status'];
     $valueTglTerbit = (old('tanggal_terbit')) ? old('tanggal_terbit') : $posting['tanggal_terbit'];
 }
@@ -76,15 +78,33 @@ if ($mode == "tambah") {
                 <label class="control-label mb-2"><?= lang('Admin.ringkasan') ?></label>
             </div>
 
-            <!-- Kategori -->
+            <!-- Jenis Posting -->
+            <div class="form-floating mb-3">
+                <select class="form-select" id="postingJenisSelect" name="posting_jenis" required>
+                    <?php foreach ($postingJenis as $x): ?>
+                        <option value="<?= $x['id'] ?>" <?= $x['id'] == $valuePostingJenisId ? 'selected' : '' ?>>
+                            <?= $x['nama'] ?>
+                        </option>
+                    <?php endforeach ?>
+                    <option value=""><?= lang('Admin.tambahBaru') ?></option>
+                </select>
+                <label for="posting_jenis" class="form-label"><?= lang('Admin.jenisPosting') ?></label>
+            </div>
+
+            <!-- Input field for adding a new posting_jenis -->
             <div class="mb-3">
-                <label for="kategoriSelect" class="form-label"><?= lang('Admin.kategori') ?></label>
+                <input type="text" class="form-control mt-2 mb-3" id="inputPostingJenisLainnya" name="posting_jenis_lainnya" placeholder="<?= lang('Admin.nama') ?>" disabled>
+            </div>
+
+            <!-- Kategori -->
+            <div class="form-floating mb-3">
                 <select class="form-select" id="kategoriSelect" name="kategori" required>
                     <?php foreach ($kategori as $key): ?>
                         <option value="<?= $key['nama'] ?>" <?= $key['nama'] == $valueKategori ? 'selected' : '' ?>><?= $key['nama'] ?></option>
                     <?php endforeach ?>
                     <option value=""><?= lang('Admin.tambahBaru') ?></option>
                 </select>
+                <label for="kategori" class="form-label"><?= lang('Admin.kategori') ?></label>
                 <!-- <div class="invalid-feedback">
                     <?= lang('Admin.pilihAtauInputKategori') ?>
                 </div> -->
@@ -243,21 +263,100 @@ if ($mode == "tambah") {
 
 <!-- Handle kategori lainnya -->
 <script>
-    // Select
     document.addEventListener('DOMContentLoaded', function() {
+        const selectPostingJenis = document.getElementById('postingJenisSelect');
         const selectKategori = document.getElementById('kategoriSelect');
+        const inputPostingJenisLainnya = document.getElementById('inputPostingJenisLainnya');
         const inputKategoriLainnya = document.getElementById('inputKategoriLainnya');
 
+        // Initialize the UI and fetch kategori on page load
+        updateUiInputPostingJenis(); // Initialize the UI for the posting_jenis input
+        updateUiInputKategori(); // Initialize the UI for the kategori input
+
+        // Fetch the kategori options based on the pre-selected posting_jenis when the document is ready
+        const initialPostingJenisId = selectPostingJenis.value;
+        if (initialPostingJenisId) {
+            fetchKategoriOptions(initialPostingJenisId);
+        }
+
+        // Handle the change event of posting_jenis select
+        selectPostingJenis.addEventListener('change', function() {
+            updateUiInputPostingJenis();
+
+            const postingJenisId = this.value;
+            if (postingJenisId) {
+                // Fetch kategori options based on the selected posting_jenis
+                fetchKategoriOptions(postingJenisId);
+            }
+        });
+
+        // Handle the change event of kategori select
         selectKategori.addEventListener('change', function() {
-            if (selectKategori.value === '') { // If "Lainnya" is selected
+            updateUiInputKategori();
+        });
+
+        // Show or hide the input for adding new posting_jenis
+        function updateUiInputPostingJenis() {
+            if (selectPostingJenis.value === '') { // If "Add New" is selected for posting_jenis
+                inputPostingJenisLainnya.style.display = 'block';
+                inputPostingJenisLainnya.disabled = false;
+                inputPostingJenisLainnya.required = true;
+            } else {
+                inputPostingJenisLainnya.style.display = 'none';
+                inputPostingJenisLainnya.disabled = true;
+                inputPostingJenisLainnya.required = false;
+                inputPostingJenisLainnya.value = ''; // Clear the input if another option is selected
+            }
+        }
+
+        // Show or hide the input for adding new kategori
+        function updateUiInputKategori() {
+            if (selectKategori.value === '') { // If "Add New" is selected for kategori
+                inputKategoriLainnya.style.display = 'block';
                 inputKategoriLainnya.disabled = false;
                 inputKategoriLainnya.required = true;
             } else {
+                inputKategoriLainnya.style.display = 'none';
                 inputKategoriLainnya.disabled = true;
                 inputKategoriLainnya.required = false;
                 inputKategoriLainnya.value = ''; // Clear the input if another option is selected
             }
-        });
+        }
+
+        // Fetch kategori options based on the selected posting_jenis
+        function fetchKategoriOptions(postingJenisId) {
+            $.ajax({
+                url: '<?= base_url('api/posting/getKategoriByJenis') ?>',
+                type: 'POST',
+                data: {
+                    id_jenis: postingJenisId
+                },
+                success: function(response) {
+                    // Clear current options
+                    selectKategori.innerHTML = '';
+
+                    // Populate with new options
+                    response.kategori.forEach(function(kat) {
+                        const option = document.createElement('option');
+                        option.value = kat.nama;
+                        option.textContent = kat.nama;
+                        selectKategori.appendChild(option);
+                    });
+
+                    const options = Array.from(selectKategori.options);
+                    const optionToSelect = options.find(option => option.text === '<?= $valueKategori ?>');
+                    if (optionToSelect) {
+                        optionToSelect.selected = true;
+                    }
+
+                    // Add "Add New" option
+                    const addNewOption = document.createElement('option');
+                    addNewOption.value = '';
+                    addNewOption.textContent = '<?= lang("Admin.tambahBaru") ?>';
+                    selectKategori.appendChild(addNewOption);
+                }
+            });
+        }
     });
 </script>
 

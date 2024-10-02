@@ -147,6 +147,8 @@ abstract class BaseControllerAdmin extends Controller
                 // Untuk notifikasi
                 $this->data['peringatanBeritaKosong'] = count($this->beritaModel->get()) == 0;
                 $this->data['peringatanPostingBerita'] = $this->beritaModel->isLatestDataOverThreeMonthsOld();
+                $this->data['peringatanPostingKosong'] = count($this->postingModel->findAll()) == 0;
+                $this->data['peringatanPostingTigaBulan'] = $this->postingModel->isLatestDataOverThreeMonthsOld();
                 $this->data['jumlahKotakMasukBelumTerbaca'] = count(format_tanggal($this->masukanModel->getKotakMasukBelumTerbaca()));
                 $this->data['adaKotakMasukBelumTerbaca'] = ($this->data['jumlahKotakMasukBelumTerbaca'] > 0); // Ada kotak masuk yang belum terbaca
 

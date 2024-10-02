@@ -145,6 +145,33 @@ $currentRoute = $request->uri->getSegment(1) . "/" . $request->uri->getSegment(2
                 </a>
             </div>
 
+            <!-- Posting -->
+            <?php if ((ENVIRONMENT == 'development') && auth()->user()->inGroup("superadmin")): ?>
+                <div class="nav-list">
+                    <a href="<?= base_url('admin/posting') ?>" class="nav-link-admin <?= $currentRoute == "admin/posting" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Posting">
+                        <i class='bx bx-news nav_icon'></i>
+                        <span class="nav_name"><?= lang('Admin.posting') ?></span>
+                        <?php if ($peringatanPostingKosong || $peringatanPostingTigaBulan) : ?>
+                            <span class="position-absolute top-0 end-0 translate-middle-y badge rounded-pill bg-danger">
+                                !
+                                <span class="visually-hidden">peringatan rilis media</span>
+                            </span>
+                        <?php endif ?>
+                    </a>
+                </div>
+
+                <!-- Posting diajukan -->
+                <?php if (env('app.siteType') == 'parent' || env('app.siteType') == 'super'): ?>
+                    <!-- Kelola posting diajukan khusus parent atau super -->
+                    <div class="nav-list">
+                        <a href="<?= base_url('admin/posting-diajukan') ?>" class="nav-link-admin <?= $currentRoute == "admin/posting-diajukan" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Posting Diajukan">
+                            <i class='bx bx-mail-send nav_icon'></i>
+                            <span class="nav_name">Posting diajukan</span>
+                        </a>
+                    </div>
+                <?php endif ?>
+            <?php endif ?>
+
             <!-- Pengaturan -->
             <div class="nav-list">
                 <a href="<?= base_url('admin/pengaturan') ?>" class="nav-link-admin <?= $currentRoute == "admin/pengaturan" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Pengaturan">

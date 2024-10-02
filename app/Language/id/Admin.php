@@ -95,6 +95,7 @@ return [
     'kelolaPosting' => 'Kelola Posting',
     'suntingPosting' => 'Sunting Posting',
     'tambahPosting' => 'Tambah Posting',
+    'jenisPosting' => 'Jenis Posting',
 
     'berita' => 'Berita',
     'kelolaBerita' => 'Kelola berita',

@@ -10,5 +10,6 @@ class DatabaseSeeder extends Seeder
     {
         // Call other seeders if needed
         $this->call('TemaSeeder');
+        $this->call('MenuSeeder');
     }
 }

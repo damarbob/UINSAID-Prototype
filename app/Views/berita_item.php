@@ -68,7 +68,7 @@ $beritaUrl = base_url("berita/" . $berita['slug']);
                     <p>
                         Diterbitkan pada<br>
                         <span class="fw-bold">
-                            <?= $berita['created_at_terformat']; ?>
+                            <?= $berita['formatted_datetime']; ?>
                         </span>
                     </p>
 
@@ -87,7 +87,7 @@ $beritaUrl = base_url("berita/" . $berita['slug']);
                 <div class="row g-0">
                     <div class="col">
                         <div class="ratio ratio-4x3">
-                            <img data-aos="fade-up" class="object-fit-cover" style="border: 1rem solid var(--mdb-body-bg);" src="<?= $berita['featured_image'] ?: $berita['gambar_sampul'] ?>" onerror="this.onerror=null; this.src='<?= base_url('assets/img/icon-notext.png') ?>'" />
+                            <img data-aos="fade-up" class="object-fit-cover" style="border: 1rem solid var(--mdb-body-bg);" src="<?= $berita['gambar_sampul'] ? $berita['gambar_sampul'] : $berita['gambar_sampul_sementara'] ?>" onerror="this.onerror=null; this.src='<?= base_url('assets/img/icon-notext.png') ?>'" />
                         </div>
                     </div>
                 </div>
@@ -157,7 +157,7 @@ $beritaUrl = base_url("berita/" . $berita['slug']);
                                 <!-- Gambar kegiatan -->
                                 <div class="col-3 position-relative">
                                     <div class="ratio ratio-4x3">
-                                        <img src="<?= $bt['gambar_sampul'] ?>" class="card-img object-fit-cover" alt="..." />
+                                        <img src="<?= $bt['gambar_sampul'] ?: $bt['gambar_sampul_sementara'] ?>" class="card-img object-fit-cover" alt="..." onerror="this.onerror=null; this.src='<?= base_url('assets/img/icon-notext.png') ?>'" />
                                     </div>
                                 </div>
 
@@ -178,7 +178,7 @@ $beritaUrl = base_url("berita/" . $berita['slug']);
 
                                         <!-- Kategori dan tanggal terbit -->
                                         <small class="card-text crop-text-2">
-                                            <?= $bt['created_at_terformat'] ?> <b><?= $bt['kategori'] ?></b>
+                                            <?= $bt['formatted_datetime'] ?> <b><?= $bt['kategori'] ?></b>
                                         </small>
                                     </div>
                                     <!-- Akhir body kegiatan -->

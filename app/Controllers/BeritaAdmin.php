@@ -180,7 +180,7 @@ class BeritaAdmin extends BaseControllerAdmin
 
         // Simpan rilis media TODO: Buat seperti di PostingAdmin
         if ($modeTambah) {
-            $user = [
+            $data = [
                 'id_penulis' => auth()->id(),
                 'judul' => $judul,
                 'slug' => create_slug($this->request->getVar('judul')),
@@ -190,11 +190,11 @@ class BeritaAdmin extends BaseControllerAdmin
                 'status' => $this->request->getVar('status'),
                 'sumber' => base_url(),
                 'tgl_terbit' => $this->request->getVar('tgl_terbit'),
-                'featured_image' => $this->beritaModel->extract_first_image($this->request->getVar('konten'), base_url('assets/img/logo-square.png'), false),
+                'featured_image' => $this->beritaModel->extract_first_image($this->request->getVar('konten'), base_url('assets/img/icon-notext.png'), false),
             ];
 
             // Jika ID kosong, buat entri baru
-            $this->beritaModel->save($user);
+            $this->beritaModel->save($data);
 
             // Pesan berhasil diperbarui
             session()->setFlashdata('sukses', lang('Admin.berhasilDibuat'));
@@ -209,7 +209,7 @@ class BeritaAdmin extends BaseControllerAdmin
                 'id_kategori' => $kategori['id'],
                 'status' => $this->request->getVar('status'),
                 'tgl_terbit' => $this->request->getVar('tgl_terbit'),
-                'featured_image' => $this->beritaModel->extract_first_image($this->request->getVar('konten'), base_url('assets/img/logo-square.png'), false),
+                'featured_image' => $this->beritaModel->extract_first_image($this->request->getVar('konten'), base_url('assets/img/icon-notext.png'), false),
             ]);
 
             // Pesan berhasil diperbarui

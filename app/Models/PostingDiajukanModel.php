@@ -10,19 +10,30 @@ class PostingDiajukanModel extends \CodeIgniter\Model
 
     protected $useTimestamps = true;
 
-    protected $allowedFields = ['id_penulis', 'id_kategori', 'id_jenis', 'judul', 'slug', 'konten', 'ringkasan', 'pengajuan', 'status', 'gambar_sampul', 'sumber', 'tanggal_terbit'];
+    protected $allowedFields = ['id_penulis', 'id_kategori', 'id_jenis', 'judul', 'slug', 'konten', 'ringkasan', 'pengajuan', 'status', 'gambar_sampul', 'sumber', 'tanggal_terbit', 'created_at'];
 
-    public function getByFilter($jenis, $limit, $start, $status = null, $search = null, $order = 'judul', $dir = 'asc')
+    public function getByFilter($jenis = null, $limit, $start, $status = null, $search = null, $order = 'judul', $dir = 'asc')
     {
         $builder = $this->db->table($this->table)
             ->select('posting_diajukan.*, users.username as penulis, kategori.nama as kategori')
             ->join('users', 'users.id = posting_diajukan.id_penulis', 'left')
             ->join('kategori', 'kategori.id = posting_diajukan.id_kategori', 'left')
-            ->join('posting_jenis', 'posting_jenis.id = posting_diajukan.id_jenis', 'left')
-            ->where('posting_jenis.name', $jenis)
-            ->where('kategori.id_jenis', $jenis)
+            ->join('posting_jenis', 'posting_jenis.id = kategori.id_jenis', 'left')
+            // ->where('posting_jenis.name', $jenis)
+            // ->where('kategori.id_jenis', $jenis)
             ->orderBy($order, $dir)
             ->limit($limit, $start);
+
+        if ($jenis) {
+            $builder
+                // ->groupStart()
+                ->where('posting_jenis.nama', $jenis);
+            // ->orWhere('posting_jenis.nama IS NULL')
+            //         ->groupEnd();
+            // } else {
+            //     $builder
+            //         ->where('posting_jenis.nama', $jenis);
+        }
 
         if ($status) {
             $builder->where('posting_diajukan.status', $status);
@@ -65,7 +76,7 @@ class PostingDiajukanModel extends \CodeIgniter\Model
         return $builder
             ->join('users', 'users.id = posting_diajukan.id_penulis', 'left')
             ->join('kategori', 'kategori.id = posting_diajukan.id_kategori', 'left')
-            ->where('posting_jenis.name', $jenis)
+            // ->where('posting_jenis.name', $jenis)
             ->where('kategori.id_jenis', $jenis)
             ->countAllResults();
     }

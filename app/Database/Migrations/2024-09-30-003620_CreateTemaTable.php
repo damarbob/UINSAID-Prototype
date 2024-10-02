@@ -22,6 +22,9 @@ class CreateTemaTable extends Migration
             'css' => [
                 'type' => 'TEXT',
             ],
+            'css_rtl' => [
+                'type' => 'TEXT',
+            ],
             'created_at' => [
                 'type'    => 'DATETIME',
                 'null'    => true,

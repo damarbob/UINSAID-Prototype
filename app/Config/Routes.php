@@ -124,6 +124,13 @@ $routes->group('admin', ['filter' => 'group:admin,superadmin'], function ($route
         $routes->get('posting/sunting/(:num)', 'PostingAdmin::sunting/$1');
         $routes->post('posting/sunting/simpan/(:num)', 'PostingAdmin::simpan/$1');
         $routes->post('posting/hapus', 'PostingAdmin::hapusBanyak');
+
+        // Posting diajukan (web utama)
+        if (env('app.siteType') == 'parent' || env('app.siteType') == 'super') {
+            $routes->get('posting-diajukan', 'PostingDiajukanAdmin');
+            $routes->post('posting-diajukan/publikasi', 'PostingDiajukanAdmin::publikasiBanyak');
+            $routes->post('posting-diajukan/hapus', 'PostingDiajukanAdmin::hapusBanyak');
+        }
     }
 
     // Pengaturan
@@ -252,7 +259,13 @@ $routes->group('api', static function ($routes) {
 
         // Posting
         $routes->post('posting', 'PostingAdmin::fetchData');
-        $routes->post('posting/(:any)', 'PostingAdmin::fetchData/$1');
+        $routes->post('posting/getKategoriByJenis', 'PostingAdmin::getKategoriByJenis');
+        // Posting pengajuan (web utama)
+        if (env('app.siteType') == 'parent' || env('app.siteType') == 'super') {
+            $routes->post('posting-diajukan', 'PostingDiajukanAdmin::fetchData');
+            $routes->post('posting-diajukan/terima-posting', 'PostingDiajukanAdmin::terimaPostingBanyak');
+            $routes->post('posting-diajukan/(:any)', 'PostingDiajukanAdmin::fetchData/$1');
+        }
     }
 
     // Berita

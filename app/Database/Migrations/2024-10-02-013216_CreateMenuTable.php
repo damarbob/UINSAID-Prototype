@@ -53,7 +53,7 @@ class CreateMenuTable extends Migration
         $this->forge->addKey('id', true); // Primary key
 
         // Create the table
-        $this->forge->createTable('manu');
+        $this->forge->createTable('menu');
     }
 
     public function down()
