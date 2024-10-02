@@ -137,7 +137,7 @@ class HalamanAdmin extends BaseControllerAdmin
         $this->data['halaman'] = $halaman;
         $this->data['komponenData'] = $komponenData;
         $this->data['komponen'] = $komponen;
-        $this->data['daftarKomponen'] = $this->komponenModel->findAll();
+        $this->data['daftarKomponen'] = $this->komponenModel->orderBy('nama', 'asc')->findAll();
 
         return view('admin_halaman_editor', $this->data);
     }
@@ -176,7 +176,6 @@ class HalamanAdmin extends BaseControllerAdmin
                             'label' => 'CSS',
                             'rules' => [
                                 'uploaded[css_file]',
-                                // 'mime_in[css_file,text/css]',
                                 'ext_in[css_file,css]',
                             ]
                         ]
@@ -191,7 +190,6 @@ class HalamanAdmin extends BaseControllerAdmin
                             'label' => 'JS',
                             'rules' => [
                                 'uploaded[js_file]',
-                                // 'mime_in[js_file,text/javascript]',
                                 'ext_in[js_file,js]',
                             ]
                         ],
@@ -256,7 +254,7 @@ class HalamanAdmin extends BaseControllerAdmin
                 $originalName = url_title(pathinfo($cssFile->getClientName(), PATHINFO_FILENAME), '-', false); // Get the original filename
                 $randomName = $cssFile->getRandomName(); // Generate a random file name
                 $cssFile->move(FCPATH . 'assets/pages/css/', $originalName . '-' . $randomName);
-                $cssPath = base_url('assets/pages/css/' . $originalName . '-' . $randomName);
+                $cssPath = ('assets/pages/css/' . $originalName . '-' . $randomName);
             }
         } else {
             // Get css from old value
@@ -270,7 +268,7 @@ class HalamanAdmin extends BaseControllerAdmin
                 $originalName = url_title(pathinfo($jsFile->getClientName(), PATHINFO_FILENAME), '-', false); // Get the original filename
                 $randomName = $jsFile->getRandomName(); // Generate a random file name
                 $jsFile->move(FCPATH . 'assets/pages/js/', $originalName . '-' . $randomName);
-                $jsPath = base_url('assets/pages/js/' . $originalName . '-' . $randomName);
+                $jsPath = ('assets/pages/js/' . $originalName . '-' . $randomName);
             }
         } else {
             // Get css from old value

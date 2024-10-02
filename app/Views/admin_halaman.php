@@ -152,6 +152,11 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
             var buttons = $(".dt-buttons.btn-group.flex-wrap .btn.btn-secondary");
             var lastButton = buttons.last();
 
+            // Reinitialize the ripple effect for the new button
+            buttons.each(function() {
+                new mdb.Ripple(this); // This will reinitialize the ripple effect on all elements with the data-mdb-ripple-init attribute
+            })
+
             buttons.eq(0).removeClass("btn-secondary").addClass("btn-primary").addClass("rounded-0");
             buttons.eq(2).removeClass("btn-secondary").addClass("btn-primary");
             lastButton.removeClass("btn-secondary").addClass("btn-danger").addClass("rounded-0");

@@ -24,9 +24,9 @@ class Filters extends BaseConfig
         'honeypot'      => Honeypot::class,
         'invalidchars'  => InvalidChars::class,
         'secureheaders' => SecureHeaders::class,
-        'cekStatusSitus' => CekStatusSitus::class,
-        'cors'          => Cors::class,
-        'superadmin'    => SuperAdminFilter::class, // Register the new filter
+        'cekStatusSitus' => CekStatusSitus::class, // Cek status situs filter
+        'cors'          => Cors::class, // CORS filter
+        'superadmin'    => SuperAdminFilter::class, // Superadmin filter
     ];
 
     /**

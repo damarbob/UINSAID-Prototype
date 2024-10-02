@@ -73,7 +73,7 @@ $errorJS = validation_show_error('js_file');
 
             <!-- Nama komponen -->
             <div class="form-floating mb-3">
-                <input type="text" class="form-control <?= (validation_show_error('nama')) ? 'is-invalid' : ''; ?>" id="nama" name="nama" value="<?= isset($komponen) ? $komponen['nama'] : ''; ?>">
+                <input type="text" class="form-control <?= (validation_show_error('nama')) ? 'is-invalid' : ''; ?>" id="nama" name="nama" value="<?= $valueNama ?>">
                 <label for="nama"><?= lang('Admin.nama') ?></label>
                 <div class="invalid-tooltip end-0">
                     <?= validation_show_error('nama'); ?>
@@ -102,7 +102,7 @@ $errorJS = validation_show_error('js_file');
                     <!-- CSS lama -->
                     <div class="form-helper">
                         <small>
-                            <a href="<?= $valueCSS ?>" id="cssOldLabel" target="_blank">
+                            <a href="<?= base_url($valueCSS) ?>" id="cssOldLabel" target="_blank">
                                 <!-- Filled dynamically by script -->
                             </a>
                         </small>
@@ -113,6 +113,38 @@ $errorJS = validation_show_error('js_file');
                         <i class="bi bi-trash"></i>
                     </button>
 
+                    <script>
+                        // Add old css label and handle deletion
+                        document.addEventListener('DOMContentLoaded', function() {
+                            let cssOldLabel = document.getElementById("cssOldLabel");
+                            let buttonHapusCSS = document.getElementById('buttonHapusCSS');
+
+                            cssOldLabel.innerHTML =
+                                getFilenameAndExtension('<?= $komponen['css'] ?>') +
+                                '<i class="bi bi-box-arrow-up-right ms-2"></i>';
+
+                            buttonHapusCSS.addEventListener("click", function() {
+                                // Confirm delete
+                                Swal.fire({
+                                    title: '<?= lang('Admin.hapusItem') ?>',
+                                    text: '<?= lang('Admin.itemYangTerhapusTidakDapatKembali') ?>',
+                                    icon: 'warning',
+                                    showCancelButton: true,
+                                    confirmButtonColor: 'var(--mdb-danger)',
+                                    confirmButtonText: '<?= lang('Admin.hapus') ?>',
+                                    cancelButtonText: '<?= lang('Admin.batal') ?>',
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        // Set input cssOld value to empty and hide hapus button
+                                        document.getElementById('cssOld').value = '';
+                                        buttonHapusCSS.style.display = 'none';
+                                        cssOldLabel.style.display = 'none';
+                                    }
+                                });
+                            });
+                        });
+                    </script>
+
                 <?php endif; ?>
 
                 <!-- Galat validasi -->
@@ -120,42 +152,10 @@ $errorJS = validation_show_error('js_file');
                     <?= $errorCSS; ?>
                 </div>
 
-                <script>
-                    // Add old css label and handle deletion
-                    document.addEventListener('DOMContentLoaded', function() {
-                        let cssOldLabel = document.getElementById("cssOldLabel");
-                        let buttonHapusCSS = document.getElementById('buttonHapusCSS');
-
-                        cssOldLabel.innerHTML =
-                            getFilenameAndExtension('<?= $komponen['css'] ?>') +
-                            '<i class="bi bi-box-arrow-up-right ms-2"></i>';
-
-                        buttonHapusCSS.addEventListener("click", function() {
-                            // Confirm delete
-                            Swal.fire({
-                                title: '<?= lang('Admin.hapusItem') ?>',
-                                text: '<?= lang('Admin.itemYangTerhapusTidakDapatKembali') ?>',
-                                icon: 'warning',
-                                showCancelButton: true,
-                                confirmButtonColor: 'var(--mdb-danger)',
-                                confirmButtonText: '<?= lang('Admin.hapus') ?>',
-                                cancelButtonText: '<?= lang('Admin.batal') ?>',
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    // Set input cssOld value to empty and hide hapus button
-                                    document.getElementById('cssOld').value = '';
-                                    buttonHapusCSS.style.display = 'none';
-                                    cssOldLabel.style.display = 'none';
-                                }
-                            });
-                        });
-                    });
-                </script>
-
             </div>
 
             <!-- CSS old input -->
-            <input type="hidden" class="form-control" id="cssOld" name="css_old" value="<?= $komponen['css'] ?>">
+            <input type="hidden" class="form-control" id="cssOld" name="css_old" value="<?= $valueCSS ?>">
 
             <!-- JS file input -->
             <div class="form-floating mb-3">
@@ -167,7 +167,7 @@ $errorJS = validation_show_error('js_file');
                     <!-- JS lama -->
                     <div class="form-helper">
                         <small>
-                            <a href="<?= $valueJS ?>" id="jsOldLabel" target="_blank">
+                            <a href="<?= base_url($valueJS) ?>" id="jsOldLabel" target="_blank">
                                 <!-- Filled dynamically by script -->
                                 <i class="bi bi-box-arrow-up-right ms-2"></i>
                             </a>
@@ -179,6 +179,38 @@ $errorJS = validation_show_error('js_file');
                         <i class="bi bi-trash"></i>
                     </button>
 
+                    <script>
+                        // Add old js label and handle deletion
+                        document.addEventListener('DOMContentLoaded', function() {
+                            let jsOldLabel = document.getElementById("jsOldLabel");
+                            let buttonHapusJS = document.getElementById('buttonHapusJS');
+
+                            jsOldLabel.innerHTML =
+                                getFilenameAndExtension('<?= $komponen['js'] ?>') +
+                                '<i class="bi bi-box-arrow-up-right ms-2"></i>';
+
+                            buttonHapusJS.addEventListener("click", function() {
+                                // Confirm delete
+                                Swal.fire({
+                                    title: '<?= lang('Admin.hapusItem') ?>',
+                                    text: '<?= lang('Admin.itemYangTerhapusTidakDapatKembali') ?>',
+                                    icon: 'warning',
+                                    showCancelButton: true,
+                                    confirmButtonColor: 'var(--mdb-danger)',
+                                    confirmButtonText: '<?= lang('Admin.hapus') ?>',
+                                    cancelButtonText: '<?= lang('Admin.batal') ?>',
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        // Set input jsOld value to empty and hide hapus button
+                                        document.getElementById('jsOld').value = '';
+                                        buttonHapusJS.style.display = 'none';
+                                        jsOldLabel.style.display = 'none';
+                                    }
+                                });
+                            });
+                        });
+                    </script>
+
                 <?php endif; ?>
 
                 <!-- Galat validasi -->
@@ -186,42 +218,10 @@ $errorJS = validation_show_error('js_file');
                     <?= $errorJS; ?>
                 </div>
 
-                <script>
-                    // Add old js label and handle deletion
-                    document.addEventListener('DOMContentLoaded', function() {
-                        let jsOldLabel = document.getElementById("jsOldLabel");
-                        let buttonHapusJS = document.getElementById('buttonHapusJS');
-
-                        jsOldLabel.innerHTML =
-                            getFilenameAndExtension('<?= $komponen['js'] ?>') +
-                            '<i class="bi bi-box-arrow-up-right ms-2"></i>';
-
-                        buttonHapusJS.addEventListener("click", function() {
-                            // Confirm delete
-                            Swal.fire({
-                                title: '<?= lang('Admin.hapusItem') ?>',
-                                text: '<?= lang('Admin.itemYangTerhapusTidakDapatKembali') ?>',
-                                icon: 'warning',
-                                showCancelButton: true,
-                                confirmButtonColor: 'var(--mdb-danger)',
-                                confirmButtonText: '<?= lang('Admin.hapus') ?>',
-                                cancelButtonText: '<?= lang('Admin.batal') ?>',
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    // Set input jsOld value to empty and hide hapus button
-                                    document.getElementById('jsOld').value = '';
-                                    buttonHapusJS.style.display = 'none';
-                                    jsOldLabel.style.display = 'none';
-                                }
-                            });
-                        });
-                    });
-                </script>
-
             </div>
 
             <!-- JS old input -->
-            <input type="hidden" class="form-control" id="jsOld" name="js_old" value="<?= $komponen['js'] ?>">
+            <input type="hidden" class="form-control" id="jsOld" name="js_old" value="<?= $valueJS ?>">
 
             <!-- Grup komponen -->
             <div class="form-floating mb-3">

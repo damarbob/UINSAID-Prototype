@@ -15,6 +15,8 @@ use function App\Helpers\format_tanggal_suatu_kolom;
 use function App\Helpers\replaceAttributesSyntax;
 use function App\Helpers\replaceEnvironmentSyntax;
 use function App\Helpers\replaceMetaSyntax;
+use function App\Helpers\replaceMetaSyntaxWithDefault;
+use function App\Helpers\replaceMetaSyntaxWithEmpty;
 
 class Home extends BaseController
 {
@@ -209,11 +211,12 @@ class Home extends BaseController
             $this->data['pojokPimpinan'] = $this->beritaModel->getByKategoriLimit("pojok pimpinan", 3);
             $this->data['opini'] = $this->beritaModel->getByKategoriLimit("opini", 3);
 
-            $agenda = $this->agendaModel->getTerbaru(4);
+            $agenda = $this->agendaPengumumanModel->getAgendaTerbaru(4);
             $this->data['agenda'] = format_tanggal_suatu_kolom($agenda, 'waktu_mulai');
 
             $pengumuman = $this->pengumumanModel->getTerbaru(3);
             $this->data['pengumuman'] = $pengumuman;
+
             return view('beranda', $this->data);
         }
     }
@@ -229,6 +232,9 @@ class Home extends BaseController
         helper('syntax_processor');
 
         $halaman = $this->halamanModel->getBySlug($slug);
+
+        $this->data['judul'] = $halaman['judul'];
+
         $komponenData = json_decode($halaman['id_komponen']);
         $komponen = [];
 
@@ -257,12 +263,12 @@ class Home extends BaseController
             // Replace attr syntax
             $x['konten'] = replaceAttributesSyntax($x['konten'], json_encode($komponenData[$i]));
 
-            // dd($x['konten']);
-
             // Replace meta syntax
             if (!$komponenMeta) {
+                // dd(replaceMetaSyntaxWithDefault($x['konten']));
+
                 $x['konten_terformat'] = $this->twig->renderTemplateString(
-                    $x['konten'],
+                    replaceMetaSyntaxWithDefault($x['konten']),
                     [
                         // Add environment variables
                         'base_url' => base_url(),

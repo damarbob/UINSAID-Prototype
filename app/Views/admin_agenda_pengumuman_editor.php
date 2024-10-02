@@ -34,29 +34,29 @@ helper('form');
 
 if ($mode == "tambah") {
     // Apabila mode tambah, bawa nilai lama form agar setelah validasi tidak hilang
-    $valuePengumuman = (old('pengumuman'));
-    $valueDeskripsi = (old('deskripsi'));
+    $valueAgenda = (old('judul'));
+    $valueDeskripsi = (old('konten'));
     $valueWaktuMulai = (old('waktu_mulai'));
     $valueWaktuSelesai = (old('waktu_selesai'));
     $valueStatus = (old('status'));
     $valueGaleri = (old('galeri'));
     $valueIdGaleri = (old('id_galeri'));
     $valueUploadImage = (old('uploadimage'));
-    $pengumuman['uri'] = null;
+    $item['uri'] = null;
 } else {
-    $waktuMulai = strtotime($pengumuman['waktu_mulai']);
+    $waktuMulai = strtotime($item['waktu_mulai']);
     $waktuMulaiFormat = date("Y-m-d H:i", $waktuMulai);
-    $waktuSelesai = $pengumuman['waktu_selesai'] ? strtotime($pengumuman['waktu_selesai']) : null;
+    $waktuSelesai = $item['waktu_selesai'] ? strtotime($item['waktu_selesai']) : null;
     $waktuSelesaiFormat = $waktuSelesai ? date("Y-m-d H:i", $waktuSelesai) : '';
     // Apabila mode edit, apabila ada nilai lama (old), gunakan nilai lama. Apabila tidak ada nilai lama (old), gunakan nilai dari rilis media
-    $valuePengumuman = (old('pengumuman')) ? old('pengumuman') : $pengumuman['pengumuman'];
-    $valueDeskripsi = (old('deskripsi')) ? old('deskripsi') : $pengumuman['deskripsi'];
+    $valueAgenda = (old('judul')) ? old('judul') : $item['judul'];
+    $valueDeskripsi = (old('konten')) ? old('konten') : $item['konten'];
     $valueWaktuMulai = (old('waktu_mulai')) ? old('waktu_mulai') : $waktuMulaiFormat;
     $valueWaktuSelesai = (old('waktu_selesai')) ? old('waktu_selesai') : $waktuSelesaiFormat;
-    $valueStatus = (old('status')) ? old('status') : $pengumuman['status'];
-    $valueGaleri = $pengumuman['uri'];
-    $valueIdGaleri = (old('id_galeri')) ? old('id_galeri') : $pengumuman['id_galeri'];
-    $valueUploadImage = (old('uploadimage')) ? old('uploadimage') : $pengumuman['uri'];
+    $valueStatus = (old('status')) ? old('status') : $item['status'];
+    $valueGaleri = $item['uri'];
+    $valueIdGaleri = (old('id_galeri')) ? old('id_galeri') : $item['id_galeri'];
+    $valueUploadImage = (old('uploadimage')) ? old('uploadimage') : $item['uri'];
 }
 ?>
 <?php if (session()->getFlashdata('sukses')) : ?>
@@ -73,43 +73,52 @@ if ($mode == "tambah") {
     </div>
 <?php endif; ?>
 
-<form method="post" action="<?= ($mode == "tambah") ? base_url('/admin/pengumuman/tambah/simpan') : base_url('/admin/pengumuman/sunting/simpan/') . $pengumuman['id'] ?>" class="form-container needs-validation" enctype="multipart/form-data" novalidate>
+<form method="post" action="<?= ($mode == "tambah") ? base_url("/admin/$rute/tambah/simpan") : base_url("/admin/$rute/sunting/simpan/" . $item['id']) ?>" class="form-container needs-validation" enctype="multipart/form-data" novalidate>
     <?= csrf_field() ?>
     <div class="row mb-3">
         <div class="col-12 mb-3">
-            <!-- Pengumuman -->
+
+            <!-- Agenda -->
             <div class="form-floating mb-3">
-                <input id="pengumuman" name="pengumuman" class="form-control <?= (validation_show_error('pengumuman')) ? 'is-invalid' : ''; ?>" type="text" value="<?= $valuePengumuman ?>" placeholder="<?= lang('Admin.pengumuman') ?>" required />
-                <label for="pengumuman"><?= lang('Admin.pengumuman') ?></label>
+                <input id="judul" name="judul" class="form-control <?= (validation_show_error('judul')) ? 'is-invalid' : ''; ?>" type="text" value="<?= $valueAgenda ?>" placeholder="<?= lang('Admin.judul') ?>" required />
+                <label for="judul"><?= lang('Admin.judul') ?></label>
                 <div class="invalid-feedback">
-                    <?= lang('Admin.harusDiinput'); ?>
+                    <?= validation_show_error('judul'); ?>
                 </div>
             </div>
         </div>
         <div class="col-12">
+
             <!-- Deskripsi -->
             <div class="form-floating mb-3">
-                <textarea id="deskripsi" name="deskripsi" class="form-control <?= (validation_show_error('deskripsi')) ? 'is-invalid' : ''; ?>" type="text" rows="3" placeholder="<?= lang('Admin.deskripsi') ?>"><?= $valueDeskripsi ?></textarea>
+                <textarea id="konten" name="konten" class="form-control tinymce <?= (validation_show_error('konten')) ? 'is-invalid' : ''; ?>" type="text" rows="5" placeholder="<?= lang('Admin.konten') ?>"><?= $valueDeskripsi ?></textarea>
+                <!-- <label for="konten"><?= lang('Admin.konten') ?></label> -->
             </div>
+
         </div>
         <div class="col-md-6">
+
             <!-- Waktu mulai picker -->
             <div class="form mb-3">
                 <label for="waktu-mulai"><?= lang('Admin.waktuMulai') ?></label>
                 <input id="waktu-mulai" name="waktu_mulai" class="form-control <?= (validation_show_error('waktu-mulai')) ? 'is-invalid' : ''; ?>" required value="<?= $valueWaktuMulai ?>" />
                 <div class="invalid-feedback">
-                    <?= lang('Admin.harusDiinput'); ?>
+                    <?= validation_show_error('waktu-mulai'); ?>
                 </div>
             </div>
+
         </div>
         <div class="col-md-6">
+
             <!-- Waktu selesai picker -->
             <div class="form mb-3">
                 <label for="waktu-selesai"><?= lang('Admin.waktuSelesai') ?></label>
                 <input id="waktu-selesai" name="waktu_selesai" class="form-control <?= (validation_show_error('waktu-selesai')) ? 'is-invalid' : ''; ?>" value="<?= $valueWaktuSelesai ?>" />
             </div>
+
         </div>
         <div class="col-md-6">
+
             <!-- Status -->
             <div class="form-floating mb-4">
                 <select id="status" name="status" class="form-select <?= (validation_show_error('status')) ? 'is-invalid' : ''; ?>" aria-label="Default select">
@@ -132,9 +141,15 @@ if ($mode == "tambah") {
 
             <!-- Pre-selected or newly selected Image Section -->
             <div id="section-gambar-terpilih" class="mb-3" <?= !$valueIdGaleri ? 'style="display:none;"' : '' ?>>
-                <img id="gambar-terpilih" src="<?= $valueGaleri ? $valueGaleri : null ?>" alt="Selected Image" style="max-width: 200px; max-height: 200px" />
-                <button type="button" id="hapus-gambar-terpilih" class="btn btn-danger btn-sm" data-mdb-ripple-init><i class="bi bi-trash"><?= lang('Admin.hapus') ?></a></button>
+
+                <img id="gambar-terpilih" class="rounded-5 me-2" src="<?= $valueGaleri ? $valueGaleri : null ?>" alt="Selected Image" style="max-width: 200px; max-height: 200px" />
+
+                <button type="button" id="hapus-gambar-terpilih" class="btn btn-danger btn-floating btn-sm" data-mdb-ripple-init>
+                    <i class="bi bi-trash"></i>
+                </button>
+
                 <input type="hidden" name="galeri" value="<?= $valueIdGaleri ? $valueIdGaleri : null ?>" id="selected-image-id">
+
             </div>
 
             <!-- Radio sumber gambar -->
@@ -159,12 +174,12 @@ if ($mode == "tambah") {
                     </div>
                 </div>
                 <div class="mb-3">
-                    <label for="judul" class="form-label"><?= lang('Admin.judulGambar') ?></label>
-                    <input type="text" class="form-control" name="judul" id="judul" placeholder="<?= lang('Admin.judulGambar') ?>">
+                    <label for="judul_gambar" class="form-label"><?= lang('Admin.judulGambar') ?></label>
+                    <input type="text" class="form-control" name="judul_gambar" id="judul_gambar" placeholder="<?= lang('Admin.judulGambar') ?>">
                 </div>
                 <div class="mb-3">
-                    <label for="alt" class="form-label">Alt Text</label>
-                    <input type="text" class="form-control" name="alt" id="alt" placeholder="Alt Text">
+                    <label for="alt_gambar" class="form-label">Alt Text</label>
+                    <input type="text" class="form-control" name="alt_gambar" id="alt_gambar" placeholder="Alt Text">
                 </div>
                 <div class="mb-3">
                     <label for="deskripsi_gambar" class="form-label"><?= lang('Admin.deskripsi') ?></label>
@@ -173,40 +188,85 @@ if ($mode == "tambah") {
             </div>
         </div>
 
-        <div class="col-md-12">
-            <!-- Select from Gallery Section -->
-            <div id="gallery-section" style="display:none;">
-                <div id="loading-spinner" class="text-center" style="display:none;">
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="sr-only">Loading...</span>
+    </div>
+
+    <!-- Agenda/pengumuman -->
+    <input type="hidden" name="id_jenis" value="<?= $idJenis ?>">
+
+    <!-- Tombol simpan -->
+    <button id="btn-submit" name="submit" type="submit" class="btn btn-primary mb-5" data-mdb-ripple-init><i class="bi bi-floppy me-2"></i><?= lang('Admin.simpan') ?></button>
+
+</form>
+
+<!-- Modal -->
+<div class="modal fade modal-xl" id="galeriModal" tabindex="-1" aria-labelledby="galeriModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <h5 class="modal-title">
+                    <span id="galeriModalLabel"><?= lang('Admin.galeri') ?></span>
+
+                    <!-- Spinner -->
+                    <div class="spinner-border spinner-border-sm ms-2" id="galeriModalSpinner" role="status">
+                        <span class="visually-hidden"><?= lang('Admin.memuat') ?></span>
+                    </div>
+
+                </h5>
+
+                <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+
+            </div>
+            <div class="modal-body">
+
+                <!-- Search input -->
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" id="galeriModalSearchInput" placeholder="<?= lang('Admin.cari') ?>">
+                    <button class="btn btn-primary" id="galeriModalSearchButton" type="button" data-mdb-ripple-init><i class="bi bi-search me-2"></i><?= lang('Admin.cari') ?></button>
+                    <button class="btn btn-secondary" id="galeriModalClearButton" type="button" data-mdb-ripple-init><i class="bi bi-x-lg"></i></button>
+                </div>
+
+                <div class="col-md-12">
+                    <!-- Select from Gallery Section -->
+                    <div id="gallery-section" class="galeri-grid" style="display:none;">
+                        <div id="loading-spinner" class="text-center" style="display:none;">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                        <div class="row" id="gallery-thumbnails"></div>
+                        <div id="pagination"></div>
                     </div>
                 </div>
-                <div class="row" id="gallery-thumbnails"></div>
-                <div id="pagination"></div>
+
+                <button id="saveKomponenMetaButton" type="submit" class="btn btn-success" data-mdb-dismiss="modal" data-mdb-ripple-init><i class='bx bx-check me-2'></i><?= lang('Admin.tutup') ?></button>
+
             </div>
         </div>
     </div>
-    <!-- Tombol simpan -->
-    <button id="btn-submit" name="submit" type="submit" class="btn btn-primary mb-5"><?= lang('Admin.simpan') ?></button>
-</form>
-
+</div>
 
 <?= $this->endSection() ?>
 
 <?= $this->section('script') ?>
 <script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha384-GNFwBvfVxBkLMJpYMOABq3c+d3KnQxudP/mGPkzpZSTYykLBNsZEnG2D9G/X/+7D" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/gijgo@1.9.14/js/gijgo.min.js" type="text/javascript"></script>
+
 <!-- Tinymce -->
 <script src="<?= base_url('assets/vendor/tinymce/tinymce/tinymce.min.js'); ?>"></script>
+
 <!-- DSM Gallery -->
 <script src="<?= base_url('assets/js/tinymce/dsmgallery-plugin.js'); ?>"></script>
+
 <!-- DSM File Insert -->
 <script src="<?= base_url('assets/js/tinymce/dsmfileinsert-plugin.js'); ?>"></script>
 
-<!-- Tinymce init -->
+<!-- Images Loaded Library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js"></script>
+
 <script>
     tinymce.init({
-        selector: '#deskripsi',
+        selector: '#konten',
         license_key: 'gpl',
         plugins: [
             'advlist', 'autolink', 'image',
@@ -306,8 +366,14 @@ if ($mode == "tambah") {
 <!-- Handle gambar -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+
+        // Upload and gallery section
         const uploadSection = document.getElementById('upload-section');
         const gallerySection = document.getElementById('gallery-section');
+
+        // Modal
+        const galeriModal = document.getElementById('galeriModal');
+        const galeriModalInstance = new mdb.Modal(galeriModal);
 
         document.querySelectorAll('input[name="image_source"]').forEach(function(radio) {
             radio.addEventListener('change', function() {
@@ -322,21 +388,196 @@ if ($mode == "tambah") {
 
                     // Load the gallery only if it's the first time opening this section
                     if ($('#gallery-thumbnails').is(':empty')) {
+
                         loadGallery(1);
+
+                        // Show galeri modal
+                        galeriModalInstance.show();
                     }
                 }
             });
+            radio.addEventListener('click', function() {
+                if (this.value === 'galeri') {
+
+                    // If not first time loading the gallery, open the modal
+                    if (!$('#gallery-thumbnails').is(':empty')) {
+                        galeriModalInstance.show(); // SHow galeri modal
+                    }
+
+                }
+            });
         });
+
+        function resetGambar() {
+            $('#gambar').val('');
+            $('#reset-gambar').hide();
+        };
+
+        // Search button
+        $('#galeriModalSearchButton').click(function() {
+            const searchValue = $('#galeriModalSearchInput').val(); // Get the input value
+            loadGallery(1, searchValue); // Call loadGallery with page: 1 and search: input value
+            console.log(searchValue);
+        });
+
+        // Clear search button
+        $('#galeriModalClearButton').click(function() {
+            $('#galeriModalSearchInput').val(''); // Clear the input value
+            loadGallery(1, ''); // Call loadGallery with page: 1 and empty search
+        });
+
+        function loadGallery(page, search) {
+
+            // Show the spinner
+            $('#galeriModalSpinner').show();
+
+            $.ajax({
+                url: '<?= base_url('/api/galeri') ?>',
+                data: {
+                    page: page,
+                    per_page: 12,
+                    search: search
+                },
+                success: function(response) {
+                    const thumbnailsContainer = $('#gallery-thumbnails');
+                    const paginationContainer = $('#pagination');
+                    thumbnailsContainer.empty();
+                    paginationContainer.empty();
+
+                    // Destroy existing Masonry instance if it exists
+                    if (thumbnailsContainer.data('masonry')) {
+                        thumbnailsContainer.masonry('destroy');
+                    }
+
+                    response.data.forEach(function(item) {
+                        const thumbnail = `
+                <div class="col-md-3 mb-4 gallery-item">
+                    <div class="card card-gallery" data-id="${item.id}">
+                        <img src="${item.uri}" class="thumbnail">
+                        <div class="card-body">
+                            <h6 class="card-title">${item.judul}</h6>
+                        </div>
+                    </div>
+                </div>`;
+                        thumbnailsContainer.append(thumbnail);
+                    });
+
+                    // Wait until all images are loaded before reinitializing Masonry
+                    thumbnailsContainer.imagesLoaded(function() {
+
+                        // Reinitialize Masonry
+                        thumbnailsContainer.masonry({
+                            itemSelector: '.gallery-item',
+                            columnWidth: '.gallery-item',
+                            percentPosition: true
+                        });
+
+                    });
+
+                    // Pagination
+                    let paginationHtml = '<nav aria-label="Page navigation" class="justify-content-center">';
+                    paginationHtml += '<ul class="pagination justify-content-center">';
+
+                    const totalPages = Math.ceil(response.total / response.perPage);
+                    const currentPage = page;
+                    const maxPagesToShow = 3;
+
+                    // Add "Previous" button
+                    if (currentPage > 1) {
+                        paginationHtml += `
+        <li class="page-item">
+            <a class="page-link" href="#" data-page="${currentPage - 1}">Previous</a>
+        </li>`;
+                    }
+
+                    // Determine start and end page numbers to display
+                    let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
+                    let endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
+
+                    // Adjust if we're at the end of the list
+                    if (endPage - startPage + 1 < maxPagesToShow) {
+                        startPage = Math.max(1, endPage - maxPagesToShow + 1);
+                    }
+
+                    // Add ellipsis if needed
+                    if (startPage > 1) {
+                        paginationHtml += `
+        <li class="page-item">
+            <a class="page-link" href="#" data-page="1">1</a>
+        </li>
+        <li class="page-item disabled"><span class="page-link">...</span></li>`;
+                    }
+
+                    // Page number links
+                    for (let i = startPage; i <= endPage; i++) {
+                        paginationHtml += `
+        <li class="page-item ${currentPage == i ? 'active' : ''}">
+            <a class="page-link" href="#" data-page="${i}">
+                ${i}
+            </a>
+        </li>`;
+                    }
+
+                    // Add ellipsis if needed
+                    if (endPage < totalPages) {
+                        paginationHtml += `
+        <li class="page-item disabled"><span class="page-link">...</span></li>
+        <li class="page-item">
+            <a class="page-link" href="#" data-page="${totalPages}">${totalPages}</a>
+        </li>`;
+                    }
+
+                    // Add "Next" button
+                    if (currentPage < totalPages) {
+                        paginationHtml += `
+        <li class="page-item">
+            <a class="page-link" href="#" data-page="${currentPage + 1}">Next</a>
+        </li>`;
+                    }
+
+                    paginationHtml += '</ul></nav>';
+
+                    paginationContainer.html(paginationHtml);
+
+                    // Handle card-gallery click
+                    $('.card-gallery').click(function() {
+                        $('.card-gallery').removeClass('selected');
+                        $(this).addClass('selected');
+                        $('#selected-image-id').val($(this).data('id')); // Store the selected image ID
+
+                        const imageUrl = $(this).find('img').attr('src');
+
+                        $('#gambar-terpilih').attr('src', imageUrl); // Update the preview image
+                        $('#section-gambar-terpilih').show(); // Show the selected image section
+                    });
+
+                    // Handle pagination click
+                    $('.page-link').click(function(e) {
+                        e.preventDefault();
+                        thumbnailsContainer.empty();
+                        loadGallery($(this).data('page'), search);
+                    });
+                },
+
+                complete: function() {
+                    // Hide the spinner when the request completes
+                    $('#galeriModalSpinner').hide();
+                }
+            });
+
+
+        }
     });
 
     const gambarTerpilihSection = document.getElementById('section-gambar-terpilih');
     const resetGambarButton = document.getElementById('reset-gambar');
     const gambarInputFile = document.getElementById('gambar');
+
     gambarInputFile.addEventListener("change", () => {
         if (gambarInputFile.value != "") {
             gambarTerpilihSection.style.display = 'none';
             resetGambarButton.style.display = 'block';
-            document.getElementsByClassName('.card-gallery').classList.remove('selected');
+            document.getElementsByClassName('card-gallery').classList.remove('selected');
         };
     })
 
@@ -356,104 +597,6 @@ if ($mode == "tambah") {
             // $('#upload-section').show(); // Show the upload section
         });
     });
-
-    function resetGambar() {
-        $('#gambar').val('');
-        $('#reset-gambar').hide();
-    };
-
-    function loadGallery(page) {
-        // Show the spinner
-        $('#loading-spinner').show();
-
-        $.ajax({
-            url: '<?= base_url('/api/galeri') ?>',
-            data: {
-                page: page,
-                per_page: 12,
-                search: ''
-            },
-            success: function(response) {
-                const thumbnailsContainer = $('#gallery-thumbnails');
-                const paginationContainer = $('#pagination');
-                thumbnailsContainer.empty();
-                paginationContainer.empty();
-
-                response.data.forEach(function(item) {
-                    const thumbnail = `
-                    <div class="col-md-3 mb-4 gallery-item">
-                        <div class="card card-gallery" data-id="${item.id}"><img src="${item.uri}" class="thumbnail">
-                            <div class="card-body">
-                                <h6 class="card-title">${item.judul}</h6>
-                            </div>
-                        </div>
-                    </div>`;
-                    thumbnailsContainer.append(thumbnail);
-                });
-                // thumbnailsContainer.attr('data-masonry', '{"percentPosition": true }');
-                // thumbnailsContainer.masonry({
-                //     // options
-                //     itemSelector: '.gallery-item',
-                //     columnWidth: 200
-                // });
-
-                // Pagination
-                let paginationHtml = '<nav aria-label="Page navigation" class="justify-content-center">';
-                paginationHtml += '<ul class="pagination justify-content-center">';
-
-                for (let i = 1; i <= response.total / response.perPage; i++) {
-                    paginationHtml += `
-                    <li class="page-item ${response.currentPage == i ? 'active' : ''}">
-                        <a class="page-link" href="#" data-page="${i}">
-                            ${i}
-                        </a>
-                    </li>`;
-                }
-
-                paginationHtml += '</ul></nav>';
-
-                paginationContainer.html(paginationHtml);
-
-                // Handle card-gallery click
-                $('.card-gallery').click(function() {
-                    $('.card-gallery').removeClass('selected');
-                    $(this).addClass('selected');
-                    $('#selected-image-id').val($(this).data('id')); // Store the selected image ID
-
-                    const imageUrl = $(this).children().attr('src');
-
-                    $('#gambar-terpilih').attr('src', imageUrl); // Update the preview image
-                    $('#section-gambar-terpilih').show(); // Show the selected image section
-
-
-                    // Show a small notification
-                    // const message = $('<div class="selection-message">Image Selected!</div>');
-                    // $('body').append(message);
-                    // message.css({
-                    //     position: 'absolute',
-                    //     left: $(this).offset().left + $(this).width() / 2 - message.width() / 2,
-                    //     top: $(this).offset().top - 30,
-                    //     display: 'none'
-                    // });
-                    // message.fadeIn().delay(1000).fadeOut(function() {
-                    //     $(this).remove();
-                    // });
-                });
-
-                // Handle pagination click
-                $('.page-link').click(function(e) {
-                    e.preventDefault();
-                    thumbnailsContainer.empty()
-                    loadGallery($(this).data('page'));
-                });
-            },
-
-            complete: function() {
-                // Hide the spinner when the request completes
-                $('#loading-spinner').hide();
-            }
-        });
-    }
 </script>
 
 <!-- Preview foto -->

@@ -5,12 +5,14 @@ namespace App\Controllers;
 use App\Models\BeritaModel;
 use App\Models\KategoriModel;
 use App\Models\AgendaModel;
+use App\Models\AgendaPengumumanModel;
 use App\Models\EntitasModel;
 use App\Models\HalamanModel;
 use App\Models\KomponenMetaModel;
 use App\Models\KomponenModel;
 use App\Models\PengumumanModel;
 use App\Models\PPIDModel;
+use App\Models\TemaModel;
 use CodeIgniter\Controller;
 use CodeIgniter\HTTP\CLIRequest;
 use CodeIgniter\HTTP\IncomingRequest;
@@ -55,8 +57,11 @@ abstract class BaseController extends Controller
      */
     // protected $session;
 
+    protected TemaModel $temaModel;
+
     protected BeritaModel $beritaModel;
     protected KategoriModel $kategoriModel;
+    protected AgendaPengumumanModel $agendaPengumumanModel;
     protected AgendaModel $agendaModel;
     protected PengumumanModel $pengumumanModel;
     protected PPIDModel $ppidModel;
@@ -80,8 +85,11 @@ abstract class BaseController extends Controller
         // E.g.: $this->session = \Config\Services::session();
 
         // Models
+        $this->temaModel = new TemaModel();
+
         $this->beritaModel = new BeritaModel();
         $this->kategoriModel = new KategoriModel();
+        $this->agendaPengumumanModel = new AgendaPengumumanModel();
         $this->agendaModel = new AgendaModel();
         $this->pengumumanModel = new PengumumanModel();
         $this->ppidModel = new PPIDModel();
@@ -90,5 +98,8 @@ abstract class BaseController extends Controller
         $this->halamanModel = new HalamanModel();
         $this->komponenModel = new KomponenModel();
         $this->komponenMetaModel = new KomponenMetaModel();
+
+        // Data
+        $this->data['tema'] = $this->temaModel->find(setting()->get('App.temaSitus'));
     }
 }

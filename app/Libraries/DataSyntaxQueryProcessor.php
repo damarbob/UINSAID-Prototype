@@ -139,7 +139,6 @@ class DataSyntaxQueryProcessor
         return $this->sanitizeData($result);
     }
 
-
     // Function to sanitize data before JSON encoding
     protected function sanitizeData($data)
     {

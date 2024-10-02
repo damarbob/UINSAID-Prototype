@@ -67,29 +67,33 @@ $errorJS = validation_show_error('js_file');
         <div class="col-lg-8">
 
             <!-- Daftar komponen halaman -->
-            <ul class="list-group list-group-light" id="tabelKomponen">
+            <ul class="list-group list-group-light" id="tabelKomponen" style="cursor: grab;">
                 <?php if (!empty($komponen)): ?>
                     <?php foreach ($komponen as $i => $x): ?>
                         <li
-                            class="list-group-item d-flex justify-content-between align-items-center px-3"
+                            class="list-group-item p-0 border-0 mb-2"
                             data-id="<?= $x['id']; ?>"
                             data-name="<?= $x['nama']; ?>"
                             data-instance-id="<?= $komponenData[$i]->komponen_instance_id ?>">
 
-                            <!-- Nama komponen -->
-                            <div>
-                                <span class="sortable-handle me-4">☰</span>
-                                <?= $x['nama']; ?>
-                            </div>
+                            <div class="card d-flex flex-row justify-content-between align-items-center py-3 px-4">
 
-                            <!-- Tombol aksi -->
-                            <div>
-                                <button type="button" class="btn btn-primary btn-sm btn-floating me-2" onclick="editKomponen()">
-                                    <i class="bi bi-pencil"></i>
-                                </button>
-                                <button type="button" class="btn btn-danger btn-sm btn-floating remove-komponen" onclick="deleteKomponen()">
-                                    <i class="bi bi-trash"></i>
-                                </button>
+                                <!-- Nama komponen -->
+                                <div>
+                                    <span class="sortable-handle me-4">☰</span>
+                                    <?= $x['nama']; ?>
+                                </div>
+
+                                <!-- Tombol aksi -->
+                                <div>
+                                    <button type="button" class="btn btn-primary btn-sm btn-floating me-2" onclick="editKomponen()">
+                                        <i class="bi bi-pencil"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-danger btn-sm btn-floating remove-komponen" onclick="deleteKomponen()">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
+
                             </div>
 
                         </li>
@@ -107,13 +111,15 @@ $errorJS = validation_show_error('js_file');
         <div class="col-lg-4">
 
             <!-- Daftar komponen tersedia -->
-            <div class="mb-3">
+            <div class="mb-3" style="height: 512px; overflow: auto; cursor: grab;">
                 <label for="daftarKomponen" class="form-label"><?= lang('Admin.daftarKomponen') ?></label>
-                <ul id="daftarKomponen" class="list-group">
+                <ul id="daftarKomponen" class="list-group pe-3">
                     <?php foreach ($daftarKomponen as $x): ?>
-                        <li class="list-group-item" draggable="true" data-id="<?= $x['id']; ?>" data-tunggal="<?= $x['tunggal'] ?>">
-                            <i class="bi bi-arrows-move me-2"></i>
-                            <?= $x['nama']; ?>
+                        <li class="list-group-item p-0 border-0 mb-2" draggable="true" data-id="<?= $x['id']; ?>" data-name="<?= $x['nama'] ?>" data-tunggal="<?= $x['tunggal'] ?>">
+                            <div class="card border border-primary-subtle shadow-0 d-flex flex-row align-items-center py-2 px-3">
+                                <i class="bi bi-arrows-move me-3"></i>
+                                <?= $x['nama']; ?>
+                            </div>
                         </li>
                     <?php endforeach; ?>
                 </ul>
@@ -178,7 +184,7 @@ $errorJS = validation_show_error('js_file');
                         <!-- CSS lama -->
                         <div class="form-helper">
                             <small>
-                                <a href="<?= $valueCSS ?>" id="cssOldLabel" target="_blank">
+                                <a href="<?= base_url($valueCSS) ?>" id="cssOldLabel" target="_blank">
                                     <!-- Filled dynamically by script -->
                                 </a>
                             </small>
@@ -243,7 +249,7 @@ $errorJS = validation_show_error('js_file');
                         <!-- JS lama -->
                         <div class="form-helper">
                             <small>
-                                <a href="<?= $valueJS ?>" id="jsOldLabel" target="_blank">
+                                <a href="<?= base_url($valueJS) ?>" id="jsOldLabel" target="_blank">
                                     <!-- Filled dynamically by script -->
                                     <i class="bi bi-box-arrow-up-right ms-2"></i>
                                 </a>
@@ -306,7 +312,7 @@ $errorJS = validation_show_error('js_file');
 </form>
 
 <!-- Edit Meta Modal -->
-<div class="modal fade" id="editKomponenMetaModal" tabindex="-1" aria-labelledby="editMetaModalLabel" aria-hidden="true">
+<div class="modal modal-lg fade" id="editKomponenMetaModal" tabindex="-1" aria-labelledby="editMetaModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -328,21 +334,34 @@ $errorJS = validation_show_error('js_file');
                     <div id="input-container">
                         <!-- Input komponen meta akan ditambahkan secara dinamis disini -->
                     </div>
-                    <button id="saveKomponenMetaButton" type="submit" class="btn btn-success" data-mdb-ripple-init><i class='bx bx-check me-2'></i><?= lang('Admin.sunting') ?></button>
+                    <button id="saveKomponenMetaButton" type="submit" class="btn btn-primary" data-mdb-ripple-init><i class='bx bx-check me-2'></i><?= lang('Admin.sunting') ?></button>
                 </form>
 
             </div>
         </div>
     </div>
 </div>
+
 <?= $this->endSection() ?>
 
 <?= $this->section('script') ?>
 <?php include_once('assets/js/syntax_processor.js.php') ?>
+
 <script src="<?= base_url('assets/js/formatter.js') ?>"></script>
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script> -->
+
 <!-- Latest Sortable -->
 <script src="https://raw.githack.com/SortableJS/Sortable/master/Sortable.js"></script>
+
+<!-- TinyMCE -->
+<script src="<?= base_url('assets/vendor/tinymce/tinymce/tinymce.min.js'); ?>"></script>
+
+<!-- DSM Gallery TinyMCE Plugin -->
+<script src="<?= base_url('assets/js/tinymce/dsmgallery-plugin.js'); ?>"></script>
+
+<!-- DSM File Insert TinyMCE Plugin -->
+<script src="<?= base_url('assets/js/tinymce/dsmfileinsert-plugin.js'); ?>"></script>
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
 
@@ -365,6 +384,7 @@ $errorJS = validation_show_error('js_file');
             // e.dataTransfer.setData('text/plain', e.target.dataset.id);
             const data = {
                 id: e.target.dataset.id,
+                name: e.target.dataset.name,
                 tunggal: e.target.dataset.tunggal
             };
             e.dataTransfer.setData('text/plain', JSON.stringify(data));
@@ -413,22 +433,24 @@ $errorJS = validation_show_error('js_file');
             newRow.setAttribute('data-id', componentId);
             newRow.setAttribute('data-name', componentName);
             newRow.setAttribute('data-instance-id', komponenInstanceId); // Set instance ID NEW
-            newRow.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center', 'fade-in', 'px-3'); // Apply the fade-in animation class
+            newRow.classList.add('list-group-item', 'p-0', 'border-0', 'mb-2', 'fade-in'); // Apply the fade-in animation class
             // newRow.innerHTML = '<span class="sortable-handle me-4">☰</span>' + componentText +
             //     '<button type="button" class="btn btn-danger btn-sm remove-komponen" onclick="deleteKomponen()">' +
             //     '<i class="bi bi-trash"></i></button>';
             newRow.innerHTML = `
-                <div>
-                    <span class="sortable-handle me-4">☰</span>
-                    ${componentText}
-                </div>
-                <div>
-                    <button type="button" class="btn btn-primary btn-sm btn-floating me-2" onclick="editKomponen()">
-                        <i class="bi bi-pencil"></i>
-                    </button>
-                    <button type="button" class="btn btn-danger btn-sm btn-floating remove-komponen" onclick="deleteKomponen()">
-                        <i class="bi bi-trash"></i>
-                    </button>
+                <div class="card w-100 d-flex flex-row justify-content-between align-items-center py-3 px-4">
+                    <div>
+                        <span class="sortable-handle me-4">☰</span>
+                        ${componentText}
+                    </div>
+                    <div>
+                        <button type="button" class="btn btn-primary btn-sm btn-floating me-2" onclick="editKomponen()">
+                            <i class="bi bi-pencil"></i>
+                        </button>
+                        <button type="button" class="btn btn-danger btn-sm btn-floating remove-komponen" onclick="deleteKomponen()">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </div>
                 </div>
                 `;
             tabelKomponen.appendChild(newRow);
@@ -751,15 +773,24 @@ $errorJS = validation_show_error('js_file');
             }
 
             meta.forEach(item => {
-                const {
+                let {
                     id,
                     nama,
                     tipe,
-                    options
+                    keterangan,
+                    options,
+                    required,
+                    value,
+                    checked
                 } = item; // Destructure necessary fields
                 let inputHTML = '';
 
-                // console.log(item.tipe);
+                // Handle undefined values
+                value = value ? value : '';
+                required = required ? 'required' : '';
+
+                // console.log(item);
+                // console.log(item.required);
 
                 // Create input elements based on type
                 switch (tipe) {
@@ -768,47 +799,67 @@ $errorJS = validation_show_error('js_file');
                     case 'password':
                     case 'number':
                         inputHTML = `
-                            <div class="form-outline mb-3" data-mdb-input-init>
-                                <input type="${tipe}" id="${id}" name="${id}" class="form-control" />
+                            <div class="form-outline ${keterangan ? "mb-4" : "mb-3"}" data-mdb-input-init>
+                                <input type="${tipe}" id="${id}" name="${id}" value="${value}" class="form-control" ${required} />
                                 <label class="form-label" for="${id}">${nama}</label>
+                                ${keterangan ? `<div class="form-helper"><small>${replaceEnvironmentSyntax(keterangan)}</small></div>` : ""}
                             </div>`;
                         break;
                     case 'datetime-local':
                         inputHTML = `
-                            <div class="form-outline mb-3" data-mdb-input-init>
-                                <input type="${tipe}" id="${id}" name="${id}" class="form-control form-control-lg" />
+                            <div class="form-outline ${keterangan ? "mb-4" : "mb-3"}" data-mdb-input-init>
+                                <input type="${tipe}" id="${id}" name="${id}" value="${value}" class="form-control form-control-lg" ${required} />
                                 <label class="form-label" for="${id}">${nama}</label>
+                                ${keterangan ? `<div class="form-helper"><small>${replaceEnvironmentSyntax(keterangan)}</small></div>` : ""}
                             </div>`;
                         break;
                     case 'color':
                         inputHTML = `
-                            <div class="mb-3">
+                            <div class="${keterangan ? "mb-4" : "mb-3"}">
                                 <label class="form-label" for="${id}">${nama}</label>
-                                <input type="${tipe}" id="${id}" name="${id}" class="form-control form-control-color" title="${nama}" />
+                                <input type="${tipe}" id="${id}" name="${id}" value="${value}" class="form-control form-control-color" title="${nama}" />
+                                ${keterangan ? `<div class="form-helper"><small>${replaceEnvironmentSyntax(keterangan)}</small></div>` : ""}
                             </div>`;
                         break;
 
                     case 'textarea':
                         inputHTML = `
-                            <div class="form-outline mb-3" data-mdb-input-init>
-                                <textarea id="${id}" name="${id}" class="form-control"></textarea>
+                            <div class="form-outline ${keterangan ? "mb-4" : "mb-3"}" data-mdb-input-init>
+                                <textarea id="${id}" name="${id}" class="form-control" ${required}>${value}</textarea>
                                 <label class="form-label" for="${id}">${nama}</label>
+                                ${keterangan ? `<div class="form-helper"><small>${replaceEnvironmentSyntax(keterangan)}</small></div>` : ""}
                             </div>`;
+
+                        break;
+
+                    case 'editor':
+                        inputHTML = `
+                            <div class="${keterangan ? "mb-4" : "mb-3"}" data-mdb-input-init>
+                                <label class="form-label" for="${id}">${nama}</label>
+                                <textarea id="${id}" name="${id}" class="form-control">${value}</textarea>
+                                ${keterangan ? `<div class="form-helper"><small>${replaceEnvironmentSyntax(keterangan)}</small></div>` : ""}
+                            </div>`;
+
                         break;
 
                     case 'checkbox':
+                        // Value true = checked
                         inputHTML = `
-                            <div class="form-check mb-3">
-                                <input type="checkbox" id="${id}" name="${id}" class="form-check-input" />
+                            <div class="form-check ${keterangan ? "mb-4" : "mb-3"}">
+                                <input type="checkbox" id="${id}" name="${id}" class="form-check-input" ${required}  ${checked === true ? 'checked' : ''} />
+
                                 <label class="form-check-label" for="${id}">${nama}</label>
+                                ${keterangan ? `<div class="form-helper"><small>${replaceEnvironmentSyntax(keterangan)}</small></div>` : ""}
                             </div>`;
                         break;
 
                     case 'radio':
+                        // Option value true = checked
                         if (options && Array.isArray(options)) {
                             inputHTML = options.map(option => `
                                 <div class="form-check mb-3">
-                                    <input type="radio" id="${id}_${option.value}" name="${id}" value="${option.value}" class="form-check-input" />
+                                    <input type="radio" id="${id}_${option.value}" name="${id}" value="${option.value}" class="form-check-input" ${required}   ${option.checked === true ? 'checked' : ''} />
+
                                     <label class="form-check-label" for="${id}_${option.value}">${option.label}</label>
                                 </div>
                             `).join('');
@@ -819,7 +870,7 @@ $errorJS = validation_show_error('js_file');
                         inputHTML = `
                             <label class="form-label" for="${id}">${nama}</label>
                             <div class="range mb-3">
-                                <input type="range" id="${id}" name="${id}" class="form-range" />
+                                <input type="range" id="${id}" name="${id}" value="${value}" class="form-range" />
                             </div>`;
                         break;
 
@@ -841,7 +892,7 @@ $errorJS = validation_show_error('js_file');
 
                     case 'select':
                         if (options && Array.isArray(options)) {
-                            let optionsHTML = options.map(option => `<option value="${option.value}">${option.label}</option>`).join('');
+                            let optionsHTML = options.map(option => `<option value="${option.value}" ${option.value === true ? 'selected' : ''}>${option.label}</option>`).join('');
                             inputHTML = `
                                 <div class="mb-3">
                                     <label class="form-label" for="${id}">${nama}</label>
@@ -858,6 +909,75 @@ $errorJS = validation_show_error('js_file');
 
                 // Append the generated input HTML to the container
                 container.insertAdjacentHTML('beforeend', inputHTML);
+
+                if (tipe === 'editor') {
+                    if (tinymce.get(`${id}`)) {
+                        tinymce.get(`${id}`).destroy(); // Destroy the existing TinyMCE instance
+                    }
+                    tinymce.init({
+                        selector: `#${id}`,
+                        license_key: 'gpl', // Important to prevent license issue
+                        document_base_url: '<?= base_url() ?>', // Set the base URL for relative paths
+                        convert_urls: false, // Prevent TinyMCE from converting URLs to relative
+                        plugins: [
+                            'advlist', 'autolink', 'image',
+                            'lists', 'link', 'charmap', 'preview', 'anchor', 'searchreplace',
+                            'fullscreen', 'insertdatetime', 'table', 'help',
+                            'wordcount', 'dsmgallery', 'dsmfileinsert', 'code'
+                        ],
+                        toolbar: 'fullscreen | dsmgallery dsmfileinsert | undo redo | casechange blocks | bold italic backcolor | image | ' +
+                            'alignleft aligncenter alignright alignjustify | ' +
+                            'bullist numlist checklist outdent indent | removeformat | table | code | help',
+                        image_title: true,
+                        automatic_uploads: true,
+                        // image_gallery_api_endpoint: '<?= base_url('/api/galeri') ?>',
+                        dsmgallery_api_endpoint: '<?= base_url('/api/galeri') ?>',
+                        dsmgallery_gallery_url: '<?= base_url('/admin/galeri') ?>',
+                        dsmfileinsert_api_endpoint: '<?= base_url('/api/file') ?>',
+                        dsmfileinsert_file_manager_url: '<?= base_url('/admin/file') ?>',
+                        images_upload_url: '<?= base_url('/admin/berita/unggah-gambar') ?>',
+                        // images_delete_url: '<?= base_url('/admin/berita/hapus-gambar') ?>',
+                        file_picker_types: 'file image media',
+                        file_picker_callback: (cb, value, meta) => {
+                            const input = document.createElement('input');
+                            input.setAttribute('type', 'file');
+                            input.setAttribute('accept', 'image/*');
+
+                            input.addEventListener('change', (e) => {
+                                const file = e.target.files[0];
+
+                                const reader = new FileReader();
+                                reader.addEventListener('load', () => {
+                                    /*
+                                      Note: Now we need to register the blob in TinyMCEs image blob
+                                      registry. In the next release this part hopefully won't be
+                                      necessary, as we are looking to handle it internally.
+                                    */
+                                    const id = 'blobid' + (new Date()).getTime();
+                                    const blobCache = tinymce.activeEditor.editorUpload.blobCache;
+                                    const base64 = reader.result.split(',')[1];
+                                    const blobInfo = blobCache.create(id, file, base64);
+                                    blobCache.add(blobInfo);
+
+                                    /* call the callback and populate the Title field with the file name */
+                                    cb(blobInfo.blobUri(), {
+                                        title: file.name
+                                    });
+                                });
+                                reader.readAsDataURL(file);
+                            });
+
+                            input.click();
+                        },
+                        // contextmenu: "image",
+                        paste_preprocess: (editor, args) => {
+                            // console.log(args.content);
+                            // args.content += ' preprocess';
+                        },
+                        promotion: false
+
+                    });
+                }
 
             });
 

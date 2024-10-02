@@ -1,8 +1,13 @@
 <?php
+
 helper('setting');
 
 $context = 'user:' . user_id(); //  Context untuk pengguna
 $isTemaDasborAdminGelap = setting()->get('App.temaDasborAdmin', $context);
+
+// Tema default
+$temaDefault = base_url("assets/css/hijau.css");
+// dd($tema);
 ?>
 <!DOCTYPE html>
 <html lang="en" <?= $isTemaDasborAdminGelap === 'gelap' ? 'data-mdb-theme="dark"' : '' ?>>
@@ -12,7 +17,7 @@ $isTemaDasborAdminGelap = setting()->get('App.temaDasborAdmin', $context);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Favicon -->
-    <link rel="icon" href="<?= base_url('files/icon-1704942188.png') ?>" />
+    <link rel="icon" href="<?= base_url(setting()->get('App.ikonSitus')) ?>" />
 
     <!-- Import font awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -23,7 +28,7 @@ $isTemaDasborAdminGelap = setting()->get('App.temaDasborAdmin', $context);
     <!-- Bootstrap -->
     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"> -->
     <!-- MDB -->
-    <link id="mdbCSS" rel="stylesheet" href="<?= base_url('/assets/css/c.css') ?>" />
+    <link id="mdbCSS" rel="stylesheet" href="<?= isset($temaSitus['css']) && $temaSitus['css'] != "" ? base_url($temaSitus['css']) : $temaDefault ?>" />
     <!-- End MDB -->
     <!-- Import Bootstrap Icon -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" />
@@ -41,7 +46,7 @@ $isTemaDasborAdminGelap = setting()->get('App.temaDasborAdmin', $context);
     <!-- <link rel="stylesheet" href="<?= base_url('/assets/css/style.css') ?>" /> -->
     <link rel="stylesheet" href="<?= base_url('/assets/css/style-admin.css') ?>" />
     <?= $this->renderSection('style') ?>
-    <title><?= lang('Admin.dasborAdmin') ?></title>
+    <title><?= $judul ?></title>
 </head>
 
 <body id="body-pd">

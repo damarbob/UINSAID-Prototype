@@ -252,29 +252,29 @@
     <div class="row g-4 mb-4 justify-content-center">
 
       <!-- Item agenda -->
-      <?php foreach ($agenda as $b => $key) : ?>
+      <?php foreach ($agenda as $b => $x) : ?>
         <div class="col-lg-4 col-xl-3 col-md-6" id="item-agenda" data-aos="fade-up">
           <div class="card" data-mdb-ripple-init
             data-mdb-ripple-init
             data-mdb-modal-init
             data-mdb-target="#berandaModal"
-            data-uri="<?= $key['uri'] ?>"
-            data-title="<?= $key['agenda'] ?>"
-            data-deskripsi="<?= $key['deskripsi'] ?>"
-            data-waktu_mulai="<?= $key['waktu_mulai'] ?>">
+            data-uri="<?= $x['uri'] ?>"
+            data-title="<?= $x['agenda'] ?>"
+            data-deskripsi="<?= htmlspecialchars($x['deskripsi'], ENT_QUOTES) ?>"
+            data-waktu_mulai="<?= $x['waktu_mulai'] ?>">
 
             <!-- Konten agenda -->
             <div class="card-body">
-              <p class="card-text"><?= $key['formatted_datetime'] ?>
-                <?php if ($key['waktu_selesai'] && strtotime($key['waktu_selesai']) < time()): ?>
+              <p class="card-text"><?= $x['formatted_datetime'] ?>
+                <?php if ($x['waktu_selesai'] && strtotime($x['waktu_selesai']) < time()): ?>
                   <span class="badge badge-danger">Selesai</span>
-                <?php elseif (!$key['waktu_selesai'] && strtotime($key['waktu_mulai']) < time()): ?>
+                <?php elseif (!$x['waktu_selesai'] && strtotime($x['waktu_mulai']) < time()): ?>
                   <span class="badge badge-danger">Selesai</span>
                 <?php endif; ?>
               </p>
               <!-- <a href="#"> -->
               <p class="card-title text-body">
-                <?= $key['agenda'] ?>
+                <?= $x['agenda'] ?>
               </p>
               <!-- </a> -->
             </div>

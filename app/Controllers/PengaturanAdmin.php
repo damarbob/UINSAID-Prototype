@@ -35,8 +35,9 @@ class PengaturanAdmin extends BaseControllerAdmin
 
         /* Save settings */
         $post = $this->request->getPost();
+        $files = $this->request->getFiles();
 
-        if (!empty($post)) {
+        if (!empty($post) || !empty($files)) {
             // dd($post);
 
             $rules = [
@@ -55,6 +56,14 @@ class PengaturanAdmin extends BaseControllerAdmin
                 'seoSitus' => [
                     'label' => lang('Admin.optimasiMesinPencari'),
                     'rules' => 'required',
+                ],
+                'ikon_file' => [
+                    'label' => lang('Admin.ikon'),
+                    'rules' => 'max_size[ikon_file,4096]|mime_in[ikon_file,image/png,image/jpeg,image/jpg]|is_image[ikon_file]',
+                ],
+                'logo_file' => [
+                    'label' => lang('Admin.logo'),
+                    'rules' => 'max_size[logo_file,4096]|mime_in[logo_file,image/png,image/jpeg,image/jpg]|is_image[logo_file]',
                 ],
                 'temaSitus' => [
                     'label' => lang('Admin.temaSitus'),
@@ -80,10 +89,13 @@ class PengaturanAdmin extends BaseControllerAdmin
                 return redirect()->back()->withInput();
             }
 
+            // Pengaturan umum
             service('settings')->set('App.judulSitus', $post['judulSitus']);
             service('settings')->set('App.deskripsiSitus', $post['deskripsiSitus']);
             service('settings')->set('App.kataKunciSitus', $post['kataKunciSitus']);
             service('settings')->set('App.seoSitus', $post['seoSitus']);
+
+            // Pengaturan tampilan
             service('settings')->set('App.temaSitus', $post['temaSitus']);
             service('settings')->set('App.halamanUtamaSitus', $post['halamanUtamaSitus']);
 
@@ -91,6 +103,39 @@ class PengaturanAdmin extends BaseControllerAdmin
             $context = 'user:' . user_id(); // Context untuk pengguna
             service('settings')->set('App.temaDasborAdmin', $post['temaDasborAdmin'], $context);
             service('settings')->set('App.barisPerHalaman', $post['barisPerHalaman'], $context);
+
+            /* Files upload */
+            $ikonFile = $files['ikon_file'];
+            $logoFile = $files['logo_file'];
+
+            // Initialize file paths
+            $ikonPath = null;
+            $logoPath = null;
+
+            // Handle CSS file upload
+            if ($ikonFile && $ikonFile->isValid() && !$ikonFile->hasMoved()) {
+                $originalName = url_title(pathinfo($ikonFile->getClientName(), PATHINFO_FILENAME), '-', false); // Get the original filename
+                $randomName = $ikonFile->getRandomName(); // Generate a random file name
+                $ikonFile->move(FCPATH . 'assets/img/ikon/', $originalName . '-' . $randomName);
+                $ikonPath = ('assets/img/ikon/' . $originalName . '-' . $randomName);
+            } else {
+                $ikonPath = $post['ikon_old'];
+            }
+
+            // Handle JS file upload
+            if ($logoFile && $logoFile->isValid() && !$logoFile->hasMoved()) {
+                $originalName = url_title(pathinfo($logoFile->getClientName(), PATHINFO_FILENAME), '-', false); // Get the original filename
+                $randomName = $logoFile->getRandomName(); // Generate a random file name
+                $logoFile->move(FCPATH . 'assets/img/logo/', $originalName . '-' . $randomName);
+                $logoPath = ('assets/img/logo/' . $originalName . '-' . $randomName);
+            } else {
+                $logoPath = $post['logo_old'];
+            }
+            /* End of files upload */
+
+            // Pengaturan dengan input file
+            service('settings')->set('App.ikonSitus', $ikonPath);
+            service('settings')->set('App.logoSitus', $logoPath);
 
             // Pesan berhasil diperbarui
             session()->setFlashdata('sukses', lang('Admin.berhasilDiperbarui'));

@@ -65,7 +65,6 @@ class KomponenAdmin extends BaseControllerAdmin
                             'label' => 'CSS',
                             'rules' => [
                                 'uploaded[css_file]',
-                                // 'mime_in[css_file,text/css]',
                                 'ext_in[css_file,css]',
                             ]
                         ]
@@ -80,7 +79,6 @@ class KomponenAdmin extends BaseControllerAdmin
                             'label' => 'JS',
                             'rules' => [
                                 'uploaded[js_file]',
-                                // 'mime_in[js_file,text/javascript]',
                                 'ext_in[js_file,js]',
                             ]
                         ],
@@ -144,9 +142,10 @@ class KomponenAdmin extends BaseControllerAdmin
 
         // Handle CSS file upload
         if ($cssFile && $cssFile->isValid() && !$cssFile->hasMoved()) {
-            $cssName = $cssFile->getRandomName(); // Generate a random file name
-            $cssFile->move(FCPATH . 'assets/components/css/', $cssName);
-            $cssPath = base_url('assets/components/css/' . $cssName);
+            $originalName = url_title(pathinfo($cssFile->getClientName(), PATHINFO_FILENAME), '-', false); // Get the original filename
+            $randomName = $cssFile->getRandomName(); // Generate a random file name
+            $cssFile->move(FCPATH . 'assets/components/css/', $originalName . '-' . $randomName);
+            $cssPath = ('assets/components/css/' . $originalName . '-' . $randomName);
             $data['css'] = $cssPath;
         } else {
             $data['css'] = $data['css_old'];
@@ -154,9 +153,10 @@ class KomponenAdmin extends BaseControllerAdmin
 
         // Handle JS file upload
         if ($jsFile && $jsFile->isValid() && !$jsFile->hasMoved()) {
-            $jsName = $jsFile->getRandomName(); // Generate a random file name
-            $jsFile->move(FCPATH . 'assets/components/js/', $jsName);
-            $jsPath = base_url('assets/components/js/' . $jsName);
+            $originalName = url_title(pathinfo($jsFile->getClientName(), PATHINFO_FILENAME), '-', false); // Get the original filename
+            $randomName = $jsFile->getRandomName(); // Generate a random file name
+            $jsFile->move(FCPATH . 'assets/components/js/', $originalName . '-' . $randomName);
+            $jsPath = ('assets/components/js/' . $originalName . '-' . $randomName);
             $data['js'] = $jsPath;
         } else {
             $data['js'] = $data['js_old'];
@@ -288,7 +288,7 @@ class KomponenAdmin extends BaseControllerAdmin
                             $originalName = url_title(pathinfo($file->getClientName(), PATHINFO_FILENAME), '-', false); // Get the original filename
                             $randomName = $file->getRandomName();
                             $file->move(FCPATH . 'assets/components/uploads', $originalName . '-' . $randomName);
-                            $fileUrls[$fileInputName][] = base_url("assets/components/uploads/" . $originalName . '-' . $randomName);
+                            $fileUrls[$fileInputName][] = ("assets/components/uploads/" . $originalName . '-' . $randomName);
                         } else {
                             // If the file is invalid, log the error
                             $log['file_errors'][] = [

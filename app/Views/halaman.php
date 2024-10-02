@@ -8,11 +8,11 @@
 <script src="https://unpkg.com/json5@2/dist/index.min.js"></script>
 
 <?php if ($halaman['css']): ?>
-    <link rel="stylesheet" href="<?= $halaman['css'] ?>" type="text/css" />
+    <link rel="stylesheet" href="<?= base_url($halaman['css']) ?>" type="text/css" />
 <?php endif; ?>
 <?php foreach ($komponen as $k): ?>
     <?php if ($k['css']): ?>
-        <link rel="stylesheet" href="<?= $k['css'] ?>" type="text/css" />
+        <link rel="stylesheet" href="<?= base_url($k['css']) ?>" type="text/css" />
     <?php endif; ?>
 <?php endforeach; ?>
 <?= $this->endSection() ?>
@@ -20,12 +20,7 @@
 <?= $this->section('content') ?>
 <div class="mt-navbar">
     <?php foreach ($komponen as $k): ?>
-        <?php //dd($k['konten_terformat']) 
-        ?>
         <?php echo $k['konten_terformat'] /*eval('?>' . $k['konten_terformat'])*/ ?>
-        <?php if ($k['css']): ?>
-            <link rel="stylesheet" href="<?= base_url($k['css']) ?>">
-        <?php endif; ?>
     <?php endforeach; ?>
 </div>
 <?= $this->endSection() ?>

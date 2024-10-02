@@ -110,10 +110,10 @@
         <form id="multi-delete-form" action="<?= base_url('admin/galeri/hapus-banyak') ?>" method="post">
 
             <!-- Gambar -->
-            <div class="row" data-masonry='{"percentPosition": true }'>
+            <div class="row" id="gambarContainer">
                 <?php foreach ($images as $image) : ?>
                     <div class="col-md-3 mb-4">
-                        <div class="card">
+                        <div class="card gambarCard">
                             <img src="<?= $image['uri'] ?>" class="card-img-top" alt="<?= esc($image['alt']) ?>" onerror="this.onerror=null; this.src='<?= base_url('assets/img/icon-notext.png') ?>'">
                             <!-- Checkbox hapus banyak -->
                             <input type="checkbox" name="image_ids[]" value="<?= $image['id'] ?>" class="image-checkbox form-check-input ms-4 mt-4 position-absolute">
@@ -180,7 +180,27 @@
 <?= $this->section('script') ?>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.10.2/mdb.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha384-GNFwBvfVxBkLMJpYMOABq3c+d3KnQxudP/mGPkzpZSTYykLBNsZEnG2D9G/X/+7D" crossorigin="anonymous" async></script>
+
+<!-- Images Loaded Library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js"></script>
+
 <script>
+    // Ensure imagesLoaded is included in your project
+    $('#gambarContainer').imagesLoaded(function() {
+
+        // Save current scroll position
+        const currentScroll = $(window).scrollTop();
+
+        // Reinitialize Masonry
+        new Masonry(document.getElementById('gambarContainer'), {
+            percentPosition: true
+        });
+
+        // Restore scroll position
+        $(window).scrollTop(currentScroll);
+
+    });
+
     document.getElementById('multiDeleteBtn').addEventListener('click', function() {
 
         // Form dan cekbox terpilih

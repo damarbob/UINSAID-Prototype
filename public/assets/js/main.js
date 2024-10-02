@@ -1,14 +1,14 @@
 // Light mode/dark mode
 $(document).ready(function () {
-  const htmlElement = $("html");
+  // const htmlElement = $("html");
   const currentTheme = localStorage.getItem("mdb-theme") || "light";
 
   // Set the initial theme
-  htmlElement.attr("data-mdb-theme", currentTheme);
+  // htmlElement.attr("data-mdb-theme", currentTheme);
 
   // Toggle theme on button click
   $("#themeToggle").click(function () {
-    console.log("Switched theme");
+    // console.log("Switched theme");
     const newTheme =
       htmlElement.attr("data-mdb-theme") === "light" ? "dark" : "light";
     htmlElement.attr("data-mdb-theme", newTheme);

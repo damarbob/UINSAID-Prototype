@@ -43,10 +43,13 @@ $routes->get('test', 'BeritaAdmin::test');
 $routes->get('xml-migration', 'XmlMigrationController::migrate');
 $routes->get('xml-migration-lampiran', 'XmlMigrationLampiranController::migrate');
 $routes->get('entitas', 'Entitas');
-$routes->get('agenda', 'Agenda');
-$routes->get('agenda/(:num)', 'Agenda::get/$1');
-$routes->get('pengumuman', 'Pengumuman');
-$routes->get('pengumuman/(:num)', 'Pengumuman::get/$1');
+// $routes->get('agenda', 'Agenda');
+// $routes->get('agenda/(:num)', 'Agenda::get/$1');
+$routes->get('agenda', 'AgendaPengumuman');
+$routes->get('agenda-pengumuman/(:num)', 'AgendaPengumuman::get/$1');
+// $routes->get('pengumuman', 'Pengumuman');
+// $routes->get('pengumuman/(:num)', 'Pengumuman::get/$1');
+$routes->get('pengumuman', 'AgendaPengumuman::indexPengumuman');
 
 // TESTING ROUTES
 // $routes->get('/entitas', 'Entitas');
@@ -147,22 +150,39 @@ $routes->group('admin', ['filter' => 'group:admin,superadmin'], function ($route
     }
 
     // Agenda
-    $routes->get('agenda', 'AgendaAdmin', ['as' => 'agenda_admin']);
-    $routes->get('agenda/tambah', 'AgendaAdmin::tambah', ['as' => 'agenda_admin_tambah']);
-    $routes->post('agenda/tambah/simpan', 'AgendaAdmin::simpan', ['as' => 'agenda_admin_simpan_baru']);
-    $routes->get('agenda/sunting', 'AgendaAdmin::sunting', ['as' => 'agenda_admin_sunting']);
-    $routes->get('agenda/sunting/(:num)', 'AgendaAdmin::sunting/$1', ['as' => 'agenda_admin_sunting']);
-    $routes->post('agenda/sunting/simpan/(:num)', 'AgendaAdmin::simpan/$1', ['as' => 'agenda_admin_simpan_sunting']);
-    $routes->post('agenda/hapus', 'AgendaAdmin::hapusBanyak', ['as' => 'agenda_admin_hapus']);
+    // $routes->get('agenda', 'AgendaAdmin', ['as' => 'agenda_admin']);
+    // $routes->get('agenda/tambah', 'AgendaAdmin::tambah', ['as' => 'agenda_admin_tambah']);
+    // $routes->post('agenda/tambah/simpan', 'AgendaAdmin::simpan', ['as' => 'agenda_admin_simpan_baru']);
+    // $routes->get('agenda/sunting', 'AgendaAdmin::sunting', ['as' => 'agenda_admin_sunting']);
+    // $routes->get('agenda/sunting/(:num)', 'AgendaAdmin::sunting/$1', ['as' => 'agenda_admin_sunting']);
+    // $routes->post('agenda/sunting/simpan/(:num)', 'AgendaAdmin::simpan/$1', ['as' => 'agenda_admin_simpan_sunting']);
+    // $routes->post('agenda/hapus', 'AgendaAdmin::hapusBanyak', ['as' => 'agenda_admin_hapus']);
+
+    // Agenda baru
+    $routes->get('agenda', 'AgendaPengumumanAdmin', ['as' => 'agenda_admin']);
+    $routes->get('agenda/tambah', 'AgendaPengumumanAdmin::tambahAgenda', ['as' => 'agenda_admin_tambah']);
+    $routes->post('agenda/tambah/simpan', 'AgendaPengumumanAdmin::simpanAgenda', ['as' => 'agenda_admin_simpan_baru']);
+    $routes->get('agenda/sunting', 'AgendaPengumumanAdmin::suntingAgenda', ['as' => 'agenda_admin_sunting']);
+    $routes->get('agenda/sunting/(:num)', 'AgendaPengumumanAdmin::suntingAgenda/$1', ['as' => 'agenda_admin_sunting']);
+    $routes->post('agenda/sunting/simpan/(:num)', 'AgendaPengumumanAdmin::simpanAgenda/$1', ['as' => 'agenda_admin_simpan_sunting']);
+    $routes->post('agenda/hapus', 'AgendaPengumumanAdmin::hapusBanyak', ['as' => 'agenda_admin_hapus']);
 
     // Pengumuman
-    $routes->get('pengumuman', 'PengumumanAdmin', ['as' => 'pengumuman_admin']);
-    $routes->get('pengumuman/tambah', 'PengumumanAdmin::tambah', ['as' => 'pengumuman_admin_tambah']);
-    $routes->post('pengumuman/tambah/simpan', 'PengumumanAdmin::simpan', ['as' => 'pengumuman_admin_simpan']);
-    $routes->get('pengumuman/sunting', 'PengumumanAdmin::sunting', ['as' => 'pengumuman_admin_sunting']);
-    $routes->get('pengumuman/sunting/(:num)', 'PengumumanAdmin::sunting/$1', ['as' => 'pengumuman_admin_sunting']);
-    $routes->post('pengumuman/sunting/simpan/(:num)', 'PengumumanAdmin::simpan/$1', ['as' => 'pengumuman_admin_simpan_sunting']);
-    $routes->post('pengumuman/hapus', 'PengumumanAdmin::hapusBanyak', ['as' => 'pengumuman_admin_hapus']);
+    // $routes->get('pengumuman', 'PengumumanAdmin', ['as' => 'pengumuman_admin']);
+    // $routes->get('pengumuman/tambah', 'PengumumanAdmin::tambah', ['as' => 'pengumuman_admin_tambah']);
+    // $routes->post('pengumuman/tambah/simpan', 'PengumumanAdmin::simpan', ['as' => 'pengumuman_admin_simpan']);
+    // $routes->get('pengumuman/sunting', 'PengumumanAdmin::sunting', ['as' => 'pengumuman_admin_sunting']);
+    // $routes->get('pengumuman/sunting/(:num)', 'PengumumanAdmin::sunting/$1', ['as' => 'pengumuman_admin_sunting']);
+    // $routes->post('pengumuman/sunting/simpan/(:num)', 'PengumumanAdmin::simpan/$1', ['as' => 'pengumuman_admin_simpan_sunting']);
+    // $routes->post('pengumuman/hapus', 'PengumumanAdmin::hapusBanyak', ['as' => 'pengumuman_admin_hapus']);
+
+    // Pengumuman baru
+    $routes->get('pengumuman', 'AgendaPengumumanAdmin::indexPengumuman', ['as' => 'pengumuman_admin']);
+    $routes->get('pengumuman/tambah', 'AgendaPengumumanAdmin::tambahPengumuman', ['as' => 'pengumuman_admin_tambah']);
+    $routes->post('pengumuman/tambah/simpan', 'AgendaPengumumanAdmin::simpanPengumuman', ['as' => 'pengumuman_admin_simpan']);
+    $routes->get('pengumuman/sunting', 'AgendaPengumumanAdmin::suntingPengumuman', ['as' => 'pengumuman_admin_sunting']);
+    $routes->post('pengumuman/sunting/simpan/(:num)', 'AgendaPengumumanAdmin::simpanPengumuman/$1', ['as' => 'pengumuman_admin_simpan_sunting']);
+    $routes->post('pengumuman/hapus', 'AgendaPengumumanAdmin::hapusBanyak', ['as' => 'pengumuman_admin_hapus']);
 
     // Unggah dan hapus gambar berita
     $routes->post('berita/unggah-gambar', 'BeritaAdmin::unggahGambar');
@@ -253,12 +273,22 @@ $routes->group('api', static function ($routes) {
     $routes->post('berita/(dipublikasikan)', 'BeritaAdmin::fetchData/$1');
     $routes->post('berita/draf', 'BeritaAdmin::fetchData/$1');
 
-    $routes->post('agenda', 'AgendaAdmin::fetchData');
-    $routes->post('agenda/(:any)', 'AgendaAdmin::fetchData/$1');
+    // Agenda
+    // $routes->post('agenda', 'AgendaAdmin::fetchData');
+    // $routes->post('agenda/(:any)', 'AgendaAdmin::fetchData/$1');
+
+    // Agenda baru
+    $routes->post('agenda', 'AgendaPengumumanAdmin::getDTAgenda');
+    $routes->post('agenda/(:any)', 'AgendaPengumumanAdmin::getDTAgenda/$1');
     // $routes->post('agenda/draf', 'AgendaAdmin::fetchData/$1');
 
-    $routes->post('pengumuman', 'PengumumanAdmin::fetchData');
-    $routes->post('pengumuman/(:any)', 'PengumumanAdmin::fetchData/$1');
+    // Pengumuman
+    // $routes->post('pengumuman', 'PengumumanAdmin::fetchData');
+    // $routes->post('pengumuman/(:any)', 'PengumumanAdmin::fetchData/$1');
+
+    // Pengumuman baru
+    $routes->post('pengumuman', 'AgendaPengumumanAdmin::getDTPengumuman');
+    $routes->post('pengumuman/(:any)', 'AgendaPengumumanAdmin::getDTPengumuman/$1');
     // $routes->get('pengumuman/draf', 'PengumumanAdmin::getDraf');
 
     // Berita pengajuan (web utama)
@@ -317,7 +347,8 @@ service('auth')->routes($routes);
 /* REFACTORING */
 if (ENVIRONMENT == 'development') {
     $routes->group('refactor', static function ($routes) {
-        $routes->get('berita/featured-image',  'BeritaAdmin::refactorFeaturedImages');
+        $routes->get('berita/featured-image',  'Refactoring::fillBeritaFeaturedImageWithFirstImageFromKontenField');
+        $routes->get('agenda-pengumuman/combine', 'Refactoring::combineAgendaModelAndPengumumanModelToAgendaPengumumanModel');
     });
 }
 

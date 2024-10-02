@@ -26,7 +26,7 @@ class EntitasModel extends \CodeIgniter\Model
             ->paginate(10, 'entitas'));
     }
 
-    public function getByFilter($cari, $grup)
+    public function getByFilter($cari = null, $grup = null, $parentId = null)
     {
         $builder = $this->table($this->table);
 
@@ -36,6 +36,10 @@ class EntitasModel extends \CodeIgniter\Model
 
         if (!empty($grup)) {
             $builder->where('entitas_grup.nama', $grup);
+        }
+
+        if (!empty($parentId)) {
+            $builder->where('entitas.parent_id', $parentId);
         }
 
         return ($builder->select('entitas.*, entitas_grup.nama as grup')

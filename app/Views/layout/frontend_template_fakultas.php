@@ -72,7 +72,7 @@ $currentRoute = $request->uri->getPath();
   <!-- Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <!-- MDB -->
-  <link id="mdbCSS" rel="stylesheet" href="<?= base_url("assets/css/c.css") ?>" />
+  <link id="mdbCSS" rel="stylesheet" href="<?= base_url("assets/css/hijau.css") ?>" />
   <!-- Custom CSS -->
   <link rel="stylesheet" href="<?= base_url("assets/css/style.css") ?>" />
   <!-- Bootstrap icons -->
@@ -598,7 +598,7 @@ $currentRoute = $request->uri->getPath();
       const mdbCssElement = $('#mdbCSS');
       const swipers = $('.swiper');
       const rtlCssUrl = "<?= base_url("assets/css/mdb.rtl.min.css") ?>";
-      const ltrCssUrl = "<?= base_url("assets/css/c.css") ?>";
+      const ltrCssUrl = "<?= base_url("assets/css/hijau.css") ?>";
 
       // Apply initial settings
       htmlElement.attr('data-mdb-theme', currentTheme);

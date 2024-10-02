@@ -1,7 +1,5 @@
 <?php
 
-use App\Models\TemaModel;
-
 helper('setting');
 
 // Get the current request instance
@@ -10,9 +8,10 @@ $request = service('request');
 // Get the URI string
 $currentRoute = $request->uri->getPath();
 
-// Memperoleh tema situs
-$temaModel = new TemaModel();
-$tema = $temaModel->find(setting()->get('App.temaSitus'))
+// Tema default
+$temaDefault = base_url("assets/css/hijau.css");
+$temaRTLDefault = base_url("assets/css/hijau.rtl.css");
+// dd($tema);
 ?>
 <!DOCTYPE html>
 <html lang="id" dir="">
@@ -21,7 +20,7 @@ $tema = $temaModel->find(setting()->get('App.temaSitus'))
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <meta http-equiv="x-ua-compatible" content="ie=edge" />
-  <title><?= setting()->get('App.judulSitus') ?></title>
+  <title><?= setting()->get('App.judulSitus') ?> | <?= isset($judul) ? $judul : '' ?></title>
   <meta name="googlebot" content="<?= (setting()->get('App.seoSitus') === "on") ? "index,follow" : "noindex,nofollow" ?>">
   <meta name="language" content="id" />
   <link rel="canonical" href="<?= base_url() ?>" />
@@ -37,14 +36,14 @@ $tema = $temaModel->find(setting()->get('App.temaSitus'))
   <meta name="author" content="UIN Raden Mas Said Surakarta" />
   <meta name="copyright" content="UIN Raden Mas Said Surakarta" />
   <meta name="application-name" content="UIN Raden Mas Said Surakarta" />
-  <meta itemprop="<?= base_url() ?>" content="<?= base_url("files/icon-1704942188.png") ?>" />
+  <meta itemprop="<?= base_url() ?>" content="<?= base_url(setting()->get('App.ikonSitus')) ?>" />
 
   <!-- Open Graph meta -->
   <meta property="og:title" content="<?= setting()->get('App.judulSitus') ?>" />
   <meta property="og:site_name" content="<?= base_url() ?>">
   <meta property="og:keywords" content="<?= setting()->get('App.kataKunciSitus') ?>">
   <meta property="og:type" content="article" />
-  <meta property="og:image" content="<?= base_url("files/icon-1704942188.png") ?>" />
+  <meta property="og:image" content="<?= base_url(setting()->get('App.ikonSitus')) ?>" />
   <meta property="og:image:alt" content="<?= setting()->get('App.judulSitus') ?>" />
   <meta property="og:image:width" content="400" />
   <meta property="og:image:height" content="400" />
@@ -69,7 +68,7 @@ $tema = $temaModel->find(setting()->get('App.temaSitus'))
   <meta name="twitter:site" content="@uinsurakarta" />
 
   <!-- Favicon -->
-  <link rel="shortcut icon" href="<?= base_url('files/icon-1704942188.png') ?>" />
+  <link rel="shortcut icon" href="<?= base_url(setting()->get('App.ikonSitus')) ?>" />
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
   <!-- Libre baskerville font -->
@@ -84,8 +83,8 @@ $tema = $temaModel->find(setting()->get('App.temaSitus'))
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
   <!-- Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-  <!-- MDB -->
-  <link id="mdbCSS" rel="stylesheet" href="<?= isset($tema['css']) && $tema['css'] != "" ? base_url($tema['css']) : base_url("assets/css/c.css") ?>" />
+  <!-- MDB will be replaced by script at bottom -->
+  <link id="mdbCSS" rel="stylesheet" href="<?= isset($tema['css']) && $tema['css'] != "" ? base_url($tema['css']) : $temaDefault ?>" />
   <!-- Custom CSS -->
   <link rel="stylesheet" href="<?= base_url("assets/css/style.css") ?>" />
   <!-- Bootstrap icons -->
@@ -105,7 +104,7 @@ $tema = $temaModel->find(setting()->get('App.temaSitus'))
   </style>
   <!-- AOS -->
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-  <!-- Swiper JS -->
+  <!-- Swiper CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
   <!-- Loader style -->
   <style>
@@ -170,8 +169,92 @@ $tema = $temaModel->find(setting()->get('App.temaSitus'))
     }
   </style>
 
-  <!-- Script -->
+  <!-- Style -->
   <?= $this->renderSection('style'); ?>
+
+  <!-- JQuery -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+  <!-- RTL setting -->
+  <script type="text/javascript">
+    // Retrieve stored settings or default to light and LTR
+    const currentTheme = localStorage.getItem('mdb-theme') || 'light';
+    const currentDirection = localStorage.getItem('html-dir') || 'ltr';
+
+    const htmlElement = $("html");
+    const mdbCssElement = $('#mdbCSS');
+    // const rtlCssUrl = "<?= base_url("assets/css/mdb.rtl.min.css") ?>";
+
+    const rtlCssUrl = "<?= isset($tema['css_rtl']) && $tema['css_rtl'] != "" ? base_url($tema['css_rtl']) : $temaRTLDefault ?>";
+    const ltrCssUrl = "<?= isset($tema['css']) && $tema['css'] != "" ? base_url($tema['css']) : $temaDefault ?>";
+    const ltrAccessibilityJs = "<?= base_url("assets/js/sienna-uinsaid.min.js") ?>";
+    const rtlAccessibilityJs = "<?= base_url("assets/js/sienna-uinsaid.rtl.min.js") ?>";
+
+    // Apply initial settings
+    htmlElement.attr('data-mdb-theme', currentTheme); // Document theme
+    htmlElement.attr('dir', currentDirection); // Document direction
+    htmlElement.attr('lang', currentDirection === 'rtl' ? 'ar' : 'en'); // Document language
+    mdbCssElement.attr('href', currentDirection === 'rtl' ? rtlCssUrl : ltrCssUrl); // Set style
+    $.getScript(currentDirection === 'rtl' ? rtlAccessibilityJs : ltrAccessibilityJs, function() {
+      // Accessibility script loaded
+      console.log("Plugin aksesibilitas dimuat.")
+    });
+
+    // function updateSwipersLanguageDirection() {
+    //   // Update swipers direction
+    //   const swipers = $('.swiper');
+    //   if (document.documentElement.getAttribute('dir') === 'rtl') {
+    //     // Add RTL attributes and class to Swiper containers
+    //     swipers.each(function() {
+    //       // $(this).attr('dir', 'rtl').addClass('swiper-rtl');
+
+    //       // Get the Swiper instance and call update
+    //       const swiperInstance = this.swiper;
+    //       if (swiperInstance) {
+    //         swiperInstance.changeLanguageDirection('rtl'); // Set direction to RTL
+    //         swiperInstance.update();
+    //       }
+    //     });
+    //   } else {
+    //     // Remove RTL attributes and class from Swiper containers
+    //     swipers.each(function() {
+    //       // $(this).attr('dir', 'ltr').removeClass('swiper-rtl');
+
+    //       // Get the Swiper instance and call update
+    //       const swiperInstance = this.swiper;
+    //       if (swiperInstance) {
+    //         swiperInstance.changeLanguageDirection('ltr'); // Set direction to LTR
+    //         swiperInstance.update();
+    //       }
+    //     });
+    //   }
+    // }
+
+    // Function to enable RTL
+    function enableRTL() {
+      localStorage.setItem("html-dir", "rtl");
+
+      htmlElement.attr("dir", "rtl");
+      htmlElement.attr("lang", "ar");
+      mdbCssElement.attr('href', rtlCssUrl);
+      $.getScript(rtlAccessibilityJs, function() {
+        // Script loaded
+      });
+    }
+
+    // Function to disable RTL (set to LTR)
+    function disableRTL() {
+      localStorage.setItem("html-dir", "ltr");
+
+      htmlElement.attr("dir", "ltr");
+      htmlElement.attr("lang", "en");
+      mdbCssElement.attr('href', ltrCssUrl);
+      $.getScript(ltrAccessibilityJs, function() {
+        // Script loaded
+      });
+    }
+  </script>
+
 </head>
 
 <body>
@@ -228,7 +311,7 @@ $tema = $temaModel->find(setting()->get('App.temaSitus'))
       <div>
         <!-- Navbar brand -->
         <div id="navbarBrandWrapper" class="bg-white position-absolute top-0 py-2 px-2 rounded-bottom-3 shadow-lg">
-          <a class="navbar-brand mx-0" href="<?= base_url() ?>"></a>
+          <a class="navbar-brand mx-0" href="<?= base_url() ?>" style="--logo: url('<?= base_url(setting()->get('App.logoSitus')) ?>'); --logo-scrolled: url('<?= base_url(setting()->get('App.logoSitus')) ?>');"></a>
         </div>
       </div>
 
@@ -504,7 +587,7 @@ $tema = $temaModel->find(setting()->get('App.temaSitus'))
   <!-- Footer -->
   <footer id="footer" class="text-light">
     <!-- Footer bagian atas -->
-    <div class="footer-top container p-5 rounded-top-5" style="background: #013316;">
+    <div class="footer-top container p-5 rounded-top-5">
       <div class="row">
         <!-- Footer & alamat -->
         <div class="col-lg-3 col-md-6">
@@ -665,9 +748,6 @@ $tema = $temaModel->find(setting()->get('App.temaSitus'))
   </footer>
   <!-- End Footer -->
 
-  <!-- JQuery -->
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-
   <!-- MDB -->
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.2.0/mdb.umd.min.js"></script>
 
@@ -683,6 +763,12 @@ $tema = $temaModel->find(setting()->get('App.temaSitus'))
   <!-- Custom scripts -->
   <script type="text/javascript" src="<?= base_url("assets/js/main.js") ?>"></script>
 
+  <!-- Accessibility -->
+  <!-- <script src="<?= base_url("assets/js/sienna-uinsaid.min.js") ?>" defer></script> -->
+
+  <!-- Section script -->
+  <?= $this->renderSection('script') ?>
+
   <!-- Google translate element -->
   <div id="google_translate_element2" class="d-none"></div>
 
@@ -694,7 +780,7 @@ $tema = $temaModel->find(setting()->get('App.temaSitus'))
       }, 'google_translate_element2');
     }
   </script>
-  <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit2"></script>
+  <!-- <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit2"></script> -->
   <script type="text/javascript">
     $(document).ready(function() {
       $("#loaderBody").hide(); // Hide loader
@@ -728,7 +814,7 @@ $tema = $temaModel->find(setting()->get('App.temaSitus'))
 
       function doGTranslate(a) {
         // $("#loaderBody").show();
-        $("#loaderBody").removeClass("d-none");
+        $("#loaderBody").removeClass("d-none"); // Show loading overlay
 
         if (a.value) a = a.value;
         if (a == '') return;
@@ -765,71 +851,11 @@ $tema = $temaModel->find(setting()->get('App.temaSitus'))
         setTimeout(function() {
           window.location.reload();
         }, 500);
+
+        // updateSwipersLanguageDirection();
       }
-
-      // Retrieve stored settings or default to light and LTR
-      const currentTheme = localStorage.getItem('mdb-theme') || 'light';
-      const currentDirection = localStorage.getItem('html-dir') || 'ltr';
-
-      const htmlElement = $("html");
-      const mdbCssElement = $('#mdbCSS');
-      const swipers = $('.swiper');
-      // const rtlCssUrl = "<?= base_url("assets/css/mdb.rtl.min.css") ?>";
-      const rtlCssUrl = "<?= base_url("assets/css/c.rtl.css") ?>";
-      const ltrCssUrl = "<?= base_url("assets/css/c.css") ?>";
-      const ltrAccessibilityJs = "<?= base_url("assets/js/sienna-uinsaid.min.js") ?>";
-      const rtlAccessibilityJs = "<?= base_url("assets/js/sienna-uinsaid.rtl.min.js") ?>";
-
-      // Apply initial settings
-      htmlElement.attr('data-mdb-theme', currentTheme); // Document theme
-      htmlElement.attr('dir', currentDirection); // Document direction
-      htmlElement.attr('lang', currentDirection === 'rtl' ? 'ar' : 'en'); // Document language
-      mdbCssElement.attr('href', currentDirection === 'rtl' ? rtlCssUrl : ltrCssUrl); // Set style
-      $.getScript(currentDirection === 'rtl' ? rtlAccessibilityJs : ltrAccessibilityJs, function() {
-        // Accessibility script loaded
-        console.log("Plugin aksesibilitas dimuat.")
-      });
-
-      // Function to enable RTL
-      function enableRTL() {
-        localStorage.setItem("html-dir", "rtl");
-        // htmlElement.attr("dir", "rtl");
-        // htmlElement.attr("lang", "ar");
-        // mdbCssElement.attr('href', rtlCssUrl);
-        // $.getScript(rtlAccessibilityJs, function() {
-        //   // Script loaded
-        // });
-
-        // Add RTL attributes and class to Swiper containers
-        // swipers.each(function() {
-        //   $(this).attr('dir', 'rtl').addClass('swiper-rtl');
-        // });
-      }
-
-      // Function to disable RTL (set to LTR)
-      function disableRTL() {
-        localStorage.setItem("html-dir", "ltr");
-        // htmlElement.attr("dir", "ltr");
-        // htmlElement.attr("lang", "en");
-        // mdbCssElement.attr('href', ltrCssUrl);
-        // $.getScript(ltrAccessibilityJs, function() {
-        //   // Script loaded
-        // });
-
-        // Remove RTL attributes and class from Swiper containers
-        // swipers.each(function() {
-        //   $(this).attr('dir', 'ltr').removeClass('swiper-rtl');
-        // });
-      }
-      //
     });
   </script>
-
-  <!-- Accessibility -->
-  <!-- <script src="<?= base_url("assets/js/sienna-uinsaid.min.js") ?>" defer></script> -->
-
-  <!-- Section script -->
-  <?= $this->renderSection('script') ?>
 
 </body>
 

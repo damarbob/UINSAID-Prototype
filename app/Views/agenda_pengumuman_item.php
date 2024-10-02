@@ -2,7 +2,7 @@
 helper('text');
 
 // URL Berita
-$beritaUrl = base_url("berita/" . $berita['slug']);
+$agendaUrl = base_url("agenda/" . $item['id']);
 ?>
 
 <?= $this->extend('layout/frontend_template') ?>
@@ -10,24 +10,24 @@ $beritaUrl = base_url("berita/" . $berita['slug']);
 <?= $this->section('meta') ?>
 
 <!-- Dynamic Meta Tags -->
-<meta itemprop="image" content="<?= $berita['gambar_sampul']; ?>" />
+<meta itemprop="image" content="<?= $item['uri']; ?>" />
 
 <!-- TODO: Add tags to meta keywords -->
 <!-- Open Graph Dynamic Meta Tags -->
-<meta property="og:title" content="<?= $berita['judul']; ?>" />
-<meta property="og:keywords" content="uinsaid, rmsaid, uinsurakarta, <?= $berita['kategori']; ?>" />
-<meta property="og:image" content="<?= $berita['gambar_sampul']; ?>" />
-<meta property="og:image:alt" content="<?= $berita['judul']; ?>" />
+<meta property="og:title" content="<?= $item['judul']; ?>" />
+<meta property="og:keywords" content="uinsaid, rmsaid, uinsurakarta" />
+<meta property="og:image" content="<?= $item['uri']; ?>" />
+<meta property="og:image:alt" content="<?= $item['judul']; ?>" />
 <meta property="og:image:width" content="400" />
 <meta property="og:image:height" content="400" />
-<meta property="og:url" content="<?= $beritaUrl ?>" />
-<meta property="og:description" content="<?= character_limiter(strip_tags($berita['konten']), 160); ?>" />
+<meta property="og:url" content="<?= $agendaUrl ?>" />
+<meta property="og:description" content="<?= character_limiter(strip_tags($item['konten']), 160); ?>" />
 
 <!-- Twitter Dynamic Meta Tags -->
-<meta name="twitter:title" content="<?= $berita['judul']; ?>" />
-<meta name="twitter:description" content="<?= character_limiter(strip_tags($berita['konten']), 160); ?>" />
-<meta name="twitter:image" content="<?= $berita['gambar_sampul']; ?>" />
-<meta name="twitter:image:alt" content="<?= $berita['judul']; ?>" />
+<meta name="twitter:title" content="<?= $item['judul']; ?>" />
+<meta name="twitter:description" content="<?= character_limiter(strip_tags($item['konten']), 160); ?>" />
+<meta name="twitter:image" content="<?= $item['uri']; ?>" />
+<meta name="twitter:image:alt" content="<?= $item['judul']; ?>" />
 
 <?= $this->endSection() ?>
 
@@ -57,18 +57,21 @@ $beritaUrl = base_url("berita/" . $berita['slug']);
 
                             <!-- TODO: Hardcoded breadcrumb -->
                             <li class="breadcrumb-item"><a href="<?= base_url() ?>">Beranda</a></li>
-                            <li class="breadcrumb-item"><a href="<?= base_url('berita') ?>">Berita</a></li>
+                            <li class="breadcrumb-item"><a href="<?= base_url('agenda') ?>">Agenda</a></li>
+                            <li class="breadcrumb-item active fw-bold" aria-current="page">
+                                <?= $item['judul']; ?>
+                            </li>
                         </ol>
                     </nav>
 
                     <h1 class="pb-2 fw-bold">
-                        <?= $berita['judul']; ?>
+                        <?= $item['judul']; ?>
                     </h1>
 
                     <p>
                         Diterbitkan pada<br>
                         <span class="fw-bold">
-                            <?= $berita['created_at_terformat']; ?>
+                            <?= $item['created_at_terformat']; ?>
                         </span>
                     </p>
 
@@ -87,7 +90,7 @@ $beritaUrl = base_url("berita/" . $berita['slug']);
                 <div class="row g-0">
                     <div class="col">
                         <div class="ratio ratio-4x3">
-                            <img data-aos="fade-up" class="object-fit-cover" style="border: 1rem solid var(--mdb-body-bg);" src="<?= $berita['featured_image'] ?: $berita['gambar_sampul'] ?>" onerror="this.onerror=null; this.src='<?= base_url('assets/img/icon-notext.png') ?>'" />
+                            <img data-aos="fade-up" class="object-fit-cover" style="background: white; border: 1rem solid var(--mdb-body-bg);" src="<?= ($item['id_galeri'] != null) ? $item['uri'] : base_url('assets/img/icon-notext.png') ?>" />
                         </div>
                     </div>
                 </div>
@@ -109,7 +112,7 @@ $beritaUrl = base_url("berita/" . $berita['slug']);
 
                 <!-- <img src="<?php echo base_url() . 'uploads/' ?>" alt="" class="img-fluid object-fit-cover rounded-2 my-3" style="width: 100%; max-height: 450px" /> -->
                 <p>
-                    <?= $berita['konten'] ?>
+                    <?= $item['konten'] ?>
                 </p>
             </div>
             <!-- Akhir konten artikel -->
@@ -123,7 +126,7 @@ $beritaUrl = base_url("berita/" . $berita['slug']);
 
                     <!-- Input link siap copy -->
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control text-secondary" placeholder="" aria-label="" aria-describedby="copy-link" value="<?= $beritaUrl ?>" id="beritaUrl" />
+                        <input type="text" class="form-control text-secondary" placeholder="" aria-label="" aria-describedby="copy-link" value="<?= $agendaUrl ?>" id="agendaUrl" />
                         <div class="input-group-append">
                             <div class="tooltip"></div>
                             <button class="btn btn-primary btn-lg rounded-start-0" type="button" onclick="salinBeritaUrl()">
@@ -135,20 +138,20 @@ $beritaUrl = base_url("berita/" . $berita['slug']);
                     <!-- Tombol share sosmed -->
                     <div class="col">
 
-                        <a class="btn btn-whatsapp m-2 m-xl-0 mb-lg-2 me-2" href="https://api.whatsapp.com/send?text=<?= $berita['judul'] ?> %0a %0a<?= $beritaUrl ?>%0a %0aKunjungi situs UIN Raden Mas Said Surakarta untuk melihat informasi terkini: %0a<?= base_url() ?>" target="_blank" onclick="window.open('https\:\/\/api.whatsapp.com/send?text=<?= $berita['judul'] ?> %0a %0a<?= $beritaUrl ?>%0a %0aKunjungi situs UIN Raden Mas Said Surakarta untuk melihat informasi terkini: %0a<?= base_url() ?>', '_blank', 'width=600,height=600,scrollbars=yes,menubar=no,status=yes,resizable=yes,screenx=0,screeny=0'); return false;"><span class="bi bi-whatsapp"></span></a>
+                        <a class="btn btn-whatsapp m-2 m-xl-0 mb-lg-2 me-2" href="https://api.whatsapp.com/send?text=<?= $item['judul'] ?> %0a %0a<?= $agendaUrl ?>%0a %0aKunjungi situs UIN Raden Mas Said Surakarta untuk melihat informasi terkini: %0a<?= base_url() ?>" target="_blank" onclick="window.open('https\:\/\/api.whatsapp.com/send?text=<?= $item['judul'] ?> %0a %0a<?= $agendaUrl ?>%0a %0aKunjungi situs UIN Raden Mas Said Surakarta untuk melihat informasi terkini: %0a<?= base_url() ?>', '_blank', 'width=600,height=600,scrollbars=yes,menubar=no,status=yes,resizable=yes,screenx=0,screeny=0'); return false;"><small><span class="bi bi-whatsapp"></span></small></a>
 
-                        <a class="btn btn-facebook-1 m-2 m-xl-0 mb-lg-2 me-2" href="https://www.facebook.com/sharer/sharer.php?u=<?= $beritaUrl ?>" target="_blank"><span class="bi bi-facebook"></span></a>
+                        <a class="btn btn-facebook-1 m-2 m-xl-0 mb-lg-2 me-2" href="https://www.facebook.com/sharer/sharer.php?u=<?= $agendaUrl ?>" target="_blank"><small><span class="bi bi-facebook"></span></small></a>
 
-                        <a class="btn btn-twitter-1 m-2 m-xl-0 mb-lg-2 me-2" href="https://twitter.com/intent/tweet?url=<?= $beritaUrl ?>" target="_blank"><span class="bi bi-twitter"></span></a>
+                        <a class="btn btn-twitter-1 m-2 m-xl-0 mb-lg-2 me-2" href="https://twitter.com/intent/tweet?url=<?= $agendaUrl ?>" target="_blank"><small><span class="bi bi-twitter"></span></small></a>
 
-                        <a class="btn btn-linkedin-1 m-2 m-xl-0 mb-lg-2 me-2" href="https://www.linkedin.com/sharing/share-offsite/?url=<?= $beritaUrl ?>" target="_blank"><span class="bi bi-linkedin"></span></a>
+                        <a class="btn btn-linkedin-1 m-2 m-xl-0 mb-lg-2 me-2" href="https://www.linkedin.com/sharing/share-offsite/?url=<?= $agendaUrl ?>" target="_blank"><small><span class="bi bi-linkedin"></span></small></a>
 
                     </div>
 
                     <!-- Artikel pilihan -->
                     <h5 class="mt-5 mb-3">Untuk Anda</h5>
 
-                    <?php foreach ($beritaTerbaru as $key => $bt) : ?>
+                    <?php foreach ($itemTerbaru as $x) : ?>
 
                         <!-- Item artikel -->
                         <div class="card mb-2">
@@ -157,7 +160,7 @@ $beritaUrl = base_url("berita/" . $berita['slug']);
                                 <!-- Gambar kegiatan -->
                                 <div class="col-3 position-relative">
                                     <div class="ratio ratio-4x3">
-                                        <img src="<?= $bt['gambar_sampul'] ?>" class="card-img object-fit-cover" alt="..." />
+                                        <img src="<?= ($x['id_galeri'] != null) ? $x['uri'] : base_url('assets/img/icon-notext.png') ?>" class="card-img object-fit-cover" alt="..." />
                                     </div>
                                 </div>
 
@@ -169,16 +172,16 @@ $beritaUrl = base_url("berita/" . $berita['slug']);
 
                                         <!-- Judul kegiatan -->
                                         <p class="card-title">
-                                            <a class="text-decoration-none crop-text-2" href="<?= base_url("berita/" . $bt['slug']) ?>" target="_blank">
-                                                <b class="line-clamp-2">
-                                                    <?= $bt['judul'] ?>
+                                            <a class="text-decoration-none crop-text-2" href="<?= base_url("agenda-pengumuman/" . $x['id']) ?>" target="_blank">
+                                                <b>
+                                                    <?= $x['judul'] ?>
                                                 </b>
                                             </a>
                                         </p>
 
                                         <!-- Kategori dan tanggal terbit -->
                                         <small class="card-text crop-text-2">
-                                            <?= $bt['created_at_terformat'] ?> <b><?= $bt['kategori'] ?></b>
+                                            <?= $x['created_at_terformat'] ?>
                                         </small>
                                     </div>
                                     <!-- Akhir body kegiatan -->
@@ -208,7 +211,7 @@ $beritaUrl = base_url("berita/" . $berita['slug']);
 <?= $this->section('script') ?>
 <script>
     function salinBeritaUrl() {
-        var copyText = document.getElementById('beritaUrl');
+        var copyText = document.getElementById('agendaUrl');
         copyText.select();
         copyText.setSelectionRange(0, 99999);
         navigator.clipboard.writeText(copyText.value);

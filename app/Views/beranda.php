@@ -581,8 +581,8 @@
             data-mdb-modal-init
             data-mdb-target="#berandaModal"
             <?php if ($x['uri']) : ?>data-uri-value="<?= $x['uri'] ?>" <?php endif ?>
-            <?php if ($x['agenda']) : ?>data-title="<?= $x['agenda'] ?>" <?php endif ?>
-            <?php if ($x['deskripsi']) : ?>data-deskripsi="<?= htmlspecialchars($x['deskripsi'], ENT_QUOTES) ?>" <?php endif ?>
+            <?php if ($x['judul']) : ?>data-title="<?= $x['judul'] ?>" <?php endif ?>
+            <?php if ($x['konten']) : ?>data-deskripsi="<?= htmlspecialchars($x['konten'], ENT_QUOTES) ?>" <?php endif ?>
             <?php if ($x['waktu_mulai']) : ?>data-waktu="<?= $x['waktu_mulai'] ?>" <?php endif ?>
             <?php if ($x['waktu_selesai']) : ?>data-waktu-selesai="<?= $x['waktu_selesai'] ?>" <?php endif ?>>
 
@@ -601,7 +601,7 @@
               </p>
               <!-- <a href="#"> -->
               <p class="card-title text-body">
-                <?= $x['agenda'] ?>
+                <?= $x['judul'] ?>
               </p>
               <!-- </a> -->
             </div>

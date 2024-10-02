@@ -29,10 +29,10 @@ $date = format_tanggal_dari_timestamp(time());
         <!-- Pilihan cepat -->
         <div class="row gy-2 gx-2">
 
-            <!-- Rilis Media -->
+            <!-- Posting -->
             <div class="col-lg-6 col-xl-4">
                 <a href="<?= base_url('admin/berita') ?>">
-                    <div class="card border <?= ($peringatanBeritaKosong) ? 'border-success' : (($peringatanPostingBerita) ? 'border-danger' : 'border-primary') ?>">
+                    <div class="card border border-primary">
                         <div class="card-body">
                             <h5 class="card-title display-5 fw-bold"><?= lang('Admin.berita') ?></h5>
                             <h6 class="card-subtitle"><?= lang('Admin.kelolaBerita') ?></h6>
@@ -48,7 +48,7 @@ $date = format_tanggal_dari_timestamp(time());
             <!-- Kotak Masuk -->
             <div class="col-lg-6 col-xl-4 d-none">
                 <a href="<?= base_url('admin/kotak-masuk') ?>">
-                    <div class="card border <?= ($adaKotakMasukBelumTerbaca) ? 'border-success' : 'border-primary' ?>">
+                    <div class="card border border-primary">
                         <div class="card-body">
                             <h5 class="card-title display-5 fw-bold"><?= lang('Admin.kotakMasuk') ?></h5>
                             <h6 class="card-subtitle"><?= lang('Admin.kelolaMasukanDanPelaporan') ?></h6>
@@ -68,10 +68,10 @@ $date = format_tanggal_dari_timestamp(time());
             <!-- Agenda -->
             <div class="col-lg-6 col-xl-4">
                 <a href="<?= base_url('admin/agenda') ?>">
-                    <div class="card border border-success">
+                    <div class="card border border-primary">
                         <div class="card-body">
                             <h5 class="card-title display-5 fw-bold"><?= lang('Admin.agenda') ?></h5>
-                            <h6 class="card-subtitle">Kelola Agenda</h6>
+                            <h6 class="card-subtitle"><?= lang('Admin.kelolaAgenda') ?></h6>
                         </div>
                         <div class="card-footer d-flex justify-content-between fs-2 fw-bold lh-1">
                             <i class='fs-1 bx bx-calendar-event nav_icon'></i>
@@ -84,10 +84,10 @@ $date = format_tanggal_dari_timestamp(time());
             <!-- Pengumuman -->
             <div class="col-lg-6 col-xl-4">
                 <a href="<?= base_url('admin/pengumuman') ?>">
-                    <div class="card border border-success">
+                    <div class="card border border-primary">
                         <div class="card-body">
                             <h5 class="card-title display-5 fw-bold"><?= lang('Admin.pengumuman') ?></h5>
-                            <h6 class="card-subtitle">Kelola Pengumuman</h6>
+                            <h6 class="card-subtitle"><?= lang('Admin.kelolaPengumuman') ?></h6>
                         </div>
                         <div class="card-footer d-flex justify-content-between fs-2 fw-bold lh-1">
                             <i class='fs-1 bx bxs-megaphone nav_icon'></i>
@@ -100,10 +100,10 @@ $date = format_tanggal_dari_timestamp(time());
             <!-- Galeri -->
             <div class="col-lg-6 col-xl-4">
                 <a href="<?= base_url('admin/galeri') ?>">
-                    <div class="card border border-success">
+                    <div class="card border border-primary">
                         <div class="card-body">
                             <h5 class="card-title display-5 fw-bold"><?= lang('Admin.galeri') ?></h5>
-                            <h6 class="card-subtitle">Kelola Galeri</h6>
+                            <h6 class="card-subtitle"><?= lang('Admin.kelolaGaleri') ?></h6>
                         </div>
                         <div class="card-footer d-flex justify-content-between fs-2 fw-bold lh-1">
                             <i class='fs-1 bx bx-images nav_icon'></i>
@@ -116,10 +116,10 @@ $date = format_tanggal_dari_timestamp(time());
             <!-- Pengguna -->
             <div class="col-lg-6 col-xl-4">
                 <a href="<?= base_url('admin/pengguna') ?>">
-                    <div class="card border border-success">
+                    <div class="card border border-primary">
                         <div class="card-body">
                             <h5 class="card-title display-5 fw-bold"><?= lang('Admin.pengguna') ?></h5>
-                            <h6 class="card-subtitle">Kelola Pengguna</h6>
+                            <h6 class="card-subtitle"><?= lang('Admin.kelolaPengguna') ?></h6>
                         </div>
                         <div class="card-footer d-flex justify-content-between fs-2 fw-bold lh-1">
                             <i class='fs-1 bx bxs-user-account nav_icon'></i>
@@ -132,10 +132,10 @@ $date = format_tanggal_dari_timestamp(time());
             <!-- Situs -->
             <div class="col-lg-6 col-xl-4">
                 <a href="<?= base_url('admin/situs') ?>">
-                    <div class="card border border-success">
+                    <div class="card border border-primary">
                         <div class="card-body">
                             <h5 class="card-title display-5 fw-bold"><?= lang('Admin.situs') ?></h5>
-                            <h6 class="card-subtitle">Kelola Situs</h6>
+                            <h6 class="card-subtitle"><?= lang('Admin.kelolaSitus') ?></h6>
                         </div>
                         <div class="card-footer d-flex justify-content-between fs-2 fw-bold lh-1">
                             <i class='fs-1 bx bxs-network-chart nav_icon'></i>

@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\AnggotaModel;
 use App\Models\BeritaDiajukanModel;
 use App\Models\AgendaModel;
+use App\Models\AgendaPengumumanModel;
 use App\Models\PengumumanModel;
 use App\Models\MasukanModel;
 use App\Models\BeritaModel;
@@ -22,6 +23,7 @@ use App\Models\PostingJenisModel;
 use App\Models\PostingModel;
 use App\Models\PPIDModel;
 use App\Models\SitusModel;
+use App\Models\TemaModel;
 use CodeIgniter\BaseModel;
 use CodeIgniter\Controller;
 use CodeIgniter\HTTP\CLIRequest;
@@ -74,7 +76,10 @@ abstract class BaseControllerAdmin extends Controller
         // Initialize models
         protected BaseModel $model; // MUST BE DECLARED ON EACH CONTROLLER
 
+        protected TemaModel $temaModel;
+
         protected UserModel $userModel;
+        protected AgendaPengumumanModel $agendaPengumumanModel;
         protected AgendaModel $agendaModel;
         protected PengumumanModel $pengumumanModel;
         protected PostingModel $postingModel;
@@ -116,6 +121,8 @@ abstract class BaseControllerAdmin extends Controller
                 $this->isChildSite = (env('app.siteType') == null || env('app.siteType') == 'child' || env('app.siteType') == 'super');
 
                 // Preload any models, libraries, etc, here.
+                $this->temaModel = new TemaModel();
+                $this->agendaPengumumanModel = new AgendaPengumumanModel();
                 $this->postingModel = new PostingModel();
                 $this->postingJenisModel = new PostingJenisModel();
                 $this->postingDiajukanModel = new PostingDiajukanModel();
@@ -139,11 +146,14 @@ abstract class BaseControllerAdmin extends Controller
                 $this->komponenMetaModel = new KomponenMetaModel();
                 $this->komponenGrupModel = new KomponenGrupModel();
 
+                /* Data */
+                $this->data['temaSitus'] = $this->temaModel->find(setting()->get('App.temaSitus'));
+
                 // Untuk notifikasi
-                $this->data['peringatanBeritaKosong'] = count($this->beritaModel->get()) == 0;
-                $this->data['peringatanPostingBerita'] = $this->beritaModel->isLatestDataOverThreeMonthsOld();
-                $this->data['jumlahKotakMasukBelumTerbaca'] = count(format_tanggal($this->masukanModel->getKotakMasukBelumTerbaca()));
-                $this->data['adaKotakMasukBelumTerbaca'] = ($this->data['jumlahKotakMasukBelumTerbaca'] > 0); // Ada kotak masuk yang belum terbaca
+                $this->data['peringatanBeritaKosong'] = null; // count($this->beritaModel->get()) == 0;
+                $this->data['peringatanPostingBerita'] = null; // $this->beritaModel->isLatestDataOverThreeMonthsOld();
+                $this->data['jumlahKotakMasukBelumTerbaca'] = null; // count(format_tanggal($this->masukanModel->getKotakMasukBelumTerbaca()));
+                $this->data['adaKotakMasukBelumTerbaca'] = null; // ($this->data['jumlahKotakMasukBelumTerbaca'] > 0); // Ada kotak masuk yang belum terbaca
 
                 // E.g.: $this->session = \Config\Services::session();
         }

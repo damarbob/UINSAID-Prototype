@@ -10,6 +10,11 @@ return [
     'tutup' => 'Tutup',
     'lanjutkan' => 'Lanjutkan',
     'memuat' => 'Memuat',
+    'kosong' => 'Kosong',
+
+    'dasbor' => 'Dasbor',
+    'halaman' => 'Halaman',
+    'kelolaFile' => 'Kelola File',
 
     // Pengaturan
     'pengaturan' => 'Pengaturan',
@@ -21,6 +26,7 @@ return [
     'halamanUtamaSitus' => 'Halaman Utama Situs',
     'tidakAda' => 'Tidak Ada',
 
+    'tampilan' => 'Tampilan',
     'personalisasiAdmin' => 'Personalisasi Admin',
 
     'temaDasborAdmin' => 'Tema Dasbor Admin',
@@ -29,6 +35,7 @@ return [
 
     // Pengguna
     'pengguna' => 'Pengguna',
+    'kelolaPengguna' => 'Kelola Pengguna',
     'id' => 'ID',
     'status' => 'Status',
     'username' => 'Username',
@@ -126,6 +133,8 @@ return [
     'permintaanGagalDikirim' => 'Permintaan gagal dikirim.',
     'situsUtamaBelumDiatur' => 'Situs utama belum diatur pada env!',
 
+    'peringatanPosting' => 'Peringatan Posting',
+
     'batalkanPengajuanItem' => 'Batalkan Pengajuan Item',
     'batalkanPengajuanItemIni?' => 'Batalkan pengajuan item ini?',
 
@@ -155,8 +164,9 @@ return [
     'berhasilDibatalkan' => 'Berhasil dibatalkan!',
     'gagalDibatalkan' => 'Gagal dibatalkan.',
 
-
+    // Kotak Masuk
     'kotakMasuk' => 'Kotak Masuk',
+    'kotakMasukBaru' => 'Kotak Masuk Baru',
     'kelolaMasukanDanPelaporan' => 'Kelola masukan dan pelaporan',
     'tanggal' => 'Tanggal',
     'pesan' => 'Pesan',
@@ -213,6 +223,7 @@ return [
 
     // Galeri
     'galeri' => 'Galeri',
+    'kelolaGaleri' => 'Kelola Galeri',
     'deskripsi' => 'Deskripsi',
     'judulGambar' => 'Judul gambar',
     'gambar' => 'Gambar',

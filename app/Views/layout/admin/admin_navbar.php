@@ -12,7 +12,24 @@
         <li class="nav-item dropdown no-arrow">
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-mdb-dropdown-init aria-haspopup="true" aria-expanded="false">
                 <span class="me-2 d-none d-lg-inline small"><?= auth()->user()->username ?></span>
-                <img class="img-profile rounded-circle" src="https://ui-avatars.com/api/?size=32&name=<?= urlencode(auth()->user()->username) ?>&rounded=true&background=007a33&color=ffffff&bold=true">
+
+                <!-- Profile image -->
+                <img id="profileImage" class="img-profile rounded-circle" src="" alt="Profile Image">
+
+                <!-- JavaScript -->
+                <script>
+                    // Get the CSS variable values
+                    const primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--mdb-primary').trim().replace('#', '');
+                    const bodyBgColor = getComputedStyle(document.documentElement).getPropertyValue('--mdb-body-bg').trim().replace('#', '');
+
+                    // Get the username and create the URL
+                    const username = '<?= urlencode(auth()->user()->username) ?>'; // PHP-generated username
+                    const imgUrl = `https://ui-avatars.com/api/?size=32&name=${username}&rounded=true&background=${primaryColor}&color=${bodyBgColor}&bold=true`;
+
+                    // Set the image source
+                    document.getElementById('profileImage').src = imgUrl;
+                </script>
+
             </a>
             <!-- Dropdown - User Information -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">

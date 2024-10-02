@@ -395,10 +395,4 @@ class BeritaAdmin extends BaseControllerAdmin
             return $this->response->setStatusCode(404)->setJSON(['error' => lang('Admin.gambarTidakDitemukan')]);
         }
     }
-
-    /* REFACTORING */
-    public function refactorFeaturedImages()
-    {
-        $this->beritaModel->updateFeaturedImages();
-    }
 }

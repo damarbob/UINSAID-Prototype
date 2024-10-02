@@ -67,3 +67,20 @@ function formatIndonesianShortDateArray(dateString) {
 
   return [day, month];
 }
+
+// Function to handle HTML escaping (similar to PHP's htmlspecialchars)
+function htmlspecialchars(text) {
+  if (!text) return "";
+  return text
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+function decodeHtmlEntities(encodedStr) {
+  const txt = document.createElement("textarea");
+  txt.innerHTML = encodedStr;
+  return txt.value;
+}

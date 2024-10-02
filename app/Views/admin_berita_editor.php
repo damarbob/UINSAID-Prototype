@@ -153,12 +153,16 @@ if ($mode == "tambah") {
 
 <?= $this->section('script') ?>
 <script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha384-GNFwBvfVxBkLMJpYMOABq3c+d3KnQxudP/mGPkzpZSTYykLBNsZEnG2D9G/X/+7D" crossorigin="anonymous"></script>
-<!-- Tinymce -->
+
+<!-- TinyMCE -->
 <script src="<?= base_url('assets/vendor/tinymce/tinymce/tinymce.min.js'); ?>"></script>
-<!-- DSM Gallery -->
+
+<!-- DSM Gallery TinyMCE Plugin -->
 <script src="<?= base_url('assets/js/tinymce/dsmgallery-plugin.js'); ?>"></script>
-<!-- DSM File Insert -->
+
+<!-- DSM File Insert TinyMCE Plugin -->
 <script src="<?= base_url('assets/js/tinymce/dsmfileinsert-plugin.js'); ?>"></script>
+
 <script>
     tinymce.init({
         selector: '#konten',

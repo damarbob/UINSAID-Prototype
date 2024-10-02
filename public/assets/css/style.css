@@ -1,9 +1,9 @@
 :root {
   /* --mdb-primary: #007a33; */
-  --mdb-primary: rgb(0, 122, 51);
+  /* --mdb-primary: rgb(0, 122, 51);
   --mdb-primary-rgb: 0, 122, 51;
   --mdb-secondary: rgb(125, 186, 0);
-  --mdb-secondary-rgb: 125, 186, 0;
+  --mdb-secondary-rgb: 125, 186, 0; */
 
   --color-surface: #ffffff;
   --color-surface-transparent-8: rgba(255, 255, 255, 0.8);
@@ -307,6 +307,12 @@ body {
 #footer .footer-top {
   /* padding: 4rem 0 2rem 0; */
   position: relative;
+  background-color: color-mix(
+    in srgb,
+    var(--mdb-primary),
+    black 40%
+  ); /* Mixes the primary color with black to make it darker */ /* Darkens by reducing lightness */
+  z-index: 1;
 }
 
 #footer .footer-top h4 {
