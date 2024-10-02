@@ -8,6 +8,7 @@ class PostingJenisModel extends Model
 {
     protected $table = 'posting_jenis';
     protected $allowedFields = ['nama'];
+    protected $useTimeStamps = true;
 
     public function getByNama($nama)
     {

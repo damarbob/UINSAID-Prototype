@@ -104,13 +104,21 @@
     $(document).ready(function() {
 
         var lastDoubleClickedRowIndex = null;
+        var filterStatus = null; // Define a variable to hold the filter status
 
         var table1 = $('#tabelRilisMedia').DataTable({
             processing: true,
             serverSide: true,
             ajax: {
                 "url": "<?= base_url('api/posting-diajukan') ?>",
-                "type": "POST"
+                "type": "POST",
+                "data": function(d) {
+                    // Include the filter status in the request data
+                    if (filterStatus) {
+                        d.status = filterStatus;
+                    }
+                    return d;
+                }
             },
             "rowCallback": function(row, data, index) {
                 // Add double-click event to navigate to Edit page
@@ -286,18 +294,21 @@
             );
 
             secondButton.after(newElement);
+            new mdb.Dropdown(secondButton); // Reinitialize dropdown
 
             var filterButtons = {
-                '#btnFilterRilisMediaSemua': '<?= base_url('/api/posting-diajukan') ?>',
-                '#btnFilterRilisMediaPublikasi': '<?= base_url('/api/posting-diajukan/publikasi') ?>',
-                '#btnFilterRilisMediaDraf': '<?= base_url('/api/posting-diajukan/draf') ?>'
+                '#btnFilterRilisMediaSemua': null,
+                '#btnFilterRilisMediaPublikasi': 'publikasi',
+                '#btnFilterRilisMediaDraf': 'draf'
             };
 
-            $.each(filterButtons, function(btnId, apiUrl) {
+            $.each(filterButtons, function(btnId, status) {
                 $(btnId).on('click', function() {
+                    filterStatus = status; // Update the filter status
+                    table1.ajax.reload(); // Reload the DataTable with the new filter
                     $('#iconFilterRilisMedia').hide();
                     $('#loaderFilterRilisMedia').show();
-                    table1.ajax.url(apiUrl).load(function() {
+                    table1.ajax.reload(function() {
                         $('#iconFilterRilisMedia').show();
                         $('#loaderFilterRilisMedia').hide();
                         $('#textFilterRilisMedia').html($(btnId).html());

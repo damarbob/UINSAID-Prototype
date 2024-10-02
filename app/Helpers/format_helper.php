@@ -2,6 +2,8 @@
 
 namespace App\Helpers;
 
+use IntlDateFormatter;
+
 if (!function_exists('format_tanggal')) {
     function format_tanggal($data)
     {
@@ -138,15 +140,21 @@ if (!function_exists('format_tanggal_suatu_kolom')) {
      * Format Tanggal Suatu Kolom
      * --------------------------------------------------------------------------
      * 
-     * Format datetime of selected column from database
+     * Format datetime of selected column from database with Locale id_ID
      * 
      * Added 'formatted_datetime' key on returned array
      * 
      * @return $data with added 'formatted_datetime'
      */
-    function format_tanggal_suatu_kolom($data, $kolom = 'created_at')
+    function format_tanggal_suatu_kolom($data, $kolom = 'created_at', $showWaktu = false)
     {
         $isNotArray = false; // For use in return statement
+
+        // Set the locale to Indonesian
+        $locale = 'id_ID';
+        $dateType = IntlDateFormatter::RELATIVE_FULL;
+        $timeType = $showWaktu ? IntlDateFormatter::FULL : IntlDateFormatter::NONE;
+        $formatter = new IntlDateFormatter($locale, $dateType, $timeType);
 
         // Ensure $data is always an array
         if (!is_array($data) || isset($data[$kolom])) {
@@ -156,7 +164,8 @@ if (!function_exists('format_tanggal_suatu_kolom')) {
 
         foreach ($data as &$item) {
             $date = date_create($item[$kolom]);
-            $item['formatted_datetime'] = date_format($date, 'j M Y');
+            // $item['formatted_datetime'] = date_format($date, 'j M Y');
+            $item['formatted_datetime'] = $formatter->format($date);
         }
 
         return $isNotArray ? $data[0] : $data; // Return first data directly if it's not array (single data), otherwise return array

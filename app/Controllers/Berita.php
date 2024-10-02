@@ -8,9 +8,20 @@ use Psr\Log\LoggerInterface;
 
 use function App\Helpers\delete_many;
 use function App\Helpers\format_tanggal;
+use function App\Helpers\format_tanggal_suatu_kolom;
 
 class Berita extends BaseController
 {
+    protected $beritaJenisId;
+    protected $formatKolom = 'tanggal_terbit';
+
+    public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
+    {
+        parent::initController($request, $response, $logger);
+
+        $this->beritaJenisId = 1;
+        $this->formatKolom = 'tanggal_terbit';
+    }
 
     public function index(): string
     {
@@ -19,11 +30,11 @@ class Berita extends BaseController
 
         $search = $this->request->getGet('search') ?? null;
 
-        $berita = $this->beritaModel->getPaginated($search);
-        // dd(format_tanggal($this->beritaModel->getPaginated($search)));
-        $this->data['berita'] = format_tanggal($berita);
-        $this->data['pagerBerita'] = $this->beritaModel->pager;
-        $this->data['beritaTerbaru'] = format_tanggal($this->beritaModel->getTerbaru(3));
+        $berita = $this->postingModel->getPaginated($this->beritaJenisId, $search);
+        // dd(format_tanggal($this->postingModel->getPaginated($search)));
+        $this->data['berita'] = format_tanggal_suatu_kolom($berita, $this->formatKolom);
+        $this->data['pagerBerita'] = $this->postingModel->pager;
+        $this->data['beritaTerbaru'] = format_tanggal_suatu_kolom($this->postingModel->getTerbaru($this->beritaJenisId, 3), $this->formatKolom);
 
         $this->data['kategori'] = $this->kategoriModel->findAll();
 
@@ -35,10 +46,10 @@ class Berita extends BaseController
         helper('format');
         $this->data['judul'] = lang('Admin.berita');
 
-        $berita = $this->beritaModel->getBySlug($slug);
+        $berita = $this->postingModel->getBySlug($slug);
         // dd(format_tanggal($berita));
-        $this->data['berita'] = format_tanggal($berita);
-        $this->data['beritaTerbaru'] = format_tanggal($this->beritaModel->getTerbaru(3));
+        $this->data['berita'] = format_tanggal_suatu_kolom($berita, $this->formatKolom, true);
+        $this->data['beritaTerbaru'] = format_tanggal_suatu_kolom($this->postingModel->getTerbaru($this->beritaJenisId, 3), $this->formatKolom);
 
         // dd($berita);
 
@@ -50,10 +61,10 @@ class Berita extends BaseController
         helper('format');
         $this->data['judul'] = lang('Admin.berita');
 
-        $berita = $this->beritaModel->getByKategori($kategori);
+        $berita = $this->postingModel->getByKategori($this->beritaJenisId, $kategori);
         // dd(format_tanggal($berita));
-        $this->data['berita'] = format_tanggal($berita);
-        $this->data['pagerBerita'] = $this->beritaModel->pager;
+        $this->data['berita'] = format_tanggal_suatu_kolom($berita, $this->formatKolom);
+        $this->data['pagerBerita'] = $this->postingModel->pager;
         $this->data['beritaTerbaru'] = null;
 
         $this->data['kategori'] = $this->kategoriModel->findAll();

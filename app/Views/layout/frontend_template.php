@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\MenuModel;
+
 helper('setting');
 
 // Get the current request instance
@@ -11,7 +13,10 @@ $currentRoute = $request->uri->getPath();
 // Tema default
 $temaDefault = base_url("assets/css/hijau.css");
 $temaRTLDefault = base_url("assets/css/hijau.rtl.css");
-// dd($tema);
+// dd($tema);;
+
+$menuModel = new MenuModel();
+$menuHierarchy = $menuModel->getMenuHierarchy();
 ?>
 <!DOCTYPE html>
 <html lang="id" dir="">
@@ -324,100 +329,43 @@ $temaRTLDefault = base_url("assets/css/hijau.rtl.css");
       <div class="collapse navbar-collapse mb-2 mb-sm-0" id="navbarSupportedContent">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0 me-4 fw-bold">
 
-          <!-- Link Tentang kami -->
-          <li class="nav-item">
-            <a data-mdb-ripple-init class="nav-link <?= $currentRoute == "tentang-kami" ? "active" : "" ?>" href="<?= base_url('tentang-kami') ?>">Tentang Kami</a>
-          </li>
-
-          <!-- Dropdown Tentang Kami -->
-          <!-- <li class="nav-item dropdown">
-            <a data-mdb-dropdown-init
-              data-mdb-ripple-init
-              data-mdb-auto-close="true" class="nav-link dropdown-toggle" href="#" id="navbarDropdownTentangKami" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
-              Tentang Kami
-            </a> -->
-          <!-- Dropdown menu -->
-          <!-- <ul class="dropdown-menu" aria-labelledby="navbarDropdownTentangKami">
-              <li><a href="/tentang-kami" class="dropdown-item">Tentang UIN RM Said</a></li>
-              <li><a href="#" class="dropdown-item">Sambutan Rektor</a></li>
-              <li><a href="#" class="dropdown-item">Sejarah</a></li>
-              <li><a href="#" class="dropdown-item">Profil Universitas</a></li>
-              <li><a href="#" class="dropdown-item">Arti Lambang</a></li>
-              <li><a href="#" class="dropdown-item">Visi Misi</a></li>
-              <li><a href="#" class="dropdown-item">Fasilitas</a></li>
-              <li><a href="#" class="dropdown-item">Peta Kampus</a></li>
-            </ul>
-          </li> -->
-
-          <!-- Dropdown Pendidikan -->
-          <li class="nav-item dropdown">
-            <!-- <div class="btn-group"> -->
-            <a
-              class="nav-link dropdown-toggle <?= $currentRoute == "pendidikan" ? "active" : "" ?>"
-              role="button"
-              data-mdb-dropdown-init
-              data-mdb-ripple-init
-              data-mdb-auto-close="true"
-              href="<?= base_url('pendidikan') ?>" id="navbarDropdownPendidikan"
-              data-mdb-toggle="dropdown"
-              aria-expanded="false">
-              Pendidikan
-            </a>
-            <!-- </div> -->
-            <!-- Dropdown menu -->
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdownPendidikan">
-              <li><a href="<?= base_url('pendidikan') ?>" class="dropdown-item">Pendidikan</a></li>
-              <li><a href="<?= base_url('entitas/fakultas-ushuluddin-dan-dakwah') ?>" class="dropdown-item">Fakultas Ushuluddin dan Dakwah</a></li>
-              <li><a href="<?= base_url('entitas/fakultas-syariah') ?>" class="dropdown-item">Fakultas Syariah</a></li>
-              <li><a href="<?= base_url('entitas/fakultas-ilmu-tarbiyah') ?>" class="dropdown-item">Fakultas Ilmu Tarbiyah</a></li>
-              <li><a href="<?= base_url('entitas/fakultas-ekonomi-dan-bisnis-islam') ?>" class="dropdown-item">Fakultas Ekonomi dan Bisnis Islam</a></li>
-              <li><a href="<?= base_url('entitas/fakultas-adab-dan-bahasa') ?>" class="dropdown-item">Fakultas Adab dan Bahasa</a></li>
-              <li><a href="<?= base_url('entitas/pascasarjana') ?>" class="dropdown-item">Pascasarjana</a></li>
-              <li><a href="<?= base_url('entitas?grup=Lembaga') ?>" class="dropdown-item">Lembaga</a></li>
-              <li><a href="<?= base_url('entitas?grup=Unit Pelaksana Teknis') ?>" class="dropdown-item">Unit Pelaksana Teknis</a></li>
-              <!-- <li>
-                <a class="dropdown-item" href="#">Action</a>
+          <?php foreach ($menuHierarchy as $menuItem): ?>
+            <?php if (empty($menuItem['children'])): ?>
+              <!-- Simple menu item -->
+              <li class="nav-item">
+                <a data-mdb-ripple-init class="nav-link <?= $currentRoute == $menuItem['uri'] ? "active" : "" ?>" href="<?= base_url($menuItem['uri']) ?>">
+                  <?= $menuItem['nama'] ?>
+                </a>
               </li>
-              <li>
-                <a class="dropdown-item" href="#">Another action</a>
+            <?php else: ?>
+              <!-- Dropdown menu item -->
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle <?= $currentRoute == $menuItem['uri'] ? "active" : "" ?>"
+                  role="button"
+                  data-mdb-dropdown-init
+                  data-mdb-ripple-init
+                  data-mdb-auto-close="true"
+                  href="<?= base_url($menuItem['uri']) ?>"
+                  id="navbarDropdown<?= $menuItem['id'] ?>"
+                  data-mdb-toggle="dropdown"
+                  aria-expanded="false">
+                  <?= $menuItem['nama'] ?>
+                </a>
+                <!-- Dropdown menu -->
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown<?= $menuItem['id'] ?>">
+                  <?php foreach ($menuItem['children'] as $child): ?>
+                    <li>
+                      <a href="<?= base_url($child['uri']) ?>" class="dropdown-item">
+                        <?= $child['nama'] ?>
+                      </a>
+                    </li>
+                  <?php endforeach; ?>
+                </ul>
               </li>
-              <li>
-                <hr class="dropdown-divider" />
-              </li>
-              <li>
-                <a class="dropdown-item" href="#">Something else here</a>
-              </li> -->
-            </ul>
-          </li>
+            <?php endif; ?>
+          <?php endforeach; ?>
 
-          <!-- Dropdown Riset dan Publikasi -->
-          <li class="nav-item dropdown">
-            <a data-mdb-dropdown-init
-              data-mdb-ripple-init
-              data-mdb-auto-close="true" class="nav-link dropdown-toggle" href="#" id="navbarDropdownRisetDanPublikasi" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
-              Riset dan Publikasi
-            </a>
-            <!-- Dropdown menu -->
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdownRisetDanPublikasi">
-              <li><a href="https://ejournal.uinsaid.ac.id/" class="dropdown-item">Omah Jurnal</a></li>
-              <li><a href="https://eprints.iain-surakarta.ac.id/" class="dropdown-item">Repositori Jurnal</a></li>
-            </ul>
-          </li>
 
-          <!-- Link Pengabdian -->
-          <!-- <li class="nav-item">
-            <a data-mdb-ripple-init class="nav-link" href="#">Pengabdian</a>
-          </li> -->
-
-          <!-- Link Mahasiswa Baru -->
-          <li class="nav-item">
-            <a data-mdb-ripple-init class="nav-link" href="https://admisi.uinsaid.ac.id/id">Mahasiswa Baru</a>
-          </li>
-
-          <!-- Link PPID -->
-          <li class="nav-item">
-            <a data-mdb-ripple-init class="nav-link" href="<?= base_url('/ppid') ?>">PPID</a>
-          </li>
 
         </ul>
 

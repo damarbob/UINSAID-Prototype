@@ -20,27 +20,29 @@ class PostingDiajukanAdmin extends BaseControllerAdmin
     public function index(): string
     {
         $this->data['judul'] = lang('Admin.postingDiajukan');
-        return view('admin_berita_diajukan', $this->data);
+        return view('admin_posting_diajukan', $this->data);
     }
 
     // Fetch data untuk datatable
-    public function fetchData($status = null)
+    public function fetchData()
     {
-        $columns = ['judul', 'kategori', 'created_at', 'status', 'sumber'];
+        $columns = ['judul', 'kategori', 'tanggal_terbit', 'status', 'sumber'];
 
         $limit = $this->request->getPost('length');
         $start = $this->request->getPost('start');
         $order = $columns[$this->request->getPost('order')[0]['column']];
         $dir = $this->request->getPost('order')[0]['dir'];
+
         $search = $this->request->getPost('search')['value'] ?? null;
+        $statusX = $this->request->getPost('status');
 
         $totalData = $this->postingDiajukanModel->countAll();
         $totalFiltered = $totalData;
 
-        $posting = $this->postingDiajukanModel->getByFilter('berita', $limit, $start, $status, $search, $order, $dir);
+        $posting = $this->postingDiajukanModel->getByFilter('berita', $limit, $start, $statusX, $search, $order, $dir);
 
-        if ($search || $status) {
-            $totalFiltered = $this->postingDiajukanModel->getTotalRecords('berita', $status, $search);
+        if ($statusX) {
+            $totalFiltered = $this->postingDiajukanModel->getTotalRecords('berita', $statusX, $search);
         }
 
         $data = [];
@@ -49,10 +51,12 @@ class PostingDiajukanAdmin extends BaseControllerAdmin
 
                 $nestedData['id'] = $row->id;
                 $nestedData['judul'] = $row->judul;
-                $nestedData['penulis'] = $row->penulis_username;
-                $nestedData['konten'] = $row->konten;
+                $nestedData['penulis'] = $row->penulis;
                 $nestedData['kategori'] = $row->kategori;
+                $nestedData['konten'] = $row->konten;
+                $nestedData['ringkasan'] = $row->ringkasan;
                 $nestedData['pengajuan'] = $row->pengajuan;
+                $nestedData['tanggal_terbit'] = $row->tanggal_terbit;
                 $nestedData['created_at'] = $row->created_at;
                 $nestedData['status'] = $row->status;
                 $nestedData['sumber'] = $row->sumber;
@@ -111,14 +115,14 @@ class PostingDiajukanAdmin extends BaseControllerAdmin
             ];
 
             // Jika ID kosong, buat entri baru
-            $this->beritaModel->save($user);
+            $this->postingModel->save($user);
 
             // Pesan berhasil diperbarui
             session()->setFlashdata('sukses', lang('Admin.berhasilDibuat'));
         } else {
 
             // Jika id terisi, perbarui yang sudah ada
-            $this->beritaModel->save([
+            $this->postingModel->save([
                 'id' => $id,
                 'judul' => $this->request->getVar('judul'),
                 'konten' => $this->request->getVar('konten'),
@@ -184,7 +188,7 @@ class PostingDiajukanAdmin extends BaseControllerAdmin
             ];
 
             // Insert the new entry into the database
-            if (!$this->beritaModel->insert($newEntry)) {
+            if (!$this->postingModel->insert($newEntry)) {
                 $result = false;
                 $errors[] =  lang('Admin.gagalMenyimpanEntriDenganJudul', ['judul' => $data['judul']]);
             } else {
@@ -265,7 +269,7 @@ class PostingDiajukanAdmin extends BaseControllerAdmin
     }
 
     // Terima posting request dari API Endpoint
-    public function terimaBeritaBanyak()
+    public function terimaPostingBanyak()
     {
         $selectedData = $this->request->getPost('selectedData');
 
@@ -276,7 +280,7 @@ class PostingDiajukanAdmin extends BaseControllerAdmin
 
             // Prepare the data to be inserted
             $newEntry = [
-                'id_penulis' => 0, // Assuming the current logged-in user's ID
+                'id_penulis' => auth()->id(), // Assuming the current logged-in user's ID
                 'judul' => $data['judul'],
                 'slug' => create_slug($data['judul']),
                 'konten' => $data['konten'],
@@ -284,7 +288,7 @@ class PostingDiajukanAdmin extends BaseControllerAdmin
                 'id_kategori' => $this->getOrCreateKategori($data['kategori']),
                 'status' => $data['status'],
                 'sumber' => $data['sumber'],
-                'tgl_terbit' => $data['created_at'],
+                'tanggal_terbit' => $data['tanggal_terbit'] ?: $data['created_at'],
                 // Add other fields as needed
             ];
 

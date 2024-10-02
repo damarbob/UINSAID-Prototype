@@ -330,16 +330,16 @@
             <div class="swiper-wrapper ">
 
               <!-- Swiper prestasi terbaru -->
-              <?php foreach ($prestasiTerbaru as $a) : ?>
+              <?php foreach ($prestasiTerbaru as $x) : ?>
                 <div class="swiper-slide">
                   <div class="swiper-slide-transform">
                     <div class="card prestasi-card text-light" style="min-height: 128px">
-                      <img src="<?= ($a['gambar_sampul'] != null) ? $a['gambar_sampul'] : base_url('uploads/1725540410_623071dfb13d7973422a.png') ?>" class="card-img" alt="Agenda Image">
+                      <img src="<?= ($x['gambar_sampul'] != null) ? $x['gambar_sampul'] : ($x['gambar_sampul_sementara'] != null ? $x['gambar_sampul_sementara'] : base_url('uploads/1725540410_623071dfb13d7973422a.png')) ?>" class="card-img" alt="Agenda Image">
                       <div class="card-img-overlay d-flex flex-column justify-content-end text-light">
                         <div class="d-flex align-items-center mb-2">
                         </div>
                         <a href="">
-                          <h5 class="card-title fw-bold"><a class="text-decoration-none text-light" href="<?= base_url('berita/' . $a['slug']); ?>"><?= $a['judul']; ?></a></h5>
+                          <h5 class="card-title fw-bold"><a class="text-decoration-none text-light" href="<?= base_url('berita/' . $x['slug']); ?>"><?= $x['judul']; ?></a></h5>
                         </a>
                       </div>
                     </div>
@@ -396,22 +396,22 @@
     <div class="row g-4 mb-4 justify-content-center">
 
       <!-- Item berita -->
-      <?php foreach ($beritaCard as $b) : ?>
-        <div class="col-lg-4 col-xl-15 col-md-6" id="item-berita" data-aos="fade-up">
+      <?php foreach ($beritaCard as $x) : ?>
+        <div class="col-lg-4 col-xl-15 col-md-6 item-berita" data-aos="fade-up">
           <div class="card">
 
             <!-- Gambar berita -->
             <div class="bg-image hover-overlay d-flex align-items-center" data-mdb-ripple-init data-mdb-ripple-color="light" style="max-height: 256px;">
-              <img src="<?= ($b['gambar_sampul'] != null) ? $b['gambar_sampul'] : base_url('uploads/1725540410_623071dfb13d7973422a.png') ?>" class="card-img-top img-fluid object-fit-cover" alt="..." style="height: 256px;">
+              <img src="<?= ($x['gambar_sampul'] != null) ? $x['gambar_sampul'] : ($x['gambar_sampul_sementara'] != null ? $x['gambar_sampul_sementara'] : base_url('uploads/1725540410_623071dfb13d7973422a.png')) ?>" class="card-img-top img-fluid object-fit-cover" alt="..." style="height: 256px;">
             </div>
             <!-- Konten berita -->
             <!-- <div class="card-header">
             </div> -->
             <div class="card-body">
-              <p class="card-text"><?= $b['created_at_terformat'] ?></p>
-              <a href="<?= base_url('berita/' . $b['slug']) ?>">
+              <p class="card-text"><?= $x['formatted_datetime'] ?></p>
+              <a href="<?= base_url('berita/' . $x['slug']) ?>">
                 <p class="card-title text-body">
-                  <?= $b['judul'] ?>
+                  <?= $x['judul'] ?>
                 </p>
               </a>
             </div>
@@ -433,19 +433,19 @@
           <!-- Additional required wrapper -->
           <div class="swiper-wrapper">
             <!-- Slides -->
-            <?php foreach ($beritaSwiper as $i => $b) : ?>
+            <?php foreach ($beritaSwiper as $i => $x) : ?>
               <div class="swiper-slide">
                 <div class="swiper-slide-transform">
                   <div class="card berita-card text-body border-3 rounded-4">
                     <div class="d-flex align-items-center" data-mdb-ripple-init data-mdb-ripple-color="light" style="width: 96px;">
-                      <img src="<?= $b['gambar_sampul'] ?>" class="card-img" alt="Gambar Berita">
+                      <img src="<?= ($x['gambar_sampul'] != null) ? $x['gambar_sampul'] : ($x['gambar_sampul_sementara'] != null ? $x['gambar_sampul_sementara'] : base_url('uploads/1725540410_623071dfb13d7973422a.png')) ?>" class="card-img" alt="Gambar Berita">
                     </div>
                     <div class="d-flex flex-column justify-content-center ps-3">
-                      <a href="<?= base_url('berita/' . $b['slug']) ?>">
-                        <h6 class="card-title text-body"><?= $b['judul'] ?></h6>
+                      <a href="<?= base_url('berita/' . $x['slug']) ?>">
+                        <h6 class="card-title text-body"><?= $x['judul'] ?></h6>
                       </a>
                       <div class="d-flex align-items-center mb-2">
-                        <span style="font-size:small"><?= $b['created_at_terformat'] ?></span>
+                        <span style="font-size:small"><?= $x['formatted_datetime'] ?></span>
                       </div>
                     </div>
                   </div>

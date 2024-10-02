@@ -27,7 +27,7 @@
                     <!-- Item berita -->
                     <div class="card shadow" mdb-ripple-init>
                         <div class="ratio ratio-4x3">
-                            <img src="<?= $r['gambar_sampul'] ?>" class="card-img-top object-fit-cover" alt="..." />
+                            <img src="<?= $r['gambar_sampul'] ?: $r['gambar_sampul_sementara'] ?>" class="card-img-top object-fit-cover" alt="..." onerror="this.onerror=null; this.src='<?= base_url('assets/img/icon-notext.png') ?>'" />
                         </div>
                         <div class="card-body text-start">
                             <a href="<?= base_url() ?>berita/<?= $r['slug'] ?>">
@@ -36,7 +36,7 @@
                                 </h5>
                             </a>
                             <p class="card-text">
-                                <small class="text-body-secondary"><?= $r['created_at_terformat'] ?></small>
+                                <small class="text-body-secondary"><?= $r['formatted_datetime'] ?></small>
                             </p>
                         </div>
                     </div>
@@ -86,7 +86,7 @@
     <div class="row mt-5">
         <!-- Paginasi -->
         <div class="d-flex">
-            <?= $pagerBerita->links('berita', 'pager') ?>
+            <?= $pagerBerita->links('posting', 'pager') ?>
         </div>
         <!-- Akhir paginasi -->
     </div>
@@ -95,7 +95,7 @@
     <div class="row">
         <div class="col text-center">
             <?php foreach ($kategori as $key => $k) : ?>
-                <a href="<?= base_url('kategori/' . $k['nama']) ?>" class="btn btn-outline-primary btn-lg me-2 mb-2" data-mdb-ripple-init><?= $k['nama'] ?></a>
+                <a href="<?= base_url('kategori/' . $k['nama']) ?>" class="btn  btn-lg me-2 mb-2 <?= ($namaKategori == $k['nama']) ? 'btn-primary' : 'btn-outline-primary' ?>" data-mdb-ripple-init><?= $k['nama'] ?></a>
             <?php endforeach; ?>
         </div>
     </div>

@@ -190,7 +190,7 @@ class BeritaModel extends \CodeIgniter\Model
         foreach ($data as &$item) {
             // Check if $item is an array
             if (is_array($item)) {
-                $item['gambar_sampul'] = $this->extract_first_image($item['konten'], base_url('assets/img/logo-square.png'), false);
+                $item['gambar_sampul'] = $this->extract_first_image($item['konten'], base_url('assets/img/icon-notext.png'), false);
 
                 // Uncomment the following and comment above code if the image is from base url
                 // $item['gambar_sampul'] = base_url('uploads/' . $this->extract_first_image_filename($item['konten'], base_url('assets/img/esmonde-yong-wFpJV5EWrSM-unsplash.jpg')));
@@ -209,7 +209,7 @@ class BeritaModel extends \CodeIgniter\Model
             throw new \CodeIgniter\Exceptions\PageNotFoundException('Artikel tidak ditemukan.');
         }
 
-        $data['gambar_sampul'] = $this->extract_first_image($data['konten'], base_url('assets/img/logo-square.png'), false);
+        $data['gambar_sampul'] = $this->extract_first_image($data['konten'], base_url('assets/img/icon-notext.png'), false);
 
         return $data;
     }

@@ -4,7 +4,7 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class CreateTemaTable extends Migration
+class CreateMenuTable extends Migration
 {
     public function up()
     {
@@ -14,16 +14,31 @@ class CreateTemaTable extends Migration
                 'constraint'     => 11,
                 'unsigned'       => true,
                 'auto_increment' => true,
+                'null'    => false,
+            ],
+            'parent_id' => [
+                'type'       => 'INT',
+                'constraint' => 11,
+                'null'    => false,
             ],
             'nama' => [
-                'type'       => 'VARCHAR',
+                'type' => 'VARCHAR',
                 'constraint' => 255,
+                'null'    => false,
             ],
-            'css' => [
+            'uri' => [
                 'type' => 'TEXT',
+                'null'    => false,
             ],
-            'css_rtl' => [
-                'type' => 'TEXT',
+            'link_eksternal' => [
+                'type' => 'TINYINT',
+                'constraint' => 1,
+                'null'    => false,
+            ],
+            'urutan' => [
+                'type'       => 'INT',
+                'constraint' => 11,
+                'null'    => false,
             ],
             'created_at' => [
                 'type'    => 'DATETIME',
@@ -38,12 +53,12 @@ class CreateTemaTable extends Migration
         $this->forge->addKey('id', true); // Primary key
 
         // Create the table
-        $this->forge->createTable('tema');
+        $this->forge->createTable('menu');
     }
 
     public function down()
     {
         // Drop the table if it exists
-        $this->forge->dropTable('tema');
+        $this->forge->dropTable('menu');
     }
 }

@@ -18,6 +18,7 @@ use App\Models\KategoriModel;
 use App\Models\KomponenGrupModel;
 use App\Models\KomponenMetaModel;
 use App\Models\KomponenModel;
+use App\Models\MenuModel;
 use App\Models\PostingDiajukanModel;
 use App\Models\PostingJenisModel;
 use App\Models\PostingModel;
@@ -103,6 +104,8 @@ abstract class BaseControllerAdmin extends Controller
         protected KomponenMetaModel $komponenMetaModel;
         protected KomponenGrupModel $komponenGrupModel;
 
+        protected MenuModel $menuModel;
+
         // Site type
         protected bool $isParentSite;
         protected bool $isChildSite;
@@ -146,12 +149,16 @@ abstract class BaseControllerAdmin extends Controller
                 $this->komponenMetaModel = new KomponenMetaModel();
                 $this->komponenGrupModel = new KomponenGrupModel();
 
+                $this->menuModel = new MenuModel();
+
                 /* Data */
                 $this->data['temaSitus'] = $this->temaModel->find(setting()->get('App.temaSitus'));
 
                 // Untuk notifikasi
                 $this->data['peringatanBeritaKosong'] = null; // count($this->beritaModel->get()) == 0;
                 $this->data['peringatanPostingBerita'] = null; // $this->beritaModel->isLatestDataOverThreeMonthsOld();
+                $this->data['peringatanPostingKosong'] = count($this->postingModel->findAll()) == 0;
+                $this->data['peringatanPostingTigaBulan'] = $this->postingModel->isLatestDataOverThreeMonthsOld();
                 $this->data['jumlahKotakMasukBelumTerbaca'] = null; // count(format_tanggal($this->masukanModel->getKotakMasukBelumTerbaca()));
                 $this->data['adaKotakMasukBelumTerbaca'] = null; // ($this->data['jumlahKotakMasukBelumTerbaca'] > 0); // Ada kotak masuk yang belum terbaca
 

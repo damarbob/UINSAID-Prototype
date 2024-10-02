@@ -175,20 +175,20 @@
   --swiper-navigation-color: var(--mdb-primary);
 }
 
-#item-berita .card {
+.item-berita .card {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
   border-radius: 8px;
 }
-#item-berita .card-body {
+.item-berita .card-body {
   flex-grow: 1;
 }
-#item-berita .card-text {
+.item-berita .card-text {
   font-size: 0.7rem;
 }
-#item-berita .card-title {
+.item-berita .card-title {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 4; /* Limit to 3 lines */
@@ -199,7 +199,7 @@
   font-weight: bold;
   /* height: calc(1.2em * 3); Adjust based on the line height */
 }
-#item-berita img {
+.item-berita img {
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
 }

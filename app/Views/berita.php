@@ -29,7 +29,7 @@
                                         <!-- Gambar artikel -->
                                         <div class="col-md-6">
                                             <div style="height: 384px; border: 1rem solid var(--mdb-body-bg);">
-                                                <img src="<?= $x['featured_image'] ?: $x['gambar_sampul'] ?>" class="w-100 object-fit-cover" style="height: 384px;" alt="<?= $x['judul'] ?>" onerror="this.onerror=null; this.src='<?= base_url('assets/img/icon-notext.png') ?>'" />
+                                                <img src="<?= $x['gambar_sampul'] ?: $x['gambar_sampul_sementara'] ?>" class="w-100 object-fit-cover" style="height: 384px;" alt="<?= $x['judul'] ?>" onerror="this.onerror=null; this.src='<?= base_url('assets/img/icon-notext.png') ?>'" />
                                             </div>
                                         </div>
 
@@ -52,7 +52,7 @@
 
                                                 <!-- Tanggal -->
                                                 <p class="card-text crop-text-2 mb-3">
-                                                    <?= $x['created_at_terformat']; ?>
+                                                    <?= $x['formatted_datetime']; ?>
                                                 </p>
                                             </div>
 
@@ -97,7 +97,7 @@
                 <!-- Item berita -->
                 <div class="card shadow" mdb-ripple-init>
                     <div class="ratio ratio-4x3">
-                        <img src="<?= $x['featured_image'] ?: $x['gambar_sampul'] ?>" class="card-img-top object-fit-cover" alt="<?= $x['judul'] ?>" onerror="this.onerror=null; this.src='<?= base_url('assets/img/icon-notext.png') ?>'" />
+                        <img src="<?= $x['gambar_sampul'] ?: $x['gambar_sampul_sementara'] ?>" class="card-img-top object-fit-cover" alt="<?= $x['judul'] ?>" onerror="this.onerror=null; this.src='<?= base_url('assets/img/icon-notext.png') ?>'" />
                     </div>
                     <div class="card-body text-start">
                         <a href="<?= base_url() ?>berita/<?= $x['slug'] ?>">
@@ -106,7 +106,7 @@
                             </h5>
                         </a>
                         <p class="card-text">
-                            <small class="text-body-secondary"><?= $x['created_at_terformat'] ?></small>
+                            <small class="text-body-secondary"><?= $x['formatted_datetime'] ?></small>
                         </p>
                     </div>
                 </div>
@@ -148,7 +148,7 @@
     <div class="row mt-5">
         <!-- Paginasi -->
         <div class="d-flex">
-            <?= $pagerBerita->links('berita', 'pager') ?>
+            <?= $pagerBerita->links('posting', 'pager') ?>
         </div>
         <!-- Akhir paginasi -->
     </div>

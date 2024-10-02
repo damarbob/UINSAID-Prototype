@@ -293,6 +293,7 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
             );
 
             secondButton.after(newElement);
+            new mdb.Dropdown(secondButton); // Reinitialize dropdown
 
             // Filter button and status
             var filterButtons = {

@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 class KategoriModel extends Model
 {
     protected $table = 'kategori';
-    protected $allowedFields = ['nama'];
+    protected $allowedFields = ['nama', 'id_jenis'];
 
     public function getKategoriByNama($nama)
     {

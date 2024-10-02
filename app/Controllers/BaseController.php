@@ -11,6 +11,7 @@ use App\Models\HalamanModel;
 use App\Models\KomponenMetaModel;
 use App\Models\KomponenModel;
 use App\Models\PengumumanModel;
+use App\Models\PostingModel;
 use App\Models\PPIDModel;
 use App\Models\TemaModel;
 use CodeIgniter\Controller;
@@ -66,6 +67,7 @@ abstract class BaseController extends Controller
     protected PengumumanModel $pengumumanModel;
     protected PPIDModel $ppidModel;
     protected EntitasModel $entitasModel;
+    protected PostingModel $postingModel;
 
     // Page builder models
     protected $halamanModel;
@@ -94,6 +96,7 @@ abstract class BaseController extends Controller
         $this->pengumumanModel = new PengumumanModel();
         $this->ppidModel = new PPIDModel();
         $this->entitasModel = new EntitasModel();
+        $this->postingModel = new PostingModel();
 
         $this->halamanModel = new HalamanModel();
         $this->komponenModel = new KomponenModel();

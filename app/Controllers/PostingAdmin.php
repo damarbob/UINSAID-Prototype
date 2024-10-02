@@ -32,6 +32,7 @@ class PostingAdmin extends BaseControllerAdmin
         $this->data['judul'] = lang('Admin.tambahPosting');
         $this->data['mode'] = "tambah";
         $this->data['kategori'] = $this->kategoriModel->findAll();
+        $this->data['postingJenis'] = $this->postingJenisModel->findAll();
         return view('admin_posting_editor', $this->data);
     }
 
@@ -42,11 +43,13 @@ class PostingAdmin extends BaseControllerAdmin
         $this->data['mode'] = "sunting";
         $this->data['posting'] = $this->postingModel->getById($id); // 
         $this->data['kategori'] = $this->kategoriModel->findAll();
+        $this->data['postingJenis'] = $this->postingJenisModel->findAll();
+        d($this->postingModel->getByID($id));
         return view('admin_posting_editor', $this->data);
     }
 
     // Fetch data untuk datatable
-    public function fetchData($status = null)
+    public function fetchData()
     {
 
         $columns = ['judul', 'penulis', 'kategori', 'tanggal_terbit', 'status'];
@@ -72,8 +75,8 @@ class PostingAdmin extends BaseControllerAdmin
 
         $posting = $this->postingModel->getByFilter('berita', $limit, $start, $statusX, $search, $order, $dir);
 
-        if ($search || $status) {
-            $totalFiltered = $this->postingModel->getTotalRecords('berita', $status, $search);
+        if ($search || $statusX) {
+            $totalFiltered = $this->postingModel->getTotalRecords('berita', $statusX, $search);
         }
 
         $data = [];
@@ -148,13 +151,20 @@ class PostingAdmin extends BaseControllerAdmin
         }
 
         // Dapatkan jenis postingan dan kategori dari input
-        $jenis = $this->postingJenisModel->getByNama($this->request->getVar('jenis'));
-        $kategoriNama = $this->request->getVar('kategori') ?: $this->request->getVar('kategori_lainnya');
+        $postingJenisId = $this->request->getVar('posting_jenis');
+        $postingJenisNama = $this->request->getVar('posting_jenis_lainnya'); // New posting_jenis name if "Add New" is selected
+        $kategoriNama = $this->request->getVar('kategori') ?: $this->request->getVar('kategori_lainnya'); // New kategori name if "Add New" is selected
 
-        // Periksa kategori, buat baru jika tidak ada
+        // Check if a new posting_jenis needs to be created
+        if (!$postingJenisId && $postingJenisNama) {
+            $this->postingJenisModel->save(['nama' => $postingJenisNama]);
+            $postingJenisId = $this->postingJenisModel->getInsertID(); // Get the newly inserted id
+        }
+
+        // Check if a new kategori needs to be created
         $kategori = $this->kategoriModel->getKategoriByNama($kategoriNama);
         if (!$kategori) {
-            $this->kategoriModel->save(['nama' => $kategoriNama]);
+            $this->kategoriModel->save(['nama' => $kategoriNama, 'id_jenis' => $postingJenisId]);
             $kategori = $this->kategoriModel->getKategoriByNama($kategoriNama);
         }
 
@@ -441,5 +451,21 @@ class PostingAdmin extends BaseControllerAdmin
         } else {
             return $this->response->setStatusCode(404)->setJSON(['error' => lang('Admin.gambarTidakDitemukan')]);
         }
+    }
+
+    /**
+     * Get kategori by posting jenis
+     * 
+     * @return JSON kategori Kategori based on posting jenis
+     */
+    public function getKategoriByJenis()
+    {
+        $id_jenis = $this->request->getPost('id_jenis');
+
+        // Fetch kategori based on posting_jenis
+        $kategori = $this->kategoriModel->where('id_jenis', $id_jenis)->findAll();
+
+        // Return the results as JSON
+        return $this->response->setJSON(['kategori' => $kategori]);
     }
 }
