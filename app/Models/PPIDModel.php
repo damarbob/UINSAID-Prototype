@@ -242,4 +242,37 @@ class PPIDModel extends \CodeIgniter\Model
             ->select('kategori')
             ->countAllResults();
     }
+
+    public function getPPIDAll($limit = null, $start = null, $status = null, $search = null, $order = null, $dir = null)
+    {
+        $builder = $this->db->table($this->table)
+            ->select('ppid.*, users.username as penulis, kategori.nama as kategori, posting_jenis.id as id_posting_jenis')
+            ->join('users', 'users.id = ppid.id_penulis', 'left')
+            ->join('kategori', 'kategori.id = ppid.id_kategori', 'left')
+            ->join('posting_jenis', 'posting_jenis.id = kategori.id_jenis', 'left');
+
+        if ($order && $dir) {
+            $builder->orderBy($order, $dir);
+        }
+
+        if ($limit && $start) {
+            $builder->limit($limit, $start);
+        }
+
+        if ($status) {
+            $builder->where('ppid.status', $status);
+        }
+
+        if ($search) {
+            $builder->groupStart()
+                ->like('ppid.judul', $search)
+                ->orLike('users.username', $search)
+                ->orLike('kategori.nama', $search)
+                ->orLike('ppid.tanggal_terbit', $search)
+                ->orLike('ppid.status', $search)
+                ->groupEnd();
+        }
+
+        return $builder->get()->getResultArray();
+    }
 }

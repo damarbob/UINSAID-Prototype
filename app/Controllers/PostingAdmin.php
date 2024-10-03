@@ -44,7 +44,7 @@ class PostingAdmin extends BaseControllerAdmin
         $this->data['posting'] = $this->postingModel->getById($id); // 
         $this->data['kategori'] = $this->kategoriModel->findAll();
         $this->data['postingJenis'] = $this->postingJenisModel->findAll();
-        d($this->postingModel->getByID($id));
+
         return view('admin_posting_editor', $this->data);
     }
 

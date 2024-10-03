@@ -274,4 +274,45 @@ class BeritaModel extends \CodeIgniter\Model
         // If no data is found, do not consider it as over 3 months old. Instead, there will be another warning to invite users to write their first post.
         return false;
     }
+
+    public function getBeritaAll($jenisNama = null, $jenisId = null, $limit = null, $start = null, $status = null, $search = null, $order = null, $dir = null)
+    {
+        $builder = $this->db->table($this->table)
+            ->select('berita.*, users.username as penulis, kategori.nama as kategori, posting_jenis.id as id_posting_jenis')
+            ->join('users', 'users.id = berita.id_penulis', 'left')
+            ->join('kategori', 'kategori.id = berita.id_kategori', 'left')
+            ->join('posting_jenis', 'posting_jenis.id = kategori.id_jenis', 'left');
+
+        if ($order && $dir) {
+            $builder->orderBy($order, $dir);
+        }
+
+        if ($limit && $start) {
+            $builder->limit($limit, $start);
+        }
+
+        if ($jenisId) {
+            $builder->where('posting_jenis.id', $jenisId);
+        }
+
+        if ($jenisNama) {
+            $builder->where('posting_jenis.nama', $jenisNama);
+        }
+
+        if ($status) {
+            $builder->where('berita.status', $status);
+        }
+
+        if ($search) {
+            $builder->groupStart()
+                ->like('berita.judul', $search)
+                ->orLike('users.username', $search)
+                ->orLike('kategori.nama', $search)
+                ->orLike('berita.tanggal_terbit', $search)
+                ->orLike('berita.status', $search)
+                ->groupEnd();
+        }
+
+        return $builder->get()->getResultArray();
+    }
 }

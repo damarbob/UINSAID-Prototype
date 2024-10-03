@@ -86,9 +86,18 @@
     <div class="row mt-5">
         <!-- Paginasi -->
         <div class="d-flex">
-            <?= $pagerPPID->links('ppid', 'pager') ?>
+            <?= $pagerPPID->links('posting', 'pager') ?>
         </div>
         <!-- Akhir paginasi -->
+    </div>
+</div>
+<div class="container mt-3 mb-3">
+    <div class="row">
+        <div class="col text-center">
+            <?php foreach ($kategori as $key => $k) : ?>
+                <a href="<?= base_url('ppid/' . $k['nama']) ?>" class="btn  btn-lg me-2 mb-2 <?= ($namaKategori == $k['nama']) ? 'btn-primary' : 'btn-outline-primary' ?>" data-mdb-ripple-init><?= $k['nama'] ?></a>
+            <?php endforeach; ?>
+        </div>
     </div>
 </div>
 <?= $this->endSection() ?>

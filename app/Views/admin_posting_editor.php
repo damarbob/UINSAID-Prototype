@@ -80,7 +80,7 @@ if ($mode == "tambah") {
 
             <!-- Jenis Posting -->
             <div class="form-floating mb-3">
-                <select class="form-select" id="postingJenisSelect" name="posting_jenis" required>
+                <select class="form-select" id="postingJenisSelect" name="posting_jenis">
                     <?php foreach ($postingJenis as $x): ?>
                         <option value="<?= $x['id'] ?>" <?= $x['id'] == $valuePostingJenisId ? 'selected' : '' ?>>
                             <?= $x['nama'] ?>
@@ -98,7 +98,7 @@ if ($mode == "tambah") {
 
             <!-- Kategori -->
             <div class="form-floating mb-3">
-                <select class="form-select" id="kategoriSelect" name="kategori" required>
+                <select class="form-select" id="kategoriSelect" name="kategori">
                     <?php foreach ($kategori as $key): ?>
                         <option value="<?= $key['nama'] ?>" <?= $key['nama'] == $valueKategori ? 'selected' : '' ?>><?= $key['nama'] ?></option>
                     <?php endforeach ?>
@@ -139,7 +139,7 @@ if ($mode == "tambah") {
                 <!-- Tanggal terbit -->
                 <div class="form mb-3">
                     <label for="terbit"><?= lang('Admin.tanggalTerbit') ?></label>
-                    <input id="terbit" name="tanggal_terbit" class="form-control <?= (validation_show_error('terbit')) ? 'is-invalid' : ''; ?>" required value="<?= $valueTglTerbit ?>" />
+                    <input id="terbit" type="datetime-local" name="tanggal_terbit" class="form-control <?= (validation_show_error('terbit')) ? 'is-invalid' : ''; ?>" required value="<?= $valueTglTerbit ?>" />
                     <div class="invalid-feedback">
                         <?= lang('Admin.harusDiinput'); ?>
                     </div>
@@ -284,10 +284,15 @@ if ($mode == "tambah") {
             updateUiInputPostingJenis();
 
             const postingJenisId = this.value;
-            if (postingJenisId) {
-                // Fetch kategori options based on the selected posting_jenis
-                fetchKategoriOptions(postingJenisId);
-            }
+            fetchKategoriOptions(postingJenisId);
+            // if (postingJenisId) {
+            //     // Fetch kategori options based on the selected posting_jenis
+            //     fetchKategoriOptions(postingJenisId);
+            // } else {
+            //     // If "Tambah Baru" for posting_jenis is selected, default kategori to "Tambah Baru"
+            //     selectKategori.value = '';
+            //     updateUiInputKategori();
+            // }
         });
 
         // Handle the change event of kategori select
@@ -297,10 +302,14 @@ if ($mode == "tambah") {
 
         // Show or hide the input for adding new posting_jenis
         function updateUiInputPostingJenis() {
-            if (selectPostingJenis.value === '') { // If "Add New" is selected for posting_jenis
+            if (selectPostingJenis.value === '') { // If "Tambah Baru" is selected for posting_jenis
                 inputPostingJenisLainnya.style.display = 'block';
                 inputPostingJenisLainnya.disabled = false;
                 inputPostingJenisLainnya.required = true;
+
+                // Automatically set kategori to "Tambah Baru" and show the input
+                selectKategori.value = '';
+                updateUiInputKategori();
             } else {
                 inputPostingJenisLainnya.style.display = 'none';
                 inputPostingJenisLainnya.disabled = true;
@@ -311,7 +320,7 @@ if ($mode == "tambah") {
 
         // Show or hide the input for adding new kategori
         function updateUiInputKategori() {
-            if (selectKategori.value === '') { // If "Add New" is selected for kategori
+            if (selectKategori.value === '') { // If "Tambah Baru" is selected for kategori
                 inputKategoriLainnya.style.display = 'block';
                 inputKategoriLainnya.disabled = false;
                 inputKategoriLainnya.required = true;
@@ -323,45 +332,72 @@ if ($mode == "tambah") {
             }
         }
 
-        // Fetch kategori options based on the selected posting_jenis
         function fetchKategoriOptions(postingJenisId) {
-            $.ajax({
-                url: '<?= base_url('api/posting/getKategoriByJenis') ?>',
-                type: 'POST',
-                data: {
-                    id_jenis: postingJenisId
-                },
-                success: function(response) {
-                    // Clear current options
-                    selectKategori.innerHTML = '';
+            // Clear current options in kategori select before fetching new ones
+            selectKategori.innerHTML = ''; // This ensures that the previous options are cleared
 
-                    // Populate with new options
-                    response.kategori.forEach(function(kat) {
-                        const option = document.createElement('option');
-                        option.value = kat.nama;
-                        option.textContent = kat.nama;
-                        selectKategori.appendChild(option);
-                    });
+            // If there's a valid posting_jenis selected, proceed with the AJAX call
+            if (postingJenisId) {
+                $.ajax({
+                    url: '<?= base_url('api/posting/getKategoriByJenis') ?>',
+                    type: 'POST',
+                    data: {
+                        id_jenis: postingJenisId
+                    },
+                    success: function(response) {
+                        // Check if there are any kategori options returned
+                        if (response.kategori && response.kategori.length > 0) {
+                            // Populate with new options
+                            response.kategori.forEach(function(kat) {
+                                const option = document.createElement('option');
+                                option.value = kat.nama;
+                                option.textContent = kat.nama;
+                                selectKategori.appendChild(option);
 
-                    const options = Array.from(selectKategori.options);
-                    const optionToSelect = options.find(option => option.text === '<?= $valueKategori ?>');
-                    if (optionToSelect) {
-                        optionToSelect.selected = true;
+                                if (kat.nama == '<?= $valueKategori ?>') {
+                                    selectKategori.value = kat.nama;
+                                }
+                            });
+
+                            // Hide inputKategoriLainnya since there are valid kategori options
+                            inputKategoriLainnya.style.display = 'none';
+                            inputKategoriLainnya.disabled = true;
+                            inputKategoriLainnya.required = false;
+                            inputKategoriLainnya.value = ''; // Clear the input if another option is selected
+
+                            // Add the "Tambah Baru" option to kategori before the AJAX call in case no options are returned
+                            const addNewOption = document.createElement('option');
+                            addNewOption.value = '';
+                            addNewOption.textContent = '<?= lang("Admin.tambahBaru") ?>';
+                            selectKategori.appendChild(addNewOption);
+                        } else {
+                            // Automatically select "Tambah Baru" and show input if no kategori returned
+                            // Add the "Tambah Baru" option to kategori before the AJAX call in case no options are returned
+                            const addNewOption = document.createElement('option');
+                            addNewOption.value = '';
+                            addNewOption.textContent = '<?= lang("Admin.tambahBaru") ?>';
+                            selectKategori.appendChild(addNewOption);
+                            selectKategori.value = '';
+                            updateUiInputKategori();
+                        }
                     }
-
-                    // Add "Add New" option
-                    const addNewOption = document.createElement('option');
-                    addNewOption.value = '';
-                    addNewOption.textContent = '<?= lang("Admin.tambahBaru") ?>';
-                    selectKategori.appendChild(addNewOption);
-                }
-            });
+                });
+            } else {
+                // Add the "Tambah Baru" option to kategori before the AJAX call in case no options are returned
+                const addNewOption = document.createElement('option');
+                addNewOption.value = '';
+                addNewOption.textContent = '<?= lang("Admin.tambahBaru") ?>';
+                selectKategori.appendChild(addNewOption);
+                // If no valid posting_jenis selected, ensure "Tambah Baru" is selected and input shown
+                selectKategori.value = '';
+                updateUiInputKategori();
+            }
         }
     });
 </script>
 
 <!-- datetimepicker -->
-<script src="https://unpkg.com/gijgo@1.9.14/js/gijgo.min.js" type="text/javascript"></script>
+<!-- <script src="https://unpkg.com/gijgo@1.9.14/js/gijgo.min.js" type="text/javascript"></script>
 <script>
     $('#terbit').datetimepicker({
         datepicker: {
@@ -372,7 +408,7 @@ if ($mode == "tambah") {
         format: 'yyyy-mm-dd HH:MM',
         uiLibrary: 'materialdesign',
     });
-</script>
+</script> -->
 
 <script>
     // Example starter JavaScript for disabling form submissions if there are invalid fields
