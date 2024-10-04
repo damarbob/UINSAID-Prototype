@@ -13,4 +13,13 @@ class KategoriModel extends Model
     {
         return $this->where('nama', $nama)->first();
     }
+
+    public function getKategoriByJenisNama($jenisNama)
+    {
+        return $this->db->table($this->table)
+            ->select('kategori.*')
+            ->join('posting_jenis', 'kategori.id_jenis = posting_jenis.id', 'right')
+            ->where('posting_jenis.nama', $jenisNama)
+            ->get()->getResultArray();
+    }
 }

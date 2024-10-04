@@ -10,16 +10,57 @@ class PostingModel extends \CodeIgniter\Model
 
     protected $useTimestamps = true;
 
-    protected $allowedFields = ['id_penulis', 'id_kategori', 'id_jenis', 'judul', 'slug', 'konten', 'ringkasan', 'pengajuan', 'status', 'gambar_sampul', 'sumber', 'tanggal_terbit'];
+    protected $allowedFields = ['id_penulis', 'id_kategori', 'id_jenis', 'judul', 'slug', 'konten', 'ringkasan', 'pengajuan', 'status', 'gambar_sampul', 'sumber', 'tanggal_terbit', 'created_at', 'updated_at'];
+
+    public function getPosting($jenisNama = null, $jenisId = null, $limit = null, $start = null, $status = null, $search = null, $order = null, $dir = null)
+    {
+        $builder = $this->db->table($this->table)
+            ->select('posting.*, users.username as penulis, kategori.nama as kategori, posting_jenis.id as id_posting_jenis')
+            ->join('users', 'users.id = posting.id_penulis', 'left')
+            ->join('kategori', 'kategori.id = posting.id_kategori', 'left')
+            ->join('posting_jenis', 'posting_jenis.id = kategori.id_jenis', 'left');
+
+        if ($order && $dir) {
+            $builder->orderBy($order, $dir);
+        }
+
+        if ($limit && $start) {
+            $builder->limit($limit, $start);
+        }
+
+        if ($jenisNama) {
+            $builder->Where('posting_jenis.nama', $jenisNama);
+        }
+
+        if ($jenisId) {
+            $builder->where('posting_jenis.id', $jenisId);
+        }
+
+        if ($status) {
+            $builder->where('posting.status', $status);
+        }
+
+        if ($search) {
+            $builder->groupStart()
+                ->like('posting.judul', $search)
+                ->orLike('users.username', $search)
+                ->orLike('kategori.nama', $search)
+                ->orLike('posting.tanggal_terbit', $search)
+                ->orLike('posting.status', $search)
+                ->groupEnd();
+        }
+
+        return $builder->get()->getResult();
+    }
 
     /**
      * Get 12-per-page-paginated posting by jenis and kategori
      * 
-     * @param int $jenis Jenis ID of Posting
+     * @param string $jenis Nama jenis of Posting
      * @param string $kategori Posting's kategori
      * @return array Array of posting where the status is publikasi
      */
-    public function getByKategori($jenis, $kategori)
+    public function getByKategori($jenisNama, $kategori)
     {
         return $this->formatSampul($this->select('posting.*, users.username as penulis, kategori.nama as kategori')
             ->join('users', 'users.id = posting.id_penulis', 'left')
@@ -27,14 +68,14 @@ class PostingModel extends \CodeIgniter\Model
             ->join('posting_jenis', 'posting_jenis.id = kategori.id_jenis', 'left')
             ->where('kategori.nama', $kategori)
             ->where('posting.status', 'publikasi')
-            // ->where('posting_jenis.name', $jenis) wrong outcome?
-            ->where('kategori.id_jenis', $jenis)
+            ->where('posting_jenis.nama', $jenisNama)
+            // ->where('kategori.id_jenis', $jenis)
             ->where('posting.tanggal_terbit <= ', date('Y-m-d H:i:s'))
             ->orderBy('posting.tanggal_terbit', 'DESC')
             ->paginate(12, 'posting'));
     }
 
-    public function getByKategoriLimit($jenis, $kategori, $limit)
+    public function getByKategoriLimit($jenisNama, $kategori, $limit)
     {
         return $this->formatSampul(
             $this->select('posting.*, penulis.username as penulis, kategori.nama as kategori')
@@ -43,15 +84,15 @@ class PostingModel extends \CodeIgniter\Model
                 ->join('posting_jenis', 'posting_jenis.id = kategori.id_jenis', 'left')
                 ->where('kategori.nama', $kategori)
                 ->where('posting.status', 'publikasi')
-                // ->where('posting_jenis.nama', $jenis)
-                ->where('kategori.id_jenis', $jenis)
+                ->where('posting_jenis.nama', $jenisNama)
+                // ->where('kategori.id_jenis', $jenis)
                 ->where('posting.tanggal_terbit <= ', date('Y-m-d H:i:s'))
                 ->orderBy('posting.tanggal_terbit', 'DESC')
                 ->findAll($limit)
         );
     }
 
-    public function getByFilter($jenis = null, $limit, $start, $status = null, $search = null, $order = 'judul', $dir = 'asc')
+    public function getByFilter($jenisNama = null, $limit, $start, $status = null, $search = null, $order = 'judul', $dir = 'asc')
     {
         $builder = $this->db->table($this->table)
             ->select('posting.*, users.username as penulis, kategori.nama as kategori')
@@ -61,10 +102,10 @@ class PostingModel extends \CodeIgniter\Model
             ->orderBy($order, $dir)
             ->limit($limit, $start);
 
-        if ($jenis) {
+        if ($jenisNama) {
             $builder
                 // ->groupStart()
-                ->where('posting_jenis.nama', $jenis);
+                ->where('posting_jenis.nama', $jenisNama);
             // ->orWhere('posting_jenis.nama IS NULL')
             // ->groupEnd();
             // } else {
@@ -89,25 +130,25 @@ class PostingModel extends \CodeIgniter\Model
         return $builder->get()->getResult();
     }
 
-    public function getTotalRecords($jenis = null, $status = null, $search = null)
+    public function getTotalRecords($jenisNama = null, $status = null, $search = null)
     {
 
         $builder = $this->db->table($this->table)
             ->select('posting.*, users.username as penulis, kategori.nama as kategori')
             ->join('users', 'users.id = posting.id_penulis', 'left')
             ->join('kategori', 'kategori.id = posting.id_kategori', 'left')
-            ->join('posting_jenis', 'posting_jenis.id = kategori.id_jenis', 'left')
-            ->where('kategori.id_jenis', $jenis);
+            ->join('posting_jenis', 'posting_jenis.id = kategori.id_jenis', 'left');
+        // ->where('kategori.id_jenis', $jenis);
 
-        if ($jenis) {
+        if ($jenisNama) {
             $builder
                 // ->groupStart()
-                ->where('posting_jenis.nama', $jenis);
+                ->where('posting_jenis.nama', $jenisNama);
             // ->orWhere('posting_jenis.nama IS NULL')
             //         ->groupEnd();
             // } else {
             //     $builder
-            //         ->where('posting_jenis.nama', $jenis);
+            //         ->where('posting_jenis.nama', $jenisNama);
         }
 
         if ($status) {
@@ -131,11 +172,11 @@ class PostingModel extends \CodeIgniter\Model
     /**
      * Get paginated posting by jenis and search key
      * 
-     * @param int $jenis Posting's jenis ID
+     * @param string $jenisNama Posting's jenis nama
      * @param string $search Search key
      *  @return array Array of posting where the status is publikasi
      */
-    public function getPaginated($jenis, $search = '')
+    public function getPaginated($jenisNama, $search = '')
     {
         $builder = $this->table($this->table);
 
@@ -146,22 +187,25 @@ class PostingModel extends \CodeIgniter\Model
         return $this->formatSampul($builder->select('posting.*, users.username as penulis, kategori.nama as kategori')
             ->join('users', 'users.id = posting.id_penulis', 'left')
             ->join('kategori', 'kategori.id = posting.id_kategori', 'left')
+            ->join('posting_jenis', 'posting_jenis.id = kategori.id_jenis', 'left')
             ->where('posting.status', 'publikasi')
-            // ->where('posting_jenis.name', $jenis)
-            ->where('kategori.id_jenis', $jenis)
+            ->where('posting_jenis.nama', $jenisNama)
+            // ->where('kategori.id_jenis', $jenis)
             ->where('posting.tanggal_terbit <= ', date('Y-m-d H:i:s'))
             ->orderBy('posting.tanggal_terbit', 'DESC')
             // ->orderBy('posting.created_at', 'DESC')
             ->paginate(12, 'posting'));
     }
 
-    public function getTerbaru($jenis, $jumlah, $offset = 0)
+    public function getTerbaru($jenisNama, $jumlah, $offset = 0)
     {
         return $this->formatSampul($this->select('posting.*, users.username as penulis, kategori.nama as kategori')
             ->join('users', 'users.id = posting.id_penulis', 'left')
             ->join('kategori', 'kategori.id = posting.id_kategori', 'left')
-            // ->where('posting_jenis.name', $jenis)
-            ->where('kategori.id_jenis', $jenis)
+            ->join('posting_jenis', 'posting_jenis.id = kategori.id_jenis', 'left')
+            ->where('posting.status', 'publikasi')
+            ->where('posting_jenis.nama', $jenisNama)
+            // ->where('kategori.id_jenis', $jenis)
             ->where('posting.tanggal_terbit <= ', date('Y-m-d H:i:s'))
             ->orderBy('posting.tanggal_terbit', 'DESC')
             // ->orderBy('posting.created_at', 'DESC')

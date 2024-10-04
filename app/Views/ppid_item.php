@@ -167,7 +167,7 @@ $ppidUrl = base_url("ppid/" . $ppid['slug']);
                                 <!-- Gambar berita -->
                                 <div class="col-3 position-relative">
                                     <div class="ratio ratio-4x3">
-                                        <img src="<?= $bt['gambar_sampul'] ?>" class="card-img object-fit-cover" alt="..." />
+                                        <img src="<?= $bt['gambar_sampul'] ?: $bt['gambar_sampul_sementara'] ?>" class="card-img object-fit-cover" alt="..." />
                                     </div>
                                 </div>
 
@@ -188,7 +188,7 @@ $ppidUrl = base_url("ppid/" . $ppid['slug']);
 
                                         <!-- Kategori dan tanggal terbit -->
                                         <small class="card-text crop-text-2">
-                                            <?= $bt['created_at_terformat'] ?> <b><?= $bt['kategori'] ?></b>
+                                            <?= $bt['formatted_datetime'] ?> - <b><?= $bt['kategori'] ?></b>
                                         </small>
                                     </div>
                                     <!-- Akhir body berita -->

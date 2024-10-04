@@ -20,13 +20,13 @@ class PPID extends BaseController
 
         $search = $this->request->getGet('search') ?? '';
 
-        $ppid = format_tanggal($this->ppidModel->getPaginated($search));
+        // $ppid = format_tanggal($this->postingModel->getPaginated('ppid', $search));
         // dd(format_tanggal($ppid));
-        $this->data['ppid'] = format_tanggal($ppid);
-        $this->data['pagerPPID'] = $this->ppidModel->pager;
-        $this->data['ppidTerbaru'] = format_tanggal($this->ppidModel->getTerbaru(3));
+        // $this->data['ppid'] = format_tanggal($ppid);
+        $this->data['pagerPPID'] = $this->postingModel->pager;
+        $this->data['ppidTerbaru'] = format_tanggal($this->postingModel->getTerbaru('ppid', 3));
 
-        $this->data['kategori'] = $this->ppidModel->getUniqueCategories();
+        $this->data['kategori'] = $this->kategoriModel->getKategoriByJenisNama('ppid');
 
         return view('ppid', $this->data);
     }
@@ -36,10 +36,10 @@ class PPID extends BaseController
         helper('format');
         $this->data['judul'] = lang('Admin.ppid');
 
-        $ppid = $this->ppidModel->getBySlug($slug);
-        // dd(format_tanggal($ppid));
-        $this->data['ppid'] = format_tanggal_suatu_kolom($ppid, 'tgl_terbit');
-        $this->data['beritaTerbaru'] = format_tanggal($this->beritaModel->getTerbaru(3));
+        $ppid = $this->postingModel->getBySlug($slug);
+        // dd($ppid);
+        $this->data['ppid'] = format_tanggal_suatu_kolom($ppid, 'tanggal_terbit');
+        $this->data['beritaTerbaru'] = format_tanggal_suatu_kolom($this->postingModel->getTerbaru('berita', 3), 'tanggal_terbit');
 
         // dd($ppid);
 
@@ -53,13 +53,13 @@ class PPID extends BaseController
 
         // dd(urldecode($kategori));
 
-        $ppid = $this->ppidModel->getByKategori(urldecode($kategori));
+        $ppid = $this->postingModel->getByKategori('ppid', urldecode($kategori));
         // dd(format_tanggal($ppid));
-        $this->data['ppid'] = format_tanggal_suatu_kolom($ppid, 'tgl_terbit');
-        $this->data['pagerPPID'] = $this->ppidModel->pager;
+        $this->data['ppid'] = format_tanggal_suatu_kolom($ppid, 'tanggal_terbit');
+        $this->data['pagerPPID'] = $this->postingModel->pager;
         $this->data['ppidTerbaru'] = null;
 
-        // $this->data['kategori'] = $this->kategoriModel->findAll();
+        $this->data['kategori'] = $this->kategoriModel->getKategoriByJenisNama('ppid');
         $this->data['namaKategori'] = $kategori;
 
         // dd(sizeof($ppid));

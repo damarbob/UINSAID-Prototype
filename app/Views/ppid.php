@@ -30,9 +30,9 @@
                         <img src="<?= base_url('assets/img/icon-notext.png') ?>" class="card-img-top object-fit-cover" alt="..." />
                         <!-- </div> -->
                         <div class="card-body text-start">
-                            <a href="<?= base_url('ppid/' . urlencode($x['kategori'])) ?>">
+                            <a href="<?= base_url('ppid/' . urlencode($x['nama'])) ?>">
                                 <h5 class="card-title lh-sm">
-                                    <?= $x['kategori'] ?>
+                                    <?= $x['nama'] ?>
                                 </h5>
                             </a>
 

@@ -58,6 +58,8 @@ $beritaUrl = base_url("berita/" . $berita['slug']);
                             <!-- TODO: Hardcoded breadcrumb -->
                             <li class="breadcrumb-item"><a href="<?= base_url() ?>">Beranda</a></li>
                             <li class="breadcrumb-item"><a href="<?= base_url('berita') ?>">Berita</a></li>
+
+                            <span class="badge badge-primary align-self-center ms-3" style="width: max-content; height:max-content"><?= $berita['kategori'] ?></span>
                         </ol>
                     </nav>
 
@@ -178,7 +180,7 @@ $beritaUrl = base_url("berita/" . $berita['slug']);
 
                                         <!-- Kategori dan tanggal terbit -->
                                         <small class="card-text crop-text-2">
-                                            <?= $bt['formatted_datetime'] ?> <b><?= $bt['kategori'] ?></b>
+                                            <?= $bt['formatted_datetime'] ?> - <b><?= $bt['kategori'] ?></b>
                                         </small>
                                     </div>
                                     <!-- Akhir body kegiatan -->

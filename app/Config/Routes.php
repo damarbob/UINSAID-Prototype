@@ -385,6 +385,8 @@ if (ENVIRONMENT == 'development') {
     $routes->group('refactor', static function ($routes) {
         $routes->get('berita/featured-image',  'Refactoring::fillBeritaFeaturedImageWithFirstImageFromKontenField');
         $routes->get('agenda-pengumuman/combine', 'Refactoring::combineAgendaModelAndPengumumanModelToAgendaPengumumanModel');
+        $routes->get('berita/copy-to-posting', 'Refactoring::copyBeritaOrPPIDByItsJenisIdToPosting/berita');
+        $routes->get('ppid/copy-to-posting', 'Refactoring::copyBeritaOrPPIDByItsJenisIdToPosting/ppid');
     });
 }
 
