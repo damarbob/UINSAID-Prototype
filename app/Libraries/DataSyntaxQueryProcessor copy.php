@@ -14,28 +14,20 @@ class DataSyntaxQueryProcessor
     // Main function to process the custom data syntax in content
     public function processDataSyntax($content)
     {
-        return $this->processCustomSyntax($content, 'data');
-    }
-
-    // Main function to process the custom predata syntax in content
-    public function processPreDataSyntax($content)
-    {
-        return $this->processCustomSyntax($content, 'predata');
-    }
-
-    // Common function to process custom syntax blocks
-    protected function processCustomSyntax($content, $type)
-    {
-        // Use regex to find the custom data syntax block: /* type {...} type */
-        $pattern = '/\/\* ' . $type . ' (.*?) ' . $type . ' \*\//s';
+        // Use regex to find the custom data syntax block: /* data {...} data */
+        $pattern = '/\/\* data (.*?) data \*\//s';
 
         // Replace the found custom data syntax with actual data for all occurrences
         return preg_replace_callback($pattern, function ($matches) {
             // The JSON object is inside the first capturing group
-            $jsonData = trim(preg_replace('/\s+/', ' ', $matches[1]));
+            $jsonData = ($matches[1]);
+
+            // Sanitize JSON: remove line breaks and other unnecessary whitespaces
+            $sanitizedJson = preg_replace('/\s+/', ' ', $jsonData);
+            $sanitizedJson = trim($sanitizedJson);
 
             // Decode the JSON object to get the query parameters
-            $queryParams = json_decode($jsonData, true);
+            $queryParams = json_decode($sanitizedJson, true);
 
             if (json_last_error() !== JSON_ERROR_NONE || !$queryParams) {
                 return json_encode(['error' => 'Invalid JSON syntax: ' . $jsonData]);
@@ -52,8 +44,6 @@ class DataSyntaxQueryProcessor
     // Function to execute the query and fetch data from the database based on the custom syntax
     protected function fetchDataFromDatabase($queryParams)
     {
-        $count = false; // Initialize count variable
-
         if (isset($queryParams['query'])) {
 
             $rawQuery = trim($queryParams['query']);
@@ -70,9 +60,8 @@ class DataSyntaxQueryProcessor
             return $this->sanitizeData($result);
         }
 
-        // If table is empty or forbidden tables
-        if (!isset($queryParams['table']) || $queryParams['table'] === 'auth_identities' || $queryParams['table'] === 'users') {
-            return ['error' => 'Table name not specified/not allowed'];
+        if (!isset($queryParams['table'])) {
+            return ['error' => 'Table name not specified'];
         }
 
         // Get the table name
@@ -141,23 +130,13 @@ class DataSyntaxQueryProcessor
         if (isset($queryParams['limit'])) {
             $limit = $queryParams['limit'];
             $offset = isset($queryParams['offset']) ? $queryParams['offset'] : 0;
-            $builder->limit(intval($limit), $offset); // Intval limit to prevent invalid argument due to different data type
+            $builder->limit($limit, $offset);
         }
 
-        // Check if "count" is requested
-        if (isset($queryParams['count']) && $queryParams['count'] === true) {
-            $count = true;
-        }
+        // Execute the query and get the result
+        $result = $builder->get()->getResultArray();
 
-        if (!$count) {
-            // Execute the query and get the result
-            $result = $builder->get()->getResultArray();
-
-            return $this->sanitizeData($result);
-        } else {
-            // Mode counting
-            return $builder->countAllResults();
-        }
+        return $this->sanitizeData($result);
     }
 
     // Function to sanitize data before JSON encoding

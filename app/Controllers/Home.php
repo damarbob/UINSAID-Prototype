@@ -282,12 +282,21 @@ class Home extends BaseController
 
             // dd(!$komponenMeta);
 
+            // Parse environment syntax before everything
+            $x['konten'] = replaceEnvironmentSyntax($x['konten']);
+
             // Replace attr syntax
             $x['konten'] = replaceAttributesSyntax($x['konten'], json_encode($komponenData[$i]));
 
+            // Process pre data syntax
+            $x['konten'] = $this->dataSyntaxQueryProcessor->processPreDataSyntax($x['konten']);
+
+            // if ($x['id'] == 30) dd($x['konten']); // DEBUG
+            // if ($x['id'] == 18) dd($this->twig->renderTemplateString(replaceMetaSyntaxWithDefault($x['konten']), [])); // DEBUG
+
             // Replace meta syntax
             if (!$komponenMeta) {
-                // dd(replaceMetaSyntaxWithDefault($x['konten']));
+                // if ($x['id'] == 18) dd(replaceMetaSyntaxWithDefault($x['konten']));
 
                 $x['konten_terformat'] = $this->twig->renderTemplateString(
                     replaceMetaSyntaxWithDefault($x['konten']),
@@ -305,7 +314,7 @@ class Home extends BaseController
                 $x['konten_terformat'] = $this->twig->renderTemplateString(
                     replaceMetaSyntax(
                         $x['konten'],
-                        replaceEnvironmentSyntax($komponenMeta['meta'])
+                        replaceEnvironmentSyntax($komponenMeta['meta']) // The komponen meta's environment must be parsed
                     ),
                     [
                         // Add environment variables
@@ -318,6 +327,8 @@ class Home extends BaseController
 
             // Replace data syntax
             $x['konten_terformat'] = $this->dataSyntaxQueryProcessor->processDataSyntax($x['konten_terformat']);
+
+            // if ($x['id'] == 18) dd($x['konten_terformat']); // DEBUG
 
             // dd($komponenMeta['meta']);
             // dd($x['konten_terformat']);

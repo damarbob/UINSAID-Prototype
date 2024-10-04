@@ -43,7 +43,7 @@ $currentRoute = $request->uri->getSegment(1) . "/" . $request->uri->getSegment(2
                         aria-labelledby="flushHeadingKonten" data-mdb-parent="#accordionFlushExampleX">
 
                         <!-- Posting -->
-                        <?php if ((ENVIRONMENT == 'development') && auth()->user()->inGroup("superadmin")): ?>
+                        <?php if (auth()->user()->inGroup("superadmin")): ?>
                             <div class="nav-list">
                                 <a href="<?= base_url('admin/posting') ?>" class="nav-link-admin <?= $currentRoute == "admin/posting" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Posting">
                                     <i class='bx bx-news nav_icon'></i>

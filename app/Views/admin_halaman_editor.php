@@ -418,7 +418,7 @@ $errorJS = validation_show_error('js_file');
             }
 
             // Generate unique komponen_instance_id
-            var komponenInstanceId = `inst-${componentId}-${Date.now()}`; // NEW
+            var komponenInstanceId = `inst_${componentId}_${Date.now()}`; // NEW
 
             var componentText = document.querySelector('#daftarKomponen [data-id="' + componentId + '"]').innerText;
 
@@ -870,7 +870,7 @@ $errorJS = validation_show_error('js_file');
                         inputHTML = `
                             <label class="form-label" for="${id}">${nama}</label>
                             <div class="range mb-3">
-                                <input type="range" id="${id}" name="${id}" value="${value}" class="form-range" />
+                                <input type="range" id="${id}" name="${id}" value="${value}" class="form-range" ${options ? (options.min ? 'min="'+ options.min + '"' : '') : ''} ${options ? (options.max ? 'max="'+ options.max + '"' : '') : ''}/>
                             </div>`;
                         break;
 
