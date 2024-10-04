@@ -273,6 +273,6 @@ class BeritaDiajukanModel extends \CodeIgniter\Model
                 ->groupEnd();
         }
 
-        return $builder->get()->getResultArray();
+        return $this->formatSampul($builder->get()->getResultArray());
     }
 }

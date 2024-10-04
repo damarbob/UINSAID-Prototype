@@ -94,31 +94,35 @@ class Refactoring extends BaseControllerAdmin
 
             // Ambil semua berita 
             $beritaData = $beritaModel->getBeritaAll(jenisNama: $jenisNama);
+            // d($beritaData);
 
             foreach ($beritaData as $x) {
                 $postingData = [
-                    'id'                => $x['id'],
-                    'id_penulis'        => $x['id_penulis'] ?: auth()->id(),
+                    // 'id'                => $x['id'],
+                    'id_penulis'        => auth()->id(),
                     'id_kategori'       => $x['id_kategori'],
-                    'id_jenis'          => $x['id_jenis'] ?: $x['id_posting_jenis'],
+                    'id_jenis'          => $x['id_posting_jenis'],
                     'judul'             => $x['judul'],
                     'konten'            => $x['konten'],
                     'ringkasan'         => $x['ringkasan'],
-                    'gambar_sampul'     => $x['featured_image'],
+                    'gambar_sampul'     => $x['featured_image'] ?: $x['gambar_sampul'],
                     'pengajuan'         => $x['pengajuan'],
                     'slug'              => $x['slug'],
                     'status'            => $x['status'],
                     'seo'               => $x['search_engine_index'] == 'Y' ? 1 : 0,
-                    'sumber'            => $x['sumber'],
+                    'sumber'            => $x['sumber'] ?: 'https://uinsaid.ac.id',
                     'tanggal_terbit'    => $x['tgl_terbit'],
                     'created_at'        => $x['created_at'],
                     'updated_at'        => $x['updated_at'],
                 ];
 
-                if ($postingModel->save($postingData)) {
-                    echo $jenisNama . 'with ID: ' . $postingData['id'] . nl2br(" saved successfully to posting \n");
+                // $postingModel->save($postingData);
+
+                // if ($postingModel->getInsertID() != 0 || $postingModel->getInsertID() != null) {
+                if ($postingModel->insert($postingData)) {
+                    echo $jenisNama . ' with ID: ' . $postingData['id'] . nl2br(" saved successfully to posting \n");
                 } else {
-                    echo $jenisNama . 'with ID: ' . $postingData['id'] . nl2br(" failed \n");
+                    echo $jenisNama . ' with ID: ' . $postingData['id'] . nl2br(" failed \n");
                 }
             }
 
@@ -127,25 +131,28 @@ class Refactoring extends BaseControllerAdmin
 
             foreach ($beritaData as $x) {
                 $postingData = [
-                    'id'                => $x['id'],
-                    'id_penulis'        => $x['id_penulis'] ?: auth()->id(),
+                    // 'id'                => $x['id'],
+                    'id_penulis'        => auth()->id(),
                     'id_kategori'       => $x['id_kategori'],
-                    'id_jenis'          => $x['id_jenis'] ?: $x['id_posting_jenis'],
+                    'id_jenis'          => $x['id_posting_jenis'],
                     'judul'             => $x['judul'],
                     'konten'            => $x['konten'],
                     'ringkasan'         => $x['ringkasan'],
-                    'gambar_sampul'     => $x['featured_image'],
+                    'gambar_sampul'     => $x['featured_image'] ?: $x['gambar_sampul'],
                     'pengajuan'         => $x['pengajuan'],
                     'slug'              => $x['slug'],
                     'status'            => $x['status'],
                     'seo'               => $x['search_engine_index'] == 'Y' ? 1 : 0,
-                    'sumber'            => $x['sumber'],
+                    'sumber'            => $x['sumber'] ?: 'https://uinsaid.ac.id',
                     'tanggal_terbit'    => $x['tgl_terbit'],
                     'created_at'        => $x['created_at'],
                     'updated_at'        => $x['updated_at'],
                 ];
 
-                if ($postingDiajukanModel->save($postingData)) {
+                // $postingDiajukanModel->save($postingData);
+
+                // if ($postingDiajukanModel->getInsertID() != 0 || $postingDiajukanModel->getInsertID() != null) {
+                if ($postingDiajukanModel->insert($postingData)) {
                     echo $jenisNama . '_diajukan with ID: ' . $postingData['id'] . nl2br(" saved successfully to posting \n");
                 } else {
                     echo $jenisNama . '_diajukan with ID: ' . $postingData['id'] . nl2br(" failed \n");
