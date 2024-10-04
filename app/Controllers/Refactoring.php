@@ -19,7 +19,7 @@ class Refactoring extends BaseControllerAdmin
         }
 
         foreach ($berita as $item) {
-            $firstImage = $beritaModel->extract_first_image($item['konten'], base_url('assets/img/logo-notext.png'), false);
+            $firstImage = $beritaModel->extract_first_image($item['konten'], base_url('assets/img/icon-notext.png'), false);
             if ($firstImage) {
                 $sql = "UPDATE berita SET featured_image = '$firstImage' WHERE id = " . $item['id'];
                 $beritaModel->db->query($sql);
@@ -120,9 +120,9 @@ class Refactoring extends BaseControllerAdmin
 
                 // if ($postingModel->getInsertID() != 0 || $postingModel->getInsertID() != null) {
                 if ($postingModel->insert($postingData)) {
-                    echo $jenisNama . ' with ID: ' . $x['id'] . nl2br(" saved successfully to posting \n");
+                    echo $jenisNama . ' with origin ID: ' . $x['id'] . nl2br(" saved successfully to posting \n");
                 } else {
-                    echo $jenisNama . ' with ID: ' . $x['id'] . nl2br(" failed \n");
+                    echo $jenisNama . ' with origin ID: ' . $x['id'] . nl2br(" failed \n");
                 }
             }
 
@@ -153,9 +153,9 @@ class Refactoring extends BaseControllerAdmin
 
                 // if ($postingDiajukanModel->getInsertID() != 0 || $postingDiajukanModel->getInsertID() != null) {
                 if ($postingDiajukanModel->insert($postingData)) {
-                    echo $jenisNama . '_diajukan with ID: ' . $x['id'] . nl2br(" saved successfully to posting \n");
+                    echo $jenisNama . '_diajukan with origin ID: ' . $x['id'] . nl2br(" saved successfully to posting \n");
                 } else {
-                    echo $jenisNama . '_diajukan with ID: ' . $x['id'] . nl2br(" failed \n");
+                    echo $jenisNama . '_diajukan with origin ID: ' . $x['id'] . nl2br(" failed \n");
                 }
             }
         } else if ($jenisNama == 'ppid') {
@@ -191,6 +191,56 @@ class Refactoring extends BaseControllerAdmin
                 } else {
                     echo $jenisNama . ' with ID: ' . $x['id'] . nl2br(" failed \n");
                 }
+            }
+        }
+    }
+
+    function refactorHalamanAndKomponenMetaKomponenInstanceId()
+    {
+
+        // Update the 'halaman' table
+        $halamanList = $this->halamanModel->get()->getResult();
+
+        // dd($halamanList);
+
+        foreach ($halamanList as $halaman) {
+            $idKomponen = json_decode($halaman->id_komponen, true);
+
+            if (is_array($idKomponen)) {
+                foreach ($idKomponen as &$komponen) {
+                    if (isset($komponen['komponen_instance_id'])) {
+                        $komponen['komponen_instance_id'] = str_replace('-', '_', $komponen['komponen_instance_id']);
+                        d($komponen['komponen_instance_id'] . ' to ' . str_replace('-', '_', $komponen['komponen_instance_id']));
+                    }
+                }
+                // Encode the modified component back to JSON
+                $newIdKomponen = json_encode($idKomponen);
+
+                // Update the row in the 'halaman' table
+                $this->halamanModel
+                    ->save([
+                        'id' => $halaman->id,
+                        'id_komponen' => $newIdKomponen
+                    ]);
+            }
+        }
+
+        // Update the 'komponen_meta' table
+        $komponenMetaList = $this->komponenMetaModel->get()->getResult();
+        // dd($komponenMetaList);
+        foreach ($komponenMetaList as $komponenMeta) {
+            if (isset($komponenMeta->instance_id)) {
+                // Replace dashes with underscores in instance_id
+                $newInstanceId = str_replace('-', '_', $komponenMeta->instance_id);
+
+                d($komponenMeta->instance_id . ' to ' . $newInstanceId);
+
+                // // Update the row in the 'komponen_meta' table
+                $this->komponenMetaModel
+                    ->save([
+                        'id' => $komponenMeta->id,
+                        'instance_id' => $newInstanceId
+                    ]);
             }
         }
     }

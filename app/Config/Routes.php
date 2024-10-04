@@ -399,6 +399,7 @@ if (ENVIRONMENT == 'development') {
         $routes->get('agenda-pengumuman/combine', 'Refactoring::combineAgendaModelAndPengumumanModelToAgendaPengumumanModel');
         $routes->get('berita/copy-to-posting', 'Refactoring::copyBeritaOrPPIDByItsJenisIdToPosting/berita');
         $routes->get('ppid/copy-to-posting', 'Refactoring::copyBeritaOrPPIDByItsJenisIdToPosting/ppid');
+        $routes->get('komponen/instance-id', 'Refactoring::refactorHalamanAndKomponenMetaKomponenInstanceId');
     });
 }
 

@@ -92,7 +92,7 @@
 
         <!-- Konten utama kiri -->
         <!-- Daftar artikel terbaru -->
-        <?php foreach ($berita as $i => $x) : ?>
+        <?php foreach ($berita as $x) : ?>
             <div class="col-lg-6 col-xl-3">
                 <!-- Item berita -->
                 <div class="card shadow" mdb-ripple-init>

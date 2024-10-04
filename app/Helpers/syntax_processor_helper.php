@@ -178,6 +178,8 @@ if (!function_exists('replaceEnvironmentSyntax')) {
                     // Add more variables here as needed
                     // case 'other_variable':
                     //     return 'your_value_here';
+                case 'now':
+                    return date('Y-m-d H:i:s');
                 default:
                     return $matches[0]; // Return original if no match
             }
