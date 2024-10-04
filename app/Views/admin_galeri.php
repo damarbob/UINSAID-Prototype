@@ -122,7 +122,7 @@
                                 <p class="card-text"><?= esc($image['deskripsi']) ?></p>
 
                                 <!-- Tombol sunting metadata -->
-                                <button type="button" class="btn btn-success" data-mdb-toggle="modal" data-mdb-target="#editModal<?= $image['id'] ?>" data-mdb-ripple-init><i class='bx bx-pencil me-2'></i><?= lang('Admin.sunting') ?></button>
+                                <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#editModal<?= $image['id'] ?>" data-mdb-ripple-init><i class='bx bx-pencil me-2'></i><?= lang('Admin.sunting') ?></button>
 
                                 <!-- Modal sunting metadata -->
                                 <div class="modal fade" id="editModal<?= $image['id'] ?>" tabindex="-1" aria-labelledby="editModalLabel<?= $image['id'] ?>" aria-hidden="true">
@@ -147,7 +147,7 @@
                                                         <textarea class="form-control" name="deskripsi" id="deskripsi_<?= $image['id'] ?>" placeholder="Description"><?= esc($image['deskripsi']) ?></textarea>
                                                     </div>
                                                     <button type="button" class="btn btn-danger" onclick="hapus(<?= $image['id'] ?>)"><i class='bx bx-trash me-2'></i><?= lang('Admin.hapus') ?></button>
-                                                    <button type="submit" class="btn btn-success" data-mdb-ripple-init><i class='bx bx-check me-2'></i><?= lang('Admin.simpan') ?></button>
+                                                    <button type="submit" class="btn btn-primary" data-mdb-ripple-init><i class='bx bx-check me-2'></i><?= lang('Admin.simpan') ?></button>
                                                 </form>
 
                                             </div>

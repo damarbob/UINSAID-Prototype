@@ -559,25 +559,6 @@ $menuHierarchy = $menuModel->getMenuHierarchy();
           </div>
         </div>
 
-        <!-- Kontak -->
-        <!-- <div class="col-lg-3 col-md-6 footer-links">
-            <h4>Kontak</h4>
-            <ul>
-              <li>
-                <i class="bx bx-phone-call"></i>
-                <a href="#">+62271 7815 16</a>
-              </li>
-              <li>
-                <i class='bx bx-briefcase'></i>
-                <a href="#">+62271 7827 74</a>
-              </li>
-              <li>
-                <i class='bx bx-envelope'></i>
-                <a href="#">humas@uinsaid.ac.id</a>
-              </li>
-            </ul>
-          </div> -->
-
         <!-- Fakultas dan pascasarjana -->
         <div class="col-lg-3 col-md-6 footer-links">
           <h4>Fakultas dan Pascasarjana</h4>
@@ -649,6 +630,14 @@ $menuHierarchy = $menuModel->getMenuHierarchy();
       <div class="row">
         <!-- Media sosial -->
         <div class="col text-center">
+          <?php foreach ($mediaSosial as $x): ?>
+            <a class="fs-1" href="<?= $x['url'] ?>" target="_blank">
+              <img src="<?= base_url($x['ikon']) ?>" width="64px" />
+            </a>
+          <?php endforeach ?>
+          <!-- <a class="fs-1" href="https://www.instagram.com/uin.surakarta/" target="_blank">
+            <img src="<?= base_url('assets/img/icon/icons8-instagram-96.png') ?>" width="64px" />
+          </a>
           <a class="fs-1" href="https://www.youtube.com/channel/UClhJVwPyu449bZDXIH6yS0w" target="_blank">
             <img src="<?= base_url('assets/img/icon/ikon-youtube.png') ?>" width="64px" />
           </a>
@@ -660,7 +649,7 @@ $menuHierarchy = $menuModel->getMenuHierarchy();
           </a>
           <a class="fs-1" href="https://www.tiktok.com/@uin_rmsaid?_t=8pT2mtKTir9&_r=1" target="_blank">
             <img src="<?= base_url('assets/img/icon/ikon-tiktok.png') ?>" width="64px" />
-          </a>
+          </a> -->
         </div>
         <!-- Akhir media sosial -->
       </div>
@@ -728,7 +717,7 @@ $menuHierarchy = $menuModel->getMenuHierarchy();
       }, 'google_translate_element2');
     }
   </script>
-  <!-- <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit2"></script> -->
+  <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit2"></script>
   <script type="text/javascript">
     $(document).ready(function() {
       $("#loaderBody").hide(); // Hide loader

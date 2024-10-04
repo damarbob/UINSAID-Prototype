@@ -45,7 +45,7 @@ if ($mode == "tambah") {
 <form method="post" action="<?= ($mode == "tambah") ? base_url('/admin/menu/simpan') : base_url('/admin/menu/simpan/') . $menu['id'] ?>" class="form-container needs-validation" enctype="multipart/form-data" novalidate>
     <?= csrf_field() ?>
     <div class="row mb-3">
-        <div class="col-md-9">
+        <div class="col-lg-6">
 
             <!-- Nama -->
             <div class="form-floating mb-3">
@@ -101,7 +101,7 @@ if ($mode == "tambah") {
             </div>
 
             <!-- Tombol simpan -->
-            <button id="btn-submit" name="submit" type="submit" class="btn btn-primary w-100" data-mdb-ripple-init><i class="bi bi-floppy me-2"></i><?= lang('Admin.simpan') ?></button>
+            <button id="btn-submit" name="submit" type="submit" class="btn btn-primary" data-mdb-ripple-init><i class="bi bi-floppy me-2"></i><?= lang('Admin.simpan') ?></button>
 
         </div>
 </form>

@@ -83,12 +83,44 @@
 </section>
 <!-- End section Hero -->
 
+<!-- Section Poin Utama Prodi UIN RM Said (Desktop) -->
+<!-- <section class="fluid d-flex justify-content-center z-3 position-relative" id="section-poin-utama">
+
+  <div class="lurik align-self-start mt-8"></div>
+
+  <div class="container align self-center p-5">
+    <div class="row g-lg-4">
+      <?php foreach ($poinUtamaProdi as $i => $p) : ?>
+        <?php
+        $isFirst = $i == 0;
+        $isNotLast = $i < sizeof($poinUtamaProdi) - 1;
+        ?>
+        <div class="col-lg-3">
+          <div class="card rounded-5 border border-secondary">
+            <div class="card-body text-center pb-4">
+
+              <h5 class="card-title fw-bold"><?= $p['judul'] ?></h5>
+              <p class="card-text"><?= $p['keterangan'] ?></p>
+
+              <?php if ($isNotLast): ?>
+                <div class="border-top border-primary border-4 w-50 d-block d-lg-none"></div>
+              <?php endif; ?>
+
+            </div>
+          </div>
+        </div>
+      <?php endforeach; ?>
+    </div>
+  </div>
+</section> -->
+<!-- End section Poin Utama -->
+
 <!-- Section Poin Utama UIN RM Said (Desktop) -->
 <section class="fluid d-flex justify-content-center z-3 d-none d-lg-block position-relative" id="section-poin-utama">
 
   <div class="lurik align-self-start mt-8"></div>
 
-  <div class="container p-5 ms-0">
+  <div class="container align self-center p-5">
     <div class="row g-lg-4">
       <?php foreach ($poinUtama as $i => $p) : ?>
         <?php

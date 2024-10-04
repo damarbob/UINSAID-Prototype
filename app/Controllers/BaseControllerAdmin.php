@@ -18,6 +18,7 @@ use App\Models\KategoriModel;
 use App\Models\KomponenGrupModel;
 use App\Models\KomponenMetaModel;
 use App\Models\KomponenModel;
+use App\Models\MediaSosialModel;
 use App\Models\MenuModel;
 use App\Models\PostingDiajukanModel;
 use App\Models\PostingJenisModel;
@@ -105,6 +106,7 @@ abstract class BaseControllerAdmin extends Controller
         protected KomponenGrupModel $komponenGrupModel;
 
         protected MenuModel $menuModel;
+        protected MediaSosialModel $mediaSosialModel;
 
         // Site type
         protected bool $isParentSite;
@@ -150,6 +152,7 @@ abstract class BaseControllerAdmin extends Controller
                 $this->komponenGrupModel = new KomponenGrupModel();
 
                 $this->menuModel = new MenuModel();
+                $this->mediaSosialModel = new MediaSosialModel();
 
                 /* Data */
                 $this->data['temaSitus'] = $this->temaModel->find(setting()->get('App.temaSitus'));

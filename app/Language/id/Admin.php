@@ -13,7 +13,13 @@ return [
     'kosong' => 'Kosong',
 
     'dasbor' => 'Dasbor',
+    'unggahan' => 'Unggahan',
+    'kegiatan' => 'Kegiatan',
+    'editor' => 'Editor',
+    'tataLetak' => 'Tata Letak',
     'halaman' => 'Halaman',
+    'menu' => 'Menu',
+    'mediaSosial' => 'Media Sosial',
     'kelolaFile' => 'Kelola File',
 
     // Pengaturan
@@ -96,6 +102,13 @@ return [
 
     'metaDataBerhasilDisimpan' => 'Meta data berhasil disimpan!',
     'gagalMenyimpanMetaData' => 'Gagal menyimpan meta data',
+
+    // Media sosial
+    'tambahMediaSosial' => 'Tambah Media Sosial',
+    'suntingMediaSosial' => 'Sunting Media Sosial',
+    'ikon' => 'Ikon',
+
+    'tambahMediaSosial' => 'Tambah Media Sosial',
 
     // Berita
     'posting' => 'Posting',

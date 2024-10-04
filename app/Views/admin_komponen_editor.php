@@ -62,12 +62,11 @@ $errorJS = validation_show_error('js_file');
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
                     <a href="<?= base_url('admin/komponen') ?>" class="me-2"><i class="bi bi-arrow-left"></i></a>
                     <?= session()->getFlashdata('sukses') ?>
-                    <button type="button" class="btn-close" data-mdb-dismiss="alert" aria-label="Close"></button>
                 </div>
             <?php elseif (session()->getFlashdata('gagal')) : ?>
+                <a href="<?= base_url('admin/komponen') ?>" class="me-2"><i class="bi bi-arrow-left"></i></a>
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                     <?= session()->getFlashdata('gagal') ?>
-                    <button type="button" class="btn-close" data-mdb-dismiss="alert" aria-label="Close"></button>
                 </div>
             <?php endif; ?>
 

@@ -10,6 +10,7 @@ use App\Models\EntitasModel;
 use App\Models\HalamanModel;
 use App\Models\KomponenMetaModel;
 use App\Models\KomponenModel;
+use App\Models\MediaSosialModel;
 use App\Models\PengumumanModel;
 use App\Models\PostingModel;
 use App\Models\PPIDModel;
@@ -59,6 +60,7 @@ abstract class BaseController extends Controller
     // protected $session;
 
     protected TemaModel $temaModel;
+    protected MediaSosialModel $mediaSosialModel;
 
     protected BeritaModel $beritaModel;
     protected KategoriModel $kategoriModel;
@@ -88,6 +90,7 @@ abstract class BaseController extends Controller
 
         // Models
         $this->temaModel = new TemaModel();
+        $this->mediaSosialModel = new MediaSosialModel();
 
         $this->beritaModel = new BeritaModel();
         $this->kategoriModel = new KategoriModel();
@@ -104,5 +107,6 @@ abstract class BaseController extends Controller
 
         // Data
         $this->data['tema'] = $this->temaModel->find(setting()->get('App.temaSitus'));
+        $this->data['mediaSosial'] = $this->mediaSosialModel->get();
     }
 }

@@ -100,6 +100,25 @@ class Home extends BaseController
                 ]
             ];
 
+            $this->data['poinUtamaProdi'] = [
+                [
+                    'judul'         => '16 Program Studi Terakreditasi Unggul dan A',
+                    'keterangan'    => 'Terdapat 16 Program Studi terakreditasi Unggul dan A di UIN Raden Mas Said Surakarta'
+                ],
+                [
+                    'judul'         => 'TOP 9 PTKIN dengan Minat Tertinggi',
+                    'keterangan'    => 'UIN Raden Mas Said Surakarta masuk Top Rank 9 peminatan tertinggi pendaftar jalur UMPTKIN tahun 2024 '
+                ],
+                [
+                    'judul'         => '30 Rank Perguruan Tinggi Keagamaan Islam Negeri',
+                    'keterangan'    => 'Menduduki peringkat 30 versi Webometrics 2023 dari 59 PTKIN'
+                ],
+                [
+                    'judul'         => '30 Rank Perguruan Tinggi Keagamaan Islam Negeri',
+                    'keterangan'    => 'Menduduki peringkat 30 versi Webometrics 2023 dari 59 PTKIN'
+                ]
+            ];
+
             $this->data['sambutanRektor'] = [
                 'judul'       => 'Panca Amanat “LURIK” dalam Mensukseskan Glokalisasi',
                 'sambutan'    => 'LURIK yang berakronim “Loyal, Unggul, Responsif, Inovatif dan Kolaboratif” LURIK pertama adalah Loyal, yang menuntut para pejabat untuk memiliki sikap loyal terhadap Negara Kesatuan Republik Indonesia (NKRI), Kementerian Agama, dan UIN Raden Mas Said Surakarta. <br><br>LURIK kedua adalah Unggul, mengajak para pejabat untuk bekerja maksimal dan optimal, serta sekuat tenaga meraih keunggulan lembaga, dengan cara melakukan Konsolidasi, Mobilisasi dan Orkestrasi (KMO) dengan pimpinan di lembaga masing-masing,untuk merencanakan program-program unggulan dalam rangka Glokalisasi UIN Raden Mas Said Surakarta.',

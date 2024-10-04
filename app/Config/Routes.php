@@ -117,6 +117,13 @@ $routes->group('admin', ['filter' => 'group:admin,superadmin'], function ($route
     // Komponen meta
     $routes->post('komponen/simpan/meta', 'KomponenAdmin::simpanMeta');
 
+    // Media sosial
+    $routes->get('media-sosial', 'MediaSosialAdmin');
+    $routes->get('media-sosial/tambah', 'MediaSosialAdmin::tambah');
+    $routes->get('media-sosial/sunting', 'MediaSosialAdmin::sunting');
+    $routes->post('media-sosial/tambah/simpan', 'MediaSosialAdmin::simpan');
+    $routes->post('media-sosial/sunting/simpan/(:num)', 'MediaSosialAdmin::simpan/$1');
+
     if (ENVIRONMENT == 'development') {
 
         // Posting
@@ -276,6 +283,9 @@ $routes->group('api', static function ($routes) {
 
         // Komponen Meta
         $routes->post('komponen/meta', 'KomponenAdmin::getMetaById');
+
+        // Media sosial
+        $routes->post('media-sosial', 'MediaSosialAdmin::getDT');
 
         // Posting
         $routes->post('posting', 'PostingAdmin::fetchData');

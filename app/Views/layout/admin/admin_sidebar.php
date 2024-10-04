@@ -26,74 +26,186 @@ $currentRoute = $request->uri->getSegment(1) . "/" . $request->uri->getSegment(2
                 </a>
             </div>
 
-            <!-- Halaman -->
-            <?php if ((ENVIRONMENT == 'development') && auth()->user()->inGroup("superadmin")): ?>
-                <!-- Halaman editor hanya untuk role superadmin -->
-                <div class="nav-list">
-                    <a href="<?= base_url('admin/halaman') ?>" class="nav-link-admin <?= $currentRoute == "admin/halaman" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Halaman">
-                        <i class='bx bx-file nav_icon'></i>
-                        <span class="nav_name">
-                            <?= lang('Admin.halaman') ?>
-                        </span>
-                    </a>
+            <div class="nav-list accordion accordion-borderless text-nowrap" id="accordionFlushExampleX">
+                <div class="accordion-item">
+
+                    <!-- Konten -->
+                    <h2 class="accordion-header" id="flushHeadingKonten">
+                        <button data-mdb-collapse-init class="accordion-button nav-list" type="button"
+                            data-mdb-target="#flushCollapseKonten" aria-expanded="true" aria-controls="flushCollapseKonten">
+                            <i class='bx bx-copy-alt nav_icon me-3'></i>
+                            <span><?= lang('Admin.konten') ?></span>
+                        </button>
+                    </h2>
+
+                    <!-- Menu konten -->
+                    <div id="flushCollapseKonten" class="accordion-collapse collapse <?= $currentRoute == "admin/posting" || $currentRoute == "admin/posting-diajukan" || $currentRoute == "admin/berita" || $currentRoute === "admin/berita-diajukan" ? "show" : "" ?>"
+                        aria-labelledby="flushHeadingKonten" data-mdb-parent="#accordionFlushExampleX">
+
+                        <!-- Posting -->
+                        <?php if ((ENVIRONMENT == 'development') && auth()->user()->inGroup("superadmin")): ?>
+                            <div class="nav-list">
+                                <a href="<?= base_url('admin/posting') ?>" class="nav-link-admin <?= $currentRoute == "admin/posting" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Posting">
+                                    <i class='bx bx-news nav_icon'></i>
+                                    <span class="nav_name"><?= lang('Admin.posting') ?></span>
+                                    <?php if ($peringatanPostingKosong || $peringatanPostingTigaBulan) : ?>
+                                        <span class="position-absolute top-0 end-0 translate-middle-y badge rounded-pill bg-danger">
+                                            !
+                                            <span class="visually-hidden">peringatan rilis media</span>
+                                        </span>
+                                    <?php endif ?>
+                                </a>
+                            </div>
+
+                            <!-- Posting diajukan -->
+                            <?php if (env('app.siteType') == 'parent' || env('app.siteType') == 'super'): ?>
+                                <!-- Kelola posting diajukan khusus parent atau super -->
+                                <div class="nav-list">
+                                    <a href="<?= base_url('admin/posting-diajukan') ?>" class="nav-link-admin <?= $currentRoute == "admin/posting-diajukan" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Posting Diajukan">
+                                        <i class='bx bx-mail-send nav_icon'></i>
+                                        <span class="nav_name">Posting diajukan</span>
+                                    </a>
+                                </div>
+                            <?php endif ?>
+                        <?php endif ?>
+
+                        <!-- Berita -->
+                        <div class="nav-list">
+                            <a href="<?= base_url('admin/berita') ?>" class="nav-link-admin <?= $currentRoute == "admin/berita" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Berita">
+                                <i class='bx bx-news nav_icon'></i>
+                                <span class="nav_name"><?= lang('Admin.berita') ?></span>
+                                <?php if ($peringatanBeritaKosong || $peringatanPostingBerita) : ?>
+                                    <span class="position-absolute top-0 end-0 translate-middle-y badge rounded-pill bg-danger">
+                                        !
+                                        <span class="visually-hidden"><?= lang('Admin.peringatanPosting') ?></span>
+                                    </span>
+                                <?php endif ?>
+                            </a>
+                        </div>
+
+                        <!-- Berita diajukan -->
+                        <?php if (env('app.siteType') == 'parent' || env('app.siteType') == 'super'): ?>
+                            <!-- Kelola berita diajukan khusus parent atau super -->
+                            <div class="nav-list">
+                                <a href="<?= base_url('admin/berita-diajukan') ?>" class="nav-link-admin <?= $currentRoute == "admin/berita-diajukan" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Berita Diajukan">
+                                    <i class='bx bx-mail-send nav_icon'></i>
+                                    <span class="nav_name"><?= lang('Admin.beritaDiajukan') ?></span>
+                                </a>
+                            </div>
+                        <?php endif ?>
+
+                    </div>
                 </div>
-            <?php endif ?>
 
-            <!-- Berita -->
-            <div class="nav-list">
-                <a href="<?= base_url('admin/berita') ?>" class="nav-link-admin <?= $currentRoute == "admin/berita" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Berita">
-                    <i class='bx bx-news nav_icon'></i>
-                    <span class="nav_name"><?= lang('Admin.berita') ?></span>
-                    <?php if ($peringatanBeritaKosong || $peringatanPostingBerita) : ?>
-                        <span class="position-absolute top-0 end-0 translate-middle-y badge rounded-pill bg-danger">
-                            !
-                            <span class="visually-hidden"><?= lang('Admin.peringatanPosting') ?></span>
-                        </span>
-                    <?php endif ?>
-                </a>
-            </div>
+                <div class="accordion-item">
 
-            <!-- Berita diajukan -->
-            <?php if (env('app.siteType') == 'parent' || env('app.siteType') == 'super'): ?>
-                <!-- Kelola berita diajukan khusus parent atau super -->
-                <div class="nav-list">
-                    <a href="<?= base_url('admin/berita-diajukan') ?>" class="nav-link-admin <?= $currentRoute == "admin/berita-diajukan" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Berita Diajukan">
-                        <i class='bx bx-mail-send nav_icon'></i>
-                        <span class="nav_name"><?= lang('Admin.beritaDiajukan') ?></span>
-                    </a>
+                    <!-- Kegiatan -->
+                    <h2 class="accordion-header" id="flushHeadingAgendaPengumuman">
+                        <button data-mdb-collapse-init class="accordion-button nav-list collapsed" type="button"
+                            data-mdb-target="#flushCollapseAgendaPengumuman" aria-expanded="false" aria-controls="flushCollapseAgendaPengumuman">
+                            <i class='bx bx-calendar-star nav_icon me-3'></i>
+                            <span><?= lang('Admin.kegiatan') ?></span>
+                        </button>
+                    </h2>
+
+                    <div id="flushCollapseAgendaPengumuman" class="accordion-collapse collapse <?= $currentRoute == "admin/agenda" || $currentRoute == "admin/pengumuman" ? "show" : "" ?>" aria-labelledby="flushHeadingAgendaPengumuman"
+                        data-mdb-parent="#accordionFlushExampleX">
+
+                        <!-- Agenda -->
+                        <div class="nav-list">
+                            <a href="<?= base_url('admin/agenda') ?>" class="nav-link-admin <?= $currentRoute == "admin/agenda" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Agenda">
+                                <i class='bx bx-calendar-event nav_icon'></i>
+                                <span class="nav_name"><?= lang('Admin.agenda') ?></span>
+                            </a>
+                        </div>
+
+                        <!-- Pengumuman -->
+                        <div class="nav-list">
+                            <a href="<?= base_url('admin/pengumuman') ?>" class="nav-link-admin <?= $currentRoute == "admin/pengumuman" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Pengumuman">
+                                <i class='bx bxs-megaphone nav_icon'></i>
+                                <span class="nav_name"><?= lang('Admin.pengumuman') ?></span>
+                            </a>
+                        </div>
+
+                    </div>
                 </div>
-            <?php endif ?>
 
-            <!-- Agenda -->
-            <div class="nav-list">
-                <a href="<?= base_url('admin/agenda') ?>" class="nav-link-admin <?= $currentRoute == "admin/agenda" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Agenda">
-                    <i class='bx bx-calendar-event nav_icon'></i>
-                    <span class="nav_name"><?= lang('Admin.agenda') ?></span>
-                </a>
-            </div>
+                <div class="accordion-item">
 
-            <!-- Pengumuman -->
-            <div class="nav-list">
-                <a href="<?= base_url('admin/pengumuman') ?>" class="nav-link-admin <?= $currentRoute == "admin/pengumuman" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Pengumuman">
-                    <i class='bx bxs-megaphone nav_icon'></i>
-                    <span class="nav_name"><?= lang('Admin.pengumuman') ?></span>
-                </a>
-            </div>
+                    <!-- Unggahan -->
+                    <h2 class="accordion-header" id="flushHeadingUnggahan">
+                        <button data-mdb-collapse-init class="accordion-button nav-list collapsed" type="button"
+                            data-mdb-target="#flushCollapseUnggahan" aria-expanded="false" aria-controls="flushCollapseUnggahan">
+                            <i class='bx bx-upload nav_icon me-3'></i>
+                            <span><?= lang('Admin.unggahan') ?></span>
+                        </button>
+                    </h2>
 
-            <!-- Galeri -->
-            <div class="nav-list">
-                <a href="<?= base_url('admin/galeri') ?>" class="nav-link-admin <?= $currentRoute == "admin/galeri" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Galeri">
-                    <i class='bx bx-images nav_icon'></i>
-                    <span class="nav_name"><?= lang('Admin.galeri') ?></span>
-                </a>
-            </div>
+                    <div id="flushCollapseUnggahan" class="accordion-collapse collapse <?= $currentRoute == "admin/galeri" || $currentRoute == "admin/galeri" ? "show" : "" ?>" aria-labelledby="flushHeadingUnggahan"
+                        data-mdb-parent="#accordionFlushExampleX">
 
-            <!-- Manajer file -->
-            <div class="nav-list">
-                <a href="<?= base_url('admin/file') ?>" class="nav-link-admin <?= $currentRoute == "admin/file" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Manajer File">
-                    <i class='bx bx-folder-open nav_icon'></i>
-                    <span class="nav_name"><?= lang('Admin.kelolaFile') ?></span>
-                </a>
+                        <!-- Galeri -->
+                        <div class="nav-list">
+                            <a href="<?= base_url('admin/galeri') ?>" class="nav-link-admin <?= $currentRoute == "admin/galeri" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Galeri">
+                                <i class='bx bx-images nav_icon'></i>
+                                <span class="nav_name"><?= lang('Admin.galeri') ?></span>
+                            </a>
+                        </div>
+
+                        <!-- Kelola file -->
+                        <div class="nav-list">
+                            <a href="<?= base_url('admin/file') ?>" class="nav-link-admin <?= $currentRoute == "admin/file" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Manajer File">
+                                <i class='bx bx-folder-open nav_icon'></i>
+                                <span class="nav_name"><?= lang('Admin.kelolaFile') ?></span>
+                            </a>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="accordion-item">
+
+                    <!-- Tata Letak -->
+                    <h2 class="accordion-header" id="flushHeadingTataLetak">
+                        <button data-mdb-collapse-init class="accordion-button nav-list collapsed" type="button"
+                            data-mdb-target="#flushCollapseTataLetak" aria-expanded="false" aria-controls="flushCollapseTataLetak">
+                            <i class='bx bx-layout nav_icon me-3'></i>
+                            <span><?= lang('Admin.editor') ?></span>
+                        </button>
+                    </h2>
+
+                    <div id="flushCollapseTataLetak" class="accordion-collapse collapse <?= $currentRoute == "admin/halaman" || $currentRoute == "admin/menu" ? "show" : "" ?>" aria-labelledby="flushHeadingTataLetak"
+                        data-mdb-parent="#accordionFlushExampleX">
+
+                        <!-- Halaman -->
+                        <?php if ((ENVIRONMENT == 'development') && auth()->user()->inGroup("superadmin")): ?>
+                            <!-- Halaman editor hanya untuk role superadmin -->
+                            <div class="nav-list">
+                                <a href="<?= base_url('admin/halaman') ?>" class="nav-link-admin <?= $currentRoute == "admin/halaman" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Halaman">
+                                    <i class='bx bx-file nav_icon'></i>
+                                    <span class="nav_name">
+                                        <?= lang('Admin.halaman') ?>
+                                    </span>
+                                </a>
+                            </div>
+                        <?php endif ?>
+
+                        <!-- Menu -->
+                        <div class="nav-list">
+                            <a href="<?= base_url('admin/menu') ?>" class="nav-link-admin <?= $currentRoute == "admin/menu" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Menu">
+                                <i class='bx bx-food-menu nav_icon'></i>
+                                <span class="nav_name">
+                                    <?= lang('Admin.menu') ?>
+                                </span>
+                            </a>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
             </div>
 
             <!-- Kotak masuk -->
@@ -133,43 +245,6 @@ $currentRoute = $request->uri->getSegment(1) . "/" . $request->uri->getSegment(2
                         </span>
                     </a>
                 </div>
-            <?php endif ?>
-
-            <!-- Menu -->
-            <div class="nav-list">
-                <a href="<?= base_url('admin/menu') ?>" class="nav-link-admin <?= $currentRoute == "admin/menu" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Menu">
-                    <i class='bx bx-food-menu nav_icon'></i>
-                    <span class="nav_name">
-                        Menu
-                    </span>
-                </a>
-            </div>
-
-            <!-- Posting -->
-            <?php if ((ENVIRONMENT == 'development') && auth()->user()->inGroup("superadmin")): ?>
-                <div class="nav-list">
-                    <a href="<?= base_url('admin/posting') ?>" class="nav-link-admin <?= $currentRoute == "admin/posting" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Posting">
-                        <i class='bx bx-news nav_icon'></i>
-                        <span class="nav_name"><?= lang('Admin.posting') ?></span>
-                        <?php if ($peringatanPostingKosong || $peringatanPostingTigaBulan) : ?>
-                            <span class="position-absolute top-0 end-0 translate-middle-y badge rounded-pill bg-danger">
-                                !
-                                <span class="visually-hidden">peringatan rilis media</span>
-                            </span>
-                        <?php endif ?>
-                    </a>
-                </div>
-
-                <!-- Posting diajukan -->
-                <?php if (env('app.siteType') == 'parent' || env('app.siteType') == 'super'): ?>
-                    <!-- Kelola posting diajukan khusus parent atau super -->
-                    <div class="nav-list">
-                        <a href="<?= base_url('admin/posting-diajukan') ?>" class="nav-link-admin <?= $currentRoute == "admin/posting-diajukan" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Posting Diajukan">
-                            <i class='bx bx-mail-send nav_icon'></i>
-                            <span class="nav_name">Posting diajukan</span>
-                        </a>
-                    </div>
-                <?php endif ?>
             <?php endif ?>
 
             <!-- Pengaturan -->

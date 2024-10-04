@@ -104,8 +104,19 @@ div.dataTables_wrapper div.dataTables_info {
 }
 
 .nav-list {
+  /* margin-bottom: 0.5rem; */
   margin-bottom: 0.5rem;
 }
+
+/* NEW */
+.nav-list .accordion-item,
+.nav-list .accordion-item .accordion-header .accordion-button {
+  font-weight: bold;
+  font-size: 0.8rem;
+  border-top-right-radius: 1rem;
+  border-bottom-right-radius: 1rem !important;
+}
+/* End of NEW */
 
 .nav-logo,
 .nav-link-admin {
