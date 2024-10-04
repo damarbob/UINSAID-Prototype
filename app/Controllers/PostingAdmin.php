@@ -179,6 +179,7 @@ class PostingAdmin extends BaseControllerAdmin
             'ringkasan' => $this->request->getVar('ringkasan'),
             'status' => $this->request->getVar('status'),
             'tanggal_terbit' => $this->request->getVar('tanggal_terbit'),
+            'gambar_sampul' => $this->postingModel->extract_first_image($this->request->getVar('konten'), base_url('assets/img/icon-notext.png'), false),
         ];
 
         // Jika id ada, tambahkan ke array data untuk pembaruan

@@ -312,4 +312,15 @@ return [
     'uri' => 'URI/link',
     'menuUtama' => 'Menu utama',
     'linkEksternal' => 'Link eksternal',
+
+    'alamat' => 'Alamat',
+    'telepon' => 'Telepon',
+    'fax' => 'Fax',
+    'website' => 'Website',
+
+    'alamatFooter' => 'Alamat (footer)',
+    'teleponFooter' => 'Telepon (footer)',
+    'emailFooter' => 'Email (footer)',
+
+    'entitasSitus' => 'Entitas Situs',
 ];

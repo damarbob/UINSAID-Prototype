@@ -3,6 +3,7 @@ helper('form');
 helper('setting'); // Must be declared to use setting helper function
 
 // Pengaturan umum
+$valueEntitasSitus = old('entitasSitus') ?: setting()->get('App.entitasSitus');
 $valueJudulSitus = old('judulSitus') ?: setting()->get('App.judulSitus');
 $valueDeskripsiSitus = old('deskripsiSitus') ?: setting()->get('App.deskripsiSitus');
 $valueKataKunciSitus = old('kataKunciSitus') ?: setting()->get('App.kataKunciSitus');
@@ -10,9 +11,13 @@ $valueSEOSitus = old('seoSitus') ?: setting()->get('App.seoSitus');
 
 // Pengaturan tampilan
 $valueLogo = old('logoSitus') ?: setting()->get('App.logoSitus');
+$valueLogoFooter = old('logoFooterSitus') ?: setting()->get('App.logoFooterSitus');
 $valueIkon = old('ikonSitus') ?: setting()->get('App.ikonSitus');
 $valueTemaSitus = old('temaSitus') ?: setting()->get('App.temaSitus');
 $valueHalamanUtamaSitus = old('halamanUtamaSitus') ?: setting()->get('App.halamanUtamaSitus');
+$valueAlamat = old('alamat') ?: setting()->get('App.alamat');
+$valueTelepon = old('telepon') ?: setting()->get('App.telepon');
+$valueEmail = old('email') ?: setting()->get('App.email');
 
 // Pengaturan personal
 $context = 'user:' . user_id(); //  Context untuk pengguna
@@ -21,6 +26,7 @@ $valueBarisPerHalaman = old('barisPerHalaman') ?: setting()->get('App.barisPerHa
 
 // Validasi
 $errorLogo = validation_show_error('logo_file');
+$errorLogoFooter = validation_show_error('logo_footer_file');
 $errorIkon = validation_show_error('ikon_file');
 ?>
 
@@ -47,6 +53,19 @@ $errorIkon = validation_show_error('ikon_file');
                     <!-- <button type="button" class="btn-close" data-mdb-dismiss="alert" aria-label="Close"></button> -->
                 </div>
             <?php endif; ?>
+
+            <!-- Entitas situs -->
+            <div class="form-floating mb-3">
+                <select class="form-select <?= (validation_show_error('entitasSitus')) ? 'is-invalid' : ''; ?>" id="entitasSitus" name="entitasSitus">
+                    <?php foreach ($entitas as $x) : ?>
+                        <option value="<?= $x['id'] ?>" <?= $valueEntitasSitus == $x['id'] ? 'selected' : '' ?>><?= $x['nama'] ?></option>
+                    <?php endforeach ?>
+                </select>
+                <label for="entitasSitus" class="form-label"><?= lang('Admin.entitasSitus') ?></label>
+                <div class="invalid-tooltip end-0">
+                    <?= validation_show_error('entitasSitus'); ?>
+                </div>
+            </div>
 
             <!-- Judul situs -->
             <div class="form-outline position-relative mb-3" data-mdb-input-init>
@@ -217,6 +236,98 @@ $errorIkon = validation_show_error('ikon_file');
 
             <!-- Logo old input -->
             <input type="hidden" class="form-control" id="logoOld" name="logo_old" value="<?= $valueLogo ?>">
+
+            <!-- Logo Footer file input -->
+            <div class="form-floating mb-3">
+                <input type="file" class="form-control" id="logo_footer" name="logo_footer_file">
+                <label for="logo_footer">Logo Footer</label>
+
+                <?php if (isset($valueLogoFooter) && $valueLogoFooter != ''): ?>
+
+                    <!-- LogoFooter lama -->
+                    <div class="form-helper">
+                        <small>
+                            <a href="<?= base_url($valueLogoFooter) ?>" id="logoFooterOldLabel" target="_blank">
+                                <!-- Filled dynamically by script -->
+                            </a>
+                        </small>
+                    </div>
+
+                    <!-- Button delete LogoFooter -->
+                    <button type="button" class="btn btn-danger btn-sm btn-floating" id="buttonHapusLogoFooter" data-mdb-ripple-init="">
+                        <i class="bi bi-trash"></i>
+                    </button>
+
+                    <script>
+                        // Add old logo_footer label and handle deletion
+                        document.addEventListener('DOMContentLoaded', function() {
+                            let logoFooterOldLabel = document.getElementById("logoFooterOldLabel");
+                            let buttonHapusLogoFooter = document.getElementById('buttonHapusLogoFooter');
+
+                            logoFooterOldLabel.innerHTML =
+                                getFilenameAndExtension('<?= $valueLogoFooter ?>') +
+                                '<i class="bi bi-box-arrow-up-right ms-2"></i>';
+
+                            buttonHapusLogoFooter.addEventListener("click", function() {
+                                // Confirm delete
+                                Swal.fire({
+                                    title: '<?= lang('Admin.hapusItem') ?>',
+                                    text: '<?= lang('Admin.itemYangTerhapusTidakDapatKembali') ?>',
+                                    icon: 'warning',
+                                    showCancelButton: true,
+                                    confirmButtonColor: 'var(--mdb-danger)',
+                                    confirmButtonText: '<?= lang('Admin.hapus') ?>',
+                                    cancelButtonText: '<?= lang('Admin.batal') ?>',
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        // Set input logoFooterOld value to empty and hide hapus button
+                                        document.getElementById('logoFooterOld').value = '';
+                                        buttonHapusLogoFooter.style.display = 'none';
+                                        logoFooterOldLabel.style.display = 'none';
+                                    }
+                                });
+                            });
+                        });
+                    </script>
+
+                <?php endif; ?>
+
+                <!-- Galat validasi -->
+                <div class="alert alert-danger mt-2 <?= (!$errorLogoFooter) ? 'd-none' : ''; ?>" role="alert">
+                    <?= $errorLogoFooter; ?>
+                </div>
+
+            </div>
+
+            <!-- LogoFooter old input -->
+            <input type="hidden" class="form-control" id="logoFooterOld" name="logo_footer_old" value="<?= $valueLogoFooter ?>">
+
+            <!-- Alamat -->
+            <div class="form-outline position-relative mb-3" data-mdb-input-init>
+                <input type="text" class="form-control form-control-lg <?= (validation_show_error('alamat')) ? 'is-invalid' : ''; ?>" id="alamat" name="alamat" value="<?= $valueAlamat ?>">
+                <label for="alamat" class="form-label"><?= lang('Admin.alamatFooter') ?></label>
+                <div class="invalid-tooltip end-0">
+                    <?= validation_show_error('alamat'); ?>
+                </div>
+            </div>
+
+            <!-- Telepon -->
+            <div class="form-outline position-relative mb-3" data-mdb-input-init>
+                <input type="tel" class="form-control form-control-lg <?= (validation_show_error('telepon')) ? 'is-invalid' : ''; ?>" id="telepon" name="telepon" value="<?= $valueTelepon ?>">
+                <label for="telepon" class="form-label"><?= lang('Admin.teleponFooter') ?></label>
+                <div class="invalid-tooltip end-0">
+                    <?= validation_show_error('telepon'); ?>
+                </div>
+            </div>
+
+            <!-- Email -->
+            <div class="form-outline position-relative mb-3" data-mdb-input-init>
+                <input type="email" class="form-control form-control-lg <?= (validation_show_error('email')) ? 'is-invalid' : ''; ?>" id="email" name="email" value="<?= $valueEmail ?>">
+                <label for="email" class="form-label"><?= lang('Admin.emailFooter') ?></label>
+                <div class="invalid-tooltip end-0">
+                    <?= validation_show_error('email'); ?>
+                </div>
+            </div>
 
             <!-- Tema situs -->
             <div class="form-floating mb-3">

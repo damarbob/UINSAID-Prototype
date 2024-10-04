@@ -6,11 +6,13 @@ use App\Models\BeritaModel;
 use App\Models\KategoriModel;
 use App\Models\AgendaModel;
 use App\Models\AgendaPengumumanModel;
+use App\Models\EntitasGrupModel;
 use App\Models\EntitasModel;
 use App\Models\HalamanModel;
 use App\Models\KomponenMetaModel;
 use App\Models\KomponenModel;
 use App\Models\MediaSosialModel;
+use App\Models\MenuModel;
 use App\Models\PengumumanModel;
 use App\Models\PostingModel;
 use App\Models\PPIDModel;
@@ -61,6 +63,7 @@ abstract class BaseController extends Controller
 
     protected TemaModel $temaModel;
     protected MediaSosialModel $mediaSosialModel;
+    protected MenuModel $menuModel;
 
     protected BeritaModel $beritaModel;
     protected KategoriModel $kategoriModel;
@@ -69,6 +72,7 @@ abstract class BaseController extends Controller
     protected PengumumanModel $pengumumanModel;
     protected PPIDModel $ppidModel;
     protected EntitasModel $entitasModel;
+    protected EntitasGrupModel $entitasGrupModel;
     protected PostingModel $postingModel;
 
     // Page builder models
@@ -91,6 +95,7 @@ abstract class BaseController extends Controller
         // Models
         $this->temaModel = new TemaModel();
         $this->mediaSosialModel = new MediaSosialModel();
+        $this->menuModel = new MenuModel();
 
         $this->beritaModel = new BeritaModel();
         $this->kategoriModel = new KategoriModel();
@@ -99,6 +104,7 @@ abstract class BaseController extends Controller
         $this->pengumumanModel = new PengumumanModel();
         $this->ppidModel = new PPIDModel();
         $this->entitasModel = new EntitasModel();
+        $this->entitasGrupModel = new EntitasGrupModel();
         $this->postingModel = new PostingModel();
 
         $this->halamanModel = new HalamanModel();
@@ -108,5 +114,11 @@ abstract class BaseController extends Controller
         // Data
         $this->data['tema'] = $this->temaModel->find(setting()->get('App.temaSitus'));
         $this->data['mediaSosial'] = $this->mediaSosialModel->get();
+        $this->data['menuHierarchy'] = $this->menuModel->getMenuHierarchy();
+        // dd($this->data['menuHierarchy']);
+
+        $entitas = $this->entitasModel->find(setting()->get('App.entitasSitus'));
+        $this->data['entitas'] = $entitas;
+        $this->data['entitasGrup'] = $this->entitasGrupModel->find($entitas['grup_id']);
     }
 }

@@ -174,7 +174,7 @@ class AgendaAdmin extends BaseControllerAdmin
                 'status' => $this->request->getVar('status'),
                 'id_galeri' => $galeriId,
             ];
-            d($data);
+            // d($data);
             $this->agendaModel->save($data);
 
             // Pesan berhasil diperbarui

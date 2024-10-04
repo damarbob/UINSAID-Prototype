@@ -29,6 +29,7 @@ class PengaturanAdmin extends BaseControllerAdmin
 
         $temaModel = new TemaModel();
 
+        $this->data['entitas'] = $this->entitasModel->findAll();
         $this->data['judul'] = lang('Admin.pengaturan');
         $this->data['halaman'] = $this->halamanModel->getPublikasi();
         $this->data['tema'] = $temaModel->findAll();
@@ -41,6 +42,10 @@ class PengaturanAdmin extends BaseControllerAdmin
             // dd($post);
 
             $rules = [
+                'entitasSitus' => [
+                    'label' => lang('Admin.entitasSitus'),
+                    'rules' => 'required',
+                ],
                 'judulSitus' => [
                     'label' => lang('Admin.judulSitus'),
                     'rules' => 'required|max_length[255]|min_length[5]',
@@ -90,12 +95,16 @@ class PengaturanAdmin extends BaseControllerAdmin
             }
 
             // Pengaturan umum
+            service('settings')->set('App.entitasSitus', $post['entitasSitus']);
             service('settings')->set('App.judulSitus', $post['judulSitus']);
             service('settings')->set('App.deskripsiSitus', $post['deskripsiSitus']);
             service('settings')->set('App.kataKunciSitus', $post['kataKunciSitus']);
             service('settings')->set('App.seoSitus', $post['seoSitus']);
 
             // Pengaturan tampilan
+            service('settings')->set('App.alamat', $post['alamat']);
+            service('settings')->set('App.telepon', $post['telepon']);
+            service('settings')->set('App.email', $post['email']);
             service('settings')->set('App.temaSitus', $post['temaSitus']);
             service('settings')->set('App.halamanUtamaSitus', $post['halamanUtamaSitus']);
 
@@ -107,12 +116,14 @@ class PengaturanAdmin extends BaseControllerAdmin
             /* Files upload */
             $ikonFile = $files['ikon_file'];
             $logoFile = $files['logo_file'];
+            $logoFooterFile = $files['logo_footer_file'];
 
             // Initialize file paths
             $ikonPath = null;
             $logoPath = null;
+            $logoFooterPath = null;
 
-            // Handle CSS file upload
+            // Handle ikon file upload
             if ($ikonFile && $ikonFile->isValid() && !$ikonFile->hasMoved()) {
                 $originalName = url_title(pathinfo($ikonFile->getClientName(), PATHINFO_FILENAME), '-', false); // Get the original filename
                 $randomName = $ikonFile->getRandomName(); // Generate a random file name
@@ -122,7 +133,7 @@ class PengaturanAdmin extends BaseControllerAdmin
                 $ikonPath = $post['ikon_old'];
             }
 
-            // Handle JS file upload
+            // Handle logo file upload
             if ($logoFile && $logoFile->isValid() && !$logoFile->hasMoved()) {
                 $originalName = url_title(pathinfo($logoFile->getClientName(), PATHINFO_FILENAME), '-', false); // Get the original filename
                 $randomName = $logoFile->getRandomName(); // Generate a random file name
@@ -131,11 +142,22 @@ class PengaturanAdmin extends BaseControllerAdmin
             } else {
                 $logoPath = $post['logo_old'];
             }
+
+            // Handle logo footer file upload
+            if ($logoFooterFile && $logoFooterFile->isValid() && !$logoFooterFile->hasMoved()) {
+                $originalName = url_title(pathinfo($logoFooterFile->getClientName(), PATHINFO_FILENAME), '-', false); // Get the original filename
+                $randomName = $logoFooterFile->getRandomName(); // Generate a random file name
+                $logoFooterFile->move(FCPATH . 'assets/img/logo/', $originalName . '-' . $randomName);
+                $logoFooterPath = ('assets/img/logo/' . $originalName . '-' . $randomName);
+            } else {
+                $logoFooterPath = $post['logo_footer_old'];
+            }
             /* End of files upload */
 
             // Pengaturan dengan input file
             service('settings')->set('App.ikonSitus', $ikonPath);
             service('settings')->set('App.logoSitus', $logoPath);
+            service('settings')->set('App.logoFooterSitus', $logoFooterPath);
 
             // Pesan berhasil diperbarui
             session()->setFlashdata('sukses', lang('Admin.berhasilDiperbarui'));

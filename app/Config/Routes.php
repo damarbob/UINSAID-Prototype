@@ -260,6 +260,15 @@ $routes->group('admin', ['filter' => 'group:admin,superadmin'], function ($route
     $routes->post('menu/simpan', 'MenuAdmin::simpan');
     $routes->post('menu/simpan/(:num)', 'MenuAdmin::simpan/$1');
     $routes->post('menu/hapus', 'MenuAdmin::hapusBanyak');
+
+    // Manajemen entitas
+    $routes->get('entitas', 'EntitasAdmin::index');
+    $routes->get('entitas/tambah', 'EntitasAdmin::tambah');
+    $routes->get('entitas/sunting/(:num)', 'EntitasAdmin::sunting/$1');
+    $routes->get('entitas/sunting', 'EntitasAdmin::sunting');
+    $routes->post('entitas/simpan', 'EntitasAdmin::simpan');
+    $routes->post('entitas/simpan/(:num)', 'EntitasAdmin::simpan/$1');
+    $routes->post('entitas/hapus', 'EntitasAdmin::hapusBanyak');
 });
 
 // Redirect to dasbor
@@ -365,6 +374,9 @@ $routes->group('api', static function ($routes) {
     // Menu
     $routes->post('menu', 'MenuAdmin::getDT');
     $routes->post('menu/getUrutanOptions', 'MenuAdmin::getUrutanOptions');
+
+    // Entitas
+    $routes->post('entitas', 'EntitasAdmin::getDT');
 });
 
 $routes->group('fakultas', static function ($routes) {

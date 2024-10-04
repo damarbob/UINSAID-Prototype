@@ -120,9 +120,9 @@ class Refactoring extends BaseControllerAdmin
 
                 // if ($postingModel->getInsertID() != 0 || $postingModel->getInsertID() != null) {
                 if ($postingModel->insert($postingData)) {
-                    echo $jenisNama . ' with ID: ' . $postingData['id'] . nl2br(" saved successfully to posting \n");
+                    echo $jenisNama . ' with ID: ' . $x['id'] . nl2br(" saved successfully to posting \n");
                 } else {
-                    echo $jenisNama . ' with ID: ' . $postingData['id'] . nl2br(" failed \n");
+                    echo $jenisNama . ' with ID: ' . $x['id'] . nl2br(" failed \n");
                 }
             }
 
@@ -153,9 +153,9 @@ class Refactoring extends BaseControllerAdmin
 
                 // if ($postingDiajukanModel->getInsertID() != 0 || $postingDiajukanModel->getInsertID() != null) {
                 if ($postingDiajukanModel->insert($postingData)) {
-                    echo $jenisNama . '_diajukan with ID: ' . $postingData['id'] . nl2br(" saved successfully to posting \n");
+                    echo $jenisNama . '_diajukan with ID: ' . $x['id'] . nl2br(" saved successfully to posting \n");
                 } else {
-                    echo $jenisNama . '_diajukan with ID: ' . $postingData['id'] . nl2br(" failed \n");
+                    echo $jenisNama . '_diajukan with ID: ' . $x['id'] . nl2br(" failed \n");
                 }
             }
         } else if ($jenisNama == 'ppid') {

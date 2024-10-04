@@ -8,7 +8,7 @@ class EntitasModel extends \CodeIgniter\Model
 
     protected $useTimestamps = true;
 
-    protected $allowedFields = ["nama", "slug", "deskripsi", "gambar_sampul", "grup_id", "alamat", "telepon", "fax", "email", "website",];
+    protected $allowedFields = ["nama", "slug", "deskripsi", "gambar_sampul", "grup_id", "alamat", "telepon", "fax", "email", "website", "parent_id"];
 
     public function getById($id)
     {
@@ -18,12 +18,19 @@ class EntitasModel extends \CodeIgniter\Model
             ->first());
     }
 
-    public function getParent()
+    public function getParent($parentId = null)
     {
-        return ($this->select('entitas.*, entitas_grup.nama as grup')
-            ->join('entitas_grup', 'entitas_grup.id = entitas.grup_id', 'left')
-            ->where('entitas.parent_id') // Tampilkan yang NULL saja
-            ->paginate(10, 'entitas'));
+        if ($parentId) {
+            return $this->select('entitas.*, entitas_grup.nama as grup')
+                ->join('entitas_grup', 'entitas_grup.id = entitas.grup_id', 'left')
+                ->where('entitas.parent_id', $parentId)
+                ->paginate(12, 'entitas');
+        } else {
+            return $this->select('entitas.*, entitas_grup.nama as grup')
+                ->join('entitas_grup', 'entitas_grup.id = entitas.grup_id', 'left')
+                ->where('entitas.parent_id IS NULL')
+                ->paginate(12, 'entitas');
+        }
     }
 
     public function getByFilter($cari = null, $grup = null, $parentId = null)
@@ -53,7 +60,7 @@ class EntitasModel extends \CodeIgniter\Model
             ->join('entitas_grup', 'entitas_grup.id = entitas.grup_id', 'left')
             ->where('entitas.parent_id') // Tampilkan yang NULL saja
             ->where('entitas.grup_id', $grup_id)
-            ->paginate(10, 'entitas'));
+            ->paginate(12, 'entitas'));
     }
 
     public function getBySlug($slug)
@@ -78,6 +85,67 @@ class EntitasModel extends \CodeIgniter\Model
             $this->save($data);
         }
 
-        dd($this->findAll());
+        dd($this->findAll()); // TODO: Remove it
+    }
+
+    /**
+     * Get data for DataTables server-side processing
+     *
+     * @param int $limit Number of records to retrieve
+     * @param int $start Offset for the records
+     * @param string|null $status Optional status filter
+     * @param string|null $search Optional search term
+     * @param string $order Column to order by (default: 'judul')
+     * @param string $dir Direction of ordering (default: 'asc')
+     * @return array Array of results
+     */
+    public function getDT($limit, $start, $search = null, $order = 'child.nama', $dir = 'asc')
+    {
+        $builder = $this->db->table('entitas as child')
+            ->select('child.*, parent.nama as parent_nama, entitas_grup.nama as entitas_grup_nama')
+            ->join('entitas as parent', 'child.parent_id = parent.id', 'left') // Left join to get parent details
+            ->join('entitas_grup', 'entitas_grup.id = child.grup_id', 'left')
+            // ->where('child.parent_id IS NOT NULL', null, false) // Exclude root-level items if needed
+            ->orderBy($order, $dir)
+            ->limit($limit, $start);
+
+        if ($search) {
+            $builder->groupStart()
+                ->like('child.nama', $search)
+                // ->orLike('parent.nama', $search)
+                ->groupEnd();
+        }
+
+        return $builder->get()->getResultArray();
+    }
+
+
+    /**
+     * Get the number of filtered records for DataTables server-processing
+     * 
+     * @param string|null $status Optional status filter
+     * @param string|null $search Optional search term
+     * @return array Array of results
+     */
+    public function getTotalFilteredRecordsDT($search = null)
+    {
+        $builder = $this
+            ->select('*');
+
+        if ($search) {
+            $builder->groupStart()
+                ->like('nama', $search)
+                ->groupEnd();
+        }
+
+        return $builder->get()->getResult();
+    }
+
+    public function getParentByEntitasGrupParentId($entitasGrupParentId = 0)
+    {
+        return $this->select('entitas.*, entitas_grup.id as entitas_grup_id, entitas_grup.parent_id as entitas_grup_parent_id, entitas_grup.nama as entitas_grup_nama')
+            ->join('entitas_grup', 'entitas_grup.id = entitas.grup_id', 'left')
+            ->where('entitas_grup.parent_id', $entitasGrupParentId)
+            ->findAll();
     }
 }

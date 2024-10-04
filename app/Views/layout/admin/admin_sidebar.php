@@ -33,7 +33,7 @@ $currentRoute = $request->uri->getSegment(1) . "/" . $request->uri->getSegment(2
                     <h2 class="accordion-header" id="flushHeadingKonten">
                         <button data-mdb-collapse-init class="accordion-button nav-list" type="button"
                             data-mdb-target="#flushCollapseKonten" aria-expanded="true" aria-controls="flushCollapseKonten">
-                            <i class='bx bx-copy-alt nav_icon me-3'></i>
+                            <i class='bx bx-copy-alt nav_icon me-3' data-mdb-tooltip-init data-mdb-placement="right" title="<?= lang('Admin.konten') ?>"></i>
                             <span><?= lang('Admin.konten') ?></span>
                         </button>
                     </h2>
@@ -103,7 +103,7 @@ $currentRoute = $request->uri->getSegment(1) . "/" . $request->uri->getSegment(2
                     <h2 class="accordion-header" id="flushHeadingAgendaPengumuman">
                         <button data-mdb-collapse-init class="accordion-button nav-list collapsed" type="button"
                             data-mdb-target="#flushCollapseAgendaPengumuman" aria-expanded="false" aria-controls="flushCollapseAgendaPengumuman">
-                            <i class='bx bx-calendar-star nav_icon me-3'></i>
+                            <i class='bx bx-calendar-star nav_icon me-3' data-mdb-tooltip-init data-mdb-placement="right" title="<?= lang('Admin.kegiatan') ?>"></i>
                             <span><?= lang('Admin.kegiatan') ?></span>
                         </button>
                     </h2>
@@ -136,7 +136,7 @@ $currentRoute = $request->uri->getSegment(1) . "/" . $request->uri->getSegment(2
                     <h2 class="accordion-header" id="flushHeadingUnggahan">
                         <button data-mdb-collapse-init class="accordion-button nav-list collapsed" type="button"
                             data-mdb-target="#flushCollapseUnggahan" aria-expanded="false" aria-controls="flushCollapseUnggahan">
-                            <i class='bx bx-upload nav_icon me-3'></i>
+                            <i class='bx bx-upload nav_icon me-3' data-mdb-tooltip-init data-mdb-placement="right" title="<?= lang('Admin.unggahan') ?>"></i>
                             <span><?= lang('Admin.unggahan') ?></span>
                         </button>
                     </h2>
@@ -170,7 +170,7 @@ $currentRoute = $request->uri->getSegment(1) . "/" . $request->uri->getSegment(2
                     <h2 class="accordion-header" id="flushHeadingTataLetak">
                         <button data-mdb-collapse-init class="accordion-button nav-list collapsed" type="button"
                             data-mdb-target="#flushCollapseTataLetak" aria-expanded="false" aria-controls="flushCollapseTataLetak">
-                            <i class='bx bx-layout nav_icon me-3'></i>
+                            <i class='bx bx-layout nav_icon me-3' data-mdb-tooltip-init data-mdb-placement="right" title="<?= lang('Admin.editor') ?>"></i>
                             <span><?= lang('Admin.editor') ?></span>
                         </button>
                     </h2>
@@ -200,6 +200,19 @@ $currentRoute = $request->uri->getSegment(1) . "/" . $request->uri->getSegment(2
                                 </span>
                             </a>
                         </div>
+
+                        <!-- Entitas -->
+                        <?php if ((ENVIRONMENT == 'development') && auth()->user()->inGroup("superadmin")): ?>
+                            <!-- Entitas editor hanya untuk role superadmin -->
+                            <div class="nav-list">
+                                <a href="<?= base_url('admin/entitas') ?>" class="nav-link-admin <?= $currentRoute == "admin/entitas" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Entitas">
+                                    <i class='bx bx-hive nav_icon'></i>
+                                    <span class="nav_name">
+                                        <?= lang('Admin.entitas') ?>
+                                    </span>
+                                </a>
+                            </div>
+                        <?php endif ?>
 
                     </div>
 

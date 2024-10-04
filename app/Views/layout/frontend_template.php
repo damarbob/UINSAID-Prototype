@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\EntitasModel;
+use App\Models\EntitasGrupModel;
 use App\Models\MenuModel;
 
 helper('setting');
@@ -15,8 +17,13 @@ $temaDefault = base_url("assets/css/hijau.css");
 $temaRTLDefault = base_url("assets/css/hijau.rtl.css");
 // dd($tema);;
 
-$menuModel = new MenuModel();
-$menuHierarchy = $menuModel->getMenuHierarchy();
+// $menuModel = new MenuModel();
+// $menuHierarchy = $menuModel->getMenuHierarchy();
+
+// $entitasGrupModel = new EntitasGrupModel();
+$entitasModel = new EntitasModel();
+// $entitas = $entitasModel->find(setting()->get('App.entitasSitus'));
+// $entitasGrup = $entitasGrupModel->find($entitas['grup_id']);
 ?>
 <!DOCTYPE html>
 <html lang="id" dir="">
@@ -329,34 +336,34 @@ $menuHierarchy = $menuModel->getMenuHierarchy();
       <div class="collapse navbar-collapse mb-2 mb-sm-0" id="navbarSupportedContent">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0 me-4 fw-bold">
 
-          <?php foreach ($menuHierarchy as $menuItem): ?>
-            <?php if (empty($menuItem['children'])): ?>
+          <?php foreach ($menuHierarchy as $x): ?>
+            <?php if (empty($x['children'])): ?>
               <!-- Simple menu item -->
               <li class="nav-item">
-                <a data-mdb-ripple-init class="nav-link <?= $currentRoute == $menuItem['uri'] ? "active" : "" ?>" href="<?= base_url($menuItem['uri']) ?>">
-                  <?= $menuItem['nama'] ?>
+                <a data-mdb-ripple-init class="nav-link <?= $currentRoute == $x['uri'] ? "active" : "" ?>" href="<?= $x['link_eksternal'] ? $x['uri'] : base_url($x['uri']) ?>">
+                  <?= $x['nama'] ?>
                 </a>
               </li>
             <?php else: ?>
               <!-- Dropdown menu item -->
               <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle <?= $currentRoute == $menuItem['uri'] ? "active" : "" ?>"
+                <a class="nav-link dropdown-toggle <?= $currentRoute == $x['uri'] ? "active" : "" ?>"
                   role="button"
                   data-mdb-dropdown-init
                   data-mdb-ripple-init
                   data-mdb-auto-close="true"
-                  href="<?= base_url($menuItem['uri']) ?>"
-                  id="navbarDropdown<?= $menuItem['id'] ?>"
+                  href="<?= $x['link_eksternal'] ? $x['uri'] : base_url($x['uri']) ?>"
+                  id="navbarDropdown<?= $x['id'] ?>"
                   data-mdb-toggle="dropdown"
                   aria-expanded="false">
-                  <?= $menuItem['nama'] ?>
+                  <?= $x['nama'] ?>
                 </a>
                 <!-- Dropdown menu -->
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown<?= $menuItem['id'] ?>">
-                  <?php foreach ($menuItem['children'] as $child): ?>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown<?= $x['id'] ?>">
+                  <?php foreach ($x['children'] as $x): ?>
                     <li>
-                      <a href="<?= base_url($child['uri']) ?>" class="dropdown-item">
-                        <?= $child['nama'] ?>
+                      <a href="<?= $x['link_eksternal'] ? $x['uri'] : base_url($x['uri']) ?>" class="dropdown-item">
+                        <?= $x['nama'] ?>
                       </a>
                     </li>
                   <?php endforeach; ?>
@@ -539,28 +546,190 @@ $menuHierarchy = $menuModel->getMenuHierarchy();
       <div class="row">
         <!-- Footer & alamat -->
         <div class="col-lg-3 col-md-6">
-          <img class="mb-4" width="256px" src="<?= base_url('assets/img/logo-uin-only-horizontal-white.png') ?>" />
-          <p>
-            Jl. Pandawa, Pucangan, Kartasura, <br>
-            Sukoharjo, Jawa Tengah, <br>
-            Indonesia.
-          </p>
+          <img class="mb-4" width="256px" src="<?= base_url(setting()->get('App.logoFooterSitus') ?: 'assets/img/logo-uin-only-horizontal-white.png') ?>" />
+          <p> <?= setting()->get('App.alamat') ?: 'Jl. Pandawa, Pucangan, Kartasura, Sukoharjo, Jawa Tengah, Indonesia.' ?> </p>
           <div class="footer-links">
             <ul>
               <li>
                 <img src="<?= base_url('assets/img/icon/ikon-telepon.png') ?>" class="me-2" width="24px">
-                <a href="tel:+62271781516">+62271 7815 16</a>
+                <a href="tel:+62271781516"><?= setting()->get('App.telepon') ?: '+62271 7815 16' ?> </a>
               </li>
               <li>
                 <img src="<?= base_url('assets/img/icon/ikon-surel.png') ?>" class="me-2" width="24px">
-                <a href="mailto:humas@uinsaid.ac.id">humas@uinsaid.ac.id</a>
+                <a href="mailto:<?= setting()->get('App.email') ?: 'humas@uinsaid.ac.id' ?>"><?= setting()->get('App.email') ?: 'humas@uinsaid.ac.id' ?></a>
               </li>
             </ul>
           </div>
         </div>
 
+        <!-- Jika entitas grup = Universitas -->
+        <?php if ($entitas['grup_id'] == 0):
+          $fakultas = $entitasModel->where('grup_id', 1)->findAll();
+          $lembaga = $entitasModel->where('grup_id', 2)->findAll();
+          $unitPelaksanaTeknis = $entitasModel->where('grup_id', 3)->findAll();
+        ?>
+
+          <!-- Fakultas dan pascasarjana -->
+          <div class="col-lg-3 col-md-6 footer-links">
+            <h4>Fakultas dan Pascasarjana</h4>
+            <ul>
+              <?php foreach ($fakultas as $x): ?>
+                <li>
+                  <a href="<?= base_url('entitas/' . $x['slug']) ?>" target="_blank"><?= $x['nama'] ?></a>
+                </li>
+              <?php endforeach ?>
+            </ul>
+          </div>
+
+          <!-- Lembaga -->
+          <div class="col-lg-3 col-md-6 footer-links">
+            <h4>Lembaga</h4>
+            <ul>
+              <?php foreach ($lembaga as $x): ?>
+                <li>
+                  <a href="<?= base_url('entitas/' . $x['slug']) ?>" target="_blank"><?= $x['nama'] ?></a>
+                </li>
+              <?php endforeach ?>
+            </ul>
+          </div>
+
+          <!-- Unit Pelaksana Teknis -->
+          <div class="col-lg-3 col-md-6 footer-links">
+            <h4>Unit Pelaksana Teknis</h4>
+            <ul>
+              <?php foreach ($unitPelaksanaTeknis as $x): ?>
+                <li>
+                  <a href="<?= base_url('entitas/' . $x['slug']) ?>" target="_blank"><?= $x['nama'] ?></a>
+                </li>
+              <?php endforeach ?>
+            </ul>
+          </div>
+
+          <!-- Jika entitas grup = Fakultas -->
+        <?php elseif ($entitas['grup_id'] == 1):
+          $programStudi = $entitasModel->where('parent_id', $entitas['id'])->findAll();
+        ?>
+
+          <!-- Menu -->
+          <div class="col-lg-3 col-md-6 footer-links">
+            <h4>Menu</h4>
+            <ul>
+              <?php foreach ($menuHierarchy as $x): ?>
+                <li>
+                  <a href="<?= $x['link_eksternal'] ? $x['uri'] : base_url($x['uri']) ?>" target="_blank"><?= $x['nama'] ?></a>
+                </li>
+              <?php endforeach ?>
+            </ul>
+          </div>
+
+          <!-- Program Studi -->
+          <div class="col-lg-3 col-md-6 footer-links">
+            <h4>Program Studi</h4>
+            <ul>
+              <?php foreach ($programStudi as $x): ?>
+                <li>
+                  <a href="<?= base_url('entitas/' . $x['slug']) ?>" target="_blank"><?= $x['nama'] ?></a>
+                </li>
+              <?php endforeach ?>
+            </ul>
+          </div>
+
+          <!-- Media Sosial -->
+          <div class="col-lg-3 col-md-6 footer-links">
+            <h4>Media Sosial</h4>
+            <ul>
+              <?php foreach ($mediaSosial as $x): ?>
+                <li>
+                  <a href="<?= $x['url'] ?>" target="_blank"><i class="bx bxl-<?= strtolower($x['nama']) != 'x' ? strtolower($x['nama']) : 'twitter' ?> me-2"></i><?= $x['nama'] ?></a>
+                </li>
+              <?php endforeach ?>
+            </ul>
+          </div>
+
+          <!-- Jika entitas grup = Lembaga -->
+        <?php elseif ($entitas['grup_id'] == 2): ?>
+
+          <!-- Menu -->
+          <div class="col-lg-3 col-md-6 footer-links">
+            <h4>Menu</h4>
+            <ul>
+              <?php foreach ($menuHierarchy as $x): ?>
+                <li>
+                  <a href="<?= $x['link_eksternal'] ? $x['uri'] : base_url($x['uri']) ?>" target="_blank"><?= $x['nama'] ?></a>
+                </li>
+              <?php endforeach ?>
+            </ul>
+          </div>
+
+          <!-- Media Sosial -->
+          <div class="col-lg-3 col-md-6 footer-links">
+            <h4>Media Sosial</h4>
+            <ul>
+              <?php foreach ($mediaSosial as $x): ?>
+                <li>
+                  <a href="<?= $x['url'] ?>" target="_blank"><i class="bx bxl-<?= strtolower($x['nama']) != 'x' ? strtolower($x['nama']) : 'twitter' ?> me-2"></i><?= $x['nama'] ?></a>
+                </li>
+              <?php endforeach ?>
+            </ul>
+          </div>
+
+          <!-- Jika entitas grup = Unit Pelaksana Teknis / UPT -->
+        <?php elseif ($entitas['grup_id'] == 3): ?>
+
+          <!-- Menu -->
+          <div class="col-lg-3 col-md-6 footer-links">
+            <h4>Menu</h4>
+            <ul>
+              <?php foreach ($menuHierarchy as $x): ?>
+                <li>
+                  <a href="<?= $x['link_eksternal'] ? $x['uri'] : base_url($x['uri']) ?>" target="_blank"><?= $x['nama'] ?></a>
+                </li>
+              <?php endforeach ?>
+            </ul>
+          </div>
+
+          <!-- Media Sosial -->
+          <div class="col-lg-3 col-md-6 footer-links">
+            <h4>Media Sosial</h4>
+            <ul>
+              <?php foreach ($mediaSosial as $x): ?>
+                <li>
+                  <a href="<?= $x['url'] ?>" target="_blank"><i class="bx bxl-<?= strtolower($x['nama']) != 'x' ? strtolower($x['nama']) : 'twitter' ?> me-2"></i><?= $x['nama'] ?></a>
+                </li>
+              <?php endforeach ?>
+            </ul>
+          </div>
+
+          <!-- Jika entitas grup = Program Studi -->
+        <?php elseif ($entitas['grup_id'] == 4): ?>
+
+          <!-- Menu -->
+          <div class="col-lg-3 col-md-6 footer-links">
+            <h4>Menu</h4>
+            <ul>
+              <?php foreach ($menuHierarchy as $x): ?>
+                <li>
+                  <a href="<?= $x['link_eksternal'] ? $x['uri'] : base_url($x['uri']) ?>" target="_blank"><?= $x['nama'] ?></a>
+                </li>
+              <?php endforeach ?>
+            </ul>
+          </div>
+
+          <!-- Media Sosial -->
+          <div class="col-lg-3 col-md-6 footer-links">
+            <h4>Media Sosial</h4>
+            <ul>
+              <?php foreach ($mediaSosial as $x): ?>
+                <li>
+                  <a href="<?= $x['url'] ?>" target="_blank"><i class="bx bxl-<?= strtolower($x['nama']) != 'x' ? strtolower($x['nama']) : 'twitter' ?> me-2"></i><?= $x['nama'] ?></a>
+                </li>
+              <?php endforeach ?>
+            </ul>
+          </div>
+
+        <?php endif ?>
         <!-- Fakultas dan pascasarjana -->
-        <div class="col-lg-3 col-md-6 footer-links">
+        <!-- <div class="col-lg-3 col-md-6 footer-links">
           <h4>Fakultas dan Pascasarjana</h4>
           <ul>
             <li>
@@ -582,10 +751,10 @@ $menuHierarchy = $menuModel->getMenuHierarchy();
               <a href="<?= base_url('entitas/pascasarjana') ?>" target="_blank">Pascasarjana</a>
             </li>
           </ul>
-        </div>
+        </div> -->
 
         <!-- Lembaga -->
-        <div class="col-lg-3 col-md-6 footer-links">
+        <!-- <div class="col-lg-3 col-md-6 footer-links">
           <h4>Lembaga</h4>
           <ul>
             <li>
@@ -601,10 +770,10 @@ $menuHierarchy = $menuModel->getMenuHierarchy();
               <a href="<?= base_url('entitas/pusat-pengembangan-bisnis') ?>" target="_blank">Pusat Pengembangan Bisnis</a>
             </li>
           </ul>
-        </div>
+        </div> -->
 
         <!-- Unit Pelaksana Teknis -->
-        <div class="col-lg-3 col-md-6 footer-links">
+        <!-- <div class="col-lg-3 col-md-6 footer-links">
           <h4>Unit Pelaksana Teknis</h4>
           <ul>
             <li>
@@ -623,19 +792,20 @@ $menuHierarchy = $menuModel->getMenuHierarchy();
               <a href="<?= base_url('entitas/upt-pengembangan-karir') ?>" target="_blank">UPT Pengembangan Karir</a>
             </li>
           </ul>
-        </div>
+        </div> -->
 
       </div>
 
-      <div class="row">
-        <!-- Media sosial -->
-        <div class="col text-center">
-          <?php foreach ($mediaSosial as $x): ?>
-            <a class="fs-1" href="<?= $x['url'] ?>" target="_blank">
-              <img src="<?= base_url($x['ikon']) ?>" width="64px" />
-            </a>
-          <?php endforeach ?>
-          <!-- <a class="fs-1" href="https://www.instagram.com/uin.surakarta/" target="_blank">
+      <?php if ($entitas['grup_id'] == 0): ?>
+        <div class="row">
+          <!-- Media sosial -->
+          <div class="col text-center">
+            <?php foreach ($mediaSosial as $x): ?>
+              <a class="fs-1" href="<?= $x['url'] ?>" target="_blank">
+                <img src="<?= base_url($x['ikon']) ?>" width="64px" />
+              </a>
+            <?php endforeach ?>
+            <!-- <a class="fs-1" href="https://www.instagram.com/uin.surakarta/" target="_blank">
             <img src="<?= base_url('assets/img/icon/icons8-instagram-96.png') ?>" width="64px" />
           </a>
           <a class="fs-1" href="https://www.youtube.com/channel/UClhJVwPyu449bZDXIH6yS0w" target="_blank">
@@ -650,9 +820,10 @@ $menuHierarchy = $menuModel->getMenuHierarchy();
           <a class="fs-1" href="https://www.tiktok.com/@uin_rmsaid?_t=8pT2mtKTir9&_r=1" target="_blank">
             <img src="<?= base_url('assets/img/icon/ikon-tiktok.png') ?>" width="64px" />
           </a> -->
+          </div>
+          <!-- Akhir media sosial -->
         </div>
-        <!-- Akhir media sosial -->
-      </div>
+      <?php endif ?>
 
       <!-- <div class="row">
         <a id="themeToggleUnused" class="card" data-mdb-ripple-init>

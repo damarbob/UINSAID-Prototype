@@ -227,6 +227,7 @@ class PostingModel extends \CodeIgniter\Model
         return $this->formatSampulSingle($this->select('posting.*, users.username as penulis, kategori.nama as kategori')
             ->join('users', 'users.id = posting.id_penulis', 'left')
             ->join('kategori', 'kategori.id = posting.id_kategori', 'left')
+            ->where('posting.tanggal_terbit <= ', date('Y-m-d H:i:s'))
             ->where('posting.slug', $slug)
             ->first());
     }
