@@ -34,6 +34,60 @@ $agendaUrl = base_url("agenda/" . $item['id']);
 
 <?= $this->section('style') ?>
 <link href="<?= base_url('assets/css/style-berita.css') ?>" rel="stylesheet" />
+
+<style>
+    /* Section waktu */
+    #section-waktu {
+        /* height: 128px; */
+        height: auto;
+        margin-top: -48px;
+        text-align: center;
+    }
+
+    /* #section-waktu .container {
+position: absolute;
+} */
+    #section-waktu .card.card-waktu-mulai {
+        background: var(--mdb-secondary);
+        color: var(--mdb-light);
+        flex-direction: row;
+        flex-grow: 1;
+        /* border-radius: 0px; */
+        height: fit-content;
+        width: 100%;
+        /* max-width: 512px; */
+    }
+
+    #section-waktu .card.card-waktu-selesai {
+        background: var(--mdb-orange);
+        color: var(--mdb-light);
+        flex-direction: row;
+        flex-grow: 1;
+        /* border-radius: 0px; */
+        height: fit-content;
+        width: 100%;
+        /* max-width: 512px; */
+    }
+
+    #section-waktu .card-title {
+        font-size: small;
+    }
+
+    #section-waktu .card-text {
+        font-size: large;
+        font-weight: bold;
+    }
+
+    @media (max-width: 991.5px) {
+        #section-waktu {
+            margin-top: -32px;
+        }
+
+        /* #section-waktu .container {
+margin-top: -32px;
+} */
+    }
+</style>
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
@@ -57,7 +111,7 @@ $agendaUrl = base_url("agenda/" . $item['id']);
 
                             <!-- TODO: Hardcoded breadcrumb -->
                             <li class="breadcrumb-item"><a href="<?= base_url() ?>">Beranda</a></li>
-                            <li class="breadcrumb-item"><a href="<?= base_url('agenda') ?>">Agenda</a></li>
+                            <li class="breadcrumb-item"><a href="<?= base_url($item['acara_jenis_nama']) ?>"><?= $item['acara_jenis_nama'] ?></a></li>
                             <li class="breadcrumb-item active fw-bold" aria-current="page">
                                 <?= $item['judul']; ?>
                             </li>
@@ -71,7 +125,7 @@ $agendaUrl = base_url("agenda/" . $item['id']);
                     <p>
                         Diterbitkan pada<br>
                         <span class="fw-bold">
-                            <?= $item['created_at_terformat']; ?>
+                            <?= $item['formatted_datetime']; ?>
                         </span>
                     </p>
 
@@ -101,6 +155,38 @@ $agendaUrl = base_url("agenda/" . $item['id']);
     </div>
 </section>
 <!-- Section CTNA -->
+
+<section class="fluid d-flex justify-content-center z-3 position-relative" id="section-waktu">
+    <div class="container align-self-center px-5">
+        <div class="row g-lg-4">
+            <div class="col d-flex flex-wrap flex-sm-nowrap justify-content-center">
+                <div class="card card-waktu-mulai">
+                    <div class="card-body">
+                        <p class="card-title">
+                            Mulai
+                            <br>
+                        </p>
+                        <h5 class="card-text" id="waktuMulai">
+
+                        </h5>
+                    </div>
+                </div>
+                <?php if (isset($item['waktu_selesai'])) : ?>
+                    <div class="card card-waktu-selesai">
+                        <div class="card-body">
+                            <p class="card-title">
+                                Sampai
+                                <br>
+                            </p>
+                            <h5 class="card-text" id="waktuSelesai">
+                            </h5>
+                        </div>
+                    </div>
+                <?php endif ?>
+            </div>
+        </div>
+    </div>
+</section>
 
 <!-- Detail berita -->
 <section id="berita-konten">
@@ -181,7 +267,7 @@ $agendaUrl = base_url("agenda/" . $item['id']);
 
                                         <!-- Kategori dan tanggal terbit -->
                                         <small class="card-text crop-text-2">
-                                            <?= $x['created_at_terformat'] ?>
+                                            <?= $x['formatted_datetime'] ?>
                                         </small>
                                     </div>
                                     <!-- Akhir body kegiatan -->
@@ -209,6 +295,25 @@ $agendaUrl = base_url("agenda/" . $item['id']);
 <?= $this->endSection() ?>
 
 <?= $this->section('script') ?>
+<script type="text/javascript" src="<?= base_url("assets/js/formatter.js") ?>"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+
+        const waktuSelesai = '<?= $item['waktu_selesai'] ?: false ?>' ?? '';
+        const waktuValue = formatDate('<?= $item['waktu_mulai'] ?>');
+        const waktuSelesaiValue = waktuSelesai ? formatDate(waktuSelesai) : null;
+
+        // Update the modal's content with the extracted values
+        const WaktuContent = document.getElementById('waktuMulai');
+        WaktuContent.textContent = waktuValue; // Update the waktu content
+
+        if (waktuSelesai) {
+            const WaktuSelesaiContent = document.getElementById('waktuSelesai');
+            WaktuSelesaiContent.textContent = waktuSelesaiValue; // Update the waktu selesai content
+        }
+    });
+</script>
+
 <script>
     function salinBeritaUrl() {
         var copyText = document.getElementById('agendaUrl');

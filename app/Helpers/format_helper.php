@@ -153,7 +153,8 @@ if (!function_exists('format_tanggal_suatu_kolom')) {
         // Set the locale to Indonesian
         $locale = 'id_ID';
         $dateType = IntlDateFormatter::RELATIVE_FULL;
-        $timeType = $showWaktu ? IntlDateFormatter::FULL : IntlDateFormatter::NONE;
+        $timeType = $showWaktu ? IntlDateFormatter::LONG : IntlDateFormatter::NONE;
+        $pattern = 'EEEE, d MMMM yyyy HH:mm z';
         $formatter = new IntlDateFormatter($locale, $dateType, $timeType);
 
         // Ensure $data is always an array
