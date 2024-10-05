@@ -304,7 +304,7 @@ $temaRTLDefault = base_url("assets/css/hijau.rtl.css");
   </div>
 
   <!-- Navbar -->
-  <nav class="navbar navbar-expand-xxl navbar-dark fixed-top" id="frontend-navbar">
+  <nav class="navbar navbar-expand-xl navbar-dark fixed-top" id="frontend-navbar">
     <!-- Container wrapper -->
     <div class="container px-4 px-sm-5">
 
@@ -423,9 +423,11 @@ $temaRTLDefault = base_url("assets/css/hijau.rtl.css");
         </div> -->
 
         <!-- Search -->
-        <form class="w-auto" method="get" action="/berita">
-          <input name="search" type="search" class="form-control" placeholder="Cari" aria-label="Search">
-        </form>
+        <div style="width: 128px;">
+          <form class="" method="get" action="/berita">
+            <input name="search" type="search" class="form-control" placeholder="Cari" aria-label="Search">
+          </form>
+        </div>
 
       </div>
       <!-- Akhir dari collapsible wrapper -->
@@ -484,14 +486,14 @@ $temaRTLDefault = base_url("assets/css/hijau.rtl.css");
             </a>
           </li>
           <li class="nav-item text-center" style="flex: 1;"> <!-- todo: style -->
-            <a class="nav-link py-1 <?= $currentRoute == "kategori/artikel" ? "active" : "" ?>" href="<?= base_url('kategori/artikel') ?>">
+            <a class="nav-link py-1" href="https://siakad.uinsaid.ac.id/">
               <div>
                 <!-- <i class="fa-solid fa-universal-access fa-lg mb-1"></i> -->
                 <!-- <i class="bi bi-universal-access-circle fs-1 mb-1"></i> -->
                 <i class="bi bi-journal-text fs-1 mb-1"></i>
                 <!-- <img src=" assets/img/icon/ikon-beranda.png"> -->
               </div>
-              <span style="font-size: small;">Artikel</span> <!-- todo: style -->
+              <span style="font-size: small;">Siakad</span> <!-- todo: style -->
             </a>
           </li>
           <!-- <li class="nav-item dropup text-center mx-2 mx-lg-1">

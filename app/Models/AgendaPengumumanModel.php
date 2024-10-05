@@ -12,10 +12,59 @@ class AgendaPengumumanModel extends \CodeIgniter\Model
 
     public function getByID($id)
     {
-        return $this->select('acara.*, galeri.uri')
+        return $this->select('acara.*, galeri.uri, acara_jenis.nama as acara_jenis_nama')
             ->where('acara.id', $id)
             ->join('galeri', 'galeri.id = acara.id_galeri', 'left')
+            ->join('acara_jenis', 'acara_jenis.id = acara.id_jenis', 'left')
             ->first();
+    }
+
+    public function getAcaraPublikasi($jenisNama, $search = '')
+    {
+        $today = date('Y-m-d H:i:s');
+
+        if (!empty($search)) {
+            $sql = "
+                SELECT $this->table.*, galeri.uri, acara_jenis.nama as acara_jenis_nama
+                FROM $this->table
+                LEFT JOIN galeri ON $this->table.id_galeri = galeri.id
+                LEFT JOIN acara_jenis ON $this->table.id_jenis = acara_jenis.id
+                WHERE acara_jenis.nama = '$jenisNama' AND status = 'publikasi' AND judul LIKE '%$search%' ESCAPE '!' 
+                ORDER BY
+                    CASE
+                        WHEN waktu_mulai <= '$today' AND waktu_selesai >= '$today' THEN 1
+                        WHEN waktu_mulai > '$today' THEN 2
+                        ELSE 3
+                    END ASC,
+                    CASE
+                        WHEN waktu_mulai > '$today' THEN waktu_mulai
+                        ELSE NULL
+                    END ASC,
+                    COALESCE(waktu_selesai, waktu_mulai) DESC
+                ";
+        } else {
+            $sql = "
+                SELECT $this->table.*, galeri.uri, acara_jenis.nama as acara_jenis_nama
+                FROM $this->table
+                LEFT JOIN galeri ON $this->table.id_galeri = galeri.id
+                LEFT JOIN acara_jenis ON $this->table.id_jenis = acara_jenis.id
+                WHERE acara_jenis.nama = '$jenisNama' AND status = 'publikasi'
+                ORDER BY
+                    CASE
+                        WHEN waktu_mulai <= '$today' AND waktu_selesai >= '$today' THEN 1
+                        WHEN waktu_mulai > '$today' THEN 2
+                        ELSE 3
+                    END ASC,
+                    CASE
+                        WHEN waktu_mulai > '$today' THEN waktu_mulai
+                        ELSE NULL
+                    END ASC,
+                    COALESCE(waktu_selesai, waktu_mulai) DESC
+        ";
+        }
+        $query = $this->query($sql);
+        // dd($query->getResultArray());
+        return $query->getResultArray();
     }
 
     public function getAgendaPaginated($search = '')
@@ -61,6 +110,41 @@ class AgendaPengumumanModel extends \CodeIgniter\Model
      * 
      * @return array
      */
+    public function getTerbaru($jenisNama, $jumlah)
+    {
+        $today = date('Y-m-d H:i:s');
+
+        $sql = "
+            SELECT $this->table.*, galeri.uri, acara_jenis.nama as acara_jenis_nama
+            FROM $this->table
+            LEFT JOIN galeri ON $this->table.id_galeri = galeri.id
+            LEFT JOIN acara_jenis ON $this->table.id_jenis = acara_jenis.id
+            WHERE acara_jenis.nama = '$jenisNama' AND status = 'publikasi'
+            ORDER BY
+                CASE
+                    WHEN waktu_mulai <= '$today' AND waktu_selesai >= '$today' THEN 1
+                    WHEN waktu_mulai > '$today' THEN 2
+                    ELSE 3
+                END ASC,
+                CASE
+                    WHEN waktu_mulai > '$today' THEN waktu_mulai
+                    ELSE NULL
+                END ASC,
+                COALESCE(waktu_selesai, waktu_mulai) DESC
+            LIMIT $jumlah
+        ";
+        // $query = $this->db->query($sql);
+        $query = $this->query($sql);
+        return $query->getResultArray();
+    }
+
+    /**
+     * -------------------------------------------
+     * Get Agenda Terbaru yang berstatus publikasi
+     * -------------------------------------------
+     * 
+     * @return array
+     */
     public function getAgendaTerbaru($jumlah)
     {
         $idJenis = 1; // Agenda
@@ -85,7 +169,8 @@ class AgendaPengumumanModel extends \CodeIgniter\Model
                 COALESCE(waktu_selesai, waktu_mulai) DESC
             LIMIT $jumlah
         ";
-        $query = $this->db->query($sql);
+        // $query = $this->db->query($sql);
+        $query = $this->query($sql);
         return $query->getResultArray();
     }
 

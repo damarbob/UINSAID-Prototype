@@ -224,7 +224,7 @@ class Home extends BaseController
             $this->data['prestasiTerbaru'] = $this->postingModel->getByKategoriLimit($jenisPostingNama, "prestasi", 10);
 
             $beritaCard = $this->postingModel->getTerbaru($jenisPostingNama, 5);
-            $beritaSwiper = $this->postingModel->getTerbaru($jenisPostingNama, 5, 5);
+            $beritaSwiper = $this->postingModel->getTerbaru($jenisPostingNama, 6, 5);
             // $this->data['beritaCard'] = format_tanggal($beritaCard);
             // $this->data['beritaSwiper'] = format_tanggal($beritaSwiper);
             $this->data['beritaCard'] = format_tanggal_suatu_kolom($beritaCard, 'tanggal_terbit');
