@@ -24,11 +24,17 @@ class EntitasModel extends \CodeIgniter\Model
             return $this->select('entitas.*, entitas_grup.nama as grup')
                 ->join('entitas_grup', 'entitas_grup.id = entitas.grup_id', 'left')
                 ->where('entitas.parent_id', $parentId)
+                ->where('grup_id !=', 0)
+                ->orderBy('grup_id', 'asc')
+                ->orderBy('nama', 'asc')
                 ->paginate(12, 'entitas');
         } else {
             return $this->select('entitas.*, entitas_grup.nama as grup')
                 ->join('entitas_grup', 'entitas_grup.id = entitas.grup_id', 'left')
                 ->where('entitas.parent_id IS NULL')
+                ->where('grup_id !=', 0)
+                ->orderBy('grup_id', 'asc')
+                ->orderBy('nama', 'asc')
                 ->paginate(12, 'entitas');
         }
     }
@@ -51,7 +57,10 @@ class EntitasModel extends \CodeIgniter\Model
 
         return ($builder->select('entitas.*, entitas_grup.nama as grup')
             ->join('entitas_grup', 'entitas_grup.id = entitas.grup_id', 'left')
-            ->paginate(10, 'entitas'));
+            ->where('grup_id !=', 0)
+            ->orderBy('grup_id', 'asc')
+            ->orderBy('nama', 'asc')
+            ->paginate(12, 'entitas'));
     }
 
     public function getByGroup($grup_id)

@@ -32,11 +32,11 @@
 <?= $this->section('content') ?>
 <!-- Modal -->
 <div class="modal fade" id="lihatModal" tabindex="-1" aria-labelledby="lihatModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="lihatModalLabel"><?= lang('Admin.judul') ?></h5>
-                <button type="button" class="btn-close" data-mdb-ripple-init data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-mdb-ripple-init data-mdb-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <p id="lihatModalKonten">
@@ -44,7 +44,7 @@
                 </p>
             </div>
             <div class="modal-footer d-flex justify-content-between">
-                <button type="button" class="btn btn-secondary" data-mdb-ripple-init data-bs-dismiss="modal">
+                <button type="button" class="btn btn-secondary" data-mdb-ripple-init data-mdb-dismiss="modal">
                     <i class="bi bi-chevron-left me-2"></i>
                     <?= lang('Admin.batal') ?>
                 </button>
@@ -67,12 +67,12 @@
         <?php if (session()->getFlashdata('sukses')) : ?>
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <?= session()->getFlashdata('sukses') ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-mdb-dismiss="alert" aria-label="Close"></button>
             </div>
         <?php elseif (session()->getFlashdata('gagal')) : ?>
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 <?= session()->getFlashdata('gagal') ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-mdb-dismiss="alert" aria-label="Close"></button>
             </div>
         <?php endif; ?>
 
@@ -102,6 +102,9 @@
 <script src="<?= base_url('assets/js/datatables_process_bulk_new.js') ?>" type="text/javascript"></script>
 <script>
     $(document).ready(function() {
+
+        // Initialize the MDB modal
+        const lihatModal = new mdb.Modal($('#lihatModal'));
 
         var lastDoubleClickedRowIndex = null;
         var filterStatus = null; // Define a variable to hold the filter status

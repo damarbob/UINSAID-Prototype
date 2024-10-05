@@ -118,7 +118,8 @@ abstract class BaseController extends Controller
         // dd($this->data['menuHierarchy']);
 
         $entitas = $this->entitasModel->find(setting()->get('App.entitasSitus'));
-        $this->data['entitas'] = $entitas;
+        $this->data['entitasSitus'] = $entitas;
+        $this->data['entitasModel'] = $this->entitasModel;
         $this->data['entitasGrup'] = $this->entitasGrupModel->find($entitas['grup_id']);
     }
 }
