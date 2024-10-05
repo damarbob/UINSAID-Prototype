@@ -31,6 +31,7 @@ return [
     'temaSitus' => 'Tema Situs',
     'halamanUtamaSitus' => 'Halaman Utama Situs',
     'tidakAda' => 'Tidak Ada',
+    'aturMediaSosial' => 'Atur Media Sosial',
 
     'tampilan' => 'Tampilan',
     'personalisasiAdmin' => 'Personalisasi Admin',

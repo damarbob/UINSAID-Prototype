@@ -26,7 +26,7 @@ $currentRoute = $request->uri->getSegment(1) . "/" . $request->uri->getSegment(2
                 </a>
             </div>
 
-            <div class="nav-list accordion accordion-borderless text-nowrap" id="accordionFlushExampleX">
+            <div class="nav-list accordion accordion-borderless text-nowrap" id="accordionFlushSidebar">
                 <div class="accordion-item">
 
                     <!-- Konten -->
@@ -40,37 +40,35 @@ $currentRoute = $request->uri->getSegment(1) . "/" . $request->uri->getSegment(2
 
                     <!-- Menu konten -->
                     <div id="flushCollapseKonten" class="accordion-collapse collapse <?= $currentRoute == "admin/posting" || $currentRoute == "admin/posting-diajukan" || $currentRoute == "admin/berita" || $currentRoute === "admin/berita-diajukan" ? "show" : "" ?>"
-                        aria-labelledby="flushHeadingKonten" data-mdb-parent="#accordionFlushExampleX">
+                        aria-labelledby="flushHeadingKonten" data-mdb-parent="#accordionFlushSidebar">
 
                         <!-- Posting -->
-                        <?php if (auth()->user()->inGroup("superadmin")): ?>
+                        <div class="nav-list">
+                            <a href="<?= base_url('admin/posting') ?>" class="nav-link-admin <?= $currentRoute == "admin/posting" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Posting">
+                                <i class='bx bx-news nav_icon'></i>
+                                <span class="nav_name"><?= lang('Admin.posting') ?></span>
+                                <?php if ($peringatanPostingKosong || $peringatanPostingTigaBulan) : ?>
+                                    <span class="position-absolute top-0 end-0 translate-middle-y badge rounded-pill bg-danger">
+                                        !
+                                        <span class="visually-hidden">peringatan rilis media</span>
+                                    </span>
+                                <?php endif ?>
+                            </a>
+                        </div>
+
+                        <!-- Posting diajukan -->
+                        <?php if (env('app.siteType') == 'parent' || env('app.siteType') == 'super'): ?>
+                            <!-- Kelola posting diajukan khusus parent atau super -->
                             <div class="nav-list">
-                                <a href="<?= base_url('admin/posting') ?>" class="nav-link-admin <?= $currentRoute == "admin/posting" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Posting">
-                                    <i class='bx bx-news nav_icon'></i>
-                                    <span class="nav_name"><?= lang('Admin.posting') ?></span>
-                                    <?php if ($peringatanPostingKosong || $peringatanPostingTigaBulan) : ?>
-                                        <span class="position-absolute top-0 end-0 translate-middle-y badge rounded-pill bg-danger">
-                                            !
-                                            <span class="visually-hidden">peringatan rilis media</span>
-                                        </span>
-                                    <?php endif ?>
+                                <a href="<?= base_url('admin/posting-diajukan') ?>" class="nav-link-admin <?= $currentRoute == "admin/posting-diajukan" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Posting Diajukan">
+                                    <i class='bx bx-mail-send nav_icon'></i>
+                                    <span class="nav_name">Posting diajukan</span>
                                 </a>
                             </div>
-
-                            <!-- Posting diajukan -->
-                            <?php if (env('app.siteType') == 'parent' || env('app.siteType') == 'super'): ?>
-                                <!-- Kelola posting diajukan khusus parent atau super -->
-                                <div class="nav-list">
-                                    <a href="<?= base_url('admin/posting-diajukan') ?>" class="nav-link-admin <?= $currentRoute == "admin/posting-diajukan" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Posting Diajukan">
-                                        <i class='bx bx-mail-send nav_icon'></i>
-                                        <span class="nav_name">Posting diajukan</span>
-                                    </a>
-                                </div>
-                            <?php endif ?>
                         <?php endif ?>
 
                         <!-- Berita -->
-                        <div class="nav-list">
+                        <div class="nav-list d-none">
                             <a href="<?= base_url('admin/berita') ?>" class="nav-link-admin <?= $currentRoute == "admin/berita" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Berita">
                                 <i class='bx bx-news nav_icon'></i>
                                 <span class="nav_name"><?= lang('Admin.berita') ?></span>
@@ -86,7 +84,7 @@ $currentRoute = $request->uri->getSegment(1) . "/" . $request->uri->getSegment(2
                         <!-- Berita diajukan -->
                         <?php if (env('app.siteType') == 'parent' || env('app.siteType') == 'super'): ?>
                             <!-- Kelola berita diajukan khusus parent atau super -->
-                            <div class="nav-list">
+                            <div class="nav-list d-none">
                                 <a href="<?= base_url('admin/berita-diajukan') ?>" class="nav-link-admin <?= $currentRoute == "admin/berita-diajukan" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Berita Diajukan">
                                     <i class='bx bx-mail-send nav_icon'></i>
                                     <span class="nav_name"><?= lang('Admin.beritaDiajukan') ?></span>
@@ -109,7 +107,7 @@ $currentRoute = $request->uri->getSegment(1) . "/" . $request->uri->getSegment(2
                     </h2>
 
                     <div id="flushCollapseAgendaPengumuman" class="accordion-collapse collapse <?= $currentRoute == "admin/agenda" || $currentRoute == "admin/pengumuman" ? "show" : "" ?>" aria-labelledby="flushHeadingAgendaPengumuman"
-                        data-mdb-parent="#accordionFlushExampleX">
+                        data-mdb-parent="#accordionFlushSidebar">
 
                         <!-- Agenda -->
                         <div class="nav-list">
@@ -142,7 +140,7 @@ $currentRoute = $request->uri->getSegment(1) . "/" . $request->uri->getSegment(2
                     </h2>
 
                     <div id="flushCollapseUnggahan" class="accordion-collapse collapse <?= $currentRoute == "admin/galeri" || $currentRoute == "admin/galeri" ? "show" : "" ?>" aria-labelledby="flushHeadingUnggahan"
-                        data-mdb-parent="#accordionFlushExampleX">
+                        data-mdb-parent="#accordionFlushSidebar">
 
                         <!-- Galeri -->
                         <div class="nav-list">
@@ -164,22 +162,22 @@ $currentRoute = $request->uri->getSegment(1) . "/" . $request->uri->getSegment(2
 
                 </div>
 
-                <div class="accordion-item">
+                <?php if (auth()->user()->inGroup("superadmin")): ?>
+                    <div class="accordion-item">
 
-                    <!-- Tata Letak -->
-                    <h2 class="accordion-header" id="flushHeadingTataLetak">
-                        <button data-mdb-collapse-init class="accordion-button nav-list collapsed" type="button"
-                            data-mdb-target="#flushCollapseTataLetak" aria-expanded="false" aria-controls="flushCollapseTataLetak">
-                            <i class='bx bx-layout nav_icon me-3' data-mdb-tooltip-init data-mdb-placement="right" title="<?= lang('Admin.editor') ?>"></i>
-                            <span><?= lang('Admin.editor') ?></span>
-                        </button>
-                    </h2>
+                        <!-- Editor -->
+                        <h2 class="accordion-header" id="flushHeadingTataLetak">
+                            <button data-mdb-collapse-init class="accordion-button nav-list collapsed" type="button"
+                                data-mdb-target="#flushCollapseTataLetak" aria-expanded="false" aria-controls="flushCollapseTataLetak">
+                                <i class='bx bx-layout nav_icon me-3' data-mdb-tooltip-init data-mdb-placement="right" title="<?= lang('Admin.editor') ?>"></i>
+                                <span><?= lang('Admin.editor') ?></span>
+                            </button>
+                        </h2>
 
-                    <div id="flushCollapseTataLetak" class="accordion-collapse collapse <?= $currentRoute == "admin/halaman" || $currentRoute == "admin/menu" ? "show" : "" ?>" aria-labelledby="flushHeadingTataLetak"
-                        data-mdb-parent="#accordionFlushExampleX">
+                        <div id="flushCollapseTataLetak" class="accordion-collapse collapse <?= $currentRoute == "admin/halaman" || $currentRoute == "admin/menu" ? "show" : "" ?>" aria-labelledby="flushHeadingTataLetak"
+                            data-mdb-parent="#accordionFlushSidebar">
 
-                        <!-- Halaman -->
-                        <?php if ((ENVIRONMENT == 'development') && auth()->user()->inGroup("superadmin")): ?>
+                            <!-- Halaman -->
                             <!-- Halaman editor hanya untuk role superadmin -->
                             <div class="nav-list">
                                 <a href="<?= base_url('admin/halaman') ?>" class="nav-link-admin <?= $currentRoute == "admin/halaman" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Halaman">
@@ -189,20 +187,18 @@ $currentRoute = $request->uri->getSegment(1) . "/" . $request->uri->getSegment(2
                                     </span>
                                 </a>
                             </div>
-                        <?php endif ?>
 
-                        <!-- Menu -->
-                        <div class="nav-list">
-                            <a href="<?= base_url('admin/menu') ?>" class="nav-link-admin <?= $currentRoute == "admin/menu" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Menu">
-                                <i class='bx bx-food-menu nav_icon'></i>
-                                <span class="nav_name">
-                                    <?= lang('Admin.menu') ?>
-                                </span>
-                            </a>
-                        </div>
+                            <!-- Menu -->
+                            <div class="nav-list">
+                                <a href="<?= base_url('admin/menu') ?>" class="nav-link-admin <?= $currentRoute == "admin/menu" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Menu">
+                                    <i class='bx bx-food-menu nav_icon'></i>
+                                    <span class="nav_name">
+                                        <?= lang('Admin.menu') ?>
+                                    </span>
+                                </a>
+                            </div>
 
-                        <!-- Entitas -->
-                        <?php if ((ENVIRONMENT == 'development') && auth()->user()->inGroup("superadmin")): ?>
+                            <!-- Entitas -->
                             <!-- Entitas editor hanya untuk role superadmin -->
                             <div class="nav-list">
                                 <a href="<?= base_url('admin/entitas') ?>" class="nav-link-admin <?= $currentRoute == "admin/entitas" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Entitas">
@@ -212,11 +208,11 @@ $currentRoute = $request->uri->getSegment(1) . "/" . $request->uri->getSegment(2
                                     </span>
                                 </a>
                             </div>
-                        <?php endif ?>
+
+                        </div>
 
                     </div>
-
-                </div>
+                <?php endif ?>
 
 
             </div>
@@ -238,14 +234,18 @@ $currentRoute = $request->uri->getSegment(1) . "/" . $request->uri->getSegment(2
             </div>
 
             <!-- Pengguna -->
-            <div class="nav-list">
-                <a href="<?= base_url('admin/pengguna') ?>" class="nav-link-admin <?= $currentRoute == "admin/pengguna" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Pengguna">
-                    <i class='bx bxs-user-account nav_icon'></i>
-                    <span class="nav_name">
-                        <?= lang('Admin.pengguna') ?>
-                    </span>
-                </a>
-            </div>
+            <?php if (auth()->user()->inGroup("superadmin")): ?>
+
+                <div class="nav-list">
+                    <a href="<?= base_url('admin/pengguna') ?>" class="nav-link-admin <?= $currentRoute == "admin/pengguna" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Pengguna">
+                        <i class='bx bxs-user-account nav_icon'></i>
+                        <span class="nav_name">
+                            <?= lang('Admin.pengguna') ?>
+                        </span>
+                    </a>
+                </div>
+
+            <?php endif ?>
 
             <!-- Kelola situs -->
             <?php if ((env('app.siteType') == 'parent' || env('app.siteType') == 'super') && auth()->user()->inGroup("superadmin")): ?>

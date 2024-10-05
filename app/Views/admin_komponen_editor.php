@@ -3,19 +3,19 @@
 <?= $this->section('style') ?>
 
 <!-- CodeMirror -->
-<link rel="stylesheet" href="/assets/vendor/codemirror/lib/codemirror.css">
-<link rel="stylesheet" href="/assets/vendor/codemirror/addon/hint/show-hint.css">
-<link rel="stylesheet" href="/assets/vendor/codemirror/theme/material-darker.css">
-<link rel="stylesheet" href="/assets/vendor/codemirror/addon/display/fullscreen.css">
-<script src="/assets/vendor/codemirror/lib/codemirror.js"></script>
-<script src="/assets/vendor/codemirror/addon/hint/show-hint.js"></script>
-<script src="/assets/vendor/codemirror/addon/hint/xml-hint.js"></script>
-<script src="/assets/vendor/codemirror/addon/hint/html-hint.js"></script>
-<script src="/assets/vendor/codemirror/addon/display/fullscreen.js"></script>
-<script src="/assets/vendor/codemirror/mode/xml/xml.js"></script>
-<script src="/assets/vendor/codemirror/mode/javascript/javascript.js"></script>
-<script src="/assets/vendor/codemirror/mode/css/css.js"></script>
-<script src="/assets/vendor/codemirror/mode/htmlmixed/htmlmixed.js"></script>
+<link rel="stylesheet" href="<?= base_url('assets/vendor/codemirror/lib/codemirror.css') ?>">
+<link rel="stylesheet" href="<?= base_url('assets/vendor/codemirror/addon/hint/show-hint.css') ?>">
+<link rel="stylesheet" href="<?= base_url('assets/vendor/codemirror/theme/material-darker.css') ?>">
+<link rel="stylesheet" href="<?= base_url('assets/vendor/codemirror/addon/display/fullscreen.css') ?>">
+<script src="<?= base_url('assets/vendor/codemirror/lib/codemirror.js') ?>"></script>
+<script src="<?= base_url('assets/vendor/codemirror/addon/hint/show-hint.js') ?>"></script>
+<script src="<?= base_url('assets/vendor/codemirror/addon/hint/xml-hint.js') ?>"></script>
+<script src="<?= base_url('assets/vendor/codemirror/addon/hint/html-hint.js') ?>"></script>
+<script src="<?= base_url('assets/vendor/codemirror/addon/display/fullscreen.js') ?>"></script>
+<script src="<?= base_url('assets/vendor/codemirror/mode/xml/xml.js') ?>"></script>
+<script src="<?= base_url('assets/vendor/codemirror/mode/javascript/javascript.js') ?>"></script>
+<script src="<?= base_url('assets/vendor/codemirror/mode/css/css.js') ?>"></script>
+<script src="<?= base_url('assets/vendor/codemirror/mode/htmlmixed/htmlmixed.js') ?>"></script>
 
 <style>
     .CodeMirror {
@@ -268,8 +268,8 @@ $errorJS = validation_show_error('js_file');
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.0/beautify.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.0/beautify-html.min.js"></script>
 
-<script src="/assets/vendor/codemirror/addon/comment/comment.js"></script>
-<script src="/assets/vendor/codemirror/addon/comment/continuecomment.js"></script>
+<script src="<?= base_url('assets/vendor/codemirror/addon/comment/comment.js') ?>"></script>
+<script src="<?= base_url('assets/vendor/codemirror/addon/comment/continuecomment.js') ?>"></script>
 
 <!-- CodeMirror -->
 <script>

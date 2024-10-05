@@ -4,7 +4,7 @@ namespace App\Models;
 
 class AgendaPengumumanModel extends \CodeIgniter\Model
 {
-    protected $table = 'agenda_dan_pengumuman';
+    protected $table = 'acara';
 
     protected $useTimestamps = true;
 
@@ -12,46 +12,46 @@ class AgendaPengumumanModel extends \CodeIgniter\Model
 
     public function getByID($id)
     {
-        return $this->select('agenda_dan_pengumuman.*, galeri.uri')
-            ->where('agenda_dan_pengumuman.id', $id)
-            ->join('galeri', 'galeri.id = agenda_dan_pengumuman.id_galeri', 'left')
+        return $this->select('acara.*, galeri.uri')
+            ->where('acara.id', $id)
+            ->join('galeri', 'galeri.id = acara.id_galeri', 'left')
             ->first();
     }
 
     public function getAgendaPaginated($search = '')
     {
-        $idJenis = 3; // Agenda
+        $idJenis = 1; // Agenda
 
         $builder = $this->table($this->table);
 
         if (!empty($search)) {
-            $builder->like('agenda_dan_pengumuman', $search);
+            $builder->like('acara', $search);
         }
 
-        return $builder->select('agenda_dan_pengumuman.*, galeri.uri')
+        return $builder->select('acara.*, galeri.uri')
             ->where('id_jenis', $idJenis)
-            ->where('agenda_dan_pengumuman.status', 'publikasi')
-            ->join('galeri', 'galeri.id = agenda_dan_pengumuman.id_galeri', 'left')
-            ->orderBy('agenda_dan_pengumuman.waktu_mulai', 'DESC')
-            ->paginate(12, 'agenda_dan_pengumuman');
+            ->where('acara.status', 'publikasi')
+            ->join('galeri', 'galeri.id = acara.id_galeri', 'left')
+            ->orderBy('acara.waktu_mulai', 'DESC')
+            ->paginate(12, 'acara');
     }
 
     public function getPengumumanPaginated($search = '')
     {
-        $idJenis = 4; // Pengumuman
+        $idJenis = 2; // Pengumuman
 
         $builder = $this->table($this->table);
 
         if (!empty($search)) {
-            $builder->like('agenda_dan_pengumuman', $search);
+            $builder->like('acara', $search);
         }
 
-        return $builder->select('agenda_dan_pengumuman.*, galeri.uri')
+        return $builder->select('acara.*, galeri.uri')
             ->where('id_jenis', $idJenis)
-            ->where('agenda_dan_pengumuman.status', 'publikasi')
-            ->join('galeri', 'galeri.id = agenda_dan_pengumuman.id_galeri', 'left')
-            ->orderBy('agenda_dan_pengumuman.waktu_mulai', 'DESC')
-            ->paginate(12, 'agenda_dan_pengumuman');
+            ->where('acara.status', 'publikasi')
+            ->join('galeri', 'galeri.id = acara.id_galeri', 'left')
+            ->orderBy('acara.waktu_mulai', 'DESC')
+            ->paginate(12, 'acara');
     }
 
     /**
@@ -63,7 +63,7 @@ class AgendaPengumumanModel extends \CodeIgniter\Model
      */
     public function getAgendaTerbaru($jumlah)
     {
-        $idJenis = 3; // Agenda
+        $idJenis = 1; // Agenda
 
         $today = date('Y-m-d H:i:s');
 
@@ -94,9 +94,8 @@ class AgendaPengumumanModel extends \CodeIgniter\Model
      * Get Agenda for datatable
      * -------------------------------------------------------------
      */
-    public function getAgenda($limit, $start, $status = null, $search = null, $order = 'waktu_mulai', $dir = 'DESC', $idJenis = 3)
+    public function getAgenda($limit, $start, $status = null, $search = null, $order = 'waktu_mulai', $dir = 'DESC', $idJenis = 1)
     {
-        // $idJenis = 3; // Agenda
 
         $builder = $this->db->table($this->table)
             ->select('*')
@@ -126,7 +125,7 @@ class AgendaPengumumanModel extends \CodeIgniter\Model
      */
     public function getPengumuman($limit, $start, $status = null, $search = null, $order = 'waktu_mulai', $dir = 'DESC')
     {
-        $idJenis = 4; // Pengumuman
+        $idJenis = 2; // Pengumuman
 
         $builder = $this->db->table($this->table)
             ->select('*')
@@ -154,7 +153,7 @@ class AgendaPengumumanModel extends \CodeIgniter\Model
      * Get total record of Agenda for datatable
      * -------------------------------------------------------------
      */
-    public function getAgendaTotalRecords($status = null, $search = null, $idJenis = 3)
+    public function getAgendaTotalRecords($status = null, $search = null, $idJenis = 1)
     {
         // $idJenis = 3; // Agenda
 
@@ -185,7 +184,7 @@ class AgendaPengumumanModel extends \CodeIgniter\Model
      */
     public function getPengumumanTotalRecords($status = null, $search = null)
     {
-        $idJenis = 4; // Pengumuman
+        $idJenis = 2; // Pengumuman
 
         if ($status) {
             $builder = $this->db->table($this->table)

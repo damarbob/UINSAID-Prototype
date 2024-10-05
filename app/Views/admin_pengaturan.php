@@ -169,6 +169,15 @@ $errorIkon = validation_show_error('ikon_file');
             <!-- Ikon old input -->
             <input type="hidden" class="form-control" id="ikonOld" name="ikon_old" value="<?= $valueIkon ?>">
 
+
+            <!-- Media Sosial -->
+            <div class="w-100 mb-3">
+                <h3><?= lang('Admin.mediaSosial') ?></h3>
+                <a class="btn btn-secondary btn-sm" href="<?= base_url('admin/media-sosial') ?>" data-mdb-ripple-init="">
+                    <?= lang('Admin.aturMediaSosial') ?><i class="bi bi-arrow-right ms-2"></i>
+                </a>
+            </div>
+
             <!-- Bagian tampilan -->
             <h2 class="mb-3"><?= lang('Admin.tampilan') ?></h2>
 
@@ -342,19 +351,21 @@ $errorIkon = validation_show_error('ikon_file');
                 </div>
             </div>
 
-            <!-- Halaman utama -->
-            <div class="form-floating mb-3">
-                <select class="form-select <?= (validation_show_error('halamanUtamaSitus')) ? 'is-invalid' : ''; ?>" id="halamanUtamaSitus" name="halamanUtamaSitus">
-                    <?php foreach ($halaman as $x): ?>
-                        <option value="<?= $x['slug'] ?>" <?= $valueHalamanUtamaSitus == $x['slug'] ? 'selected' : '' ?>><?= $x['judul'] ?></option>
-                    <?php endforeach; ?>
-                    <option value="" <?= $valueHalamanUtamaSitus == '' ? 'selected' : '' ?>><?= lang('Admin.tidakAda') ?></option>
-                </select>
-                <label for="halamanUtamaSitus" class="form-label"><?= lang('Admin.halamanUtamaSitus') ?></label>
-                <div class="invalid-tooltip end-0">
-                    <?= validation_show_error('halamanUtamaSitus'); ?>
+            <?php if (auth()->user()->inGroup("superadmin")): ?>
+                <!-- Halaman utama -->
+                <div class="form-floating mb-3">
+                    <select class="form-select <?= (validation_show_error('halamanUtamaSitus')) ? 'is-invalid' : ''; ?>" id="halamanUtamaSitus" name="halamanUtamaSitus">
+                        <?php foreach ($halaman as $x): ?>
+                            <option value="<?= $x['slug'] ?>" <?= $valueHalamanUtamaSitus == $x['slug'] ? 'selected' : '' ?>><?= $x['judul'] ?></option>
+                        <?php endforeach; ?>
+                        <option value="" <?= $valueHalamanUtamaSitus == '' ? 'selected' : '' ?>><?= lang('Admin.tidakAda') ?></option>
+                    </select>
+                    <label for="halamanUtamaSitus" class="form-label"><?= lang('Admin.halamanUtamaSitus') ?></label>
+                    <div class="invalid-tooltip end-0">
+                        <?= validation_show_error('halamanUtamaSitus'); ?>
+                    </div>
                 </div>
-            </div>
+            <?php endif ?>
 
             <!-- Tombol simpan -->
             <button class="btn btn-primary mb-4 me-2" type="submit" data-mdb-ripple-init>

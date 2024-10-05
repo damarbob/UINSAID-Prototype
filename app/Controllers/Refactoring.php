@@ -40,7 +40,7 @@ class Refactoring extends BaseControllerAdmin
 
         // Add type identifier to agenda data
         foreach ($agendaData as &$agenda) {
-            $agenda['id_jenis'] = 3;
+            $agenda['id_jenis'] = 1;
             $agenda['judul'] = $agenda['agenda'];
             $agenda['konten'] = $agenda['deskripsi'];
         }
@@ -50,7 +50,7 @@ class Refactoring extends BaseControllerAdmin
 
         // Add type identifier to pengumuman data
         foreach ($pengumumanData as &$pengumuman) {
-            $pengumuman['id_jenis'] = 4;
+            $pengumuman['id_jenis'] = 2;
             $pengumuman['judul'] = $pengumuman['pengumuman'];
             $pengumuman['konten'] = $pengumuman['deskripsi'];
         }
