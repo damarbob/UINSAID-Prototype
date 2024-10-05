@@ -1,9 +1,5 @@
 <?php
 
-use App\Models\EntitasModel;
-use App\Models\EntitasGrupModel;
-use App\Models\MenuModel;
-
 helper('setting');
 
 // Get the current request instance
@@ -17,13 +13,6 @@ $temaDefault = base_url("assets/css/hijau.css");
 $temaRTLDefault = base_url("assets/css/hijau.rtl.css");
 // dd($tema);;
 
-// $menuModel = new MenuModel();
-// $menuHierarchy = $menuModel->getMenuHierarchy();
-
-// $entitasGrupModel = new EntitasGrupModel();
-$entitasModel = new EntitasModel();
-// $entitas = $entitasModel->find(setting()->get('App.entitasSitus'));
-// $entitasGrup = $entitasGrupModel->find($entitas['grup_id']);
 ?>
 <!DOCTYPE html>
 <html lang="id" dir="">
@@ -563,7 +552,7 @@ $entitasModel = new EntitasModel();
         </div>
 
         <!-- Jika entitas grup = Universitas -->
-        <?php if ($entitas['grup_id'] == 0):
+        <?php if ($entitasSitus['grup_id'] == 0):
           $fakultas = $entitasModel->where('grup_id', 1)->findAll();
           $lembaga = $entitasModel->where('grup_id', 2)->findAll();
           $unitPelaksanaTeknis = $entitasModel->where('grup_id', 3)->findAll();
@@ -606,7 +595,7 @@ $entitasModel = new EntitasModel();
           </div>
 
           <!-- Jika entitas grup = Fakultas -->
-        <?php elseif ($entitas['grup_id'] == 1):
+        <?php elseif ($entitasSitus['grup_id'] == 1):
           $programStudi = $entitasModel->where('parent_id', $entitas['id'])->findAll();
         ?>
 
@@ -647,7 +636,7 @@ $entitasModel = new EntitasModel();
           </div>
 
           <!-- Jika entitas grup = Lembaga -->
-        <?php elseif ($entitas['grup_id'] == 2): ?>
+        <?php elseif ($entitasSitus['grup_id'] == 2): ?>
 
           <!-- Menu -->
           <div class="col-lg-3 col-md-6 footer-links">
@@ -674,7 +663,7 @@ $entitasModel = new EntitasModel();
           </div>
 
           <!-- Jika entitas grup = Unit Pelaksana Teknis / UPT -->
-        <?php elseif ($entitas['grup_id'] == 3): ?>
+        <?php elseif ($entitasSitus['grup_id'] == 3): ?>
 
           <!-- Menu -->
           <div class="col-lg-3 col-md-6 footer-links">
@@ -701,7 +690,7 @@ $entitasModel = new EntitasModel();
           </div>
 
           <!-- Jika entitas grup = Program Studi -->
-        <?php elseif ($entitas['grup_id'] == 4): ?>
+        <?php elseif ($entitasSitus['grup_id'] == 4): ?>
 
           <!-- Menu -->
           <div class="col-lg-3 col-md-6 footer-links">
@@ -796,7 +785,7 @@ $entitasModel = new EntitasModel();
 
       </div>
 
-      <?php if ($entitas['grup_id'] == 0): ?>
+      <?php if ($entitasSitus['grup_id'] == 0): ?>
         <div class="row">
           <!-- Media sosial -->
           <div class="col text-center">
