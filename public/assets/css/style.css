@@ -177,12 +177,16 @@ body {
   box-shadow: none;
 }
 #frontend-navbar .navbar-brand {
-  --logo: url("../img/logo-horizontal-pb-new.png");
+  --logo: var(--logo-desktop);
+  --logo-desktop: url("../img/logo-horizontal-pb-new.png");
   --logo-width: 256px; /* Logo's actual width */
   --logo-height: 90px; /* Logo's actual height */
-  --logo-scrolled: url("../img/logo-horizontal-pb-new.png");
-  --logo-scrolled-width: 342px; /* Logo-scrolled's actual width */
-  --logo-scrolled-height: 120px; /* Logo-scrolled's actual height */
+  --logo-mobile: url("../img/icon.png");
+  --logo-mobile-width: 90px; /* Logo's actual width */
+  --logo-mobile-height: 90px; /* Logo's actual height */
+  /* --logo-scrolled: url("../img/logo-horizontal-pb-new.png");
+  --logo-scrolled-width: 342px;
+  --logo-scrolled-height: 120px; */
   transition: all 0.25s ease;
   background: var(--logo) left center no-repeat;
   background-size: contain;
@@ -195,7 +199,7 @@ body {
 }
 
 /* Frontend Navbar if scrolled */
-#frontend-navbar.header-scrolled,
+/* #frontend-navbar.header-scrolled,
 #frontend-navbar.header-inner-pages {
   background: var(--mdb-body-bg);
 }
@@ -207,22 +211,22 @@ body {
   background-size: contain;
   width: var(--logo-scrolled-width);
   height: var(--logo-scrolled-height);
-}
+} */
 
-@media (min-width: 374.5px) and (max-width: 575px) {
+/* @media (min-width: 374.98px) and (max-width: 575px) {
   #frontend-navbar .navbar-brand {
     --logo: url("../img/logo-horizontal-pb-new.png");
-    --logo-width: 256px; /* Logo's actual width */
+    --logo-width: 256px;
     --logo-scrolled: url("../img/logo-horizontal-pb-new.png");
-    --logo-scrolled-width: 342px; /* Logo-scrolled's actual width */
+    --logo-scrolled-width: 342px;
   }
-}
+} */
 
-@media (max-width: 374.5px) {
+@media (max-width: 374.98px) {
   #frontend-navbar .navbar-brand {
-    --logo: url("../img/icon.png");
-    --logo-width: 90px; /* Logo's actual width */
-    --logo-height: 90px; /* Logo's actual height */
+    --logo: var(--logo-mobile);
+    --logo-width: var(--logo-mobile-width);
+    --logo-height: var(--logo-mobile-height);
   }
 }
 
@@ -269,7 +273,7 @@ body {
 #formCari .form-control, /* The input */
 #formCari .form-label, /* The input label */
 #formCari .trailing /* Trailing icon */ {
-  color: var(--mdb-body-bg);
+  color: var(--mdb-light);
 }
 
 @media (max-width: 1199.98px) {

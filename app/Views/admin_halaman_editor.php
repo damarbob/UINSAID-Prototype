@@ -1237,13 +1237,12 @@ $errorJS = validation_show_error('js_file');
                             // console.log(inputFiles)
                             // console.log(inputFiles[0])
                         } else {
-                            const oldFile = document.getElementById(id + '_old').value
+                            const oldFiles = document.getElementById(id + '_old').value
 
                             meta.push({
                                 id,
-                                value: oldFile
+                                value: isValidJSON(oldFiles) ? JSON.parse(oldFiles) : '' // MUST BE PARSED BACK TO JS OBJECT BECAUSE ALL META WILL BE STRINGIFIED IN THE END. TO PREVENT DOUBLE STRINGIFICATION!
                             });
-                            console.log(oldFile)
                         }
                     }
 
