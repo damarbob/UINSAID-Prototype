@@ -241,6 +241,9 @@ $routes->group('admin', ['filter' => 'group:admin,superadmin'], function ($route
     $routes->post('pengguna/tambah', 'PenggunaAdmin::tambahPengguna');
     $routes->post('pengguna/hapus', 'PenggunaAdmin::hapusBanyak');
 
+    // Aktivitas Login
+    $routes->get('aktivitas-login', 'PenggunaAdmin::indexAktivitasLogin');
+
     if (env('app.siteType') == 'parent' || env('app.siteType') == 'super') {
         // Manajemen situs
         $routes->get('situs', 'SitusAdmin');
@@ -358,6 +361,12 @@ $routes->group('api', static function ($routes) {
     $routes->post('pengguna-ajax/edit', 'PenggunaAdmin::editAjax/$1');
     $routes->post('pengguna-ajax/tambah', 'PenggunaAdmin::tambahPenggunaAjax');
     $routes->get('pengguna/(:any)', 'PenggunaAdmin::get/$1');
+
+    // Aktivitas login
+    $routes->post('aktivitas-login', 'PenggunaAdmin::getDTAktivitasLogin');
+    // $routes->post('aktivitas-login-ajax/edit', 'PenggunaAdmin::editAjax/$1');
+    // $routes->post('aktivitas-login-ajax/tambah', 'PenggunaAdmin::tambahPenggunaAjax');
+    $routes->post('aktivitas-login/(:any)', 'PenggunaAdmin::getDTAktivitasLogin/$1');
 
     // Situs
     $routes->get('situs', 'SitusAdmin::get');

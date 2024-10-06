@@ -152,10 +152,10 @@ if (!function_exists('format_tanggal_suatu_kolom')) {
 
         // Set the locale to Indonesian
         $locale = 'id_ID';
-        $dateType = IntlDateFormatter::RELATIVE_FULL;
-        $timeType = $showWaktu ? IntlDateFormatter::LONG : IntlDateFormatter::NONE;
-        $pattern = 'EEEE, d MMMM yyyy HH:mm z';
-        $formatter = new IntlDateFormatter($locale, $dateType, $timeType);
+        // $dateType = IntlDateFormatter::RELATIVE_FULL;
+        // $timeType = $showWaktu ? IntlDateFormatter::LONG : IntlDateFormatter::NONE;
+        $pattern = $showWaktu ? 'EEEE, d MMMM yyyy HH:mm z' : 'EEEE, d MMMM yyyy';
+        $formatter = new IntlDateFormatter($locale, pattern: $pattern);
 
         // Ensure $data is always an array
         if (!is_array($data) || isset($data[$kolom])) {

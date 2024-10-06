@@ -74,9 +74,9 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
                         window.location.href = '<?= base_url("/admin/menu/tambah"); ?>'
                     }
                 },
-                {
-                    text: '<i id="iconFilterRilisMedia" class="bx bx-filter-alt me-2"></i><span id="loaderFilterRilisMedia" class="loader me-2" style="display: none;"></span><span id="textFilterRilisMedia"><?= lang('Admin.semua') ?></span>',
-                },
+                // {
+                //     text: '<i id="iconFilterRilisMedia" class="bx bx-filter-alt me-2"></i><span id="loaderFilterRilisMedia" class="loader me-2" style="display: none;"></span><span id="textFilterRilisMedia"><?= lang('Admin.semua') ?></span>',
+                // },
                 {
                     extend: 'colvis',
                     text: '<i class="bx bx-table"></i>'
@@ -162,7 +162,7 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
             })
 
             buttons.eq(0).removeClass("btn-secondary").addClass("btn-primary").addClass("rounded-0");
-            buttons.eq(2).removeClass("btn-secondary").addClass("btn-primary");
+            // buttons.eq(2).removeClass("btn-secondary").addClass("btn-primary");
             lastButton.removeClass("btn-secondary").addClass("btn-danger").addClass("rounded-0");
 
         });

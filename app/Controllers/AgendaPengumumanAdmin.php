@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\AcaraJenisModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
@@ -99,22 +100,24 @@ class AgendaPengumumanAdmin extends BaseControllerAdmin
 
     public function getDTAgenda($status = null)
     {
-        $idJenis = 3; // Agenda
+        // $idJenis = 3; // Agenda
 
         // Call getDT and pass the required parameters
-        return $this->getDT($status, $idJenis);
+        return $this->getDT($status, 'agenda');
     }
 
     public function getDTPengumuman($status = null)
     {
-        $idJenis = 4; // Pengumuman
+        // $idJenis = 4; // Pengumuman
 
         // Call getDT and pass the required parameters
-        return $this->getDT($status, $idJenis);
+        return $this->getDT($status, 'pengumuman');
     }
 
-    private function getDT($status = null, $idJenis = 3)
+    private function getDT($status = null, string $namaJenis)
     {
+        $acaraJenisModel = new AcaraJenisModel();
+        $idJenis = (int) $acaraJenisModel->getByNama($namaJenis);
         // $columns = ['id_jenis', 'judul', 'waktu_mulai', 'created_at', 'status']; // DEBUG id_jenis
         $columns = ['judul', 'waktu_mulai', 'created_at', 'status'];
 
@@ -127,10 +130,10 @@ class AgendaPengumumanAdmin extends BaseControllerAdmin
         $totalData = $this->agendaPengumumanModel->where('id_jenis', $idJenis)->countAllResults(); // Count Agenda
         $totalFiltered = $totalData;
 
-        $agenda = $this->agendaPengumumanModel->getAgenda($limit, $start, $status, $search, $order, $dir, $idJenis);
+        $agenda = $this->agendaPengumumanModel->getAcara($limit, $start, $status, $search, $order, $dir, idJenis: $idJenis);
 
         if ($search || $status) {
-            $totalFiltered = $this->agendaPengumumanModel->getAgendaTotalRecords($status, $search, $idJenis);
+            $totalFiltered = $this->agendaPengumumanModel->getAcaraTotalRecords($status, $search, idJenis: $idJenis);
         }
 
         $data = [];

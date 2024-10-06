@@ -308,7 +308,7 @@
             $.each(filterButtons, function(btnId, status) {
                 $(btnId).on('click', function() {
                     filterStatus = status; // Update the filter status
-                    table1.ajax.reload(); // Reload the DataTable with the new filter
+                    // table1.ajax.reload(); // Reload the DataTable with the new filter
                     $('#iconFilterRilisMedia').hide();
                     $('#loaderFilterRilisMedia').show();
                     table1.ajax.reload(function() {

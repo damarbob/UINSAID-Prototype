@@ -58,6 +58,8 @@ return [
     'dibuatPada' => 'Dibuat pada',
     'diperbaruiPada' => 'Diperbarui pada',
 
+    'aktivitasLogin' => 'Aktivitas Login',
+
     'tambah' => 'Tambah',
     'mintaAturUlangKataSandi' => 'Minta Atur Ulang Kata Sandi',
 

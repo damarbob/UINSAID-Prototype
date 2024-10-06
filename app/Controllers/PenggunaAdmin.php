@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\AktivitasLoginModel;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
@@ -31,6 +32,63 @@ class PenggunaAdmin extends BaseControllerAdmin
 
         $this->data['auth_groups'] = config('AuthGroups')->groups;
         return view('admin_users', $this->data);
+    }
+
+    public function indexAktivitasLogin()
+    {
+        $this->data['judul'] = lang('Admin.aktivitasLogin');
+        $aktivitasLoginModel = new AktivitasLoginModel();
+        $this->data['user'] = $aktivitasLoginModel->getUniqueUserLogins();
+
+        $this->data['auth_groups'] = config('AuthGroups')->groups;
+        return view('admin_aktivitas_login', $this->data);
+    }
+
+    public function getDTAktivitasLogin($userId = null)
+    {
+        $aktivitasLoginModel = new AktivitasLoginModel();
+        // $columns = ['id_jenis', 'judul', 'waktu_mulai', 'created_at', 'status']; // DEBUG id_jenis
+        $columns = ['id', 'username', 'active', 'last_active', 'identifier', 'user_id', 'date', 'success'];
+
+        $limit = $this->request->getPost('length');
+        $start = $this->request->getPost('start');
+        $order = $columns[$this->request->getPost('order')[0]['column']];
+        $dir = $this->request->getPost('order')[0]['dir'];
+        if ($userId == null) $userId = $this->request->getPost('user_id');
+
+        $search = $this->request->getPost('search')['value'] ?? null;
+        $totalData = $aktivitasLoginModel->countAllResults(); // Count Agenda
+        $totalFiltered = $totalData;
+
+        $agenda = $aktivitasLoginModel->getDT($limit, $start, $search, $order, $dir, userId: $userId);
+
+        if ($search || $userId) {
+            $totalFiltered = $aktivitasLoginModel->getDTTotalRecords($search, userId: $userId);
+        }
+
+        $data = [];
+        if (!empty($agenda)) {
+            foreach ($agenda as $row) {
+                $nestedData['id'] = $row->id;
+                $nestedData['username'] = $row->username;
+                $nestedData['identifier'] = $row->identifier;
+                $nestedData['date'] = $row->date;
+                $nestedData['success'] = $row->success;
+                $nestedData['ip_address'] = $row->ip_address;
+                $nestedData['user_id'] = $row->user_id;
+                // $nestedData['status'] = $row->status;
+                $data[] = $nestedData;
+            }
+        }
+
+        $json_data = [
+            "draw" => intval($this->request->getPost('draw')),
+            "recordsTotal" => intval($totalData),
+            "recordsFiltered" => intval($totalFiltered),
+            "data" => $data
+        ];
+
+        return $this->response->setJSON($json_data);
     }
 
     public function get($group = null)

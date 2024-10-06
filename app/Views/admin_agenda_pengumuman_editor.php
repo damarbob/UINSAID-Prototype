@@ -101,7 +101,7 @@ if ($mode == "tambah") {
             <!-- Waktu mulai picker -->
             <div class="form mb-3">
                 <label for="waktu-mulai"><?= lang('Admin.waktuMulai') ?></label>
-                <input id="waktu-mulai" name="waktu_mulai" class="form-control <?= (validation_show_error('waktu-mulai')) ? 'is-invalid' : ''; ?>" required value="<?= $valueWaktuMulai ?>" />
+                <input id="waktu-mulai" name="waktu_mulai" type="datetime-local" class="form-control <?= (validation_show_error('waktu-mulai')) ? 'is-invalid' : ''; ?>" required value="<?= $valueWaktuMulai ?>" />
                 <div class="invalid-feedback">
                     <?= validation_show_error('waktu-mulai'); ?>
                 </div>
@@ -113,7 +113,7 @@ if ($mode == "tambah") {
             <!-- Waktu selesai picker -->
             <div class="form mb-3">
                 <label for="waktu-selesai"><?= lang('Admin.waktuSelesai') ?></label>
-                <input id="waktu-selesai" name="waktu_selesai" class="form-control <?= (validation_show_error('waktu-selesai')) ? 'is-invalid' : ''; ?>" value="<?= $valueWaktuSelesai ?>" />
+                <input id="waktu-selesai" name="waktu_selesai" type="datetime-local" class="form-control <?= (validation_show_error('waktu-selesai')) ? 'is-invalid' : ''; ?>" value="<?= $valueWaktuSelesai ?>" />
             </div>
 
         </div>
@@ -327,7 +327,7 @@ if ($mode == "tambah") {
 </script>
 
 <!-- Datetime picker -->
-<script>
+<!-- <script>
     $('#waktu-mulai').datetimepicker({
         datepicker: {
             showOtherMonths: true,
@@ -361,7 +361,7 @@ if ($mode == "tambah") {
         format: 'yyyy-mm-dd HH:MM',
         uiLibrary: 'materialdesign',
     });
-</script>
+</script> -->
 
 <!-- Handle gambar -->
 <script>
