@@ -57,7 +57,8 @@ if (!function_exists('replaceMetaSyntaxV2')) {
                     break;
 
                 case 'file':
-                    $output = is_array($value) ? base_url($value[0]) : base_url($value);
+                    // Check if value is array and is containing items
+                    $output = (is_array($value) && count($value) > 0) ? base_url($value[0]) : base_url($value);
                     break;
 
                 case 'file-multiple':

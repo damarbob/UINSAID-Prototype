@@ -684,7 +684,7 @@ $errorJS = validation_show_error('js_file');
                                     filesFormHelper.insertAdjacentHTML('beforeend', `
                                         <small>
                                             (
-                                            <a href="${replaceEnvironmentSyntax(fileUrl)}" target="_blank">
+                                            <a href="<?= base_url() ?>${(fileUrl)}" target="_blank">
                                                 ${getFilenameAndExtension(fileUrl)}
                                                 <i class="bi bi-box-arrow-up-right ms-2"></i>
                                             </a>
@@ -1229,12 +1229,13 @@ $errorJS = validation_show_error('js_file');
 
                         if (inputFiles.length > 0) {
                             formData.append(name, inputFiles[0]); // Append file to formData to enable upload
+                            const fileArray = Array.from(inputFiles).map(file => file.name); // Collect file names for meta
                             meta.push({
                                 id,
-                                value: inputFiles[0]
+                                value: fileArray
                             });
-                            console.log(inputFiles)
-                            console.log(inputFiles[0])
+                            // console.log(inputFiles)
+                            // console.log(inputFiles[0])
                         } else {
                             const oldFile = document.getElementById(id + '_old').value
 
