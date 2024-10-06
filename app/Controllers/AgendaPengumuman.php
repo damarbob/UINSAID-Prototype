@@ -7,28 +7,64 @@ use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
 
 use function App\Helpers\delete_many;
-use function App\Helpers\format_tanggal;
+use function App\Helpers\format_tanggal_suatu_kolom;
 
 class AgendaPengumuman extends BaseController
 {
     public function index()
     {
+        helper('format');
+
         $this->data['judul'] = 'Agenda';
 
+        // Setting manual pagination
+        $pagerService = service('pager'); // Load the pager service
+
+        // Current page (from the query string, defaults to 1)
+        $page = (int) ($this->request->getGet('page') ?? 1);
+
+        // Number of results per page
+        $perPage = 12;
+
+        // Get data
         $search = $this->request->getGet('search') ?? '';
-        $this->data['item'] = $this->agendaPengumumanModel->getAgendaPaginated($search);
-        $this->data['pagerAgenda'] = $this->agendaPengumumanModel->pager;
+        $dataAll = $this->agendaPengumumanModel->getAcaraPublikasi('agenda', $search, $perPage);
+        $this->data['item'] = format_tanggal_suatu_kolom(array_slice($dataAll, ($page - 1) * $perPage, $perPage), 'waktu_mulai');
+
+        // Get the total number of items
+        $total = sizeof($dataAll);
+
+        // Generate pagination links
+        $this->data['pager'] = $pagerService->makeLinks($page, $perPage, $total, 'pager');
 
         return view('agenda_pengumuman', $this->data);
     }
 
     public function indexPengumuman()
     {
+        helper('format');
+
         $this->data['judul'] = 'Pengumuman';
 
+        // Setting manual pagination
+        $pagerService = service('pager'); // Load the pager service
+
+        // Current page (from the query string, defaults to 1)
+        $page = (int) ($this->request->getGet('page') ?? 1);
+
+        // Number of results per page
+        $perPage = 12;
+
+        // Get data
         $search = $this->request->getGet('search') ?? '';
-        $this->data['item'] = $this->agendaPengumumanModel->getPengumumanPaginated($search);
-        $this->data['pagerAgenda'] = $this->agendaPengumumanModel->pager;
+        $dataAll = $this->agendaPengumumanModel->getAcaraPublikasi('pengumuman', $search, $perPage);
+        $this->data['item'] = format_tanggal_suatu_kolom(array_slice($dataAll, ($page - 1) * $perPage, $perPage), 'waktu_mulai');
+
+        // Get the total number of items
+        $total = sizeof($dataAll);
+
+        // Generate pagination links
+        $this->data['pager'] = $pagerService->makeLinks($page, $perPage, $total, 'pager');
 
         return view('agenda_pengumuman', $this->data);
     }
@@ -37,12 +73,12 @@ class AgendaPengumuman extends BaseController
     {
         helper('format');
 
-        $item = format_tanggal($this->agendaPengumumanModel->getByID($id));
+        $item = format_tanggal_suatu_kolom($this->agendaPengumumanModel->getByID($id), showWaktu: true);
         // dd(format_tanggal($item));
 
         $this->data['judul'] = $item['judul'];
         $this->data['item'] = $item;
-        $this->data['itemTerbaru'] = format_tanggal($this->agendaPengumumanModel->getAgendaTerbaru(3));
+        $this->data['itemTerbaru'] = format_tanggal_suatu_kolom($this->agendaPengumumanModel->getTerbaru('pengumuman', 3));
 
         // dd($item);
 

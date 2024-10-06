@@ -484,18 +484,18 @@
                 </div>
               </div>
             <?php endforeach; ?>
-            <div class="swiper-slide">
+            <!-- <div class="swiper-slide">
               <div class="swiper-slide-transform">
                 <div class="card berita-card text-body border-3 rounded-4">
                   <div class="d-flex flex-column justify-content-center ps-3 align-items-center">
-                    <a href="">
+                    <a href="https://www.instagram.com/uin.surakarta/">
                       <h5 class="card-title text-body">Follow Instagram UIN RM Said</h5>
                     </a>
                   </div>
                   <img src="assets/img/mahasiswa/mahasiswa-1.png" class="card-img" alt="Gambar">
                 </div>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
 

@@ -219,6 +219,7 @@ return [
     'unggah' => 'Unggah',
     'selesai' => 'Selesai',
     'sedangBerlangsung' => 'Sedang berlangsung',
+    'berlangsung' => 'Berlangsung',
     'akanDatang' => 'Akan datang',
 
     'agenda' => 'Agenda',
