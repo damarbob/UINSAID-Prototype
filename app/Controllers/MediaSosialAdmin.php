@@ -119,7 +119,9 @@ class MediaSosialAdmin extends BaseControllerAdmin
                             'label' => lang('Admin.ikon'),
                             'rules' => [
                                 'uploaded[ikon_file]',
-                                'max_size[ikon_file,4096]|mime_in[file_gambar,image/png,image/jpeg,image/jpg]|is_image[file_gambar]',
+                                'max_size[ikon_file,4096]',
+                                'mime_in[ikon_file,image/png,image/jpeg,image/jpg]',
+                                'is_image[ikon_file]',
                             ]
                         ]
                     ]

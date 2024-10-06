@@ -262,6 +262,22 @@ body {
   height: 100vh;
 }
 
+#formCari {
+  max-width: 128px;
+}
+
+#formCari .form-control, /* The input */
+#formCari .form-label, /* The input label */
+#formCari .trailing /* Trailing icon */ {
+  color: var(--mdb-body-bg);
+}
+
+@media (max-width: 1199.98px) {
+  #formCari {
+    max-width: 100%;
+  }
+}
+
 /* Hero Section */
 .hero {
   background-image: url("../img/wisuda.jpeg");

@@ -361,8 +361,6 @@ $temaRTLDefault = base_url("assets/css/hijau.rtl.css");
             <?php endif; ?>
           <?php endforeach; ?>
 
-
-
         </ul>
 
         <!-- Notifications -->
@@ -423,11 +421,9 @@ $temaRTLDefault = base_url("assets/css/hijau.rtl.css");
         </div> -->
 
         <!-- Search -->
-        <div style="width: 128px;">
-          <form class="" method="get" action="/berita">
-            <input name="search" type="search" class="form-control" placeholder="Cari" aria-label="Search">
-          </form>
-        </div>
+        <form class="w-auto" method="get" action="/berita">
+          <input name="search" type="search" class="form-control" placeholder="Cari" aria-label="Search">
+        </form>
 
       </div>
       <!-- Akhir dari collapsible wrapper -->
@@ -789,6 +785,7 @@ $temaRTLDefault = base_url("assets/css/hijau.rtl.css");
 
       <?php if ($entitasSitus['grup_id'] == 0): ?>
         <div class="row">
+
           <!-- Media sosial -->
           <div class="col text-center">
             <?php foreach ($mediaSosial as $x): ?>
@@ -796,23 +793,9 @@ $temaRTLDefault = base_url("assets/css/hijau.rtl.css");
                 <img src="<?= base_url($x['ikon']) ?>" width="64px" />
               </a>
             <?php endforeach ?>
-            <!-- <a class="fs-1" href="https://www.instagram.com/uin.surakarta/" target="_blank">
-            <img src="<?= base_url('assets/img/icon/icons8-instagram-96.png') ?>" width="64px" />
-          </a>
-          <a class="fs-1" href="https://www.youtube.com/channel/UClhJVwPyu449bZDXIH6yS0w" target="_blank">
-            <img src="<?= base_url('assets/img/icon/ikon-youtube.png') ?>" width="64px" />
-          </a>
-          <a class="fs-1" href="https://www.facebook.com/UIN.RMSaid.Official/" target="_blank">
-            <img src="<?= base_url('assets/img/icon/ikon-facebook.png') ?>" width="64px" />
-          </a>
-          <a class="fs-1" href="https://x.com/uinsurakarta" target="_blank">
-            <img src="<?= base_url('assets/img/icon/ikon-twitter.png') ?>" width="64px" />
-          </a>
-          <a class="fs-1" href="https://www.tiktok.com/@uin_rmsaid?_t=8pT2mtKTir9&_r=1" target="_blank">
-            <img src="<?= base_url('assets/img/icon/ikon-tiktok.png') ?>" width="64px" />
-          </a> -->
           </div>
           <!-- Akhir media sosial -->
+
         </div>
       <?php endif ?>
 
@@ -832,12 +815,12 @@ $temaRTLDefault = base_url("assets/css/hijau.rtl.css");
     <!-- Akhir footer bagian atas -->
 
     <!-- Hak cipta -->
-    <div class="container z-3 bg-black py-4 pb-9 pb-md-0">
+    <div class="container z-3 bg-black py-4 pb-8 pb-md-0">
       <div class="row">
         <div class="col text-center">
           <!-- Teks hak cipta -->
           <p class="">
-            &copy; 2024 UIN Raden Mas Said Surakarta
+            &copy; <?= date("Y") ?> <?= setting()->get('App.namaSitus') ?: 'UIN Raden Mas Said Surakarta' ?>
           </p>
           <!-- Akhir teks hak cipta -->
         </div>

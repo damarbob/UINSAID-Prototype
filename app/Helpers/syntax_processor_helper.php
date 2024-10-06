@@ -2,6 +2,101 @@
 
 namespace App\Helpers;
 
+if (!function_exists('replaceMetaSyntaxV2')) {
+    function replaceMetaSyntaxV2($htmlSource, $metaSource)
+    {
+        // Decode the meta source JSON into an associative array
+        $metaDataArray = json_decode($metaSource, true);
+
+        // Create an associative array for quick lookup by ID, if meta data is available
+        $metaDataMap = $metaDataArray ? array_column($metaDataArray, null, 'id') : [];
+
+        // Regular expression to match the meta syntax in the HTML
+        $pattern = '/\/\* meta \{(.*?)\} meta \*\//';
+
+        // Replacement callback function
+        $replacementCallback = function ($matches) use ($metaDataMap) {
+            // Decode the meta data from the HTML match
+            $meta = json_decode('{' . $matches[1] . '}', true);
+
+            // If the meta ID exists in the metaDataMap, use its value; otherwise, fall back to default value from HTML
+            $metaData = $metaDataMap[$meta['id']] ?? null;
+            $value = $metaData ? $metaData['value'] : ($meta['value'] ?? '');
+
+            $output = '';
+
+            // Handle different input types
+            switch ($meta['tipe']) {
+                case 'text':
+                case 'number':
+                case 'email':
+                case 'password':
+                case 'color':
+                case 'textarea':
+                    $output = htmlspecialchars($value);
+                    break;
+
+                case 'datetime-local':
+                    $output = $value ? date('M Y, H:i', strtotime($value)) : '';
+                    break;
+
+                case 'radio':
+                    // Use the label if the value matches any of the options
+                    if (!empty($meta['options'])) {
+                        foreach ($meta['options'] as $option) {
+                            if ($option['value'] === $value) {
+                                $output = $option['label'];
+                                break;
+                            }
+                        }
+                    }
+                    break;
+
+                case 'checkbox':
+                    $output = $value ? $value : 'off';
+                    break;
+
+                case 'file':
+                    // Check if value is array and is containing items
+                    $output = (is_array($value) && count($value) > 0) ? base_url($value[0]) : base_url($value);
+                    break;
+
+                case 'file-multiple':
+                    if (is_array($value)) {
+                        $valueWithBaseUrl = array_map(fn($x) => base_url($x), $value);
+                        $output = implode(', ', $valueWithBaseUrl);
+                    } else {
+                        $output = $value;
+                    }
+                    break;
+
+                case 'select':
+                    // Use the label if the value matches any of the options
+                    if (!empty($meta['options'])) {
+                        foreach ($meta['options'] as $option) {
+                            if ($option['value'] === $value) {
+                                $output = $option['label'];
+                                break;
+                            }
+                        }
+                    }
+                    break;
+
+                default:
+                    $output = htmlspecialchars($value);
+                    break;
+            }
+
+            return $output;
+        };
+
+        // Replace the meta syntax in the HTML source with the appropriate value
+        $result = preg_replace_callback($pattern, $replacementCallback, $htmlSource);
+
+        return $result;
+    }
+}
+
 if (!function_exists('replaceMetaSyntax')) {
     /**
      * Replace meta syntax in the HTML source with corresponding values from the meta source.
@@ -72,11 +167,27 @@ if (!function_exists('replaceMetaSyntax')) {
                     break;
 
                 case 'checkbox':
-                    $output = $value ? $value : ''; // 'on' for checked, empty string for unchecked or not found
+                    $output = $value ? $value : 'off'; // 'on' for checked, empty string for unchecked or not found
                     break;
 
                 case 'file':
-                    $output = is_array($value) ? implode(', ', $value) : $value;
+                    // Add base url because images are stored locally, also applies to file-multiple
+                    $output = is_array($value) ? base_url($value[0]) : base_url($value); // OLD
+                    break;
+                case 'file-multiple':
+                    if (is_array($value)) {
+
+                        $valueWithBaseUrl = []; // For storing value with base URL
+
+                        foreach ($value as $x) {
+                            array_push($valueWithBaseUrl, base_url($x));
+                        }
+
+                        $output = implode(', ', $valueWithBaseUrl);
+                    } else {
+                        $output = $value;
+                    }
+                    // $output = is_array($value) ? implode(', ', $value) : $value; // OLD
                     break;
 
                 case 'select':
