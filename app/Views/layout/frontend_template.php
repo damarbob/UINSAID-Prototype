@@ -341,7 +341,7 @@ $temaRTLDefault = base_url("assets/css/hijau.rtl.css");
       <div>
         <!-- Navbar brand -->
         <div id="navbarBrandWrapper" class="bg-white position-absolute top-0 py-2 px-2 rounded-bottom-3 shadow-lg">
-          <a class="navbar-brand mx-0" href="<?= base_url() ?>" style="--logo-desktop: url('<?= base_url(setting()->get('App.logoSitus') ?: 'assets/img/logo-horizontal-pb-new.png') ?>'); --logo-mobile: url('<?= base_url(setting()->get('App.logoMobileSitus')) ?>');"></a>
+          <a class="navbar-brand mx-0" href="<?= base_url() ?>" style="--logo-desktop: url('<?= base_url(setting()->get('App.logoSitus') ?: 'assets/img/logo-horizontal-pb-new.png') ?>'); --logo-mobile: url('<?= base_url(setting()->get('App.logoMobileSitus') ?: 'assets/img/icon.png') ?>');"></a>
         </div>
       </div>
 
