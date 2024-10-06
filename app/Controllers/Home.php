@@ -293,7 +293,7 @@ class Home extends BaseController
             $x['konten'] = $this->dataSyntaxQueryProcessor->processPreDataSyntax($x['konten']);
 
             // d($x['konten']);
-            // if ($x['id'] == 30) dd($x['konten']); // DEBUG
+            // if ($x['id'] == 31) dd(replaceMetaSyntaxV2($x['konten'], null)); // DEBUG Tentang kami
             // if ($x['id'] == 18) dd($this->twig->renderTemplateString(replaceMetaSyntaxWithDefault($x['konten']), [])); // DEBUG
 
             // Replace meta syntax
@@ -312,7 +312,7 @@ class Home extends BaseController
             } else {
 
                 // dd($komponenMeta['meta']); // DEBUG
-                // d(replaceMetaSyntax(
+                // if ($x['id'] == 31) dd(replaceMetaSyntaxV2(
                 //     $x['konten'],
                 //     replaceEnvironmentSyntax($komponenMeta['meta']) // The komponen meta's environment must be parsed
                 // )); // DEBUG

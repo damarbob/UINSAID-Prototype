@@ -486,7 +486,7 @@ if ($mode == "tambah") {
                     if (currentPage > 1) {
                         paginationHtml += `
         <li class="page-item">
-            <a class="page-link" href="#" data-page="${currentPage - 1}">Previous</a>
+            <a class="page-link" href="#" data-page="${currentPage - 1}">Sebelumnya</a>
         </li>`;
                     }
 
@@ -531,7 +531,7 @@ if ($mode == "tambah") {
                     if (currentPage < totalPages) {
                         paginationHtml += `
         <li class="page-item">
-            <a class="page-link" href="#" data-page="${currentPage + 1}">Next</a>
+            <a class="page-link" href="#" data-page="${currentPage + 1}">Berikutnya</a>
         </li>`;
                     }
 
