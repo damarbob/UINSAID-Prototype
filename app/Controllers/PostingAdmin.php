@@ -73,7 +73,7 @@ class PostingAdmin extends BaseControllerAdmin
         $totalData = $this->postingModel->countAll();
         $totalFiltered = $totalData;
 
-        $posting = $this->postingModel->getByFilter('berita', $limit, $start, $statusX, $search, $order, $dir);
+        $posting = $this->postingModel->getByFilter($limit, $start, $statusX, $search, $order, $dir, 'berita');
 
         if ($search || $statusX) {
             $totalFiltered = $this->postingModel->getTotalRecords('berita', $statusX, $search);

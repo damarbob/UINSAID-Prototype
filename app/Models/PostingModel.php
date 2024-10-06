@@ -12,7 +12,7 @@ class PostingModel extends \CodeIgniter\Model
 
     protected $allowedFields = ['id_penulis', 'id_kategori', 'id_jenis', 'judul', 'slug', 'konten', 'ringkasan', 'pengajuan', 'status', 'gambar_sampul', 'sumber', 'tanggal_terbit', 'created_at', 'updated_at'];
 
-    public function getPosting($jenisNama = null, $jenisId = null, $limit = null, $start = null, $status = null, $search = null, $order = null, $dir = null)
+    public function getPosting($limit = null, $start = null, $status = null, $search = null, $order = null, $dir = null, $jenisNama = null, $jenisId = null)
     {
         $builder = $this->db->table($this->table)
             ->select('posting.*, users.username as penulis, kategori.nama as kategori, posting_jenis.id as id_posting_jenis')
@@ -92,7 +92,7 @@ class PostingModel extends \CodeIgniter\Model
         );
     }
 
-    public function getByFilter($jenisNama = null, $limit, $start, $status = null, $search = null, $order = 'judul', $dir = 'asc')
+    public function getByFilter($limit, $start, $status = null, $search = null, $order = 'judul', $dir = 'asc', $jenisNama = null,)
     {
         $builder = $this->db->table($this->table)
             ->select('posting.*, users.username as penulis, kategori.nama as kategori')
