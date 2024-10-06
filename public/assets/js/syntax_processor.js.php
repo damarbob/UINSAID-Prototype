@@ -2,6 +2,7 @@
 <script type="text/javascript">
   // UPDATE MUST ALSO BE DONE IN THE PHP VERSION IN syntax_processor_helper.php
   function replaceEnvironmentSyntax(input) {
+    // console.log(input);
     // Regular expression to match the pattern [ variable ]
     return input.replace(/\[\s*(\w+)\s*\]/g, function(match, key) {
       switch (key) {

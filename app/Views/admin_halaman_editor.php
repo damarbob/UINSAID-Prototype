@@ -594,94 +594,94 @@ $errorJS = validation_show_error('js_file');
                                 break;
                             case 'file':
 
-                                if (!element.hasAttribute('multiple')) {
-                                    // Handle single file
+                                // if (!element.hasAttribute('multiple')) {
+                                //     // Handle single file
 
+                                //     if (!value) {
+                                //         // If falsy value, return
+                                //         return;
+                                //     }
+
+                                //     // Declare variables
+                                //     const fileInputOld = document.getElementById(id + '_old');
+                                //     const fileFormHelper = document.getElementById(id + '_formHelper');
+                                //     const fileInputParent = document.getElementById(id + '_parent');
+
+                                //     fileInputOld.value = value;
+
+                                //     fileFormHelper.insertAdjacentHTML('beforeend', `
+                                //         <small>
+                                //             <a href="${replaceEnvironmentSyntax(value)}" target="_blank">
+                                //                 ${getFilenameAndExtension(value)}
+                                //                 <i class="bi bi-box-arrow-up-right ms-2"></i>
+                                //             </a>
+                                //         </small>
+                                //     `);
+
+                                //     // Delete button alongside with its script to empty the input old
+                                //     // Append the button to the parent
+                                //     fileInputParent.insertAdjacentHTML('beforeend', `
+                                //         <button type="button" class="btn btn-danger btn-sm btn-floating" id="${id}_buttonHapusFile" data-mdb-ripple-init="">
+                                //             <i class="bi bi-trash"></i>
+                                //         </button>
+                                //     `);
+
+                                //     // Get reference to the button after it's added
+                                //     const fileButtonHapus = document.getElementById(`${id}_buttonHapusFile`);
+
+                                //     // Add the event listener
+                                //     fileButtonHapus?.addEventListener("click", function() {
+                                //         // Confirm delete
+                                //         Swal.fire({
+                                //             title: "<?= lang('Admin.hapusItem') ?>",
+                                //             text: "<?= lang('Admin.itemYangTerhapusTidakDapatKembali') ?>",
+                                //             icon: "warning",
+                                //             showCancelButton: true,
+                                //             confirmButtonColor: "var(--mdb-danger)",
+                                //             confirmButtonText: "<?= lang('Admin.hapus') ?>",
+                                //             cancelButtonText: "<?= lang('Admin.batal') ?>",
+                                //         }).then((result) => {
+                                //             if (result.isConfirmed) {
+
+                                //                 // Set input value to empty and hide delete button
+                                //                 fileInputOld.value = "";
+                                //                 fileFormHelper.style.display = "none";
+                                //                 fileButtonHapus.style.display = "none";
+
+                                //                 console.log(fileFormHelper);
+
+                                //             }
+                                //         });
+                                //     });
+
+                                // } else {
+                                // Handle multiple files
+
+                                // Check whether the value is array, maybe due to user just changed the data type into files
+                                if (!Array.isArray(value)) {
                                     if (!value) {
                                         // If falsy value, return
                                         return;
                                     }
+                                    value = [value]; // Convert it into array if it's not
+                                }
 
-                                    // Declare variables
-                                    const fileInputOld = document.getElementById(id + '_old');
-                                    const fileFormHelper = document.getElementById(id + '_formHelper');
-                                    const fileInputParent = document.getElementById(id + '_parent');
+                                // console.log(value);
 
-                                    fileInputOld.value = value;
+                                // We cannot do anything to file input including changing the text
+                                // Instead, we store the previously uploaded file to a hidden input 'old'
+                                const filesInputOld = document.getElementById(id + '_old');
+                                const filesFormHelper = document.getElementById(id + '_formHelper');
+                                const filesInputParent = document.getElementById(id + '_parent');
 
-                                    fileFormHelper.insertAdjacentHTML('beforeend', `
-                                        <small>
-                                            <a href="${replaceEnvironmentSyntax(value)}" target="_blank">
-                                                ${getFilenameAndExtension(value)}
-                                                <i class="bi bi-box-arrow-up-right ms-2"></i>
-                                            </a>
-                                        </small>
-                                    `);
+                                filesInputOld.value = JSON.stringify(value); // This will result in array even with a single value JUST DON'T FORGET TO PARSE BEFORE STRINGIFYING AGAIN, OTHERWISE BROKEN
 
-                                    // Delete button alongside with its script to empty the input old
-                                    // Append the button to the parent
-                                    fileInputParent.insertAdjacentHTML('beforeend', `
-                                        <button type="button" class="btn btn-danger btn-sm btn-floating" id="${id}_buttonHapusFile" data-mdb-ripple-init="">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                    `);
+                                // Show all files
+                                value.forEach(fileUrl => {
 
-                                    // Get reference to the button after it's added
-                                    const fileButtonHapus = document.getElementById(`${id}_buttonHapusFile`);
+                                    // console.log('File URL:', fileUrl);
 
-                                    // Add the event listener
-                                    fileButtonHapus?.addEventListener("click", function() {
-                                        // Confirm delete
-                                        Swal.fire({
-                                            title: "<?= lang('Admin.hapusItem') ?>",
-                                            text: "<?= lang('Admin.itemYangTerhapusTidakDapatKembali') ?>",
-                                            icon: "warning",
-                                            showCancelButton: true,
-                                            confirmButtonColor: "var(--mdb-danger)",
-                                            confirmButtonText: "<?= lang('Admin.hapus') ?>",
-                                            cancelButtonText: "<?= lang('Admin.batal') ?>",
-                                        }).then((result) => {
-                                            if (result.isConfirmed) {
-
-                                                // Set input value to empty and hide delete button
-                                                fileInputOld.value = "";
-                                                fileFormHelper.style.display = "none";
-                                                fileButtonHapus.style.display = "none";
-
-                                                console.log(fileFormHelper);
-
-                                            }
-                                        });
-                                    });
-
-                                } else {
-                                    // Handle multiple files
-
-                                    // Check whether the value is array, maybe due to user just changed the data type into files
-                                    if (!Array.isArray(value)) {
-                                        if (!value) {
-                                            // If falsy value, return
-                                            return;
-                                        }
-                                        value = [value]; // Convert it into array if it's not
-                                    }
-
-                                    // console.log(value);
-
-                                    // We cannot do anything to file input including changing the text
-                                    // Instead, we store the previously uploaded file to a hidden input 'old'
-                                    const filesInputOld = document.getElementById(id + '_old');
-                                    const filesFormHelper = document.getElementById(id + '_formHelper');
-                                    const filesInputParent = document.getElementById(id + '_parent');
-
-                                    filesInputOld.value = JSON.stringify(value); // This will result in array even with a single value JUST DON'T FORGET TO PARSE BEFORE STRINGIFYING AGAIN, OTHERWISE BROKEN
-
-                                    // Show all files
-                                    value.forEach(fileUrl => {
-
-                                        // console.log('File URL:', fileUrl);
-
-                                        filesFormHelper.insertAdjacentHTML('beforeend', `
+                                    filesFormHelper.insertAdjacentHTML('beforeend', `
                                         <small>
                                             (
                                             <a href="${replaceEnvironmentSyntax(fileUrl)}" target="_blank">
@@ -692,44 +692,44 @@ $errorJS = validation_show_error('js_file');
                                         </small>
                                     `);
 
-                                    });
+                                });
 
-                                    // Delete button alongside with its script to empty the input old
-                                    // Append the button to the parent
-                                    filesInputParent.insertAdjacentHTML('beforeend', `
+                                // Delete button alongside with its script to empty the input old
+                                // Append the button to the parent
+                                filesInputParent.insertAdjacentHTML('beforeend', `
                                     <button type="button" class="btn btn-danger btn-sm btn-floating" id="${id}_buttonHapusFile" data-mdb-ripple-init="">
                                         <i class="bi bi-trash"></i>
                                     </button>
-                                `);
+                                    `);
 
-                                    // Get reference to the button after it's added
-                                    const buttonHapusFile = document.getElementById(`${id}_buttonHapusFile`);
+                                // Get reference to the button after it's added
+                                const buttonHapusFile = document.getElementById(`${id}_buttonHapusFile`);
 
-                                    // Add the event listener
-                                    buttonHapusFile?.addEventListener("click", function() {
-                                        // Confirm delete
-                                        Swal.fire({
-                                            title: "<?= lang('Admin.hapusItem') ?>",
-                                            text: "<?= lang('Admin.itemYangTerhapusTidakDapatKembali') ?>",
-                                            icon: "warning",
-                                            showCancelButton: true,
-                                            confirmButtonColor: "var(--mdb-danger)",
-                                            confirmButtonText: "<?= lang('Admin.hapus') ?>",
-                                            cancelButtonText: "<?= lang('Admin.batal') ?>",
-                                        }).then((result) => {
-                                            if (result.isConfirmed) {
+                                // Add the event listener
+                                buttonHapusFile?.addEventListener("click", function() {
+                                    // Confirm delete
+                                    Swal.fire({
+                                        title: "<?= lang('Admin.hapusItem') ?>",
+                                        text: "<?= lang('Admin.itemYangTerhapusTidakDapatKembali') ?>",
+                                        icon: "warning",
+                                        showCancelButton: true,
+                                        confirmButtonColor: "var(--mdb-danger)",
+                                        confirmButtonText: "<?= lang('Admin.hapus') ?>",
+                                        cancelButtonText: "<?= lang('Admin.batal') ?>",
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
 
-                                                // Set input value to empty and hide delete button
-                                                filesInputOld.value = "";
-                                                filesFormHelper.style.display = "none";
-                                                buttonHapusFile.style.display = "none";
+                                            // Set input value to empty and hide delete button
+                                            filesInputOld.value = "";
+                                            filesFormHelper.style.display = "none";
+                                            buttonHapusFile.style.display = "none";
 
-                                                console.log(filesFormHelper);
+                                            console.log(filesFormHelper);
 
-                                            }
-                                        });
+                                        }
                                     });
-                                }
+                                });
+                                // }
 
                                 break;
                             case 'select-one':
@@ -880,7 +880,7 @@ $errorJS = validation_show_error('js_file');
                         const isMultiple = tipe === 'file-multiple' ? 'multiple' : '';
                         inputHTML = `
                             <div class="form-floating mb-3" id="${id}_parent">
-                                <input type="file" id="${id}" name="${id}[]" class="form-control" ${isMultiple} />
+                                <input type="file" id="${id}" name="${id}${isMultiple ? '[]' : ''}" class="form-control" ${isMultiple} />
                                 <label class="form-label" for="${id}">${nama}</label>
                                 <div class="form-helper" id="${id}_formHelper">
                                     <!-- Filled dynamically -->
@@ -1228,10 +1228,13 @@ $errorJS = validation_show_error('js_file');
                         //Handle single file
 
                         if (inputFiles.length > 0) {
+                            formData.append(name, inputFiles[0]); // Append file to formData to enable upload
                             meta.push({
                                 id,
                                 value: inputFiles[0]
                             });
+                            console.log(inputFiles)
+                            console.log(inputFiles[0])
                         } else {
                             const oldFile = document.getElementById(id + '_old').value
 
@@ -1239,6 +1242,7 @@ $errorJS = validation_show_error('js_file');
                                 id,
                                 value: oldFile
                             });
+                            console.log(oldFile)
                         }
                     }
 

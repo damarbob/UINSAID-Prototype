@@ -15,6 +15,7 @@ use function App\Helpers\format_tanggal_suatu_kolom;
 use function App\Helpers\replaceAttributesSyntax;
 use function App\Helpers\replaceEnvironmentSyntax;
 use function App\Helpers\replaceMetaSyntax;
+use function App\Helpers\replaceMetaSyntaxV2;
 use function App\Helpers\replaceMetaSyntaxWithDefault;
 use function App\Helpers\replaceMetaSyntaxWithEmpty;
 
@@ -291,6 +292,7 @@ class Home extends BaseController
             // Process pre data syntax
             $x['konten'] = $this->dataSyntaxQueryProcessor->processPreDataSyntax($x['konten']);
 
+            // d($x['konten']);
             // if ($x['id'] == 30) dd($x['konten']); // DEBUG
             // if ($x['id'] == 18) dd($this->twig->renderTemplateString(replaceMetaSyntaxWithDefault($x['konten']), [])); // DEBUG
 
@@ -309,10 +311,15 @@ class Home extends BaseController
                 );
             } else {
 
-                // dd($komponenMeta['meta']);
+                // dd($komponenMeta['meta']); // DEBUG
+                // d(replaceMetaSyntax(
+                //     $x['konten'],
+                //     replaceEnvironmentSyntax($komponenMeta['meta']) // The komponen meta's environment must be parsed
+                // )); // DEBUG
 
+                // Format komponen
                 $x['konten_terformat'] = $this->twig->renderTemplateString(
-                    replaceMetaSyntax(
+                    replaceMetaSyntaxV2(
                         $x['konten'],
                         replaceEnvironmentSyntax($komponenMeta['meta']) // The komponen meta's environment must be parsed
                     ),
@@ -322,7 +329,8 @@ class Home extends BaseController
                         'request_post' => $this->request->getPost(),
                         'request_get' => $this->request->getGet(),
                     ]
-                ); // Format komponen
+                );
+                // d($x['konten_terformat']); // DEBUG
             }
 
             // Replace data syntax
