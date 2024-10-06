@@ -227,6 +227,22 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
         }
 
         function ajukan() {
+            var parentSite = '<?= env('app.parentSite') ?>';
+
+            if (parentSite == '') { // If app.siteParent is null, it will be captured by JS as empty string
+                Swal.fire({
+                    title: '<?= lang('Admin.ajukanBerita') ?>',
+                    text: '<?= lang('Admin.situsUtamaBelumDiatur') ?>',
+                    icon: 'error',
+                    showCancelButton: true,
+                    showConfirmButton: false,
+                    cancelButtonText: '<?= lang('Admin.batal') ?>',
+                    confirmButtonColor: "var(--mdb-primary)",
+                    focusCancel: true,
+                })
+                return;
+            }
+
             var options = {
                 title: "<?= lang('Admin.ajukanBerita') ?>",
                 confirmMessage: "<?= lang('Admin.kirimkanBeritaIniKeWebsiteUtama') ?>",
@@ -236,7 +252,8 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
                 cancelButtonText: "<?= lang('Admin.batal') ?>"
             };
 
-            processBulkNew(table1, "<?= base_url('/api/posting-diajukan/terima-posting') ?>", options);
+            // NOTE: Tidak perlu base_url karena akan merequest situs eksternal
+            processBulkNew(table1, parentSite + "api/posting-diajukan/terima-posting", options);
         }
 
         function batalAjukan() {

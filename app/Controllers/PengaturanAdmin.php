@@ -70,6 +70,14 @@ class PengaturanAdmin extends BaseControllerAdmin
                     'label' => lang('Admin.logo'),
                     'rules' => 'max_size[logo_file,4096]|mime_in[logo_file,image/png,image/jpeg,image/jpg]|is_image[logo_file]',
                 ],
+                'logo_mobile_file' => [
+                    'label' => lang('Admin.logoMobile'),
+                    'rules' => 'max_size[logo_mobile_file,4096]|mime_in[logo_mobile_file,image/png,image/jpeg,image/jpg]|is_image[logo_mobile_file]',
+                ],
+                'logo_footer_file' => [
+                    'label' => lang('Admin.logoFooter'),
+                    'rules' => 'max_size[logo_footer_file,4096]|mime_in[logo_footer_file,image/png,image/jpeg,image/jpg]|is_image[logo_footer_file]',
+                ],
                 'temaSitus' => [
                     'label' => lang('Admin.temaSitus'),
                     'rules' => 'permit_empty',
@@ -116,11 +124,13 @@ class PengaturanAdmin extends BaseControllerAdmin
             /* Files upload */
             $ikonFile = $files['ikon_file'];
             $logoFile = $files['logo_file'];
+            $logoMobileFile = $files['logo_mobile_file'];
             $logoFooterFile = $files['logo_footer_file'];
 
             // Initialize file paths
             $ikonPath = null;
             $logoPath = null;
+            $logoMobilePath = null;
             $logoFooterPath = null;
 
             // Handle ikon file upload
@@ -143,6 +153,16 @@ class PengaturanAdmin extends BaseControllerAdmin
                 $logoPath = $post['logo_old'];
             }
 
+            // Handle logo mobile file upload
+            if ($logoMobileFile && $logoMobileFile->isValid() && !$logoMobileFile->hasMoved()) {
+                $originalName = url_title(pathinfo($logoMobileFile->getClientName(), PATHINFO_FILENAME), '-', false); // Get the original filename
+                $randomName = $logoMobileFile->getRandomName(); // Generate a random file name
+                $logoMobileFile->move(FCPATH . 'assets/img/logo/', $originalName . '-' . $randomName);
+                $logoMobilePath = ('assets/img/logo/' . $originalName . '-' . $randomName);
+            } else {
+                $logoMobilePath = $post['logo_mobile_old'];
+            }
+
             // Handle logo footer file upload
             if ($logoFooterFile && $logoFooterFile->isValid() && !$logoFooterFile->hasMoved()) {
                 $originalName = url_title(pathinfo($logoFooterFile->getClientName(), PATHINFO_FILENAME), '-', false); // Get the original filename
@@ -157,6 +177,7 @@ class PengaturanAdmin extends BaseControllerAdmin
             // Pengaturan dengan input file
             service('settings')->set('App.ikonSitus', $ikonPath);
             service('settings')->set('App.logoSitus', $logoPath);
+            service('settings')->set('App.logoMobileSitus', $logoMobilePath);
             service('settings')->set('App.logoFooterSitus', $logoFooterPath);
 
             // Pesan berhasil diperbarui

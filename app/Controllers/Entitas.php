@@ -48,7 +48,9 @@ class Entitas extends BaseController
         $this->data['entitas'] = $entitas;
         $this->data['entitasParent'] = $parent;
 
-        // dd($berita);
+        // Apakah entitas fakultas atau prodi
+        $jenisEntitas = $this->entitasGrupModel->find($entitas['id']);
+        $this->data['fakultasAtauProdi'] = $jenisEntitas == 'Fakultas' || $jenisEntitas == 'Program Studi' ? true : false;
 
         return view('entitas_item', $this->data);
     }

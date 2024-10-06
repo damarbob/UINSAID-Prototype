@@ -29,6 +29,29 @@ $beritaUrl = base_url("berita/" . $berita['slug']);
 <meta name="twitter:image" content="<?= $berita['gambar_sampul']; ?>" />
 <meta name="twitter:image:alt" content="<?= $berita['judul']; ?>" />
 
+<script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "NewsArticle",
+        "headline": "<?= $berita['judul'] ?>",
+        "image": "<?= $berita['gambar_sampul'] ?: $berita['gambar_sampul_sementara'] ?>",
+        "datePublished": "<?= $berita['tanggal_terbit'] ?>",
+        "author": {
+            "@type": "Person",
+            "name": "Admin UINSAID"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "<?= setting()->get('App.judulSitus') ?>",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "<?= base_url(setting()->get('App.logoSitus')) ?>"
+            }
+        },
+        "articleBody": "<?= strip_tags($berita['konten']) ?>"
+    }
+</script>
+
 <?= $this->endSection() ?>
 
 

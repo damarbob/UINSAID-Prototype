@@ -59,6 +59,7 @@ return [
     'diperbaruiPada' => 'Diperbarui pada',
 
     'aktivitasLogin' => 'Aktivitas Login',
+    'waktuLogin' => 'Waktu Login',
 
     'tambah' => 'Tambah',
     'mintaAturUlangKataSandi' => 'Minta Atur Ulang Kata Sandi',
@@ -327,4 +328,8 @@ return [
     'emailFooter' => 'Email (footer)',
 
     'entitasSitus' => 'Entitas Situs',
+
+    'logo' => 'Logo',
+    'logoMobile' => 'Logo Mobile',
+    'logoFooter' => 'Logo Footer',
 ];

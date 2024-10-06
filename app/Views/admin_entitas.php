@@ -116,7 +116,7 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
                 {
                     "data": "website",
                     "render": function(data, type, row) {
-                        if (type === 'display') {
+                        if (type === 'display' && data != null && data != '') {
                             // if (row.link_eksternal == 0) {
                             //     var entitasUri = "<?= base_url() ?>" + data;
                             //     return `<a href='` + entitasUri + `' target='_blank'>` + entitasUri + '<i class="bi bi-box-arrow-up-right ms-2"></i></a>';
