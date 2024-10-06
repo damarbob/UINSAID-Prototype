@@ -248,7 +248,7 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
                     text: '<i class="bx bx-printer"></i>'
                 },
                 {
-                    text: '<i class="bx bx-list-ul"></i>' +
+                    text: '<i class="bx bx-list-ul me-2"></i>' +
                         '<?= lang('Admin.aktivitasLogin') ?>',
                     action: function(e, dt, node, config) {
                         window.location.href = "<?= base_url('admin/aktivitas-login') ?>";

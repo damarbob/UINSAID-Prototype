@@ -327,6 +327,8 @@ return [
     'teleponFooter' => 'Telepon (footer)',
     'emailFooter' => 'Email (footer)',
 
+    //
+    'entitas' => 'Entitas',
     'entitasSitus' => 'Entitas Situs',
 
     'logo' => 'Logo',
