@@ -2,6 +2,22 @@
 
 <?= $this->section('meta') ?>
 
+<?php if ($fakultasAtauProdi): ?>
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Course",
+            "name": "<?= $entitas['nama'] ?>",
+            "description": "<?= strip_tags($entitas['deskripsi']) ?>",
+            "provider": {
+                "@type": "CollegeOrUniversity",
+                "name": "Universitas Islam Negeri Raden Mas Said Surakarta",
+                "url": "https://uinsaid.ac.id"
+            }
+        }
+    </script>
+<?php endif ?>
+
 <?= $this->endSection() ?>
 
 <?= $this->section('style') ?>

@@ -68,6 +68,35 @@ $temaRTLDefault = base_url("assets/css/hijau.rtl.css");
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:site" content="@uinsurakarta" />
 
+  <!-- Implementasi JSON-LD -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "CollegeOrUniversity",
+      "name": "<?= setting()->get('App.judulSitus') ?>",
+      "url": "<?= base_url() ?>",
+      "logo": "<?= base_url(setting()->get('App.logoSitus')) ?>",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "<?= setting()->get('App.telepon') ?>",
+        "contactType": "Customer Service",
+        "email": "<?= setting()->get('App.email') ?>",
+        "areaServed": "ID",
+        "availableLanguage": "Indonesian"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "<?= esc(setting()->get('App.alamat')) ?>",
+        "addressLocality": "Surakarta",
+        "postalCode": "57168",
+        "addressCountry": "ID"
+      },
+      "sameAs": [
+        <?php foreach ($mediaSosial as $x) echo $x['url'] . ',' ?>
+      ]
+    }
+  </script>
+
   <!-- Favicon -->
   <link rel="shortcut icon" href="<?= base_url(setting()->get('App.ikonSitus')) ?>" />
   <!-- Font Awesome -->
@@ -312,7 +341,7 @@ $temaRTLDefault = base_url("assets/css/hijau.rtl.css");
       <div>
         <!-- Navbar brand -->
         <div id="navbarBrandWrapper" class="bg-white position-absolute top-0 py-2 px-2 rounded-bottom-3 shadow-lg">
-          <a class="navbar-brand mx-0" href="<?= base_url() ?>" style="--logo-desktop: url('<?= base_url(setting()->get('App.logoSitus')) ?>'); --logo-mobile: url('<?= base_url(setting()->get('App.logoSitus')) ?>');"></a>
+          <a class="navbar-brand mx-0" href="<?= base_url() ?>" style="--logo-desktop: url('<?= base_url(setting()->get('App.logoSitus') ?: 'assets/img/logo-horizontal-pb-new.png') ?>'); --logo-mobile: url('<?= base_url(setting()->get('App.logoMobileSitus')) ?>');"></a>
         </div>
       </div>
 

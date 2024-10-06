@@ -11,6 +11,7 @@ $valueSEOSitus = old('seoSitus') ?: setting()->get('App.seoSitus');
 
 // Pengaturan tampilan
 $valueLogo = old('logoSitus') ?: setting()->get('App.logoSitus');
+$valueLogoMobile = old('logoMobileSitus') ?: setting()->get('App.logoMobileSitus');
 $valueLogoFooter = old('logoFooterSitus') ?: setting()->get('App.logoFooterSitus');
 $valueIkon = old('ikonSitus') ?: setting()->get('App.ikonSitus');
 $valueTemaSitus = old('temaSitus') ?: setting()->get('App.temaSitus');
@@ -26,6 +27,7 @@ $valueBarisPerHalaman = old('barisPerHalaman') ?: setting()->get('App.barisPerHa
 
 // Validasi
 $errorLogo = validation_show_error('logo_file');
+$errorLogoMobile = validation_show_error('logo_mobile_file');
 $errorLogoFooter = validation_show_error('logo_footer_file');
 $errorIkon = validation_show_error('ikon_file');
 ?>
@@ -245,6 +247,71 @@ $errorIkon = validation_show_error('ikon_file');
 
             <!-- Logo old input -->
             <input type="hidden" class="form-control" id="logoOld" name="logo_old" value="<?= $valueLogo ?>">
+
+            <!-- LogoMobile file input -->
+            <div class="form-floating mb-3">
+                <input type="file" class="form-control" id="logoMobile" name="logo_mobile_file">
+                <label for="logoMobile">Logo Mobile</label>
+
+                <?php if (isset($valueLogoMobile) && $valueLogoMobile != ''): ?>
+
+                    <!-- LogoMobile lama -->
+                    <div class="form-helper">
+                        <small>
+                            <a href="<?= base_url($valueLogoMobile) ?>" id="logoMobileOldLabel" target="_blank">
+                                <!-- Filled dynamically by script -->
+                            </a>
+                        </small>
+                    </div>
+
+                    <!-- Button delete LogoMobile -->
+                    <button type="button" class="btn btn-danger btn-sm btn-floating" id="buttonHapusLogoMobile" data-mdb-ripple-init="">
+                        <i class="bi bi-trash"></i>
+                    </button>
+
+                    <script>
+                        // Add old logoMobile label and handle deletion
+                        document.addEventListener('DOMContentLoaded', function() {
+                            let logoMobileOldLabel = document.getElementById("logoMobileOldLabel");
+                            let buttonHapusLogoMobile = document.getElementById('buttonHapusLogoMobile');
+
+                            logoMobileOldLabel.innerHTML =
+                                getFilenameAndExtension('<?= $valueLogoMobile ?>') +
+                                '<i class="bi bi-box-arrow-up-right ms-2"></i>';
+
+                            buttonHapusLogoMobile.addEventListener("click", function() {
+                                // Confirm delete
+                                Swal.fire({
+                                    title: '<?= lang('Admin.hapusItem') ?>',
+                                    text: '<?= lang('Admin.itemYangTerhapusTidakDapatKembali') ?>',
+                                    icon: 'warning',
+                                    showCancelButton: true,
+                                    confirmButtonColor: 'var(--mdb-danger)',
+                                    confirmButtonText: '<?= lang('Admin.hapus') ?>',
+                                    cancelButtonText: '<?= lang('Admin.batal') ?>',
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        // Set input logoMobileOld value to empty and hide hapus button
+                                        document.getElementById('logoMobileOld').value = '';
+                                        buttonHapusLogoMobile.style.display = 'none';
+                                        logoMobileOldLabel.style.display = 'none';
+                                    }
+                                });
+                            });
+                        });
+                    </script>
+
+                <?php endif; ?>
+
+                <!-- Galat validasi -->
+                <div class="alert alert-danger mt-2 <?= (!$errorLogoMobile) ? 'd-none' : ''; ?>" role="alert">
+                    <?= $errorLogoMobile; ?>
+                </div>
+
+            </div>
+
+            <!-- LogoMobile old input -->
+            <input type="hidden" class="form-control" id="logoMobileOld" name="logo_mobile_old" value="<?= $valueLogoMobile ?>">
 
             <!-- Logo Footer file input -->
             <div class="form-floating mb-3">
