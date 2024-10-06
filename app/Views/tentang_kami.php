@@ -179,7 +179,7 @@
                     <!-- Peta -->
                     <div class="tab-pane fade" id="v-tabs-peta" role="tabpanel" aria-labelledby="v-tabs-peta-tab">
                         <h2>Peta Kampus</h2>
-                        <p><iframe allowfullscreen height="650" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1977.5744115985945!2d111.45637101356911!3d-7.558747306834314!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7a14c215cc8bbd%3A0x27c268341f7725a!2sUniversitas%20Islam%20Negeri%20Raden%20Mas%20Said%20Surakarta!5e0!3m2!1sid!2sid!4v1708316194843!5m2!1sid!2sid" style="border:0;" width="100%"></iframe></p>
+                        <p><iframe allowfullscreen height="650" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d1977.5744115985945!2d111.45637101356911!3d-7.558747306834314!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7a14c215cc8bbd%3A0x27c268341f7725a!2sUniversitas%20Islam%20Negeri%20Raden%20Mas%20Said%20Surakarta!5e0!3m2!1sid!2sid!4v1708316194843!5m2!1sid!2sid" style="border:0;" width="100%" sandbox="allow-scripts allow-same-origin allow-popups"></iframe></p>
                     </div>
 
                     <!-- Pimpinan -->
