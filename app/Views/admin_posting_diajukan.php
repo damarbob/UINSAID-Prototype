@@ -154,9 +154,9 @@
                     }
                 },
                 {
-                    "data": "created_at",
+                    "data": "tanggal_terbit",
                     "render": function(data, type, row) {
-                        return formatDate(data);
+                        return (data) ? formatDate(data) : '';
                     }
                 },
                 {
@@ -177,7 +177,7 @@
             },
             columnDefs: [{
                     type: 'date',
-                    targets: 3
+                    targets: 2
                 } // Specify the type of the fourth column as 'date'
             ],
             order: [

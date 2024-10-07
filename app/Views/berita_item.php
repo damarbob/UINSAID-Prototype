@@ -21,6 +21,8 @@ $beritaUrl = base_url("berita/" . $berita['slug']);
 <meta property="og:image:width" content="400" />
 <meta property="og:image:height" content="400" />
 <meta property="og:url" content="<?= $beritaUrl ?>" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="<?= $berita['judul']; ?>" />
 <meta property="og:description" content="<?= character_limiter(strip_tags($berita['konten']), 160); ?>" />
 
 <!-- Twitter Dynamic Meta Tags -->
@@ -57,6 +59,32 @@ $beritaUrl = base_url("berita/" . $berita['slug']);
 
 <?= $this->section('style') ?>
 <link href="<?= base_url('assets/css/style-berita.css') ?>" rel="stylesheet" />
+
+<script async defer crossorigin="anonymous"
+    src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v17.0">
+</script>
+
+<script type="text/javascript">
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId: 'YOUR_APP_CODE',
+            xfbml: true,
+            version: 'v17.0'
+        });
+    };
+
+    (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {
+            return;
+        }
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "https://connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>
+
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
@@ -160,11 +188,13 @@ $beritaUrl = base_url("berita/" . $berita['slug']);
                     <!-- Tombol share sosmed -->
                     <div class="col">
 
-                        <a class="btn btn-whatsapp m-2 m-xl-0 mb-lg-2 me-2" href="https://api.whatsapp.com/send?text=<?= $berita['judul'] ?> %0a %0a<?= $beritaUrl ?>%0a %0aKunjungi situs UIN Raden Mas Said Surakarta untuk melihat informasi terkini: %0a<?= base_url() ?>" target="_blank" onclick="window.open('https\:\/\/api.whatsapp.com/send?text=<?= $berita['judul'] ?> %0a %0a<?= $beritaUrl ?>%0a %0aKunjungi situs UIN Raden Mas Said Surakarta untuk melihat informasi terkini: %0a<?= base_url() ?>', '_blank', 'width=600,height=600,scrollbars=yes,menubar=no,status=yes,resizable=yes,screenx=0,screeny=0'); return false;"><span class="bi bi-whatsapp"></span></a>
+                        <!-- <a class="btn btn-whatsapp m-2 m-xl-0 mb-lg-2 me-2" href="https://api.whatsapp.com/send?text=<?= $berita['judul'] ?> %0a %0a<?= $beritaUrl ?>%0a %0aKunjungi situs UIN Raden Mas Said Surakarta untuk melihat informasi terkini: %0a<?= base_url() ?>" target="_blank" onclick="window.open('https\:\/\/api.whatsapp.com/send?text=<?= $berita['judul'] ?> %0a %0a<?= $beritaUrl ?>%0a %0aKunjungi situs UIN Raden Mas Said Surakarta untuk melihat informasi terkini: %0a<?= base_url() ?>', '_blank', 'width=600,height=600,scrollbars=yes,menubar=no,status=yes,resizable=yes,screenx=0,screeny=0'); return false;"><span class="bi bi-whatsapp"></span></a> -->
+                        <a class="btn btn-whatsapp m-2 m-xl-0 mb-lg-2 me-2" href="https://api.whatsapp.com/send?text=<?= $berita['judul'] ?> %0a %0aSelengkapnya di: %0a<?= $beritaUrl ?>%0a %0a<?= urlencode(setting()->get('App.sharingCaption')) ?>" target="_blank"><span class="bi bi-whatsapp"></span></a>
 
-                        <a class="btn btn-facebook-1 m-2 m-xl-0 mb-lg-2 me-2" href="https://www.facebook.com/sharer/sharer.php?u=<?= $beritaUrl ?>" target="_blank"><span class="bi bi-facebook"></span></a>
+                        <a class="btn btn-facebook-1 m-2 m-xl-0 mb-lg-2 me-2" href="https://www.facebook.com/sharer/sharer.php?u=<?= urlencode($beritaUrl) ?>" target="_blank"><span class="bi bi-facebook"></span></a>
+                        <!-- <a class="btn btn-facebook-1 m-2 m-xl-0 mb-lg-2 me-2" href="" onclick="shareOnFacebook()" target="_blank"><span class="bi bi-facebook"></span></a> -->
 
-                        <a class="btn btn-twitter-1 m-2 m-xl-0 mb-lg-2 me-2" href="https://twitter.com/intent/tweet?url=<?= $beritaUrl ?>" target="_blank"><span class="bi bi-twitter"></span></a>
+                        <a class="btn btn-twitter-1 m-2 m-xl-0 mb-lg-2 me-2" href="https://twitter.com/intent/tweet?text=<?= $berita['judul'] ?>&url=<?= $beritaUrl ?>" target="_blank"><span class="bi bi-twitter"></span></a>
 
                         <a class="btn btn-linkedin-1 m-2 m-xl-0 mb-lg-2 me-2" href="https://www.linkedin.com/sharing/share-offsite/?url=<?= $beritaUrl ?>" target="_blank"><span class="bi bi-linkedin"></span></a>
 
@@ -237,6 +267,22 @@ $beritaUrl = base_url("berita/" . $berita['slug']);
         copyText.select();
         copyText.setSelectionRange(0, 99999);
         navigator.clipboard.writeText(copyText.value);
+    }
+</script>
+
+<script>
+    function shareOnFacebook() {
+        FB.ui({
+            method: 'share',
+            // href: '<?= base_url('berita/' . $beritaUrl) ?>',
+            href: 'https://uinsaid.ac.id/berita/dwp-uin-surakarta-ikuti-pengajian-rutin-dwp-kementerian-agama-ri',
+        }, function(response) {
+            if (response && !response.error_message) {
+                alert('Successfully shared!');
+            } else {
+                alert('Error while sharing.');
+            }
+        });
     }
 </script>
 <?= $this->endSection() ?>

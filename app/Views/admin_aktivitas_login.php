@@ -92,7 +92,7 @@
         const lihatModal = new mdb.Modal($('#lihatModal'));
 
         var lastDoubleClickedRowIndex = null;
-        var filterStatus = null; // Define a variable to hold the filter status
+        var filterEmail = null; // Define a variable to hold the filter status
 
         var table1 = $('#tabelAktivitasLogin').DataTable({
             processing: true,
@@ -102,8 +102,8 @@
                 "type": "POST",
                 "data": function(d) {
                     // Include the filter status in the request data
-                    if (filterStatus) {
-                        d.user_id = filterStatus;
+                    if (filterEmail) {
+                        d.email = filterEmail;
                     }
                     return d;
                 }
@@ -208,7 +208,7 @@
             var newElement = $(
                 '<ul class="dropdown-menu">' +
                 '<li><button id="btnFilterAktivitasLoginSemua" class="dropdown-item" type="button"><?= lang('Admin.semua') ?></button></li>'
-                <?php foreach ($user as $x): ?> + '<li><button id="btnFilter<?= $x['username'] ?>" class="dropdown-item" type="button"><?= $x['username'] ?></button></li>'
+                <?php foreach ($user as $i => $x): ?> + '<li><button id="btnFilter<?= $i ?>" class="dropdown-item" type="button"><?= $x['identifier'] ?></button></li>'
                 <?php endforeach; ?> +
                 '</ul>'
             );
@@ -218,13 +218,13 @@
 
             var filterButtons = {
                 '#btnFilterAktivitasLoginSemua': null,
-                <?php foreach ($user as $x): ?> '#btnFilter<?= $x['username'] ?>': '<?= $x['id'] ?>',
+                <?php foreach ($user as $i => $x): ?> '#btnFilter<?= $i ?>': '<?= $x['identifier'] ?>',
                 <?php endforeach; ?>
             };
 
             $.each(filterButtons, function(btnId, status) {
                 $(btnId).on('click', function() {
-                    filterStatus = status; // Update the filter status
+                    filterEmail = status; // Update the filter status
                     // table1.ajax.reload(); // Reload the DataTable with the new filter
                     $('#iconFilterAktivitasLogin').hide();
                     $('#loaderFilterAktivitasLogin').show();

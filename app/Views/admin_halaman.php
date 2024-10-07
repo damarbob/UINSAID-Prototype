@@ -44,6 +44,7 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
 <script src="<?= base_url('assets/js/datatables_process_bulk_new.js') ?>" type="text/javascript"></script>
 <script>
     $(document).ready(function() {
+        var filterStatus = null;
         var tabel = $('#halamanTable').DataTable({
             processing: true,
             serverSide: true,
@@ -54,7 +55,14 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
             ],
             ajax: {
                 "url": "<?= base_url('api/halaman') ?>",
-                "type": "POST"
+                "type": "POST",
+                "data": function(d) {
+                    // Include the filter status in the request data
+                    if (filterStatus) {
+                        d.status = filterStatus;
+                    }
+                    return d;
+                }
             },
             "language": {
                 url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/id.json'
@@ -77,7 +85,7 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
                     }
                 },
                 {
-                    text: '<i id="iconFilterRilisMedia" class="bx bx-filter-alt me-2"></i><span id="loaderFilterRilisMedia" class="loader me-2" style="display: none;"></span><span id="textFilterRilisMedia"><?= lang('Admin.semua') ?></span>',
+                    text: '<i id="iconFilterHalaman" class="bx bx-filter-alt me-2"></i><span id="loaderFilterHalaman" class="loader me-2" style="display: none;"></span><span id="textFilterRilisMedia"><?= lang('Admin.semua') ?></span>',
                 },
                 {
                     text: '<i class="bi bi-window-dock me-2"></i> <?= lang('komponen') ?>',
@@ -111,7 +119,7 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
                 {
                     "data": "slug",
                     "render": function(data, type, row) {
-                        if (type === 'display') {
+                        if (type === 'display' && data != null && data != '') {
                             var halamanUri = "<?= base_url('halaman/') ?>" + data;
                             return `<a href='` + halamanUri + `' target='_blank'>` + halamanUri + '<i class="bi bi-box-arrow-up-right ms-2"></i></a>';
                         }
@@ -161,6 +169,45 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
             buttons.eq(2).removeClass("btn-secondary").addClass("btn-primary");
             lastButton.removeClass("btn-secondary").addClass("btn-danger").addClass("rounded-0");
 
+            var secondButton = buttons.eq(1);
+            secondButton.addClass("dropdown-toggle").wrap('<div class="btn-group"></div>').attr({
+                id: "btnFilterHalaman",
+                "data-mdb-ripple-init": "",
+                "data-mdb-dropdown-init": "",
+                "aria-expanded": "false"
+            });
+
+            var newElement = $(
+                '<ul class="dropdown-menu">' +
+                '<li><button id="btnFilterHalamanSemua" class="dropdown-item" type="button"><?= lang('Admin.semua') ?></button></li>' +
+                '<li><button id="btnFilterHalamanPublikasi" class="dropdown-item" type="button"><?= lang('Admin.publikasi') ?></button></li>' +
+                '<li><button id="btnFilterHalamanDraf" class="dropdown-item" type="button"><?= lang('Admin.draf') ?></button></li>' +
+                '</ul>'
+            );
+
+            secondButton.after(newElement);
+            new mdb.Dropdown(secondButton); // Reinitialize dropdown
+
+            // Filter button and status
+            var filterButtons = {
+                '#btnFilterHalamanSemua': null,
+                '#btnFilterHalamanPublikasi': 'publikasi',
+                '#btnFilterHalamanDraf': 'draf'
+            };
+
+            $.each(filterButtons, function(btnId, status) {
+                $(btnId).on('click', function() {
+                    filterStatus = status; // Update the filter status
+                    // table1.ajax.reload(); // Reload the DataTable with the new filter
+                    $('#iconFilterHalaman').hide();
+                    $('#loaderFilterHalaman').show();
+                    tabel.ajax.reload(function() {
+                        $('#iconFilterHalaman').show();
+                        $('#loaderFilterHalaman').hide();
+                        $('#textFilterHalaman').html($(btnId).html());
+                    });
+                });
+            });
         });
 
         // Add MDB styles to the search input after initialization

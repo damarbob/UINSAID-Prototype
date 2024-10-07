@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use CodeIgniter\Database\BaseBuilder;
+
 class MenuModel extends \CodeIgniter\Model
 {
     protected $table = 'menu';
@@ -21,7 +23,7 @@ class MenuModel extends \CodeIgniter\Model
      * @param string $dir Direction of ordering (default: 'asc')
      * @return array Array of results
      */
-    public function getDT($limit, $start, $search = null, $order = 'parent.urutan', $dir = 'asc')
+    public function getDT($limit, $start, $search = null, $order = 'parent.urutan', $dir = 'asc', $parentNama = null)
     {
         $builder = $this->db->table('menu as child')
             ->select('child.*, parent.nama as parent_nama, parent.urutan as parent_urutan')
@@ -30,6 +32,10 @@ class MenuModel extends \CodeIgniter\Model
             ->orderBy($order, $dir) // Order by parent urutan
             ->orderBy('child.urutan', $dir)  // Then order by child urutan
             ->limit($limit, $start);
+
+        if ($parentNama) {
+            $builder->where('parent.nama', $parentNama);
+        }
 
         if ($search) {
             $builder->groupStart()
@@ -49,18 +55,23 @@ class MenuModel extends \CodeIgniter\Model
      * @param string|null $search Optional search term
      * @return array Array of results
      */
-    public function getTotalFilteredRecordsDT($search = null)
+    public function getTotalFilteredRecordsDT($search = null, $parentNama = null)
     {
-        $builder = $this
-            ->select('*');
+        $builder = $this->db->table('menu as child')
+            ->select('child.*, parent.nama as parent_nama, parent.urutan as parent_urutan')
+            ->join('menu as parent', 'child.parent_id = parent.id', 'left'); // Left join to get parent details
+
+        if ($parentNama) {
+            $builder->where('parent.nama', $parentNama);
+        }
 
         if ($search) {
             $builder->groupStart()
-                ->like('nama', $search)
+                ->like('child.nama', $search)
                 ->groupEnd();
         }
 
-        return $builder->get()->getResult();
+        return $builder->countAllResults();
     }
 
     /**
@@ -185,5 +196,16 @@ class MenuModel extends \CodeIgniter\Model
         }
 
         return $menuHierarchy;
+    }
+
+    /**
+     * Get parents or menus that have child
+     */
+    public function getParents()
+    {
+        return $this->whereIn('id', static function (BaseBuilder $builder) {
+            $builder->select('parent_id')->from('menu');
+        })
+            ->findAll();
     }
 }

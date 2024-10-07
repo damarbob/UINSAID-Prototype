@@ -206,10 +206,10 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
                     },
                 },
                 {
-                    "data": "created_at",
-                    "render": function(data, type, row) {
-                        return formatDate(data); // Tampilkan tanggal dengan format Indonesia
-                    },
+                    "data": "created_at_terformat",
+                    // "render": function(data, type, row) {
+                    //     return formatDate(data); // Tampilkan tanggal dengan format Indonesia
+                    // },
                 },
             ],
             "language": {
@@ -429,9 +429,7 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
                 '<ul class="dropdown-menu">' +
                 '<li><button id="btnFilterSemua" class="dropdown-item" type="button"><?= lang('Admin.semua') ?></button></li>'
                 <?php foreach ($auth_groups as $key => $a): ?> + '<li><button id="btnFilter<?= $key ?>" class="dropdown-item" type="button"><?= capitalize_first_letter($key) ?></button></li>'
-                <?php endforeach; ?>
-                // '<li><button id="btnFilterDraf" class="dropdown-item" type="button"><?= lang('Admin.user') ?></button></li>' +
-                +
+                <?php endforeach; ?> +
                 '</ul>'
             );
 

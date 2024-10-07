@@ -52,7 +52,7 @@ class PostingAdmin extends BaseControllerAdmin
     public function fetchData()
     {
 
-        $columns = ['judul', 'penulis', 'kategori', 'tanggal_terbit', 'status'];
+        $columns = ['judul', 'penulis', 'kategori', 'pengajuan', 'tanggal_terbit', 'status'];
 
         // $columns = [lang('Admin.judul'), lang('Admin.penulis'), lang('Admin.kategori'), lang('Admin.tanggal'), lang('Admin.status')];
         // Only if this is child site change the columns with 'pengajuan'
@@ -70,7 +70,7 @@ class PostingAdmin extends BaseControllerAdmin
         $statusX = $this->request->getPost('status');
 
         $draw = $this->request->getPost('draw');
-        $totalData = $this->postingModel->countAll();
+        $totalData = $this->postingModel->getTotalRecords('berita');
         $totalFiltered = $totalData;
 
         $posting = $this->postingModel->getByFilter($limit, $start, $statusX, $search, $order, $dir, 'berita');

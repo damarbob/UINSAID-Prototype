@@ -40,30 +40,30 @@ class PenggunaAdmin extends BaseControllerAdmin
         $aktivitasLoginModel = new AktivitasLoginModel();
         $this->data['user'] = $aktivitasLoginModel->getUniqueUserLogins();
 
-        $this->data['auth_groups'] = config('AuthGroups')->groups;
+        // $this->data['auth_groups'] = config('AuthGroups')->groups;
         return view('admin_aktivitas_login', $this->data);
     }
 
-    public function getDTAktivitasLogin($userId = null)
+    public function getDTAktivitasLogin($email = null)
     {
         $aktivitasLoginModel = new AktivitasLoginModel();
         // $columns = ['id_jenis', 'judul', 'waktu_mulai', 'created_at', 'status']; // DEBUG id_jenis
-        $columns = ['id', 'username', 'active', 'last_active', 'identifier', 'user_id', 'date', 'success'];
+        $columns = ['identifier', 'username', 'success', 'date'];
 
         $limit = $this->request->getPost('length');
         $start = $this->request->getPost('start');
         $order = $columns[$this->request->getPost('order')[0]['column']];
         $dir = $this->request->getPost('order')[0]['dir'];
-        if ($userId == null) $userId = $this->request->getPost('user_id');
+        if ($email == null) $email = $this->request->getPost('email');
 
         $search = $this->request->getPost('search')['value'] ?? null;
         $totalData = $aktivitasLoginModel->countAllResults(); // Count Agenda
         $totalFiltered = $totalData;
 
-        $agenda = $aktivitasLoginModel->getDT($limit, $start, $search, $order, $dir, userId: $userId);
+        $agenda = $aktivitasLoginModel->getDT($limit, $start, $search, $order, $dir, email: $email);
 
-        if ($search || $userId) {
-            $totalFiltered = $aktivitasLoginModel->getDTTotalRecords($search, userId: $userId);
+        if ($search || $email) {
+            $totalFiltered = $aktivitasLoginModel->getDTTotalRecords($search, email: $email);
         }
 
         $data = [];

@@ -26,6 +26,8 @@ class MenuAdmin extends BaseControllerAdmin
     {
         $this->data['judul'] = lang('Admin.menu');
         $this->data['menu'] = $this->menuModel->findAll();
+        $this->data['parents'] = $this->menuModel->getParents();
+        // dd($this->menuModel->getDT(10, 0));
         return view('admin_menu', $this->data);
     }
 
@@ -36,7 +38,7 @@ class MenuAdmin extends BaseControllerAdmin
      */
     public function getDT()
     {
-        $columns = ['id', 'parent_nama', 'nama', 'uri', 'link_eksternal', 'urutan', 'created_at'];
+        $columns = ['parent_nama', 'nama', 'uri', 'urutan'];
 
         $limit = $this->request->getPost('length');
         $start = $this->request->getPost('start');
@@ -44,13 +46,14 @@ class MenuAdmin extends BaseControllerAdmin
         $dir = $this->request->getPost('order')[0]['dir'];
 
         $search = $this->request->getPost('search')['value'] ?? null;
+        $parentNama = $this->request->getPost('parent');
         $totalData = $this->menuModel->countAll();
         $totalFiltered = $totalData;
 
-        $menu = $this->menuModel->getDT($limit, $start, $search, $order, $dir);
+        $menu = $this->menuModel->getDT($limit, $start, $search, $order, $dir, $parentNama);
 
-        if ($search) {
-            $totalFiltered = $this->menuModel->getTotalFilteredRecordsDT($search);
+        if ($search || $parentNama) {
+            $totalFiltered = $this->menuModel->getTotalFilteredRecordsDT($search, $parentNama);
         }
 
         $data = [];
