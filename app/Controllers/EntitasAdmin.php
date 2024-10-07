@@ -91,7 +91,7 @@ class EntitasAdmin extends BaseControllerAdmin
         $this->data['parents'] = $this->entitasModel->getParentByEntitasGrupParentId();
 
         // Get Entitas utama
-        $this->data['universitas'] = $this->entitasModel->where('grup_id', 0)->first();
+        $this->data['universitas'] = $this->entitasModel->join('entitas_grup', 'entitas.grup_id = entitas_grup.id', 'left')->where('entitas_grup.nama', 'Universitas')->first();
 
         // If creating, calculate the urutan for the selected parent_id
         // $parentId = $this->request->getPost('parent_id');
@@ -117,7 +117,7 @@ class EntitasAdmin extends BaseControllerAdmin
         $this->data['parents'] = $this->entitasModel->getParentByEntitasGrupParentId();
 
         // Get Entitas utama
-        $this->data['universitas'] = $this->entitasModel->where('grup_id', 0)->first();
+        $this->data['universitas'] = $this->entitasModel->join('entitas_grup', 'entitas.grup_id = entitas_grup.id', 'left')->where('entitas_grup.nama', 'Universitas')->first();
 
         // If editing, get current parent and child urutan
         // $parentId = $entitas['parent_id'] ?? null;
