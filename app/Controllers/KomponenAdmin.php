@@ -28,6 +28,7 @@ class KomponenAdmin extends BaseControllerAdmin
     {
         $this->data['judul'] = lang('Admin.komponen');
         $this->data['komponen'] = $this->komponenModel->findAll();
+        $this->data['grup'] = $this->komponenGrupModel->findAll();
         return view('admin_komponen', $this->data);
     }
 
@@ -382,16 +383,16 @@ class KomponenAdmin extends BaseControllerAdmin
         $order = $columns[$this->request->getPost('order')[0]['column']];
         $dir = $this->request->getPost('order')[0]['dir'];
 
-        $status = $this->request->getPost('status') ?? null;
+        $grupNama = $this->request->getPost('grup') ?? null;
         $search = $this->request->getPost('search')['value'] ?? null;
 
         $totalData = $this->komponenModel->countAll();
         $totalFiltered = $totalData;
 
-        $komponen = $this->komponenModel->getDT($limit, $start, $status, $search, $order, $dir);
+        $komponen = $this->komponenModel->getDT($limit, $start, $grupNama, $search, $order, $dir);
 
-        if ($search || $status) {
-            $totalFiltered = $this->komponenModel->getTotalFilteredRecordsDT($status, $search);
+        if ($search || $grupNama) {
+            $totalFiltered = $this->komponenModel->getTotalFilteredRecordsDT($grupNama, $search);
         }
 
         $data = [];
