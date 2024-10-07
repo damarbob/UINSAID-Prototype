@@ -174,7 +174,7 @@ $currentRoute = $request->uri->getSegment(1) . "/" . $request->uri->getSegment(2
                             </button>
                         </h2>
 
-                        <div id="flushCollapseTataLetak" class="accordion-collapse collapse <?= $currentRoute == "admin/halaman" || $currentRoute == "admin/menu" ? "show" : "" ?>" aria-labelledby="flushHeadingTataLetak"
+                        <div id="flushCollapseTataLetak" class="accordion-collapse collapse <?= $currentRoute == "admin/halaman" || $currentRoute == "admin/menu" || $currentRoute == "admin/entitas" ? "show" : "" ?>" aria-labelledby="flushHeadingTataLetak"
                             data-mdb-parent="#accordionFlushSidebar">
 
                             <!-- Halaman -->
