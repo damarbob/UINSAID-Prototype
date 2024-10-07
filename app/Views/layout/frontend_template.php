@@ -34,9 +34,9 @@ $temaRTLDefault = base_url("assets/css/hijau.rtl.css");
 
   <!-- TODO: Optimize meta usage -->
   <!-- Old meta -->
-  <meta name="author" content="UIN Raden Mas Said Surakarta" />
-  <meta name="copyright" content="UIN Raden Mas Said Surakarta" />
-  <meta name="application-name" content="UIN Raden Mas Said Surakarta" />
+  <meta name="author" content="<?= setting()->get('App.judulSitus') ?>" />
+  <meta name="copyright" content="<?= setting()->get('App.judulSitus') ?>" />
+  <meta name="application-name" content="<?= setting()->get('App.judulSitus') ?>" />
   <meta itemprop="<?= base_url() ?>" content="<?= base_url(setting()->get('App.ikonSitus')) ?>" />
 
   <!-- Open Graph meta -->
@@ -55,9 +55,9 @@ $temaRTLDefault = base_url("assets/css/hijau.rtl.css");
   <!-- TODO: Change hard coded meta like site name and social media to variable -->
   <!-- New meta -->
   <!-- Static Meta Tags -->
-  <meta name="author" content="UIN Raden Mas Said Surakarta" />
-  <meta name="copyright" content="UIN Raden Mas Said Surakarta" />
-  <meta name="application-name" content="UIN Raden Mas Said Surakarta" />
+  <meta name="author" content="<?= setting()->get('App.judulSitus') ?>" />
+  <meta name="copyright" content="<?= setting()->get('App.judulSitus') ?>" />
+  <meta name="application-name" content="<?= setting()->get('App.judulSitus') ?>" />
 
   <!-- Open Graph Static Meta Tags -->
   <meta property="og:site_name" content="<?= base_url() ?>">
