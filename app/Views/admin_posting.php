@@ -153,6 +153,11 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
             "language": {
                 url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/id.json'
             },
+            columnDefs: [{
+                    type: 'date',
+                    targets: 3
+                } // Specify the type of the fourth column as 'date'
+            ],
             order: [
                 <?php if ($is_child_site): ?>
                     // Apabila child atau super

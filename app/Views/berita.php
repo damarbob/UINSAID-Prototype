@@ -42,7 +42,7 @@
 
                                                 <!-- Judul -->
                                                 <h3 class="card-title mb-3">
-                                                    <a class="text-decoration-none crop-text-2" href="<?= base_url('berita/' . $x['slug']) ?>"><?= $x['judul']; ?></a>
+                                                    <a class="text-decoration-none crop-text-2 line-clamp-4" href="<?= base_url('berita/' . $x['slug']) ?>"><?= $x['judul']; ?></a>
                                                 </h3>
 
                                                 <!-- Ringkasan -->

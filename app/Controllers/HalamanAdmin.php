@@ -48,9 +48,9 @@ class HalamanAdmin extends BaseControllerAdmin
      * @param string|null $status Optional status filter
      * @return $this
      */
-    public function getDT($status = null)
+    public function getDT()
     {
-        $columns = ['id', 'judul', 'slug', 'id_komponen', 'css', 'js', 'status', 'created_at'];
+        $columns = ['judul', 'slug', 'status'];
 
         $limit = $this->request->getPost('length');
         $start = $this->request->getPost('start');
@@ -58,6 +58,7 @@ class HalamanAdmin extends BaseControllerAdmin
         $dir = $this->request->getPost('order')[0]['dir'];
 
         $search = $this->request->getPost('search')['value'] ?? null;
+        $status = $this->request->getPost('status');
         $totalData = $this->model->countAll();
         $totalFiltered = $totalData;
 

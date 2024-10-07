@@ -20,6 +20,7 @@ class PostingDiajukanAdmin extends BaseControllerAdmin
     public function index(): string
     {
         $this->data['judul'] = lang('Admin.postingDiajukan');
+        // dd($this->postingDiajukanModel->findAll());
         return view('admin_posting_diajukan', $this->data);
     }
 

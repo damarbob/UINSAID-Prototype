@@ -25,6 +25,9 @@ $context = 'user:' . user_id(); //  Context untuk pengguna
 $valueTemaDasborAdmin = old('temaDasborAdmin') ?: setting()->get('App.temaDasborAdmin', $context);
 $valueBarisPerHalaman = old('barisPerHalaman') ?: setting()->get('App.barisPerHalaman', $context);
 
+// Pengaturan lainnya
+$valueSharingCaption = old('sharingCaption') ?: setting()->get('App.sharingCaption');
+
 // Validasi
 $errorLogo = validation_show_error('logo_file');
 $errorLogoMobile = validation_show_error('logo_mobile_file');
@@ -434,14 +437,16 @@ $errorIkon = validation_show_error('ikon_file');
                 </div>
             <?php endif ?>
 
-            <!-- Tombol simpan -->
-            <button class="btn btn-primary mb-4 me-2" type="submit" data-mdb-ripple-init>
-                <i class="bi bi-check-lg me-2"></i><?= lang('Admin.simpan') ?>
-            </button>
-
         </div>
 
         <div class="col-lg-6">
+
+            <h2 class="mb-3"><?= lang('Admin.lainnya') ?></h2>
+
+            <div class="form-outline mb-3" data-mdb-input-init>
+                <textarea class="form-control" rows="10" name="sharingCaption" id="sharingCaption"><?= $valueSharingCaption ?></textarea>
+                <label for="sharingCaption" class="form-label mb-2">Sharing Caption</label>
+            </div>
 
             <h2 class="mb-3"><?= lang('Admin.personalisasiAdmin') ?></h2>
 
@@ -469,6 +474,12 @@ $errorIkon = validation_show_error('ikon_file');
             </div>
 
         </div>
+
+        <!-- Tombol simpan -->
+        <button class="btn btn-primary mb-4 me-2" type="submit" data-mdb-ripple-init>
+            <i class="bi bi-check-lg me-2"></i><?= lang('Admin.simpan') ?>
+        </button>
+
     </div>
 </form>
 <?= $this->endSection() ?>

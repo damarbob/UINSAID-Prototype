@@ -87,6 +87,6 @@ class HalamanModel extends \CodeIgniter\Model
                 ->groupEnd();
         }
 
-        return $builder->get()->getResult();
+        return $builder->countAllResults();
     }
 }

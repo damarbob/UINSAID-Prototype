@@ -296,12 +296,6 @@ $routes->group('api', static function ($routes) {
         // Komponen Meta
         $routes->post('komponen/meta', 'KomponenAdmin::getMetaById');
 
-        // Media sosial
-        $routes->post('media-sosial', 'MediaSosialAdmin::getDT');
-
-        // Posting
-        $routes->post('posting', 'PostingAdmin::fetchData');
-        $routes->post('posting/getKategoriByJenis', 'PostingAdmin::getKategoriByJenis');
         // Posting pengajuan (web utama)
         if (env('app.siteType') == 'parent' || env('app.siteType') == 'super') {
             $routes->post('posting-diajukan', 'PostingDiajukanAdmin::fetchData');
@@ -310,12 +304,19 @@ $routes->group('api', static function ($routes) {
         }
     }
 
+    // Media sosial
+    $routes->post('media-sosial', 'MediaSosialAdmin::getDT');
+
+    // Posting
+    $routes->post('posting', 'PostingAdmin::fetchData');
+    $routes->post('posting/getKategoriByJenis', 'PostingAdmin::getKategoriByJenis');
+
     // Berita
     // $routes->get('berita', 'BeritaAdmin::get');
-    $routes->post('berita', 'BeritaAdmin::fetchData');
-    $routes->post('berita/(:any)', 'BeritaAdmin::fetchData/$1');
-    $routes->post('berita/(dipublikasikan)', 'BeritaAdmin::fetchData/$1');
-    $routes->post('berita/draf', 'BeritaAdmin::fetchData/$1');
+    // $routes->post('berita', 'BeritaAdmin::fetchData');
+    // $routes->post('berita/(:any)', 'BeritaAdmin::fetchData/$1');
+    // $routes->post('berita/(dipublikasikan)', 'BeritaAdmin::fetchData/$1');
+    // $routes->post('berita/draf', 'BeritaAdmin::fetchData/$1');
 
     // Agenda
     // $routes->post('agenda', 'AgendaAdmin::fetchData');

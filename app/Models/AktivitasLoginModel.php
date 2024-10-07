@@ -15,9 +15,11 @@ class AktivitasLoginModel extends Model
 
     public function getUniqueUserLogins()
     {
-        $builder = $this->db->table('users')
+        $builder = $this->db->table('auth_logins')
             // ->select('auth_logins.*, users.username, users.active, users.last_active')
-            // ->join('users', 'users.id = auth_logins.user_id', 'left')
+            ->select('auth_logins.identifier, COUNT(auth_logins.id)')
+            ->join('users', 'users.id = auth_logins.user_id', 'left')
+            ->groupBy('auth_logins.identifier')
             // ->distinct() // Get unique values
             ->get();
 
@@ -29,7 +31,7 @@ class AktivitasLoginModel extends Model
      * Get Auth Logins for datatable
      * -------------------------------------------------------------
      */
-    public function getDT($limit = 10, $start = 0, $search = null, $order = 'date', $dir = 'DESC', $userId = null)
+    public function getDT($limit = 10, $start = 0, $search = null, $order = 'date', $dir = 'DESC', $email = null)
     {
 
         $builder = $this->db->table($this->table)
@@ -38,8 +40,8 @@ class AktivitasLoginModel extends Model
             ->orderBy($order, $dir)
             ->limit($limit, $start);
 
-        if ($userId) {
-            $builder->where('auth_logins.user_id', $userId);
+        if ($email) {
+            $builder->where('auth_logins.identifier', $email);
         }
 
         if ($search) {
@@ -58,14 +60,14 @@ class AktivitasLoginModel extends Model
      * Get total record of Auth Logins for datatable
      * -------------------------------------------------------------
      */
-    public function getDTTotalRecords($search = null, $userId = null)
+    public function getDTTotalRecords($search = null, $email = null)
     {
         $builder = $this->db->table($this->table)
             ->select('auth_logins.*, , users.username, users.active, users.last_active')
             ->join('users', 'users.id = auth_logins.user_id', 'left');
 
-        if ($userId) {
-            $builder->where('auth_logins.user_id', $userId);
+        if ($email) {
+            $builder->where('auth_logins.identifier', $email);
         }
 
         if ($search) {

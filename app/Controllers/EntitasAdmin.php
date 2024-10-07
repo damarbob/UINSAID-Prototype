@@ -29,6 +29,7 @@ class EntitasAdmin extends BaseControllerAdmin
     {
         $this->data['judul'] = lang('Admin.entitas');
         $this->data['entitas'] = $this->entitasModel->findAll();
+        $this->data['entitasGrupNama'] = $this->entitasGrupModel->findAll(); // Untuk dropdown filter
         return view('admin_entitas', $this->data);
     }
 
@@ -44,7 +45,7 @@ class EntitasAdmin extends BaseControllerAdmin
      */
     public function getDT()
     {
-        $columns = ['id', 'parent_nama', 'nama', 'slug', 'deskripsi', 'gambar_sampul', 'grup_id', 'parent_id', 'alamat', 'telepon', 'fax', 'email', 'website', 'entitas_grup_nama'];
+        $columns = ['parent_nama', 'nama', 'website', 'entitas_grup_nama'];
 
         $limit = $this->request->getPost('length');
         $start = $this->request->getPost('start');
@@ -52,13 +53,14 @@ class EntitasAdmin extends BaseControllerAdmin
         $dir = $this->request->getPost('order')[0]['dir'];
 
         $search = $this->request->getPost('search')['value'] ?? null;
+        $grupNama = $this->request->getPost('entitas_grup_nama');
         $totalData = $this->entitasModel->countAll();
         $totalFiltered = $totalData;
 
-        $entitas = $this->entitasModel->getDT($limit, $start, $search, $order, $dir);
+        $entitas = $this->entitasModel->getDT($limit, $start, $search, $order, $dir, $grupNama);
 
-        if ($search) {
-            $totalFiltered = $this->entitasModel->getTotalFilteredRecordsDT($search);
+        if ($search || $grupNama) {
+            $totalFiltered = $this->entitasModel->getTotalFilteredRecordsDT($search, $grupNama);
         }
 
         $data = [];
@@ -91,7 +93,7 @@ class EntitasAdmin extends BaseControllerAdmin
         $this->data['parents'] = $this->entitasModel->getParentByEntitasGrupParentId();
 
         // Get Entitas utama
-        $this->data['universitas'] = $this->entitasModel->where('grup_id', 0)->first();
+        $this->data['universitas'] = $this->entitasModel->join('entitas_grup', 'entitas.grup_id = entitas_grup.id', 'left')->where('entitas_grup.nama', 'Universitas')->first();
 
         // If creating, calculate the urutan for the selected parent_id
         // $parentId = $this->request->getPost('parent_id');
@@ -117,7 +119,7 @@ class EntitasAdmin extends BaseControllerAdmin
         $this->data['parents'] = $this->entitasModel->getParentByEntitasGrupParentId();
 
         // Get Entitas utama
-        $this->data['universitas'] = $this->entitasModel->where('grup_id', 0)->first();
+        $this->data['universitas'] = $this->entitasModel->join('entitas_grup', 'entitas.grup_id = entitas_grup.id', 'left')->where('entitas_grup.nama', 'Universitas')->first();
 
         // If editing, get current parent and child urutan
         // $parentId = $entitas['parent_id'] ?? null;

@@ -103,7 +103,7 @@ class AgendaPengumumanAdmin extends BaseControllerAdmin
         // $idJenis = 3; // Agenda
 
         // Call getDT and pass the required parameters
-        return $this->getDT($status, 'agenda');
+        return $this->getDT(status: $status, namaJenis: 'agenda');
     }
 
     public function getDTPengumuman($status = null)
@@ -111,10 +111,10 @@ class AgendaPengumumanAdmin extends BaseControllerAdmin
         // $idJenis = 4; // Pengumuman
 
         // Call getDT and pass the required parameters
-        return $this->getDT($status, 'pengumuman');
+        return $this->getDT(status: $status, namaJenis: 'pengumuman');
     }
 
-    private function getDT($status = null, string $namaJenis)
+    private function getDT(string $namaJenis, $status = null)
     {
         $acaraJenisModel = new AcaraJenisModel();
         $idJenis = (int) $acaraJenisModel->getByNama($namaJenis);

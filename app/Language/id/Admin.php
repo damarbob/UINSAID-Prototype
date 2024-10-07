@@ -327,9 +327,11 @@ return [
     'teleponFooter' => 'Telepon (footer)',
     'emailFooter' => 'Email (footer)',
 
-    //
+    // Entitas
     'entitas' => 'Entitas',
     'entitasSitus' => 'Entitas Situs',
+    'tambahEntitas' => 'Tambah Entitas',
+    'suntingEntitas' => 'Sunting Entitas',
 
     'logo' => 'Logo',
     'logoMobile' => 'Logo Mobile',

@@ -180,6 +180,9 @@ class PengaturanAdmin extends BaseControllerAdmin
             service('settings')->set('App.logoMobileSitus', $logoMobilePath);
             service('settings')->set('App.logoFooterSitus', $logoFooterPath);
 
+            // Pengaturan lainnya
+            service('settings')->set('App.sharingCaption', $post['sharingCaption']);
+
             // Pesan berhasil diperbarui
             session()->setFlashdata('sukses', lang('Admin.berhasilDiperbarui'));
 

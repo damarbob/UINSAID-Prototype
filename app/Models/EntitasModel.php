@@ -108,7 +108,7 @@ class EntitasModel extends \CodeIgniter\Model
      * @param string $dir Direction of ordering (default: 'asc')
      * @return array Array of results
      */
-    public function getDT($limit, $start, $search = null, $order = 'child.nama', $dir = 'asc')
+    public function getDT($limit, $start, $search = null, $order = 'child.nama', $dir = 'asc', $grupNama = null)
     {
         $builder = $this->db->table('entitas as child')
             ->select('child.*, parent.nama as parent_nama, entitas_grup.nama as entitas_grup_nama')
@@ -117,6 +117,10 @@ class EntitasModel extends \CodeIgniter\Model
             // ->where('child.parent_id IS NOT NULL', null, false) // Exclude root-level items if needed
             ->orderBy($order, $dir)
             ->limit($limit, $start);
+
+        if ($grupNama) {
+            $builder->where('entitas_grup.nama', $grupNama);
+        }
 
         if ($search) {
             $builder->groupStart()
@@ -136,10 +140,15 @@ class EntitasModel extends \CodeIgniter\Model
      * @param string|null $search Optional search term
      * @return array Array of results
      */
-    public function getTotalFilteredRecordsDT($search = null)
+    public function getTotalFilteredRecordsDT($search = null, $grupNama = null)
     {
         $builder = $this
-            ->select('*');
+            ->select('*')
+            ->join('entitas_grup', 'entitas_grup.id = entitas.grup_id', 'left');
+
+        if ($grupNama) {
+            $builder->where('entitas_grup.nama', $grupNama);
+        }
 
         if ($search) {
             $builder->groupStart()

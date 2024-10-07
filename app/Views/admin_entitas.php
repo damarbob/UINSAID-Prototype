@@ -45,6 +45,8 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
 <script src="<?= base_url('assets/js/datatables_process_bulk_new.js') ?>" type="text/javascript"></script>
 <script>
     $(document).ready(function() {
+        var filterGrup = null;
+
         var tabel = $('#entitasTable').DataTable({
             processing: true,
             serverSide: true,
@@ -52,7 +54,14 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
             pageLength: <?= $barisPerHalaman ?>, // Acquired from settings
             ajax: {
                 "url": "<?= base_url('api/entitas') ?>",
-                "type": "POST"
+                "type": "POST",
+                "data": function(d) {
+                    // Include the filter status in the request data
+                    if (filterGrup) {
+                        d.entitas_grup_nama = filterGrup;
+                    }
+                    return d;
+                }
             },
             "language": {
                 url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/id.json'
@@ -75,7 +84,7 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
                     }
                 },
                 {
-                    text: '<i id="iconFilterRilisMedia" class="bx bx-filter-alt me-2"></i><span id="loaderFilterRilisMedia" class="loader me-2" style="display: none;"></span><span id="textFilterRilisMedia"><?= lang('Admin.semua') ?></span>',
+                    text: '<i id="iconFilterEntitas" class="bx bx-filter-alt me-2"></i><span id="loaderFilterEntitas" class="loader me-2" style="display: none;"></span><span id="textFilterEntitas"><?= lang('Admin.semua') ?></span>',
                 },
                 {
                     extend: 'colvis',
@@ -162,9 +171,47 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
             })
 
             buttons.eq(0).removeClass("btn-secondary").addClass("btn-primary").addClass("rounded-0");
-            buttons.eq(2).removeClass("btn-secondary").addClass("btn-primary");
             lastButton.removeClass("btn-secondary").addClass("btn-danger").addClass("rounded-0");
 
+            var secondButton = buttons.eq(1);
+            secondButton.addClass("dropdown-toggle").wrap('<div class="btn-group"></div>').attr({
+                id: "btnFilterEntitas",
+                "data-mdb-ripple-init": "",
+                "data-mdb-dropdown-init": "",
+                "aria-expanded": "false"
+            });
+
+            var newElement = $(
+                '<ul class="dropdown-menu">' +
+                '<li><button id="btnFilterEntitasSemua" class="dropdown-item" type="button"><?= lang('Admin.semua') ?></button></li>'
+                <?php foreach ($entitasGrupNama as $i => $x): ?> + '<li><button id="btnFilter<?= $i ?>" class="dropdown-item" type="button"><?= $x['nama'] ?></button></li>'
+                <?php endforeach; ?> +
+                '</ul>'
+            );
+
+            secondButton.after(newElement);
+            new mdb.Dropdown(secondButton); // Reinitialize dropdown
+
+            // Filter button and status
+            var filterButtons = {
+                '#btnFilterEntitasSemua': null,
+                <?php foreach ($entitasGrupNama as $i => $x): ?> '#btnFilter<?= $i ?>': '<?= $x['nama'] ?>',
+                <?php endforeach; ?>
+            };
+
+            $.each(filterButtons, function(btnId, grup) {
+                $(btnId).on('click', function() {
+                    filterGrup = grup; // Update the filter grup
+                    // table1.ajax.reload(); // Reload the DataTable with the new filter
+                    $('#iconFilterEntitas').hide();
+                    $('#loaderFilterEntitas').show();
+                    tabel.ajax.reload(function() {
+                        $('#iconFilterEntitas').show();
+                        $('#loaderFilterEntitas').hide();
+                        $('#textFilterEntitas').html($(btnId).html());
+                    });
+                });
+            });
         });
 
         // Add MDB styles to the search input after initialization
@@ -172,6 +219,7 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
             $('div.dataTables_filter input').addClass('form-control form-control-md'); // Apply MDB form control styles
             $('div.dataTables_filter label').addClass('form-label'); // Apply MDB label styles
         });
+
     });
 </script>
 <?= $this->endSection() ?>
