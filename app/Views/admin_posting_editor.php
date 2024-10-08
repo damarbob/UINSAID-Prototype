@@ -34,14 +34,14 @@ if ($mode == "tambah") {
 <?php if (session()->getFlashdata('sukses')) : ?>
     <!-- Pesan sukses -->
     <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <a href="<?= base_url("admin/posting") ?>" class="me-2"><i class="bi bi-arrow-left"></i></a>
         <?= session()->getFlashdata('sukses') ?>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 <?php elseif (session()->getFlashdata('gagal')) : ?>
     <!-- Pesan gagal -->
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <a href="<?= base_url("admin/posting") ?>" class="me-2"><i class="bi bi-arrow-left"></i></a>
         <?= session()->getFlashdata('gagal') ?>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 <?php endif; ?>
 
@@ -163,25 +163,34 @@ if ($mode == "tambah") {
 <script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha384-GNFwBvfVxBkLMJpYMOABq3c+d3KnQxudP/mGPkzpZSTYykLBNsZEnG2D9G/X/+7D" crossorigin="anonymous"></script>
 <!-- Tinymce -->
 <script src="<?php echo base_url(); ?>assets/vendor/tinymce/tinymce/tinymce.min.js"></script>
+
+<!-- DSM Gallery -->
+<script src="<?= base_url('assets/js/tinymce/dsmgallery-plugin.js'); ?>"></script>
+
+<!-- DSM File Insert -->
+<script src="<?= base_url('assets/js/tinymce/dsmfileinsert-plugin.js'); ?>"></script>
+
 <script>
     tinymce.init({
         selector: '#konten',
         license_key: 'gpl',
+        document_base_url: '<?= base_url() ?>', // Set the base URL for relative paths
         plugins: [
             'advlist', 'autolink', 'image',
             'lists', 'link', 'charmap', 'preview', 'anchor', 'searchreplace',
             'fullscreen', 'insertdatetime', 'table', 'help',
-            'wordcount', 'deleteimage', 'dsmgallery'
+            'wordcount', 'dsmgallery', 'dsmfileinsert', 'code'
         ],
-        toolbar: 'fullscreen | dsmgallery | undo redo | casechange blocks | bold italic backcolor | image | ' +
+        toolbar: 'fullscreen | dsmgallery dsmfileinsert | undo redo | casechange blocks | bold italic backcolor | image | ' +
             'alignleft aligncenter alignright alignjustify | ' +
             'bullist numlist checklist outdent indent | removeformat | code table help',
         image_title: true,
         automatic_uploads: true,
-        image_gallery_api_endpoint: '/api/galeri',
-        dsmgallery_api_endpoint: '/api/galeri',
-        images_upload_url: '/admin/posting/unggah-gambar',
-        images_delete_url: '/admin/posting/hapus-gambar',
+        dsmgallery_api_endpoint: '<?= base_url('/api/galeri') ?>',
+        dsmgallery_gallery_url: '<?= base_url('/admin/galeri') ?>',
+        dsmfileinsert_api_endpoint: '<?= base_url('/api/file') ?>',
+        dsmfileinsert_file_manager_url: '<?= base_url('/admin/file') ?>',
+        images_upload_url: '<?= base_url('/admin/posting/unggah-gambar') ?>',
         file_picker_types: 'image',
         file_picker_callback: (cb, value, meta) => {
             const input = document.createElement('input');
@@ -223,9 +232,6 @@ if ($mode == "tambah") {
 
     });
 </script>
-<script src="<?php echo base_url(); ?>assets/js/tinymce/deleteimage-plugin.js"></script>
-<script src="<?php echo base_url(); ?>assets/js/tinymce/dsmgallery-plugin.js"></script>
-<script src="<?php echo base_url(); ?>assets/js/tinymce/imagegallery-plugin.js"></script>
 
 <!-- Preview foto -->
 <script>

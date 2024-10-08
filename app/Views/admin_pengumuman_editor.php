@@ -63,13 +63,11 @@ if ($mode == "tambah") {
     <!-- Pesan sukses -->
     <div class="alert alert-success alert-dismissible fade show" role="alert">
         <?= session()->getFlashdata('sukses') ?>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 <?php elseif (session()->getFlashdata('gagal')) : ?>
     <!-- Pesan gagal -->
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
         <?= session()->getFlashdata('gagal') ?>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 <?php endif; ?>
 
@@ -196,6 +194,7 @@ if ($mode == "tambah") {
 <?= $this->section('script') ?>
 <script src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha384-GNFwBvfVxBkLMJpYMOABq3c+d3KnQxudP/mGPkzpZSTYykLBNsZEnG2D9G/X/+7D" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/gijgo@1.9.14/js/gijgo.min.js" type="text/javascript"></script>
+
 <!-- Tinymce -->
 <script src="<?= base_url('assets/vendor/tinymce/tinymce/tinymce.min.js'); ?>"></script>
 <!-- DSM Gallery -->

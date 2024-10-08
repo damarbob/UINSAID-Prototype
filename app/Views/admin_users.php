@@ -19,12 +19,10 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
         <?php if (session()->getFlashdata('sukses')) : ?>
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <?= session()->getFlashdata('sukses') ?>
-                <button type="button" class="btn-close" data-mdb-dismiss="alert" aria-label="Close"></button>
             </div>
         <?php elseif (session()->getFlashdata('gagal')) : ?>
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 <?= session()->getFlashdata('gagal') ?>
-                <button type="button" class="btn-close" data-mdb-dismiss="alert" aria-label="Close"></button>
             </div>
         <?php endif; ?>
 

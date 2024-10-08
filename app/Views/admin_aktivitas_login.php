@@ -49,19 +49,6 @@
 <div class="row">
     <div class="col">
 
-        <!-- Pesan sukses atau error -->
-        <?php if (session()->getFlashdata('sukses')) : ?>
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <?= session()->getFlashdata('sukses') ?>
-                <button type="button" class="btn-close" data-mdb-dismiss="alert" aria-label="Close"></button>
-            </div>
-        <?php elseif (session()->getFlashdata('gagal')) : ?>
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <?= session()->getFlashdata('gagal') ?>
-                <button type="button" class="btn-close" data-mdb-dismiss="alert" aria-label="Close"></button>
-            </div>
-        <?php endif; ?>
-
         <!-- <div class="table-responsive mt-3"> -->
         <table class="table table-hover" id="tabelAktivitasLogin" style="width: 100%;">
             <thead>

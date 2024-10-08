@@ -60,8 +60,8 @@ class KomponenModel extends \CodeIgniter\Model
 
         if ($search) {
             $builder->groupStart()
-                ->like('nama', $search)
-                ->orLike('konten', $search)
+                ->like('komponen.nama', $search)
+                ->orLike('komponen.konten', $search)
                 ->groupEnd();
         }
 

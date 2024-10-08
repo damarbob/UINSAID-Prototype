@@ -62,14 +62,14 @@ if ($mode == "tambah") {
 <?php if (session()->getFlashdata('sukses')) : ?>
     <!-- Pesan sukses -->
     <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <a href="<?= base_url("admin/$rute") ?>" class="me-2"><i class="bi bi-arrow-left"></i></a>
         <?= session()->getFlashdata('sukses') ?>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 <?php elseif (session()->getFlashdata('gagal')) : ?>
     <!-- Pesan gagal -->
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <a href="<?= base_url("admin/$rute") ?>" class="me-2"><i class="bi bi-arrow-left"></i></a>
         <?= session()->getFlashdata('gagal') ?>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 <?php endif; ?>
 
@@ -268,6 +268,7 @@ if ($mode == "tambah") {
     tinymce.init({
         selector: '#konten',
         license_key: 'gpl',
+        document_base_url: '<?= base_url() ?>', // Set the base URL for relative paths
         plugins: [
             'advlist', 'autolink', 'image',
             'lists', 'link', 'charmap', 'preview', 'anchor', 'searchreplace',
