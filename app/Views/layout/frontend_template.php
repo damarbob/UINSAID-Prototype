@@ -285,6 +285,91 @@ $temaRTLDefault = base_url("assets/css/hijau.rtl.css");
     }
   </script>
 
+  <script type="text/javascript">
+    function googleTranslateElementInit2() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'id',
+        autoDisplay: false
+      }, 'google_translate_element2');
+    }
+  </script>
+  <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit2"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $("#loaderBody").hide(); // Hide loader
+
+      $("#translateToID").on("click", function() {
+        doGTranslate('id|id');
+        return false;
+      });
+      $("#translateToAR").on("click", function() {
+        doGTranslate('id|ar');
+        return false;
+      });
+      $("#translateToEN").on("click", function() {
+        doGTranslate('id|en');
+        return false;
+      });
+
+      function GTranslateFireEvent(a, b) {
+        try {
+          var event;
+          if (document.createEvent) {
+            event = document.createEvent("HTMLEvents");
+            event.initEvent(b, true, true);
+            a.dispatchEvent(event);
+          } else {
+            event = document.createEventObject();
+            a.fireEvent('on' + b, event);
+          }
+        } catch (e) {}
+      }
+
+      function doGTranslate(a) {
+        // $("#loaderBody").show();
+        $("#loaderBody").removeClass("d-none"); // Show loading overlay
+
+        if (a.value) a = a.value;
+        if (a == '') return;
+
+        var lang = a.split('|')[1];
+        var selectElement = null;
+        var selectElements = $('select.goog-te-combo');
+
+        selectElements.each(function() {
+          selectElement = this;
+        });
+
+        if ($('#google_translate_element2').length === 0 ||
+          $('#google_translate_element2').html().length === 0 ||
+          selectElements.length === 0 ||
+          selectElement.innerHTML.length === 0) {
+          setTimeout(function() {
+            doGTranslate(a);
+          }, 500);
+        } else {
+          selectElement.value = lang;
+          GTranslateFireEvent(selectElement, 'change');
+          GTranslateFireEvent(selectElement, 'change');
+        }
+
+        // Enable RTL if language is arabic
+        if (lang == "ar") {
+          enableRTL();
+        } else {
+          disableRTL();
+        }
+
+        // Reload page to take full effect
+        setTimeout(function() {
+          window.location.reload();
+        }, 500);
+
+        // updateSwipersLanguageDirection();
+      }
+    });
+  </script>
+
 </head>
 
 <body>
@@ -886,91 +971,6 @@ $temaRTLDefault = base_url("assets/css/hijau.rtl.css");
 
   <!-- Google translate element -->
   <div id="google_translate_element2" class="d-none"></div>
-
-  <script type="text/javascript">
-    function googleTranslateElementInit2() {
-      new google.translate.TranslateElement({
-        pageLanguage: 'id',
-        autoDisplay: false
-      }, 'google_translate_element2');
-    }
-  </script>
-  <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit2"></script>
-  <script type="text/javascript">
-    $(document).ready(function() {
-      $("#loaderBody").hide(); // Hide loader
-
-      $("#translateToID").on("click", function() {
-        doGTranslate('id|id');
-        return false;
-      });
-      $("#translateToAR").on("click", function() {
-        doGTranslate('id|ar');
-        return false;
-      });
-      $("#translateToEN").on("click", function() {
-        doGTranslate('id|en');
-        return false;
-      });
-
-      function GTranslateFireEvent(a, b) {
-        try {
-          var event;
-          if (document.createEvent) {
-            event = document.createEvent("HTMLEvents");
-            event.initEvent(b, true, true);
-            a.dispatchEvent(event);
-          } else {
-            event = document.createEventObject();
-            a.fireEvent('on' + b, event);
-          }
-        } catch (e) {}
-      }
-
-      function doGTranslate(a) {
-        // $("#loaderBody").show();
-        $("#loaderBody").removeClass("d-none"); // Show loading overlay
-
-        if (a.value) a = a.value;
-        if (a == '') return;
-
-        var lang = a.split('|')[1];
-        var selectElement = null;
-        var selectElements = $('select.goog-te-combo');
-
-        selectElements.each(function() {
-          selectElement = this;
-        });
-
-        if ($('#google_translate_element2').length === 0 ||
-          $('#google_translate_element2').html().length === 0 ||
-          selectElements.length === 0 ||
-          selectElement.innerHTML.length === 0) {
-          setTimeout(function() {
-            doGTranslate(a);
-          }, 500);
-        } else {
-          selectElement.value = lang;
-          GTranslateFireEvent(selectElement, 'change');
-          GTranslateFireEvent(selectElement, 'change');
-        }
-
-        // Enable RTL if language is arabic
-        if (lang == "ar") {
-          enableRTL();
-        } else {
-          disableRTL();
-        }
-
-        // Reload page to take full effect
-        setTimeout(function() {
-          window.location.reload();
-        }, 500);
-
-        // updateSwipersLanguageDirection();
-      }
-    });
-  </script>
 
 </body>
 
