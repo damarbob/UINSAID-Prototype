@@ -142,6 +142,10 @@ class EntitasAdmin extends BaseControllerAdmin
                 'label' => lang('Admin.nama'),
                 'rules' => 'required',
             ],
+            'gambar_sampul_file' => [
+                'label' => lang('Admin.gambar'),
+                'rules' => 'max_size[gambar_sampul_file,4096]|mime_in[gambar_sampul_file,image/png,image/jpeg,image/jpg]|is_image[gambar_sampul_file]',
+            ]
         ];
 
         // Redireksi
