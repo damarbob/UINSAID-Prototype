@@ -333,7 +333,7 @@ $temaRTLDefault = base_url("assets/css/hijau.rtl.css");
   </div>
 
   <!-- Navbar -->
-  <nav class="navbar navbar-expand-xl navbar-dark fixed-top" id="frontend-navbar">
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="frontend-navbar">
     <!-- Container wrapper -->
     <div class="container px-4 px-sm-5">
 
