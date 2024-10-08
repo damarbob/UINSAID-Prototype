@@ -95,7 +95,7 @@ class PostingModel extends \CodeIgniter\Model
     public function getByFilter($limit, $start, $status = null, $search = null, $order = 'judul', $dir = 'asc', $jenisNama = null,)
     {
         $builder = $this->db->table($this->table)
-            ->select('posting.*, users.username as penulis, kategori.nama as kategori')
+            ->select('posting.*, users.username as penulis, kategori.nama as kategori, posting_jenis.nama as posting_jenis_nama')
             ->join('users', 'users.id = posting.id_penulis', 'left')
             ->join('kategori', 'kategori.id = posting.id_kategori', 'left')
             ->join('posting_jenis', 'posting_jenis.id = kategori.id_jenis', 'left')

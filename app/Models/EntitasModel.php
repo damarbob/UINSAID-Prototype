@@ -152,7 +152,7 @@ class EntitasModel extends \CodeIgniter\Model
 
         if ($search) {
             $builder->groupStart()
-                ->like('nama', $search)
+                ->like('entitas.nama', $search)
                 ->groupEnd();
         }
 

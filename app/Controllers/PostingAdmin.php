@@ -22,6 +22,7 @@ class PostingAdmin extends BaseControllerAdmin
     public function index(): string
     {
         $this->data['judul'] = lang('Admin.posting');
+        $this->data['jenis'] = $this->postingJenisModel->findAll();
         $this->data['is_parent_site'] = $this->isParentSite;
         $this->data['is_child_site'] = $this->isChildSite;
         return view('admin_posting', $this->data);
@@ -52,13 +53,13 @@ class PostingAdmin extends BaseControllerAdmin
     public function fetchData()
     {
 
-        $columns = ['judul', 'penulis', 'kategori', 'pengajuan', 'tanggal_terbit', 'status'];
+        $columns = ['judul', 'penulis', 'kategori', 'pengajuan', 'tanggal_terbit', 'status', 'posting_jenis_nama'];
 
         // $columns = [lang('Admin.judul'), lang('Admin.penulis'), lang('Admin.kategori'), lang('Admin.tanggal'), lang('Admin.status')];
         // Only if this is child site change the columns with 'pengajuan'
         if ($this->isChildSite) {
             // Child dan super ada kolom pengajuan (di view juga)
-            $columns = ['judul', 'penulis', 'kategori', 'pengajuan', 'tanggal_terbit', 'status'];
+            $columns = ['judul', 'penulis', 'kategori', 'pengajuan', 'tanggal_terbit', 'status', 'posting_jenis_nama'];
         }
 
         $limit = $this->request->getPost('length');
@@ -68,15 +69,16 @@ class PostingAdmin extends BaseControllerAdmin
 
         $search = $this->request->getPost('search')['value'] ?? null;
         $statusX = $this->request->getPost('status');
+        $jenisNama = $this->request->getPost('jenisNama');
 
         $draw = $this->request->getPost('draw');
-        $totalData = $this->postingModel->getTotalRecords('berita');
+        $totalData = $this->postingModel->getTotalRecords();
         $totalFiltered = $totalData;
 
-        $posting = $this->postingModel->getByFilter($limit, $start, $statusX, $search, $order, $dir, 'berita');
+        $posting = $this->postingModel->getByFilter($limit, $start, $statusX, $search, $order, $dir, $jenisNama);
 
-        if ($search || $statusX) {
-            $totalFiltered = $this->postingModel->getTotalRecords('berita', $statusX, $search);
+        if ($search || $statusX || $jenisNama) {
+            $totalFiltered = $this->postingModel->getTotalRecords($jenisNama, $statusX, $search);
         }
 
         $data = [];
@@ -94,6 +96,7 @@ class PostingAdmin extends BaseControllerAdmin
                 $nestedData['created_at'] = $row->created_at;
                 $nestedData['status'] = $row->status;
                 $nestedData['sumber'] = $row->sumber;
+                $nestedData['posting_jenis_nama'] = $row->posting_jenis_nama;
                 $data[] = $nestedData;
             }
         }

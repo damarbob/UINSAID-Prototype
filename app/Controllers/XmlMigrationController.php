@@ -50,7 +50,7 @@ class XmlMigrationController extends Controller
 
             if ($postType == "post") {
                 $data = [
-                    'id'                 => $id,
+                    // 'id'                 => $id,
                     'id_penulis'         => 3,  // Mapping logic for author
                     'id_kategori'        => $this->getCategoryId($item->category),  // Mapping logic for category
                     'judul'              => (string) $item->title,
@@ -59,12 +59,12 @@ class XmlMigrationController extends Controller
                     'pengajuan'          => 'tidak diajukan',  // Default value, adjust if needed
                     'slug'               => $this->generateSlug((string) $item->title),  // Example slug generation
                     'status'             => $status,
-                    'search_engine_index' => 'Y',  // Default value, adjust if needed
-                    'sumber'             => 'https://fud.uinsaid.ac.id',
-                    'tgl_terbit'         => isset($item->pubDate) ? date('Y-m-d H:i:s', strtotime((string) $item->pubDate)) : null,  // Updated: format pubDate to datetime
+                    'seo'                => 1,  // Default value, adjust if needed
+                    'sumber'             => 'https://fud.uinsaid.ac.id', // Adjust
+                    'tanggal_terbit'     => isset($item->pubDate) ? date('Y-m-d H:i:s', strtotime((string) $item->pubDate)) : null,  // Updated: format pubDate to datetime
                     'created_at'         => $postDate,
                     'updated_at'         => $postModified,
-                    'featured_image'     => isset($item->featured_image) ? (string) $item->featured_image : null,
+                    'gambar_sampul'      => isset($item->featured_image) ? (string) $item->featured_image : null,
                 ];
 
                 $dataToInsert[] = $data;
@@ -75,7 +75,7 @@ class XmlMigrationController extends Controller
         // dd($dataToInsert);
 
         // Uncomment the following line to insert data after verifying it with dd()
-        $db->table('berita')->insertBatch($dataToInsert);
+        $db->table('posting')->insertBatch($dataToInsert);
     }
 
     private function getUserId($authorName)

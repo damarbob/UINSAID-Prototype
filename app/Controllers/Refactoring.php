@@ -99,7 +99,7 @@ class Refactoring extends BaseControllerAdmin
             foreach ($beritaData as $x) {
                 $postingData = [
                     // 'id'                => $x['id'],
-                    'id_penulis'        => auth()->id(),
+                    // 'id_penulis'        => 3,
                     'id_kategori'       => $x['id_kategori'],
                     'id_jenis'          => $x['id_posting_jenis'],
                     'judul'             => $x['judul'],
@@ -132,7 +132,7 @@ class Refactoring extends BaseControllerAdmin
             foreach ($beritaData as $x) {
                 $postingData = [
                     // 'id'                => $x['id'],
-                    'id_penulis'        => auth()->id(),
+                    'id_penulis'        => 3,
                     'id_kategori'       => $x['id_kategori'],
                     'id_jenis'          => $x['id_posting_jenis'],
                     'judul'             => $x['judul'],
@@ -167,7 +167,7 @@ class Refactoring extends BaseControllerAdmin
             // dd($beritaData);
             foreach ($beritaData as $x) {
                 $postingData = [
-                    'id_penulis'        => auth()->id(),
+                    'id_penulis'        => 3,
                     'id_kategori'       => $x['id_kategori'],
                     'id_jenis'          => 2,
                     'judul'             => $x['judul'],
