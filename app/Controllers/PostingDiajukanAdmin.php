@@ -281,14 +281,17 @@ class PostingDiajukanAdmin extends BaseControllerAdmin
 
             // Prepare the data to be inserted
             $newEntry = [
-                'id_penulis' => auth()->id(), // Assuming the current logged-in user's ID
+                'id_penulis' => 3, // Assuming the current logged-in user's ID
                 'judul' => $data['judul'],
                 'slug' => create_slug($data['judul']),
                 'konten' => $data['konten'],
                 'ringkasan' => $data['ringkasan'],
                 'id_kategori' => $this->getOrCreateKategori($data['kategori']),
+                'id_jenis' => $data['id_jenis'],
                 'status' => $data['status'],
                 'sumber' => $data['sumber'],
+                'seo' => $data['seo'],
+                'gambar_sampul' => $data['gambar_sampul'],
                 'tanggal_terbit' => $data['tanggal_terbit'] ?: $data['created_at'],
                 // Add other fields as needed
             ];

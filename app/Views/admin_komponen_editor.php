@@ -196,8 +196,8 @@ $errorJS = validation_show_error('js_file');
                     <?= session()->getFlashdata('sukses') ?>
                 </div>
             <?php elseif (session()->getFlashdata('gagal')) : ?>
-                <a href="<?= base_url('admin/komponen') ?>" class="me-2"><i class="bi bi-arrow-left"></i></a>
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <a href="<?= base_url('admin/komponen') ?>" class="me-2"><i class="bi bi-arrow-left"></i></a>
                     <?= session()->getFlashdata('gagal') ?>
                 </div>
             <?php endif; ?>
