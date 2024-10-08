@@ -437,6 +437,11 @@ $errorIkon = validation_show_error('ikon_file');
                 </div>
             <?php endif ?>
 
+            <!-- Tombol simpan -->
+            <button class="btn btn-primary mb-4 me-2" type="submit" data-mdb-ripple-init>
+                <i class="bi bi-check-lg me-2"></i><?= lang('Admin.simpan') ?>
+            </button>
+
         </div>
 
         <div class="col-lg-6">
@@ -474,11 +479,6 @@ $errorIkon = validation_show_error('ikon_file');
             </div>
 
         </div>
-
-        <!-- Tombol simpan -->
-        <button class="btn btn-primary mb-4 me-2" type="submit" data-mdb-ripple-init>
-            <i class="bi bi-check-lg me-2"></i><?= lang('Admin.simpan') ?>
-        </button>
 
     </div>
 </form>

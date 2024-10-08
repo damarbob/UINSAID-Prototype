@@ -1,34 +1,11 @@
 <?= $this->extend('layout/admin/admin_template') ?>
 
-<?= $this->section('style') ?>
-
-<!-- CodeMirror -->
-<link rel="stylesheet" href="<?= base_url('assets/vendor/codemirror/lib/codemirror.css') ?>">
-<link rel="stylesheet" href="<?= base_url('assets/vendor/codemirror/addon/hint/show-hint.css') ?>">
-<link rel="stylesheet" href="<?= base_url('assets/vendor/codemirror/theme/material-darker.css') ?>">
-<link rel="stylesheet" href="<?= base_url('assets/vendor/codemirror/addon/display/fullscreen.css') ?>">
-<script src="<?= base_url('assets/vendor/codemirror/lib/codemirror.js') ?>"></script>
-<script src="<?= base_url('assets/vendor/codemirror/addon/hint/show-hint.js') ?>"></script>
-<script src="<?= base_url('assets/vendor/codemirror/addon/hint/xml-hint.js') ?>"></script>
-<script src="<?= base_url('assets/vendor/codemirror/addon/hint/html-hint.js') ?>"></script>
-<script src="<?= base_url('assets/vendor/codemirror/addon/display/fullscreen.js') ?>"></script>
-<script src="<?= base_url('assets/vendor/codemirror/mode/xml/xml.js') ?>"></script>
-<script src="<?= base_url('assets/vendor/codemirror/mode/javascript/javascript.js') ?>"></script>
-<script src="<?= base_url('assets/vendor/codemirror/mode/css/css.js') ?>"></script>
-<script src="<?= base_url('assets/vendor/codemirror/mode/htmlmixed/htmlmixed.js') ?>"></script>
-
-<style>
-    .CodeMirror {
-        border: 1px solid #eee;
-        height: 512px;
-    }
-</style>
-
-<?= $this->endSection() ?>
-
-<?= $this->section('content') ?>
 <?php
 helper('form');
+helper('setting'); // Must be declared to use setting helper function
+
+// Pengaturan personal
+$context = 'user:' . user_id(); //  Context untuk pengguna
 
 if (!isset($komponen)) {
     // Apabila mode tambah, bawa nilai lama form agar setelah validasi tidak hilang
@@ -53,6 +30,161 @@ $errorCSS = validation_show_error('css_file');
 $errorJS = validation_show_error('js_file');
 ?>
 
+<?= $this->section('style') ?>
+
+<!-- CodeMirror -->
+<link rel="stylesheet" href="<?= base_url('assets/vendor/codemirror/lib/codemirror.css') ?>">
+<link rel="stylesheet" href="<?= base_url('assets/vendor/codemirror/addon/hint/show-hint.css') ?>">
+<link rel="stylesheet" href="<?= base_url('assets/vendor/codemirror/theme/mdn-like.css') ?>">
+<link rel="stylesheet" href="<?= base_url('assets/vendor/codemirror/theme/material-darker.css') ?>">
+<link rel="stylesheet" href="<?= base_url('assets/vendor/codemirror/addon/display/fullscreen.css') ?>">
+<script src="<?= base_url('assets/vendor/codemirror/lib/codemirror.js') ?>"></script>
+<script src="<?= base_url('assets/vendor/codemirror/addon/hint/show-hint.js') ?>"></script>
+<script src="<?= base_url('assets/vendor/codemirror/addon/hint/xml-hint.js') ?>"></script>
+<script src="<?= base_url('assets/vendor/codemirror/addon/hint/html-hint.js') ?>"></script>
+<script src="<?= base_url('assets/vendor/codemirror/addon/display/fullscreen.js') ?>"></script>
+<script src="<?= base_url('assets/vendor/codemirror/mode/xml/xml.js') ?>"></script>
+<script src="<?= base_url('assets/vendor/codemirror/mode/javascript/javascript.js') ?>"></script>
+<script src="<?= base_url('assets/vendor/codemirror/mode/css/css.js') ?>"></script>
+<script src="<?= base_url('assets/vendor/codemirror/mode/htmlmixed/htmlmixed.js') ?>"></script>
+
+<style>
+    .CodeMirror {
+        border: 1px solid #eee;
+        height: 512px;
+    }
+</style>
+<!-- <script src="https://cdn.jsdelivr.net/npm/melody-parser@1.7.5/lib/index.js"></script> -->
+<script type="module">
+    import * as monaco from 'https://cdn.jsdelivr.net/npm/monaco-editor@0.52/+esm';
+    import prettier from 'https://cdn.jsdelivr.net/npm/prettier@3.3.3/+esm';
+    import * as parserHtml from 'https://cdn.jsdelivr.net/npm/prettier@3.3.3/plugins/babel.mjs';
+
+    // Escape HTML characters
+    function escapeHtml(html) {
+        const div = document.createElement('div');
+        div.appendChild(document.createTextNode(html));
+        return div.innerHTML;
+    }
+    //<?php //echo $valueKonten 
+        ?>
+    // Escape the content for the Monaco Editor
+    const escapedValueKonten = escapeHtml(`<?= htmlspecialchars('<div></div>') ?>`);
+
+    // Create Monaco Editor
+    const editor = monaco.editor.create(document.getElementById('monaco'), {
+        value: ``,
+        language: 'twig',
+        theme: 'vs-dark',
+        automaticLayout: true
+    });
+
+    // Formatting Function
+    async function formatCode() {
+        let unformattedCode = editor.getValue();
+
+        try {
+
+            // Apply Prettier formatting for HTML parts
+            let formattedCode = await prettier.format(unformattedCode, {
+                parser: 'html',
+                plugins: [parserHtml],
+            });
+
+            // Reformat all `{% set ... %}` declarations to ensure each is on its own line
+            formattedCode = formattedCode.replace(
+                /(\{% set [^%]*?%\})\s*/g,
+                (match) => `${match.trim()}\n`
+            );
+
+            // Combine split lines and remove extra space before the last `%`
+            formattedCode = formattedCode.replace(
+                /\{% set ([^%]*?)(\n\s*[^%]*?)?%\}/g,
+                (match, p1, p2) => {
+                    const trimmedP1 = p1.trim();
+                    const trimmedP2 = p2 ? p2.trim() : '';
+                    return `{% set ${trimmedP1} ${trimmedP2} %}`;
+                }
+            );
+
+            // Final cleanup to ensure no extra spaces before last %
+            formattedCode = formattedCode
+                .replace(/\s*%\}/g, ' %}')
+                .replace(/\{\{\s*(.*?)\s*\}\}/g, '{{ $1 }}'); // Ensure spaces inside {{ }}
+
+            // const formattedCode = beautifyCode(unformattedCode);
+
+            editor.setValue(formattedCode);
+
+            // Apply incremental edit to preserve undo history
+            const fullRange = editor.getModel().getFullModelRange();
+            editor.executeEdits('', [{
+                range: fullRange,
+                text: formattedCode,
+                forceMoveMarkers: true,
+            }]);
+        } catch (e) {
+            console.error('Formatting error:', e);
+        }
+    }
+
+    // Register Command for Formatting (e.g., Ctrl + S)
+    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, () => {
+        formatCode();
+        // editor.setValue(html_beautify(editor.getValue()));
+    });
+
+    function beautifyCode(code) {
+        const htmlTagRegex = /<\/?[\w\s="'-:;]+>/;
+        const twigTagRegex = /(\{\{.*?\}\}|\{%.*?%\})/;
+        const jsLineEndings = /([{};])/g;
+
+        // Split the code by lines to handle indentation
+        const lines = code.split('\n');
+
+        let indentLevel = 0;
+        const indentSize = 4; // Spaces per indent
+        const beautifiedLines = [];
+
+        lines.forEach((line) => {
+            let trimmedLine = line.trim();
+
+            // Handle closing braces or tags (reduce indent)
+            if (trimmedLine.startsWith('}') || trimmedLine.startsWith('</') || trimmedLine.startsWith('{% end')) {
+                indentLevel--;
+            }
+
+            // Add proper indentation
+            const indentation = ' '.repeat(indentLevel * indentSize);
+            beautifiedLines.push(indentation + trimmedLine);
+
+            // Handle opening braces or tags (increase indent after)
+            if (trimmedLine.match(htmlTagRegex) || trimmedLine.match(twigTagRegex)) {
+                if (!trimmedLine.startsWith('</') && !trimmedLine.startsWith('{% end')) {
+                    indentLevel++;
+                }
+            }
+
+            // Increase indent for JS blocks
+            if (trimmedLine.endsWith('{')) {
+                indentLevel++;
+            }
+
+            // Decrease indent if a closing JS block is found
+            if (trimmedLine.endsWith('}')) {
+                indentLevel--;
+            }
+        });
+
+        // Join all the beautified lines
+        return beautifiedLines.join('\n');
+    }
+</script>
+<link href="https://cdn.jsdelivr.net/npm/vscode-codicons@0.0.17/dist/codicon.min.css" rel="stylesheet">
+
+<?= $this->endSection() ?>
+
+<?= $this->section('content') ?>
 <form id="formEditKomponen" action="<?= isset($komponen) ? base_url('/admin/komponen/simpan/') . $komponen['id'] : base_url('/admin/komponen/simpan'); ?>" method="post" enctype="multipart/form-data">
     <div class="row">
         <div class="col-md-9">
@@ -85,6 +217,9 @@ $errorJS = validation_show_error('js_file');
                 <div class="invalid-tooltip end-0">
                     <?= validation_show_error('konten'); ?>
                 </div>
+            </div>
+
+            <div id="monaco" class="d-none" style="min-height: 1024px">
             </div>
 
 
@@ -272,13 +407,13 @@ $errorJS = validation_show_error('js_file');
 <script src="<?= base_url('assets/vendor/codemirror/addon/comment/continuecomment.js') ?>"></script>
 
 <!-- CodeMirror -->
-<script>
+<script type="module">
     window.onload = function() {
         var editor = CodeMirror.fromTextArea(document.getElementById("konten"), {
             lineNumbers: true,
             matchBrackets: true,
             mode: "text/html",
-            theme: "material-darker",
+            theme: "<?= setting()->get('App.temaDasborAdmin', $context) == 'gelap' ? "material-darker" : "mdn-like" ?>",
             hintOptions: {
                 hint: CodeMirror.hint.php
             },
