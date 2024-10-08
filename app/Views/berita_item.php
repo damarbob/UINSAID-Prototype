@@ -14,7 +14,7 @@ $beritaUrl = base_url("berita/" . $berita['slug']);
 
 <!-- TODO: Add tags to meta keywords -->
 <!-- Open Graph Dynamic Meta Tags -->
-<meta property="og:title" content="<?= $berita['judul']; ?>" />
+<meta property="og:title" content="<?= setting()->get('App.judulSitus') ?>" />
 <meta property="og:keywords" content="uinsaid, rmsaid, uinsurakarta, <?= $berita['kategori']; ?>" />
 <meta property="og:image" content="<?= $berita['gambar_sampul']; ?>" />
 <meta property="og:image:alt" content="<?= $berita['judul']; ?>" />
@@ -23,11 +23,11 @@ $beritaUrl = base_url("berita/" . $berita['slug']);
 <meta property="og:url" content="<?= $beritaUrl ?>" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="<?= $berita['judul']; ?>" />
-<meta property="og:description" content="<?= character_limiter(strip_tags($berita['konten']), 160); ?>" />
+<meta property="og:description" content="<?= character_limiter(strip_tags($berita['konten']), 65); ?>" />
 
 <!-- Twitter Dynamic Meta Tags -->
 <meta name="twitter:title" content="<?= $berita['judul']; ?>" />
-<meta name="twitter:description" content="<?= character_limiter(strip_tags($berita['konten']), 160); ?>" />
+<meta name="twitter:description" content="<?= character_limiter(strip_tags($berita['konten']), 65); ?>" />
 <meta name="twitter:image" content="<?= $berita['gambar_sampul']; ?>" />
 <meta name="twitter:image:alt" content="<?= $berita['judul']; ?>" />
 

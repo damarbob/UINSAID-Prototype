@@ -124,16 +124,16 @@ class KomponenAdmin extends BaseControllerAdmin
 
         /* Grup assignment or creation */
         // Check if the grup exists
-        $grup = $this->komponenGrupModel->getByNama($data['grup']);
+        // $grup = $this->komponenGrupModel->getByNama($data['grup']);
 
         // If the grup does not exist, create a new one
-        if (!$grup) {
-            $this->komponenGrupModel->save(['nama' => $data['grup']]);
-            $grup = $this->komponenGrupModel->getByNama($data['grup']);
-        }
+        // if (!$grup) {
+        //     $this->komponenGrupModel->save(['nama' => $data['grup']]);
+        //     $grup = $this->komponenGrupModel->getByNama($data['grup']);
+        // }
 
-        unset($data['grup']); // Unset the data grup variable as  it's not in the model
-        $data['grup_id'] = $grup['id']; // Set  the grup ID in the data array
+        // unset($data['grup']); // Unset the data grup variable as  it's not in the model
+        // $data['grup_id'] = $grup['id']; // Set  the grup ID in the data array
         /* End of grup assignment or creation */
 
         /* Files upload */
@@ -181,6 +181,10 @@ class KomponenAdmin extends BaseControllerAdmin
             $this->komponenGrupModel->save(['nama' => $grupNama]);
             $grup = $this->komponenGrupModel->getByNama($grupNama);
         }
+
+        unset($data['grup']); // Unset the data grup variable as  it's not in the model
+        unset($data['grup_lainnya']); // Unset the data grup variable as  it's not in the model
+        $data['grup_id'] = $grup['id']; // Set  the grup ID in the data array
 
         if ($id === null) {
             // Create new component
