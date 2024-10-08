@@ -120,6 +120,9 @@ return [
     'suntingPosting' => 'Sunting Posting',
     'tambahPosting' => 'Tambah Posting',
     'jenisPosting' => 'Jenis Posting',
+    'jenis' => 'Jenis',
+    'semuaJenis' => 'Semua Jenis',
+    'semuaStatus' => 'Semua Status',
 
     'berita' => 'Berita',
     'kelolaBerita' => 'Kelola berita',

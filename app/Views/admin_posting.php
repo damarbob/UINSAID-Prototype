@@ -67,6 +67,7 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
                     <?php endif ?>
                     <td><?= lang('Admin.tanggal') ?></td>
                     <td><?= lang('Admin.status') ?></td>
+                    <td><?= lang('Admin.jenis') ?></td>
                 </tr>
             </thead>
             <tbody>
@@ -88,6 +89,7 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
     $(document).ready(function() {
 
         var filterStatus = null; // Define a variable to hold the filter status
+        var filterJenis = null; // Define a variable to hold the filter jenis
 
         var table1 = $('#tabelBerita').DataTable({
             processing: true,
@@ -101,6 +103,9 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
                     // Include the filter status in the request data
                     if (filterStatus) {
                         d.status = filterStatus;
+                    }
+                    if (filterJenis) {
+                        d.jenisNama = filterJenis;
                     }
                     return d;
                 }
@@ -149,6 +154,9 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
                         return data;
                     }
                 },
+                {
+                    "data": "posting_jenis_nama"
+                }
             ],
             "language": {
                 url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/id.json'
@@ -175,7 +183,10 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
                     }
                 },
                 {
-                    text: '<i id="iconFilterRilisMedia" class="bx bx-filter-alt me-2"></i><span id="loaderFilterRilisMedia" class="loader me-2" style="display: none;"></span><span id="textFilterRilisMedia"><?= lang('Admin.semua') ?></span>',
+                    text: '<i id="iconFilterRilisMedia" class="bx bx-filter-alt me-2"></i><span id="loaderFilterRilisMedia" class="loader me-2" style="display: none;"></span><span id="textFilterRilisMedia"><?= lang('Admin.semuaStatus') ?></span>',
+                },
+                {
+                    text: '<i id="iconFilterJenis" class="bx bx-filter-alt me-2"></i><span id="loaderFilterJenis" class="loader me-2" style="display: none;"></span><span id="textFilterJenis"><?= lang('Admin.semuaJenis') ?></span>',
                 },
                 <?php if ($is_child_site):
                     // Tampilkan tombol ajukan dan batal ajukan di website child dan super
@@ -185,14 +196,6 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
                         text: '<i class="bi bi-forward"></i>',
                         action: function(e, dt, node, config) {
                             ajukan();
-                        }
-                    },
-                    {
-                        // Tombol batal ajukan
-                        extend: 'selected',
-                        text: '<i class="bi bi-arrow-return-left"></i>',
-                        action: function(e, dt, node, config) {
-                            batalAjukan();
                         }
                     },
                 <?php endif ?> {
@@ -297,8 +300,7 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
             buttons.eq(0).removeClass("btn-secondary").addClass("btn-primary").addClass("rounded-0");
             <?php if ($is_child_site): ?>
                 // Warnai tombol ajukan dan batal ajukan di website child dan super
-                buttons.eq(2).removeClass("btn-secondary").addClass("btn-primary").addClass("rounded-0");
-                buttons.eq(3).removeClass("btn-secondary").addClass("btn-warning").addClass("rounded-0");
+                buttons.eq(3).removeClass("btn-secondary").addClass("btn-primary").addClass("rounded-0");
             <?php endif ?>
             lastButton.removeClass("btn-secondary").addClass("btn-danger").addClass("rounded-0");
 
@@ -313,7 +315,7 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
 
             var newElement = $(
                 '<ul class="dropdown-menu">' +
-                '<li><button id="btnFilterRilisMediaSemua" class="dropdown-item" type="button"><?= lang('Admin.semua') ?></button></li>' +
+                '<li><button id="btnFilterRilisMediaSemua" class="dropdown-item" type="button"><?= lang('Admin.semuaStatus') ?></button></li>' +
                 '<li><button id="btnFilterRilisMediaPublikasi" class="dropdown-item" type="button"><?= lang('Admin.publikasi') ?></button></li>' +
                 '<li><button id="btnFilterRilisMediaDraf" class="dropdown-item" type="button"><?= lang('Admin.draf') ?></button></li>' +
                 '</ul>'
@@ -342,6 +344,53 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
                     });
                 });
             });
+
+            // Filter jenis
+            var thirdButton = buttons.eq(2);
+            thirdButton.addClass("dropdown-toggle").wrap('<div class="btn-group"></div>').attr({
+                id: "btnFilterJenis",
+                "data-mdb-ripple-init": "",
+                "data-mdb-dropdown-init": "",
+                "aria-expanded": "false"
+            });
+
+            var newElementForJenis = $(
+                '<ul class="dropdown-menu">' +
+                '<li><button id="btnFilterJenisSemua" class="dropdown-item" type="button"><?= lang('Admin.semuaJenis') ?></button></li>'
+                <?php foreach ($jenis as $i => $x): ?> + '<li><button id="btnFilterJenis<?= $i ?>" class="dropdown-item" type="button"><?= $x['nama'] ?></button></li>'
+                <?php endforeach; ?> +
+                '</ul>'
+            );
+
+            thirdButton.after(newElementForJenis);
+            new mdb.Dropdown(thirdButton); // Reinitialize dropdown
+
+            // Filter button and jenis
+            var filterJenisButtons = {
+                '#btnFilterJenisSemua': null,
+                <?php foreach ($jenis as $i => $x): ?> '#btnFilterJenis<?= $i ?>': '<?= $x['nama'] ?>',
+                <?php endforeach; ?>
+            };
+
+            $.each(filterJenisButtons, function(btnId, jenis) {
+                $(btnId).on('click', function() {
+                    filterJenis = jenis; // Update the filter jenis
+                    // table1.ajax.reload(); // Reload the DataTable with the new filter
+                    $('#iconFilterJenis').hide();
+                    $('#loaderFilterJenis').show();
+                    table1.ajax.reload(function() {
+                        $('#iconFilterJenis').show();
+                        $('#loaderFilterJenis').hide();
+                        $('#textFilterJenis').html($(btnId).html());
+                    });
+                });
+            });
+        });
+
+        // Add MDB styles to the search input after initialization
+        table1.on('init.dt', function() {
+            $('div.dataTables_filter label input').addClass('form-control form-control-md'); // Apply MDB form control styles
+            $('div.dataTables_filter label').addClass('form-label'); // Apply MDB label styles
         });
 
     });
