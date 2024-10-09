@@ -919,6 +919,7 @@ $errorJS = validation_show_error('js_file');
                             cache_suffix: `?v=${new Date().getTime()}`,
                             selector: `#${id}`,
                             license_key: 'gpl', // Important to prevent license issue
+                            relative_urls: false,
                             document_base_url: '<?= base_url() ?>', // Set the base URL for relative paths
                             convert_urls: false, // Prevent TinyMCE from converting URLs to relative
                             plugins: [

@@ -268,6 +268,7 @@ if ($mode == "tambah") {
     tinymce.init({
         selector: '#konten',
         license_key: 'gpl',
+        relative_urls: false,
         document_base_url: '<?= base_url() ?>', // Set the base URL for relative paths
         plugins: [
             'advlist', 'autolink', 'image',
