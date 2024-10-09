@@ -96,6 +96,8 @@ class PostingAdmin extends BaseControllerAdmin
                 $nestedData['created_at'] = $row->created_at;
                 $nestedData['status'] = $row->status;
                 $nestedData['sumber'] = $row->sumber;
+                $nestedData['seo'] = $row->seo;
+                $nestedData['gambar_sampul'] = $row->gambar_sampul;
                 $nestedData['posting_jenis_nama'] = $row->posting_jenis_nama;
                 $data[] = $nestedData;
             }

@@ -257,6 +257,21 @@ class PostingDiajukanAdmin extends BaseControllerAdmin
         return $rules;
     }
 
+    protected function getOrCreateJenis($jenisNama)
+    {
+        // Check if the jenis exists
+        $jenis = $this->postingJenisModel->where('nama', $jenisNama)->first();
+
+        // If not, create a new jenis
+        if (!$jenis) {
+            $this->postingJenisModel->save(['nama' => $jenisNama]);
+            $jenis = $this->postingJenisModel->where('nama', $jenisNama)->first();
+        }
+
+        // Return the ID of the jenis
+        return $jenis['id'];
+    }
+
     protected function getOrCreateKategori($kategoriNama)
     {
         // Check if the category exists
@@ -290,7 +305,7 @@ class PostingDiajukanAdmin extends BaseControllerAdmin
                 'konten' => $data['konten'],
                 'ringkasan' => $data['ringkasan'],
                 'id_kategori' => $this->getOrCreateKategori($data['kategori']),
-                'id_jenis' => $data['id_jenis'],
+                'id_jenis' => $this->getOrCreateJenis($data['posting_jenis_nama']),
                 'status' => $data['status'],
                 'sumber' => $data['sumber'],
                 'seo' => $data['seo'],
