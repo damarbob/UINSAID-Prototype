@@ -145,13 +145,13 @@ $ppidUrl = base_url("ppid/" . $ppid['slug']);
                     </div> -->
                     <div class="col">
 
-                        <a class="btn btn-whatsapp m-2 m-xl-0 mb-lg-2 me-2" href="https://api.whatsapp.com/send?text=<?= $ppid['judul'] ?> %0a %0a<?= $ppidUrl ?>%0a %0aKunjungi situs UIN Raden Mas Said Surakarta untuk melihat informasi terkini: %0a<?= base_url() ?>" target="_blank" onclick="window.open('https\:\/\/api.whatsapp.com/send?text=<?= $ppid['judul'] ?> %0a %0a<?= $ppidUrl ?>%0a %0aKunjungi situs UIN Raden Mas Said Surakarta untuk melihat informasi terkini: %0a<?= base_url() ?>', '_blank', 'width=600,height=600,scrollbars=yes,menubar=no,status=yes,resizable=yes,screenx=0,screeny=0'); return false;"><small><span class="bi bi-whatsapp me-2"></span>Whatsapp</small></a>
+                        <a class="btn btn-whatsapp m-2 m-xl-0 mb-lg-2 me-2" href="https://api.whatsapp.com/send?text=<?= $ppid['judul'] ?> %0a %0aSelengkapnya di: %0a<?= $ppidUrl ?>%0a %0a<?= urlencode(setting()->get('App.sharingCaption')) ?>" target="_blank"><span class="bi bi-whatsapp"></span></a>
 
-                        <a class="btn btn-facebook-1 m-2 m-xl-0 mb-lg-2 me-2" href="https://www.facebook.com/sharer/sharer.php?u=<?= $ppidUrl ?>" target="_blank"><small><span class="bi bi-facebook me-2"></span>Facebook</small></a>
+                        <a class="btn btn-facebook-1 m-2 m-xl-0 mb-lg-2 me-2" href="https://www.facebook.com/sharer/sharer.php?u=<?= urlencode($ppidUrl) ?>" target="_blank"><span class="bi bi-facebook"></span></a>
 
-                        <a class="btn btn-twitter-1 m-2 m-xl-0 mb-lg-2 me-2" href="https://twitter.com/intent/tweet?url=<?= $ppidUrl ?>" target="_blank"><small><span class="bi bi-twitter me-2"></span>Twitter</small></a>
+                        <a class="btn btn-twitter-1 m-2 m-xl-0 mb-lg-2 me-2" href="https://twitter.com/intent/tweet?text=<?= $ppid['judul'] ?>&url=<?= $ppidUrl ?>" target="_blank"><span class="bi bi-twitter"></span></a>
 
-                        <a class="btn btn-linkedin-1 m-2 m-xl-0 mb-lg-2 me-2" href="https://www.linkedin.com/sharing/share-offsite/?url=<?= $ppidUrl ?>" target="_blank"><small><span class="bi bi-linkedin me-2"></span>LinkedIn</small></a>
+                        <a class="btn btn-linkedin-1 m-2 m-xl-0 mb-lg-2 me-2" href="https://www.linkedin.com/sharing/share-offsite/?url=<?= $ppidUrl ?>" target="_blank"><span class="bi bi-linkedin"></span></a>
 
                     </div>
 

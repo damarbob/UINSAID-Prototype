@@ -124,37 +124,37 @@ $routes->group('admin', ['filter' => 'group:admin,superadmin'], function ($route
     $routes->post('media-sosial/tambah/simpan', 'MediaSosialAdmin::simpan');
     $routes->post('media-sosial/sunting/simpan/(:num)', 'MediaSosialAdmin::simpan/$1');
 
-    if (ENVIRONMENT == 'development') {
+    // Posting
+    $routes->get('posting', 'PostingAdmin');
+    $routes->get('posting/tambah', 'PostingAdmin::tambah');
+    $routes->post('posting/tambah/simpan', 'PostingAdmin::simpan');
+    $routes->get('posting/sunting', 'PostingAdmin::sunting');
+    $routes->get('posting/sunting/(:num)', 'PostingAdmin::sunting/$1');
+    $routes->post('posting/sunting/simpan/(:num)', 'PostingAdmin::simpan/$1');
+    $routes->post('posting/hapus', 'PostingAdmin::hapusBanyak');
 
-        // Posting
-        $routes->get('posting', 'PostingAdmin');
-        $routes->get('posting/tambah', 'PostingAdmin::tambah');
-        $routes->post('posting/tambah/simpan', 'PostingAdmin::simpan');
-        $routes->get('posting/sunting', 'PostingAdmin::sunting');
-        $routes->get('posting/sunting/(:num)', 'PostingAdmin::sunting/$1');
-        $routes->post('posting/sunting/simpan/(:num)', 'PostingAdmin::simpan/$1');
-        $routes->post('posting/hapus', 'PostingAdmin::hapusBanyak');
-
-        // Posting diajukan (web utama)
-        if (env('app.siteType') == 'parent' || env('app.siteType') == 'super') {
-            $routes->get('posting-diajukan', 'PostingDiajukanAdmin');
-            $routes->post('posting-diajukan/publikasi', 'PostingDiajukanAdmin::publikasiBanyak');
-            $routes->post('posting-diajukan/hapus', 'PostingDiajukanAdmin::hapusBanyak');
-        }
+    // Posting diajukan (web utama)
+    if (env('app.siteType') == 'parent' || env('app.siteType') == 'super') {
+        $routes->get('posting-diajukan', 'PostingDiajukanAdmin');
+        $routes->post('posting-diajukan/publikasi', 'PostingDiajukanAdmin::publikasiBanyak');
+        $routes->post('posting-diajukan/hapus', 'PostingDiajukanAdmin::hapusBanyak');
     }
 
     // Pengaturan
     $routes->get('pengaturan', 'PengaturanAdmin');
     $routes->post('pengaturan', 'PengaturanAdmin');
 
-    // Berita
-    $routes->get('berita', 'BeritaAdmin');
-    $routes->get('berita/tambah', 'BeritaAdmin::tambah');
-    $routes->post('berita/tambah/simpan', 'BeritaAdmin::simpan');
-    $routes->get('berita/sunting', 'BeritaAdmin::sunting');
-    $routes->get('berita/sunting/(:num)', 'BeritaAdmin::sunting/$1');
-    $routes->post('berita/sunting/simpan/(:num)', 'BeritaAdmin::simpan/$1');
-    $routes->post('berita/hapus', 'BeritaAdmin::hapusBanyak');
+    if (ENVIRONMENT == 'development') {
+
+        // Berita
+        $routes->get('berita', 'BeritaAdmin');
+        $routes->get('berita/tambah', 'BeritaAdmin::tambah');
+        $routes->post('berita/tambah/simpan', 'BeritaAdmin::simpan');
+        $routes->get('berita/sunting', 'BeritaAdmin::sunting');
+        $routes->get('berita/sunting/(:num)', 'BeritaAdmin::sunting/$1');
+        $routes->post('berita/sunting/simpan/(:num)', 'BeritaAdmin::simpan/$1');
+        $routes->post('berita/hapus', 'BeritaAdmin::hapusBanyak');
+    }
 
     // Berita (selain web utama)
     if (env('app.siteType') == null || env('app.siteType') == 'child' || env('app.siteType') == 'super') {
@@ -284,25 +284,25 @@ $routes->get('/keluar', 'UserController::keluar');
 // API
 $routes->group('api', static function ($routes) {
 
-    if (ENVIRONMENT == 'development') {
+    // if (ENVIRONMENT == 'development') {
 
-        // Halaman
-        $routes->post('halaman', 'HalamanAdmin::getDT');
-        $routes->post('halaman/(:any)', 'HalamanAdmin::getDT/$1');
+    // Halaman
+    $routes->post('halaman', 'HalamanAdmin::getDT');
+    $routes->post('halaman/(:any)', 'HalamanAdmin::getDT/$1');
 
-        // Komponen
-        $routes->post('komponen', 'KomponenAdmin::getDT');
+    // Komponen
+    $routes->post('komponen', 'KomponenAdmin::getDT');
 
-        // Komponen Meta
-        $routes->post('komponen/meta', 'KomponenAdmin::getMetaById');
+    // Komponen Meta
+    $routes->post('komponen/meta', 'KomponenAdmin::getMetaById');
 
-        // Posting pengajuan (web utama)
-        if (env('app.siteType') == 'parent' || env('app.siteType') == 'super') {
-            $routes->post('posting-diajukan', 'PostingDiajukanAdmin::fetchData');
-            $routes->post('posting-diajukan/terima-posting', 'PostingDiajukanAdmin::terimaPostingBanyak');
-            $routes->post('posting-diajukan/(:any)', 'PostingDiajukanAdmin::fetchData/$1');
-        }
+    // Posting pengajuan (web utama)
+    if (env('app.siteType') == 'parent' || env('app.siteType') == 'super') {
+        $routes->post('posting-diajukan', 'PostingDiajukanAdmin::fetchData');
+        $routes->post('posting-diajukan/terima-posting', 'PostingDiajukanAdmin::terimaPostingBanyak');
+        $routes->post('posting-diajukan/(:any)', 'PostingDiajukanAdmin::fetchData/$1');
     }
+    // }
 
     // Media sosial
     $routes->post('media-sosial', 'MediaSosialAdmin::getDT');
