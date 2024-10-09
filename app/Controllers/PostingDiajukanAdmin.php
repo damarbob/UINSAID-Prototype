@@ -20,6 +20,7 @@ class PostingDiajukanAdmin extends BaseControllerAdmin
     public function index(): string
     {
         $this->data['judul'] = lang('Admin.postingDiajukan');
+        $this->data['jenis'] = $this->postingJenisModel->findAll();
         // dd($this->postingDiajukanModel->findAll());
         return view('admin_posting_diajukan', $this->data);
     }
@@ -27,7 +28,7 @@ class PostingDiajukanAdmin extends BaseControllerAdmin
     // Fetch data untuk datatable
     public function fetchData()
     {
-        $columns = ['judul', 'kategori', 'tanggal_terbit', 'status', 'sumber'];
+        $columns = ['judul', 'kategori', 'tanggal_terbit', 'status', 'sumber', 'posting_jenis_nama'];
 
         $limit = $this->request->getPost('length');
         $start = $this->request->getPost('start');
@@ -36,14 +37,15 @@ class PostingDiajukanAdmin extends BaseControllerAdmin
 
         $search = $this->request->getPost('search')['value'] ?? null;
         $statusX = $this->request->getPost('status');
+        $jenisNama = $this->request->getPost('jenisNama');
 
         $totalData = $this->postingDiajukanModel->countAll();
         $totalFiltered = $totalData;
 
-        $posting = $this->postingDiajukanModel->getByFilter('berita', $limit, $start, $statusX, $search, $order, $dir);
+        $posting = $this->postingDiajukanModel->getByFilter($limit, $start, $statusX, $search, $order, $dir, $jenisNama);
 
-        if ($statusX) {
-            $totalFiltered = $this->postingDiajukanModel->getTotalRecords('berita', $statusX, $search);
+        if ($search || $statusX || $jenisNama) {
+            $totalFiltered = $this->postingDiajukanModel->getTotalRecords($jenisNama, $statusX, $search);
         }
 
         $data = [];
@@ -61,6 +63,7 @@ class PostingDiajukanAdmin extends BaseControllerAdmin
                 $nestedData['created_at'] = $row->created_at;
                 $nestedData['status'] = $row->status;
                 $nestedData['sumber'] = $row->sumber;
+                $nestedData['posting_jenis_nama'] = $row->posting_jenis_nama;
                 $data[] = $nestedData;
             }
         }
@@ -281,14 +284,17 @@ class PostingDiajukanAdmin extends BaseControllerAdmin
 
             // Prepare the data to be inserted
             $newEntry = [
-                'id_penulis' => auth()->id(), // Assuming the current logged-in user's ID
+                'id_penulis' => 3, // Assuming the current logged-in user's ID
                 'judul' => $data['judul'],
                 'slug' => create_slug($data['judul']),
                 'konten' => $data['konten'],
                 'ringkasan' => $data['ringkasan'],
                 'id_kategori' => $this->getOrCreateKategori($data['kategori']),
+                'id_jenis' => $data['id_jenis'],
                 'status' => $data['status'],
                 'sumber' => $data['sumber'],
+                'seo' => $data['seo'],
+                'gambar_sampul' => $data['gambar_sampul'],
                 'tanggal_terbit' => $data['tanggal_terbit'] ?: $data['created_at'],
                 // Add other fields as needed
             ];

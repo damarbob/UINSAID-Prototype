@@ -36,12 +36,12 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
         <?php if (session()->getFlashdata('sukses')) : ?>
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <?= session()->getFlashdata('sukses') ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <a href="<?= base_url('admin/posting') ?>" class="me-2"><i class="bi bi-arrow-left"></i></a>
             </div>
         <?php elseif (session()->getFlashdata('gagal')) : ?>
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 <?= session()->getFlashdata('gagal') ?>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <a href="<?= base_url('admin/posting') ?>" class="me-2"><i class="bi bi-arrow-left"></i></a>
             </div>
         <?php endif; ?>
 
@@ -61,10 +61,6 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
                     <td><?= lang('Admin.judul') ?></td>
                     <td><?= lang('Admin.penulis') ?></td>
                     <td><?= lang('Admin.kategori') ?></td>
-                    <?php if ($is_child_site): ?>
-                        <!-- Kolom pengajuan untuk child dan super -->
-                        <td><?= lang('Admin.pengajuan') ?></td>
-                    <?php endif ?>
                     <td><?= lang('Admin.tanggal') ?></td>
                     <td><?= lang('Admin.status') ?></td>
                     <td><?= lang('Admin.jenis') ?></td>
@@ -132,14 +128,7 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
                         return capitalizeFirstLetter(data);
                     }
                 },
-                <?php if ($is_child_site): ?> {
-                        // Kolom pengajuan untuk child dan super
-                        "data": "pengajuan",
-                        "render": function(data, type, row) {
-                            return data == "tidak diajukan" ? "<?= lang('Admin.tidakDiajukan') ?>" : (data == "diajukan" ? "<?= lang('Admin.diajukan') ?>" : (data == "diterima" ? "<?= lang('Admin.diterima') ?>" : (data == "ditolak" ? "<?= lang('Admin.ditolak') ?>" : "<?= lang('Admin.diblokir') ?>"))) // TODO: Translasi
-                        }
-                    },
-                <?php endif ?> {
+                {
                     "data": "tanggal_terbit",
                     "render": function(data, type, row) {
                         return (data) ? formatDate(data) : '';
@@ -163,17 +152,11 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
             },
             columnDefs: [{
                     type: 'date',
-                    targets: 3
+                    targets: 2
                 } // Specify the type of the fourth column as 'date'
             ],
             order: [
-                <?php if ($is_child_site): ?>
-                    // Apabila child atau super
-                    [4, 'desc']
-                <?php else: ?>
-                    // Apabila parent
-                    [3, 'desc']
-                <?php endif ?>
+                [3, 'desc']
             ],
             dom: '<"mb-4"<"d-flex flex-column flex-md-row align-items-center mb-2"<"flex-grow-1 align-self-start"B><"align-self-end ps-2 pt-2 pt-md-0 mb-0"f>>r<"table-responsive"t><"d-flex flex-column flex-md-row align-items-center mt-2"<"flex-grow-1 order-2 order-md-1 mt-2 mt-md-0"i><"align-self-end order-1 order-md-2"p>>>',
             buttons: [{

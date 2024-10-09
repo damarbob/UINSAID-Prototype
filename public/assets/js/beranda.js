@@ -64,8 +64,8 @@ $(document).ready(function () {
       disableOnInteraction: false,
     },
     grid: {
-      fill: "row",
-      rows: 3,
+      fill: "column",
+      rows: 1,
     },
     loopAddBlankSlides: true,
     breakpoints: {
@@ -73,8 +73,8 @@ $(document).ready(function () {
         slidesPerView: 1,
         spaceBetween: 10,
         grid: {
-          fill: "row",
-          rows: 3,
+          fill: "column",
+          rows: 1,
         },
         loopAddBlankSlides: true,
       },

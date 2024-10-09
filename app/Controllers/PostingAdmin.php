@@ -53,13 +53,13 @@ class PostingAdmin extends BaseControllerAdmin
     public function fetchData()
     {
 
-        $columns = ['judul', 'penulis', 'kategori', 'pengajuan', 'tanggal_terbit', 'status', 'posting_jenis_nama'];
+        $columns = ['judul', 'penulis', 'kategori', 'tanggal_terbit', 'status', 'posting_jenis_nama'];
 
         // $columns = [lang('Admin.judul'), lang('Admin.penulis'), lang('Admin.kategori'), lang('Admin.tanggal'), lang('Admin.status')];
         // Only if this is child site change the columns with 'pengajuan'
         if ($this->isChildSite) {
             // Child dan super ada kolom pengajuan (di view juga)
-            $columns = ['judul', 'penulis', 'kategori', 'pengajuan', 'tanggal_terbit', 'status', 'posting_jenis_nama'];
+            $columns = ['judul', 'penulis', 'kategori', 'tanggal_terbit', 'status', 'posting_jenis_nama'];
         }
 
         $limit = $this->request->getPost('length');
@@ -182,6 +182,7 @@ class PostingAdmin extends BaseControllerAdmin
             'ringkasan' => $this->request->getVar('ringkasan'),
             'status' => $this->request->getVar('status'),
             'tanggal_terbit' => $this->request->getVar('tanggal_terbit'),
+            'sumber' => base_url(),
             'gambar_sampul' => $this->postingModel->extract_first_image($this->request->getVar('konten'), base_url('assets/img/icon-notext.png'), false),
         ];
 

@@ -151,7 +151,7 @@ if ($mode == "tambah") {
 
             <!-- Gambar Sampul file input -->
             <div class="form-floating mb-3">
-                <input type="file" class="form-control" id="gambar_sampul" name="gambar_sampul_file">
+                <input type="file" class="form-control" id="gambar_sampul" name="gambar_sampul_file" accept="image/*">
                 <label for="gambar_sampul">Gambar Sampul</label>
 
                 <?php if (isset($valueGambarSampul) && $valueGambarSampul != ''): ?>
