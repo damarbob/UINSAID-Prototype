@@ -83,6 +83,7 @@
                     <td><?= lang('Admin.tanggal') ?></td>
                     <td><?= lang('Admin.status') ?></td>
                     <td><?= lang('Admin.sumber') ?></td>
+                    <td><?= lang('Admin.jenis') ?></td>
                 </tr>
             </thead>
             <tbody>
@@ -106,6 +107,7 @@
 
         var lastDoubleClickedRowIndex = null;
         var filterStatus = null; // Define a variable to hold the filter status
+        var filterJenis = null; // Define a variable to hold the filter jenis
 
         var table1 = $('#tabelRilisMedia').DataTable({
             processing: true,
@@ -117,6 +119,9 @@
                     // Include the filter status in the request data
                     if (filterStatus) {
                         d.status = filterStatus;
+                    }
+                    if (filterJenis) {
+                        d.jenisNama = filterJenis;
                     }
                     return d;
                 }
@@ -169,6 +174,9 @@
                 {
                     "data": "sumber",
                 },
+                {
+                    "data": "posting_jenis_nama",
+                },
             ],
             "language": {
                 url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/id.json'
@@ -194,6 +202,9 @@
                 },
                 {
                     text: '<i id="iconFilterRilisMedia" class="bx bx-filter-alt me-2"></i><span id="loaderFilterRilisMedia" class="loader me-2" style="display: none;"></span><span id="textFilterRilisMedia"><?= lang('Admin.semua') ?></span>',
+                },
+                {
+                    text: '<i id="iconFilterJenis" class="bx bx-filter-alt me-2"></i><span id="loaderFilterJenis" class="loader me-2" style="display: none;"></span><span id="textFilterJenis"><?= lang('Admin.semuaJenis') ?></span>',
                 },
                 {
                     extend: 'colvis',
@@ -313,6 +324,47 @@
                         $('#iconFilterRilisMedia').show();
                         $('#loaderFilterRilisMedia').hide();
                         $('#textFilterRilisMedia').html($(btnId).html());
+                    });
+                });
+            });
+
+            // Filter jenis
+            var thirdButton = buttons.eq(2);
+            thirdButton.addClass("dropdown-toggle").wrap('<div class="btn-group"></div>').attr({
+                id: "btnFilterJenis",
+                "data-mdb-ripple-init": "",
+                "data-mdb-dropdown-init": "",
+                "aria-expanded": "false"
+            });
+
+            var newElementForJenis = $(
+                '<ul class="dropdown-menu">' +
+                '<li><button id="btnFilterJenisSemua" class="dropdown-item" type="button"><?= lang('Admin.semuaJenis') ?></button></li>'
+                <?php foreach ($jenis as $i => $x): ?> + '<li><button id="btnFilterJenis<?= $i ?>" class="dropdown-item" type="button"><?= $x['nama'] ?></button></li>'
+                <?php endforeach; ?> +
+                '</ul>'
+            );
+
+            thirdButton.after(newElementForJenis);
+            new mdb.Dropdown(thirdButton); // Reinitialize dropdown
+
+            // Filter button and jenis
+            var filterJenisButtons = {
+                '#btnFilterJenisSemua': null,
+                <?php foreach ($jenis as $i => $x): ?> '#btnFilterJenis<?= $i ?>': '<?= $x['nama'] ?>',
+                <?php endforeach; ?>
+            };
+
+            $.each(filterJenisButtons, function(btnId, jenis) {
+                $(btnId).on('click', function() {
+                    filterJenis = jenis; // Update the filter jenis
+                    // table1.ajax.reload(); // Reload the DataTable with the new filter
+                    $('#iconFilterJenis').hide();
+                    $('#loaderFilterJenis').show();
+                    table1.ajax.reload(function() {
+                        $('#iconFilterJenis').show();
+                        $('#loaderFilterJenis').hide();
+                        $('#textFilterJenis').html($(btnId).html());
                     });
                 });
             });

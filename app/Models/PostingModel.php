@@ -161,7 +161,7 @@ class PostingModel extends \CodeIgniter\Model
                 ->like('posting.judul', $search)
                 ->orLike('users.username', $search)
                 ->orLike('kategori.nama', $search)
-                ->orLike('posting.created_at', $search)
+                ->orLike('posting.tanggal_terbit', $search)
                 ->orLike('posting.status', $search)
                 ->groupEnd();
         }
