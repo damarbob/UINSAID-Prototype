@@ -420,6 +420,9 @@ if (ENVIRONMENT == 'development') {
     });
 }
 
+// Change locale
+$routes->post('change-language', 'LanguageController::change');
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing

@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use CodeIgniter\I18n\Time;
 use IntlDateFormatter;
 
 if (!function_exists('format_tanggal')) {
@@ -146,7 +147,7 @@ if (!function_exists('format_tanggal_suatu_kolom')) {
      * 
      * @return $data with added 'formatted_datetime'
      */
-    function format_tanggal_suatu_kolom($data, $kolom = 'created_at', $showWaktu = false)
+    function format_tanggal_suatu_kolom($data, $kolom = 'created_at', $showWaktu = false, $humanize = false)
     {
         $isNotArray = false; // For use in return statement
 
@@ -164,9 +165,20 @@ if (!function_exists('format_tanggal_suatu_kolom')) {
         }
 
         foreach ($data as &$item) {
-            $date = date_create($item[$kolom]);
-            // $item['formatted_datetime'] = date_format($date, 'j M Y');
-            $item['formatted_datetime'] = $formatter->format($date);
+            // jajal
+            // Check if the session has a locale set and apply it
+            if (session()->has('locale')) {
+                $locale = session()->get('locale');
+            } else {
+                $locale = 'id_ID';
+            }
+
+            $myTime = Time::parse($item[$kolom], date_default_timezone_get(), session()->get('locale'));
+            if ($locale == 'id_ID') $item['formatted_datetime'] = $humanize ? $myTime->humanize() : $myTime->toLocalizedString(!$showWaktu ? 'd MMMM yyyy' : 'd MMMM yyyy HH:mm z');
+            else $item['formatted_datetime'] = $humanize ? $myTime->humanize() : $myTime->toLocalizedString(!$showWaktu ? 'MMMM, d yyyy' : 'MMMM, d yyyy HH:mm z');
+
+            // $date = date_create($item[$kolom]);
+            // $item['formatted_datetime'] = $formatter->format($date);
         }
 
         return $isNotArray ? $data[0] : $data; // Return first data directly if it's not array (single data), otherwise return array

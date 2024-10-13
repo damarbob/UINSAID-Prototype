@@ -12,10 +12,10 @@
 // Pager language settings
 return [
     'pageNavigation'         => 'Navigasi halaman',
-    'first'                  => 'Awal',
+    'first'                  => 'Pertama',
     'previous'               => 'Sebelumnya',
     'next'                   => 'Berikutnya',
-    'last'                   => 'Akhir',
+    'last'                   => 'Terakhir',
     'older'                  => 'Lebih lama',
     'newer'                  => 'Lebih baru',
     'invalidTemplate'        => '"{0}" bukan template Pager yang valid.',

@@ -14,20 +14,19 @@ $beritaUrl = base_url("berita/" . $berita['slug']);
 
 <!-- TODO: Add tags to meta keywords -->
 <!-- Open Graph Dynamic Meta Tags -->
-<meta property="og:title" content="<?= setting()->get('App.judulSitus') ?>" />
-<meta property="og:keywords" content="uinsaid, rmsaid, uinsurakarta, <?= $berita['kategori']; ?>" />
+<meta property="og:url" content="<?= $beritaUrl ?>" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="<?= character_limiter($berita['judul'], 60); ?>" />
+<meta property="og:description" content="<?= character_limiter(strip_tags($berita['konten']), 160); ?>" />
 <meta property="og:image" content="<?= $berita['gambar_sampul']; ?>" />
 <meta property="og:image:alt" content="<?= $berita['judul']; ?>" />
 <meta property="og:image:width" content="400" />
 <meta property="og:image:height" content="400" />
-<meta property="og:url" content="<?= $beritaUrl ?>" />
-<meta property="og:type" content="article" />
-<meta property="og:title" content="<?= $berita['judul']; ?>" />
-<meta property="og:description" content="<?= character_limiter(strip_tags($berita['konten']), 65); ?>" />
+<meta property="og:keywords" content="uinsaid, rmsaid, uinsurakarta, <?= $berita['kategori']; ?>" />
 
 <!-- Twitter Dynamic Meta Tags -->
 <meta name="twitter:title" content="<?= $berita['judul']; ?>" />
-<meta name="twitter:description" content="<?= character_limiter(strip_tags($berita['konten']), 65); ?>" />
+<meta name="twitter:description" content="<?= character_limiter(strip_tags($berita['konten']), 160); ?>" />
 <meta name="twitter:image" content="<?= $berita['gambar_sampul']; ?>" />
 <meta name="twitter:image:alt" content="<?= $berita['judul']; ?>" />
 
@@ -186,18 +185,35 @@ $beritaUrl = base_url("berita/" . $berita['slug']);
                     </div>
 
                     <!-- Tombol share sosmed -->
-                    <div class="col">
+                    <div class="col d-flex flex-nowrap">
 
-                        <!-- <a class="btn btn-whatsapp m-2 m-xl-0 mb-lg-2 me-2" href="https://api.whatsapp.com/send?text=<?= $berita['judul'] ?> %0a %0a<?= $beritaUrl ?>%0a %0aKunjungi situs UIN Raden Mas Said Surakarta untuk melihat informasi terkini: %0a<?= base_url() ?>" target="_blank" onclick="window.open('https\:\/\/api.whatsapp.com/send?text=<?= $berita['judul'] ?> %0a %0a<?= $beritaUrl ?>%0a %0aKunjungi situs UIN Raden Mas Said Surakarta untuk melihat informasi terkini: %0a<?= base_url() ?>', '_blank', 'width=600,height=600,scrollbars=yes,menubar=no,status=yes,resizable=yes,screenx=0,screeny=0'); return false;"><span class="bi bi-whatsapp"></span></a> -->
-                        <a class="btn btn-whatsapp m-2 m-xl-0 mb-lg-2 me-2" href="https://api.whatsapp.com/send?text=<?= $berita['judul'] ?> %0a %0aSelengkapnya di: %0a<?= $beritaUrl ?>%0a %0a<?= urlencode(setting()->get('App.sharingCaption')) ?>" target="_blank"><span class="bi bi-whatsapp"></span></a>
+                        <!-- <a class="btn btn-whatsapp me-2 flex-grow-1 w-100" href="https://api.whatsapp.com/send?text=<?= $berita['judul'] ?> %0a %0a<?= $beritaUrl ?>%0a %0aKunjungi situs UIN Raden Mas Said Surakarta untuk melihat informasi terkini: %0a<?= base_url() ?>" target="_blank" onclick="window.open('https\:\/\/api.whatsapp.com/send?text=<?= $berita['judul'] ?> %0a %0a<?= $beritaUrl ?>%0a %0aKunjungi situs UIN Raden Mas Said Surakarta untuk melihat informasi terkini: %0a<?= base_url() ?>', '_blank', 'width=600,height=600,scrollbars=yes,menubar=no,status=yes,resizable=yes,screenx=0,screeny=0'); return false;"><span class="bi bi-whatsapp"></span></a> -->
+                        <!-- <a class="btn btn-facebook-1 me-2 flex-grow-1 w-100" href="" onclick="shareOnFacebook()" target="_blank"><span class="bi bi-facebook"></span></a> -->
+                        <!-- <a class="btn btn-whatsapp me-2 flex-grow-1 w-100" href="https://api.whatsapp.com/send?text=<?= $berita['judul'] ?> %0a %0aSelengkapnya di: %0a<?= $beritaUrl ?>%0a %0a<?= urlencode(setting()->get('App.sharingCaption')) ?>" target="_blank"><span class="bi bi-whatsapp me-1"></span>WhatsApp</a> -->
+                        <!-- <a class="btn btn-facebook-1 me-2 flex-grow-1 w-100" href="https://www.facebook.com/sharer/sharer.php?u=<?= urlencode($beritaUrl) ?>" target="_blank"><span class="bi bi-facebook me-1"></span>Facebook</a> -->
+                        <!-- <a class="btn btn-twitter-1 me-2 flex-grow-1 w-100" href="https://twitter.com/intent/tweet?text=<?= $berita['judul'] ?>&url=<?= $beritaUrl ?>" target="_blank"><span class="bi bi-twitter me-1"></span>Twitter/X</a> -->
+                        <!-- <a class="btn btn-linkedin-1 me-2 flex-grow-1 w-100" href="https://www.linkedin.com/sharing/share-offsite/?url=<?= $beritaUrl ?>" target="_blank"><span class="bi bi-linkedin"></span>LinkedIn</a> -->
 
-                        <a class="btn btn-facebook-1 m-2 m-xl-0 mb-lg-2 me-2" href="https://www.facebook.com/sharer/sharer.php?u=<?= urlencode($beritaUrl) ?>" target="_blank"><span class="bi bi-facebook"></span></a>
-                        <!-- <a class="btn btn-facebook-1 m-2 m-xl-0 mb-lg-2 me-2" href="" onclick="shareOnFacebook()" target="_blank"><span class="bi bi-facebook"></span></a> -->
+                        <a class="btn btn-whatsapp me-2 flex-grow-1 w-100" href="https://api.whatsapp.com/send?text=<?= $berita['judul'] ?> %0a %0aSelengkapnya di: %0a<?= $beritaUrl ?>%0a %0a<?= urlencode(setting()->get('App.sharingCaption')) ?>" target="_blank">
+                            <span class="bi bi-whatsapp"></span>
+                            <span class="label">WhatsApp</span>
+                        </a>
 
-                        <a class="btn btn-twitter-1 m-2 m-xl-0 mb-lg-2 me-2" href="https://twitter.com/intent/tweet?text=<?= $berita['judul'] ?>&url=<?= $beritaUrl ?>" target="_blank"><span class="bi bi-twitter"></span></a>
+                        <a class="btn btn-facebook-1 me-2 flex-grow-1 w-100" href="https://www.facebook.com/sharer/sharer.php?u=<?= urlencode($beritaUrl) ?>" target="_blank">
+                            <span class="bi bi-facebook"></span>
+                            <span class="label">Facebook</span>
+                        </a>
 
-                        <a class="btn btn-linkedin-1 m-2 m-xl-0 mb-lg-2 me-2" href="https://www.linkedin.com/sharing/share-offsite/?url=<?= $beritaUrl ?>" target="_blank"><span class="bi bi-linkedin"></span></a>
+                        <a class="btn btn-twitter-1 me-2 flex-grow-1 w-100" href="https://twitter.com/intent/tweet?text=<?= $berita['judul'] ?>&url=<?= $beritaUrl ?>" target="_blank">
+                            <span class="bi bi-twitter"></span>
+                            <span class="label">Twitter/X</span>
+                        </a>
 
+                        <a class="btn btn-linkedin-1 flex-grow-1 w-100" href="https://www.linkedin.com/sharing/share-offsite/?url=<?= $beritaUrl ?>" target="_blank">
+                            <span class="bi bi-linkedin"></span>
+                            <span class="label">LinkedIn</span>
+                        </a>
+                        <?= locale_get_default() ?>
                     </div>
 
                     <!-- Artikel pilihan -->
