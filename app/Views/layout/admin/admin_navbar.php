@@ -1,5 +1,5 @@
 <header id="header-admin" class="header navbar navbar-expand" style="background: var(--mdb-body-bg)">
-    <div class="header_toggle me-3 me-md-4">
+    <div class="header_toggle me-3 me-md-4" id="headerToggleButton">
         <i class="bx bx-menu" id="header-toggle"></i>
     </div>
 

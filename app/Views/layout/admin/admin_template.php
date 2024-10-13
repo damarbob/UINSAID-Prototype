@@ -118,7 +118,21 @@ $temaDefault = base_url("assets/css/hijau.css");
 
     <!-- Custom JS -->
     <script type="text/javascript">
+        const inIframe = window.self !== window.top; // Check if loaded inside an iframe
+
+        // Adjust UI
+        if (inIframe) {
+            $('#body-pd').addClass('ps-3');
+            $('#body-pd').css('transition', 'none');
+            $('#header-admin').addClass('ps-3');
+            $('#headerToggleButton').hide();
+            // $('#header-toggle').addClass('m-0');
+            $('#nav-bar').hide();
+        }
+
         document.addEventListener("DOMContentLoaded", function(event) {
+
+            // Show navbar function
             const showNavbar = (toggleId, navId, bodyId, headerId) => {
                 const toggle = document.getElementById(toggleId),
                     nav = document.getElementById(navId),

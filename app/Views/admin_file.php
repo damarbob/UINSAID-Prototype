@@ -13,7 +13,8 @@
         <?= session()->getFlashdata('error') ?>
     </div>
 <?php endif; ?>
-<?php if (session()->getFlashdata('fileBaru')): ?>
+<?php if (session()->getFlashdata('fileBaru')): // Ambil file baru dari flash data 
+?>
     <?php //dd(json_encode(session()->getFlashdata('fileBaru'))) 
     ?>
     <script>
