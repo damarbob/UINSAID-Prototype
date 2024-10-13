@@ -179,33 +179,32 @@ class AgendaPengumumanModel extends \CodeIgniter\Model
      * Get Acara for datatable
      * -------------------------------------------------------------
      */
-    public function getAcara($limit, $start, $status = null, $search = null, $order = 'waktu_mulai', $dir = 'DESC', $idJenis = null, $jenisNama = null)
+    public function getAcara($limit, $start, $status = null, $search = null, $order = 'waktu_mulai', $dir = 'DESC', $idJenis = null)
     {
 
+        // dd($idJenis);
         $builder = $this->db->table($this->table)
             ->select('acara.*, acara_jenis.nama as acara_jenis_nama')
             ->join('acara_jenis', 'acara_jenis.id = acara.id_jenis', 'left')
             ->orderBy($order, $dir)
             ->limit($limit, $start);
 
-        if ($jenisNama) {
-            $builder->where('acara_jenis.nama', $jenisNama);
-        }
-
         if ($idJenis) {
-            $builder->where('id_jenis', $idJenis);
+            $builder->where('acara.id_jenis', $idJenis);
         }
 
         if ($status) {
-            $builder->where('status', $status);
+            $builder->where('acara.status', $status);
         }
 
         if ($search) {
             $builder->groupStart()
-                ->like('judul', $search)
-                ->orLike('waktu_mulai', $search)
+                ->like('acara.judul', $search)
+                ->orLike('acara.waktu_mulai', $search)
                 ->groupEnd();
         }
+
+        // dd($builder->get()->getResult());
 
         // return $this->formatSampul($builder->get()->getResult());
         return $builder->get()->getResult();

@@ -177,7 +177,7 @@ class PostingAdmin extends BaseControllerAdmin
         $data = [
             'id_penulis' => auth()->id(),
             'id_kategori' => $kategori['id'],
-            'id_jenis' => $jenis['id'] ?? null, // Jenis postingan (null jika tidak ada)
+            'id_jenis' => $postingJenisId ?? null, // Jenis postingan (null jika tidak ada)
             'judul' => $this->request->getVar('judul'),
             'slug' => create_slug($this->request->getVar('judul')),
             'konten' => $this->request->getVar('konten'),

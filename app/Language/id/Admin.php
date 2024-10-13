@@ -75,6 +75,9 @@ return [
     'semua' => 'Semua',
 
     // Umum
+    'tambahX' => 'Tambah {0}',
+    'suntingX' => 'Sunting {0}',
+
     'hapusItem' => 'Hapus Item',
     'lanjutkanUntukMenghapusItem' => 'Lanjutkan untuk menghapus? Item yang terhapus tidak dapat dikembalikan.',
 
@@ -135,7 +138,7 @@ return [
 
     'pengajuan' => 'Pengajuan',
     'ajukanBerita' => 'Ajukan Berita',
-    'kirimkanBeritaIniKeWebsiteUtama' => 'Kirimkan berita ini ke website utama?',
+    'kirimkanBeritaIniKeWebsiteInduk' => 'Kirimkan berita ini ke website induk?',
     'kirimkan' => 'Kirimkan',
 
     'publikasi' => 'Publikasi',
@@ -152,7 +155,7 @@ return [
     'beritaDiajukan' => 'Berita Diajukan',
     'gagalMenyimpanEntriDenganJudul' => 'Gagal menyimpan entri dengan judul: {judul}',
     'permintaanGagalDikirim' => 'Permintaan gagal dikirim.',
-    'situsUtamaBelumDiatur' => 'Situs utama belum diatur pada env!',
+    'situsIndukBelumDiatur' => 'Situs induk belum diatur pada env!',
 
     'peringatanPosting' => 'Peringatan Posting',
 
@@ -228,6 +231,10 @@ return [
     'berlangsung' => 'Berlangsung',
     'akanDatang' => 'Akan datang',
 
+    // Acara
+    'acara' => 'Acara',
+
+    // Agenda dan Pengumuman
     'agenda' => 'Agenda',
     'kelolaAgenda' => 'Kelola agenda',
     'suntingAgenda' => 'Sunting Agenda',

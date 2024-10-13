@@ -223,7 +223,7 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
             if (parentSite == '') { // If app.siteParent is null, it will be captured by JS as empty string
                 Swal.fire({
                     title: '<?= lang('Admin.ajukanBerita') ?>',
-                    text: '<?= lang('Admin.situsUtamaBelumDiatur') ?>',
+                    text: '<?= lang('Admin.situsIndukBelumDiatur') ?>',
                     icon: 'error',
                     showCancelButton: true,
                     showConfirmButton: false,
@@ -236,7 +236,7 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
 
             var options = {
                 title: "<?= lang('Admin.ajukanBerita') ?>",
-                confirmMessage: "<?= lang('Admin.kirimkanBeritaIniKeWebsiteUtama') ?>",
+                confirmMessage: "<?= lang('Admin.kirimkanBeritaIniKeWebsiteInduk') ?>",
                 errorMessage: "<?= lang('Admin.pilihItemDahulu') ?>",
                 type: "warning",
                 confirmButtonText: "<?= lang('Admin.kirimkan') ?>",

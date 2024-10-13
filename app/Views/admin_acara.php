@@ -87,7 +87,6 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
 
                     // Navigate to the Edit page
                     window.location.href = "<?= base_url("/admin/$rute/sunting?id=") ?>" + id;
-                    // window.location.href = "<?= base_url("/admin/acara/sunting/$rute?id=") ?>" + id; // PLANNED
                 });
             },
             "columns": [
@@ -135,8 +134,7 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
             buttons: [{
                     text: '<i class="bi bi-plus-lg"></i>',
                     action: function(e, dt, node, config) {
-                        window.location.href = '<?= base_url("/admin/$rute/tambah/") ?>'
-                        // window.location.href = '<?= base_url("/admin/acara/tambah/$rute") ?>'
+                        window.location.href = '<?= base_url("/admin/acara/tambah/$rute") ?>'
                     }
                 },
                 {

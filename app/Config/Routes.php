@@ -163,6 +163,13 @@ $routes->group('admin', ['filter' => 'group:admin,superadmin'], function ($route
         // $routes->post('berita/batal-ajukan', 'BeritaAdmin::batalAjukanBanyak');
     }
 
+    if (ENVIRONMENT == 'development') {
+        // Acara
+        $routes->get('acara/(:alphanum)', 'AgendaPengumumanAdmin::utama/$1');
+        $routes->get('acara/tambah/(:alphanum)', 'AgendaPengumumanAdmin::tambah/$1');
+        $routes->get('acara/sunting/(:alphanum)', 'AgendaPengumumanAdmin::sunting/$1');
+    }
+
     // Agenda
     // $routes->get('agenda', 'AgendaAdmin', ['as' => 'agenda_admin']);
     // $routes->get('agenda/tambah', 'AgendaAdmin::tambah', ['as' => 'agenda_admin_tambah']);

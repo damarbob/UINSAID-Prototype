@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\AcaraJenisModel;
 use App\Models\AnggotaModel;
 use App\Models\BeritaDiajukanModel;
 use App\Models\AgendaModel;
@@ -81,6 +82,7 @@ abstract class BaseControllerAdmin extends Controller
         protected TemaModel $temaModel;
 
         protected UserModel $userModel;
+        protected AcaraJenisModel $acaraJenisModel;
         protected AgendaPengumumanModel $agendaPengumumanModel;
         protected AgendaModel $agendaModel;
         protected PengumumanModel $pengumumanModel;
@@ -127,6 +129,7 @@ abstract class BaseControllerAdmin extends Controller
 
                 // Preload any models, libraries, etc, here.
                 $this->temaModel = new TemaModel();
+                $this->acaraJenisModel = new AcaraJenisModel();
                 $this->agendaPengumumanModel = new AgendaPengumumanModel();
                 $this->postingModel = new PostingModel();
                 $this->postingJenisModel = new PostingJenisModel();

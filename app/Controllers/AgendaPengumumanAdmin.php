@@ -2,12 +2,12 @@
 
 namespace App\Controllers;
 
-use App\Models\AcaraJenisModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
 
+use function App\Helpers\capitalize_first_letter;
 use function App\Helpers\create_slug;
 use function App\Helpers\delete_many;
 use function App\Helpers\format_tanggal;
@@ -34,9 +34,55 @@ class AgendaPengumumanAdmin extends BaseControllerAdmin
         return view('admin_agenda_pengumuman', $this->data);
     }
 
+    // BARU
+    public function utama($jenis): string
+    {
+        $this->data['judul'] = capitalize_first_letter($jenis);
+        $this->data['rute'] = $jenis; // URL route
+        return view('admin_agenda_pengumuman', $this->data);
+    }
+
+    // BARU
+    public function tambah($jenis): string
+    {
+        $dataJenis = $this->acaraJenisModel->getByNama($jenis);
+        $idJenis = $dataJenis['id'] ?: null;
+
+        $this->data['judul'] = lang('Admin.tambahX', [capitalize_first_letter($jenis)]);
+        $this->data['mode'] = "tambah";
+        $this->data['rute'] = $jenis; // URL route
+        $this->data['idJenis'] = $idJenis;
+
+        return view('admin_agenda_pengumuman_editor', $this->data);
+    }
+
+    // BARU
+    public function sunting($jenis)
+    {
+        $dataJenis = $this->acaraJenisModel->getByNama($jenis);
+        $idJenis = $dataJenis['id'] ?: null;
+
+        $id = $this->request->getGet('id');
+        $acara = $this->agendaPengumumanModel->getByID($id); // 
+
+        if (empty($acara)) {
+            throw new PageNotFoundException();
+        }
+
+        $this->data['judul'] = lang('Admin.suntingX', [capitalize_first_letter($jenis)]);
+        $this->data['mode'] = "sunting";
+        $this->data['item'] = $acara;
+        $this->data['rute'] = $jenis; // URL route
+        $this->data['idJenis'] = $idJenis;
+
+        return view('admin_agenda_pengumuman_editor', $this->data);
+    }
+
     public function tambahAgenda(): string
     {
-        $idJenis = 3; // Agenda
+        $jenis = 'agenda'; // Jenis acara Pengumuman
+        $dataJenis = $this->acaraJenisModel->getByNama($jenis);
+        $idJenis = $dataJenis['id'] ?: null;
 
         $this->data['judul'] = lang('Admin.tambahAgenda');
         $this->data['mode'] = "tambah";
@@ -48,7 +94,9 @@ class AgendaPengumumanAdmin extends BaseControllerAdmin
 
     public function tambahPengumuman(): string
     {
-        $idJenis = 4; // Pengumuman
+        $jenis = 'pengumuman'; // Jenis acara Pengumuman
+        $dataJenis = $this->acaraJenisModel->getByNama($jenis);
+        $idJenis = $dataJenis['id'] ?: null;
 
         $this->data['judul'] = lang('Admin.tambahPengumuman');
         $this->data['mode'] = "tambah";
@@ -60,7 +108,9 @@ class AgendaPengumumanAdmin extends BaseControllerAdmin
 
     public function suntingAgenda(): string
     {
-        $idJenis = 3; // Agenda
+        $jenis = 'agenda'; // Jenis acara Agenda
+        $dataJenis = $this->acaraJenisModel->getByNama($jenis);
+        $idJenis = $dataJenis['id'] ?: null;
 
         $id = $this->request->getGet('id');
         $agenda = $this->agendaPengumumanModel->getByID($id); // 
@@ -80,7 +130,10 @@ class AgendaPengumumanAdmin extends BaseControllerAdmin
 
     public function suntingPengumuman(): string
     {
-        $idJenis = 4; // Pengumuman
+        $jenis = 'pengumuman'; // Jenis acara Pengumuman
+        $dataJenis = $this->acaraJenisModel->getByNama($jenis);
+        $idJenis = $dataJenis['id'] ?: null;
+        // dd($idJenis);
 
         $id = $this->request->getGet('id');
         $pengumuman = $this->agendaPengumumanModel->getByID($id);
@@ -116,8 +169,10 @@ class AgendaPengumumanAdmin extends BaseControllerAdmin
 
     private function getDT(string $namaJenis, $status = null)
     {
-        $acaraJenisModel = new AcaraJenisModel();
-        $idJenis = (int) $acaraJenisModel->getByNama($namaJenis);
+        // dd($namaJenis);
+        $dataJenis = $this->acaraJenisModel->getByNama($namaJenis);
+        $idJenis = $dataJenis['id'];
+
         // $columns = ['id_jenis', 'judul', 'waktu_mulai', 'created_at', 'status']; // DEBUG id_jenis
         $columns = ['judul', 'waktu_mulai', 'created_at', 'status'];
 

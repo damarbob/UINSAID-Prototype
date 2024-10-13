@@ -31,11 +31,11 @@ $date = format_tanggal_dari_timestamp(time());
 
             <!-- Posting -->
             <div class="col-lg-6 col-xl-4">
-                <a href="<?= base_url('admin/berita') ?>">
+                <a href="<?= base_url('admin/posting') ?>">
                     <div class="card border border-primary">
                         <div class="card-body">
-                            <h5 class="card-title display-5 fw-bold"><?= lang('Admin.berita') ?></h5>
-                            <h6 class="card-subtitle"><?= lang('Admin.kelolaBerita') ?></h6>
+                            <h5 class="card-title display-5 fw-bold"><?= lang('Admin.posting') ?></h5>
+                            <h6 class="card-subtitle"><?= lang('Admin.kelolaPosting') ?></h6>
                         </div>
                         <div class="card-footer d-flex justify-content-between fs-2 fw-bold lh-1">
                             <i class='fs-1 bx bx-news nav_icon'></i>

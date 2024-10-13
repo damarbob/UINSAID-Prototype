@@ -175,6 +175,7 @@ if ($mode == "tambah") {
         selector: '#konten',
         license_key: 'gpl',
         relative_urls: false,
+        remove_script_host: false, // Important to keep the absolute url
         document_base_url: '<?= base_url() ?>', // Set the base URL for relative paths
         plugins: [
             'advlist', 'autolink', 'image',
@@ -191,7 +192,7 @@ if ($mode == "tambah") {
         dsmgallery_gallery_url: '<?= base_url('/admin/galeri') ?>',
         dsmfileinsert_api_endpoint: '<?= base_url('/api/file') ?>',
         dsmfileinsert_file_manager_url: '<?= base_url('/admin/file') ?>',
-        images_upload_url: '<?= base_url('/admin/posting/unggah-gambar') ?>',
+        images_upload_url: '<?= base_url('/admin/berita/unggah-gambar') ?>',
         file_picker_types: 'image',
         file_picker_callback: (cb, value, meta) => {
             const input = document.createElement('input');
