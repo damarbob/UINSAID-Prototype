@@ -23,6 +23,7 @@ $temaRTLDefault = base_url("assets/css/hijau.rtl.css");
   <meta http-equiv="x-ua-compatible" content="ie=edge" />
   <title><?= setting()->get('App.judulSitus') ?> | <?= isset($judul) ? $judul : '' ?></title>
   <meta name="googlebot" content="<?= (setting()->get('App.seoSitus') === "on") ? "index,follow" : "noindex,nofollow" ?>">
+  <meta name="robots" content="<?= (setting()->get('App.seoSitus') === "on") ? "index,follow" : "noindex,nofollow" ?>">
   <meta name="language" content="id" />
   <link rel="canonical" href="<?= base_url() ?>" />
   <meta name="google-site-verification" content="wVOBtikI0s7xKLkglkAAc2ZereV7l0NrQZH8LPCoKSk">
@@ -273,11 +274,12 @@ $temaRTLDefault = base_url("assets/css/hijau.rtl.css");
     }
 
     // Function to disable RTL (set to LTR)
-    function disableRTL() {
+    function disableRTL(lang) {
+      console.log(lang);
       localStorage.setItem("html-dir", "ltr");
 
       htmlElement.attr("dir", "ltr");
-      htmlElement.attr("lang", "en");
+      htmlElement.attr("lang", lang);
       mdbCssElement.attr('href', ltrCssUrl);
       $.getScript(ltrAccessibilityJs, function() {
         // Script loaded
@@ -357,8 +359,10 @@ $temaRTLDefault = base_url("assets/css/hijau.rtl.css");
         if (lang == "ar") {
           enableRTL();
         } else {
-          disableRTL();
+          disableRTL(lang);
         }
+
+        setLocale(lang);
 
         // Reload page to take full effect
         setTimeout(function() {
@@ -366,6 +370,25 @@ $temaRTLDefault = base_url("assets/css/hijau.rtl.css");
         }, 500);
 
         // updateSwipersLanguageDirection();
+      }
+
+      function setLocale(selectedLang) {
+        // Send the selected language to the server
+        fetch('/change-language', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            language: selectedLang
+          })
+        }).then(response => {
+          if (response.ok) {
+            console.log('Language updated on server');
+          }
+        }).catch(error => {
+          console.error('Error:', error);
+        });
       }
     });
   </script>

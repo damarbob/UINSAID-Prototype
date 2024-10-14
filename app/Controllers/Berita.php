@@ -32,9 +32,9 @@ class Berita extends BaseController
 
         $berita = $this->postingModel->getPaginated($this->postingJenisNama, $search);
         // dd(format_tanggal($this->postingModel->getPaginated($search)));
-        $this->data['berita'] = format_tanggal_suatu_kolom($berita, $this->formatKolom);
+        $this->data['berita'] = format_tanggal_suatu_kolom($berita, $this->formatKolom, humanize: true);
         $this->data['pagerBerita'] = $this->postingModel->pager;
-        $this->data['beritaTerbaru'] = format_tanggal_suatu_kolom($this->postingModel->getTerbaru($this->postingJenisNama, 3), $this->formatKolom);
+        $this->data['beritaTerbaru'] = format_tanggal_suatu_kolom($this->postingModel->getTerbaru($this->postingJenisNama, 3), $this->formatKolom, humanize: true);
 
         $this->data['kategori'] = $this->kategoriModel->getKategoriByJenisNama($this->postingJenisNama);
 
@@ -49,7 +49,7 @@ class Berita extends BaseController
         $berita = $this->postingModel->getBySlug($slug);
         // dd(format_tanggal($berita));
         $this->data['berita'] = format_tanggal_suatu_kolom($berita, $this->formatKolom, true);
-        $this->data['beritaTerbaru'] = format_tanggal_suatu_kolom($this->postingModel->getTerbaru($this->postingJenisNama, 3), $this->formatKolom);
+        $this->data['beritaTerbaru'] = format_tanggal_suatu_kolom($this->postingModel->getTerbaru($this->postingJenisNama, 3), $this->formatKolom, humanize: true);
 
         // dd($berita);
 
@@ -63,7 +63,7 @@ class Berita extends BaseController
 
         $berita = $this->postingModel->getByKategori($this->postingJenisNama, $kategori);
         // dd(format_tanggal($berita));
-        $this->data['berita'] = format_tanggal_suatu_kolom($berita, $this->formatKolom);
+        $this->data['berita'] = format_tanggal_suatu_kolom($berita, $this->formatKolom, humanize: true);
         $this->data['pagerBerita'] = $this->postingModel->pager;
         $this->data['beritaTerbaru'] = null;
 

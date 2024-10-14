@@ -3,6 +3,33 @@
   object-fit: contain;
 }
 /* Button share halaman rilis media */
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.btn .label {
+  display: none; /* Hide label by default */
+}
+
+.btn .bi {
+  flex-shrink: 0; /* Prevent the icon from shrinking */
+  margin-right: 0; /* Remove margin when label is hidden */
+}
+
+/* Show label and add margin to the icon only on medium screens (768px to 991px) */
+@media (min-width: 768px) and (max-width: 991px) {
+  .btn .label {
+    display: inline-block;
+  }
+  .btn .bi {
+    margin-right: 0.25rem; /* Equivalent to Bootstrap's me-1 */
+  }
+}
+
 .btn-whatsapp {
   color: #fff;
   background-color: #0dc143;

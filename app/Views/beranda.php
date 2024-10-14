@@ -430,7 +430,7 @@
       <!-- Item berita -->
       <?php foreach ($beritaCard as $x) : ?>
         <div class="col-lg-4 col-xl-15 col-md-6 item-berita" data-aos="fade-up">
-          <div class="card">
+          <div class="card h-100">
 
             <!-- Gambar berita -->
             <div class="bg-image hover-overlay d-flex align-items-center" data-mdb-ripple-init data-mdb-ripple-color="light" style="max-height: 256px;">
