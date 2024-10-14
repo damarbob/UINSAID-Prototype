@@ -97,7 +97,7 @@ $currentRoute = $request->uri->getSegment(1) . "/" . $request->uri->getSegment(2
 
                 <?php if (ENVIRONMENT == 'development'): ?>
                     <!-- Acara -->
-                    <div class="nav-list">
+                    <div class="nav-list d-none">
                         <a href="<?= base_url('admin/acara') ?>" class="nav-link-admin <?= $currentRoute == "admin/acara" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="<?= lang('Admin.acara') ?>">
                             <i class='bx bx-calendar-star nav_icon'></i>
                             <span class="nav_name"><?= lang('Admin.acara') ?></span>
