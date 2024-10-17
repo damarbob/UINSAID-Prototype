@@ -57,7 +57,7 @@ if ($mode == "tambah") {
             <div class="form-floating mb-3">
                 <input id="judul" name="judul" class="form-control <?= (validation_show_error('judul')) ? 'is-invalid' : ''; ?>" type="text" value="<?= $valueJudul ?>" placeholder="<?= lang('Admin.judul') ?>" required />
                 <label for="judul"><?= lang('Admin.judul') ?></label>
-                <div class="invalid-feedback">
+                <div class="invalid-tooltip">
                     <?= validation_show_error('judul'); ?>
                 </div>
             </div>
@@ -65,7 +65,7 @@ if ($mode == "tambah") {
             <!-- Konten editor -->
             <div class="form mb-3">
                 <textarea id="konten" name="konten" class="form-control tinymce <?= (validation_show_error('konten')) ? 'is-invalid' : ''; ?>" rows="20" type="text" required><?= $valueKonten ?></textarea>
-                <div class="invalid-feedback">
+                <div class="invalid-tooltip">
                     <?= validation_show_error('konten'); ?>
                 </div>
             </div>
@@ -105,7 +105,7 @@ if ($mode == "tambah") {
                     <option value=""><?= lang('Admin.tambahBaru') ?></option>
                 </select>
                 <label for="kategori" class="form-label"><?= lang('Admin.kategori') ?></label>
-                <!-- <div class="invalid-feedback">
+                <!-- <div class="invalid-tooltip">
                     <?= lang('Admin.pilihAtauInputKategori') ?>
                 </div> -->
             </div>
@@ -129,7 +129,7 @@ if ($mode == "tambah") {
                     <?php endif; ?>
                 </select>
                 <label for="status"><?= lang('Admin.status') ?></label>
-                <div class="invalid-feedback">
+                <div class="invalid-tooltip">
                     <?= validation_show_error('status'); ?>
                 </div>
 
@@ -140,10 +140,10 @@ if ($mode == "tambah") {
                 <div class="form mb-3">
                     <label for="terbit"><?= lang('Admin.tanggalTerbit') ?></label>
                     <input id="terbit" type="datetime-local" name="tanggal_terbit" class="form-control <?= (validation_show_error('terbit')) ? 'is-invalid' : ''; ?>" required value="<?= $valueTglTerbit ?>" />
-                    <div class="invalid-feedback">
+                    <div class="invalid-tooltip">
                         <?= lang('Admin.harusDiinput'); ?>
                     </div>
-                    <div class="invalid-feedback">
+                    <div class="invalid-tooltip">
                         <?= validation_show_error('tanggal_terbit'); ?>
                     </div>
 
@@ -151,7 +151,7 @@ if ($mode == "tambah") {
             </div>
 
             <!-- Tombol simpan -->
-            <button id="btn-submit" name="submit" type="submit" class="btn btn-primary w-100"><?= lang('Admin.simpan') ?></button>
+            <button id="btn-submit" name="submit" type="submit" class="btn btn-primary w-100" data-mdb-ripple-init><?= lang('Admin.simpan') ?></button>
 
         </div>
 </form>

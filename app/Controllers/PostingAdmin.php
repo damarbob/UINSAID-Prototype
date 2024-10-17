@@ -144,8 +144,11 @@ class PostingAdmin extends BaseControllerAdmin
     {
         $modeTambah = is_null($id);
 
+        $judulLama = $id ? $this->postingModel->find($id)['judul'] : null;
+        $judulBaru = $this->request->getPost('judul');
+
         // Validasi input: jika buat baru, tambahkan 'is_unique' untuk mencegah judul yang sama.
-        $rules = $this->formRules('required' . ($modeTambah ? '|is_unique[posting.judul]' : ''));
+        $rules = $this->formRules('required' . ($modeTambah || $judulLama != $judulBaru ? '|is_unique[posting.judul]' : ''));
 
         // URL untuk redireksi setelah penyimpanan
         $redirectTo = base_url('/admin/posting/' . ($modeTambah ? '' : 'sunting?id=' . $id));

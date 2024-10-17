@@ -287,18 +287,18 @@ $beritaUrl = base_url("berita/" . $berita['slug']);
 </script>
 
 <script>
-    function shareOnFacebook() {
-        FB.ui({
-            method: 'share',
-            // href: '<?= base_url('berita/' . $beritaUrl) ?>',
-            href: 'https://uinsaid.ac.id/berita/dwp-uin-surakarta-ikuti-pengajian-rutin-dwp-kementerian-agama-ri',
-        }, function(response) {
-            if (response && !response.error_message) {
-                alert('Successfully shared!');
-            } else {
-                alert('Error while sharing.');
-            }
-        });
-    }
+    // function shareOnFacebook() {
+    //     FB.ui({
+    //         method: 'share',
+    //         // href: '<?= base_url('berita/' . $beritaUrl) ?>',
+    //         href: 'https://uinsaid.ac.id/berita/dwp-uin-surakarta-ikuti-pengajian-rutin-dwp-kementerian-agama-ri',
+    //     }, function(response) {
+    //         if (response && !response.error_message) {
+    //             alert('Successfully shared!');
+    //         } else {
+    //             alert('Error while sharing.');
+    //         }
+    //     });
+    // }
 </script>
 <?= $this->endSection() ?>
