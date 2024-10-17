@@ -222,72 +222,85 @@ margin-top: -32px;
                     </div>
 
                     <!-- Tombol share sosmed -->
-                    <div class="col">
+                    <div class="col d-flex flex-nowrap">
 
-                        <a class="btn btn-whatsapp m-2 m-xl-0 mb-lg-2 me-2" href="https://api.whatsapp.com/send?text=<?= $item['judul'] ?> %0a %0a<?= $agendaUrl ?>%0a %0aKunjungi situs UIN Raden Mas Said Surakarta untuk melihat informasi terkini: %0a<?= base_url() ?>" target="_blank" onclick="window.open('https\:\/\/api.whatsapp.com/send?text=<?= $item['judul'] ?> %0a %0a<?= $agendaUrl ?>%0a %0aKunjungi situs UIN Raden Mas Said Surakarta untuk melihat informasi terkini: %0a<?= base_url() ?>', '_blank', 'width=600,height=600,scrollbars=yes,menubar=no,status=yes,resizable=yes,screenx=0,screeny=0'); return false;"><small><span class="bi bi-whatsapp"></span></small></a>
+                        <a class="btn btn-whatsapp me-2 flex-grow-1 w-100" href="https://api.whatsapp.com/send?text=<?= $item['judul'] ?> %0a %0aSelengkapnya di: %0a<?= $agendaUrl ?>%0a %0a<?= urlencode(setting()->get('App.sharingCaption')) ?>" target="_blank">
+                            <span class="bi bi-whatsapp"></span>
+                            <span class="label">WhatsApp</span>
+                        </a>
 
-                        <a class="btn btn-facebook-1 m-2 m-xl-0 mb-lg-2 me-2" href="https://www.facebook.com/sharer/sharer.php?u=<?= $agendaUrl ?>" target="_blank"><small><span class="bi bi-facebook"></span></small></a>
+                        <a class="btn btn-facebook-1 me-2 flex-grow-1 w-100" href="https://www.facebook.com/sharer/sharer.php?u=<?= urlencode($agendaUrl) ?>" target="_blank">
+                            <span class="bi bi-facebook"></span>
+                            <span class="label">Facebook</span>
+                        </a>
 
-                        <a class="btn btn-twitter-1 m-2 m-xl-0 mb-lg-2 me-2" href="https://twitter.com/intent/tweet?url=<?= $agendaUrl ?>" target="_blank"><small><span class="bi bi-twitter"></span></small></a>
+                        <a class="btn btn-twitter-1 me-2 flex-grow-1 w-100" href="https://twitter.com/intent/tweet?text=<?= $item['judul'] ?>&url=<?= $agendaUrl ?>" target="_blank">
+                            <span class="bi bi-twitter"></span>
+                            <span class="label">Twitter/X</span>
+                        </a>
 
-                        <a class="btn btn-linkedin-1 m-2 m-xl-0 mb-lg-2 me-2" href="https://www.linkedin.com/sharing/share-offsite/?url=<?= $agendaUrl ?>" target="_blank"><small><span class="bi bi-linkedin"></span></small></a>
-
+                        <a class="btn btn-linkedin-1 flex-grow-1 w-100" href="https://www.linkedin.com/sharing/share-offsite/?url=<?= $agendaUrl ?>" target="_blank">
+                            <span class="bi bi-linkedin"></span>
+                            <span class="label">LinkedIn</span>
+                        </a>
                     </div>
 
-                    <!-- Artikel pilihan -->
-                    <h5 class="mt-5 mb-3">Untuk Anda</h5>
+                </div>
 
-                    <?php foreach ($itemTerbaru as $x) : ?>
+                <!-- Artikel pilihan -->
+                <h5 class="mt-5 mb-3">Untuk Anda</h5>
 
-                        <!-- Item artikel -->
-                        <div class="card mb-2">
-                            <div class="row g-0">
+                <?php foreach ($itemTerbaru as $x) : ?>
 
-                                <!-- Gambar kegiatan -->
-                                <div class="col-3 position-relative">
-                                    <div class="ratio ratio-4x3">
-                                        <img src="<?= ($x['id_galeri'] != null) ? $x['uri'] : base_url('assets/img/icon-notext.png') ?>" class="card-img object-fit-cover" alt="..." />
-                                    </div>
+                    <!-- Item artikel -->
+                    <div class="card mb-2">
+                        <div class="row g-0">
+
+                            <!-- Gambar kegiatan -->
+                            <div class="col-3 position-relative">
+                                <div class="ratio ratio-4x3">
+                                    <img src="<?= ($x['id_galeri'] != null) ? $x['uri'] : base_url('assets/img/icon-notext.png') ?>" class="card-img object-fit-cover" alt="..." />
                                 </div>
+                            </div>
 
-                                <!-- Ringkasan kegiatan -->
-                                <div class="col-9">
+                            <!-- Ringkasan kegiatan -->
+                            <div class="col-9">
 
-                                    <!-- Body kegiatan -->
-                                    <div class="card-body p-2">
+                                <!-- Body kegiatan -->
+                                <div class="card-body p-2">
 
-                                        <!-- Judul kegiatan -->
-                                        <p class="card-title">
-                                            <a class="text-decoration-none crop-text-2" href="<?= base_url("agenda-pengumuman/" . $x['id']) ?>" target="_blank">
-                                                <b>
-                                                    <?= $x['judul'] ?>
-                                                </b>
-                                            </a>
-                                        </p>
+                                    <!-- Judul kegiatan -->
+                                    <p class="card-title">
+                                        <a class="text-decoration-none crop-text-2" href="<?= base_url("agenda-pengumuman/" . $x['id']) ?>" target="_blank">
+                                            <b>
+                                                <?= $x['judul'] ?>
+                                            </b>
+                                        </a>
+                                    </p>
 
-                                        <!-- Kategori dan tanggal terbit -->
-                                        <small class="card-text crop-text-2">
-                                            <?= $x['formatted_datetime'] ?>
-                                        </small>
-                                    </div>
-                                    <!-- Akhir body kegiatan -->
-
+                                    <!-- Kategori dan tanggal terbit -->
+                                    <small class="card-text crop-text-2">
+                                        <?= $x['formatted_datetime'] ?>
+                                    </small>
                                 </div>
-
-                                <!-- Akhir ringkasan kegiatan -->
+                                <!-- Akhir body kegiatan -->
 
                             </div>
+
+                            <!-- Akhir ringkasan kegiatan -->
+
                         </div>
-                        <!-- Akhir item artikel -->
+                    </div>
+                    <!-- Akhir item artikel -->
 
 
-                    <?php endforeach; ?>
+                <?php endforeach; ?>
 
-                </div>
             </div>
-            <!-- Akhir sidebar sticky -->
-
         </div>
+        <!-- Akhir sidebar sticky -->
+
+    </div>
     </div>
 </section>
 <!-- Detail berita -->

@@ -11,6 +11,14 @@ use function App\Helpers\format_tanggal_suatu_kolom;
 
 class AgendaPengumuman extends BaseController
 {
+
+    public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
+    {
+        parent::initController($request, $response, $logger);
+
+        $this->data['renderDefaultMeta'] = false; // Overwrite default meta
+    }
+
     public function index()
     {
         helper('format');

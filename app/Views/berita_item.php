@@ -14,15 +14,15 @@ $beritaUrl = base_url("berita/" . $berita['slug']);
 
 <!-- TODO: Add tags to meta keywords -->
 <!-- Open Graph Dynamic Meta Tags -->
-<meta property="og:url" content="<?= $beritaUrl ?>" />
 <meta property="og:type" content="article" />
 <meta property="og:title" content="<?= character_limiter($berita['judul'], 60); ?>" />
-<meta property="og:description" content="<?= character_limiter(strip_tags($berita['konten']), 160); ?>" />
+<meta property="og:description" content="<?= $berita['ringkasan'] ?: character_limiter(strip_tags($berita['konten']), 160); ?>" />
+<meta property="og:keywords" content="<?= setting()->get('App.kataKunciSitus') ?>, <?= $berita['kategori']; ?>" />
 <meta property="og:image" content="<?= $berita['gambar_sampul']; ?>" />
 <meta property="og:image:alt" content="<?= $berita['judul']; ?>" />
-<meta property="og:image:width" content="400" />
-<meta property="og:image:height" content="400" />
-<meta property="og:keywords" content="uinsaid, rmsaid, uinsurakarta, <?= $berita['kategori']; ?>" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:url" content="<?= $beritaUrl ?>" />
 
 <!-- Twitter Dynamic Meta Tags -->
 <meta name="twitter:title" content="<?= $berita['judul']; ?>" />
@@ -97,7 +97,7 @@ $beritaUrl = base_url("berita/" . $berita['slug']);
         <div class="row g-5">
 
             <!-- Akademik column -->
-            <div class="col-lg-6 ps-lg-5 pt-5" data-aos="fade-left">
+            <div class="col-lg-6 ps-lg-5 pt-5" data-aos="flip-left">
 
                 <div class="p-3 rounded-5" style="background: rgba(var(--mdb-body-bg-rgb), 0.9);">
 
@@ -213,7 +213,7 @@ $beritaUrl = base_url("berita/" . $berita['slug']);
                             <span class="bi bi-linkedin"></span>
                             <span class="label">LinkedIn</span>
                         </a>
-                        <?= locale_get_default() ?>
+                        <!-- <?= locale_get_default() ?> -->
                     </div>
 
                     <!-- Artikel pilihan -->

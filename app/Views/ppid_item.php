@@ -143,16 +143,28 @@ $ppidUrl = base_url("ppid/" . $ppid['slug']);
 
                         <a class="btn btn-linkedin-1 m-2 m-xl-0 mb-lg-2 me-2" href="https://www.linkedin.com/sharing/share-offsite/?url=<?= $ppidUrl ?>" target="_blank"><small><span class="bi bi-linkedin me-2"></span>LinkedIn</small></a>
                     </div> -->
-                    <div class="col">
 
-                        <a class="btn btn-whatsapp m-2 m-xl-0 mb-lg-2 me-2" href="https://api.whatsapp.com/send?text=<?= $ppid['judul'] ?> %0a %0aSelengkapnya di: %0a<?= $ppidUrl ?>%0a %0a<?= urlencode(setting()->get('App.sharingCaption')) ?>" target="_blank"><span class="bi bi-whatsapp"></span></a>
+                    <div class="col d-flex flex-nowrap">
 
-                        <a class="btn btn-facebook-1 m-2 m-xl-0 mb-lg-2 me-2" href="https://www.facebook.com/sharer/sharer.php?u=<?= urlencode($ppidUrl) ?>" target="_blank"><span class="bi bi-facebook"></span></a>
+                        <a class="btn btn-whatsapp me-2 flex-grow-1 w-100" href="https://api.whatsapp.com/send?text=<?= $ppid['judul'] ?> %0a %0aSelengkapnya di: %0a<?= $ppidUrl ?>%0a %0a<?= urlencode(setting()->get('App.sharingCaption')) ?>" target="_blank">
+                            <span class="bi bi-whatsapp"></span>
+                            <span class="label">WhatsApp</span>
+                        </a>
 
-                        <a class="btn btn-twitter-1 m-2 m-xl-0 mb-lg-2 me-2" href="https://twitter.com/intent/tweet?text=<?= $ppid['judul'] ?>&url=<?= $ppidUrl ?>" target="_blank"><span class="bi bi-twitter"></span></a>
+                        <a class="btn btn-facebook-1 me-2 flex-grow-1 w-100" href="https://www.facebook.com/sharer/sharer.php?u=<?= urlencode($ppidUrl) ?>" target="_blank">
+                            <span class="bi bi-facebook"></span>
+                            <span class="label">Facebook</span>
+                        </a>
 
-                        <a class="btn btn-linkedin-1 m-2 m-xl-0 mb-lg-2 me-2" href="https://www.linkedin.com/sharing/share-offsite/?url=<?= $ppidUrl ?>" target="_blank"><span class="bi bi-linkedin"></span></a>
+                        <a class="btn btn-twitter-1 me-2 flex-grow-1 w-100" href="https://twitter.com/intent/tweet?text=<?= $ppid['judul'] ?>&url=<?= $ppidUrl ?>" target="_blank">
+                            <span class="bi bi-twitter"></span>
+                            <span class="label">Twitter/X</span>
+                        </a>
 
+                        <a class="btn btn-linkedin-1 flex-grow-1 w-100" href="https://www.linkedin.com/sharing/share-offsite/?url=<?= $ppidUrl ?>" target="_blank">
+                            <span class="bi bi-linkedin"></span>
+                            <span class="label">LinkedIn</span>
+                        </a>
                     </div>
 
                     <!-- Artikel pilihan -->

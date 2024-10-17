@@ -21,6 +21,8 @@ class Berita extends BaseController
 
         $this->postingJenisNama = 'berita';
         $this->formatKolom = 'tanggal_terbit';
+
+        $this->data['renderDefaultMeta'] = false; // Overwrite default meta
     }
 
     public function index(): string

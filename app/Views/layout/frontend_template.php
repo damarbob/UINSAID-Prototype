@@ -33,38 +33,41 @@ $temaRTLDefault = base_url("assets/css/hijau.rtl.css");
   if (setting()->get('App.seoSitus') === "on") echo $this->renderSection('meta'); // Placed before the any other meta because search engine will index the first
   ?>
 
+  <!-- Dynamic meta -->
+  <?php if ($renderDefaultMeta === true): ?>
+
+    <!-- Open Graph meta -->
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="<?= setting()->get('App.judulSitus') ?>" />
+    <meta property="og:description" content="<?= setting()->get('App.deskripsiSitus') ?>" />
+    <meta property="og:keywords" content="<?= setting()->get('App.kataKunciSitus') ?>">
+    <meta property="og:image" content="<?= base_url(setting()->get('App.ikonSitus')) ?>" />
+    <meta property="og:image:alt" content="<?= setting()->get('App.judulSitus') ?>" />
+    <meta property="og:image:width" content="400" />
+    <meta property="og:image:height" content="400" />
+    <meta property="og:url" content="<?= base_url() ?>" />
+
+    <!-- Twitter Dynamic Meta Tags -->
+    <meta name="twitter:title" content="<?= setting()->get('App.judulSitus') ?>" />
+    <meta name="twitter:description" content="<?= setting()->get('App.deskripsiSitus') ?>" />
+    <meta name="twitter:image" content="<?= base_url(setting()->get('App.ikonSitus')) ?>" />
+    <meta name="twitter:image:alt" content="<?= setting()->get('App.judulSitus') ?>" />
+
+  <?php endif ?>
+
   <!-- TODO: Optimize meta usage -->
-  <!-- Old meta -->
+  <!-- Static Meta Tags -->
   <meta name="author" content="<?= setting()->get('App.judulSitus') ?>" />
   <meta name="copyright" content="<?= setting()->get('App.judulSitus') ?>" />
   <meta name="application-name" content="<?= setting()->get('App.judulSitus') ?>" />
   <meta itemprop="<?= base_url() ?>" content="<?= base_url(setting()->get('App.ikonSitus')) ?>" />
 
-  <!-- Open Graph meta -->
-  <meta property="og:title" content="<?= setting()->get('App.judulSitus') ?>" />
-  <meta property="og:site_name" content="<?= base_url() ?>">
-  <meta property="og:keywords" content="<?= setting()->get('App.kataKunciSitus') ?>">
-  <meta property="og:type" content="article" />
-  <meta property="og:image" content="<?= base_url(setting()->get('App.ikonSitus')) ?>" />
-  <meta property="og:image:alt" content="<?= setting()->get('App.judulSitus') ?>" />
-  <meta property="og:image:width" content="400" />
-  <meta property="og:image:height" content="400" />
-  <meta property="og:url" content="<?= base_url() ?>" />
-  <meta property="og:description" content="<?= setting()->get('App.deskripsiSitus') ?>" />
+  <!-- Open Graph Static Meta Tags -->
+  <meta property="og:site_name" content="<?= setting()->get('App.judulSitus') ?>">
   <meta property="og:locale" content="id_ID" />
 
   <!-- TODO: Change hard coded meta like site name and social media to variable -->
   <!-- New meta -->
-  <!-- Static Meta Tags -->
-  <meta name="author" content="<?= setting()->get('App.judulSitus') ?>" />
-  <meta name="copyright" content="<?= setting()->get('App.judulSitus') ?>" />
-  <meta name="application-name" content="<?= setting()->get('App.judulSitus') ?>" />
-
-  <!-- Open Graph Static Meta Tags -->
-  <meta property="og:site_name" content="<?= base_url() ?>">
-  <meta property="og:type" content="article" />
-  <meta property="og:locale" content="id_ID" />
-
   <!-- Twitter Static Meta Tags -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:site" content="@uinsurakarta" />
@@ -561,8 +564,8 @@ $temaRTLDefault = base_url("assets/css/hijau.rtl.css");
         <form class="flex-shrink-1" method="get" action="<?= base_url('/berita') ?>">
           <div id="formCari" class="form-outline" data-mdb-input-init>
             <i class="bi bi-search trailing"></i>
-            <input name="search" type="search" id="cari" class="form-control form-icon-trailing">
-            <label for="cari" class="form-label">Cari</label>
+            <input name="search" type="search" id="cari" class="form-control form-icon-trailing" placeholder="Cari">
+            <!-- <label for="cari" class="form-label">Cari</label> -->
           </div>
         </form>
 

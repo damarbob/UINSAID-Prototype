@@ -112,6 +112,8 @@ abstract class BaseController extends Controller
         $this->komponenMetaModel = new KomponenMetaModel();
 
         // Data
+        $this->data['renderDefaultMeta'] = true; // Overwrite this value to prevent default meta data from being loaded
+
         $this->data['tema'] = $this->temaModel->find(setting()->get('App.temaSitus'));
         $this->data['mediaSosial'] = $this->mediaSosialModel->get();
         $this->data['menuHierarchy'] = $this->menuModel->getMenuHierarchy();
