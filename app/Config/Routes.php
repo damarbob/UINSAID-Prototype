@@ -211,9 +211,9 @@ $routes->group('admin', ['filter' => 'group:admin,superadmin'], function ($route
 
     // Berita diajukan (web utama)
     if (env('app.siteType') == 'parent' || env('app.siteType') == 'super') {
-        $routes->get('berita-diajukan', 'BeritaDiajukanAdmin');
-        $routes->post('berita-diajukan/publikasi', 'BeritaDiajukanAdmin::publikasiBanyak');
-        $routes->post('berita-diajukan/hapus', 'BeritaDiajukanAdmin::hapusBanyak');
+        // $routes->get('berita-diajukan', 'BeritaDiajukanAdmin');
+        // $routes->post('berita-diajukan/publikasi', 'BeritaDiajukanAdmin::publikasiBanyak');
+        // $routes->post('berita-diajukan/hapus', 'BeritaDiajukanAdmin::hapusBanyak');
     }
 
     // Galeri
@@ -344,11 +344,11 @@ $routes->group('api', static function ($routes) {
     // $routes->get('pengumuman/draf', 'PengumumanAdmin::getDraf');
 
     // Berita pengajuan (web utama)
-    if (env('app.siteType') == 'parent' || env('app.siteType') == 'super') {
-        $routes->post('berita-diajukan', 'BeritaDiajukanAdmin::fetchData');
-        $routes->post('berita-diajukan/terima-berita', 'BeritaDiajukanAdmin::terimaBeritaBanyak');
-        $routes->post('berita-diajukan/(:any)', 'BeritaDiajukanAdmin::fetchData/$1');
-    }
+    // if (env('app.siteType') == 'parent' || env('app.siteType') == 'super') {
+    //     $routes->post('berita-diajukan', 'BeritaDiajukanAdmin::fetchData');
+    //     $routes->post('berita-diajukan/terima-berita', 'BeritaDiajukanAdmin::terimaBeritaBanyak');
+    //     $routes->post('berita-diajukan/(:any)', 'BeritaDiajukanAdmin::fetchData/$1');
+    // }
 
     // Galeri
     $routes->get('galeri', 'GaleriAdmin::get');

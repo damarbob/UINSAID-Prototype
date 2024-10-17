@@ -171,7 +171,7 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
                 {
                     text: '<i id="iconFilterJenis" class="bx bx-filter-alt me-2"></i><span id="loaderFilterJenis" class="loader me-2" style="display: none;"></span><span id="textFilterJenis"><?= lang('Admin.semuaJenis') ?></span>',
                 },
-                <?php if ($is_child_site):
+                <?php if (env('app.parentSite')):
                     // Tampilkan tombol ajukan dan batal ajukan di website child dan super
                 ?> {
                         // Tombol ajukan
