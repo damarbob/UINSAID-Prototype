@@ -1,4 +1,7 @@
 <?php
+
+use function App\Helpers\capitalize_first_letter;
+
 helper('text');
 
 // URL Berita
@@ -26,9 +29,10 @@ $beritaUrl = base_url("berita/" . $berita['slug']);
 
 <!-- Twitter Dynamic Meta Tags -->
 <meta name="twitter:title" content="<?= $berita['judul']; ?>" />
-<meta name="twitter:description" content="<?= character_limiter(strip_tags($berita['konten']), 160); ?>" />
+<meta name="twitter:description" content="<?= $berita['ringkasan'] ?: character_limiter(strip_tags($berita['konten']), 160); ?>" />
 <meta name="twitter:image" content="<?= $berita['gambar_sampul']; ?>" />
 <meta name="twitter:image:alt" content="<?= $berita['judul']; ?>" />
+<meta name="twitter:url" content="<?= $beritaUrl; ?>" />
 
 <script type="application/ld+json">
     {
@@ -49,7 +53,7 @@ $beritaUrl = base_url("berita/" . $berita['slug']);
                 "url": "<?= base_url(setting()->get('App.logoSitus')) ?>"
             }
         },
-        "articleBody": "<?= strip_tags($berita['konten']) ?>"
+        "articleBody": "<?= $berita['ringkasan'] ?: character_limiter(strip_tags($berita['konten']), 160) ?>"
     }
 </script>
 
@@ -109,7 +113,7 @@ $beritaUrl = base_url("berita/" . $berita['slug']);
                             <li class="breadcrumb-item"><a href="<?= base_url() ?>">Beranda</a></li>
                             <li class="breadcrumb-item"><a href="<?= base_url('berita') ?>">Berita</a></li>
 
-                            <span class="badge badge-primary align-self-center ms-3" style="width: max-content; height:max-content"><?= $berita['kategori'] ?></span>
+                            <span class="badge badge-primary align-self-center ms-3" style="width: max-content; height:max-content"><?= capitalize_first_letter($berita['kategori']) ?></span>
                         </ol>
                     </nav>
 

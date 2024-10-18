@@ -7,6 +7,9 @@
 
 <?= $this->section('content') ?>
 <?php
+
+use function App\Helpers\capitalize_first_letter;
+
 helper('form');
 
 if ($mode == "tambah") {
@@ -83,10 +86,10 @@ if ($mode == "tambah") {
                 <select class="form-select" id="postingJenisSelect" name="posting_jenis">
                     <?php foreach ($postingJenis as $x): ?>
                         <option value="<?= $x['id'] ?>" <?= $x['id'] == $valuePostingJenisId ? 'selected' : '' ?>>
-                            <?= $x['nama'] ?>
+                            <?= capitalize_first_letter($x['nama']) ?>
                         </option>
                     <?php endforeach ?>
-                    <option value=""><?= lang('Admin.tambahBaru') ?></option>
+                    <option value=""><?= '(' . lang('Admin.tambahBaru') . ')' ?></option>
                 </select>
                 <label for="posting_jenis" class="form-label"><?= lang('Admin.jenisPosting') ?></label>
             </div>
@@ -102,7 +105,7 @@ if ($mode == "tambah") {
                     <?php foreach ($kategori as $key): ?>
                         <option value="<?= $key['nama'] ?>" <?= $key['nama'] == $valueKategori ? 'selected' : '' ?>><?= $key['nama'] ?></option>
                     <?php endforeach ?>
-                    <option value=""><?= lang('Admin.tambahBaru') ?></option>
+                    <option value=""><?= '(' . lang('Admin.tambahBaru') . ')' ?></option>
                 </select>
                 <label for="kategori" class="form-label"><?= lang('Admin.kategori') ?></label>
                 <!-- <div class="invalid-tooltip">

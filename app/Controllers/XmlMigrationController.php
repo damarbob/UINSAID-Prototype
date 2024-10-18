@@ -52,6 +52,7 @@ class XmlMigrationController extends Controller
                 $data = [
                     // 'id'                 => $id,
                     'id_penulis'         => 3,  // Mapping logic for author
+                    'id_jenis'           => 1,
                     'id_kategori'        => $this->getCategoryId($item->category),  // Mapping logic for category
                     'judul'              => (string) $item->title,
                     'konten'             => $content,
@@ -75,7 +76,9 @@ class XmlMigrationController extends Controller
         // dd($dataToInsert);
 
         // Uncomment the following line to insert data after verifying it with dd()
-        $db->table('posting')->insertBatch($dataToInsert);
+        if ($db->table('posting')->insertBatch($dataToInsert) == false) {
+            echo 'Gagal migrasi data';
+        } else echo 'Berhasil migrasi data';
     }
 
     private function getUserId($authorName)
