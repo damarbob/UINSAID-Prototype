@@ -8,6 +8,7 @@ class KategoriModel extends Model
 {
     protected $table = 'kategori';
     protected $allowedFields = ['nama', 'id_jenis'];
+    protected $useTimestamps = true;
 
     public function getKategoriByNama($nama)
     {
