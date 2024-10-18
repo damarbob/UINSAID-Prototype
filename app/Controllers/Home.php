@@ -293,6 +293,7 @@ class Home extends BaseController
             $x['konten'] = $this->dataSyntaxQueryProcessor->processPreDataSyntax($x['konten']);
 
             // d($x['konten']);
+            // if ($x['id'] == 10) dd(replaceMetaSyntaxV2($x['konten'], null)); // DEBUG Slider 3 Gambar
             // if ($x['id'] == 31) dd(replaceMetaSyntaxV2($x['konten'], null)); // DEBUG Tentang kami
             // if ($x['id'] == 18) dd($this->twig->renderTemplateString(replaceMetaSyntaxWithDefault($x['konten']), [])); // DEBUG
 
@@ -336,6 +337,7 @@ class Home extends BaseController
             // Replace data syntax
             $x['konten_terformat'] = $this->dataSyntaxQueryProcessor->processDataSyntax($x['konten_terformat']);
 
+            // if ($x['id'] == 10) dd($x['konten_terformat']); // DEBUG Slider 3 Gambar
             // if ($x['id'] == 18) dd($x['konten_terformat']); // DEBUG
 
             // dd($komponenMeta['meta']);

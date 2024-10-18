@@ -912,7 +912,7 @@ $errorJS = validation_show_error('js_file');
 
                 if (tipe === 'editor') {
                     if (tinymce.get(`${id}`)) {
-                        tinymce.get(`${id}`).destroy(); // Destroy the existing TinyMCE instance
+                        tinymce.get(`${id}`).remove(); // Destroy the existing TinyMCE instance
                     }
                     setTimeout(() => {
                         tinymce.init({
@@ -996,7 +996,17 @@ $errorJS = validation_show_error('js_file');
 
             // Initialize and show the MDB modal
             const modalElement = document.getElementById('editKomponenMetaModal');
-            const modalInstance = new mdb.Modal(modalElement);
+            modalElement.addEventListener('hidden.mdb.modal', function() {
+                // Find all elements inside the modal and destroy TinyMCE instances
+                modalElement.querySelectorAll('textarea').forEach(element => {
+                    if (tinymce.get(element.id)) { // Check if the element has a TinyMCE instance
+                        tinymce.get(element.id).remove(); // Destroy the TinyMCE instance
+                    }
+                });
+            });
+            const modalInstance = new mdb.Modal(modalElement, {
+                focus: false, // Disable focus trapping for tinyMCE modal inputs to work properly
+            });
             modalInstance.show();
 
             // Initialize view
