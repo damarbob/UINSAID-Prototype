@@ -45,13 +45,14 @@ $temaRTLDefault = base_url("assets/css/hijau.rtl.css");
     <meta property="og:image:alt" content="<?= setting()->get('App.judulSitus') ?>" />
     <meta property="og:image:width" content="400" />
     <meta property="og:image:height" content="400" />
-    <meta property="og:url" content="<?= base_url() ?>" />
+    <meta property="og:url" content="<?= $currentRoute ?>" />
 
     <!-- Twitter Dynamic Meta Tags -->
     <meta name="twitter:title" content="<?= setting()->get('App.judulSitus') ?>" />
     <meta name="twitter:description" content="<?= setting()->get('App.deskripsiSitus') ?>" />
     <meta name="twitter:image" content="<?= base_url(setting()->get('App.ikonSitus')) ?>" />
     <meta name="twitter:image:alt" content="<?= setting()->get('App.judulSitus') ?>" />
+    <meta name="twitter:url" content="<?= $currentRoute ?>" />
 
   <?php endif ?>
 
@@ -399,13 +400,6 @@ $temaRTLDefault = base_url("assets/css/hijau.rtl.css");
 </head>
 
 <body>
-  <?php
-  // Get the current request instance
-  $request = service('request');
-
-  // Get the URI string
-  $currentRoute = $request->uri->getPath();
-  ?>
 
   <div id="loaderBody" class="d-none position-fixed d-flex justify-content-center align-items-center top-0" style="background-color: var(--mdb-body-bg); width: 100vw; height: 100vh; z-index: 1000000000;">
     <span class="loader"></span>
