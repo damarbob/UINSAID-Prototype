@@ -9,6 +9,9 @@
   --color-surface-transparent-8: rgba(255, 255, 255, 0.8);
 
   --navbar-height: 96px;
+
+  --swiper-theme-color: var(--mdb-primary);
+  --swiper-pagination-color: var(--mdb-primary);
 }
 
 .swiper-button-prev,

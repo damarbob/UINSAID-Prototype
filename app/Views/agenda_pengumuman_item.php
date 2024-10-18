@@ -1,4 +1,7 @@
 <?php
+
+use function App\Helpers\capitalize_first_letter;
+
 helper('text');
 
 // URL Berita
@@ -111,7 +114,7 @@ margin-top: -32px;
 
                             <!-- TODO: Hardcoded breadcrumb -->
                             <li class="breadcrumb-item"><a href="<?= base_url() ?>">Beranda</a></li>
-                            <li class="breadcrumb-item"><a href="<?= base_url($item['acara_jenis_nama']) ?>"><?= $item['acara_jenis_nama'] ?></a></li>
+                            <li class="breadcrumb-item"><a href="<?= base_url($item['acara_jenis_nama']) ?>"><?= capitalize_first_letter($item['acara_jenis_nama']) ?></a></li>
                             <li class="breadcrumb-item active fw-bold" aria-current="page">
                                 <?= $item['judul']; ?>
                             </li>
@@ -245,62 +248,61 @@ margin-top: -32px;
                         </a>
                     </div>
 
-                </div>
 
-                <!-- Artikel pilihan -->
-                <h5 class="mt-5 mb-3">Untuk Anda</h5>
+                    <!-- Artikel pilihan -->
+                    <h5 class="mt-5 mb-3">Untuk Anda</h5>
 
-                <?php foreach ($itemTerbaru as $x) : ?>
+                    <?php foreach ($itemTerbaru as $x) : ?>
 
-                    <!-- Item artikel -->
-                    <div class="card mb-2">
-                        <div class="row g-0">
+                        <!-- Item artikel -->
+                        <div class="card mb-2">
+                            <div class="row g-0">
 
-                            <!-- Gambar kegiatan -->
-                            <div class="col-3 position-relative">
-                                <div class="ratio ratio-4x3">
-                                    <img src="<?= ($x['id_galeri'] != null) ? $x['uri'] : base_url('assets/img/icon-notext.png') ?>" class="card-img object-fit-cover" alt="..." />
+                                <!-- Gambar kegiatan -->
+                                <div class="col-3 position-relative">
+                                    <div class="ratio ratio-4x3">
+                                        <img src="<?= ($x['id_galeri'] != null) ? $x['uri'] : base_url('assets/img/icon-notext.png') ?>" class="card-img object-fit-cover" alt="..." />
+                                    </div>
                                 </div>
-                            </div>
 
-                            <!-- Ringkasan kegiatan -->
-                            <div class="col-9">
+                                <!-- Ringkasan kegiatan -->
+                                <div class="col-9">
 
-                                <!-- Body kegiatan -->
-                                <div class="card-body p-2">
+                                    <!-- Body kegiatan -->
+                                    <div class="card-body p-2">
 
-                                    <!-- Judul kegiatan -->
-                                    <p class="card-title">
-                                        <a class="text-decoration-none crop-text-2" href="<?= base_url("agenda-pengumuman/" . $x['id']) ?>" target="_blank">
-                                            <b>
-                                                <?= $x['judul'] ?>
-                                            </b>
-                                        </a>
-                                    </p>
+                                        <!-- Judul kegiatan -->
+                                        <p class="card-title">
+                                            <a class="text-decoration-none crop-text-2" href="<?= base_url("agenda-pengumuman/" . $x['id']) ?>" target="_blank">
+                                                <b>
+                                                    <?= $x['judul'] ?>
+                                                </b>
+                                            </a>
+                                        </p>
 
-                                    <!-- Kategori dan tanggal terbit -->
-                                    <small class="card-text crop-text-2">
-                                        <?= $x['formatted_datetime'] ?>
-                                    </small>
+                                        <!-- Kategori dan tanggal terbit -->
+                                        <small class="card-text crop-text-2">
+                                            <?= $x['formatted_datetime'] ?>
+                                        </small>
+                                    </div>
+                                    <!-- Akhir body kegiatan -->
+
                                 </div>
-                                <!-- Akhir body kegiatan -->
+
+                                <!-- Akhir ringkasan kegiatan -->
 
                             </div>
-
-                            <!-- Akhir ringkasan kegiatan -->
-
                         </div>
-                    </div>
-                    <!-- Akhir item artikel -->
+                        <!-- Akhir item artikel -->
 
 
-                <?php endforeach; ?>
+                    <?php endforeach; ?>
 
+                </div>
             </div>
-        </div>
-        <!-- Akhir sidebar sticky -->
+            <!-- Akhir sidebar sticky -->
 
-    </div>
+        </div>
     </div>
 </section>
 <!-- Detail berita -->
