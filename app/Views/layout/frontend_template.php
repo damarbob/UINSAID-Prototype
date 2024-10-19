@@ -556,10 +556,15 @@ $temaRTLDefault = base_url("assets/css/hijau.rtl.css");
 
         <!-- Search -->
         <form class="flex-shrink-1" method="get" action="<?= base_url('/berita') ?>">
-          <div id="formCari" class="form-outline" data-mdb-input-init>
+          <!-- <div id="formCari" class="form-outline" data-mdb-input-init>
             <i class="bi bi-search trailing"></i>
             <input name="search" type="search" id="cari" class="form-control form-icon-trailing">
             <label for="cari" class="form-label">Cari</label>
+          </div> -->
+          <div id="formCari" class="form-outline" data-mdb-input-init>
+            <i class="bi bi-search trailing"></i>
+            <input name="search" type="search" id="cari" class="form-control form-icon-trailing rounded-2" placeholder="Pencarian" style="font-size: 14px; background: var(--mdb-body-bg);">
+            <!-- <label for="cari" class="form-label">Pencarian</label> -->
           </div>
         </form>
 

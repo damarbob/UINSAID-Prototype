@@ -31,6 +31,7 @@ class Session extends BaseConfig
      * The session cookie name, must contain only [0-9a-z_-] characters
      */
     public string $cookieName = 'ci_session';
+    // public string $cookieName = "ci_session_" . md5(base_url());
 
     /**
      * --------------------------------------------------------------------------
@@ -99,4 +100,10 @@ class Session extends BaseConfig
      * DB Group for the database session.
      */
     public ?string $DBGroup = null;
+
+    public function __construct()
+    {
+        // Set the cookie name dynamically in the constructor
+        $this->cookieName = 'uinsaid_session_' . md5(base_url());
+    }
 }

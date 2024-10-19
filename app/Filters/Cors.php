@@ -43,6 +43,9 @@ class Cors implements FilterInterface
         // Dynamically get the base URL from the configuration
         $baseUrl = parse_url(base_url(), PHP_URL_HOST);
 
+        // Webdemo url
+        $webdemoUrl = 'webdemo.id';
+
         // Define localhost pattern to allow all ports
         $localhostPattern = '/^http:\/\/localhost:\d+$/';
 
@@ -60,7 +63,7 @@ class Cors implements FilterInterface
             $isLocalhostOrigin = preg_match($localhostPattern, $origin);
 
             // Check if the origin is webdemo
-            $isWebdemoOrigin = preg_match("/^(https?:\/\/)?([a-z0-9-]+\.)?$baseUrl$/", $origin);
+            $isWebdemoOrigin = preg_match("/^(https?:\/\/)?([a-z0-9-]+\.)?$webdemoUrl$/", $origin);
         }
 
         // Allow CORS if the origin is a subdomain of the base URL or localhost (in development)

@@ -41,9 +41,13 @@ $routes->get('/kategori/(:any)', 'Berita::getByKategori/$1');
 $routes->get('/ppid', 'PPID');
 $routes->get('/ppid/(:segment)', 'PPID::getByKategori/$1');
 $routes->get('/ppid/detail/(:any)', 'PPID::get/$1');
-$routes->get('test', 'BeritaAdmin::test');
-$routes->get('xml-migration', 'XmlMigrationController::migrate');
-$routes->get('xml-migration-lampiran', 'XmlMigrationLampiranController::migrate');
+
+if (ENVIRONMENT == 'development') {
+    $routes->get('test', 'BeritaAdmin::test');
+    $routes->get('migrasi/xml-wordpress', 'XmlMigrationController::migrate');
+    $routes->get('migrasi/xml-wordpress/lampiran', 'XmlMigrationLampiranController::migrate');
+}
+
 $routes->get('entitas', 'Entitas');
 // $routes->get('agenda', 'Agenda');
 // $routes->get('agenda/(:num)', 'Agenda::get/$1');
