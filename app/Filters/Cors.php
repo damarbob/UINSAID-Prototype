@@ -47,13 +47,24 @@ class Cors implements FilterInterface
         $localhostPattern = '/^http:\/\/localhost:\d+$/';
 
         // Check if the origin is a subdomain of the base URL
-        $isBaseUrlOrigin = preg_match("/^(https?:\/\/)?([a-z0-9-]+\.)?$baseUrl$/", $origin);
+        // $isBaseUrlOrigin = preg_match("/^(https?:\/\/)?([a-z0-9-]+\.)?$baseUrl$/", $origin);
+        $isBaseUrlOrigin = preg_match("/^(https?:\/\/)?([a-z0-9-]+\.)?" . preg_quote($baseUrl) . "$/", $origin);
 
-        // Check if the origin is localhost and if the environment is 'development'
-        $isLocalhostOrigin = preg_match($localhostPattern, $origin) && ENVIRONMENT === 'development';
+        $isLocalhostOrigin = false;
+        $isWebdemoOrigin = false;
+
+        // If the environment is 'development'
+        if (ENVIRONMENT === 'development') {
+
+            // Check if the origin is localhost
+            $isLocalhostOrigin = preg_match($localhostPattern, $origin);
+
+            // Check if the origin is webdemo
+            $isWebdemoOrigin = preg_match("/^(https?:\/\/)?([a-z0-9-]+\.)?$baseUrl$/", $origin);
+        }
 
         // Allow CORS if the origin is a subdomain of the base URL or localhost (in development)
-        if ($isBaseUrlOrigin || $isLocalhostOrigin) {
+        if ($isBaseUrlOrigin || $isLocalhostOrigin || $isWebdemoOrigin) {
             header('Access-Control-Allow-Origin: ' . $origin);
             header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
             header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With, X-API-KEY');

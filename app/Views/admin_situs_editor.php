@@ -48,7 +48,7 @@ if ($mode == "tambah") {
         <div class="col-md-6">
             <!-- Alamat Situs -->
             <div class="form-floating mb-3">
-                <input id="alamat_situs" name="alamat_situs" class="form-control <?= (validation_show_error('alamat_situs')) ? 'is-invalid' : ''; ?>" type="text" value="<?= $valueAlamat ?>" placeholder="Alamat Situs" required />
+                <input id="alamat_situs" name="alamat_situs" class="form-control <?= (validation_show_error('alamat_situs')) ? 'is-invalid' : ''; ?>" type="url" value="<?= $valueAlamat ?>" placeholder="Alamat Situs" required />
                 <label for="alamat_situs"><?= lang('Admin.alamatSitus') ?></label>
                 <div class="invalid-feedback">
                     <?= validation_show_error('alamat_situs'); ?>

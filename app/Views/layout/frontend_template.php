@@ -25,7 +25,7 @@ $temaRTLDefault = base_url("assets/css/hijau.rtl.css");
   <meta name="googlebot" content="<?= (setting()->get('App.seoSitus') === "on") ? "index,follow" : "noindex,nofollow" ?>">
   <meta name="robots" content="<?= (setting()->get('App.seoSitus') === "on") ? "index,follow" : "noindex,nofollow" ?>">
   <meta name="language" content="id" />
-  <link rel="canonical" href="<?= base_url() ?>" />
+  <!-- <link rel="canonical" href="<?= base_url() ?>" /> -->
   <meta name="google-site-verification" content="wVOBtikI0s7xKLkglkAAc2ZereV7l0NrQZH8LPCoKSk">
 
   <!-- Meta section -->
@@ -558,8 +558,8 @@ $temaRTLDefault = base_url("assets/css/hijau.rtl.css");
         <form class="flex-shrink-1" method="get" action="<?= base_url('/berita') ?>">
           <div id="formCari" class="form-outline" data-mdb-input-init>
             <i class="bi bi-search trailing"></i>
-            <input name="search" type="search" id="cari" class="form-control form-icon-trailing" placeholder="Cari">
-            <!-- <label for="cari" class="form-label">Cari</label> -->
+            <input name="search" type="search" id="cari" class="form-control form-icon-trailing">
+            <label for="cari" class="form-label">Cari</label>
           </div>
         </form>
 
