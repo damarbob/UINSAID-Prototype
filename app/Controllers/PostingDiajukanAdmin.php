@@ -272,14 +272,14 @@ class PostingDiajukanAdmin extends BaseControllerAdmin
         return $jenis['id'];
     }
 
-    protected function getOrCreateKategori($kategoriNama)
+    protected function getOrCreateKategori($kategoriNama, $idJenis = 1)
     {
         // Check if the category exists
         $kategori = $this->kategoriModel->where('nama', $kategoriNama)->first();
 
         // If not, create a new category
         if (!$kategori) {
-            $this->kategoriModel->save(['nama' => $kategoriNama]);
+            $this->kategoriModel->save(['nama' => $kategoriNama, 'id_jenis' => $idJenis]);
             $kategori = $this->kategoriModel->where('nama', $kategoriNama)->first();
         }
 
@@ -297,15 +297,17 @@ class PostingDiajukanAdmin extends BaseControllerAdmin
 
         foreach ($selectedData as $data) {
 
+            $idJenis = $this->getOrCreateJenis($data['posting_jenis_nama']);
+
             // Prepare the data to be inserted
             $newEntry = [
                 'id_penulis' => 3, // Assuming the current logged-in user's ID
+                'id_jenis' => $idJenis,
                 'judul' => $data['judul'],
                 'slug' => create_slug($data['judul']),
                 'konten' => $data['konten'],
                 'ringkasan' => $data['ringkasan'],
-                'id_kategori' => $this->getOrCreateKategori($data['kategori']),
-                'id_jenis' => $this->getOrCreateJenis($data['posting_jenis_nama']),
+                'id_kategori' => $this->getOrCreateKategori($data['kategori'], $idJenis),
                 'status' => $data['status'],
                 'sumber' => $data['sumber'],
                 'seo' => $data['seo'],

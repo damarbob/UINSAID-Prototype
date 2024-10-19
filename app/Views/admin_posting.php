@@ -35,12 +35,10 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
         <!-- Pesan sukses atau error -->
         <?php if (session()->getFlashdata('sukses')) : ?>
             <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <a href="<?= base_url('admin/posting') ?>" class="me-2"><i class="bi bi-arrow-left"></i></a>
                 <?= session()->getFlashdata('sukses') ?>
             </div>
         <?php elseif (session()->getFlashdata('gagal')) : ?>
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <a href="<?= base_url('admin/posting') ?>" class="me-2"><i class="bi bi-arrow-left"></i></a>
                 <?= session()->getFlashdata('gagal') ?>
             </div>
         <?php endif; ?>
@@ -48,7 +46,6 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
         <!-- Peringatan buat posting -->
         <?php if ($peringatanPostingBerita) : ?>
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <a href="<?= base_url('admin/posting') ?>" class="me-2"><i class="bi bi-arrow-left"></i></a>
                 <?= lang('Admin.tampaknyaSudahLebihDari3BulanSejakBeritaTerakhir') ?>
             </div>
         <?php endif; ?>
