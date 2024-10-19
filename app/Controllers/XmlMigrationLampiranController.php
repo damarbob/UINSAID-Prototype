@@ -19,7 +19,7 @@ class XmlMigrationLampiranController extends Controller
     public function migrate()
     {
         $db = \Config\Database::connect();
-        $xmlFilePath = FCPATH . 'uploads/fakultasushuluddindandakwah.WordPress.2024-08-23.xml'; // Adjust path as necessary
+        $xmlFilePath = FCPATH . 'uploads/bahan-migrasi.xml'; // Adjust path as necessary
         $xmlContent = file_get_contents($xmlFilePath);
 
         $xml = new SimpleXMLElement($xmlContent);
@@ -27,60 +27,71 @@ class XmlMigrationLampiranController extends Controller
         // Register namespaces (if known) - example namespaces, adjust to your XML's namespaces
         $namespaces = $xml->getNamespaces(true);
 
-        $dataToInsert = [];
+        $dataToInsertToFile = [];
+        $dataToInsertToGaleri = [];
+
+        $ekstensiGambar = ['jpg', 'jpeg', 'png', 'webp', 'gif', 'svg', 'tiff', 'raw'];
+        $ekstensiFile = ['csv', 'pdf', 'pptx', 'docx', 'xlsx', 'ppt', 'doc', 'xls'];
 
         // Assuming XML structure where each item represents a post
         foreach ($xml->channel->item as $item) {
-            // Use the registered namespaces to access namespaced tags
-            $id = (string) $item->children($namespaces['wp'])->post_id;
-            $uri = (string) $item->children($namespaces['wp'])->attachment_url;
-            $postDate = (string) $item->children($namespaces['wp'])->post_date;
-            $postModified = (string) $item->children($namespaces['wp'])->post_modified;
+
             $postType = (string) $item->children($namespaces['wp'])->post_type;
 
             if ($postType == 'attachment') {
-                $data = [
-                    'id'                 => $id,
-                    'id_user'            => 3,  // Mapping logic for author
-                    'uri'                 => $uri,
-                    'judul'              => (string) $item->title,
-                    'deskripsi'          => isset($item->description) ? (string) $item->description : null,
-                    'created_at'         => $postDate,
-                    'updated_at'         => $postModified,
-                ];
 
-                $dataToInsert[] = $data;
+                // Use the registered namespaces to access namespaced tags
+                $uri = (string) $item->children($namespaces['wp'])->attachment_url;
+                $ekstensi = pathinfo($uri, PATHINFO_EXTENSION);
+
+                // Check extension for file
+                if (in_array($ekstensi, $ekstensiFile)) {
+
+                    $postDate = (string) $item->children($namespaces['wp'])->post_date;
+                    $postModified = (string) $item->children($namespaces['wp'])->post_modified;
+
+                    $data = [
+                        'uri'                 => $uri,
+                        'judul'              => (string) $item->title,
+                        'deskripsi'          => isset($item->description) ? (string) $item->description : null,
+                        'created_at'         => $postDate,
+                        'updated_at'         => $postModified,
+                    ];
+
+                    $dataToInsertToFile[] = $data;
+                }
+
+                // Check extension for galeri
+                elseif (in_array($ekstensi, $ekstensiGambar)) {
+
+                    $postDate = (string) $item->children($namespaces['wp'])->post_date;
+                    $postModified = (string) $item->children($namespaces['wp'])->post_modified;
+
+                    $data = [
+                        'uri'                 => $uri,
+                        'judul'              => (string) $item->title,
+                        'deskripsi'          => isset($item->description) ? (string) $item->description : null,
+                        'created_at'         => $postDate,
+                        'updated_at'         => $postModified,
+                    ];
+
+                    $dataToInsertToGaleri[] = $data;
+                } else echo 'Tidak ada data yang dimigrasi';
             }
         }
 
         // Debugging output
-        // dd($dataToInsert);
+        // d($dataToInsertToFile);
+        // dd($dataToInsertToGaleri);
 
-        // Uncomment the following line to insert data after verifying it with dd()
-        $db->table('lampiran')->insertBatch($dataToInsert);
-    }
+        // Insert to file
+        if ($db->table('file')->insertBatch($dataToInsertToFile) == false) {
+            echo nl2br("Gagal migrasi data File \n");
+        } else echo nl2br("Berhasil migrasi data File \n");
 
-    private function getUserId($authorName)
-    {
-        // Logic to get user ID from author name
-        // e.g., query your users table to find the matching author
-    }
-
-    private function getCategoryId($categoryName)
-    {
-        // Logic to get category ID from category name
-        // e.g., query your categories table to find the matching category
-        $kategori = $this->kategoriModel->getKategoriByNama($categoryName);
-
-        if ($kategori) return $kategori['id'];
-        else {
-            $this->kategoriModel->save(['nama' => $categoryName]);
-            return $this->kategoriModel->getInsertID();
-        }
-    }
-
-    private function generateSlug($title)
-    {
-        return url_title($title, '-', true);
+        // Insert to galeri
+        if ($db->table('galeri')->insertBatch($dataToInsertToGaleri) == false) {
+            echo nl2br("Gagal migrasi data Galeri \n");
+        } else echo nl2br("Berhasil migrasi data Galeri \n");
     }
 }
