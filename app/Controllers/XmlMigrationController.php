@@ -19,7 +19,7 @@ class XmlMigrationController extends Controller
     public function migrate()
     {
         $db = \Config\Database::connect();
-        $xmlFilePath = FCPATH . 'uploads/fakultasushuluddindandakwah.WordPress.2024-08-23.xml'; // Adjust path as necessary
+        $xmlFilePath = FCPATH . 'uploads/bahan-migrasi.xml'; // Adjust path as necessary
         $xmlContent = file_get_contents($xmlFilePath);
 
         $xml = new SimpleXMLElement($xmlContent);
@@ -95,7 +95,7 @@ class XmlMigrationController extends Controller
 
         if ($kategori) return $kategori['id'];
         else {
-            $this->kategoriModel->save(['nama' => $categoryName]);
+            $this->kategoriModel->save(['nama' => $categoryName, 'id_jenis' => 1]); // Anggap semuanya berita
             return $this->kategoriModel->getInsertID();
         }
     }
