@@ -346,7 +346,7 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
 
             // Send ajax request
             $.ajax({
-                url: '/api/pengguna-ajax/edit/',
+                url: '<?= base_url('/api/pengguna-ajax/edit') ?>',
                 type: 'POST',
                 data: $(this).serialize(), // Assuming the form ID is editUserForm
                 dataType: 'json',
