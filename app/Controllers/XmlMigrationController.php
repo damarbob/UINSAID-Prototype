@@ -27,7 +27,8 @@ class XmlMigrationController extends Controller
         // Register namespaces (if known) - example namespaces, adjust to your XML's namespaces
         $namespaces = $xml->getNamespaces(true);
 
-        $dataToInsert = [];
+        $dataToInsertToPost = [];
+        $dataToInsertToAcara = [];
 
         $statusMapping = [
             'publish' => 'publikasi',
@@ -44,11 +45,40 @@ class XmlMigrationController extends Controller
             $postDate = (string) $item->children($namespaces['wp'])->post_date;
             $postModified = (string) $item->children($namespaces['wp'])->post_modified;
             $postType = (string) $item->children($namespaces['wp'])->post_type;
+            $categoryName = $item->category;
             $status = $statusMapping[$status] ?? null;
 
             if (!$status || strlen($content) == 0) continue;
 
             if ($postType == "post") {
+
+                if (strtolower($categoryName) == "agenda") {
+
+                    $data = [
+                        'id_jenis'           => 1, // agenda
+                        'judul'              => (string) $item->title,
+                        'konten'             => $content,
+                        'status'             => $status,
+                        'waktu_mulai'        => isset($item->pubDate) ? date('Y-m-d H:i:s', strtotime((string) $item->pubDate)) : null,  // Updated: format pubDate to datetime
+                        'created_at'         => $postDate,
+                        'updated_at'         => $postModified,
+                    ];
+
+                    $dataToInsertToAcara[] = $data;
+                } elseif (strtolower($categoryName) == "pengumuman") {
+
+                    $data = [
+                        'id_jenis'           => 2, // pengumuman
+                        'judul'              => (string) $item->title,
+                        'konten'             => $content,
+                        'status'             => $status,
+                        'waktu_mulai'        => isset($item->pubDate) ? date('Y-m-d H:i:s', strtotime((string) $item->pubDate)) : null,  // Updated: format pubDate to datetime
+                        'created_at'         => $postDate,
+                        'updated_at'         => $postModified,
+                    ];
+
+                    $dataToInsertToAcara[] = $data;
+                }
                 $data = [
                     // 'id'                 => $id,
                     'id_penulis'         => 3,  // Mapping logic for author
@@ -68,17 +98,22 @@ class XmlMigrationController extends Controller
                     'gambar_sampul'      => isset($item->featured_image) ? (string) $item->featured_image : null,
                 ];
 
-                $dataToInsert[] = $data;
+                $dataToInsertToPost[] = $data;
             }
         }
 
         // Debugging output
-        // dd($dataToInsert);
+        d($dataToInsertToAcara);
+        dd($dataToInsertToPost);
 
         // Uncomment the following line to insert data after verifying it with dd()
-        if ($db->table('posting')->insertBatch($dataToInsert) == false) {
-            echo 'Gagal migrasi data';
-        } else echo 'Berhasil migrasi data';
+        if ($db->table('acara')->insertBatch($dataToInsertToAcara) == false) {
+            echo nl2br("Gagal migrasi data Acara \n");
+        } else echo nl2br("Berhasil migrasi data Acara \n");
+
+        if ($db->table('posting')->insertBatch($dataToInsertToPost) == false) {
+            echo nl2br("Gagal migrasi data Posting \n");
+        } else echo nl2br("Berhasil migrasi data Posting \n");
     }
 
     private function getUserId($authorName)
