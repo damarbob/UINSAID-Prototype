@@ -76,7 +76,7 @@ class XmlMigrationLampiranController extends Controller
                     ];
 
                     $dataToInsertToGaleri[] = $data;
-                } else echo 'Tidak ada data yang dimigrasi';
+                } else echo nl2br("Tidak ada data \n");
             }
         }
 
@@ -85,13 +85,17 @@ class XmlMigrationLampiranController extends Controller
         // dd($dataToInsertToGaleri);
 
         // Insert to file
-        if ($db->table('file')->insertBatch($dataToInsertToFile) == false) {
-            echo nl2br("Gagal migrasi data File \n");
-        } else echo nl2br("Berhasil migrasi data File \n");
+        if ($dataToInsertToFile) {
+            if ($db->table('file')->insertBatch($dataToInsertToFile) == false) {
+                echo nl2br("Gagal migrasi data File \n");
+            } else echo nl2br("Berhasil migrasi data File \n");
+        } else echo nl2br("Tidak ada data file untuk dimigrasi \n");
 
         // Insert to galeri
-        if ($db->table('galeri')->insertBatch($dataToInsertToGaleri) == false) {
-            echo nl2br("Gagal migrasi data Galeri \n");
-        } else echo nl2br("Berhasil migrasi data Galeri \n");
+        if ($dataToInsertToGaleri) {
+            if ($db->table('galeri')->insertBatch($dataToInsertToGaleri) == false) {
+                echo nl2br("Gagal migrasi data Galeri \n");
+            } else echo nl2br("Berhasil migrasi data Galeri \n");
+        } else echo nl2br("Tidak ada data galeri untuk dimigrasi \n");
     }
 }
