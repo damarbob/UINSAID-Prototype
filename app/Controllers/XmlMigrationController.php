@@ -78,27 +78,29 @@ class XmlMigrationController extends Controller
                     ];
 
                     $dataToInsertToAcara[] = $data;
-                }
-                $data = [
-                    // 'id'                 => $id,
-                    'id_penulis'         => 3,  // Mapping logic for author
-                    'id_jenis'           => 1,
-                    'id_kategori'        => $this->getCategoryId($item->category),  // Mapping logic for category
-                    'judul'              => (string) $item->title,
-                    'konten'             => $content,
-                    'ringkasan'          => isset($item->description) ? (string) $item->description : null,
-                    'pengajuan'          => 'tidak diajukan',  // Default value, adjust if needed
-                    'slug'               => $this->generateSlug((string) $item->title),  // Example slug generation
-                    'status'             => $status,
-                    'seo'                => 1,  // Default value, adjust if needed
-                    'sumber'             => 'https://fud.uinsaid.ac.id', // Adjust
-                    'tanggal_terbit'     => isset($item->pubDate) ? date('Y-m-d H:i:s', strtotime((string) $item->pubDate)) : null,  // Updated: format pubDate to datetime
-                    'created_at'         => $postDate,
-                    'updated_at'         => $postModified,
-                    'gambar_sampul'      => isset($item->featured_image) ? (string) $item->featured_image : null,
-                ];
+                } else {
 
-                $dataToInsertToPost[] = $data;
+                    $data = [
+                        // 'id'                 => $id,
+                        'id_penulis'         => 3,  // Mapping logic for author
+                        'id_jenis'           => 1,
+                        'id_kategori'        => $this->getCategoryId($item->category),  // Mapping logic for category
+                        'judul'              => (string) $item->title,
+                        'konten'             => $content,
+                        'ringkasan'          => isset($item->description) ? (string) $item->description : null,
+                        'pengajuan'          => 'tidak diajukan',  // Default value, adjust if needed
+                        'slug'               => $this->generateSlug((string) $item->title),  // Example slug generation
+                        'status'             => $status,
+                        'seo'                => 1,  // Default value, adjust if needed
+                        'sumber'             => 'https://fud.uinsaid.ac.id', // Adjust
+                        'tanggal_terbit'     => isset($item->pubDate) ? date('Y-m-d H:i:s', strtotime((string) $item->pubDate)) : null,  // Updated: format pubDate to datetime
+                        'created_at'         => $postDate,
+                        'updated_at'         => $postModified,
+                        'gambar_sampul'      => isset($item->featured_image) ? (string) $item->featured_image : null,
+                    ];
+
+                    $dataToInsertToPost[] = $data;
+                }
             }
         }
 
