@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
+use CodeIgniter\I18n\Time;
 use Psr\Log\LoggerInterface;
 
 use function App\Helpers\create_slug;
@@ -180,14 +181,17 @@ class PostingDiajukanAdmin extends BaseControllerAdmin
 
             // Prepare the data to be inserted
             $newEntry = [
-                'id_penulis' => auth()->id(), // Assuming the current logged-in user's ID
-                'judul' => $data['judul'],
-                'slug' => create_slug($data['judul']),
-                'konten' => $konten,
-                'ringkasan' => $ringkasan,
-                'id_kategori' => $this->getOrCreateKategori($data['kategori']),
-                'status' => $data['status'],
-                'tgl_terbit' => $data['created_at'],
+                'id_penulis'        => auth()->id(), // Assuming the current logged-in user's ID
+                'judul'             => $dataDb['judul'],
+                'slug'              => create_slug($data['judul']),
+                'konten'            => $konten,
+                'ringkasan'         => $ringkasan,
+                'id_kategori'       => $dataDb['id_kategori'],
+                'id_jenis'          => $dataDb['id_jenis'],
+                'status'            => $dataDb['status'],
+                'tanggal_terbit'    => Time::now(),
+                'sumber'            => $dataDb['sumber'],
+                'gambar_sampul'     => $dataDb['gambar_sampul'],
                 // Add other fields as needed
             ];
 
