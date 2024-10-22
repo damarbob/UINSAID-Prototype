@@ -195,7 +195,8 @@ if ($mode == "tambah") {
         dsmgallery_gallery_url: '<?= base_url('/admin/galeri') ?>',
         dsmfileinsert_api_endpoint: '<?= base_url('/api/file') ?>',
         dsmfileinsert_file_manager_url: '<?= base_url('/admin/file') ?>',
-        images_upload_url: '<?= base_url('/admin/berita/unggah-gambar') ?>',
+        images_upload_url: '<?= base_url('/admin/posting/unggah-gambar') ?>',
+        // images_delete_url: '<?= base_url('/admin/posting/hapus-gambar') ?>',
         file_picker_types: 'image',
         file_picker_callback: (cb, value, meta) => {
             const input = document.createElement('input');
@@ -211,8 +212,8 @@ if ($mode == "tambah") {
                       Note: Now we need to register the blob in TinyMCEs image blob
                       registry. In the next release this part hopefully won't be
                       necessary, as we are looking to handle it internally.
-                    */
-                    const id = 'blobid' + (new Date()).getTime();
+                      */
+                    const id = file.name;
                     const blobCache = tinymce.activeEditor.editorUpload.blobCache;
                     const base64 = reader.result.split(',')[1];
                     const blobInfo = blobCache.create(id, file, base64);

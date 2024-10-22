@@ -272,6 +272,7 @@ return [
 
     'gambarBerhasilDiunggah' => 'Gambar berhasil diunggah.',
     'gagalMengunggahGambar' => 'Gagal mengunggah gambar.',
+    'gagalMenyimpanGambar' => 'Gagal menyimpan gambar.',
     'jenisFileTidakValidHanyaJPEGPNGGIFYangDiperbolehkan' => 'Jenis file tidak valid. Hanya file JPEG, PNG, dan GIF yang diperbolehkan.',
 
     'cari' => 'Cari',

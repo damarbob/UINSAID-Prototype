@@ -272,7 +272,7 @@ if ($mode == "tambah") {
                       registry. In the next release this part hopefully won't be
                       necessary, as we are looking to handle it internally.
                     */
-                    const id = 'blobid' + (new Date()).getTime();
+                    const id = file.name;
                     const blobCache = tinymce.activeEditor.editorUpload.blobCache;
                     const base64 = reader.result.split(',')[1];
                     const blobInfo = blobCache.create(id, file, base64);

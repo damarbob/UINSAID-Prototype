@@ -50,7 +50,7 @@ class GaleriAdmin extends BaseControllerAdmin
         $imageFile = $this->request->getFile('image');
 
         if ($imageFile->isValid() && !$imageFile->hasMoved()) {
-            $validTypes = ['image/jpeg', 'image/png', 'image/gif'];
+            $validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/heic', 'image/tiff', 'image/webp'];
             if (!in_array($imageFile->getMimeType(), $validTypes)) {
                 return redirect()->back()->withInput()->with('error', lang('Admin.jenisFileTidakValidHanyaJPEGPNGGIFYangDiperbolehkan'));
             }
