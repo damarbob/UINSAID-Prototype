@@ -59,8 +59,9 @@ class Twig
         // Add custom function to get paginated posting
         $this->twig->addFunction(new TwigFunction('get_posting_paginated', function ($jenisNama) {
             $search = $this->request->getGet('search') ?? null;
+            $kategoriNama = $this->request->getGet('kategori') ?? null;
 
-            $posting = $this->postingModel->getPosting(jenisNama: $jenisNama, search: $search, status: 'publikasi', order: 'posting.tanggal_terbit', dir: 'DESC', paginated: true);
+            $posting = $this->postingModel->getPosting(jenisNama: $jenisNama, kategoriNama: $kategoriNama, search: $search, status: 'publikasi', order: 'posting.tanggal_terbit', dir: 'DESC', paginated: true);
             $data['posting'] = format_tanggal_suatu_kolom($posting, 'tanggal_terbit', humanize: true);
             $data['postingPager'] = $this->postingModel->pager;
             $data['kategori'] = $this->kategoriModel->getKategoriByJenisNama($jenisNama);

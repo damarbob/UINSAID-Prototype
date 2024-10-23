@@ -308,6 +308,7 @@ class Home extends BaseController
                         'base_url' => base_url(),
                         'request_post' => $this->request->getPost(),
                         'request_get' => $this->request->getGet(),
+                        'current_halaman_slug' => $this->request->getUri()->getSegment($this->request->getUri()->getTotalSegments()),
                     ]
                 );
             } else {
@@ -329,6 +330,7 @@ class Home extends BaseController
                         'base_url' => base_url(),
                         'request_post' => $this->request->getPost(),
                         'request_get' => $this->request->getGet(),
+                        'current_halaman_slug' => $this->request->getUri()->getSegment($this->request->getUri()->getTotalSegments()),
                     ]
                 );
                 // d($x['konten_terformat']); // DEBUG
