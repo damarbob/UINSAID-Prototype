@@ -339,7 +339,9 @@ class App extends BaseConfig
      *
      * @var array<string, string>
      */
-    public array $proxyIPs = [];
+    public array $proxyIPs = [
+        '192.168.31.10' => 'X-Forwarded-For'
+    ];
 
     /**
      * --------------------------------------------------------------------------

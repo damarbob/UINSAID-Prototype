@@ -26,7 +26,7 @@ return [
     'minutes' => '{0} menit',
     'detik' => '{0} detik',
     'ago' => '{0} yang lalu',
-    'inFuture' => 'di {0}',
+    'inFuture' => '{0} lagi',
     'yesterday' => 'Kemarin',
     'tomorrow' => 'Besok',
     'now' => 'Baru saja',

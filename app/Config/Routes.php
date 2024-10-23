@@ -213,8 +213,8 @@ $routes->group('admin', ['filter' => 'group:admin,superadmin'], function ($route
     $routes->post('pengumuman/hapus', 'AgendaPengumumanAdmin::hapusBanyak', ['as' => 'pengumuman_admin_hapus']);
 
     // Unggah dan hapus gambar berita
-    $routes->post('berita/unggah-gambar', 'BeritaAdmin::unggahGambar');
-    $routes->post('berita/hapus-gambar', 'BeritaAdmin::hapusGambar');
+    $routes->post('posting/unggah-gambar', 'PostingAdmin::unggahGambar');
+    $routes->post('posting/hapus-gambar', 'PostingAdmin::hapusGambar');
 
     // Berita diajukan (web utama)
     if (env('app.siteType') == 'parent' || env('app.siteType') == 'super') {

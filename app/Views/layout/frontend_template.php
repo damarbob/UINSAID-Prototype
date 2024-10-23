@@ -737,7 +737,7 @@ $temaRTLDefault = base_url("assets/css/hijau.rtl.css");
 
           <!-- Jika entitas grup = Fakultas -->
         <?php elseif ($entitasSitus['grup_id'] == 1):
-          $programStudi = $entitasModel->where('parent_id', $entitas['id'])->findAll();
+          $programStudi = $entitasModel->where('parent_id', $entitasSitus['id'])->findAll();
         ?>
 
           <!-- Menu -->

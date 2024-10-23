@@ -427,16 +427,30 @@ class PostingAdmin extends BaseControllerAdmin
         $file = $this->request->getFile('file');
 
         if ($file->isValid() && !$file->hasMoved()) {
-            $newName = $file->getRandomName();
+            $validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/heic', 'image/tiff', 'image/webp'];
+            if (!in_array($file->getMimeType(), $validTypes)) {
+                return $this->response->setStatusCode(400)->setJSON(['error' => lang('Admin.jenisFileTidakValid')]);
+            }
 
-            $file->move(ROOTPATH . 'public/uploads', $newName);
+            $originalName = pathinfo(pathinfo($file->getClientName(), PATHINFO_FILENAME), PATHINFO_FILENAME); // Get the original filename
+            $randomName = $file->getRandomName();
 
-            // Respons yang diharapkan tinyMCE
-            $response = [
-                'location' => base_url('uploads/' . $newName),
+            $file->move(FCPATH . 'uploads/', $originalName . '-' . $randomName);
+
+            $data = [
+                'uri' => base_url('uploads/' . $originalName . '-' . $randomName),
+                'judul' => $originalName,
+                'alt' => $originalName,
             ];
 
-            return $this->response->setStatusCode(200)->setJSON($response);
+            if ($this->galeriModel->insert($data)) {
+                // Respons yang diharapkan tinyMCE
+                $response = [
+                    'location' => base_url('uploads/' . $originalName . '-' . $randomName),
+                ];
+
+                return $this->response->setStatusCode(200)->setJSON($response);
+            } else $this->response->setStatusCode(400)->setJSON(['error' => lang('Admin.gagalMenyimpanGambar')]);
         } else {
             return $this->response->setStatusCode(400)->setJSON(['error' => lang('Admin.fileTidakValid')]);
         }
@@ -451,7 +465,7 @@ class PostingAdmin extends BaseControllerAdmin
         $filename = pathinfo($imageUrl, PATHINFO_BASENAME);
 
         // Construct the full server path
-        $filePath = ROOTPATH . 'public/uploads/' . $filename;
+        $filePath = FCPATH . 'uploads/' . $filename;
 
         // Check if the file exists before attempting to delete
         if (file_exists($filePath)) {
