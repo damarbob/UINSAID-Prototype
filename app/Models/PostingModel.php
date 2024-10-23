@@ -12,13 +12,38 @@ class PostingModel extends \CodeIgniter\Model
 
     protected $allowedFields = ['id_penulis', 'id_kategori', 'id_jenis', 'judul', 'slug', 'konten', 'ringkasan', 'pengajuan', 'status', 'gambar_sampul', 'sumber', 'tanggal_terbit', 'created_at', 'updated_at'];
 
-    public function getPosting($limit = null, $start = null, $status = null, $search = null, $order = null, $dir = null, $jenisNama = null, $jenisId = null)
+    public function getPosting($jenisNama = null, $kategoriNama = null, $search = null, $status = null, $showFuture = false, $paginated = false, $perPage = 12, $jenisId = null, $kategoriId = null, $limit = null, $start = null, $order = null, $dir = null,)
     {
-        $builder = $this->db->table($this->table)
+        $builder = $this->table($this->table)
             ->select('posting.*, users.username as penulis, kategori.nama as kategori, posting_jenis.id as id_posting_jenis')
             ->join('users', 'users.id = posting.id_penulis', 'left')
             ->join('kategori', 'kategori.id = posting.id_kategori', 'left')
             ->join('posting_jenis', 'posting_jenis.id = kategori.id_jenis', 'left');
+
+        if ($jenisNama) {
+            $builder->where('posting_jenis.nama', $jenisNama);
+        }
+
+        if ($jenisId) {
+            $builder->where('posting_jenis.id', $jenisId);
+        }
+
+        if ($kategoriNama) {
+            $builder->where('kategori.nama', $kategoriNama);
+        }
+
+        if ($kategoriId) {
+            $builder->where('posting.id_kategori', $kategoriId);
+        }
+
+        if ($status) {
+            $builder->where('posting.status', $status);
+        }
+
+        // Show only now or past
+        if (!$showFuture) {
+            $builder->where('posting.tanggal_terbit <= ', date('Y-m-d H:i:s'));
+        }
 
         if ($order && $dir) {
             $builder->orderBy($order, $dir);
@@ -28,29 +53,18 @@ class PostingModel extends \CodeIgniter\Model
             $builder->limit($limit, $start);
         }
 
-        if ($jenisNama) {
-            $builder->Where('posting_jenis.nama', $jenisNama);
-        }
-
-        if ($jenisId) {
-            $builder->where('posting_jenis.id', $jenisId);
-        }
-
-        if ($status) {
-            $builder->where('posting.status', $status);
-        }
-
         if ($search) {
             $builder->groupStart()
                 ->like('posting.judul', $search)
-                ->orLike('users.username', $search)
-                ->orLike('kategori.nama', $search)
-                ->orLike('posting.tanggal_terbit', $search)
-                ->orLike('posting.status', $search)
+                // ->orLike('users.username', $search)
+                // ->orLike('kategori.nama', $search)
+                // ->orLike('posting.tanggal_terbit', $search)
+                // ->orLike('posting.status', $search)
                 ->groupEnd();
         }
 
-        return $builder->get()->getResult();
+        if ($paginated) return $builder->paginate($perPage, 'posting');
+        else return $builder->get()->getResultArray();
     }
 
     /**

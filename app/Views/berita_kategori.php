@@ -95,7 +95,7 @@
     <div class="row">
         <div class="col text-center">
             <?php foreach ($kategori as $key => $k) : ?>
-                <a href="<?= base_url('kategori/' . $k['nama']) ?>" class="btn  btn-lg me-2 mb-2 <?= ($namaKategori == $k['nama']) ? 'btn-primary' : 'btn-outline-primary' ?>" data-mdb-ripple-init><?= $k['nama'] ?></a>
+                <a href="<?= base_url('kategori/' . $k['nama']) ?>" class="btn  btn-lg me-2 mb-2 <?= strtolower($namaKategori) == strtolower($k['nama']) ? 'btn-primary' : 'btn-outline-primary' ?>" data-mdb-ripple-init><?= $k['nama'] ?></a>
             <?php endforeach; ?>
         </div>
     </div>
