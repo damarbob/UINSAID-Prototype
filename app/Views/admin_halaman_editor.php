@@ -325,7 +325,9 @@ $errorJS = validation_show_error('js_file');
                     </div>
 
                 </h5>
+
                 <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+
             </div>
             <div class="modal-body">
 
@@ -334,7 +336,58 @@ $errorJS = validation_show_error('js_file');
                     <div id="input-container">
                         <!-- Input komponen meta akan ditambahkan secara dinamis disini -->
                     </div>
-                    <button id="saveKomponenMetaButton" type="submit" class="btn btn-primary" data-mdb-ripple-init><i class='bx bx-check me-2'></i><?= lang('Admin.sunting') ?></button>
+
+                    <div class="d-flex">
+                        <div class="flex-grow-1">
+                            <button id="saveKomponenMetaButton" type="submit" class="btn btn-primary" data-mdb-ripple-init><i class='bx bx-save me-2'></i><?= lang('Admin.simpan') ?></button>
+                        </div>
+
+                        <a
+                            class="btn btn-secondary btn-floating mb-2 require-meta"
+                            data-mdb-collapse-init
+                            data-mdb-ripple-init
+                            href="#collapseOpsiMetaTambahan"
+                            role="button"
+                            aria-expanded="false"
+                            aria-controls="collapseOpsiMetaTambahan"
+                            data-mdb-tooltip-init
+                            title="Riwayat data">
+                            <i class="bi bi-clock-history"></i>
+                        </a>
+
+                    </div>
+
+                    <!-- Opsi tambahan -->
+                    <div class="collapse" id="collapseOpsiMetaTambahan">
+
+                        <div class="require-meta d-flex justify-content-end align-items-center pt-2 border-1 border-top border-secondary">
+
+                            <!-- Button previous metadata -->
+                            <button id="previousMetaButton" type="button" class="btn btn-secondary btn-floating" data-mdb-ripple-init data-mdb-tooltip-init title="<?= lang('Admin.dataMetaSebelumnya') ?>">
+                                <i class='bx bx-undo'></i>
+                            </button>
+
+                            <!-- Button next metadata -->
+                            <button id="nextMetaButton" type="button" class="btn btn-secondary btn-floating ms-2" data-mdb-ripple-init data-mdb-tooltip-init title="<?= lang('Admin.dataMetaSesudahnya') ?>">
+                                <i class='bx bx-redo'></i>
+                            </button>
+
+                            <!-- Metadata index and count -->
+                            <span class="badge badge-primary ms-2">
+                                <span id="metaDataIndex">0</span>
+                                /
+                                <span id="metaDataCount"></span>
+                            </span>
+
+                            <!-- Button clear metadata history -->
+                            <button id="clearMetaHistoryButton" type="button" class="btn btn-danger btn-floating ms-2" data-mdb-ripple-init data-mdb-tooltip-init title="<?= lang('Admin.bersihkanRiwayatDataMeta') ?>">
+                                <i class='bx bx-eraser'></i>
+                            </button>
+
+                        </div>
+
+                    </div>
+
                 </form>
 
             </div>
@@ -466,7 +519,9 @@ $errorJS = validation_show_error('js_file');
             const komponenNama = liElement.getAttribute('data-name'); // Get the ID
             const komponenInstanceId = liElement.getAttribute('data-instance-id'); // Get the instance ID
 
-            openEditKomponenMetaModal(komponenId, komponenNama, komponenInstanceId); // Open edit meta modal
+            const metaDataIndex = document.getElementById('metaDataIndex').innerHTML; // Get meta data index from element
+
+            openEditKomponenMetaModal(komponenId, komponenNama, komponenInstanceId, metaDataIndex); // Open edit meta modal
         }
 
         // Modular delete function
@@ -512,7 +567,9 @@ $errorJS = validation_show_error('js_file');
                 var componentName = e.target.closest('li').dataset.name;
                 var komponenInstanceId = e.target.closest('li').dataset.instanceId; // Use instance ID
 
-                openEditKomponenMetaModal(componentId, componentName, komponenInstanceId); // Open edit meta modal
+                const metaDataIndex = 0; // Get meta data index from element
+
+                openEditKomponenMetaModal(componentId, componentName, komponenInstanceId, metaDataIndex); // Open edit meta modal
             }
         });
 
@@ -770,6 +827,26 @@ $errorJS = validation_show_error('js_file');
             if (meta.length == 0) {
                 // Append the generated input HTML to the container
                 container.insertAdjacentHTML('beforeend', '<p><?= lang('Admin.komponenIniTidakMemilikiKolomMeta') ?></p>');
+
+                // Don't display element that require meta
+                document.querySelectorAll(".require-meta").forEach(element => {
+
+                    if (!element.classList.contains("d-none")) {
+                        element.classList.add("d-none");
+                    }
+
+                });
+
+            } else {
+                // Show element that require meta
+                document.querySelectorAll(".require-meta").forEach(element => {
+
+                    if (element.classList.contains("d-none")) {
+                        element.classList.remove("d-none");
+                    }
+
+                });
+
             }
 
             meta.forEach(item => {
@@ -990,12 +1067,36 @@ $errorJS = validation_show_error('js_file');
         }
 
         // Function to open the component editor
-        function openEditKomponenMetaModal(componentId, componentName, componentInstanceId) {
+        function openEditKomponenMetaModal(componentId, componentName, componentInstanceId, metaDataIndex) {
+            // console.log("start: " + metaDataIndex);
+
+            /* Initialize UI */
+            document.getElementById('nextMetaButton').disabled = true;
+            document.getElementById('previousMetaButton').disabled = true;
+            document.getElementById('clearMetaHistoryButton').disabled = true;
+
+            document.getElementById('metaDataIndex').innerHTML = 0; // Show meta index
+            document.getElementById('metaDataCount').innerHTML = 0; // Show meta count
+
             document.getElementById('editMetaModalSpinner').style.display = 'inline-block'; // Show edit modal spinner
             document.getElementById('editMetaModalLabel').innerHTML = componentName;
+            /* End of UI initialization */
 
-            // Initialize and show the MDB modal
+            /* Initialize modal */
             const modalElement = document.getElementById('editKomponenMetaModal');
+            let modalInstance = mdb.Modal.getInstance(modalElement); // Check if modal instance already exists
+
+            if (!modalInstance) {
+                modalInstance = new mdb.Modal(modalElement, {
+                    focus: false, // Disable focus trapping for tinyMCE modal inputs to work properly
+                });
+            }
+
+            if (!modalElement.classList.contains('show')) {
+                modalInstance.show(); // Only show the modal if it's not already shown
+            }
+
+            // Remove tinyMCE instances
             modalElement.addEventListener('hidden.mdb.modal', function() {
                 // Find all elements inside the modal and destroy TinyMCE instances
                 modalElement.querySelectorAll('textarea').forEach(element => {
@@ -1004,10 +1105,8 @@ $errorJS = validation_show_error('js_file');
                     }
                 });
             });
-            const modalInstance = new mdb.Modal(modalElement, {
-                focus: false, // Disable focus trapping for tinyMCE modal inputs to work properly
-            });
-            modalInstance.show();
+
+            /////
 
             // Initialize view
             document.getElementById('saveKomponenMetaButton').disabled = true; // Disable save button
@@ -1026,7 +1125,6 @@ $errorJS = validation_show_error('js_file');
 
             createInputsFromKomponenMeta(metaDataArray); //  Create input fields for editing metadata
 
-
             // If komponen has no meta syntax, exit
             if (metaDataArray.length === 0) {
                 // Update UI
@@ -1042,7 +1140,8 @@ $errorJS = validation_show_error('js_file');
                 data: {
                     idInstance: componentInstanceId,
                     idKomponen: componentId,
-                    idHalaman: '<?= $halaman['id'] ?>'
+                    idHalaman: '<?= $halaman['id'] ?>',
+                    index: parseInt(metaDataIndex),
                 },
                 success: function(response) {
 
@@ -1058,18 +1157,131 @@ $errorJS = validation_show_error('js_file');
                         if (responseMeta) {
 
                             const meta = JSON.parse(responseMeta); // Deserialize responseMeta
+                            var metaDataIndexNew = parseInt(response['index']);
+                            var metaDataCountNew = parseInt(response['count']);
+                            const nextMetaIndex = metaDataIndexNew + 1;
+                            const previousMetaIndex = metaDataIndexNew - 1;
+
+                            /* Listeners */
+                            const nextMeta = function() {
+                                // modalInstance.hide(); // Hide the modal
+                                openEditKomponenMetaModal(componentId, componentName, componentInstanceId, nextMetaIndex)
+
+                                // console.log("end: " + (nextMetaIndex));
+                            }
+                            const prevMeta = function() {
+                                // modalInstance.hide(); // Hide the modal
+                                openEditKomponenMetaModal(componentId, componentName, componentInstanceId, previousMetaIndex)
+                            }
+
+                            // Set listener to previous button
+                            document.getElementById('previousMetaButton').onclick = nextMeta;
+
+                            // Set listener to next button
+                            document.getElementById('nextMetaButton').onclick = prevMeta;
+                            document.getElementById('clearMetaHistoryButton').onclick = function() {
+
+                                // Confirm delete
+                                Swal.fire({
+                                    title: "<?= lang('Admin.hapusItem') ?>",
+                                    text: "<?= lang('Admin.itemYangTerhapusTidakDapatKembali') ?>",
+                                    icon: "warning",
+                                    showCancelButton: true,
+                                    confirmButtonColor: "var(--mdb-danger)",
+                                    confirmButtonText: "<?= lang('Admin.hapus') ?>",
+                                    cancelButtonText: "<?= lang('Admin.batal') ?>",
+                                }).then((result) => {
+
+                                    if (result.isConfirmed) {
+
+                                        // Send request to clear metadata history
+                                        $.ajax({
+                                            url: '<?= base_url('api/komponen/meta/hapus-riwayat') ?>',
+                                            type: 'POST',
+                                            data: {
+                                                idInstance: componentInstanceId,
+                                                idKomponen: componentId,
+                                                idHalaman: '<?= $halaman['id'] ?>',
+                                            },
+                                            success: function(response) {
+                                                const status = response['status'];
+                                                console.log(response);
+
+                                                if (status) {
+                                                    if (status === 'success') {
+
+                                                        // If successful, show success message and load first meta
+
+                                                        // Show success message
+                                                        Swal.fire('<?= lang('Admin.sukses') ?>', '<?= lang('Admin.dataMetaBerhasilDibersihkan') ?>', 'success');
+
+                                                        // Load first meta
+                                                        openEditKomponenMetaModal(componentId, componentName, componentInstanceId, 0);
+
+                                                    } else {
+
+                                                        // Show error message
+                                                        Swal.fire('<?= lang('Admin.galat') ?>', '<?= lang('Admin.tidakDapatMembersihkanDataMeta') ?>', 'error');
+
+                                                    }
+                                                }
+                                            },
+                                            error: function(xhr, status, error) {
+                                                console.log('ERROR:' + status);
+                                            },
+                                            complete: function() {
+                                                // Any additional actions on completion
+                                            }
+                                        });
+                                    }
+
+                                });
+
+                            }
+
+                            /* End of listeners */
+
+                            // console.log("response: " + metaDataIndexNew + "| next: " + nextMetaIndex + " | prev: " + previousMetaIndex);
 
                             populateEditKomponenMetaFields(meta); // Populate the inputs with retreived meta
 
+                            document.getElementById('metaDataIndex').innerHTML = metaDataIndexNew + 1; // Show meta index
+                            document.getElementById('metaDataCount').innerHTML = metaDataCountNew; // Show meta count
+
+                            if (metaDataIndexNew <= 0) {
+                                // Hide meta button
+                                document.getElementById('nextMetaButton').disabled = true;
+                                // console.log("metaCount: " + metaDataCountNew);
+                                if (metaDataCountNew > 1) {
+                                    document.getElementById('previousMetaButton').disabled = false;
+                                } else {
+                                    document.getElementById('previousMetaButton').disabled = true;
+                                }
+                            } else if (metaDataIndexNew + 1 >= metaDataCountNew) {
+                                // Enable next meta button
+                                document.getElementById('nextMetaButton').disabled = false;
+                                document.getElementById('previousMetaButton').disabled = true;
+                            } else {
+                                // Enable previous meta button
+                                document.getElementById('nextMetaButton').disabled = false;
+                                document.getElementById('previousMetaButton').disabled = false;
+                            }
+
+                            if (metaDataCountNew <= 1) {
+                                document.getElementById('clearMetaHistoryButton').disabled = true;
+                            } else {
+                                document.getElementById('clearMetaHistoryButton').disabled = false;
+                            }
+
                         } else {
                             // The komponen meta record is found but meta field is null
-                            console.log('Component meta field is null');
+                            // console.log('Component meta field is null');
                         }
 
 
                     } else {
                         // The komponen meta record is not found
-                        console.log('Component meta data is not found');
+                        // console.log('Component meta data is not found');
                     }
                     // console.log(response);
 
@@ -1091,28 +1303,42 @@ $errorJS = validation_show_error('js_file');
         function handleEditKomponenMetaModalSubmit(event) {
             event.preventDefault(); // Prevent default form submission
 
+            // Encode form data from the inputs
             const formData = encodeKomponenMetaInputsToJSON("editKomponenMetaForm");
-            const componentId = document.getElementById('editKomponenMetaModal').dataset.componentId; // Retrieve componentId from data attribute
-            const componentInstanceId = document.getElementById('editKomponenMetaModal').dataset.componentInstanceId; // Retrieve componentInstanceId from data attribute
-            sendKomponenMetaJSONToServer(formData, componentInstanceId, componentId, <?= $halaman['id'] ?>);
-        }
 
-        function sendKomponenMetaJSONToServer(formData, componentInstanceId, componentId, halamanId) {
-            // Append componentId and halamanId to the FormData
+            // Retrieve necessary component and page details from modal dataset
+            const componentId = document.getElementById('editKomponenMetaModal').dataset.componentId;
+            const componentName = document.getElementById('editMetaModalLabel').innerHTML; // Get component name from HTML
+            const componentInstanceId = document.getElementById('editKomponenMetaModal').dataset.componentInstanceId;
+            const halamanId = <?= $halaman['id'] ?>;
+
+            // Append componentId, instanceId, and halamanId to the FormData
             formData.append('instance_id', componentInstanceId);
             formData.append('komponen_id', componentId);
             formData.append('halaman_id', halamanId);
 
+            // Send formData to the server
             fetch('<?= base_url('admin/komponen/simpan/meta') ?>', {
                     method: 'POST',
                     body: formData,
                 })
                 .then(response => response.json())
                 .then(data => {
+
                     if (data.success) {
-                        Swal.fire('<?= lang('Admin.sukses') ?>', data.message, 'success');
+
+                        // If successful
+                        Swal.fire('<?= lang('Admin.sukses') ?>', data.message, 'success'); // Show success message
+
+                        console.log('Loading first meta');
+                        openEditKomponenMetaModal(componentId, componentName, componentInstanceId, 0); // Load first meta
+
                     } else {
-                        Swal.fire('<?= lang('Admin.galat') ?>', data.message, 'error');
+
+                        // If error
+
+                        Swal.fire('<?= lang('Admin.galat') ?>', data.message, 'error'); // Show eror message
+
                     }
                 })
                 .catch(error => {

@@ -149,6 +149,7 @@ $routes->group('admin', ['filter' => 'group:admin,superadmin'], function ($route
     // Pengaturan
     $routes->get('pengaturan', 'PengaturanAdmin');
     $routes->post('pengaturan', 'PengaturanAdmin');
+    $routes->get('pengaturan/bersihkan-data', 'PengaturanAdmin::cleanupUnusedResources');
 
     if (ENVIRONMENT == 'development') {
 
@@ -307,7 +308,10 @@ $routes->group('api', static function ($routes) {
     $routes->post('komponen', 'KomponenAdmin::getDT');
 
     // Komponen Meta
-    $routes->post('komponen/meta', 'KomponenAdmin::getMetaById');
+    // $routes->post('komponen/meta', 'KomponenAdmin::getMetaById');
+    $routes->post('komponen/meta', 'KomponenAdmin::getMetaAllById');
+    $routes->post('komponen/meta/hapus-riwayat', 'KomponenAdmin::clearMetaHistory');
+    $routes->get('komponen/meta/test', 'KomponenAdmin::test');
 
     // Posting pengajuan (web utama)
     if (env('app.siteType') == 'parent' || env('app.siteType') == 'super') {
