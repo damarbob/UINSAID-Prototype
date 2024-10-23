@@ -31,6 +31,7 @@ return [
     'temaSitus' => 'Tema Situs',
     'halamanUtamaSitus' => 'Halaman Utama Situs',
     'tidakAda' => 'Tidak Ada',
+    'kontakDanMediaSosial' => 'Kontak dan Media Sosial',
     'aturMediaSosial' => 'Atur Media Sosial',
 
     'tampilan' => 'Tampilan',
@@ -39,6 +40,13 @@ return [
     'temaDasborAdmin' => 'Tema Dasbor Admin',
     'barisPerHalaman' => 'Baris per Halaman',
     'jumlahBarisPerHalamanPada' => ' Jumlah baris per halaman pada tabel data.',
+
+    'dataDanPenyimpanan' => 'Data dan Penyimpanan',
+
+    'bersihkan' => 'Bersihkan',
+    'bersihkanFile' => 'Bersihkan File',
+    'bersihkanFileYangTidakTerpakai' => 'Bersihkan file-file yang tidak terpakai',
+    'fileYangTidakTerpakaiAkanDibersihkan' => 'File-file yang tidak terpakai akan dibersihkan. File yang terhapus tidak dapat dikembalikan lagi.',
 
     // Pengguna
     'pengguna' => 'Pengguna',
@@ -109,6 +117,13 @@ return [
 
     'metaDataBerhasilDisimpan' => 'Meta data berhasil disimpan!',
     'gagalMenyimpanMetaData' => 'Gagal menyimpan meta data',
+
+    'dataMetaSebelumnya' => 'Data meta sebelumnya',
+    'dataMetaSesudahnya' => 'Data meta sesudahnya',
+    'bersihkanRiwayatDataMeta' => 'Bersihkan riwayat data meta',
+
+    'dataMetaBerhasilDibersihkan' => 'Riwayat data meta berhasil dibersihkan',
+    'tidakDapatMembersihkanDataMeta' => 'Tidak dapat membersihkan riwayat data meta',
 
     // Media sosial
     'tambahMediaSosial' => 'Tambah Media Sosial',

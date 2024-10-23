@@ -236,6 +236,42 @@ class KomponenAdmin extends BaseControllerAdmin
         ]));
     }
 
+    public function clearMetaHistory()
+    {
+        // Retrieve instanceId, komponenId, and halamanId from the request
+        $componentInstanceId = $this->request->getPost('idInstance');
+        $componentId = $this->request->getPost('idKomponen');
+        $halamanId = $this->request->getPost('idHalaman');
+
+        // Call the model function to clear all data except the first one
+        $result = $this->komponenMetaModel->clearAllExceptFirst($componentInstanceId, $componentId, $halamanId);
+
+        // Return JSON response indicating success or failure
+        return $this->response->setJSON([
+            "status" => $result ? "success" : "failure"
+        ]);
+    }
+
+    public function getMetaAllById()
+    {
+        // Retrieve componentId and halamanId from the request
+        $componentInstanceId = $this->request->getPost('idInstance');
+        $componentId = $this->request->getPost('idKomponen');
+        $halamanId = $this->request->getPost('idHalaman');
+        $index = $this->request->getPost('index');
+
+        // Get data
+        $data = $this->komponenMetaModel->getAllById($componentInstanceId, $componentId, $halamanId);
+
+        // return dd($this->komponenMetaModel->getAllById($componentInstanceId, $componentId, $halamanId)[intval($index)]);
+
+        return $this->response->setJSON(json_encode([
+            "data" => $data ? $data[intval($index)] : null,
+            "index" => $index,
+            "count" => sizeof($data),
+        ]));
+    }
+
     public function simpanMeta()
     {
         $response = ['success' => false, 'message' => lang('Admin.terjadiGalat')];

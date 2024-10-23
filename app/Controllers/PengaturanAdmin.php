@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseControllerAdmin;
+use App\Libraries\FileCleanupService;
 use App\Models\TemaModel;
 use CodeIgniter\HTTP\Files\UploadedFile;
 use CodeIgniter\HTTP\RequestInterface;
@@ -11,6 +12,8 @@ use Psr\Log\LoggerInterface;
 
 class PengaturanAdmin extends BaseControllerAdmin
 {
+
+    protected $fileCleanupService;
 
     /**
      * Constructor.
@@ -21,6 +24,7 @@ class PengaturanAdmin extends BaseControllerAdmin
         parent::initController($request, $response, $logger);
 
         $this->model = $this->komponenModel;
+        $this->fileCleanupService = new FileCleanupService();
     }
 
     public function index()
@@ -192,5 +196,14 @@ class PengaturanAdmin extends BaseControllerAdmin
         /* End of save settings */
 
         return view('admin_pengaturan', $this->data);
+    }
+
+    public function cleanupUnusedResources()
+    {
+        $folders = ['uploads']; // Define your folder paths
+        $deletedFiles = $this->fileCleanupService->cleanUnusedFiles($folders);
+
+        return dd($deletedFiles);
+        return $this->response->setJSON(['deleted_files' => $deletedFiles]);
     }
 }

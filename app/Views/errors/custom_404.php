@@ -17,7 +17,7 @@ $temaDefault = base_url("assets/css/hijau.css");
         height: 100%;
         color: #fff;
         font-family: sans-serif;
-        background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
+        background: linear-gradient(-45deg, var(--mdb-primary), var(--mdb-secondary));
         background-size: 400% 400%;
         -webkit-animation: Gradient 15s ease infinite;
         -moz-animation: Gradient 15s ease infinite;

@@ -174,15 +174,6 @@ $errorIkon = validation_show_error('ikon_file');
             <!-- Ikon old input -->
             <input type="hidden" class="form-control" id="ikonOld" name="ikon_old" value="<?= $valueIkon ?>">
 
-
-            <!-- Media Sosial -->
-            <div class="w-100 mb-3">
-                <h3><?= lang('Admin.mediaSosial') ?></h3>
-                <a class="btn btn-secondary btn-sm" href="<?= base_url('admin/media-sosial') ?>" data-mdb-ripple-init="">
-                    <?= lang('Admin.aturMediaSosial') ?><i class="bi bi-arrow-right ms-2"></i>
-                </a>
-            </div>
-
             <!-- Bagian tampilan -->
             <h2 class="mb-3"><?= lang('Admin.tampilan') ?></h2>
 
@@ -381,33 +372,6 @@ $errorIkon = validation_show_error('ikon_file');
             <!-- LogoFooter old input -->
             <input type="hidden" class="form-control" id="logoFooterOld" name="logo_footer_old" value="<?= $valueLogoFooter ?>">
 
-            <!-- Alamat -->
-            <div class="form-outline position-relative mb-3" data-mdb-input-init>
-                <input type="text" class="form-control form-control-lg <?= (validation_show_error('alamat')) ? 'is-invalid' : ''; ?>" id="alamat" name="alamat" value="<?= $valueAlamat ?>">
-                <label for="alamat" class="form-label"><?= lang('Admin.alamatFooter') ?></label>
-                <div class="invalid-tooltip end-0">
-                    <?= validation_show_error('alamat'); ?>
-                </div>
-            </div>
-
-            <!-- Telepon -->
-            <div class="form-outline position-relative mb-3" data-mdb-input-init>
-                <input type="tel" class="form-control form-control-lg <?= (validation_show_error('telepon')) ? 'is-invalid' : ''; ?>" id="telepon" name="telepon" value="<?= $valueTelepon ?>">
-                <label for="telepon" class="form-label"><?= lang('Admin.teleponFooter') ?></label>
-                <div class="invalid-tooltip end-0">
-                    <?= validation_show_error('telepon'); ?>
-                </div>
-            </div>
-
-            <!-- Email -->
-            <div class="form-outline position-relative mb-3" data-mdb-input-init>
-                <input type="email" class="form-control form-control-lg <?= (validation_show_error('email')) ? 'is-invalid' : ''; ?>" id="email" name="email" value="<?= $valueEmail ?>">
-                <label for="email" class="form-label"><?= lang('Admin.emailFooter') ?></label>
-                <div class="invalid-tooltip end-0">
-                    <?= validation_show_error('email'); ?>
-                </div>
-            </div>
-
             <!-- Tema situs -->
             <div class="form-floating mb-3">
                 <select class="form-select <?= (validation_show_error('temaSitus')) ? 'is-invalid' : ''; ?>" id="temaSitus" name="temaSitus">
@@ -446,6 +410,46 @@ $errorIkon = validation_show_error('ikon_file');
 
         <div class="col-lg-6">
 
+            <!-- Kontak dan media sosial -->
+            <h2 class="mb-3"><?= lang('Admin.kontakDanMediaSosial') ?></h2>
+
+            <!-- Kontak dan media Sosial -->
+            <div class="w-100 mb-3">
+
+                <!-- Atur media sosial -->
+                <a class="btn btn-secondary btn-sm mb-3" href="<?= base_url('admin/media-sosial') ?>" data-mdb-ripple-init="">
+                    <?= lang('Admin.aturMediaSosial') ?><i class="bi bi-arrow-right ms-2"></i>
+                </a>
+
+                <!-- Alamat -->
+                <div class="form-outline position-relative mb-3" data-mdb-input-init>
+                    <input type="text" class="form-control form-control-lg <?= (validation_show_error('alamat')) ? 'is-invalid' : ''; ?>" id="alamat" name="alamat" value="<?= $valueAlamat ?>">
+                    <label for="alamat" class="form-label"><?= lang('Admin.alamatFooter') ?></label>
+                    <div class="invalid-tooltip end-0">
+                        <?= validation_show_error('alamat'); ?>
+                    </div>
+                </div>
+
+                <!-- Telepon -->
+                <div class="form-outline position-relative mb-3" data-mdb-input-init>
+                    <input type="tel" class="form-control form-control-lg <?= (validation_show_error('telepon')) ? 'is-invalid' : ''; ?>" id="telepon" name="telepon" value="<?= $valueTelepon ?>">
+                    <label for="telepon" class="form-label"><?= lang('Admin.teleponFooter') ?></label>
+                    <div class="invalid-tooltip end-0">
+                        <?= validation_show_error('telepon'); ?>
+                    </div>
+                </div>
+
+                <!-- Email -->
+                <div class="form-outline position-relative mb-3" data-mdb-input-init>
+                    <input type="email" class="form-control form-control-lg <?= (validation_show_error('email')) ? 'is-invalid' : ''; ?>" id="email" name="email" value="<?= $valueEmail ?>">
+                    <label for="email" class="form-label"><?= lang('Admin.emailFooter') ?></label>
+                    <div class="invalid-tooltip end-0">
+                        <?= validation_show_error('email'); ?>
+                    </div>
+                </div>
+
+            </div>
+
             <h2 class="mb-3"><?= lang('Admin.lainnya') ?></h2>
 
             <div class="form-outline mb-3" data-mdb-input-init>
@@ -478,6 +482,15 @@ $errorIkon = validation_show_error('ikon_file');
                 </div>
             </div>
 
+            <!-- Data dan Penyimpanan -->
+            <h2 class="mb-3"><?= lang('Admin.dataDanPenyimpanan') ?></h2>
+
+            <!-- Bersihkan Foto -->
+            <p><?= lang('Admin.bersihkanFileYangTidakTerpakai') ?></p>
+            <button id="clearUnusedFilesButton" type="button" class="btn btn-danger btn-sm mb-3" data-mdb-ripple-init="">
+                <i class="bi bi-trash3 me-2"></i><?= lang('Admin.bersihkanFile') ?>
+            </button>
+
         </div>
 
     </div>
@@ -486,4 +499,41 @@ $errorIkon = validation_show_error('ikon_file');
 
 <?= $this->section('script') ?>
 <script src="<?= base_url('assets/js/formatter.js') ?>" type="text/javascript"></script>
+<script>
+    document.getElementById('clearUnusedFilesButton').addEventListener('click', function() {
+        Swal.fire({
+            title: "<?= lang('Admin.bersihkanFile') ?>",
+            text: "<?= lang('Admin.fileYangTidakTerpakaiAkanDibersihkan') ?>",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "var(--mdb-danger)",
+            confirmButtonText: "<?= lang('Admin.bersihkan') ?>",
+            cancelButtonText: "<?= lang('Admin.batal') ?>"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Send AJAX POST request
+                fetch('<?= base_url('admin/pengaturan/bersihkan-data') ?>', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest', // Ensure it's recognized as an AJAX request
+                        },
+                        body: JSON.stringify({}), // Send any required data, or empty if none
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            Swal.fire('<?= lang('Admin.sukses') ?>', data.message, 'success');
+                        } else {
+                            Swal.fire('<?= lang('Admin.galat') ?>', data.message, 'error');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        Swal.fire('<?= lang('Admin.galat') ?>', '<?= lang('Admin.terjadiGalatSaatMemproses') ?>', 'error');
+                    });
+            }
+        });
+    });
+</script>
 <?= $this->endSection() ?>

@@ -58,25 +58,62 @@ $errorJS = validation_show_error('js_file');
 <script type="module">
     import * as monaco from 'https://cdn.jsdelivr.net/npm/monaco-editor@0.52/+esm';
     import prettier from 'https://cdn.jsdelivr.net/npm/prettier@3.3.3/+esm';
-    import * as parserHtml from 'https://cdn.jsdelivr.net/npm/prettier@3.3.3/plugins/babel.mjs';
+    import * as parserHtml from 'https://cdn.jsdelivr.net/npm/prettier@3.3.3/plugins/html.mjs';
+    import parserBabel from 'https://cdn.jsdelivr.net/npm/prettier@3.3.3/plugins/babel.mjs'; // For JS formatting
 
-    // Escape HTML characters
-    function escapeHtml(html) {
-        const div = document.createElement('div');
-        div.appendChild(document.createTextNode(html));
-        return div.innerHTML;
-    }
-    //<?php //echo $valueKonten 
-        ?>
-    // Escape the content for the Monaco Editor
-    const escapedValueKonten = escapeHtml(`<?= htmlspecialchars('<div></div>') ?>`);
+    // 
+    monaco.editor.defineTheme("vs-dsm", {
+        base: "vs",
+        inherit: true,
+        rules: [],
+        colors: {
+            "editor.background": "#f5f5f5",
+        },
+    });
+
+    // 
+    monaco.editor.defineTheme("vs-dark-dsm", {
+        base: "vs-dark",
+        inherit: true,
+        rules: [],
+        colors: {
+            "editor.background": "#252525",
+        },
+    });
 
     // Create Monaco Editor
     const editor = monaco.editor.create(document.getElementById('monaco'), {
         value: ``,
         language: 'twig',
-        theme: 'vs-dark',
+        theme: '<?= setting()->get('App.temaDasborAdmin', $context) == 'gelap' ? "vs-dark-dsm" : "vs-dsm" ?>',
         automaticLayout: true
+    });
+
+    $(document).ready(function() {
+        editor.getModel().setValue(document.getElementById("konten").value);
+
+        // Function to update textarea
+        function updateTextarea() {
+            const content = editor.getValue();
+            document.getElementById('konten').value = content; // Update textarea with editor content
+        }
+
+        // Add listener for content changes in the Monaco Editor
+        editor.onDidChangeModelContent(() => {
+            updateTextarea(); // Update the textarea whenever content changes
+        });
+
+        // Submit (Ctrl + Alt + Z)
+        editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyMod.Alt | monaco.KeyCode.KeyZ, function() {
+            const editorContainer = document.getElementById('monaco'); // Replace with your editor's container ID
+            if (!document.fullscreenElement) {
+                editorContainer.requestFullscreen();
+            } else {
+                document.exitFullscreen();
+            }
+        });
+
+
     });
 
     // Formatting Function
@@ -114,7 +151,7 @@ $errorJS = validation_show_error('js_file');
 
             // const formattedCode = beautifyCode(unformattedCode);
 
-            editor.setValue(formattedCode);
+            // editor.setValue(formattedCode);
 
             // Apply incremental edit to preserve undo history
             const fullRange = editor.getModel().getFullModelRange();
@@ -128,10 +165,15 @@ $errorJS = validation_show_error('js_file');
         }
     }
 
-    // Register Command for Formatting (e.g., Ctrl + S)
-    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, () => {
+    // Register Command for Formatting (Ctrl + B)
+    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyB, () => {
         formatCode();
         // editor.setValue(html_beautify(editor.getValue()));
+    });
+
+    // Submit (Ctrl + S)
+    editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, () => {
+        document.getElementById("formEditKomponen").submit();
     });
 
     function beautifyCode(code) {
@@ -213,15 +255,14 @@ $errorJS = validation_show_error('js_file');
 
             <!-- Konten komponen -->
             <div class="form-floating mb-3">
-                <textarea class="form-control tinymce <?= (validation_show_error('konten')) ? 'is-invalid' : ''; ?>" id="konten" name="konten" rows="10" autofocus><?= $valueKonten; ?></textarea>
+                <textarea class="d-none form-control <?= (validation_show_error('konten')) ? 'is-invalid' : ''; ?>" id="konten" name="konten" rows="10" autofocus><?= $valueKonten; ?></textarea>
                 <div class="invalid-tooltip end-0">
                     <?= validation_show_error('konten'); ?>
                 </div>
             </div>
 
-            <div id="monaco" class="d-none" style="min-height: 1024px">
+            <div id="monaco" style="height: 512px;">
             </div>
-
 
         </div>
         <div class="col-md-3">
@@ -408,58 +449,60 @@ $errorJS = validation_show_error('js_file');
 
 <!-- CodeMirror -->
 <script type="module">
-    window.onload = function() {
-        var editor = CodeMirror.fromTextArea(document.getElementById("konten"), {
-            lineNumbers: true,
-            matchBrackets: true,
-            mode: "text/html",
-            theme: "<?= setting()->get('App.temaDasborAdmin', $context) == 'gelap' ? "material-darker" : "mdn-like" ?>",
-            hintOptions: {
-                hint: CodeMirror.hint.php
-            },
-            extraKeys: {
-                "Ctrl-Space": "autocomplete",
-                "Ctrl-Alt-Z": function(cm) {
-                    cm.setOption("fullScreen", !cm.getOption("fullScreen"));
-                },
-                "Esc": function(cm) {
-                    if (cm.getOption("fullScreen")) cm.setOption("fullScreen", false);
-                },
-                // "Ctrl-B": function(cm) {
-                //     var content = cm.getValue();
-                //     var beautified = html_beautify(content); // or js_beautify for JS
-                //     cm.setValue(beautified);
-                // },
-                "Ctrl-B": function(cm) {
-                    // Store the cursor position
-                    var cursor = cm.getCursor();
+    // window.onload = function() {
+    //     var editor = CodeMirror.fromTextArea(document.getElementById("konten"), {
+    //         lineNumbers: true,
+    //         matchBrackets: true,
+    //         mode: "text/html",
+    //         theme: "<?= setting()->get('App.temaDasborAdmin', $context) == 'gelap' ? "material-darker" : "mdn-like" ?>",
+    //         hintOptions: {
+    //             hint: CodeMirror.hint.php
+    //         },
+    //         extraKeys: {
+    //             "Ctrl-Space": "autocomplete",
+    //             "Ctrl-Alt-Z": function(cm) {
+    //                 cm.setOption("fullScreen", !cm.getOption("fullScreen"));
+    //             },
+    //             "Esc": function(cm) {
+    //                 if (cm.getOption("fullScreen")) cm.setOption("fullScreen", false);
+    //             },
+    //             // "Ctrl-B": function(cm) {
+    //             //     var content = cm.getValue();
+    //             //     var beautified = html_beautify(content); // or js_beautify for JS
+    //             //     cm.setValue(beautified);
+    //             // },
+    //             "Ctrl-B": function(cm) {
+    //                 // Store the cursor position
+    //                 var cursor = cm.getCursor();
 
-                    // Store the scroll position
-                    var scrollInfo = cm.getScrollInfo();
-                    var scrollTop = scrollInfo.top;
+    //                 // Store the scroll position
+    //                 var scrollInfo = cm.getScrollInfo();
+    //                 var scrollTop = scrollInfo.top;
 
-                    // Get the code from the editor
-                    var content = cm.getValue();
+    //                 // Get the code from the editor
+    //                 var content = cm.getValue();
 
-                    // Set the formatted code back to the editor
-                    cm.setValue(html_beautify(content));
+    //                 // Set the formatted code back to the editor
+    //                 cm.setValue(html_beautify(content));
 
-                    // Restore the cursor position
-                    cm.setCursor(cursor);
+    //                 // Restore the cursor position
+    //                 cm.setCursor(cursor);
 
-                    // Restore the scroll position
-                    cm.scrollTo(null, scrollTop);
-                },
-                "Ctrl-S": function(cm) {
-                    document.getElementById("formEditKomponen").submit();
-                },
-                "Ctrl-/": "toggleComment",
-            },
-            indentUnit: 4,
-            indentWithTabs: true,
-            viewportMargin: Infinity
-        });
-    };
+    //                 // Restore the scroll position
+    //                 cm.scrollTo(null, scrollTop);
+
+    //                 // console.log(document.getElementById("konten").value);
+    //             },
+    //             "Ctrl-S": function(cm) {
+    //                 document.getElementById("formEditKomponen").submit();
+    //             },
+    //             "Ctrl-/": "toggleComment",
+    //         },
+    //         indentUnit: 4,
+    //         indentWithTabs: true,
+    //         viewportMargin: Infinity
+    //     });
+    // };
 </script>
 
 <script>
@@ -481,6 +524,8 @@ $errorJS = validation_show_error('js_file');
                 divInputGrupLainnya.hide();
             }
         }
+
+        // editor.getModel().setValue(document.getElementById("konten").value);
     });
 </script>
 <?= $this->endSection() ?>
