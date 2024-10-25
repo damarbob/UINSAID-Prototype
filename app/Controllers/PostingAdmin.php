@@ -144,7 +144,9 @@ class PostingAdmin extends BaseControllerAdmin
     {
         $modeTambah = is_null($id);
 
-        $judulLama = $id ? $this->postingModel->find($id)['judul'] : null;
+        $posting = $id ? $this->postingModel->find($id) : null;
+
+        $judulLama = $id ? $posting['judul'] : null;
         $judulBaru = $this->request->getPost('judul');
 
         // Validasi input: jika buat baru, tambahkan 'is_unique' untuk mencegah judul yang sama.
@@ -176,6 +178,34 @@ class PostingAdmin extends BaseControllerAdmin
             $kategori = $this->kategoriModel->getKategoriByNama($kategoriNama);
         }
 
+        $konten = $this->request->getVar('konten');
+
+        $gambarDefault = base_url('assets/img/icon-notext.png');
+        $gambarDiPosting = $this->postingModel->extract_all_images_from_html($konten, $gambarDefault, false);
+        $gambarPertama = $gambarDiPosting[0]; // Gambar pertama di konten
+
+        // Jika tidak ada gambar di konten, gunakan gambar default
+        if ($gambarDefault == $gambarPertama) {
+            $thumbnailPath = $gambarPertama;
+        } else {
+
+            $direktori = 'uploads/thumbnails/';
+
+            foreach ($gambarDiPosting as $x) {
+                $relativeThumbnailPath = $direktori . basename($x); //  relative path for thumbnail
+
+                // Cek gambar thumbnail. Jika tidak ada thumbnail, buat file dan kompres gambar
+                if (!file_exists(FCPATH . $relativeThumbnailPath)) {
+
+                    // jika berhasil membuat thumbnail, simpan thumbnail path dan keluar loop
+                    if ($this->kompresGambarThumbnail($x)) {
+                        $thumbnailPath = base_url($relativeThumbnailPath);
+                        break;
+                    }
+                }
+            }
+        }
+
         // Data yang akan disimpan
         $data = [
             'id_penulis' => auth()->id(),
@@ -183,12 +213,12 @@ class PostingAdmin extends BaseControllerAdmin
             'id_jenis' => $postingJenisId ?? null, // Jenis postingan (null jika tidak ada)
             'judul' => $this->request->getVar('judul'),
             'slug' => create_slug($this->request->getVar('judul')),
-            'konten' => $this->request->getVar('konten'),
+            'konten' => $konten,
             'ringkasan' => $this->request->getVar('ringkasan'),
             'status' => $this->request->getVar('status'),
             'tanggal_terbit' => $this->request->getVar('tanggal_terbit'),
             'sumber' => base_url(),
-            'gambar_sampul' => $this->postingModel->extract_first_image($this->request->getVar('konten'), base_url('assets/img/icon-notext.png'), false),
+            'gambar_sampul' => $thumbnailPath,
         ];
 
         // Jika id ada, tambahkan ke array data untuk pembaruan
@@ -293,6 +323,216 @@ class PostingAdmin extends BaseControllerAdmin
 
     //     return redirect()->to($redirectTo)->withInput();
     // }
+
+    /**
+     * Simpan gambar di uploads/thumbnails/ dan kompres gambar tersebut
+     * 
+     * @param string $gambar Absolut URL gambar yang akan dikompres
+     * @return bool return false if thumbnail not created
+
+     */
+    private function kompresGambarThumbnail($gambar, $direktori = 'uploads/thumbnails/')
+    {
+        $sameHost = parse_url($gambar, PHP_URL_HOST) == parse_url(base_url(), PHP_URL_HOST);
+
+        $relativeThumbnailPath = $direktori . basename($gambar); //  relative path for thumbnail
+        $thumbnailPath = FCPATH . $relativeThumbnailPath; //  Destination path for thumbnail
+
+        $maxFileSize = 300 * 1024; // 300 KB in bytes
+
+        // Cek link gambar, internal atau eksternal
+        if ($sameHost) {
+
+            $gambarFile = FCPATH . str_replace(base_url(), '', $gambar); // Get gambar file path
+
+            if (!file_exists($gambarFile)) {
+                return false;
+            }
+
+            $image = service('image')->withFile($gambarFile); // Just load the image, don't save yet
+
+            $tipeGambar = $image->getMimeType(); // MIME Int
+
+            if (filesize($gambarFile) <= $maxFileSize) {
+
+                // Temporarily suppress warnings for image processing
+                $oldErrorLevel = error_reporting(E_ERROR | E_PARSE);
+
+                $image->save($thumbnailPath);
+
+                // Restore previous error reporting level
+                error_reporting($oldErrorLevel);
+
+                return true;
+            }
+
+            // Compress based on extension
+            switch ($tipeGambar) {
+                case image_type_to_mime_type(IMAGETYPE_GIF):
+                    // GIF files are tricky; just save them directly
+                    $image->save($thumbnailPath);
+                    break;
+
+                case image_type_to_mime_type(IMAGETYPE_JPEG):
+                case image_type_to_mime_type(IMAGETYPE_JPEG2000):
+                case image_type_to_mime_type(IMAGETYPE_PNG):
+                case image_type_to_mime_type(IMAGETYPE_TIFF_II):
+                case image_type_to_mime_type(IMAGETYPE_WEBP):
+
+                    // Default compression is mainly based on resizing
+                    $currentFileSize = filesize($gambarFile);
+                    list($originalWidth, $originalHeight) = getimagesize($gambarFile);
+
+                    // Introduce a buffer factor to prevent larger sizes (tweak if necessary)
+                    $bufferFactor = 2.1; // A bit more aggressive to ensure we meet the target size
+
+                    // Calculate scaling factor with buffer
+                    $scalingFactor = sqrt(($maxFileSize / $currentFileSize) / $bufferFactor);
+
+                    // Calculate new dimensions
+                    $newWidth = (int) ($originalWidth * $scalingFactor);
+                    $newHeight = (int) ($originalHeight * $scalingFactor);
+
+                    // Temporarily suppress warnings for image processing
+                    $oldErrorLevel = error_reporting(E_ERROR | E_PARSE);
+
+                    $image->resize($newWidth, $newHeight, true, 'width')->save($thumbnailPath, 80);
+
+                    // Restore previous error reporting level
+                    error_reporting($oldErrorLevel);
+
+                    break;
+                default:
+                    // session()->setFlashdata('peringatan', lang('Admin.thumbnailGagalDisimpanFileTidakValid'));
+                    return false;
+            }
+            if (file_exists($thumbnailPath)) return true;
+            else return false;
+        } else {
+
+            // // Fetch the image content from the URL
+            // $imageContent = file_get_contents($gambar);
+
+            // if ($imageContent === false) {
+            //     // Handle the error if the image cannot be retrieved
+            //     return false;
+            // }
+
+            // // Get MIME type from the image URL headers
+            // $mimeType = get_headers($gambar, 1)["Content-Type"] ?? null;
+
+            // Download the image to a temporary file
+            $tempPath = tempnam(sys_get_temp_dir(), 'image_');
+
+            $ch = curl_init($gambar);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+            $imageContent = curl_exec($ch);
+            curl_close($ch);
+
+            if ($imageContent === false) {
+                return false;
+            }
+
+            if (!file_put_contents($tempPath, file_get_contents($gambar))) {
+                if (!file_put_contents($tempPath, $imageContent)) {
+                    return false;
+                }
+            }
+
+            if (!file_exists($tempPath)) {
+                return false;
+            }
+
+            // Get MIME type of the downloaded image
+            $mimeType = mime_content_type($tempPath);
+
+            // Handle different MIME types
+            switch ($mimeType) {
+                case image_type_to_mime_type(IMAGETYPE_JPEG):
+                case image_type_to_mime_type(IMAGETYPE_JPEG2000):
+                case image_type_to_mime_type(IMAGETYPE_GIF):
+                case image_type_to_mime_type(IMAGETYPE_PNG):
+                case image_type_to_mime_type(IMAGETYPE_WEBP):
+                    // $imageResource = imagecreatefromstring($imageContent);
+
+                    break;
+                default:
+                    unlink($tempPath);
+                    return false;
+            }
+
+            // if (!$imageResource) {
+            //     unlink($tempPath);
+            //     return false;
+            // }
+            $image = service('image')->withFile($tempPath);
+
+            if ($image == null || $image->isValid() == false) {
+                unlink($tempPath);
+                return false;
+            }
+
+            // $originalFileSize = strlen($imageContent);
+            $originalFileSize = filesize($tempPath);
+
+            // Calculate scaling factor
+            $scalingFactor = sqrt(($maxFileSize / $originalFileSize) / 2);
+            // $newWidth = imagesx($imageResource) * $scalingFactor;
+            // $newHeight = imagesy($imageResource) * $scalingFactor;
+            $newWidth = $image->getWidth() * $scalingFactor;
+            $newHeight = $image->getHeight() * $scalingFactor;
+
+            // Temporarily suppress warnings for image processing
+            $oldErrorLevel = error_reporting(E_ERROR | E_PARSE);
+
+            // Resize and save the image
+            $image->resize($newWidth, $newHeight, true) // Keep aspect ratio
+                ->save($thumbnailPath, 85); // Save with 85% quality
+
+            // Restore previous error reporting level
+            error_reporting($oldErrorLevel);
+
+            unlink($tempPath);
+
+            if (file_exists($thumbnailPath)) return true;
+            else return false;
+
+            // Resize the image based on calculated scaling
+            // $resizedImage = imagecreatetruecolor($newWidth, $newHeight);
+            // imagecopyresampled($resizedImage, $imageResource, 0, 0, 0, 0, $newWidth, $newHeight, imagesx($imageResource), imagesy($imageResource));
+
+            // // Save image based on MIME type and compression
+            // switch ($mimeType) {
+            //     case image_type_to_mime_type(IMAGETYPE_JPEG):
+            //     case image_type_to_mime_type(IMAGETYPE_JPEG2000):
+            //         imagejpeg($resizedImage, $thumbnailPath, 85);
+            //         break;
+
+            //     case image_type_to_mime_type(IMAGETYPE_PNG):
+            //         imagepng($resizedImage, $thumbnailPath, 8); // Compression level 0-9 (lower is higher quality)
+            //         break;
+
+            //     case image_type_to_mime_type(IMAGETYPE_GIF):
+            //         imagegif($resizedImage, $thumbnailPath);
+            //         break;
+
+            //     case image_type_to_mime_type(IMAGETYPE_WEBP):
+            //         imagewebp($resizedImage, $thumbnailPath, 80);
+            //         break;
+            // }
+
+            // // Clean up resources
+            // imagedestroy($imageResource);
+            // imagedestroy($resizedImage);
+        }
+
+        // Final check if file size is still too large
+        // if (filesize($thumbnailPath) > $maxFileSize) {
+        //     throw new \RuntimeException('Unable to compress the image to the desired size');
+        // }
+        // return true;
+    }
 
     public function ajukanBanyak()
     {
@@ -432,7 +672,7 @@ class PostingAdmin extends BaseControllerAdmin
                 return $this->response->setStatusCode(400)->setJSON(['error' => lang('Admin.jenisFileTidakValid')]);
             }
 
-            $originalName = pathinfo(pathinfo($file->getClientName(), PATHINFO_FILENAME), PATHINFO_FILENAME); // Get the original filename
+            $originalName = url_title(pathinfo(pathinfo($file->getClientName(), PATHINFO_FILENAME), PATHINFO_FILENAME)); // Get the original filename
             $randomName = $file->getRandomName();
 
             $file->move(FCPATH . 'uploads/', $originalName . '-' . $randomName);

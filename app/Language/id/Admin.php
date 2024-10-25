@@ -142,6 +142,8 @@ return [
     'semuaJenis' => 'Semua Jenis',
     'semuaStatus' => 'Semua Status',
 
+    'thumbnailGagalDisimpanFileTidakValid' => 'Thumbnail gagal disimpan. File tidak valid',
+
     'berita' => 'Berita',
     'kelolaBerita' => 'Kelola berita',
     'suntingBerita' => 'Sunting Berita',

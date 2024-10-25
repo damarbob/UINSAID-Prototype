@@ -46,6 +46,11 @@ if ($mode == "tambah") {
         <a href="<?= base_url("admin/posting") ?>" class="me-2"><i class="bi bi-arrow-left"></i></a>
         <?= session()->getFlashdata('gagal') ?>
     </div>
+<?php elseif (session()->getFlashdata('peringatan')) : ?>
+    <!-- Pesan peringatan -->
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <?= session()->getFlashdata('peringatan') ?>
+    </div>
 <?php endif; ?>
 
 <form method="post" action="<?= ($mode == "tambah") ? base_url('/admin/posting/tambah/simpan') : base_url('/admin/posting/sunting/simpan/') . $posting['id'] ?>" class="form-container needs-validation" enctype="multipart/form-data" novalidate>
