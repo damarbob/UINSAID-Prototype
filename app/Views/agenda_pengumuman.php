@@ -41,7 +41,7 @@
                                 <span class="badge badge-primary" style="width: max-content;"><?= lang('Admin.akanDatang') ?></span>
                             <?php endif; ?>
                         </p>
-                        <a href="<?= base_url('agenda-pengumuman/' . $x['id']) ?>">
+                        <a href="<?= base_url('agenda-pengumuman/' . $x['slug']) ?>">
                             <h5 class="card-title lh-sm line-clamp-4">
                                 <?= $x['judul'] ?>
                             </h5>

@@ -52,7 +52,7 @@ $routes->get('entitas', 'Entitas');
 // $routes->get('agenda', 'Agenda');
 // $routes->get('agenda/(:num)', 'Agenda::get/$1');
 $routes->get('agenda', 'AgendaPengumuman');
-$routes->get('agenda-pengumuman/(:num)', 'AgendaPengumuman::get/$1');
+$routes->get('agenda-pengumuman/(:any)', 'AgendaPengumuman::get/$1');
 // $routes->get('pengumuman', 'Pengumuman');
 // $routes->get('pengumuman/(:num)', 'Pengumuman::get/$1');
 $routes->get('pengumuman', 'AgendaPengumuman::indexPengumuman');
@@ -424,6 +424,7 @@ if (ENVIRONMENT == 'development') {
     $routes->group('refactor', static function ($routes) {
         $routes->get('berita/featured-image',  'Refactoring::fillBeritaFeaturedImageWithFirstImageFromKontenField');
         $routes->get('agenda-pengumuman/combine', 'Refactoring::combineAgendaModelAndPengumumanModelToAgendaPengumumanModel');
+        $routes->get('agenda-pengumuman/create-slug', 'Refactoring::createAcaraSlug');
         $routes->get('berita/copy-to-posting', 'Refactoring::copyBeritaOrPPIDByItsJenisIdToPosting/berita');
         $routes->get('ppid/copy-to-posting', 'Refactoring::copyBeritaOrPPIDByItsJenisIdToPosting/ppid');
         $routes->get('komponen/instance-id', 'Refactoring::refactorHalamanAndKomponenMetaKomponenInstanceId');

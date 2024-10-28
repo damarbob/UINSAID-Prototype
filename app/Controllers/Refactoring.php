@@ -244,4 +244,17 @@ class Refactoring extends BaseControllerAdmin
             }
         }
     }
+
+    function createAcaraSlug()
+    {
+        $acara = $this->agendaPengumumanModel->findAll();
+
+        foreach ($acara as $x) {
+            if ($this->agendaPengumumanModel->save([
+                'id'    => $x['id'],
+                'slug'  => url_title($x['judul'], lowercase: true),
+            ])) echo 'Acara with ID:  ' . $x['id'] . ' has been updated with slug: ' . url_title($x['judul'], lowercase: true) . nl2br("\n");
+            else echo 'Acara with ID:  ' . $x['id'] . ' failed to update' . nl2br("\n");
+        }
+    }
 }

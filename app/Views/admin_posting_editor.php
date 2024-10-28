@@ -66,15 +66,15 @@ if ($mode == "tambah") {
                 <input id="judul" name="judul" class="form-control <?= (validation_show_error('judul')) ? 'is-invalid' : ''; ?>" type="text" value="<?= $valueJudul ?>" placeholder="<?= lang('Admin.judul') ?>" required />
                 <label for="judul"><?= lang('Admin.judul') ?></label>
                 <div class="invalid-tooltip">
-                    <?= validation_show_error('judul'); ?>
+                    <?= validation_show_error('judul') ?: lang('Admin.harusDiinput'); ?>
                 </div>
             </div>
 
             <!-- Konten editor -->
-            <div class="form mb-3">
+            <div class="form mb-3" data-mdb-input-init>
                 <textarea id="konten" name="konten" class="form-control tinymce <?= (validation_show_error('konten')) ? 'is-invalid' : ''; ?>" rows="20" type="text" required><?= $valueKonten ?></textarea>
                 <div class="invalid-tooltip">
-                    <?= validation_show_error('konten'); ?>
+                    <?= validation_show_error('konten') ?: lang('Admin.harusDiinput'); ?>
                 </div>
             </div>
         </div>
@@ -149,10 +149,7 @@ if ($mode == "tambah") {
                     <label for="terbit"><?= lang('Admin.tanggalTerbit') ?></label>
                     <input id="terbit" type="datetime-local" name="tanggal_terbit" class="form-control <?= (validation_show_error('terbit')) ? 'is-invalid' : ''; ?>" required value="<?= $valueTglTerbit ?>" />
                     <div class="invalid-tooltip">
-                        <?= lang('Admin.harusDiinput'); ?>
-                    </div>
-                    <div class="invalid-tooltip">
-                        <?= validation_show_error('tanggal_terbit'); ?>
+                        <?= validation_show_error('tanggal_terbit') ?: lang('Admin.harusDiinput'); ?>
                     </div>
 
                 </div>

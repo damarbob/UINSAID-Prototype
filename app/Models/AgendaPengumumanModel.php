@@ -8,12 +8,21 @@ class AgendaPengumumanModel extends \CodeIgniter\Model
 
     protected $useTimestamps = true;
 
-    protected $allowedFields = ['id_jenis', 'id_galeri', 'judul', 'konten', 'waktu_mulai', 'waktu_selesai', 'status'];
+    protected $allowedFields = ['id_jenis', 'id_galeri', 'judul', 'slug', 'konten', 'waktu_mulai', 'waktu_selesai', 'status'];
 
     public function getByID($id)
     {
         return $this->select('acara.*, galeri.uri, acara_jenis.nama as acara_jenis_nama')
             ->where('acara.id', $id)
+            ->join('galeri', 'galeri.id = acara.id_galeri', 'left')
+            ->join('acara_jenis', 'acara_jenis.id = acara.id_jenis', 'left')
+            ->first();
+    }
+
+    public function getBySlug($slug)
+    {
+        return $this->select('acara.*, galeri.uri, acara_jenis.nama as acara_jenis_nama')
+            ->where('acara.slug', $slug)
             ->join('galeri', 'galeri.id = acara.id_galeri', 'left')
             ->join('acara_jenis', 'acara_jenis.id = acara.id_jenis', 'left')
             ->first();

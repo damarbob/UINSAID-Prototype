@@ -79,11 +79,11 @@ if ($mode == "tambah") {
         <div class="col-12 mb-3">
 
             <!-- Agenda -->
-            <div class="form-floating mb-3">
+            <div class="form-floating mb-3 position-relative">
                 <input id="judul" name="judul" class="form-control <?= (validation_show_error('judul')) ? 'is-invalid' : ''; ?>" type="text" value="<?= $valueAgenda ?>" placeholder="<?= lang('Admin.judul') ?>" required />
                 <label for="judul"><?= lang('Admin.judul') ?></label>
-                <div class="invalid-feedback">
-                    <?= validation_show_error('judul'); ?>
+                <div class="invalid-tooltip me-0">
+                    <?= validation_show_error('judul') ?: lang('Admin.harusDiinput'); ?>
                 </div>
             </div>
         </div>
@@ -99,11 +99,11 @@ if ($mode == "tambah") {
         <div class="col-md-6">
 
             <!-- Waktu mulai picker -->
-            <div class="form mb-3">
+            <div class="form mb-3 position-relative">
                 <label for="waktu-mulai"><?= lang('Admin.waktuMulai') ?></label>
                 <input id="waktu-mulai" name="waktu_mulai" type="datetime-local" class="form-control <?= (validation_show_error('waktu-mulai')) ? 'is-invalid' : ''; ?>" required value="<?= $valueWaktuMulai ?>" />
-                <div class="invalid-feedback">
-                    <?= validation_show_error('waktu-mulai'); ?>
+                <div class="invalid-tooltip">
+                    <?= validation_show_error('waktu-mulai') ?: lang('Admin.harusDiinput'); ?>
                 </div>
             </div>
 
@@ -134,7 +134,7 @@ if ($mode == "tambah") {
                     <?php endif; ?>
                 </select>
                 <label for="status"><?= lang('Admin.status') ?></label>
-                <div class="invalid-feedback">
+                <div class="invalid-tooltip">
                     <?= validation_show_error('status'); ?>
                 </div>
             </div>
@@ -169,7 +169,7 @@ if ($mode == "tambah") {
                     <label class="form-label" for="gambar"><?= lang('Admin.unggah') ?></label>
                     <input type="file" class="form-control" id="gambar" name="file_gambar" accept="image/*" />
                     <button type="button" class="btn btn-warning mt-1" id="reset-gambar" style="display: none;" onclick="resetGambar()">Reset <?= lang('Admin.gambar') ?></button>
-                    <div class="invalid-feedback">
+                    <div class="invalid-tooltip">
                         <?= validation_show_error('uploadimage'); ?>
                     </div>
                 </div>

@@ -98,6 +98,14 @@ class PengaturanAdmin extends BaseControllerAdmin
                     'label' => lang('Admin.barisPerHalaman'),
                     'rules' => 'required',
                 ],
+                'targetUkuranThumbnail' => [
+                    'label' => lang('Admin.targetUkuranThumbnail'),
+                    'rules' => 'required',
+                ],
+                'bufferFactorThumbnail' => [
+                    'label' => lang('Admin.bufferFactorThumbnail'),
+                    'rules' => 'required',
+                ],
             ];
 
             // Cek validasi input

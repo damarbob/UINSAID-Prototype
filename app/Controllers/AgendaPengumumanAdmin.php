@@ -217,13 +217,16 @@ class AgendaPengumumanAdmin extends BaseControllerAdmin
     // Simpan. Jika ID kosong, buat baru. Jika id berisi, perbarui yang sudah ada.
     public function simpanAgenda($id = null)
     {
+        $agenda = $id ? $this->agendaPengumumanModel->find($id) : null;
+        $judulLama = $id ? $agenda['judul'] : null;
+        $judulBaru = $this->request->getPost('judul');
 
         // dd($this->request->getVar());
         // Validasi
         $rules = [
             'judul' => [
                 'label' => lang('Admin.agenda'),
-                'rules' => 'required',
+                'rules' => 'required' . (is_null($id) || $judulLama != $judulBaru ? '|is_unique[acara.judul]' : ''),
             ],
             'waktu_mulai' => [
                 'label' => lang('Admin.waktuMulai'),
@@ -285,7 +288,8 @@ class AgendaPengumumanAdmin extends BaseControllerAdmin
             // Jika ID kosong, buat entri baru
             $data = [
                 'id_jenis' => $this->request->getVar('id_jenis'),
-                'judul' => $this->request->getVar('judul'),
+                'judul' => $judulBaru,
+                'slug' => url_title($judulBaru, lowercase: true),
                 'konten' => $this->request->getVar('konten'),
                 'waktu_mulai' => $this->request->getVar('waktu_mulai'),
                 'waktu_selesai' => $this->request->getVar('waktu_selesai') != '' ? $this->request->getVar('waktu_selesai') : null,
@@ -302,7 +306,8 @@ class AgendaPengumumanAdmin extends BaseControllerAdmin
             $this->agendaPengumumanModel->save([
                 'id' => $id,
                 'id_jenis' => $this->request->getVar('id_jenis'),
-                'judul' => $this->request->getVar('judul'),
+                'judul' => $judulBaru,
+                'slug' => url_title($judulBaru, lowercase: true),
                 'konten' => $this->request->getVar('konten'),
                 'waktu_mulai' => $this->request->getVar('waktu_mulai'),
                 'waktu_selesai' => $this->request->getVar('waktu_selesai') != '' ? $this->request->getVar('waktu_selesai') : null,
@@ -320,12 +325,15 @@ class AgendaPengumumanAdmin extends BaseControllerAdmin
     // Tambah rilis media. Jika ID kosong, buat baru. Jika id berisi, perbarui yang sudah ada.
     public function simpanPengumuman($id = null)
     {
+        $pengumuman = $id ? $this->agendaPengumumanModel->find($id) : null;
+        $judulLama = $id ? $pengumuman['judul'] : null;
+        $judulBaru = $this->request->getPost('judul');
 
         // Validasi
         $rules = [
             'judul' => [
                 'label' => lang('Admin.pengumuman'),
-                'rules' => 'required',
+                'rules' => 'required' . (is_null($id) || $judulLama != $judulBaru ? '|is_unique[acara.judul]' : ''),
             ],
             'waktu_mulai' => [
                 'label' => lang('Admin.waktuMulai'),
@@ -387,7 +395,8 @@ class AgendaPengumumanAdmin extends BaseControllerAdmin
             // Jika ID kosong, buat entri baru
             $data = [
                 'id_jenis' => $this->request->getVar('id_jenis'),
-                'judul' => $this->request->getVar('judul'),
+                'judul' => $judulBaru,
+                'slug' => url_title($judulBaru, lowercase: true),
                 'konten' => $this->request->getVar('konten'),
                 'waktu_mulai' => $this->request->getVar('waktu_mulai'),
                 'waktu_selesai' => $this->request->getVar('waktu_selesai') != '' ? $this->request->getVar('waktu_selesai') : null,
@@ -404,7 +413,8 @@ class AgendaPengumumanAdmin extends BaseControllerAdmin
             $this->agendaPengumumanModel->save([
                 'id' => $id,
                 'id_jenis' => $this->request->getVar('id_jenis'),
-                'judul' => $this->request->getVar('judul'),
+                'judul' => $judulBaru,
+                'slug' => url_title($judulBaru, lowercase: true),
                 'konten' => $this->request->getVar('konten'),
                 'waktu_mulai' => $this->request->getVar('waktu_mulai'),
                 'waktu_selesai' => $this->request->getVar('waktu_selesai') != '' ? $this->request->getVar('waktu_selesai') : null,

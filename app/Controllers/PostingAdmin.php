@@ -333,12 +333,15 @@ class PostingAdmin extends BaseControllerAdmin
      */
     private function kompresGambarThumbnail($gambar, $direktori = 'uploads/thumbnails/')
     {
+        helper('setting');
         $sameHost = parse_url($gambar, PHP_URL_HOST) == parse_url(base_url(), PHP_URL_HOST);
 
         $relativeThumbnailPath = $direktori . basename($gambar); //  relative path for thumbnail
         $thumbnailPath = FCPATH . $relativeThumbnailPath; //  Destination path for thumbnail
 
-        $maxFileSize = 300 * 1024; // 300 KB in bytes
+        $targetFileSize = setting()->get('App.targetUkuranThumbnail') ?: 500 * 1024; // 300 KB in bytes
+        // Introduce a buffer factor to prevent larger sizes (tweak if necessary)
+        $bufferFactor = setting()->get('App.bufferFactorThumbnail') ?: 2; // A bit more aggressive to ensure we meet the target size
 
         // Cek link gambar, internal atau eksternal
         if ($sameHost) {
@@ -353,17 +356,18 @@ class PostingAdmin extends BaseControllerAdmin
 
             $tipeGambar = $image->getMimeType(); // MIME Int
 
-            if (filesize($gambarFile) <= $maxFileSize) {
+            if (filesize($gambarFile) <= $targetFileSize) {
 
                 // Temporarily suppress warnings for image processing
                 $oldErrorLevel = error_reporting(E_ERROR | E_PARSE);
 
-                $image->save($thumbnailPath);
+                $image->save($thumbnailPath, 85);
 
                 // Restore previous error reporting level
                 error_reporting($oldErrorLevel);
 
-                return true;
+                if (file_exists($thumbnailPath)) return true;
+                else return false;
             }
 
             // Compress based on extension
@@ -383,11 +387,8 @@ class PostingAdmin extends BaseControllerAdmin
                     $currentFileSize = filesize($gambarFile);
                     list($originalWidth, $originalHeight) = getimagesize($gambarFile);
 
-                    // Introduce a buffer factor to prevent larger sizes (tweak if necessary)
-                    $bufferFactor = 2.1; // A bit more aggressive to ensure we meet the target size
-
                     // Calculate scaling factor with buffer
-                    $scalingFactor = sqrt(($maxFileSize / $currentFileSize) / $bufferFactor);
+                    $scalingFactor = sqrt(($targetFileSize / $currentFileSize) / $bufferFactor);
 
                     // Calculate new dimensions
                     $newWidth = (int) ($originalWidth * $scalingFactor);
@@ -476,8 +477,21 @@ class PostingAdmin extends BaseControllerAdmin
             // $originalFileSize = strlen($imageContent);
             $originalFileSize = filesize($tempPath);
 
+            if ($originalFileSize <= $targetFileSize) {
+                // Temporarily suppress warnings for image processing
+                $oldErrorLevel = error_reporting(E_ERROR | E_PARSE);
+
+                $image->save($thumbnailPath, 85);
+
+                // Restore previous error reporting level
+                error_reporting($oldErrorLevel);
+                unlink($tempPath);
+                if (file_exists($thumbnailPath)) return true;
+                else return false;
+            }
+
             // Calculate scaling factor
-            $scalingFactor = sqrt(($maxFileSize / $originalFileSize) / 2);
+            $scalingFactor = sqrt(($targetFileSize / $originalFileSize) / $bufferFactor);
             // $newWidth = imagesx($imageResource) * $scalingFactor;
             // $newHeight = imagesy($imageResource) * $scalingFactor;
             $newWidth = $image->getWidth() * $scalingFactor;
@@ -528,7 +542,7 @@ class PostingAdmin extends BaseControllerAdmin
         }
 
         // Final check if file size is still too large
-        // if (filesize($thumbnailPath) > $maxFileSize) {
+        // if (filesize($thumbnailPath) > $targetFileSize) {
         //     throw new \RuntimeException('Unable to compress the image to the desired size');
         // }
         // return true;
