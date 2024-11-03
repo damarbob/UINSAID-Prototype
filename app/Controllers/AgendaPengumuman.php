@@ -77,11 +77,11 @@ class AgendaPengumuman extends BaseController
         return view('agenda_pengumuman', $this->data);
     }
 
-    public function get($id)
+    public function get($slug)
     {
         helper('format');
 
-        $item = format_tanggal_suatu_kolom($this->agendaPengumumanModel->getByID($id), showWaktu: true);
+        $item = format_tanggal_suatu_kolom($this->agendaPengumumanModel->getBySlug($slug), showWaktu: true);
         // dd(format_tanggal($item));
 
         $this->data['judul'] = $item['judul'];

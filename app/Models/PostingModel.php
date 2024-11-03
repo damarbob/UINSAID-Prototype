@@ -350,6 +350,38 @@ class PostingModel extends \CodeIgniter\Model
         }
     }
 
+    /**
+     * Extracts images from HTML content.
+     *
+     * @param string $html The HTML content.
+     * @param string $defaultImageUrl The default image URL if no image found.
+     * @return array array of images.
+     */
+    function extract_all_images_from_html(string $html, string $defaultImageUrl, bool $filenameOnly): array
+    {
+        $imagesArray = [];
+
+        if (!empty($html)) {
+            $dom = new \DOMDocument();
+            libxml_use_internal_errors(true);
+            $dom->loadHTML($html);
+            libxml_clear_errors();
+
+            $images = $dom->getElementsByTagName('img');
+
+            foreach ($images as $img) {
+                $src = $img->getAttribute('src');
+                $imagesArray[] = $filenameOnly ? basename($src) : $src;
+            }
+        }
+
+        // Add default image as the last element
+        $imagesArray[] = $defaultImageUrl;
+
+        return $imagesArray;
+    }
+
+
 
     public function isLatestDataOverThreeMonthsOld(): bool
     {

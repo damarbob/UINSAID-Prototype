@@ -27,6 +27,8 @@ $valueBarisPerHalaman = old('barisPerHalaman') ?: setting()->get('App.barisPerHa
 
 // Pengaturan lainnya
 $valueSharingCaption = old('sharingCaption') ?: setting()->get('App.sharingCaption');
+$valueTargetUkuranThumbnail = old('targetUkuranThumbnail') ?: setting()->get('App.targetUkuranThumbnail');
+$valueBufferFactorThumbnail = old('bufferFactorThumbnail') ?: setting()->get('App.bufferFactorThumbnail');
 
 // Validasi
 $errorLogo = validation_show_error('logo_file');
@@ -42,7 +44,8 @@ $errorIkon = validation_show_error('ikon_file');
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>
-<form action="" method="post" enctype="multipart/form-data">
+<form action="" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+    <?= csrf_field() ?>
     <div class="row">
         <div class="col-lg-6">
 
@@ -457,6 +460,30 @@ $errorIkon = validation_show_error('ikon_file');
                 <label for="sharingCaption" class="form-label mb-2">Sharing Caption</label>
             </div>
 
+            <div class="d-flex gap-2 mb-3 align-items-center">
+                <!-- Target ukuran thumbnail -->
+                <div class="form-outline position-relative" data-mdb-input-init>
+                    <input type="number" id="targetUkuranThumbnail" class="form-control <?= (validation_show_error('targetUkuranThumbnail')) ? 'is-invalid' : ''; ?>" name="targetUkuranThumbnail" value="<?php echo $valueTargetUkuranThumbnail ?: 500 ?>" required />
+                    <label class="form-label" for="targetUkuranThumbnail"><?php echo lang('Admin.targetUkuranThumbnail') . ' (KB)' ?></label>
+                    <div class="invalid-tooltip">
+                        <?= validation_show_error('targetUkuranThumbnail') ?: lang('Admin.harusDiinput') ?>
+                    </div>
+
+                </div>
+
+                <!-- Buffer Factor thumbnail -->
+                <div class="form-outline position-relative" data-mdb-input-init>
+                    <input type="number" id="bufferFactorThumbnail" class="form-control <?= (validation_show_error('bufferFactorThumbnail')) ? 'is-invalid' : ''; ?>" name="bufferFactorThumbnail" value="<?php echo $valueBufferFactorThumbnail ?: 2 ?>" required />
+                    <label class="form-label" for="bufferFactorThumbnail"><?php echo lang('Admin.bufferFactorThumbnail') ?></label>
+                    <div class="invalid-tooltip">
+                        <?= validation_show_error('bufferFactorThumbnail') ?: lang('Admin.harusDiinput') ?>
+                    </div>
+                </div>
+
+                <i class="bi bi-exclamation-circle-fill" data-mdb-tooltip-init data-mdb-html="true" title="<?php echo nl2br(lang('Admin.penjelasanTargetUkuranThumbnail') . "\n\n" . lang('Admin.penjelasanBufferFactorThumbnail') . "\n\n" . lang('Admin.rumusKompresiThumbnail')) ?>"></i>
+
+            </div>
+
             <h2 class="mb-3"><?= lang('Admin.personalisasiAdmin') ?></h2>
 
             <!-- Tema dasbor admin -->
@@ -562,5 +589,26 @@ $errorIkon = validation_show_error('ikon_file');
             }
         });
     });
+</script>
+
+<script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (() => {
+        'use strict';
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        const forms = document.querySelectorAll('.needs-validation');
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms).forEach((form) => {
+            form.addEventListener('submit', (event) => {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    form.classList.add('was-validated');
+                }
+            }, false);
+        });
+    })();
 </script>
 <?= $this->endSection() ?>

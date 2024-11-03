@@ -34,6 +34,13 @@ return [
     'kontakDanMediaSosial' => 'Kontak dan Media Sosial',
     'aturMediaSosial' => 'Atur Media Sosial',
 
+    'targetUkuranThumbnail' => 'Target ukuran thumbnail',
+    'penjelasanTargetUkuranThumbnail' => 'Target ukuran thumbnail adalah perkiraan ukuran file thumbnail yang akan dibuat dalam satuan KB. Ukuran file yang sudah jadi bisa lebih rendah atau lebih tinggi dari yang telah ditentukan.',
+    'bufferFactorThumbnail' => 'Buffer factor thumbnail',
+    'penjelasanBufferFactorThumbnail' => 'Buffer factor thumbnail adalah konstanta dalam perhitungan skala kompresi. Semakin besar nilainya, semakin kecil ukuran file thumbnail yang akan dibuat.',
+    'rumusKompresiThumbnail' => 'Rumus kompresi thumbnail = akar pangkat dua dari ((target ukuran thumbnail / ukuran file asli) / buffer factor thumbnail)',
+
+
     'tampilan' => 'Tampilan',
     'personalisasiAdmin' => 'Personalisasi Admin',
 
@@ -147,6 +154,8 @@ return [
     'jenis' => 'Jenis',
     'semuaJenis' => 'Semua Jenis',
     'semuaStatus' => 'Semua Status',
+
+    'thumbnailGagalDisimpanFileTidakValid' => 'Thumbnail gagal disimpan. File tidak valid',
 
     'berita' => 'Berita',
     'kelolaBerita' => 'Kelola berita',

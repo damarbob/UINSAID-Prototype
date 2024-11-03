@@ -46,6 +46,11 @@ if ($mode == "tambah") {
         <a href="<?= base_url("admin/posting") ?>" class="me-2"><i class="bi bi-arrow-left"></i></a>
         <?= session()->getFlashdata('gagal') ?>
     </div>
+<?php elseif (session()->getFlashdata('peringatan')) : ?>
+    <!-- Pesan peringatan -->
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <?= session()->getFlashdata('peringatan') ?>
+    </div>
 <?php endif; ?>
 
 <form method="post" action="<?= ($mode == "tambah") ? base_url('/admin/posting/tambah/simpan') : base_url('/admin/posting/sunting/simpan/') . $posting['id'] ?>" class="form-container needs-validation" enctype="multipart/form-data" novalidate>
@@ -61,15 +66,15 @@ if ($mode == "tambah") {
                 <input id="judul" name="judul" class="form-control <?= (validation_show_error('judul')) ? 'is-invalid' : ''; ?>" type="text" value="<?= $valueJudul ?>" placeholder="<?= lang('Admin.judul') ?>" required />
                 <label for="judul"><?= lang('Admin.judul') ?></label>
                 <div class="invalid-tooltip">
-                    <?= validation_show_error('judul'); ?>
+                    <?= validation_show_error('judul') ?: lang('Admin.harusDiinput'); ?>
                 </div>
             </div>
 
             <!-- Konten editor -->
-            <div class="form mb-3">
+            <div class="form mb-3" data-mdb-input-init>
                 <textarea id="konten" name="konten" class="form-control tinymce <?= (validation_show_error('konten')) ? 'is-invalid' : ''; ?>" rows="20" type="text" required><?= $valueKonten ?></textarea>
                 <div class="invalid-tooltip">
-                    <?= validation_show_error('konten'); ?>
+                    <?= validation_show_error('konten') ?: lang('Admin.harusDiinput'); ?>
                 </div>
             </div>
         </div>
@@ -144,10 +149,7 @@ if ($mode == "tambah") {
                     <label for="terbit"><?= lang('Admin.tanggalTerbit') ?></label>
                     <input id="terbit" type="datetime-local" name="tanggal_terbit" class="form-control <?= (validation_show_error('terbit')) ? 'is-invalid' : ''; ?>" required value="<?= $valueTglTerbit ?>" />
                     <div class="invalid-tooltip">
-                        <?= lang('Admin.harusDiinput'); ?>
-                    </div>
-                    <div class="invalid-tooltip">
-                        <?= validation_show_error('tanggal_terbit'); ?>
+                        <?= validation_show_error('tanggal_terbit') ?: lang('Admin.harusDiinput'); ?>
                     </div>
 
                 </div>

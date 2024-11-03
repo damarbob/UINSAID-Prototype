@@ -41,6 +41,10 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 <?= session()->getFlashdata('gagal') ?>
             </div>
+        <?php elseif (session()->getFlashdata('peringatan')) : ?>
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <?= session()->getFlashdata('peringatan') ?>
+            </div>
         <?php endif; ?>
 
         <!-- Peringatan buat posting -->
