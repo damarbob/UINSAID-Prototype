@@ -183,4 +183,9 @@ class FileAdmin extends BaseControllerAdmin
 
         return redirect()->to('admin/file')->with('error', lang('Admin.pilihItemDahulu'));
     }
+
+    public function explore()
+    {
+        return view('admin_file_manager', $this->data);
+    }
 }

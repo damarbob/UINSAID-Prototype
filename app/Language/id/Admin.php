@@ -46,7 +46,12 @@ return [
     'bersihkan' => 'Bersihkan',
     'bersihkanFile' => 'Bersihkan File',
     'bersihkanFileYangTidakTerpakai' => 'Bersihkan file-file yang tidak terpakai',
-    'fileYangTidakTerpakaiAkanDibersihkan' => 'File-file yang tidak terpakai akan dibersihkan. File yang terhapus tidak dapat dikembalikan lagi.',
+    'fileYangTidakTerpakaiAkanDibersihkan' => 'File-file yang tidak terpakai akan dibersihkan. File yang terhapus tidak dapat dikembalikan lagi. Periksa kembali file-file yang masih digunakan.',
+
+    'penjelajahFile' => 'Penjelajah File',
+    'jelajahiFileSistem' => 'Jelajahi file sistem',
+    'andaAkanMembukaPenjelajahFile' => 'Anda akan membuka Penjelajah File Sistem, gunakan fitur ini dengan berhati-hati.',
+    'setuju' => 'Setuju',
 
     // Pengguna
     'pengguna' => 'Pengguna',
@@ -103,6 +108,7 @@ return [
     'tinjau' => 'Tinjau',
 
     'belumAdaKomponenSeretDanTaruh' => 'Belum ada komponen. Seret dan taruh dari daftar komponen.',
+    'cariKomponen' => 'Cari Komponen',
     'komponenSudahDitambahkan' => 'Komponen sudah ditambahkan',
     'komponenIniTidakMemilikiKolomMeta' => 'Komponen ini tidak memiliki kolom meta',
 
@@ -296,11 +302,59 @@ return [
     // File
     'file' => 'File',
     'unggahFile' => 'Unggah File',
+    'mengunggahFile' => 'Mengunggah File',
+    'unduhFile' => 'Unduh File',
     'judulFile' => 'Judul file',
     'hapusFileTerpilih' => 'Hapus File Terpilih',
     'jenisFileTidakValid' => 'Jenis file tidak valid.',
     'fileBerhasilDiunggah' => 'File berhasil diunggah.',
     'gagalMengunggahFile' => 'Gagal mengunggah file.',
+
+    'ukuran' => 'Ukuran',
+    'terakhirDiubah' => 'Terakhir diubah',
+
+    'masukkanNamaFolderBaru' => 'Masukkan nama folder baru',
+    'masukkanNamaFileBaruDengan' => 'Masukkan nama file baru (dengan ekstensi)',
+    'gagalMengubahNamaFile' => 'Gagal mengubah nama file',
+    'berhasilDisalinSiapUntuk' => 'Berhasil disalin. Siap untuk menempel.',
+    'gagalMenyalin' => 'Gagal menyalin',
+    'berhasilDitempel' => 'Berhasil ditempel.',
+    'gagalDitempel' => 'Gagal ditempel',
+    'fileBerhasilDisimpan' => 'File berhasil disimpan!',
+    'gagalMenyimpanFile' => 'Gagal menyimpan file',
+    'pilihFileUntukDihapus' => 'Pilih file untuk dihapus.',
+    'fileBerhasilDihapus' => 'File berhasil dihapus.',
+    'fileGagalDihapus' => 'File gagal dihapus',
+    'pilihFileUntukDisalin' => 'Pilih file untuk disalin.',
+    'pilihFileUntukDipindah' => 'Pilih file untuk dipindah.',
+    'pilihFileZIPUntukDiekstrak' => 'Pilih file ZIP untuk diekstrak.',
+    'pilihFileUntukDikompresZIP' => 'Pilih file untuk dikompres ZIP.',
+    'gagalMengekstrakFile' => 'Gagal mengekstrak file',
+    'gagalMengompresFile' => 'Gagal mengompres file',
+    'berhasilMengompres' => 'Berhasil mengompres',
+    'berhasilMengekstrak' => 'Berhasil mengekstrak',
+
+    'pratinjauTidakTersediaUntukFile' => 'Pratinjau tidak tersedia untuk file jenis ini.',
+    'tidakAdaFileAtauFolderDitemukan' => 'Tidak ada file atau folder ditemukan.',
+
+    'perizinan' => 'Perizinan',
+
+    'segarkan' => 'Segarkan',
+    'buatFileBaru' => 'Buat file baru',
+    'buatFolderBaru' => 'Buat folder baru',
+    'salinTerpilih' => 'Salin terpilih',
+    'pindahkanTerpilih' => 'Pindahkan terpilih',
+    'tempel' => 'Tempel',
+    'ekstrakFileZIP' => 'Ekstrak file ZIP',
+    'kompresFileZIP' => 'Kompres ke ZIP',
+    'hapusTerpilih' => 'Hapus terpilih',
+
+    'buka' => 'Buka',
+    'salin' => 'Salin',
+    'pindah' => 'Pindah',
+    'gantiNama' => 'Ganti nama',
+    'unduh' => 'Unduh',
+    'lihat' => 'Lihat',
 
     // Situs
     'situs' => 'Situs',

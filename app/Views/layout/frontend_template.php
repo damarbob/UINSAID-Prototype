@@ -600,7 +600,7 @@ $temaRTLDefault = base_url("assets/css/hijau.rtl.css");
                 <i class="bi bi-house-door fs-1 mb-1"></i>
                 <!-- <img src="assets/img/icon/ikon-beranda.png"> -->
               </div>
-              <span style="font-size: small;">Beranda</span> <!-- todo: style -->
+              <span style="font-size: small;">BERANDA</span> <!-- todo: style -->
             </a>
           </li>
           <li class="nav-item text-center" style="flex: 1;"> <!-- todo: style -->
@@ -611,7 +611,7 @@ $temaRTLDefault = base_url("assets/css/hijau.rtl.css");
                 <!-- <img src="assets/img/icon/ikon-berita.png"> -->
                 <!-- <span class="badge rounded-pill badge-notification bg-success">11</span> -->
               </div>
-              <span style="font-size: small;">Berita</span> <!-- todo: style -->
+              <span style="font-size: small;">BERITA</span> <!-- todo: style -->
             </a>
           </li>
           <li class="nav-item text-center" style="flex: 1;"> <!-- todo: style -->
@@ -621,7 +621,7 @@ $temaRTLDefault = base_url("assets/css/hijau.rtl.css");
                 <i class="bi bi-mortarboard fs-1 mb-1"></i>
                 <!-- <img src="assets/img/icon/ikon-akademik-white.png"> -->
               </div>
-              <span style="font-size: small;">Penerimaan</span> <!-- todo: style -->
+              <span style="font-size: small;">ADMISI</span> <!-- todo: style -->
             </a>
           </li>
           <li class="nav-item text-center" style="flex: 1;"> <!-- todo: style -->
@@ -632,7 +632,7 @@ $temaRTLDefault = base_url("assets/css/hijau.rtl.css");
                 <i class="bi bi-journal-text fs-1 mb-1"></i>
                 <!-- <img src=" assets/img/icon/ikon-beranda.png"> -->
               </div>
-              <span style="font-size: small;">Siakad</span> <!-- todo: style -->
+              <span style="font-size: small;">SIAKAD</span> <!-- todo: style -->
             </a>
           </li>
           <!-- <li class="nav-item dropup text-center mx-2 mx-lg-1">

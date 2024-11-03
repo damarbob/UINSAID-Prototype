@@ -233,11 +233,32 @@ $routes->group('admin', ['filter' => 'group:admin,superadmin'], function ($route
     });
 
     // File
+    $routes->group('file-manager', ['namespace' => 'App\Controllers'], function ($routes) {
+        $routes->get('/', 'FileManager::index');
+        $routes->get('viewFile/(:any)', 'FileManager::viewFile/$1');
+        $routes->get('listFiles/(:any)', 'FileManager::listFiles/$1');
+        $routes->get('listFiles', 'FileManager::listFiles');
+        $routes->post('saveFile', 'FileManager::saveFile');
+        $routes->post('setClipboard', 'FileManager::setClipboard');
+        $routes->post('paste', 'FileManager::paste');
+        $routes->post('rename', 'FileManager::rename');
+        $routes->post('createFile', 'FileManager::createFile');
+        $routes->post('createFolder', 'FileManager::createFolder');
+        $routes->post('deleteFiles', 'FileManager::deleteFiles');
+        $routes->post('upload', 'FileManager::upload');
+        $routes->post('compress', 'FileManager::compress');
+        $routes->post('extract', 'FileManager::extract');
+        $routes->post('bulk-action', 'FileManager::bulkAction');
+        $routes->get('download/(:any)', 'FileManager::download/$1');
+    });
+
+    // File
     $routes->group('file', ['namespace' => 'App\Controllers'], function ($routes) {
         $routes->get('/', 'FileAdmin::index');
         $routes->post('unggah', 'FileAdmin::unggah');
         $routes->post('simpanMetadata/(:num)', 'FileAdmin::simpanMetadata/$1');
         $routes->post('hapus', 'FileAdmin::hapusBanyak');
+        $routes->get('explore', 'FileAdmin::explore');
         // $routes->post('hapus-banyak', 'FileAdmin::hapusBanyak');
     });
 

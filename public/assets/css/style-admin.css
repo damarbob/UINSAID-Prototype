@@ -43,6 +43,18 @@ div.dataTables_wrapper div.dataTables_info {
   /* Hilangkan padding top */
   padding-top: 0 !important;
 }
+div:where(.swal2-container) {
+  overflow: visible !important;
+}
+div:where(.swal2-container) div:where(.swal2-popup) {
+  background: var(--mdb-body-bg) !important;
+  color: var(--mdb-body) !important;
+  box-shadow: var(--mdb-box-shadow-lg) !important;
+}
+div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm) {
+  background-color: var(--mdb-primary) !important;
+  /* color: #fff; */
+}
 /* End of overrides */
 
 .header {

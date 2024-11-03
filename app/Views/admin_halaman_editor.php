@@ -67,7 +67,7 @@ $errorJS = validation_show_error('js_file');
         <div class="col-lg-8">
 
             <!-- Daftar komponen halaman -->
-            <ul class="list-group list-group-light" id="tabelKomponen" style="cursor: grab;">
+            <ul class="list-group list-group-light pb-5" id="tabelKomponen" style="cursor: grab;">
                 <?php if (!empty($komponen)): ?>
                     <?php foreach ($komponen as $i => $x): ?>
                         <li
@@ -110,9 +110,15 @@ $errorJS = validation_show_error('js_file');
         </div>
         <div class="col-lg-4">
 
+            <!-- Search input -->
+            <div class="form-outline mb-3" data-mdb-input-init>
+                <input type="text" id="searchKomponen" class="form-control">
+                <label for="searchKomponen" class="form-label"><?= lang('Admin.cariKomponen') ?></label>
+            </div>
+
             <!-- Daftar komponen tersedia -->
             <div class="mb-3" style="height: 512px; overflow: auto; cursor: grab;">
-                <label for="daftarKomponen" class="form-label"><?= lang('Admin.daftarKomponen') ?></label>
+                <!-- <label for="daftarKomponen" class="form-label"><?= lang('Admin.daftarKomponen') ?></label> -->
                 <ul id="daftarKomponen" class="list-group pe-3">
                     <?php foreach ($daftarKomponen as $x): ?>
                         <li class="list-group-item p-0 border-0 mb-2" draggable="true" data-id="<?= $x['id']; ?>" data-name="<?= $x['nama'] ?>" data-tunggal="<?= $x['tunggal'] ?>">
@@ -418,6 +424,24 @@ $errorJS = validation_show_error('js_file');
 <script>
     document.addEventListener('DOMContentLoaded', function() {
 
+        /* Component search */
+
+        document.getElementById('searchKomponen').addEventListener('input', function() {
+            var input = this.value.toLowerCase(); // Get the input value
+            var listItems = document.querySelectorAll('#daftarKomponen li'); // Get all list items
+
+            listItems.forEach(function(item) {
+                var componentName = item.getAttribute('data-name').toLowerCase(); // Get the name attribute and compare
+                if (componentName.includes(input)) {
+                    item.style.display = ''; // Show if it matches
+                } else {
+                    item.style.display = 'none'; // Hide if it doesn't match
+                }
+            });
+        });
+
+        /* End of component search */
+
         /* Sortable */
 
         var tabelKomponen = document.getElementById('tabelKomponen');
@@ -453,10 +477,7 @@ $errorJS = validation_show_error('js_file');
             const data = JSON.parse(e.dataTransfer.getData('text/plain'));
             var componentId = data.id;
             var componentName = data.name;
-            var componentIsSingular = data.tunggal; // Whether the component is SINGULAR or TUNGGAL
-
-            // console.log(data);
-            // console.log(componentIsSingular == true);
+            var componentIsSingular = data.tunggal;
 
             // Check if the component is SINGULAR/TUNGGAL already in the list
             if (componentIsSingular == true && (document.querySelector('#tabelKomponen [data-id="' + componentId + '"]'))) {
@@ -467,11 +488,11 @@ $errorJS = validation_show_error('js_file');
                     confirmButtonColor: "var(--mdb-primary)",
                     confirmButtonText: "<?= lang('Admin.tutup') ?>",
                 });
-                return; // Prevent adding duplicate component
+                return;
             }
 
             // Generate unique komponen_instance_id
-            var komponenInstanceId = `inst_${componentId}_${Date.now()}`; // NEW
+            var komponenInstanceId = `inst_${componentId}_${Date.now()}`;
 
             var componentText = document.querySelector('#daftarKomponen [data-id="' + componentId + '"]').innerText;
 
@@ -485,28 +506,43 @@ $errorJS = validation_show_error('js_file');
             var newRow = document.createElement('li');
             newRow.setAttribute('data-id', componentId);
             newRow.setAttribute('data-name', componentName);
-            newRow.setAttribute('data-instance-id', komponenInstanceId); // Set instance ID NEW
-            newRow.classList.add('list-group-item', 'p-0', 'border-0', 'mb-2', 'fade-in'); // Apply the fade-in animation class
-            // newRow.innerHTML = '<span class="sortable-handle me-4">☰</span>' + componentText +
-            //     '<button type="button" class="btn btn-danger btn-sm remove-komponen" onclick="deleteKomponen()">' +
-            //     '<i class="bi bi-trash"></i></button>';
+            newRow.setAttribute('data-instance-id', komponenInstanceId);
+            newRow.classList.add('list-group-item', 'p-0', 'border-0', 'mb-2', 'fade-in');
             newRow.innerHTML = `
-                <div class="card w-100 d-flex flex-row justify-content-between align-items-center py-3 px-4">
-                    <div>
-                        <span class="sortable-handle me-4">☰</span>
-                        ${componentText}
-                    </div>
-                    <div>
-                        <button type="button" class="btn btn-primary btn-sm btn-floating me-2" onclick="editKomponen()">
-                            <i class="bi bi-pencil"></i>
-                        </button>
-                        <button type="button" class="btn btn-danger btn-sm btn-floating remove-komponen" onclick="deleteKomponen()">
-                            <i class="bi bi-trash"></i>
-                        </button>
-                    </div>
-                </div>
-                `;
-            tabelKomponen.appendChild(newRow);
+        <div class="card w-100 d-flex flex-row justify-content-between align-items-center py-3 px-4">
+            <div>
+                <span class="sortable-handle me-4">☰</span>
+                ${componentText}
+            </div>
+            <div>
+                <button type="button" class="btn btn-primary btn-sm btn-floating me-2" onclick="editKomponen()">
+                    <i class="bi bi-pencil"></i>
+                </button>
+                <button type="button" class="btn btn-danger btn-sm btn-floating remove-komponen" onclick="deleteKomponen()">
+                    <i class="bi bi-trash"></i>
+                </button>
+            </div>
+        </div>
+        `;
+
+            // Get the element at the cursor position
+            const closestElement = e.target.closest('li');
+
+            if (closestElement) {
+                const boundingRect = closestElement.getBoundingClientRect();
+                const middleY = boundingRect.top + (boundingRect.height / 2);
+
+                if (e.clientY > middleY) {
+                    // If cursor is in the bottom half, insert after the closest element
+                    tabelKomponen.insertBefore(newRow, closestElement.nextSibling);
+                } else {
+                    // If cursor is in the top half, insert before the closest element
+                    tabelKomponen.insertBefore(newRow, closestElement);
+                }
+            } else {
+                // If no elements are found, append to the end
+                tabelKomponen.appendChild(newRow);
+            }
 
             updateKomponenOrder();
         });

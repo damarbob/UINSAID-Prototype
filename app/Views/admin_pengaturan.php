@@ -482,14 +482,26 @@ $errorIkon = validation_show_error('ikon_file');
                 </div>
             </div>
 
-            <!-- Data dan Penyimpanan -->
-            <h2 class="mb-3"><?= lang('Admin.dataDanPenyimpanan') ?></h2>
+            <?php if (auth()->user()->inGroup("superadmin")): ?>
 
-            <!-- Bersihkan Foto -->
-            <p><?= lang('Admin.bersihkanFileYangTidakTerpakai') ?></p>
-            <button id="clearUnusedFilesButton" type="button" class="btn btn-danger btn-sm mb-3" data-mdb-ripple-init="">
-                <i class="bi bi-trash3 me-2"></i><?= lang('Admin.bersihkanFile') ?>
-            </button>
+                <!-- Data dan Penyimpanan -->
+                <h2 class="mb-3"><?= lang('Admin.dataDanPenyimpanan') ?></h2>
+
+                <!-- Penjelajah File -->
+                <p><?= lang('Admin.jelajahiFileSistem') ?></p>
+                <button type="button" class="btn btn-primary mb-3" onclick="penjelajahFile()" data-mdb-ripple-init>
+                    <i class="bi bi-folder2 me-2"></i>
+                    <?= lang('Admin.penjelajahFile') ?>
+                    <i class="bi bi-box-arrow-up-right ms-2"></i>
+                </button>
+
+                <!-- Bersihkan Foto -->
+                <p><?= lang('Admin.bersihkanFileYangTidakTerpakai') ?></p>
+                <button id="clearUnusedFilesButton" type="button" class="btn btn-danger btn-sm mb-3" data-mdb-ripple-init="">
+                    <i class="bi bi-trash3 me-2"></i><?= lang('Admin.bersihkanFile') ?>
+                </button>
+
+            <?php endif ?>
 
         </div>
 
@@ -500,6 +512,21 @@ $errorIkon = validation_show_error('ikon_file');
 <?= $this->section('script') ?>
 <script src="<?= base_url('assets/js/formatter.js') ?>" type="text/javascript"></script>
 <script>
+    function penjelajahFile() {
+        Swal.fire({
+            title: "<?= lang('Admin.penjelajahFile') ?>",
+            text: "<?= lang('Admin.andaAkanMembukaPenjelajahFile') ?>",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "var(--mdb-warning)",
+            confirmButtonText: "<?= lang('Admin.setuju') ?>",
+            cancelButtonText: "<?= lang('Admin.batal') ?>"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.open("<?= base_url('admin/file-manager') ?>", "_blank");
+            }
+        });
+    }
     document.getElementById('clearUnusedFilesButton').addEventListener('click', function() {
         Swal.fire({
             title: "<?= lang('Admin.bersihkanFile') ?>",
