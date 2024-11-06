@@ -69,7 +69,7 @@ class Filters extends BaseConfig
      * 'isLoggedIn' => ['before' => ['account/*', 'profiles/*']]
      */
     public array $filters = [
-        'session' => ['before' => ['admin/*']],
+        'session' => ['before' => ['admin/*', 'api/*']],
         'cors' => [
             'before' => [
                 'api/*', // Apply CORS filter to API routes

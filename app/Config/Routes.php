@@ -411,7 +411,7 @@ $routes->group('api', static function ($routes) {
     $routes->get('situs', 'SitusAdmin::get');
     $routes->post('situs/perbarui-status', 'SitusAdmin::perbaruiStatusSitus');
     $routes->get('situs/aktif', 'SitusAdmin::getAktif');
-    $routes->get('situs/tidak-aktif', 'SitusAdmin::getTIdakAktif');
+    $routes->get('situs/tidak-aktif', 'SitusAdmin::getTidakAktif');
 
     // Shutdown dan restore sistem
     $routes->post('site-status', 'WebService::siteStatusCheck');
@@ -425,6 +425,12 @@ $routes->group('api', static function ($routes) {
 
     // Entitas
     $routes->post('entitas', 'EntitasAdmin::getDT');
+
+    // Notifikasi
+    $routes->post('notifikasi', 'DasborAdmin::getNotifikasi');
+    $routes->get('notifikasi', 'DasborAdmin::getNotifikasi');
+    $routes->post('notifikasi/tandai-semua-sudah-dibaca', 'DasborAdmin::tandaiSemuaNotifikasiSudahDibaca');
+    $routes->post('notifikasi/tandai-sudah-dibaca/(:num)', 'DasborAdmin::tandaiNotifikasiSudahDibaca/$1');
 });
 
 $routes->group('fakultas', static function ($routes) {
@@ -437,7 +443,9 @@ $routes->group('prodi', static function ($routes) {
     $routes->get('profil', 'BerandaProdi', ['as' => 'profil_prodi']);
 });
 
-service('auth')->routes($routes);
+service('auth')->routes($routes, ['except' => ['login']]);
+$routes->get('login', '\CodeIgniter\Shield\Controllers\LoginController::loginView');
+$routes->post('login', 'LoginController::loginAction');
 
 
 /* REFACTORING */

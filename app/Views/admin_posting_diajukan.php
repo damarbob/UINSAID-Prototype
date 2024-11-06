@@ -284,8 +284,35 @@
             var buttons = $(".dt-buttons.btn-group.flex-wrap .btn.btn-secondary");
             var lastButton = buttons.last();
 
-            buttons.eq(0).removeClass("btn-secondary").addClass("btn-primary").addClass("rounded-0");
-            lastButton.removeClass("btn-secondary").addClass("btn-danger").addClass("rounded-0");
+            buttons.eq(0).removeClass("btn-secondary").addClass("btn-primary").addClass("rounded-0").attr({
+                "data-mdb-tooltip-init": "",
+                "data-mdb-placement": "bottom",
+                "title": "<?= lang('Admin.publikasi') ?>",
+            });
+            lastButton.removeClass("btn-secondary").addClass("btn-danger").addClass("rounded-0").attr({
+                "data-mdb-tooltip-init": "",
+                "data-mdb-placement": "bottom",
+                "title": "<?= lang('Admin.hapus') ?>",
+            });
+
+            // Tombol cetak
+            buttons.eq(-2).attr({
+                "data-mdb-tooltip-init": "",
+                "data-mdb-placement": "bottom",
+                "title": "<?= lang('Admin.cetak') ?>",
+            });
+            // Tombol unduh
+            buttons.eq(-3).attr({
+                "data-mdb-tooltip-init": "",
+                "data-mdb-placement": "bottom",
+                "title": "<?= lang('Admin.unduh') ?>",
+            });
+            // Tombol kolom
+            buttons.eq(-4).attr({
+                "data-mdb-tooltip-init": "",
+                "data-mdb-placement": "bottom",
+                "title": "<?= lang('Admin.kolom') ?>",
+            });
 
             $(".dt-buttons.btn-group.flex-wrap").addClass("btn-group-lg");
 
@@ -368,6 +395,10 @@
                     });
                 });
             });
+
+            buttons.each(function() {
+                new mdb.Tooltip(this); // This will reinitialize the tooltip on all elements with the data-mdb-tooltip-init attribute
+            })
         });
 
     });

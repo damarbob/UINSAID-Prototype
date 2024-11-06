@@ -44,4 +44,29 @@ class DasborAdmin extends BaseControllerAdmin
 
         return view('admin_dasbor', $this->data);
     }
+
+    // Tampilkan notifikasi terpaginasi
+    public function getNotifikasi()
+    {
+        $limit = $this->request->getGet('limit') ?? 10;  // Default limit of 10
+        $offset = $this->request->getGet('offset') ?? null;  // Default offset of 10
+        $newerThan = $this->request->getGet('newer_than') ?? null;  // Default offset of 10
+
+        $notifikasi = $this->notifikasiModel->getNotifikasiSebagian($limit, $offset, $newerThan);
+        return $this->response->setJSON($notifikasi);
+    }
+
+    public function tandaiSemuaNotifikasiSudahDibaca()
+    {
+        // Update all notifications to mark as read
+        if ($this->notifikasiModel->tandaiSemuaSudahDibaca()) return $this->response->setStatusCode(200)->setJSON(['message' => 'All notifications marked as read']);
+        else return $this->response->setStatusCode(500)->setJSON(['status' => 'error', 'message' => 'server error']);
+    }
+
+    public function tandaiNotifikasiSudahDibaca($id)
+    {
+        // Update all notifications to mark as read
+        if ($this->notifikasiModel->tandaiSudahDibaca($id)) return $this->response->setStatusCode(200)->setJSON(['message' => 'All notifications marked as read']);
+        else return $this->response->setStatusCode(500)->setJSON(['status' => 'error', 'message' => 'server error']);
+    }
 }

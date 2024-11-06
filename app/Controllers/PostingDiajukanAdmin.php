@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Models\NotifikasiModel;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\I18n\Time;
@@ -326,6 +327,17 @@ class PostingDiajukanAdmin extends BaseControllerAdmin
                 $errors[] = lang('Admin.gagalMenyimpanEntriDenganJudul', ['judul' => $data['judul']]);
             }
         }
+
+        $domain = explode('.', parse_url($selectedData[0]['sumber'], PHP_URL_HOST));
+        $subdomain = $domain[0] == 'www' ?  $domain[1] : $domain[0];
+
+        // Buat notifikasi
+        $this->notifikasiModel->insert([
+            'jenis'     => NOTIFIKASI_INFO,
+            'judul'     => lang('Admin.postingDiajukanBaru'),
+            'konten'    => lang('Admin.adminXMengajukanYPostingBaru', [strtoupper($subdomain), sizeof($selectedData)]),
+            'link'      => base_url('admin/posting-diajukan')
+        ]);
 
         if ($result) {
             return $this->response->setJSON(['status' => 'success', 'message' => 'Permintaan berhasil dikirim!']);

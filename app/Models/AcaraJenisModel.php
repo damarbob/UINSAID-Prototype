@@ -8,7 +8,7 @@ class AcaraJenisModel extends Model
 {
     protected $table = 'acara_jenis';
     protected $allowedFields = ['nama'];
-    protected $useTimeStamps = true;
+    protected $useTimestamps = true;
 
     public function getByNama($nama)
     {
