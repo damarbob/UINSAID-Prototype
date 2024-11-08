@@ -157,6 +157,7 @@ return [
     'semuaStatus' => 'Semua Status',
 
     'thumbnailGagalDisimpanFileTidakValid' => 'Thumbnail gagal disimpan. File tidak valid',
+    'thumbnailTidakDitemukan' => 'Thumbnail tidak ditemukan',
 
     'berita' => 'Berita',
     'kelolaBerita' => 'Kelola berita',
@@ -187,6 +188,9 @@ return [
     'gagalMenyimpanEntriDenganJudul' => 'Gagal menyimpan entri dengan judul: {judul}',
     'permintaanGagalDikirim' => 'Permintaan gagal dikirim.',
     'situsIndukBelumDiatur' => 'Situs induk belum diatur pada env!',
+    'postingDiajukanBaru' => 'Posting Diajukan Baru!',
+    'adminXMengajukanYPostingBaru' => 'Admin {0} mengajukan {1} posting baru',
+
 
     'peringatanPosting' => 'Peringatan Posting',
 
@@ -428,4 +432,13 @@ return [
     'logo' => 'Logo',
     'logoMobile' => 'Logo Mobile',
     'logoFooter' => 'Logo Footer',
+
+    // Login
+    'aktivitasLoginBaru' => 'Aktivitas Login Baru!',
+    'xBerhasilLogin' => '{0} berhasil login.',
+    'xGagalLogin' => '{0} gagal login.',
+
+    'cetak' => 'Cetak',
+    'kolom' => 'Kolom',
+    'ajukanPosting' => 'Ajukan posting',
 ];

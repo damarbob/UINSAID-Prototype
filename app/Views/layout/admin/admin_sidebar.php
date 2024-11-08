@@ -12,7 +12,7 @@ $currentRoute = $request->uri->getSegment(1) . "/" . $request->uri->getSegment(2
         <div>
 
             <!-- Logo -->
-            <a href="#" class="nav-logo">
+            <a href="<?php echo base_url() ?>" class="nav-logo">
                 <!-- <i class="bx bx-layer nav-logo-icon"></i> -->
                 <img src="<?= base_url('assets/img/icon-notext-transparent.png') ?>" width="24" class="rounded-circle">
                 <span class="nav-logo-name">UINSAID</span>

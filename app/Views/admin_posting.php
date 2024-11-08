@@ -320,13 +320,46 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
                 new mdb.Ripple(this); // This will reinitialize the ripple effect on all elements with the data-mdb-ripple-init attribute
             })
 
-            buttons.eq(0).removeClass("btn-secondary").addClass("btn-primary").addClass("rounded-0");
+            buttons.eq(0).removeClass("btn-secondary").addClass("btn-primary").addClass("rounded-0").attr({
+                "data-mdb-tooltip-init": "",
+                "data-mdb-placement": "bottom",
+                "title": "<?= lang('Admin.tambah') ?>",
+            });
             <?php if ($is_child_site): ?>
                 // Warnai tombol ajukan dan batal ajukan di website child dan super
                 buttons.eq(3).removeClass("btn-secondary").addClass("btn-primary").addClass("rounded-0");
             <?php endif ?>
-            lastButton.removeClass("btn-secondary").addClass("btn-danger").addClass("rounded-0");
+            lastButton.removeClass("btn-secondary").addClass("btn-danger").addClass("rounded-0").attr({
+                "data-mdb-tooltip-init": "",
+                "data-mdb-placement": "bottom",
+                "title": "<?= lang('Admin.hapus') ?>",
+            });
 
+            // Tombol cetak
+            buttons.eq(-2).attr({
+                "data-mdb-tooltip-init": "",
+                "data-mdb-placement": "bottom",
+                "title": "<?= lang('Admin.cetak') ?>",
+            });
+            // Tombol unduh
+            buttons.eq(-3).attr({
+                "data-mdb-tooltip-init": "",
+                "data-mdb-placement": "bottom",
+                "title": "<?= lang('Admin.unduh') ?>",
+            });
+            // Tombol kolom
+            buttons.eq(-4).attr({
+                "data-mdb-tooltip-init": "",
+                "data-mdb-placement": "bottom",
+                "title": "<?= lang('Admin.kolom') ?>",
+            });
+
+            // Tombol ajukan
+            buttons.eq(-5).attr({
+                "data-mdb-tooltip-init": "",
+                "data-mdb-placement": "bottom",
+                "title": "<?= lang('Admin.ajukanPosting') ?>",
+            });
 
             var secondButton = buttons.eq(1);
             secondButton.addClass("dropdown-toggle").wrap('<div class="btn-group"></div>').attr({
@@ -408,6 +441,10 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
                     });
                 });
             });
+
+            buttons.each(function() {
+                new mdb.Tooltip(this); // This will reinitialize the tooltip on all elements with the data-mdb-tooltip-init attribute
+            })
         });
 
         // Add MDB styles to the search input after initialization

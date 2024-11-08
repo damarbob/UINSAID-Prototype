@@ -92,3 +92,38 @@ define('EVENT_PRIORITY_NORMAL', 100);
  * @deprecated Use \CodeIgniter\Events\Events::PRIORITY_HIGH instead.
  */
 define('EVENT_PRIORITY_HIGH', 10);
+
+/**
+ * -----------------------------------------------------------------
+ * Notifikasi Constants
+ * -----------------------------------------------------------------
+ */
+defined('NOTIFIKASI_INFO') || define('NOTIFIKASI_INFO', 'info');
+defined('NOTIFIKASI_PERINGATAN') || define('NOTIFIKASI_PERINGATAN', 'peringatan');
+defined('NOTIFIKASI_ACARA') || define('NOTIFIKASI_ACARA', 'acara');
+
+/**
+ * -------------------------------
+ * Query Builder Clause Constant
+ * -------------------------------
+ */
+defined('QB_CLAUSE_WHERE') || define('QB_CLAUSE_WHERE', 'WHERE');
+defined('QB_CLAUSE_OR_WHERE') || define('QB_CLAUSE_OR_WHERE', 'OR_WHERE');
+defined('QB_CLAUSE_WHERE_IN') || define('QB_CLAUSE_WHERE_IN', 'WHERE_IN');
+defined('QB_CLAUSE_OR_WHERE_IN') || define('QB_CLAUSE_OR_WHERE_IN', 'OR_WHERE_IN');
+defined('QB_CLAUSE_WHERE_NOT_IN') || define('QB_CLAUSE_WHERE_NOT_IN', 'WHERE_NOT_IN');
+defined('QB_CLAUSE_OR_WHERE_NOT_IN') || define('QB_CLAUSE_OR_WHERE_NOT_IN', 'OR_WHERE_NOT_IN');
+defined('QB_CLAUSE_LIKE') || define('QB_CLAUSE_LIKE', 'LIKE');
+defined('QB_CLAUSE_OR_LIKE') || define('QB_CLAUSE_OR_LIKE', 'OR_LIKE');
+defined('QB_CLAUSE_NOT_LIKE') || define('QB_CLAUSE_NOT_LIKE', 'NOT_LIKE');
+defined('QB_CLAUSE_OR_NOT_LIKE') || define('QB_CLAUSE_OR_NOT_LIKE', 'OR_NOT_LIKE');
+defined('QB_CLAUSE_HAVING') || define('QB_CLAUSE_HAVING', 'HAVING');
+defined('QB_CLAUSE_OR_HAVING') || define('QB_CLAUSE_OR_HAVING', 'OR_HAVING');
+defined('QB_CLAUSE_HAVING_IN') || define('QB_CLAUSE_HAVING_IN', 'HAVING_IN');
+defined('QB_CLAUSE_OR_HAVING_IN') || define('QB_CLAUSE_OR_HAVING_IN', 'OR_HAVING_IN');
+defined('QB_CLAUSE_HAVING_NOT_IN') || define('QB_CLAUSE_HAVING_NOT_IN', 'HAVING_NOT_IN');
+defined('QB_CLAUSE_OR_HAVING_NOT_IN') || define('QB_CLAUSE_OR_HAVING_NOT_IN', 'OR_HAVING_NOT_IN');
+defined('QB_CLAUSE_HAVING_LIKE') || define('QB_CLAUSE_HAVING_LIKE', 'HAVING_LIKE');
+defined('QB_CLAUSE_OR_HAVING_LIKE') || define('QB_CLAUSE_OR_HAVING_LIKE', 'OR_HAVING_LIKE');
+defined('QB_CLAUSE_NOT_HAVING_LIKE') || define('QB_CLAUSE_NOT_HAVING_LIKE', 'NOT_HAVING_LIKE');
+defined('QB_CLAUSE_OR_NOT_HAVING_LIKE') || define('QB_CLAUSE_OR_NOT_HAVING_LIKE', 'OR_NOT_HAVING_LIKE');
