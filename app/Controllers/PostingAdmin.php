@@ -193,17 +193,21 @@ class PostingAdmin extends BaseControllerAdmin
 
             foreach ($gambarDiPosting as $x) {
                 $relativeThumbnailPath = $direktori . basename($x); //  relative path for thumbnail
+                $thumbnailPath = base_url($relativeThumbnailPath);
 
                 // Cek gambar thumbnail. Jika tidak ada thumbnail, buat file dan kompres gambar
                 if (!file_exists(FCPATH . $relativeThumbnailPath)) {
 
                     // jika berhasil membuat thumbnail, simpan thumbnail path dan keluar loop
                     if ($this->kompresGambarThumbnail($x)) {
-                        $thumbnailPath = base_url($relativeThumbnailPath);
                         break;
                     }
                 }
             }
+        }
+
+        if (!file_exists(FCPATH . $relativeThumbnailPath)) {
+            session()->setFlashdata('peringatan', lang('Admin.thumbnailTidakDitemukan'));
         }
 
         // Data yang akan disimpan
