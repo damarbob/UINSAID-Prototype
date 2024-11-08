@@ -27,6 +27,10 @@ $temaDefault = base_url("assets/css/hijau.css");
     <!-- End Font -->
     <!-- Bootstrap -->
     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"> -->
+    <!-- AdminLTE -->
+    <script src="https://cdn.jsdelivr.net/npm/adminlte4@4.0.0-beta.2.20241031/dist/js/adminlte.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/adminlte4@4.0.0-beta.2.20241031/dist/css/adminlte.min.css" rel="stylesheet">
+    <!-- End of AdminLTE -->
     <!-- MDB -->
     <link id="mdbCSS" rel="stylesheet" href="<?= isset($temaSitus['css']) && $temaSitus['css'] != "" ? base_url($temaSitus['css']) : $temaDefault ?>" />
     <!-- End MDB -->
@@ -43,21 +47,27 @@ $temaDefault = base_url("assets/css/hijau.css");
     <link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-1.13.8/af-2.6.0/b-2.4.2/b-colvis-2.4.2/b-html5-2.4.2/b-print-2.4.2/cr-1.7.0/date-1.5.1/fc-4.3.0/fh-3.4.0/kt-2.11.0/r-2.5.0/rg-1.4.1/rr-1.4.1/sc-2.3.0/sb-1.6.0/sp-2.2.0/sl-1.7.0/sr-1.3.0/datatables.min.css" rel="stylesheet">
 
     <!-- Import Custom CSS -->
-    <link rel="stylesheet" href="<?= base_url('/assets/css/style-admin.css') ?>" />
+    <!-- <link rel="stylesheet" href="<?= base_url('/assets/css/style.css') ?>" /> -->
+    <!-- <link rel="stylesheet" href="<?= base_url('/assets/css/style-admin.css') ?>" /> -->
     <?= $this->renderSection('style') ?>
     <title><?= $judul ?></title>
 </head>
 
-<body id="body-pd">
+<!-- <body id="body-pd"> -->
 
-    <?= $this->renderSection('body'); ?>
+<body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
 
-    <?= $this->include('layout/admin/admin_navbar'); ?>
-    <?= $this->include('layout/admin/admin_sidebar'); ?>
+    <div class="app-wrapper">
+        <?= $this->renderSection('body'); ?>
 
-    <div class="container-fluid pt-2">
-        <!-- Page content -->
-        <?= $this->renderSection('content'); ?>
+        <?= $this->include('layout/admin/admin_navbar'); ?>
+        <?= $this->include('layout/admin/admin_sidebar'); ?>
+
+        <main class="app-main">
+            <!-- Page content -->
+            <?= $this->renderSection('content'); ?>
+        </main>
+
     </div>
 
     <!-- JQuery -->

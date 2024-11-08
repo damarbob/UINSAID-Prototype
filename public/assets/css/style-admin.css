@@ -16,10 +16,18 @@
 }
 
 body {
-  position: relative;
-  margin: var(--header-height) 0 0 0;
-  padding: 0 1rem;
+  /* position: relative; */
+  /* margin: var(--header-height) 0 0 0; */
+  padding: var(--header-height) 1rem;
   transition: 0.5s;
+}
+
+body,
+html {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 a {
@@ -54,6 +62,27 @@ div:where(.swal2-container) div:where(.swal2-popup) {
 div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm) {
   background-color: var(--mdb-primary) !important;
   /* color: #fff; */
+}
+div.dataTables_wrapper div.dataTables_paginate_wrapper {
+  max-width: auto;
+  overflow-x: visible;
+}
+/* div.dataTables_wrapper thead {
+  position: fixed !important;
+  top: 56px;
+  background-color: #fff;
+  z-index: 100000000000000;
+} */
+@media screen and (max-width: 767px) {
+  div.dataTables_wrapper div.dataTables_paginate_wrapper {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+}
+@media screen and (max-width: 767px) {
+  div.dataTables_wrapper div.dataTables_paginate ul.pagination {
+    justify-content: start !important;
+  }
 }
 /* End of overrides */
 
@@ -208,7 +237,8 @@ div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm) {
 
 @media screen and (min-width: 768px) {
   body {
-    margin: calc(var(--header-height) + 1rem) 0 0 0;
+    /* margin: calc(var(--header-height) + 1rem) 0 0 0; */
+    padding: calc(var(--header-height) + 1rem) 0;
     padding-left: calc(var(--nav-width) + 2rem);
   }
 
@@ -238,4 +268,27 @@ div:where(.swal2-container) button:where(.swal2-styled):where(.swal2-confirm) {
   .body-pd {
     padding-left: calc(var(--nav-width) + 188px);
   }
+}
+
+/* Line clamp */
+.line-clamp-1 {
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+.line-clamp-2 {
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+.line-clamp-4 {
+  -webkit-line-clamp: 4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
 }

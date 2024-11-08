@@ -48,10 +48,9 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
         <!-- <div class="table-responsive mt-3"> -->
         <table class="table table-hover w-100" id="tabelAgenda">
             <thead>
-                <tr>
-                    <td><?= lang('Admin.agenda') ?></td>
-                    <td><?= lang('Admin.waktu') ?></td>
-                    <td><?= lang('Admin.status') ?></td>
+                <th class="fw-bold"><i class="bi bi-calendar2-event"></i><br><?= lang('Admin.agenda') ?></th>
+                <th class="fw-bold"><i class="bi bi-clock"></i><br><?= lang('Admin.waktu') ?></th>
+                <th class="fw-bold"><i class="bi bi-app-indicator"></i><br><?= lang('Admin.status') ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -89,6 +88,12 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
             },
             "columns": [{
                     "data": "agenda",
+                    "render": function(data, type, row) {
+                        if (type === 'display') {
+                            return `<a href="<?= base_url('/admin/agenda/sunting?id='); ?>${row.id}">` + (data) + "</a>";
+                        }
+                        return data;
+                    },
                 },
                 {
                     "data": "waktu",

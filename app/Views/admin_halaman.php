@@ -22,11 +22,11 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
         <?php endif; ?>
 
         <table id="halamanTable" class="table table-hover w-100">
-            <thead>
+            <thead class="border-bottom border-primary">
                 <tr>
-                    <th><?= lang('Admin.judul') ?></th>
-                    <th><?= lang('Admin.alamatHalaman') ?></th>
-                    <th><?= lang('Admin.status') ?></th>
+                    <th class="fw-bold"><i class="bi bi-pencil-square me-2"></i><br><?= lang('Admin.judul') ?></th>
+                    <th class="fw-bold"><i class="bi bi-globe2"></i><br><?= lang('Admin.alamatHalaman') ?></th>
+                    <th class="fw-bold"><i class="bi bi-app-indicator"></i><br><?= lang('Admin.status') ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -65,7 +65,7 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
             "language": {
                 url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/id.json'
             },
-            dom: '<"mb-4"<"d-flex flex-column flex-md-row align-items-center mb-2"<"flex-grow-1 align-self-start"B><"align-self-end ps-2 pt-2 pt-md-0 mb-0"f>>r<"table-responsive"t><"d-flex flex-column flex-md-row align-items-center mt-2"<"flex-grow-1 order-2 order-md-1 mt-2 mt-md-0"i><"align-self-end order-1 order-md-2"p>>>',
+            dom: '<"mb-5"<"d-flex flex-column flex-md-row align-items-center mb-2"<"flex-grow-1 align-self-start"B><"align-self-end ps-2 pt-2 pt-md-0 mb-0"f>>r<"table-responsive"t><"d-flex flex-column flex-md-row align-items-center mt-2"<"flex-grow-1 order-2 order-md-1 mt-2 mt-md-0"i><"dataTables_paginate_wrapper align-self-start align-self-sm-end order-1 order-md-2"p>>>',
             "rowCallback": function(row, data, index) {
                 // Add double-click event to navigate to Edit page
                 $(row).on('dblclick', function() {
@@ -113,6 +113,12 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
             ],
             "columns": [{
                     "data": "judul",
+                    "render": function(data, type, row) {
+                        if (type === 'display') {
+                            return `<a href="<?= base_url('/admin/halaman/sunting/'); ?>${row.id}">` + (data) + "</a>";
+                        }
+                        return data;
+                    },
                 },
                 {
                     "data": "slug",
@@ -127,11 +133,11 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
                 {
                     "data": "status",
                     "render": function(data, type, row) {
-                        if (type === 'display') {
-                            return data == "publikasi" ? "<?= lang('Admin.publikasi') ?>" : "<?= lang('Admin.draf') ?>";
+                        if (type === "display") {
+                            return data == "publikasi" ? "<span class='badge badge-success'><?= lang('Admin.publikasi') ?></span>" : "<span class='badge badge-warning'><?= lang('Admin.draf') ?></span>"
                         }
                         return data;
-                    }
+                    },
                 },
             ],
         });

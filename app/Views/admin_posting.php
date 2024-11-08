@@ -56,15 +56,15 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
 
 
         <!-- <div class="table-responsive mt-3"> -->
-        <table class="table table-hover" id="tabelBerita" style="width: 100%;">
-            <thead>
+        <table class="table table-hover" id="tabelBerita">
+            <thead class="border-bottom border-primary">
                 <tr>
-                    <td><?= lang('Admin.judul') ?></td>
-                    <td><?= lang('Admin.penulis') ?></td>
-                    <td><?= lang('Admin.kategori') ?></td>
-                    <td><?= lang('Admin.tanggal') ?></td>
-                    <td><?= lang('Admin.status') ?></td>
-                    <td><?= lang('Admin.jenis') ?></td>
+                    <th class="fw-bold"><i class="bi bi-pencil-square me-2"></i><br><?= lang('Admin.judul') ?></th>
+                    <th class="fw-bold"><i class="bi bi-person me-2"></i><br><?= lang('Admin.penulis') ?></th>
+                    <th class="fw-bold"><i class="bi bi-bookmark me-2"></i><br><?= lang('Admin.kategori') ?></th>
+                    <th class="fw-bold"><i class="bi bi-clock me-2"></i><br><?= lang('Admin.tanggal') ?></th>
+                    <th class="fw-bold"><i class="bi bi-app-indicator me-2"></i><br><?= lang('Admin.status') ?></th>
+                    <th class="fw-bold"><i class="bi bi-pin-angle me-2"></i><br><?= lang('Admin.jenis') ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -119,33 +119,51 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
             },
             "columns": [{
                     "data": "judul",
+                    "render": function(data, type, row) {
+                        return `<a href="<?= base_url('/admin/posting/sunting?id=') ?>${row.id}" class="line-clamp-2">` + data + '</a>';
+                    }
                 },
                 {
                     "data": "penulis",
+                    "render": function(data, type, row) {
+                        if (type === "display") {
+                            return '<span class="badge badge-secondary">' + data + '</span>'
+                        }
+                        return data;
+                    }
                 },
                 {
                     "data": "kategori",
                     "render": function(data, type, row) {
-                        return capitalizeFirstLetter(data);
+                        if (type === "display") {
+                            return capitalizeFirstLetter(data);
+                        }
+                        return data;
                     }
                 },
                 {
                     "data": "tanggal_terbit",
                     "render": function(data, type, row) {
-                        return (data) ? formatDate(data) : '';
+                        return (data) ? '' + formatDate(data) + '' : '';
                     }
                 },
                 {
                     "data": "status",
                     "render": function(data, type, row) {
                         if (type === "display") {
-                            return data == "publikasi" ? "<?= lang('Admin.publikasi') ?>" : "<?= lang('Admin.draf') ?>"
+                            return data == "publikasi" ? "<span class='badge badge-success'><?= lang('Admin.publikasi') ?></span>" : "<span class='badge badge-warning'><?= lang('Admin.draf') ?></span>"
                         }
                         return data;
                     }
                 },
                 {
-                    "data": "posting_jenis_nama"
+                    "data": "posting_jenis_nama",
+                    "render": function(data, type, row) {
+                        if (type === "display") {
+                            return "<span class='badge badge-secondary'>" + capitalizeFirstLetter(data) + '</span>';
+                        }
+                        return data;
+                    }
                 }
             ],
             "language": {
@@ -159,7 +177,7 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
             order: [
                 [3, 'desc']
             ],
-            dom: '<"mb-4"<"d-flex flex-column flex-md-row align-items-center mb-2"<"flex-grow-1 align-self-start"B><"align-self-end ps-2 pt-2 pt-md-0 mb-0"f>>r<"table-responsive"t><"d-flex flex-column flex-md-row align-items-center mt-2"<"flex-grow-1 order-2 order-md-1 mt-2 mt-md-0"i><"align-self-end order-1 order-md-2"p>>>',
+            dom: '<"mb-5"<"d-flex flex-column flex-md-row align-items-center mb-2"<"flex-grow-1 align-self-start"B><"align-self-end ps-2 pt-2 pt-md-0 mb-0"f>>r<"table-responsive"t><"d-flex flex-column flex-md-row align-items-center mt-2"<"flex-grow-1 order-2 order-md-1 mt-2 mt-md-0"i><"dataTables_paginate_wrapper align-self-start align-self-sm-end order-1 order-md-2"p>>>',
             buttons: [{
                     text: '<i class="bi bi-plus-lg"></i>',
                     action: function(e, dt, node, config) {
@@ -203,6 +221,27 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
                 },
             ],
         });
+
+        // Function to handle visibility based on window size
+        function adjustColumnVisibility() {
+            if (window.innerWidth < 576) {
+                // Hide all columns except the 'judul' column (index 0)
+                table1.columns().every(function(index) {
+                    this.visible(index === 0); // Only show the first column (judul)
+                });
+            } else {
+                // Show all columns when the window is wider than 576px
+                table1.columns().every(function() {
+                    this.visible(true);
+                });
+            }
+        }
+
+        // Initial adjustment
+        // adjustColumnVisibility();
+
+        // Adjust visibility on window resize
+        // window.addEventListener('resize', adjustColumnVisibility);
 
         // Fitur hapus massal
         function hapusBanyak() {

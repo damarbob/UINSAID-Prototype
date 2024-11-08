@@ -123,7 +123,7 @@ $temaRTLDefault = base_url("assets/css/hijau.rtl.css");
 </style>
 <?= $this->endSection() ?>
 
-<?= $this->section('body') ?>
+<?= $this->section('content') ?>
 <div id="loaderBody" class="d-none position-fixed d-flex justify-content-center align-items-center top-0 start-0" style="background-color: rgba(var(--mdb-body-bg-rgb), 0.5); width: 100vw; height: 100vh; z-index: 1000000000;">
     <span class="loader-body"></span>
     <span class="visually-hidden">Loading...</span>
@@ -174,9 +174,6 @@ $temaRTLDefault = base_url("assets/css/hijau.rtl.css");
     </div>
 
 </div>
-<?= $this->endSection() ?>
-
-<?= $this->section('content') ?>
 
 <!-- File Table -->
 <div class="table-responsive">

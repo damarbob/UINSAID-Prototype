@@ -4,6 +4,7 @@ return [
     'selamatDatang' => 'Selamat datang',
     'mulai' => 'Mulai',
     'sukses' => 'Sukses',
+    'gagal' => 'Gagal',
     'galat' => 'Galat',
     'terjadiGalat' => 'Terjadi galat',
     'terjadiGalatSaatMemproses' => 'Terjadi galat saat memproses',
@@ -318,6 +319,8 @@ return [
     'jenisFileTidakValid' => 'Jenis file tidak valid.',
     'fileBerhasilDiunggah' => 'File berhasil diunggah.',
     'gagalMengunggahFile' => 'Gagal mengunggah file.',
+
+    'alamatFile' => 'Alamat File',
 
     'ukuran' => 'Ukuran',
     'terakhirDiubah' => 'Terakhir diubah',

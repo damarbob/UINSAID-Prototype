@@ -29,13 +29,13 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
 
         <!-- <div class="table-responsive mt-3"> -->
         <table class="table table-hover" id="tabel" style="width: 100%;">
-            <thead>
+            <thead class="border-bottom border-primary">
                 <tr>
-                    <td><?= lang('Admin.id') ?></td>
-                    <td><?= lang('Admin.username') ?></td>
-                    <td><?= lang('Admin.email') ?></td>
-                    <td><?= lang('Admin.grup') ?></td>
-                    <td><?= lang('Admin.dibuatPada') ?></td>
+                    <th class="fw-bold"><i class="bi bi-list-ul"></i><br><?= lang('Admin.id') ?></th>
+                    <th class="fw-bold"><i class="bi bi-pencil-square me-2"></i><br><?= lang('Admin.username') ?></th>
+                    <th class="fw-bold"><i class="bi bi-envelope"></i><br><?= lang('Admin.email') ?></th>
+                    <th class="fw-bold"><i class="bi bi-bookmark"></i><br><?= lang('Admin.grup') ?></th>
+                    <th class="fw-bold"><i class="bi bi-clock"></i><br><?= lang('Admin.dibuatPada') ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -165,6 +165,23 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
         const tambahModal = new mdb.Modal($('#tambahModal'));
         const editModal = new mdb.Modal($('#editModal'));
 
+        function showEditModal(data, index) {
+            // Get the ID from the data
+            var id = data.id;
+
+            // Update input value from data
+            $('#editId').val(data.id);
+            $('#editUsername').val(data.username);
+            $('#editEmail').val(data.secret);
+            $('#editGrup').val(data.group);
+            $('#editKataSandi').val(''); // Clear password field for security
+            $('#editMintaAturUlangKataSandiCheck').prop('checked', data.force_reset === "1" ? true : false); // Uncheck the checkbox
+            // $('#editForm').attr('action', `<?= base_url('/admin/pengguna/edit/') ?>${id}`);
+
+            // Navigate to the Edit page
+            editModal.show();
+        }
+
         var table1 = $('#tabel').DataTable({
             processing: true,
             pageLength: <?= $barisPerHalaman ?>, // Acquired from settings
@@ -172,20 +189,7 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
             "rowCallback": function(row, data, index) {
                 // Add double-click event to navigate to Edit page
                 $(row).on('dblclick', function() {
-                    // Get the ID from the data
-                    var id = data.id;
-
-                    // Update input value from data
-                    $('#editId').val(data.id);
-                    $('#editUsername').val(data.username);
-                    $('#editEmail').val(data.secret);
-                    $('#editGrup').val(data.group);
-                    $('#editKataSandi').val(''); // Clear password field for security
-                    $('#editMintaAturUlangKataSandiCheck').prop('checked', data.force_reset === "1" ? true : false); // Uncheck the checkbox
-                    // $('#editForm').attr('action', `<?= base_url('/admin/pengguna/edit/') ?>${id}`);
-
-                    // Navigate to the Edit page
-                    editModal.show();
+                    //
                 });
             },
             "columns": [{
@@ -193,6 +197,9 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
                 },
                 {
                     "data": "username",
+                    "render": function(data, type, row, meta) {
+                        return `<a href="#" class="preview-link" data-row-index="${meta.row}">` + (data) + "</a>";
+                    },
                 },
                 {
                     "data": "secret",
@@ -200,7 +207,7 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
                 {
                     "data": "group",
                     "render": function(data, type, row) {
-                        return capitalizeFirstLetter(data);
+                        return "<span class='badge badge-primary'>" + capitalizeFirstLetter(data) + "</span>";
                     },
                 },
                 {
@@ -222,7 +229,7 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
                 [3, 'desc']
             ],
             select: true,
-            dom: '<"mb-4"<"d-flex flex-column flex-md-row align-items-center mb-2"<"flex-grow-1 align-self-start"B><"align-self-end ps-2 pt-2 pt-md-0 mb-0"f>>r<"table-responsive"t><"d-flex flex-column flex-md-row align-items-center mt-2"<"flex-grow-1 order-2 order-md-1 mt-2 mt-md-0"i><"align-self-end order-1 order-md-2"p>>>',
+            dom: '<"mb-5"<"d-flex flex-column flex-md-row align-items-center mb-2"<"flex-grow-1 align-self-start"B><"align-self-end ps-2 pt-2 pt-md-0 mb-0"f>>r<"table-responsive"t><"d-flex flex-column flex-md-row align-items-center mt-2"<"flex-grow-1 order-2 order-md-1 mt-2 mt-md-0"i><"dataTables_paginate_wrapper align-self-start align-self-sm-end order-1 order-md-2"p>>>',
             buttons: [{
                     text: '<i class="bi bi-plus-lg"></i>',
                     action: function(e, dt, node, config) {
@@ -260,6 +267,20 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
                     }
                 },
             ],
+        });
+
+        // Use `table.on` to handle clicks on links with the `.preview-link` class
+        table1.on('click', '.preview-link', function(e) {
+            e.preventDefault();
+
+            // Get the row index from the clicked link's data attribute
+            const rowIndex = $(this).data('row-index');
+
+            // Retrieve the row data by index
+            const rowData = table1.row(rowIndex).data();
+
+            // Call `showPreviewModal` with the row data and index
+            showEditModal(rowData, rowIndex);
         });
 
         // Fitur hapus massal
