@@ -202,7 +202,7 @@ class PostingAdmin extends BaseControllerAdmin
                     if ($this->kompresGambarThumbnail($x)) {
                         break;
                     }
-                }
+                } else break; // Hentikan loop kalau ada file
             }
         }
 
