@@ -13,7 +13,11 @@ class FileManager extends BaseControllerAdmin
 
     public function __construct()
     {
-        $this->baseDir = ROOTPATH . ''; // Define the base directory for file management
+        if (ENVIRONMENT === 'production') {
+            $this->baseDir = FCPATH . ''; // Define the base directory for file management
+        } else {
+            $this->baseDir = ROOTPATH . ''; // Define the base directory for file management
+        }
         // // Decode the received path to interpret slashes correctly
         // $path = urldecode('index.php');
         // d($path);

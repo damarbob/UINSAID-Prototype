@@ -76,14 +76,14 @@
 
         <!-- <div class="table-responsive mt-3"> -->
         <table class="table table-hover" id="tabelRilisMedia" style="width: 100%;">
-            <thead>
+            <thead class="border-bottom border-primary">
                 <tr>
-                    <td><?= lang('Admin.judul') ?></td>
-                    <td><?= lang('Admin.kategori') ?></td>
-                    <td><?= lang('Admin.tanggal') ?></td>
-                    <td><?= lang('Admin.status') ?></td>
-                    <td><?= lang('Admin.sumber') ?></td>
-                    <td><?= lang('Admin.jenis') ?></td>
+                    <th class="fw-bold"><i class="bi bi-pencil-square me-2"></i><br><?= lang('Admin.judul') ?></th>
+                    <th class="fw-bold"><i class="bi bi-bookmark me-2"></i><br><?= lang('Admin.kategori') ?></th>
+                    <th class="fw-bold"><i class="bi bi-clock me-2"></i><br><?= lang('Admin.tanggal') ?></th>
+                    <th class="fw-bold"><i class="bi bi-app-indicator me-2"></i><br><?= lang('Admin.status') ?></th>
+                    <th class="fw-bold"><i class="bi bi-box-arrow-in-up"></i><br><?= lang('Admin.sumber') ?></th>
+                    <th class="fw-bold"><i class="bi bi-pin-angle me-2"></i><br><?= lang('Admin.jenis') ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -109,6 +109,20 @@
         var filterStatus = null; // Define a variable to hold the filter status
         var filterJenis = null; // Define a variable to hold the filter jenis
 
+        function showPreviewModal(data, index) {
+            // Get the ID from the data
+            var id = data.id;
+
+            // Update input value from data
+            $('#lihatModalLabel').html(data.judul);
+            $('#lihatModalKonten').html(data.konten);
+
+            $('#lihatModal').modal('show'); // Tampilkan modal lihat
+
+            // Simpan indeks row yang terakhir terpilih
+            lastDoubleClickedRowIndex = index;
+        }
+
         var table1 = $('#tabelRilisMedia').DataTable({
             processing: true,
             serverSide: true,
@@ -127,25 +141,19 @@
                 }
             },
             "rowCallback": function(row, data, index) {
-                // Add double-click event to navigate to Edit page
+                // Add double-click event to show preview modal
                 $(row).on('dblclick', function() {
-                    // Get the ID from the data
-                    var id = data.id;
 
-                    // Update input value from data
-                    $('#lihatModalLabel').html(data.judul);
-                    $('#lihatModalKonten').html(data.konten);
-
-                    $('#lihatModal').modal('show'); // Tampilkan modal lihat
-
-                    // Simpan indeks row yang terakhir terpilih
-                    lastDoubleClickedRowIndex = index;
+                    showPreviewModal(data, index);
 
                     // console.log(index);
                 });
             },
             "columns": [{
                     "data": "judul",
+                    "render": function(data, type, row, meta) {
+                        return `<a href="#" class="preview-link" data-row-index="${meta.row}">${data}</a>`;
+                    }
                 },
                 {
                     "data": "kategori",
@@ -166,16 +174,27 @@
                     "data": "status",
                     "render": function(data, type, row) {
                         if (type === "display") {
-                            return data == "publikasi" ? "<?= lang('Admin.publikasi') ?>" : "<?= lang('Admin.draf') ?>";
+                            return data == "publikasi" ? "<span class='badge badge-success'><?= lang('Admin.publikasi') ?></span>" : "<span class='badge badge-warning'><?= lang('Admin.draf') ?></span>"
                         }
                         return data;
                     }
                 },
                 {
                     "data": "sumber",
+                    "render": function(data, type, row) {
+                        if (type === "display") {
+                            return '<a href="' + data + '" target="_blank">' + data + '<i class="bi bi-box-arrow-up-right ms-2"></i></a>'
+                        }
+                    }
                 },
                 {
                     "data": "posting_jenis_nama",
+                    "render": function(data, type, row) {
+                        if (type === "display") {
+                            return "<span class='badge badge-secondary'>" + capitalizeFirstLetter(data) + '</span>';
+                        }
+                        return data;
+                    }
                 },
             ],
             "language": {
@@ -190,7 +209,7 @@
                 [2, 'desc']
             ],
             select: true,
-            dom: '<"mb-4"<"d-flex flex-column flex-md-row align-items-center mb-2"<"flex-grow-1 align-self-start"B><"align-self-end ps-2 pt-2 pt-md-0 mb-0"f>>r<"table-responsive"t><"d-flex flex-column flex-md-row align-items-center mt-2"<"flex-grow-1 order-2 order-md-1 mt-2 mt-md-0"i><"align-self-end order-1 order-md-2"p>>>',
+            dom: '<"mb-5"<"d-flex flex-column flex-md-row align-items-center mb-2"<"flex-grow-1 align-self-start"B><"align-self-end ps-2 pt-2 pt-md-0 mb-0"f>>r<"table-responsive"t><"d-flex flex-column flex-md-row align-items-center mt-2"<"flex-grow-1 order-2 order-md-1 mt-2 mt-md-0"i><"dataTables_paginate_wrapper align-self-start align-self-sm-end order-1 order-md-2"p>>>',
             buttons: [
                 // TOmbol publikasi
                 {
@@ -226,6 +245,20 @@
                     }
                 },
             ],
+        });
+
+        // Use `table.on` to handle clicks on links with the `.preview-link` class
+        table1.on('click', '.preview-link', function(e) {
+            e.preventDefault();
+
+            // Get the row index from the clicked link's data attribute
+            const rowIndex = $(this).data('row-index');
+
+            // Retrieve the row data by index
+            const rowData = table1.row(rowIndex).data();
+
+            // Call `showPreviewModal` with the row data and index
+            showPreviewModal(rowData, rowIndex);
         });
 
         // Publikasi postingan terpilih aktif

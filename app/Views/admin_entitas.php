@@ -24,12 +24,12 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
         <?php endif; ?>
 
         <table id="entitasTable" class="table table-hover w-100">
-            <thead>
+            <thead class="border-bottom border-primary">
                 <tr>
-                    <th><?= lang('Admin.induk') ?></th>
-                    <th><?= lang('Admin.nama') ?></th>
-                    <th><?= lang('Admin.website') ?></th>
-                    <th><?= lang('Admin.grup') ?></th>
+                    <th class="fw-bold"><i class="bi bi-list-nested"></i><br><?= lang('Admin.induk') ?></th>
+                    <th class="fw-bold"><i class="bi bi-pencil-square me-2"></i><br><?= lang('Admin.nama') ?></th>
+                    <th class="fw-bold"><i class="bi bi-link"></i><br><?= lang('Admin.website') ?></th>
+                    <th class="fw-bold"><i class="bi bi-bookmark"></i><br><?= lang('Admin.grup') ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -41,6 +41,7 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
 <?= $this->endSection() ?>
 
 <?= $this->section('script') ?>
+<script src="<?= base_url('assets/js/formatter.js') ?>" type="text/javascript"></script>
 <script src="<?= base_url('assets/js/datatables_process_bulk.js') ?>" type="text/javascript"></script>
 <script src="<?= base_url('assets/js/datatables_process_bulk_new.js') ?>" type="text/javascript"></script>
 <script>
@@ -66,7 +67,7 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
             "language": {
                 url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/id.json'
             },
-            dom: '<"mb-4"<"d-flex flex-column flex-md-row align-items-center mb-2"<"flex-grow-1 align-self-start"B><"align-self-end ps-2 pt-2 pt-md-0 mb-0"f>>r<"table-responsive"t><"d-flex flex-column flex-md-row align-items-center mt-2"<"flex-grow-1 order-2 order-md-1 mt-2 mt-md-0"i><"align-self-end order-1 order-md-2"p>>>',
+            dom: '<"mb-5"<"d-flex flex-column flex-md-row align-items-center mb-2"<"flex-grow-1 align-self-start"B><"align-self-end ps-2 pt-2 pt-md-0 mb-0"f>>r<"table-responsive"t><"d-flex flex-column flex-md-row align-items-center mt-2"<"flex-grow-1 order-2 order-md-1 mt-2 mt-md-0"i><"dataTables_paginate_wrapper align-self-start align-self-sm-end order-1 order-md-2"p>>>',
             "rowCallback": function(row, data, index) {
                 // Add double-click event to navigate to Edit page
                 $(row).on('dblclick', function() {
@@ -119,7 +120,13 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
                 },
                 // Show entitas name
                 {
-                    "data": "nama"
+                    "data": "nama",
+                    "render": function(data, type, row) {
+                        if (type === 'display') {
+                            return `<a href="<?= base_url('/admin/entitas/sunting?id='); ?>${row.id}">` + (data) + "</a>";
+                        }
+                        return data;
+                    },
                 },
                 // Conditionally render the link based on link_eksternal
                 {
@@ -138,7 +145,13 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
                 },
 
                 {
-                    "data": "entitas_grup_nama"
+                    "data": "entitas_grup_nama",
+                    "render": function(data, type, row) {
+                        if (type === "display") {
+                            return "<span class='badge badge-primary'>" + capitalizeFirstLetter(data) + '</span>';
+                        }
+                        return data;
+                    },
                 }
             ],
         });

@@ -32,7 +32,7 @@ $date = format_tanggal_dari_timestamp(time());
             <!-- Posting -->
             <div class="col-lg-6 col-xl-4">
                 <a href="<?= base_url('admin/posting') ?>">
-                    <div class="card border border-primary">
+                    <div class="card border border-primary" data-mdb-ripple-init>
                         <div class="card-body">
                             <h5 class="card-title display-5 fw-bold"><?= lang('Admin.posting') ?></h5>
                             <h6 class="card-subtitle"><?= lang('Admin.kelolaPosting') ?></h6>
@@ -48,7 +48,7 @@ $date = format_tanggal_dari_timestamp(time());
             <!-- Kotak Masuk -->
             <div class="col-lg-6 col-xl-4 d-none">
                 <a href="<?= base_url('admin/kotak-masuk') ?>">
-                    <div class="card border border-primary">
+                    <div class="card border border-primary" data-mdb-ripple-init>
                         <div class="card-body">
                             <h5 class="card-title display-5 fw-bold"><?= lang('Admin.kotakMasuk') ?></h5>
                             <h6 class="card-subtitle"><?= lang('Admin.kelolaMasukanDanPelaporan') ?></h6>
@@ -68,7 +68,7 @@ $date = format_tanggal_dari_timestamp(time());
             <!-- Agenda -->
             <div class="col-lg-6 col-xl-4">
                 <a href="<?= base_url('admin/agenda') ?>">
-                    <div class="card border border-primary">
+                    <div class="card border border-primary" data-mdb-ripple-init>
                         <div class="card-body">
                             <h5 class="card-title display-5 fw-bold"><?= lang('Admin.agenda') ?></h5>
                             <h6 class="card-subtitle"><?= lang('Admin.kelolaAgenda') ?></h6>
@@ -84,7 +84,7 @@ $date = format_tanggal_dari_timestamp(time());
             <!-- Pengumuman -->
             <div class="col-lg-6 col-xl-4">
                 <a href="<?= base_url('admin/pengumuman') ?>">
-                    <div class="card border border-primary">
+                    <div class="card border border-primary" data-mdb-ripple-init>
                         <div class="card-body">
                             <h5 class="card-title display-5 fw-bold"><?= lang('Admin.pengumuman') ?></h5>
                             <h6 class="card-subtitle"><?= lang('Admin.kelolaPengumuman') ?></h6>
@@ -100,7 +100,7 @@ $date = format_tanggal_dari_timestamp(time());
             <!-- Galeri -->
             <div class="col-lg-6 col-xl-4">
                 <a href="<?= base_url('admin/galeri') ?>">
-                    <div class="card border border-primary">
+                    <div class="card border border-primary" data-mdb-ripple-init>
                         <div class="card-body">
                             <h5 class="card-title display-5 fw-bold"><?= lang('Admin.galeri') ?></h5>
                             <h6 class="card-subtitle"><?= lang('Admin.kelolaGaleri') ?></h6>
@@ -116,7 +116,7 @@ $date = format_tanggal_dari_timestamp(time());
             <!-- Pengguna -->
             <div class="col-lg-6 col-xl-4">
                 <a href="<?= base_url('admin/pengguna') ?>">
-                    <div class="card border border-primary">
+                    <div class="card border border-primary" data-mdb-ripple-init>
                         <div class="card-body">
                             <h5 class="card-title display-5 fw-bold"><?= lang('Admin.pengguna') ?></h5>
                             <h6 class="card-subtitle"><?= lang('Admin.kelolaPengguna') ?></h6>
@@ -132,7 +132,7 @@ $date = format_tanggal_dari_timestamp(time());
             <!-- Situs -->
             <div class="col-lg-6 col-xl-4">
                 <a href="<?= base_url('admin/situs') ?>">
-                    <div class="card border border-primary">
+                    <div class="card border border-primary" data-mdb-ripple-init>
                         <div class="card-body">
                             <h5 class="card-title display-5 fw-bold"><?= lang('Admin.situs') ?></h5>
                             <h6 class="card-subtitle"><?= lang('Admin.kelolaSitus') ?></h6>

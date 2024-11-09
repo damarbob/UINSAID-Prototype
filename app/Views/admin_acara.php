@@ -47,13 +47,10 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
         <table class="table table-hover w-100" id="tabelAgenda">
             <thead>
                 <tr>
-                    <!-- <td><?= lang('Admin.id') // DEBUG id_jenis 
-                                ?></td> -->
-                    <td><?= $rute == "agenda" ? lang('Admin.agenda') : ($rute == "pengumuman" ? lang('Admin.pengumuman') : lang('Admin.judul')) ?></td>
-
-                    <td><?= lang('Admin.waktuMulai') ?></td>
-                    <td><?= lang('Admin.dibuatPada') ?></td>
-                    <td><?= lang('Admin.status') ?></td>
+                    <th class="fw-bold"><i class="bi bi-calendar2-event"></i><?= $rute == "agenda" ? lang('Admin.agenda') : ($rute == "pengumuman" ? lang('Admin.pengumuman') : lang('Admin.judul')) ?></th>
+                    <th class="fw-bold"><i class="bi bi-clock-history"></i></i><?= lang('Admin.waktuMulai') ?></th>
+                    <th class="fw-bold"><i class="bi bi-clock"></i><?= lang('Admin.dibuatPada') ?></th>
+                    <th class="fw-bold"><i class="bi bi-app-indicator"></i><?= lang('Admin.status') ?></th>
                 </tr>
             </thead>
             <tbody>

@@ -45,13 +45,13 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
 
         <!-- <div class="table-responsive mt-3"> -->
         <table class="table table-hover" id="tabel" style="width: 100%;">
-            <thead>
+            <thead class="border-bottom border-primary">
                 <tr>
-                    <td><?= lang('Admin.id') ?></td>
-                    <td><?= lang('Admin.nama') ?></td>
-                    <td><?= lang('Admin.alamatSitus') ?></td>
-                    <td><?= lang('Admin.statusSitus') ?></td>
-                    <td><?= lang('Admin.tanggal') ?></td>
+                    <th class="fw-bold"><i class="bi bi-list-ul"></i><br><?= lang('Admin.id') ?></th>
+                    <th class="fw-bold"><i class="bi bi-pencil-square me-2"></i><br><?= lang('Admin.nama') ?></th>
+                    <th class="fw-bold"><i class="bi bi-globe2"></i><br><?= lang('Admin.alamatSitus') ?></th>
+                    <th class="fw-bold"><i class="bi bi-app-indicator"></i><br><?= lang('Admin.statusSitus') ?></th>
+                    <th class="fw-bold"><i class="bi bi-clock"></i><br><?= lang('Admin.tanggal') ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -96,9 +96,21 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
                 },
                 {
                     "data": "nama",
+                    "render": function(data, type, row) {
+                        if (type === 'display') {
+                            return `<a href='<?= base_url('/admin/situs/sunting?id=') ?>${row.id}'>` + data + '</a>';
+                        }
+                        return data;
+                    }
                 },
                 {
                     "data": "alamat",
+                    "render": function(data, type, row) {
+                        if (type === 'display') {
+                            return `<a href='` + data + `' target='_blank'>` + data + '<i class="bi bi-box-arrow-up-right ms-2"></i></a>';
+                        }
+                        return data;
+                    }
                 },
                 {
                     "data": "status",
@@ -106,15 +118,15 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
                         if (type === "display") {
                             switch (data) {
                                 case "active":
-                                    return "<?= lang('Admin.aktif') ?>";
+                                    return "<span class='badge badge-secondary'><?= lang('Admin.aktif') ?></span>";
                                     break;
                                 case "inactive":
-                                    return "<?= lang('Admin.nonaktif') ?>";
+                                    return "<span class='badge badge-secondary'><?= lang('Admin.nonaktif') ?></span>";
                                     break;
                                 default:
-                                    return "<?= lang('Admin.tidakBerlaku') ?>";
+                                    return "<span class='badge badge-secondary'><?= lang('Admin.tidakBerlaku') ?></span>";
                             }
-                            return data == "active" ? "<?= lang('Admin.aktif') ?>" : "<?= lang('Admin.nonaktif') ?>"; // TODO: Translasi
+                            return "<span class='badge badge-secondary'>" + (data == "active" ? "<?= lang('Admin.aktif') ?>" : "<?= lang('Admin.nonaktif') ?>") + '</span>'; // TODO: Translasi
                         }
                         return data;
                     }

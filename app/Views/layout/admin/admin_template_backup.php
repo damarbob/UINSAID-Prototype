@@ -43,6 +43,7 @@ $temaDefault = base_url("assets/css/hijau.css");
     <link href="https://cdn.datatables.net/v/bs5/jszip-3.10.1/dt-1.13.8/af-2.6.0/b-2.4.2/b-colvis-2.4.2/b-html5-2.4.2/b-print-2.4.2/cr-1.7.0/date-1.5.1/fc-4.3.0/fh-3.4.0/kt-2.11.0/r-2.5.0/rg-1.4.1/rr-1.4.1/sc-2.3.0/sb-1.6.0/sp-2.2.0/sl-1.7.0/sr-1.3.0/datatables.min.css" rel="stylesheet">
 
     <!-- Import Custom CSS -->
+    <!-- <link rel="stylesheet" href="<?= base_url('/assets/css/style.css') ?>" /> -->
     <link rel="stylesheet" href="<?= base_url('/assets/css/style-admin.css') ?>" />
     <?= $this->renderSection('style') ?>
     <title><?= $judul ?></title>
@@ -55,10 +56,27 @@ $temaDefault = base_url("assets/css/hijau.css");
     <?= $this->include('layout/admin/admin_navbar'); ?>
     <?= $this->include('layout/admin/admin_sidebar'); ?>
 
-    <div class="container-fluid pt-2">
-        <!-- Page content -->
-        <?= $this->renderSection('content'); ?>
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid pt-2">
+
+                    <!-- Page content -->
+                    <?= $this->renderSection('content'); ?>
+
+                </div>
+            </div>
+        </div>
+
     </div>
+
 
     <!-- JQuery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -104,7 +122,7 @@ $temaDefault = base_url("assets/css/hijau.css");
     <script type="text/javascript">
         const inIframe = window.self !== window.top; // Check if loaded inside an iframe
 
-        // Adjust UI to disable sidebar if in iframe
+        // Adjust UI
         if (inIframe) {
             $('#body-pd').addClass('ps-3');
             $('#body-pd').css('transition', 'none');

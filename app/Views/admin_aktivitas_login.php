@@ -51,12 +51,12 @@
 
         <!-- <div class="table-responsive mt-3"> -->
         <table class="table table-hover" id="tabelAktivitasLogin" style="width: 100%;">
-            <thead>
+            <thead class="border-bottom border-primary">
                 <tr>
-                    <td><?= lang('Admin.email') ?></td>
-                    <td><?= lang('Admin.username') ?></td>
-                    <td><?= lang('Admin.status') ?></td>
-                    <td><?= lang('Admin.waktuLogin') ?></td>
+                    <th class="fw-bold"><i class="bi bi-envelope"></i><br><?= lang('Admin.email') ?></th>
+                    <th class="fw-bold"><i class="bi bi-person"></i><br><?= lang('Admin.username') ?></th>
+                    <th class="fw-bold"><i class="bi bi-person"></i><br><?= lang('Admin.status') ?></th>
+                    <th class="fw-bold"><i class="bi bi-clock"></i><br><?= lang('Admin.waktuLogin') ?></th>
                 </tr>
             </thead>
             <tbody>
@@ -128,7 +128,7 @@
                 {
                     "data": "success",
                     "render": function(data, type, row) {
-                        return data == '1' ? 'Sukses' : 'Gagal';
+                        return data == '1' ? "<span class='badge badge-success'><?= lang('Admin.sukses') ?></span>" : "<span class='badge badge-danger'><?= lang('Admin.gagal') ?></span>";
                     }
                 },
                 {
@@ -150,7 +150,7 @@
                 [3, 'desc']
             ],
             select: true,
-            dom: '<"mb-4"<"d-flex flex-column flex-md-row align-items-center mb-2"<"flex-grow-1 align-self-start"B><"align-self-end ps-2 pt-2 pt-md-0 mb-0"f>>r<"table-responsive"t><"d-flex flex-column flex-md-row align-items-center mt-2"<"flex-grow-1 order-2 order-md-1 mt-2 mt-md-0"i><"align-self-end order-1 order-md-2"p>>>',
+            dom: '<"mb-5"<"d-flex flex-column flex-md-row align-items-center mb-2"<"flex-grow-1 align-self-start"B><"align-self-end ps-2 pt-2 pt-md-0 mb-0"f>>r<"table-responsive"t><"d-flex flex-column flex-md-row align-items-center mt-2"<"flex-grow-1 order-2 order-md-1 mt-2 mt-md-0"i><"dataTables_paginate_wrapper align-self-start align-self-sm-end order-1 order-md-2"p>>>',
             buttons: [
                 // TOmbol publikasi
                 {

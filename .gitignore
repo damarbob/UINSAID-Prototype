@@ -2,3 +2,4 @@
 /env
 /writable
 app/Views/berita-dump.php
+public/testing-layout.html
