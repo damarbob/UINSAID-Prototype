@@ -428,7 +428,7 @@ $routes->group('api', static function ($routes) {
 
     // Notifikasi
     $routes->post('notifikasi', 'DasborAdmin::getNotifikasi');
-    $routes->get('notifikasi', 'DasborAdmin::getNotifikasi');
+    // $routes->get('notifikasi', 'DasborAdmin::getNotifikasi');
     $routes->post('notifikasi/tandai-semua-sudah-dibaca', 'DasborAdmin::tandaiSemuaNotifikasiSudahDibaca');
     $routes->post('notifikasi/tandai-sudah-dibaca/(:num)', 'DasborAdmin::tandaiNotifikasiSudahDibaca/$1');
 });

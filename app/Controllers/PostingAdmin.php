@@ -181,16 +181,17 @@ class PostingAdmin extends BaseControllerAdmin
         $konten = $this->request->getVar('konten');
 
         $gambarDefault = base_url('assets/img/icon-notext.png');
+        $gambarThumbnailDefault = base_url('uploads/thumbnails/icon-notext.png');
         $gambarDiPosting = $this->postingModel->extract_all_images_from_html($konten, $gambarDefault, false);
         $gambarPertama = $gambarDiPosting[0]; // Gambar pertama di konten
+
+        $direktori = 'uploads/thumbnails/';
+        $relativeThumbnailPath = $direktori . 'icon-notext.png'; //  relative path for thumbnail
 
         // Jika tidak ada gambar di konten, gunakan gambar default
         if ($gambarDefault == $gambarPertama) {
             $thumbnailPath = $gambarPertama;
         } else {
-
-            $direktori = 'uploads/thumbnails/';
-
             foreach ($gambarDiPosting as $x) {
                 $relativeThumbnailPath = $direktori . basename($x); //  relative path for thumbnail
                 $thumbnailPath = base_url($relativeThumbnailPath);
@@ -206,8 +207,9 @@ class PostingAdmin extends BaseControllerAdmin
             }
         }
 
-        if (!file_exists(FCPATH . $relativeThumbnailPath)) {
-            session()->setFlashdata('peringatan', lang('Admin.thumbnailTidakDitemukan'));
+        if (!file_exists(FCPATH . $relativeThumbnailPath) || $thumbnailPath == $gambarThumbnailDefault) {
+            $thumbnailPath = $gambarPertama;
+            // session()->setFlashdata('peringatan', lang('Admin.thumbnailTidakDitemukan'));
         }
 
         // Data yang akan disimpan
