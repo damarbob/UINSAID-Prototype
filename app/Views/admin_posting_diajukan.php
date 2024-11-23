@@ -185,6 +185,7 @@
                         if (type === "display") {
                             return '<a href="' + data + '" target="_blank">' + data + '<i class="bi bi-box-arrow-up-right ms-2"></i></a>'
                         }
+                        return data;
                     }
                 },
                 {
