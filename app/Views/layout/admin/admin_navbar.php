@@ -139,7 +139,13 @@
                 url += `&newer_than=${latestNotificationId}`;
             }
 
-            const response = await fetch(url);
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    "X-Requested-With": "XMLHttpRequest"
+                }
+            });
             const notifications = await response.json();
             const notificationList = document.getElementById('notification-list');
 

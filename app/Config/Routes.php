@@ -52,6 +52,7 @@ $routes->get('entitas', 'Entitas');
 // $routes->get('agenda', 'Agenda');
 // $routes->get('agenda/(:num)', 'Agenda::get/$1');
 $routes->get('agenda', 'AgendaPengumuman');
+$routes->get('agenda-pengumuman', 'AgendaPengumuman::getAll');
 $routes->get('agenda-pengumuman/(:any)', 'AgendaPengumuman::get/$1');
 // $routes->get('pengumuman', 'Pengumuman');
 // $routes->get('pengumuman/(:num)', 'Pengumuman::get/$1');
@@ -428,7 +429,7 @@ $routes->group('api', static function ($routes) {
 
     // Notifikasi
     $routes->post('notifikasi', 'DasborAdmin::getNotifikasi');
-    $routes->get('notifikasi', 'DasborAdmin::getNotifikasi');
+    // $routes->get('notifikasi', 'DasborAdmin::getNotifikasi');
     $routes->post('notifikasi/tandai-semua-sudah-dibaca', 'DasborAdmin::tandaiSemuaNotifikasiSudahDibaca');
     $routes->post('notifikasi/tandai-sudah-dibaca/(:num)', 'DasborAdmin::tandaiNotifikasiSudahDibaca/$1');
 });
