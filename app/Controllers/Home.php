@@ -271,6 +271,8 @@ class Home extends BaseController
         $loader = new ArrayLoader();
         $twig = new Environment($loader);
 
+        // dd($this->request->getGet()); // Debug for request_get in TWIG
+
         $komponenTerformat = []; // Array untuk menyimpan komponen terformat
         foreach ($komponen as $i => $x) {
             // dd($x['konten']);

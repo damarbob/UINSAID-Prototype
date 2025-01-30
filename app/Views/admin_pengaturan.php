@@ -501,7 +501,7 @@ $errorIkon = validation_show_error('ikon_file');
                     <option value="10" <?= $valueBarisPerHalaman == '10' ? 'selected' : '' ?>>10</option>
                     <option value="20" <?= $valueBarisPerHalaman == '20' ? 'selected' : '' ?>>20</option>
                     <option value="50" <?= $valueBarisPerHalaman == '50' ? 'selected' : '' ?>>50</option>
-                    <option value="100" <?= $valueBarisPerHalaman == '100' ? `selected` : '' ?>>100</option>
+                    <option value="100" <?= $valueBarisPerHalaman == '100' ? 'selected' : '' ?>>100</option>
                 </select>
                 <label for="BarisPerHalaman" class="form-label"><?= lang('Admin.barisPerHalaman') ?></label>
                 <div class="form-helper">

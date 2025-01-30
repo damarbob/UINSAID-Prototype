@@ -12,8 +12,9 @@ class PostingModel extends \CodeIgniter\Model
 
     protected $allowedFields = ['id_penulis', 'id_kategori', 'id_jenis', 'judul', 'slug', 'konten', 'ringkasan', 'pengajuan', 'status', 'gambar_sampul', 'sumber', 'tanggal_terbit', 'created_at', 'updated_at'];
 
-    public function getPosting($jenisNama = null, $kategoriNama = null, $search = null, $status = null, $showFuture = false, $paginated = false, $perPage = 12, $jenisId = null, $kategoriId = null, $limit = null, $start = null, $order = null, $dir = null,)
+    public function getPosting($jenisNama = null, $kategoriNama = null, $search = null, $status = null, $showFuture = false, $paginated = false, $perPage = 12, $jenisId = null, $kategoriId = null, $grupNama = 'posting' , $limit = null, $start = null, $order = null, $dir = null,)
     {
+        // dd($kategoriNama);
         $builder = $this->table($this->table)
             ->select('posting.*, users.username as penulis, kategori.nama as kategori, posting_jenis.id as id_posting_jenis')
             ->join('users', 'users.id = posting.id_penulis', 'left')
@@ -63,7 +64,7 @@ class PostingModel extends \CodeIgniter\Model
                 ->groupEnd();
         }
 
-        if ($paginated) return $builder->paginate($perPage, 'posting');
+        if ($paginated) return $builder->paginate($perPage, $grupNama);
         else return $builder->get()->getResultArray();
     }
 

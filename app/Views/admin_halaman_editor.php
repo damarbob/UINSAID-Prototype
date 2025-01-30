@@ -650,7 +650,7 @@ $errorJS = validation_show_error('js_file');
 
         function populateEditKomponenMetaFields(meta) {
 
-            // console.log("META THE FOLLOWING:");
+            // console.log("Component meta:");
             // console.log(meta);
 
             meta.forEach(function(item) {
@@ -903,7 +903,7 @@ $errorJS = validation_show_error('js_file');
                 required = required ? 'required' : '';
 
                 // console.log(item);
-                // console.log(item.required);
+                // console.log(checked === true);
 
                 // Create input elements based on type
                 switch (tipe) {

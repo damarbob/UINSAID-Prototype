@@ -37,9 +37,13 @@ class Twig
 
         // Create the Twig environment
         $this->twig = new Environment($loader, [
+            'debug' => true, // Enable debug during development
             'cache' => false, // Disable caching during development; set to WRITEPATH . 'cache/twig' in production
             'auto_reload' => true,
         ]);
+
+        // Enable the dump function in Twig
+        // $this->twig->addExtension(new \Twig\Extension\DebugExtension());
 
         // Add custom 'humanize' filter
         $this->twig->addFilter(new TwigFilter('datehumanize', function ($date) {
@@ -57,14 +61,19 @@ class Twig
         }));
 
         // Add custom function to get paginated posting
-        $this->twig->addFunction(new TwigFunction('get_posting_paginated', function ($jenisNama) {
-            $search = $this->request->getGet('search') ?? null;
-            $kategoriNama = $this->request->getGet('kategori') ?? null;
+        $this->twig->addFunction(new TwigFunction('get_posting_paginated', function ($jenisNama, $kategoriNama = null, $kolomCariNama = 'cari', $kolomKategoriNama = 'kategori', $grupNama = 'posting') {
+            // dd($kolomKategoriNama);
+            $search = $this->request->getGet($kolomCariNama) ?? null;
+            $kategoriNamaGet = $this->request->getGet($kolomKategoriNama) ?? null;
 
-            $posting = $this->postingModel->getPosting(jenisNama: $jenisNama, kategoriNama: $kategoriNama, search: $search, status: 'publikasi', order: 'posting.tanggal_terbit', dir: 'DESC', paginated: true);
+            // dd($this->request->getGet());
+            // dd($kategoriNama);
+            // dd($kategoriNama ?: $kategoriNamaGet);
+
+            $posting = $this->postingModel->getPosting(jenisNama: $jenisNama, kategoriNama: $kategoriNama ?: $kategoriNamaGet, search: $search, status: 'publikasi', grupNama: $grupNama, order: 'posting.tanggal_terbit', dir: 'DESC', paginated: true);
             $data['posting'] = format_tanggal_suatu_kolom($posting, 'tanggal_terbit', humanize: true);
             $data['postingPager'] = $this->postingModel->pager;
-            $data['kategori'] = $this->kategoriModel->getKategoriByJenisNama($jenisNama);
+            $data['daftarKategori'] = $this->kategoriModel->getKategoriByJenisNama($jenisNama);
             return $data;
         }));
     }

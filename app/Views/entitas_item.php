@@ -30,7 +30,7 @@
 <section
     class="hero"
     class="bg-primary p-0 d-flex align-items-center justify-content-center mt-navbar"
-    style="background-image: url('<?= ($entitas['gambar_sampul'] != null) ? $entitas['gambar_sampul'] : base_url('assets/img/lurik-hijau-vector-bg.jpg') ?>');">
+    style="background-image: url('<?= ($entitas['gambar_sampul'] != null) ? base_url($entitas['gambar_sampul']) : base_url('assets/img/lurik-hijau-vector-bg.jpg') ?>');">
 </section>
 
 <!-- Nama -->
