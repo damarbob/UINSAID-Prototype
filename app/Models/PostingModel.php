@@ -12,14 +12,26 @@ class PostingModel extends \CodeIgniter\Model
 
     protected $allowedFields = ['id_penulis', 'id_kategori', 'id_jenis', 'judul', 'slug', 'konten', 'ringkasan', 'pengajuan', 'status', 'gambar_sampul', 'sumber', 'tanggal_terbit', 'created_at', 'updated_at'];
 
-    public function getPosting($jenisNama = null, $kategoriNama = null, $search = null, $status = null, $showFuture = false, $paginated = false, $perPage = 12, $jenisId = null, $kategoriId = null, $grupNama = 'posting' , $limit = null, $start = null, $order = null, $dir = null,)
+    protected $paginatedCounter = 0;
+
+    public function getPosting($postingId = null, $slug = null, $jenisNama = null, $kategoriNama = null, $search = null, $status = null, $showFuture = false, $paginated = false, $perPage = 12, $returnType = 'array', $jenisId = null, $kategoriId = null, $grupNama = 'posting', $limit = null, $start = null, $order = null, $dir = null, $additionalConditions = null)
     {
         // dd($kategoriNama);
         $builder = $this->table($this->table)
-            ->select('posting.*, users.username as penulis, kategori.nama as kategori, posting_jenis.id as id_posting_jenis')
+            ->select('posting.*, users.username as penulis, GROUP_CONCAT(kategori.nama) as kategori, GROUP_CONCAT(kategori.id) as id_kategori, posting_jenis.id as id_posting_jenis, posting_jenis.nama as posting_jenis_nama')
             ->join('users', 'users.id = posting.id_penulis', 'left')
-            ->join('kategori', 'kategori.id = posting.id_kategori', 'left')
-            ->join('posting_jenis', 'posting_jenis.id = kategori.id_jenis', 'left');
+            ->join('posting_kategori', 'posting_kategori.id_posting = posting.id', 'left')
+            ->join('kategori', 'kategori.id = posting_kategori.id_kategori', 'left')
+            ->join('posting_jenis', 'posting_jenis.id = kategori.id_jenis', 'left')
+            ->groupBy('posting.id');
+
+        if ($postingId) {
+            $builder->where('posting.id', $postingId);
+        }
+
+        if ($slug) {
+            $builder->where('posting.slug', $slug);
+        }
 
         if ($jenisNama) {
             $builder->where('posting_jenis.nama', $jenisNama);
@@ -34,7 +46,7 @@ class PostingModel extends \CodeIgniter\Model
         }
 
         if ($kategoriId) {
-            $builder->where('posting.id_kategori', $kategoriId);
+            $builder->where('kategori.id', $kategoriId);
         }
 
         if ($status) {
@@ -46,27 +58,306 @@ class PostingModel extends \CodeIgniter\Model
             $builder->where('posting.tanggal_terbit <= ', date('Y-m-d H:i:s'));
         }
 
+        if ($additionalConditions) {
+            $builder->groupStart();
+            foreach ($additionalConditions as $x) {
+                if ($x['operator'] == QB_CLAUSE_WHERE) {
+                    $builder->where($x['key'], $x['value']);
+                } elseif ($x['operator'] == QB_CLAUSE_OR_WHERE) {
+                    $builder->orWhere($x['key'], $x['value']);
+                } elseif ($x['operator'] == QB_CLAUSE_WHERE_IN) {
+                    $builder->whereIn($x['key'], $x['value']);
+                } elseif ($x['operator'] == QB_CLAUSE_WHERE_NOT_IN) {
+                    $builder->whereNotIn($x['key'], $x['value']);
+                }
+            }
+            $builder->groupEnd();
+        }
+
         if ($order && $dir) {
             $builder->orderBy($order, $dir);
         }
 
-        if ($limit && $start) {
+        if ($limit && ($start || $start === 0)) {
             $builder->limit($limit, $start);
         }
 
         if ($search) {
             $builder->groupStart()
                 ->like('posting.judul', $search)
-                // ->orLike('users.username', $search)
-                // ->orLike('kategori.nama', $search)
-                // ->orLike('posting.tanggal_terbit', $search)
-                // ->orLike('posting.status', $search)
+                ->orLike('users.username', $search)
+                ->orLike('kategori.nama', $search)
+                ->orLike('posting.tanggal_terbit', $search)
+                ->orLike('posting.status', $search)
                 ->groupEnd();
         }
 
-        if ($paginated) return $builder->paginate($perPage, $grupNama);
-        else return $builder->get()->getResultArray();
+        $results = $paginated ? $builder->paginate($perPage, $grupNama) : $builder->get()->getResultArray();
+
+        // Process categories to be array
+        foreach ($results as &$result) {
+            $result['kategori'] = explode(',', $result['kategori']);
+            $result['id_kategori'] = explode(',', $result['id_kategori']);
+        }
+
+        return $returnType === 'array' ? $results : json_decode(json_encode($results));
+
+        // if ($paginated) return $builder->paginate($perPage, $grupNama);
+        // else return $builder->get()->getResult($returnType);
     }
+
+    /**
+     * Get 12-per-page-paginated posting by categories id
+     * 
+     * @param array $idBanyakKategori Ids of Posting categories
+     * @param string $jenisNama Name of post type
+     * @return array Paginated Array of posting where the status is publikasi
+     */
+    public function getPaginatedByBanyakKategori($idBanyakKategori, $jenisNama = 'berita', $perPage = 12)
+    {
+        $counter = ++$this->paginatedCounter;
+        $grupNama = $jenisNama . $counter;
+        $additionalConditions = [
+            [
+                'operator'  => QB_CLAUSE_WHERE_IN,
+                'key'       => 'posting_kategori.id_kategori',
+                'value'     => $idBanyakKategori
+            ]
+        ];
+        return $this->formatSampul($this->getPosting(jenisNama: $jenisNama, showFuture: false, status: 'publikasi', paginated: true, perPage: $perPage, grupNama: $grupNama, additionalConditions: $additionalConditions));
+    }
+
+    /**
+     * Get posting by categories id
+     * 
+     * @param array $idBanyakKategori Ids of Posting categories
+     * @param int $limit Array size
+     * @param int $start Query result offset
+     * @param string $jenisNama Name of post type
+     * @return array Array of posting where the status is publikasi
+     */
+    public function getLimitedByBanyakKategori($idBanyakKategori, $limit, $start, $jenisNama = 'berita')
+    {
+        $additionalConditions = [
+            [
+                'operator'  => QB_CLAUSE_WHERE_IN,
+                'key'       => 'posting_kategori.id_kategori',
+                'value'     => $idBanyakKategori
+            ]
+        ];
+        return $this->formatSampul($this->getPosting(jenisNama: $jenisNama, showFuture: false, status: 'publikasi', additionalConditions: $additionalConditions, limit: $limit, start: $start));
+    }
+
+    /**
+     * Get posting for datatables admin
+     * 
+     * @param array $idBanyakKategori Ids of Posting categories
+     * @param string $jenisNama Name of post type
+     * @param int $limit Array size
+     * @param int $start Query result offset
+     * @param string $status Posts's status
+     * @param string $search Search key
+     * @param string $order Field to be ordered by
+     * @param string $dir Direction of order ('asc' or 'desc')
+     * @return array Array of posting
+     */
+    public function getForDatatables($idBanyakKategori = null, $jenisNama = 'berita', $limit = 10, $start = 0, $status = null, $search = null, $order = 'judul', $dir = 'asc')
+    {
+        if ($idBanyakKategori) {
+            $additionalConditions = [
+                [
+                    'operator'  => QB_CLAUSE_WHERE_IN,
+                    'key'       => 'posting_kategori.id_kategori',
+                    'value'     => $idBanyakKategori
+                ]
+            ];
+        } else $additionalConditions = null;
+        return $this->getPosting(jenisNama: $jenisNama, showFuture: true, status: $status, additionalConditions: $additionalConditions, limit: $limit, start: $start, search: $search, order: $order, dir: $dir, returnType: 'object');
+    }
+
+    /**
+     * Get newest posting
+     * 
+     * @param string $jenisNama Name of post type
+     * @param int $limit Array size
+     * @param int $start Query result offset
+     * @return array Array of posting where the status is publikasi
+     */
+    public function getTerbaru($jenisNama, $limit, $start = 0)
+    {
+        return $this->formatSampul($this->getPosting(jenisNama: $jenisNama, showFuture: false, status: 'publikasi', limit: $limit, start: $start));
+    }
+
+    /**
+     * Get posting by posting's slug
+     * 
+     * @param string $slug Slug of post
+     * @return array Array of posting where the status is publikasi
+     */
+    public function getBySlug($slug)
+    {
+        return $this->formatSampul($this->getPosting(slug: $slug, showFuture: false, status: 'publikasi'))[0];
+    }
+
+    /**
+     * Get posting by posting id
+     * 
+     * @param int $postingId Id of post
+     * @return array Array of posting where the status is publikasi
+     */
+    public function getByPostingId($postingId)
+    {
+        return $this->formatSampul($this->getPosting(postingId: $postingId))[0];
+    }
+
+    /**
+     * Get published posting
+     * 
+     * @param int $jenisNama Name of post type
+     * @return array Array of posting where the status is publikasi
+     */
+    public function getPublikasi($jenisNama)
+    {
+        return $this->getPosting(jenisNama: $jenisNama, status: 'publikasi');
+    }
+
+    /**
+     * Get drafted posting
+     * 
+     * @param int $jenisNama Name of post type
+     * @return array Array of posting where the status is publikasi
+     */
+    public function getDraf($jenisNama)
+    {
+        return $this->getPosting(jenisNama: $jenisNama, status: 'draf');
+    }
+
+    public function formatSampul($data)
+    {
+        // Check if $data is an array
+        if (!is_array($data)) {
+            $data = array($data); // Convert single item to array
+        }
+
+        foreach ($data as &$item) {
+            // Check if $item is an array
+            if (is_array($item)) {
+                $item['gambar_sampul_sementara'] = $this->extract_first_image($item['konten'], base_url('assets/img/icon-notext.png'), false);
+
+                // Uncomment the following and comment above code if the image is from base url
+                // $item['gambar_sampul'] = base_url('uploads/' . $this->extract_first_image_filename($item['konten'], base_url('assets/img/esmonde-yong-wFpJV5EWrSM-unsplash.jpg')));
+            }
+        }
+
+        return $data;
+    }
+
+    public function formatSampulSingle($data)
+    {
+        // tampilan error kalau tidak ada slug artikel yang ada di database
+        if (empty($data)) {
+            throw new \CodeIgniter\Exceptions\PageNotFoundException('Artikel tidak ditemukan.');
+        }
+
+        $data['gambar_sampul_sementara'] = $this->extract_first_image($data['konten'], base_url('assets/img/icon-notext.png'), false);
+
+        return $data;
+    }
+
+    /**
+     * Extracts the filename with extension of the first image from HTML content.
+     *
+     * @param string $html The HTML content.
+     * @param string $defaultImageUrl The default image URL if no image found.
+     * @return string The filename with extension of the first image found.
+     */
+    function extract_first_image(string $html, string $defaultImageUrl, bool $filenameOnly): string
+    {
+        // Check if $html is not empty
+        if (empty($html)) {
+            // Return default image if no HTML content is provided
+            return $defaultImageUrl;
+        }
+
+        // Create a DOMDocument object
+        $dom = new \DOMDocument();
+        // Suppress errors caused by malformed HTML
+        libxml_use_internal_errors(true);
+        // Load HTML content into the DOMDocument
+        $dom->loadHTML($html);
+        // Restore error handling
+        libxml_clear_errors();
+
+        // Get all img elements
+        $images = $dom->getElementsByTagName('img');
+
+        // Check if there is at least one image
+        if ($images->length > 0) {
+            // Get the src attribute of the first image
+            $firstImageSrc = $images->item(0)->getAttribute('src');
+            // Extract the filename with extension from the src attribute
+            $filenameWithExtension = basename($firstImageSrc);
+            return $filenameOnly ? $filenameWithExtension : $firstImageSrc;
+        } else {
+            // If no image found, return the default image URL
+            return $defaultImageUrl;
+        }
+    }
+
+    /**
+     * Extracts images from HTML content.
+     *
+     * @param string $html The HTML content.
+     * @param string $defaultImageUrl The default image URL if no image found.
+     * @return array array of images.
+     */
+    function extract_all_images_from_html(string $html, string $defaultImageUrl, bool $filenameOnly): array
+    {
+        $imagesArray = [];
+
+        if (!empty($html)) {
+            $dom = new \DOMDocument();
+            libxml_use_internal_errors(true);
+            $dom->loadHTML($html);
+            libxml_clear_errors();
+
+            $images = $dom->getElementsByTagName('img');
+
+            foreach ($images as $img) {
+                $src = $img->getAttribute('src');
+                $imagesArray[] = $filenameOnly ? basename($src) : $src;
+            }
+        }
+
+        // Add default image as the last element
+        $imagesArray[] = $defaultImageUrl;
+
+        return $imagesArray;
+    }
+
+    public function isLatestDataOverThreeMonthsOld(): bool
+    {
+        // Get the latest created data
+        $latestData = $this->orderBy('created_at', 'DESC')->first();
+
+        if ($latestData) {
+            // Calculate the difference in months between now and the created_at timestamp
+            $createdAt = new DateTime($latestData['created_at']);
+            $now = new DateTime();
+            $interval = $now->diff($createdAt);
+            $monthsDiff = $interval->y * 12 + $interval->m;
+
+            // Check if the difference is greater than or equal to 3 months
+            return $monthsDiff >= 3;
+        }
+
+        // If no data is found, do not consider it as over 3 months old. Instead, there will be another warning to invite users to write their first post.
+        return false;
+    }
+
+
+    /* Function below are deprecated :) */
+
 
     /**
      * Get 12-per-page-paginated posting by jenis and kategori
@@ -212,7 +503,7 @@ class PostingModel extends \CodeIgniter\Model
             ->paginate(12, 'posting'));
     }
 
-    public function getTerbaru($jenisNama, $jumlah, $offset = 0)
+    public function getTerbaruu($jenisNama, $jumlah, $offset = 0)
     {
         return $this->formatSampul($this->select('posting.*, users.username as penulis, kategori.nama as kategori')
             ->join('users', 'users.id = posting.id_penulis', 'left')
@@ -233,11 +524,11 @@ class PostingModel extends \CodeIgniter\Model
         return $this->formatSampul($this->select('posting.*, users.username as penulis, kategori.nama as kategori, kategori.id_jenis as id_jenis')
             ->join('users', 'users.id = posting.id_penulis', 'left')
             ->join('kategori', 'kategori.id = posting.id_kategori', 'left')
-            ->where('posting.' . $this->primaryKey, $id)
+            ->where('posting.id', $id)
             ->first());
     }
 
-    public function getBySlug($slug)
+    public function getBySlugg($slug)
     {
         return $this->formatSampulSingle($this->select('posting.*, users.username as penulis, kategori.nama as kategori')
             ->join('users', 'users.id = posting.id_penulis', 'left')
@@ -247,7 +538,7 @@ class PostingModel extends \CodeIgniter\Model
             ->first());
     }
 
-    public function getPublikasi(string $jenis)
+    public function getPublikasii(string $jenis)
     {
         return $this->formatSampul($this->select('posting.*, users.username as penulis, kategori.nama as kategori')
             ->join('users', 'users.id = posting.id_penulis', 'left')
@@ -263,7 +554,7 @@ class PostingModel extends \CodeIgniter\Model
             ->findAll());
     }
 
-    public function getDraf(string $jenis)
+    public function getDraff(string $jenis)
     {
         return $this->formatSampul($this->select('posting.*, users.username as penulis, kategori.nama as kategori')
             ->join('users', 'users.id = posting.id_penulis', 'left')
@@ -277,130 +568,5 @@ class PostingModel extends \CodeIgniter\Model
 
             ->orderBy('posting.created_at', 'DESC')
             ->findAll());
-    }
-
-    public function formatSampul($data)
-    {
-        // Check if $data is an array
-        if (!is_array($data)) {
-            $data = array($data); // Convert single item to array
-        }
-
-        foreach ($data as &$item) {
-            // Check if $item is an array
-            if (is_array($item)) {
-                $item['gambar_sampul_sementara'] = $this->extract_first_image($item['konten'], base_url('assets/img/icon-notext.png'), false);
-
-                // Uncomment the following and comment above code if the image is from base url
-                // $item['gambar_sampul'] = base_url('uploads/' . $this->extract_first_image_filename($item['konten'], base_url('assets/img/esmonde-yong-wFpJV5EWrSM-unsplash.jpg')));
-            }
-        }
-
-        return $data;
-    }
-
-    public function formatSampulSingle($data)
-    {
-        // tampilan error kalau tidak ada slug artikel yang ada di database
-        if (empty($data)) {
-            throw new \CodeIgniter\Exceptions\PageNotFoundException('Artikel tidak ditemukan.');
-        }
-
-        $data['gambar_sampul_sementara'] = $this->extract_first_image($data['konten'], base_url('assets/img/icon-notext.png'), false);
-
-        return $data;
-    }
-
-    /**
-     * Extracts the filename with extension of the first image from HTML content.
-     *
-     * @param string $html The HTML content.
-     * @param string $defaultImageUrl The default image URL if no image found.
-     * @return string The filename with extension of the first image found.
-     */
-    function extract_first_image(string $html, string $defaultImageUrl, bool $filenameOnly): string
-    {
-        // Check if $html is not empty
-        if (empty($html)) {
-            // Return default image if no HTML content is provided
-            return $defaultImageUrl;
-        }
-
-        // Create a DOMDocument object
-        $dom = new \DOMDocument();
-        // Suppress errors caused by malformed HTML
-        libxml_use_internal_errors(true);
-        // Load HTML content into the DOMDocument
-        $dom->loadHTML($html);
-        // Restore error handling
-        libxml_clear_errors();
-
-        // Get all img elements
-        $images = $dom->getElementsByTagName('img');
-
-        // Check if there is at least one image
-        if ($images->length > 0) {
-            // Get the src attribute of the first image
-            $firstImageSrc = $images->item(0)->getAttribute('src');
-            // Extract the filename with extension from the src attribute
-            $filenameWithExtension = basename($firstImageSrc);
-            return $filenameOnly ? $filenameWithExtension : $firstImageSrc;
-        } else {
-            // If no image found, return the default image URL
-            return $defaultImageUrl;
-        }
-    }
-
-    /**
-     * Extracts images from HTML content.
-     *
-     * @param string $html The HTML content.
-     * @param string $defaultImageUrl The default image URL if no image found.
-     * @return array array of images.
-     */
-    function extract_all_images_from_html(string $html, string $defaultImageUrl, bool $filenameOnly): array
-    {
-        $imagesArray = [];
-
-        if (!empty($html)) {
-            $dom = new \DOMDocument();
-            libxml_use_internal_errors(true);
-            $dom->loadHTML($html);
-            libxml_clear_errors();
-
-            $images = $dom->getElementsByTagName('img');
-
-            foreach ($images as $img) {
-                $src = $img->getAttribute('src');
-                $imagesArray[] = $filenameOnly ? basename($src) : $src;
-            }
-        }
-
-        // Add default image as the last element
-        $imagesArray[] = $defaultImageUrl;
-
-        return $imagesArray;
-    }
-
-
-
-    public function isLatestDataOverThreeMonthsOld(): bool
-    {
-        // Get the latest created data
-        $latestData = $this->orderBy('created_at', 'DESC')->first();
-
-        if ($latestData) {
-            // Calculate the difference in months between now and the created_at timestamp
-            $createdAt = new DateTime($latestData['created_at']);
-            $now = new DateTime();
-            $interval = $now->diff($createdAt);
-            $monthsDiff = $interval->y * 12 + $interval->m;
-
-            // Check if the difference is greater than or equal to 3 months
-            return $monthsDiff >= 3;
-        }
-
-        // If no data is found, do not consider it as over 3 months old. Instead, there will be another warning to invite users to write their first post.
-        return false;
     }
 }

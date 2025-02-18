@@ -86,7 +86,7 @@
     <div class="row mt-5">
         <!-- Paginasi -->
         <div class="d-flex">
-            <?= $pagerBerita->links('posting', 'pager') ?>
+            <?= $pagerBerita->links($pagerGroup, 'pager') ?>
         </div>
         <!-- Akhir paginasi -->
     </div>

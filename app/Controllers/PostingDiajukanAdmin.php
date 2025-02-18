@@ -41,13 +41,13 @@ class PostingDiajukanAdmin extends BaseControllerAdmin
         $statusX = $this->request->getPost('status');
         $jenisNama = $this->request->getPost('jenisNama');
 
-        $totalData = $this->postingDiajukanModel->countAll();
+        $totalData = $this->postingDiajukanModel->countAllResults();
         $totalFiltered = $totalData;
 
-        $posting = $this->postingDiajukanModel->getByFilter($limit, $start, $statusX, $search, $order, $dir, $jenisNama);
+        $posting = $this->postingDiajukanModel->getForDatatables(limit: $limit, start: $start, status: $statusX, search: $search, order: $order, dir: $dir, jenisNama: $jenisNama);
 
         if ($search || $statusX || $jenisNama) {
-            $totalFiltered = $this->postingDiajukanModel->getTotalRecords($jenisNama, $statusX, $search);
+            $totalFiltered = sizeof($posting);
         }
 
         $data = [];
@@ -187,7 +187,7 @@ class PostingDiajukanAdmin extends BaseControllerAdmin
                 'slug'              => create_slug($data['judul']),
                 'konten'            => $konten,
                 'ringkasan'         => $ringkasan,
-                'id_kategori'       => $dataDb['id_kategori'],
+                // 'id_kategori'       => $dataDb['id_kategori'],
                 'id_jenis'          => $dataDb['id_jenis'],
                 'status'            => $dataDb['status'],
                 'tanggal_terbit'    => Time::now(),
@@ -203,6 +203,18 @@ class PostingDiajukanAdmin extends BaseControllerAdmin
             } else {
                 // Jika berhasil, hapus permintaan pengajuan TODO: Tambah error-checking apabila gagal hapus
                 $this->postingDiajukanModel->delete($data['id']);
+
+
+                // handle the kategori
+                $dataKategoriDb = $this->postingDiajukanKategoriModel->getByPostingId($data['id']);
+                foreach ($dataKategoriDb as $dataKategori) {
+                    if (!$this->postingKategoriModel->insert(['id_posting' => $data['id'], 'id_kategori' => $dataKategori['id_kategori']])) {
+                        $errors[] =  lang('Admin.gagalMenyimpanKategoriDenganJudul', ['judul' => $data['judul']]);
+                    } else {
+                        // Jika berhasil, hapus kategori di posting diajukan kategori
+                        $this->postingDiajukanKategoriModel->delete($dataKategori['id']);
+                    }
+                }
             }
         }
 
@@ -234,6 +246,13 @@ class PostingDiajukanAdmin extends BaseControllerAdmin
             if (!$this->postingDiajukanModel->delete($id)) {
                 $result = false;
                 break;
+            } else {
+                // handle the kategori
+                $dataKategoriDb = $this->postingDiajukanKategoriModel->getByPostingId($id);
+                foreach ($dataKategoriDb as $dataKategori) {
+                    // Hapus kategori di posting diajukan kategori
+                    $this->postingDiajukanKategoriModel->delete($dataKategori['id']);
+                }
             }
         }
 
@@ -280,16 +299,15 @@ class PostingDiajukanAdmin extends BaseControllerAdmin
     protected function getOrCreateKategori($kategoriNama, $idJenis = 1)
     {
         // Check if the category exists
-        $kategori = $this->kategoriModel->where('nama', $kategoriNama)->first();
+        $kategori = $this->kategoriModel->getByNamaAndJenisId($kategoriNama, $idJenis);
 
         // If not, create a new category
-        if (!$kategori) {
+        if ($kategori) {
+            return $kategori['id'];
+        } else {
             $this->kategoriModel->save(['nama' => $kategoriNama, 'id_jenis' => $idJenis]);
-            $kategori = $this->kategoriModel->where('nama', $kategoriNama)->first();
+            return $this->kategoriModel->getInsertID();
         }
-
-        // Return the ID of the category
-        return $kategori['id'];
     }
 
     // Terima posting request dari API Endpoint
@@ -312,7 +330,7 @@ class PostingDiajukanAdmin extends BaseControllerAdmin
                 'slug' => create_slug($data['judul']),
                 'konten' => $data['konten'],
                 'ringkasan' => $data['ringkasan'],
-                'id_kategori' => $this->getOrCreateKategori($data['kategori'], $idJenis),
+                // 'id_kategori' => $this->getOrCreateKategori($data['kategori'], $idJenis),
                 'status' => $data['status'],
                 'sumber' => $data['sumber'],
                 'seo' => $data['seo'],
@@ -325,6 +343,17 @@ class PostingDiajukanAdmin extends BaseControllerAdmin
             if (!$this->postingDiajukanModel->insert($newEntry)) {
                 $result = false;
                 $errors[] = lang('Admin.gagalMenyimpanEntriDenganJudul', ['judul' => $data['judul']]);
+            } else {
+                $idPosting = $this->postingDiajukanModel->getInsertID();
+
+                // handle the kategori
+                $dataKategori = explode(', ', $data['kategori']); // Array string kategori
+                foreach ($dataKategori as $kategori) {
+                    $idKategori = $this->getOrCreateKategori($kategori, $idJenis);
+                    if (!$this->postingDiajukanKategoriModel->insert(['id_posting' => $idPosting, 'id_kategori' => $idKategori])) {
+                        $errors[] =  lang('Admin.gagalMenyimpanKategoriDenganJudul', ['judul' => $data['judul']]);
+                    }
+                }
             }
         }
 

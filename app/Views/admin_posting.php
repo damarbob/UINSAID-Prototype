@@ -136,7 +136,7 @@ $barisPerHalaman = setting()->get('App.barisPerHalaman', $context) ?: 10;
                     "data": "kategori",
                     "render": function(data, type, row) {
                         if (type === "display") {
-                            return capitalizeFirstLetter(data);
+                            return capitalizeFirstLetter(data.join(', '));
                         }
                         return data;
                     }

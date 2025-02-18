@@ -42,7 +42,7 @@ class PostingAdmin extends BaseControllerAdmin
         $id = $this->request->getGet('id');
         $this->data['judul'] = lang('Admin.suntingPosting');
         $this->data['mode'] = "sunting";
-        $this->data['posting'] = $this->postingModel->getById($id); // 
+        $this->data['posting'] = $this->postingModel->getByPostingId($id); // 
         $this->data['kategori'] = $this->kategoriModel->findAll();
         $this->data['postingJenis'] = $this->postingJenisModel->findAll();
 
@@ -72,13 +72,13 @@ class PostingAdmin extends BaseControllerAdmin
         $jenisNama = $this->request->getPost('jenisNama');
 
         $draw = $this->request->getPost('draw');
-        $totalData = $this->postingModel->getTotalRecords();
+        $totalData = $this->postingModel->countAllResults();
         $totalFiltered = $totalData;
 
-        $posting = $this->postingModel->getByFilter($limit, $start, $statusX, $search, $order, $dir, $jenisNama);
+        $posting = $this->postingModel->getForDatatables(limit: $limit, start: $start, status: $statusX, search: $search, order: $order, dir: $dir, jenisNama: $jenisNama);
 
         if ($search || $statusX || $jenisNama) {
-            $totalFiltered = $this->postingModel->getTotalRecords($jenisNama, $statusX, $search);
+            $totalFiltered = sizeof($posting);
         }
 
         $data = [];
@@ -163,7 +163,6 @@ class PostingAdmin extends BaseControllerAdmin
         // Dapatkan jenis postingan dan kategori dari input
         $postingJenisId = $this->request->getVar('posting_jenis');
         $postingJenisNama = $this->request->getVar('posting_jenis_lainnya'); // New posting_jenis name if "Add New" is selected
-        $kategoriNama = $this->request->getVar('kategori') ?: $this->request->getVar('kategori_lainnya'); // New kategori name if "Add New" is selected
 
         // Check if a new posting_jenis needs to be created
         if (!$postingJenisId && $postingJenisNama) {
@@ -171,11 +170,35 @@ class PostingAdmin extends BaseControllerAdmin
             $postingJenisId = $this->postingJenisModel->getInsertID(); // Get the newly inserted id
         }
 
-        // Check if a new kategori needs to be created
-        $kategori = $this->kategoriModel->getKategoriByNama($kategoriNama);
-        if (!$kategori) {
-            $this->kategoriModel->save(['nama' => $kategoriNama, 'id_jenis' => $postingJenisId]);
-            $kategori = $this->kategoriModel->getKategoriByNama($kategoriNama);
+        $kategoriBaru = $this->request->getVar('kategori'); // Array kategori baru (id atau nama kategori baru) dari input
+
+        if ($id) {
+            // Fetch existing categories
+            $postingKategoriLama = $this->postingKategoriModel->getByPostingId($id);
+            $kategoriLama = $postingKategoriLama ? array_column($postingKategoriLama, 'id_kategori') : [];
+
+            // Determine categories to add and remove
+            $kategoriTambahan = $kategoriBaru ? array_diff($kategoriBaru, $kategoriLama) : [];
+            $kategoriBuangan = $kategoriBaru ? array_diff($kategoriLama, $kategoriBaru) : $kategoriLama;
+
+            // Process categories to add
+            foreach ($kategoriTambahan as $kat) {
+                $idKategori = is_numeric($kat) ? $kat : $this->processNewCategory($kat, $postingJenisId);
+                $this->postingKategoriModel->save(['id_posting' => $id, 'id_kategori' => $idKategori]);
+            }
+
+            // Process categories to remove
+            foreach ($kategoriBuangan as $kat) {
+                $this->postingKategoriModel->where(['id_posting' => $id, 'id_kategori' => $kat])->delete();
+            }
+        } else {
+            // Handle new posting
+            if ($kategoriBaru) {
+                foreach ($kategoriBaru as $kat) {
+                    $idKategori = is_numeric($kat) ? $kat : $this->processNewCategory($kat, $postingJenisId);
+                    $this->postingKategoriModel->save(['id_posting' => $id, 'id_kategori' => $idKategori]);
+                }
+            }
         }
 
         $konten = $this->request->getVar('konten');
@@ -215,7 +238,6 @@ class PostingAdmin extends BaseControllerAdmin
         // Data yang akan disimpan
         $data = [
             'id_penulis' => auth()->id(),
-            'id_kategori' => $kategori['id'],
             'id_jenis' => $postingJenisId ?? null, // Jenis postingan (null jika tidak ada)
             'judul' => $this->request->getVar('judul'),
             'slug' => create_slug($this->request->getVar('judul')),
@@ -239,6 +261,18 @@ class PostingAdmin extends BaseControllerAdmin
         session()->setFlashdata('sukses', lang('Admin.' . ($modeTambah ? 'berhasilDibuat' : 'berhasilDiperbarui')));
 
         return redirect()->to($redirectTo)->withInput();
+    }
+
+    // Function to handle new category
+    private function processNewCategory($kat, $postingJenisId)
+    {
+        $kategori = $this->kategoriModel->getByNamaAndJenisId($kat, $postingJenisId);
+        if ($kategori) {
+            return $kategori['id'];
+        } else {
+            $this->kategoriModel->save(['nama' => $kat, 'id_jenis' => $postingJenisId]);
+            return $this->kategoriModel->getInsertID();
+        }
     }
 
 
