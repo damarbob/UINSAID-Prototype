@@ -201,20 +201,23 @@ class PostingDiajukanAdmin extends BaseControllerAdmin
                 $result = false;
                 $errors[] =  lang('Admin.gagalMenyimpanEntriDenganJudul', ['judul' => $data['judul']]);
             } else {
-                // Jika berhasil, hapus permintaan pengajuan TODO: Tambah error-checking apabila gagal hapus
-                $this->postingDiajukanModel->delete($data['id']);
-
+                $idPosting = $this->postingModel->getInsertID();
 
                 // handle the kategori
                 $dataKategoriDb = $this->postingDiajukanKategoriModel->getByPostingId($data['id']);
+
                 foreach ($dataKategoriDb as $dataKategori) {
-                    if (!$this->postingKategoriModel->insert(['id_posting' => $data['id'], 'id_kategori' => $dataKategori['id_kategori']])) {
+                    if (!$this->postingKategoriModel->insert(['id_posting' => $idPosting, 'id_kategori' => $dataKategori['id_kategori']])) {
                         $errors[] =  lang('Admin.gagalMenyimpanKategoriDenganJudul', ['judul' => $data['judul']]);
                     } else {
                         // Jika berhasil, hapus kategori di posting diajukan kategori
                         $this->postingDiajukanKategoriModel->delete($dataKategori['id']);
                     }
                 }
+
+
+                // Jika berhasil, hapus permintaan pengajuan TODO: Tambah error-checking apabila gagal hapus
+                $this->postingDiajukanModel->delete($data['id']);
             }
         }
 
@@ -347,7 +350,8 @@ class PostingDiajukanAdmin extends BaseControllerAdmin
                 $idPosting = $this->postingDiajukanModel->getInsertID();
 
                 // handle the kategori
-                $dataKategori = explode(', ', $data['kategori']); // Array string kategori
+                // $dataKategori = explode(', ', $data['kategori']); // Array string kategori
+                $dataKategori = gettype($data['kategori']) == 'array' ? $data['kategori'] : array($data['kategori']); // Array string kategori
                 foreach ($dataKategori as $kategori) {
                     $idKategori = $this->getOrCreateKategori($kategori, $idJenis);
                     if (!$this->postingDiajukanKategoriModel->insert(['id_posting' => $idPosting, 'id_kategori' => $idKategori])) {
