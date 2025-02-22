@@ -11,6 +11,42 @@ class DataSyntaxQueryProcessor
         $this->db = \Config\Database::connect();  // Load the CI4 database connection
     }
 
+    // 
+    public function processDataSyntaxV2($content)
+    {
+        $jsonData = json_decode($content, true);
+        if (json_last_error() !== JSON_ERROR_NONE || !$jsonData) {
+            return json_encode(['error' => 'Invalid JSON syntax: ' . $content]);
+        }
+
+        // Recursively process the JSON to find and replace data queries
+        $processedData = $this->processJsonRecursively($jsonData);
+
+        return json_encode($processedData);
+    }
+
+    protected function processJsonRecursively($data)
+    {
+        if (is_array($data)) {
+            foreach ($data as $key => $value) {
+                if (is_array($value) && isset($value['type']) && $value['type'] === 'data' && isset($value['content'])) {
+                    $data[$key] = $this->fetchDataFromDatabase($value['content']);
+                } elseif (is_array($value) || is_object($value)) {
+                    $data[$key] = $this->processJsonRecursively($value);
+                }
+            }
+        } elseif (is_object($data)) {
+            foreach ($data as $key => $value) {
+                if (is_object($value) && isset($value->type) && $value->type === 'data' && isset($value->content)) {
+                    $data->$key->content = $this->fetchDataFromDatabase($value->content);
+                } else {
+                    $data->$key = $this->processJsonRecursively($value);
+                }
+            }
+        }
+        return $data;
+    }
+
     // Main function to process the custom data syntax in content
     public function processDataSyntax($content)
     {

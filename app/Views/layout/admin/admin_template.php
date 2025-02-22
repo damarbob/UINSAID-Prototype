@@ -162,6 +162,11 @@ $temaDefault = base_url("assets/css/hijau.css");
 
         });
     </script>
+    <script>
+        // Used by page-editor typescript plugin
+        window.lang = '<?= $lang ?>';
+        // console.log('Lang:', window.lang);
+    </script>
 
 </body>
 

@@ -14,9 +14,12 @@ use function App\Helpers\format_tanggal;
 use function App\Helpers\format_tanggal_suatu_kolom;
 use function App\Helpers\replaceAttributesSyntax;
 use function App\Helpers\replaceEnvironmentSyntax;
+use function App\Helpers\replaceLoopSyntax;
 use function App\Helpers\replaceMetaSyntax;
 use function App\Helpers\replaceMetaSyntaxV2;
+use function App\Helpers\replaceMetaSyntaxV3;
 use function App\Helpers\replaceMetaSyntaxWithDefault;
+use function App\Helpers\replaceMetaSyntaxWithDefaultV2;
 use function App\Helpers\replaceMetaSyntaxWithEmpty;
 
 class Home extends BaseController
@@ -258,75 +261,110 @@ class Home extends BaseController
 
         $this->data['judul'] = $halaman['judul'];
 
-        $komponenData = json_decode($halaman['id_komponen']);
-        $komponen = [];
+        $halamanKomponen = json_decode($halaman['id_komponen']);
+        // dd($halamanKomponen);
+        $komponenHalaman = [];
 
-        if ($komponenData) {
-            foreach ($komponenData as $x) {
-                $komponen[] = $this->komponenModel->find($x->komponen_id);
+        if ($halamanKomponen) {
+            foreach ($halamanKomponen as $x) {
+                $komponenData = $this->komponenModel->find($x->komponen_id);
+                $komponenHalaman[] = $komponenData;
+                // dd($komponenData);
             }
         }
 
         // Set up the Twig environment
         $loader = new ArrayLoader();
-        $twig = new Environment($loader);
+        // $twig = new Environment($loader);
 
         // dd($this->request->getGet()); // Debug for request_get in TWIG
 
         $komponenTerformat = []; // Array untuk menyimpan komponen terformat
-        foreach ($komponen as $i => $x) {
-            // dd($x['konten']);
+        foreach ($komponenHalaman as $i => $komponen) {
+            // dd($komponen['konten']);
 
             $komponenMeta = $this->komponenMetaModel->getById(
-                $komponenData[$i]->komponen_instance_id, // Assuming the order of komponenData is the same as komponen[]
-                $x['id'],
+                $halamanKomponen[$i]->komponen_instance_id, // Assuming the order of halamanKomponen is the same as komponen[]
+                $komponen['id'],
                 $halaman['id']
             );
 
             // dd(!$komponenMeta);
 
             // Parse environment syntax before everything
-            $x['konten'] = replaceEnvironmentSyntax($x['konten']);
+            $komponen['konten'] = replaceEnvironmentSyntax($komponen['konten']);
 
             // Replace attr syntax
-            $x['konten'] = replaceAttributesSyntax($x['konten'], json_encode($komponenData[$i]));
+            $komponen['konten'] = replaceAttributesSyntax($komponen['konten'], json_encode($halamanKomponen[$i]));
+            // dd(($halamanKomponen[$i]));
 
             // Process pre data syntax
-            $x['konten'] = $this->dataSyntaxQueryProcessor->processPreDataSyntax($x['konten']);
+            $komponen['konten'] = $this->dataSyntaxQueryProcessor->processPreDataSyntax($komponen['konten']);
 
-            // d($x['konten']);
-            // if ($x['id'] == 10) dd(replaceMetaSyntaxV2($x['konten'], null)); // DEBUG Slider 3 Gambar
-            // if ($x['id'] == 31) dd(replaceMetaSyntaxV2($x['konten'], null)); // DEBUG Tentang kami
-            // if ($x['id'] == 18) dd($this->twig->renderTemplateString(replaceMetaSyntaxWithDefault($x['konten']), [])); // DEBUG
+            // Process loop syntax
+            $komponen['konten'] = replaceLoopSyntax($komponen['konten']);
+
+            // d($komponen['konten']);
+            // if ($komponen['id'] == 10) dd(replaceMetaSyntaxV2($komponen['konten'], null)); // DEBUG Slider 3 Gambar
+            // if ($komponen['id'] == 31) dd(replaceMetaSyntaxV2($komponen['konten'], null)); // DEBUG Tentang kami
+            // if ($komponen['id'] == 18) dd($this->twig->renderTemplateString(replaceMetaSyntaxWithDefault($komponen['konten']), [])); // DEBUG
 
             // Replace meta syntax
             if (!$komponenMeta) {
-                // if ($x['id'] == 18) dd(replaceMetaSyntaxWithDefault($x['konten']));
+                // if ($komponen['id'] == 18) dd(replaceMetaSyntaxWithDefault($komponen['konten']));
 
-                $x['konten_terformat'] = $this->twig->renderTemplateString(
-                    replaceMetaSyntaxWithDefault($x['konten']),
-                    [
-                        // Add environment variables
-                        'base_url' => base_url(),
-                        'request_post' => $this->request->getPost(),
-                        'request_get' => $this->request->getGet(),
-                        'current_halaman_slug' => $this->request->getUri()->getSegment($this->request->getUri()->getTotalSegments()),
-                    ]
-                );
+                // Gunakan replaceMetaSyntaxWithDefaultV2 apabila field meta terisi
+                if ($komponen['meta'] !== null && trim($komponen['meta']) !== '') {
+                    $komponen['konten_terformat'] = $this->twig->renderTemplateString(
+                        replaceMetaSyntaxWithDefaultV2($komponen['konten'], $komponen['meta']),
+                        [
+                            // Add environment variables
+                            'base_url' => base_url(),
+                            'request_post' => $this->request->getPost(),
+                            'request_get' => $this->request->getGet(),
+                            'current_halaman_slug' => $this->request->getUri()->getSegment($this->request->getUri()->getTotalSegments()),
+                        ]
+                    );
+                } else {
+                    // Apabila tidak ada field meta, gunakan replaceMetaSyntaxWithDefault untuk menjaga kompatibilitas
+                    $komponen['konten_terformat'] = $this->twig->renderTemplateString(
+                        replaceMetaSyntaxWithDefault($komponen['konten']),
+                        [
+                            // Add environment variables
+                            'base_url' => base_url(),
+                            'request_post' => $this->request->getPost(),
+                            'request_get' => $this->request->getGet(),
+                            'current_halaman_slug' => $this->request->getUri()->getSegment($this->request->getUri()->getTotalSegments()),
+                        ]
+                    );
+                }
             } else {
 
                 // dd($komponenMeta['meta']); // DEBUG
-                // if ($x['id'] == 31) dd(replaceMetaSyntaxV2(
-                //     $x['konten'],
+                // dd($komponen['meta']);
+                // if ($komponen['id'] == 31) dd(replaceMetaSyntaxV2(
+                //     $komponen['konten'],
                 //     replaceEnvironmentSyntax($komponenMeta['meta']) // The komponen meta's environment must be parsed
                 // )); // DEBUG
 
                 // Format komponen
-                $x['konten_terformat'] = $this->twig->renderTemplateString(
-                    replaceMetaSyntaxV2(
-                        $x['konten'],
-                        replaceEnvironmentSyntax($komponenMeta['meta']) // The komponen meta's environment must be parsed
-                    ),
+                $komponen['konten_terformat'] = replaceMetaSyntaxV2(
+                    $komponen['konten'],
+                    replaceEnvironmentSyntax($komponenMeta['meta']) // The komponen meta's environment must be parsed
+                );
+
+                // Gunakan replaceMetaSyntaxV3 apabila field meta terisi
+                if ($komponen['meta'] !== null && trim($komponen['meta']) !== '') {
+                    $komponen['konten_terformat'] = replaceMetaSyntaxV3(
+                        $komponen['konten'],
+                        $komponen['meta'],
+                        $komponenMeta['meta']
+                    );
+                }
+                // d(($komponen['konten_terformat']));
+
+                $komponen['konten_terformat'] = ($this->twig->renderTemplateString(
+                    $komponen['konten_terformat'],
                     [
                         // Add environment variables
                         'base_url' => base_url(),
@@ -334,25 +372,27 @@ class Home extends BaseController
                         'request_get' => $this->request->getGet(),
                         'current_halaman_slug' => $this->request->getUri()->getSegment($this->request->getUri()->getTotalSegments()),
                     ]
-                );
-                // d($x['konten_terformat']); // DEBUG
+                ));
+
+                $komponen['konten_terformat'] = html_entity_decode(html_entity_decode($komponen['konten_terformat']));
+                // dd($komponen['konten_terformat']); // DEBUG
             }
 
             // Replace data syntax
-            $x['konten_terformat'] = $this->dataSyntaxQueryProcessor->processDataSyntax($x['konten_terformat']);
+            $komponen['konten_terformat'] = $this->dataSyntaxQueryProcessor->processDataSyntax($komponen['konten_terformat']);
 
-            // if ($x['id'] == 10) dd($x['konten_terformat']); // DEBUG Slider 3 Gambar
-            // if ($x['id'] == 18) dd($x['konten_terformat']); // DEBUG
+            // if ($komponen['id'] == 10) dd($komponen['konten_terformat']); // DEBUG Slider 3 Gambar
+            // if ($komponen['id'] == 18) dd($komponen['konten_terformat']); // DEBUG
 
             // dd($komponenMeta['meta']);
-            // dd($x['konten_terformat']);
+            // d(($komponen['konten_terformat']));
 
             // '[{"id":"bold_text","value":"zzsx"},{"id":"italic_text","value":"zzzzzz"},{"id":"underline_text","value":"zzzzzzzzzzzz"},{"id":"strikethrough_text","value":"zzzzzzzzzzzzzzzzz"},{"id":"number","value":"22222"},{"id":"datetime","value":"2024-09-13T10:33"},{"id":"email","value":"simslifepbluns@gmail.com"},{"id":"password","value":"wdqwdqwdqwddqw"},{"id":"color_picker","value":"#000000"},{"id":"range","value":"57"},{"id":"accept_terms","value":"on"},{"id":"gender","value":"female"},{"id":"upload_file","value":["http:\/\/localhost:8000\/assets\/components\/uploads\/1726198454_e301f94e93b09b0533ab.json"]},{"id":"country","value":"us"},{"id":"comments","value":"greargegargerge"},{"id":"favorite_color","value":"green"},{"id":"gender2","value":"female"}]'
 
             // Store the formatted konten in the Twig loader
-            $loader->setTemplate("komponen_$i", $x['konten_terformat']);
+            $loader->setTemplate("komponen_$i", $komponen['konten_terformat']);
 
-            $komponenTerformat[] = $x;
+            $komponenTerformat[] = $komponen;
         }
 
         $this->data['halaman'] = $halaman;

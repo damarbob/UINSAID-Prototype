@@ -130,7 +130,7 @@ div.dataTables_wrapper div.dataTables_paginate_wrapper {
   left: -30%;
   width: var(--nav-width);
   height: 100vh;
-  background-color: rgba(var(--mdb-primary-rgb), 0.1);
+  /* background-color: rgba(var(--mdb-primary-rgb), 0.1); */
   padding: 0.5rem 1rem 0 0;
   transition: 0.5s;
   z-index: var(--z-fixed);

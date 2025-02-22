@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
-class AgendaPengumumanModel extends \CodeIgniter\Model
+use CodeIgniter\Model;
+
+class AgendaPengumumanModel extends Model
 {
     protected $table = 'acara';
 
@@ -28,17 +30,19 @@ class AgendaPengumumanModel extends \CodeIgniter\Model
             ->first();
     }
 
-    public function getAcaraPublikasi($jenisNama, $search = '')
+    public function getAcaraPublikasi($jenisNama = '', $search = '')
     {
         $today = date('Y-m-d H:i:s');
 
-        if (!empty($search)) {
-            $sql = "
+        $searchQuery = empty($search) ? "" : "AND judul LIKE '%$search%' ESCAPE '!' ";
+        $jenisQuery = empty($jenisNama) ? "" : "AND acara_jenis.nama = '$jenisNama'";
+
+        $sql = "
                 SELECT $this->table.*, galeri.uri, acara_jenis.nama as acara_jenis_nama
                 FROM $this->table
                 LEFT JOIN galeri ON $this->table.id_galeri = galeri.id
                 LEFT JOIN acara_jenis ON $this->table.id_jenis = acara_jenis.id
-                WHERE acara_jenis.nama = '$jenisNama' AND status = 'publikasi' AND judul LIKE '%$search%' ESCAPE '!' 
+                WHERE status = 'publikasi' $jenisQuery $searchQuery
                 ORDER BY
                     CASE
                         WHEN waktu_mulai <= '$today' AND waktu_selesai >= '$today' THEN 1
@@ -51,26 +55,7 @@ class AgendaPengumumanModel extends \CodeIgniter\Model
                     END ASC,
                     COALESCE(waktu_selesai, waktu_mulai) DESC
                 ";
-        } else {
-            $sql = "
-                SELECT $this->table.*, galeri.uri, acara_jenis.nama as acara_jenis_nama
-                FROM $this->table
-                LEFT JOIN galeri ON $this->table.id_galeri = galeri.id
-                LEFT JOIN acara_jenis ON $this->table.id_jenis = acara_jenis.id
-                WHERE acara_jenis.nama = '$jenisNama' AND status = 'publikasi'
-                ORDER BY
-                    CASE
-                        WHEN waktu_mulai <= '$today' AND waktu_selesai >= '$today' THEN 1
-                        WHEN waktu_mulai > '$today' THEN 2
-                        ELSE 3
-                    END ASC,
-                    CASE
-                        WHEN waktu_mulai > '$today' THEN waktu_mulai
-                        ELSE NULL
-                    END ASC,
-                    COALESCE(waktu_selesai, waktu_mulai) DESC
-        ";
-        }
+
         $query = $this->query($sql);
         // dd($query->getResultArray());
         return $query->getResultArray();

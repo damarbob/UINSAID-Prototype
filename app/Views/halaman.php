@@ -20,7 +20,7 @@
 <?= $this->section('content') ?>
 <div class="mt-navbar">
     <?php foreach ($komponen as $k): ?>
-        <?php echo $k['konten_terformat'] /*eval('?>' . $k['konten_terformat'])*/ ?>
+        <?php echo ($k['konten_terformat']) /*eval('?>' . $k['konten_terformat'])*/ ?>
     <?php endforeach; ?>
 </div>
 <?= $this->endSection() ?>

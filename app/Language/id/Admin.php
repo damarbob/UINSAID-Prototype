@@ -13,6 +13,22 @@ return [
     'memuat' => 'Memuat',
     'kosong' => 'Kosong',
 
+    // Navbar
+    'notifikasi' => 'Notifikasi',
+    'tandaiSemuaSudahDibaca' => 'Tandai semua sudah dibaca',
+    'tahun' => 'tahun',
+    'bulan'=> 'bulan',
+    'pekan'=> 'pekan',
+    'hari'=> 'hari',
+    'jam'=> 'jam',
+    'detik'=> 'detik',
+    'yangLalu'=> 'yang lalu',
+    'baruSaja'=> 'baru saja',
+    'muatLebihBanyak' => 'Muat lebih banyak',
+
+    'keluar' => 'Keluar',
+
+    // Sidebar
     'dasbor' => 'Dasbor',
     'unggahan' => 'Unggahan',
     'kegiatan' => 'Kegiatan',
@@ -45,6 +61,7 @@ return [
     'tampilan' => 'Tampilan',
     'personalisasiAdmin' => 'Personalisasi Admin',
 
+    'bahasaDasborAdmin' => 'Bahasa Dasbor Admin',
     'temaDasborAdmin' => 'Tema Dasbor Admin',
     'barisPerHalaman' => 'Baris per Halaman',
     'jumlahBarisPerHalamanPada' => ' Jumlah baris per halaman pada tabel data.',
@@ -127,6 +144,7 @@ return [
     'grup' => 'Grup',
     'namaGrup' => 'Nama Grup',
     'konten' => 'Konten',
+    'meta' => 'Meta',
     'komponenTunggal' => 'Komponen Tunggal',
 
     'metaDataBerhasilDisimpan' => 'Meta data berhasil disimpan!',

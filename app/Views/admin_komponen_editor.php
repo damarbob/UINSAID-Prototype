@@ -12,6 +12,7 @@ if (!isset($komponen)) {
     $valueNama = (old('nama'));
     $valueGrup = (old('grup'));
     $valueKonten = (old('konten'));
+    $valueMeta = (old('meta'));
     $valueCSS = (old('css'));
     $valueJS = (old('js'));
     $valueTunggal = (old('tunggal'));
@@ -20,6 +21,7 @@ if (!isset($komponen)) {
     $valueNama = old('nama') ?: $komponen['nama'];
     $valueGrup = old('grup') ?: $komponen['grup'];
     $valueKonten = old('konten') ?: htmlspecialchars($komponen['konten']);
+    $valueMeta = old('meta') ?: htmlspecialchars($komponen['meta']);
     $valueCSS = old('css') ?: $komponen['css'];
     $valueJS = old('js') ?: $komponen['js'];
     $valueTunggal = old('tunggal') ?: $komponen['tunggal'];
@@ -31,29 +33,6 @@ $errorJS = validation_show_error('js_file');
 ?>
 
 <?= $this->section('style') ?>
-
-<!-- CodeMirror -->
-<link rel="stylesheet" href="<?= base_url('assets/vendor/codemirror/lib/codemirror.css') ?>">
-<link rel="stylesheet" href="<?= base_url('assets/vendor/codemirror/addon/hint/show-hint.css') ?>">
-<link rel="stylesheet" href="<?= base_url('assets/vendor/codemirror/theme/mdn-like.css') ?>">
-<link rel="stylesheet" href="<?= base_url('assets/vendor/codemirror/theme/material-darker.css') ?>">
-<link rel="stylesheet" href="<?= base_url('assets/vendor/codemirror/addon/display/fullscreen.css') ?>">
-<script src="<?= base_url('assets/vendor/codemirror/lib/codemirror.js') ?>"></script>
-<script src="<?= base_url('assets/vendor/codemirror/addon/hint/show-hint.js') ?>"></script>
-<script src="<?= base_url('assets/vendor/codemirror/addon/hint/xml-hint.js') ?>"></script>
-<script src="<?= base_url('assets/vendor/codemirror/addon/hint/html-hint.js') ?>"></script>
-<script src="<?= base_url('assets/vendor/codemirror/addon/display/fullscreen.js') ?>"></script>
-<script src="<?= base_url('assets/vendor/codemirror/mode/xml/xml.js') ?>"></script>
-<script src="<?= base_url('assets/vendor/codemirror/mode/javascript/javascript.js') ?>"></script>
-<script src="<?= base_url('assets/vendor/codemirror/mode/css/css.js') ?>"></script>
-<script src="<?= base_url('assets/vendor/codemirror/mode/htmlmixed/htmlmixed.js') ?>"></script>
-
-<style>
-    .CodeMirror {
-        border: 1px solid #eee;
-        height: 512px;
-    }
-</style>
 <!-- <script src="https://cdn.jsdelivr.net/npm/melody-parser@1.7.5/lib/index.js"></script> -->
 <script type="module">
     import * as monaco from 'https://cdn.jsdelivr.net/npm/monaco-editor@0.52/+esm';
@@ -89,17 +68,34 @@ $errorJS = validation_show_error('js_file');
         automaticLayout: true
     });
 
+    const editorMeta = monaco.editor.create(document.getElementById('editorMeta'), {
+        value: ``,
+        language: 'json',
+        theme: '<?= setting()->get('App.temaDasborAdmin', $context) == 'gelap' ? "vs-dark-dsm" : "vs-dsm" ?>',
+        automaticLayout: true
+    });
+
     $(document).ready(function() {
+
+        // Set initial editor value
         editor.getModel().setValue(document.getElementById("konten").value);
+        editorMeta.getModel().setValue(document.getElementById("meta").value);
 
         // Function to update textarea
         function updateTextarea() {
             const content = editor.getValue();
-            document.getElementById('konten').value = content; // Update textarea with editor content
+            const meta = editorMeta.getValue();
+
+            // Update hidden textarea with editor content
+            document.getElementById('konten').value = content; 
+            document.getElementById('meta').value = meta;
         }
 
         // Add listener for content changes in the Monaco Editor
         editor.onDidChangeModelContent(() => {
+            updateTextarea(); // Update the textarea whenever content changes
+        });
+        editorMeta.onDidChangeModelContent(() => {
             updateTextarea(); // Update the textarea whenever content changes
         });
 
@@ -175,52 +171,6 @@ $errorJS = validation_show_error('js_file');
     editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, () => {
         document.getElementById("formEditKomponen").submit();
     });
-
-    function beautifyCode(code) {
-        const htmlTagRegex = /<\/?[\w\s="'-:;]+>/;
-        const twigTagRegex = /(\{\{.*?\}\}|\{%.*?%\})/;
-        const jsLineEndings = /([{};])/g;
-
-        // Split the code by lines to handle indentation
-        const lines = code.split('\n');
-
-        let indentLevel = 0;
-        const indentSize = 4; // Spaces per indent
-        const beautifiedLines = [];
-
-        lines.forEach((line) => {
-            let trimmedLine = line.trim();
-
-            // Handle closing braces or tags (reduce indent)
-            if (trimmedLine.startsWith('}') || trimmedLine.startsWith('</') || trimmedLine.startsWith('{% end')) {
-                indentLevel--;
-            }
-
-            // Add proper indentation
-            const indentation = ' '.repeat(indentLevel * indentSize);
-            beautifiedLines.push(indentation + trimmedLine);
-
-            // Handle opening braces or tags (increase indent after)
-            if (trimmedLine.match(htmlTagRegex) || trimmedLine.match(twigTagRegex)) {
-                if (!trimmedLine.startsWith('</') && !trimmedLine.startsWith('{% end')) {
-                    indentLevel++;
-                }
-            }
-
-            // Increase indent for JS blocks
-            if (trimmedLine.endsWith('{')) {
-                indentLevel++;
-            }
-
-            // Decrease indent if a closing JS block is found
-            if (trimmedLine.endsWith('}')) {
-                indentLevel--;
-            }
-        });
-
-        // Join all the beautified lines
-        return beautifiedLines.join('\n');
-    }
 </script>
 <link href="https://cdn.jsdelivr.net/npm/vscode-codicons@0.0.17/dist/codicon.min.css" rel="stylesheet">
 
@@ -253,7 +203,7 @@ $errorJS = validation_show_error('js_file');
                 </div>
             </div>
 
-            <!-- Konten komponen -->
+            <!-- Konten komponen (dari monaco editor) -->
             <div class="form-floating mb-3">
                 <textarea class="d-none form-control <?= (validation_show_error('konten')) ? 'is-invalid' : ''; ?>" id="konten" name="konten" rows="10" autofocus><?= $valueKonten; ?></textarea>
                 <div class="invalid-tooltip end-0">
@@ -261,7 +211,18 @@ $errorJS = validation_show_error('js_file');
                 </div>
             </div>
 
-            <div id="monaco" style="height: 512px;">
+            <!-- Meta JSON komponen (dari monaco editor) -->
+            <div class="form-floating mb-3">
+                <textarea class="d-none form-control <?= (validation_show_error('meta')) ? 'is-invalid' : ''; ?>" id="meta" name="meta" rows="10" autofocus><?= $valueMeta; ?></textarea>
+                <div class="invalid-tooltip end-0">
+                    <?= validation_show_error('meta'); ?>
+                </div>
+            </div>
+
+            <div id="monaco" class="mb-4" style="height: 512px;">
+            </div>
+
+            <div id="editorMeta" class="mb-4" style="height: 512px;">
             </div>
 
         </div>
@@ -443,67 +404,6 @@ $errorJS = validation_show_error('js_file');
 <script src="<?= base_url('assets/js/formatter.js') ?>" type="text/javascript"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.0/beautify.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.0/beautify-html.min.js"></script>
-
-<script src="<?= base_url('assets/vendor/codemirror/addon/comment/comment.js') ?>"></script>
-<script src="<?= base_url('assets/vendor/codemirror/addon/comment/continuecomment.js') ?>"></script>
-
-<!-- CodeMirror -->
-<script type="module">
-    // window.onload = function() {
-    //     var editor = CodeMirror.fromTextArea(document.getElementById("konten"), {
-    //         lineNumbers: true,
-    //         matchBrackets: true,
-    //         mode: "text/html",
-    //         theme: "<?= setting()->get('App.temaDasborAdmin', $context) == 'gelap' ? "material-darker" : "mdn-like" ?>",
-    //         hintOptions: {
-    //             hint: CodeMirror.hint.php
-    //         },
-    //         extraKeys: {
-    //             "Ctrl-Space": "autocomplete",
-    //             "Ctrl-Alt-Z": function(cm) {
-    //                 cm.setOption("fullScreen", !cm.getOption("fullScreen"));
-    //             },
-    //             "Esc": function(cm) {
-    //                 if (cm.getOption("fullScreen")) cm.setOption("fullScreen", false);
-    //             },
-    //             // "Ctrl-B": function(cm) {
-    //             //     var content = cm.getValue();
-    //             //     var beautified = html_beautify(content); // or js_beautify for JS
-    //             //     cm.setValue(beautified);
-    //             // },
-    //             "Ctrl-B": function(cm) {
-    //                 // Store the cursor position
-    //                 var cursor = cm.getCursor();
-
-    //                 // Store the scroll position
-    //                 var scrollInfo = cm.getScrollInfo();
-    //                 var scrollTop = scrollInfo.top;
-
-    //                 // Get the code from the editor
-    //                 var content = cm.getValue();
-
-    //                 // Set the formatted code back to the editor
-    //                 cm.setValue(html_beautify(content));
-
-    //                 // Restore the cursor position
-    //                 cm.setCursor(cursor);
-
-    //                 // Restore the scroll position
-    //                 cm.scrollTo(null, scrollTop);
-
-    //                 // console.log(document.getElementById("konten").value);
-    //             },
-    //             "Ctrl-S": function(cm) {
-    //                 document.getElementById("formEditKomponen").submit();
-    //             },
-    //             "Ctrl-/": "toggleComment",
-    //         },
-    //         indentUnit: 4,
-    //         indentWithTabs: true,
-    //         viewportMargin: Infinity
-    //     });
-    // };
-</script>
 
 <script>
     $(document).ready(function() {

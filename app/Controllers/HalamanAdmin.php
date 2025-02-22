@@ -128,15 +128,15 @@ class HalamanAdmin extends BaseControllerAdmin
     {
         $halaman = $this->model->find($id);
         $this->data['judul'] = lang('Admin.suntingHalaman') . " - " . $halaman['judul'];
-        $komponenData = json_decode($halaman['id_komponen']);
+        $halamanKomponen = json_decode($halaman['id_komponen']);
         $komponen = [];
-        if ($komponenData) {
-            foreach ($komponenData as $x) {
+        if ($halamanKomponen) {
+            foreach ($halamanKomponen as $x) {
                 $komponen[] = $this->komponenModel->find($x->komponen_id);
             }
         }
         $this->data['halaman'] = $halaman;
-        $this->data['komponenData'] = $komponenData;
+        $this->data['halamanKomponen'] = $halamanKomponen;
         $this->data['komponen'] = $komponen;
         $this->data['daftarKomponen'] = $this->komponenModel->orderBy('nama', 'asc')->findAll();
 

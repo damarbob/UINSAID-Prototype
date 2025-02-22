@@ -3,12 +3,11 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseControllerAdmin;
+use App\Libraries\DataSyntaxQueryProcessor;
 use CodeIgniter\HTTP\Files\UploadedFile;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
-
-use function App\Helpers\hasAttributesSyntax;
 
 class KomponenAdmin extends BaseControllerAdmin
 {
@@ -100,6 +99,10 @@ class KomponenAdmin extends BaseControllerAdmin
             ],
             'konten' => [
                 'label' => lang('Admin.konten'),
+                'rules' => 'required',
+            ],
+            'meta' => [
+                'label' => lang('Admin.meta'),
                 'rules' => 'required',
             ],
             'grup_lainnya' => [
@@ -231,8 +234,10 @@ class KomponenAdmin extends BaseControllerAdmin
         $componentId = $this->request->getPost('idKomponen');
         $halamanId = $this->request->getPost('idHalaman');
 
+        $componentMeta = $this->komponenMetaModel->getById($componentInstanceId, $componentId, $halamanId);
+
         return $this->response->setJSON(json_encode([
-            "data" => $this->komponenMetaModel->getById($componentInstanceId, $componentId, $halamanId)
+            "data" => $componentMeta
         ]));
     }
 
@@ -249,6 +254,13 @@ class KomponenAdmin extends BaseControllerAdmin
         // Return JSON response indicating success or failure
         return $this->response->setJSON([
             "status" => $result ? "success" : "failure"
+        ]);
+    }
+
+    public function getAll()
+    {
+        return $this->response->setJSON([
+            "data" => ($this->model->orderBy('nama', 'asc')->findAll())
         ]);
     }
 

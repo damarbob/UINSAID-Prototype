@@ -76,6 +76,8 @@ class Twig
             $data['daftarKategori'] = $this->kategoriModel->getKategoriByJenisNama($jenisNama);
             return $data;
         }));
+
+        // $this->twig->addFunction(new TwigFunction(''))
     }
 
     // Render a view file as a Twig template

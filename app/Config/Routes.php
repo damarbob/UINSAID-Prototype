@@ -328,6 +328,11 @@ $routes->group('api', static function ($routes) {
 
     // Komponen
     $routes->post('komponen', 'KomponenAdmin::getDT');
+    $routes->post('komponen/semua', 'KomponenAdmin::getAll');
+
+    // Syntax Processor
+    $routes->post('syntax/process-data-syntax', 'SyntaxProcessorController::processDataSyntax');
+    $routes->get('syntax/process-data-syntax-test', 'SyntaxProcessorController::processDataSyntaxTest');
 
     // Komponen Meta
     // $routes->post('komponen/meta', 'KomponenAdmin::getMetaById');

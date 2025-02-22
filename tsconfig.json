@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "es6",
+    "moduleResolution": "node",
+    "strict": true,
+    "sourceMap": true,
+    "outDir": "./public/assets/js/admin/page-editor", // Match your output directory
+    "esModuleInterop": true,
+    "allowJs": true
+  },
+  "include": ["src/**/*"]
+}

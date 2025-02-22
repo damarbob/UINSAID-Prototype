@@ -90,6 +90,10 @@ class PengaturanAdmin extends BaseControllerAdmin
                     'label' => lang('Admin.halamanUtamaSitus'),
                     'rules' => 'permit_empty',
                 ],
+                'bahasaDasborAdmin' => [
+                    'label' => lang('Admin.bahasaDasborAdmin'),
+                    'rules' => 'required',
+                ],
                 'temaDasborAdmin' => [
                     'label' => lang('Admin.temaDasborAdmin'),
                     'rules' => 'required',
@@ -130,6 +134,7 @@ class PengaturanAdmin extends BaseControllerAdmin
 
             // Pengaturan personal
             $context = 'user:' . user_id(); // Context untuk pengguna
+            service('settings')->set('App.bahasaDasborAdmin', $post['bahasaDasborAdmin'], $context);
             service('settings')->set('App.temaDasborAdmin', $post['temaDasborAdmin'], $context);
             service('settings')->set('App.barisPerHalaman', $post['barisPerHalaman'], $context);
 
@@ -211,7 +216,7 @@ class PengaturanAdmin extends BaseControllerAdmin
         $folders = ['uploads']; // Define your folder paths
         $deletedFiles = $this->fileCleanupService->cleanUnusedFiles($folders);
 
-        return dd($deletedFiles);
+        // return dd($deletedFiles);
         return $this->response->setJSON(['deleted_files' => $deletedFiles]);
     }
 }

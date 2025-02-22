@@ -5,7 +5,7 @@ use function App\Helpers\capitalize_first_letter;
 helper('text');
 
 // URL Berita
-$agendaUrl = base_url("agenda-pengumuman/" . $item['id']);
+$agendaUrl = base_url("agenda-pengumuman/" . $item['slug']);
 ?>
 
 <?= $this->extend('layout/frontend_template') ?>

@@ -19,19 +19,21 @@
         <!-- Notification Bell Icon in MDB Style -->
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle hidden-arrow" href="#" id="notificationDropdown" role="button" data-mdb-dropdown-init aria-expanded="false" onclick="loadNotifications()" aria-haspopup="true">
-                <i class="fas fa-bell"></i>
+                <button class="btn btn-sm btn-secondary btn-floating" data-mdb-ripple-init>
+                    <i class="fas fa-bell"></i>
+                </button>
                 <span class="badge rounded-pill badge-notification bg-danger" style="display: none;" id="notification-count"></span>
             </a>
             <ul class="dropdown-menu dropdown-menu-end custom-dropdown-right" aria-labelledby="notificationDropdown">
                 <li class="d-flex align-items-center">
-                    <h6 class="dropdown-header">Notifikasi</h6>
-                    <a class="text-end small text-primary ms-auto me-3" href="#" onclick="markAllAsRead()">Tandai semua sudah dibaca</a>
+                    <h6 class="dropdown-header"><?= lang('Admin.notifikasi') ?></h6>
+                    <a class="text-end small text-secondary ms-auto me-3" href="#" onclick="markAllAsRead()"><?= lang('Admin.tandaiSemuaSudahDibaca') ?></a>
                 </li>
-                <div id="notification-list" style="max-height: 300px; overflow-y: auto;">
+                <div id="notification-list" style="max-height: 600px; overflow-y: auto;">
                     <!-- Notifications will be populated here -->
                 </div>
                 <li class="text-center">
-                    <button id="load-more-btn" class="btn btn-link text-primary w-100">Muat lebih banyak</button>
+                    <button id="load-more-btn" class="btn btn-link text-secondary w-100"><?= lang('Admin.muatLebihBanyak') ?></button>
                 </li>
             </ul>
         </li>
@@ -53,7 +55,8 @@
 
                     // Get the username and create the URL
                     const username = '<?= urlencode(auth()->user()->username) ?>'; // PHP-generated username
-                    const imgUrl = `https://ui-avatars.com/api/?size=32&name=${username}&rounded=true&background=${primaryColor}&color=${bodyBgColor}&bold=true`;
+                    // const imgUrl = `https://ui-avatars.com/api/?size=32&name=${username}&rounded=true&background=${primaryColor}&color=${bodyBgColor}&bold=true`;
+                    const imgUrl = `https://ui-avatars.com/api/?size=32&name=${username}&rounded=true&background=random&color=${bodyBgColor}&bold=true`;
 
                     // Set the image source
                     document.getElementById('profileImage').src = imgUrl;
@@ -69,7 +72,7 @@
                 <div class="dropdown-divider"></div>-->
                 <a class="dropdown-item" href="<?= base_url('logout') ?>">
                     <i class="bi bi-box-arrow-left me-2 text-gray-400"></i>
-                    Logout
+                    <?= lang('Admin.keluar') ?>
                 </a>
             </div>
         </li>
@@ -84,31 +87,31 @@
     function timeAgo(date) {
         const seconds = Math.floor((new Date() - new Date(date)) / 1000);
         const intervals = [{
-                label: 'tahun',
+                label: '<?=lang('tahun')?>',
                 seconds: 31536000
             },
             {
-                label: 'bulan',
+                label: '<?=lang('bulan')?>',
                 seconds: 2592000
             },
             {
-                label: 'pekan',
+                label: '<?=lang('pekan')?>',
                 seconds: 604800
             },
             {
-                label: 'hari',
+                label: '<?=lang('hari')?>',
                 seconds: 86400
             },
             {
-                label: 'jam',
+                label: '<?=lang('jam')?>',
                 seconds: 3600
             },
             {
-                label: 'menit',
+                label: '<?=lang('menit')?>',
                 seconds: 60
             },
             {
-                label: 'detik',
+                label: '<?=lang('detik')?>',
                 seconds: 1
             }
         ];
@@ -116,10 +119,10 @@
         for (const interval of intervals) {
             const count = Math.floor(seconds / interval.seconds);
             if (count >= 1) {
-                return `${count} ${interval.label} yang lalu`;
+                return `${count} ${interval.label} <?=lang('yang lalu')?>`;
             }
         }
-        return 'baru saja';
+        return '<?=lang('baruSaja')?>';
     }
 
     let limit = 10;
@@ -214,7 +217,7 @@
         const createdAtRelative = timeAgo(notif.created_at);
 
         notificationItem.innerHTML = `
-        <a href="${notif.link}" class="text-dark" onclick="markAsRead(${notif.id}, this)">
+        <a href="${notif.link}" class="text-body" onclick="markAsRead(${notif.id}, this)">
             <strong>${notif.judul}${notif.terbaca == '0' ? '<span class="text-danger notification-item-unread-mark"> *</span>':''}</strong><br>
             <small>${notif.konten}</small><br>
             <span class="text-muted"><small class="notification-item-time" data-created-at="${notif.created_at}">${createdAtRelative}</small></span>

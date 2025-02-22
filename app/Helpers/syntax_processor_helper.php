@@ -2,9 +2,99 @@
 
 namespace App\Helpers;
 
+if (!function_exists('replaceMetaSyntaxV3')) {
+    function replaceMetaSyntaxV3(string $htmlSource, string $metaFieldSource, string $metaDataSource)
+    {
+        // Decode the JSON source and meta source into associative arrays
+        $jsonData = json_decode($metaFieldSource, true);
+        $metaDataArray = json_decode($metaDataSource, true);
+
+        // Create an associative array for quick lookup by ID, if meta data is available
+        $metaDataMap = $metaDataArray ? array_column($metaDataArray, null, 'id') : [];
+
+        // Process each item in the JSON data
+        foreach ($jsonData as $item) {
+            // dd($item);
+            if ($item['type'] === 'meta' && isset($item['content'])) {
+                $meta = $item['content'];
+                $metaData = $metaDataMap[$meta['id']] ?? null;
+                $value = $metaData ? $metaData['value'] : ($meta['value'] ?? '');
+
+                switch ($meta['tipe']) {
+                    case 'text':
+                    case 'number':
+                    case 'email':
+                    case 'password':
+                    case 'color':
+                    case 'textarea':
+                        // d(htmlspecialchars($value, ENT_QUOTES, 'UTF-8', FALSE));
+                        // dd(htmlspecialchars($value, ENT_QUOTES));
+                        $value = htmlspecialchars($value, ENT_QUOTES, 'UTF-8', false);
+                        break;
+                    case 'datetime-local':
+                        $value = $value ? date('M Y, H:i', strtotime($value)) : '';
+                        break;
+                    case 'radio':
+                    case 'select':
+                        if (!empty($meta['options'])) {
+                            foreach ($meta['options'] as $option) {
+                                if ($option['value'] === $value) {
+                                    $value = $option['label'];
+                                    break;
+                                }
+                            }
+                        }
+                        break;
+                    case 'checkbox':
+                        $value = $value ? $value : 'off';
+                        break;
+                    case 'checkboxes':
+                        $value = is_array($value) ? json_encode($value) : json_encode([$value]);
+                        break;
+                    case 'file':
+                        $value = (is_array($value) && count($value) > 0) ? base_url($value[0]) : base_url($value);
+                        break;
+                    case 'file-multiple':
+                        $value = is_array($value) ? implode(', ', array_map(fn($x) => base_url($x), $value)) : $value;
+                        break;
+                    default:
+                        // d($value);
+                        $value = htmlspecialchars($value);
+                        break;
+                }
+
+                // Replace placeholder [meta_id] in HTML source with the processed value
+                $htmlSource = str_replace("[{$meta['id']}]", $value, $htmlSource);
+            }
+        }
+
+        return $htmlSource;
+    }
+}
+
+if (!function_exists('replaceMetaSyntaxWithDefaultV2')) {
+    function replaceMetaSyntaxWithDefaultV2($htmlSource, $metaFieldSource)
+    {
+
+        $metaField = json_decode($metaFieldSource, true);
+
+        foreach ($metaField as $i => $meta) {
+            // dd($meta['content']['value']);
+            if ($meta['type'] !== 'meta' || !isset($meta['content']) || $meta['content']['value'] === null || trim($meta['content']['value']) === '') {
+                continue;
+            }
+
+            $htmlSource = str_replace("[{$meta['content']['id']}]", $meta['content']['value'], $htmlSource);
+        }
+
+        return $htmlSource;
+    }
+}
+
 if (!function_exists('replaceMetaSyntaxV2')) {
     function replaceMetaSyntaxV2($htmlSource, $metaSource)
     {
+        // Example: /* meta { ... } meta */
         // Decode the meta source JSON into an associative array
         $metaDataArray = json_decode($metaSource, true);
 
@@ -111,6 +201,7 @@ if (!function_exists('replaceMetaSyntax')) {
      */
     function replaceMetaSyntax($htmlSource, $metaSource)
     {
+        // Example: /* meta { ... } meta */
         // Decode the meta source JSON into an associative array
         $metaDataArray = json_decode($metaSource, true);
 
@@ -247,11 +338,46 @@ if (!function_exists('replaceMetaSyntaxWithDefault')) {
     }
 }
 
-if (!function_exists('replaceAttributesSyntax')) {
-    function replaceAttributesSyntax($content, $attrJsonString)
+if (!function_exists('replaceLoopSyntax')) {
+    function replaceLoopSyntax($text)
     {
+        return preg_replace_callback(
+            "/\/\*loop\('(.+?)','(.+?)'\)loop\*\//",
+            function ($matches) {
+                $jsonArray = json_decode($matches[1], true);
+                // dd($matches);
+                $template = $matches[2];
+
+                if (!is_array($jsonArray)) {
+                    return "Invalid JSON format";
+                }
+
+                $output = [];
+                foreach ($jsonArray as $i => $item) {
+                    $item['n'] = $i + 1;
+                    $item['i'] = $i;
+                    $line = $template;
+
+                    foreach ($item as $key => $value) {
+                        $line = str_replace("[{$key}]", $value, $line);
+                    }
+
+                    $output[] = $line;
+                }
+                return implode("\n", $output);
+            },
+            $text
+        );
+    }
+}
+
+
+if (!function_exists('replaceAttributesSyntax')) {
+    function replaceAttributesSyntax(string $content, string $attrDataSource)
+    {
+        // Example: /* attr (" ... ") attr */
         // Decode the JSON string into an associative array
-        $jsonArray = json_decode($attrJsonString, true);
+        $jsonArray = json_decode($attrDataSource, true);
 
         // Regular expression to match the attr placeholder pattern (supports both single and double quotes)
         $pattern = '/\/\*\s*attr\s*\([\'"]([^\'"]+)[\'"]\)\s*attr\s*\*\//';
@@ -279,7 +405,7 @@ if (!function_exists('hasAttributesSyntax')) {
 }
 
 if (!function_exists('replaceEnvironmentSyntax')) {
-    function replaceEnvironmentSyntax($input)
+    function replaceEnvironmentSyntax($content)
     {
         // Example: [ base_url ]
         return preg_replace_callback('/\[\s*(\w+)\s*\]/', function ($matches) {
@@ -294,6 +420,6 @@ if (!function_exists('replaceEnvironmentSyntax')) {
                 default:
                     return $matches[0]; // Return original if no match
             }
-        }, $input);
+        }, $content);
     }
 }

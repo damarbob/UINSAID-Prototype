@@ -1,4 +1,8 @@
 <?php
+
+use CodeIgniter\Config\Config;
+use Config\App;
+
 helper('form');
 helper('setting'); // Must be declared to use setting helper function
 
@@ -22,6 +26,7 @@ $valueEmail = old('email') ?: setting()->get('App.email');
 
 // Pengaturan personal
 $context = 'user:' . user_id(); //  Context untuk pengguna
+$valueBahasaDasborAdmin = old('bahasaDasborAdmin') ?: (setting()->get('App.bahasaDasborAdmin', $context) ?: service('request')->getLocale());
 $valueTemaDasborAdmin = old('temaDasborAdmin') ?: setting()->get('App.temaDasborAdmin', $context);
 $valueBarisPerHalaman = old('barisPerHalaman') ?: setting()->get('App.barisPerHalaman', $context);
 
@@ -485,6 +490,16 @@ $errorIkon = validation_show_error('ikon_file');
             </div>
 
             <h2 class="mb-3"><?= lang('Admin.personalisasiAdmin') ?></h2>
+
+            <!-- Bahasa dasbor admin -->
+            <div class="form-floating mb-3">
+                <select class="form-select <?= (validation_show_error('bahasaDasborAdmin')) ? 'is-invalid' : ''; ?>" id="bahasaDasborAdmin" name="bahasaDasborAdmin">
+                    <?php foreach (App::$availableLocales as $locale): ?>
+                        <option value="<?= $locale ?>" <?= $valueBahasaDasborAdmin == $locale ? 'selected' : '' ?>><?= $locale ?></option>
+                    <?php endforeach; ?>
+                </select>
+                <label for="bahasaDasborAdmin" class="form-label"><?= lang('Admin.bahasaDasborAdmin') ?></label>
+            </div>
 
             <!-- Tema dasbor admin -->
             <div class="form-floating mb-3">

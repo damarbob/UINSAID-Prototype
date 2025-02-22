@@ -1,6 +1,9 @@
 <!-- Syntax processor -->
 <script type="text/javascript">
   // UPDATE MUST ALSO BE DONE IN THE PHP VERSION IN syntax_processor_helper.php
+  /**
+   * @deprecated use the typescript version instead
+   */
   function replaceEnvironmentSyntax(input) {
     // console.log(input);
     // Regular expression to match the pattern [ variable ]
