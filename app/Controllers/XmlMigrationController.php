@@ -9,15 +9,18 @@ use Psr\Log\LoggerInterface;
 use SimpleXMLElement;
 use App\Models\KategoriModel;
 use App\Models\PostingModel;
+use App\Models\PostingKategoriModel;
 
 class XmlMigrationController extends Controller
 {
     protected $kategoriModel;
     protected $postingModel;
+    protected $postingKategoriModel;
     function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
     {
         $this->kategoriModel = new KategoriModel();
         $this->postingModel = new PostingModel();
+        $this->postingKategoriModel = new PostingKategoriModel();
     }
     public function migrate()
     {
@@ -32,6 +35,7 @@ class XmlMigrationController extends Controller
 
         $dataToInsertToPost = [];
         $dataToInsertToAcara = [];
+        $dataToInsertToKategori = [];
 
         $statusMapping = [
             'publish' => 'publikasi',
@@ -51,6 +55,9 @@ class XmlMigrationController extends Controller
             $postType = (string) $item->children($namespaces['wp'])->post_type;
             $categoryName = $item->category;
             $status = $statusMapping[$status] ?? null;
+
+            // Initialize an array to store categories for the current post
+            $categories = [];
 
             if (!$status || strlen($content) == 0) continue;
 
@@ -84,11 +91,11 @@ class XmlMigrationController extends Controller
                     $dataToInsertToAcara[] = $data;
                 } else {
 
-                    $data = [
-                        // 'id'                 => $id,
+                    $dataPosting = [
+                        'id'                 => $id,
                         'id_penulis'         => 3,  // Mapping logic for author
                         'id_jenis'           => 1,
-                        'id_kategori'        => $this->getCategoryId($item->category),  // Mapping logic for category
+                        // 'id_kategori'        => $this->getCategoryId($item->category),  // Mapping logic for category
                         'judul'              => (string) $item->title,
                         'konten'             => $content,
                         'ringkasan'          => isset($item->description) ? (string) $item->description : null,
@@ -96,21 +103,60 @@ class XmlMigrationController extends Controller
                         'slug'               => $this->generateSlug((string) $item->title),  // Example slug generation
                         'status'             => $status,
                         'seo'                => 1,  // Default value, adjust if needed
-                        'sumber'             => 'https://fud.uinsaid.ac.id', // Adjust
+                        'sumber'             => base_url(), // Adjust
                         'tanggal_terbit'     => isset($item->pubDate) ? date('Y-m-d H:i:s', strtotime((string) $item->pubDate)) : null,  // Updated: format pubDate to datetime
                         'created_at'         => $postDate,
                         'updated_at'         => $postModified,
                         'gambar_sampul'      => isset($item->featured_image) ? (string) $item->featured_image : ($gambarSampul ?: null),
                     ];
 
-                    $dataToInsertToPost[] = $data;
+                    $dataToInsertToPost[] = $dataPosting;
+
+                    if ($item->category == null || $item->category == '') {
+                        $data = [
+                            'id_posting'    => $id,
+                            'id_kategori'   => 1
+                        ];
+                        if ($this->postingKategoriModel->save($data) == false) {
+                            echo nl2br("Gagal migrasi data Posting Kategori \n");
+                        } else echo nl2br("Berhasil migrasi data Posting Kategori \n");
+                    } else {
+
+                        // Loop through each <category> element for the current post
+                        foreach ($item->category as $category) {
+                            d($category);
+                            // Collect the category name or value (adjust as needed depending on your XML structure)
+
+                            if (is_null($category) || empty($category)) {
+                                $data = [
+                                    'id_posting'    => $id,
+                                    'id_kategori'   => 1
+                                ];
+                                if ($this->postingKategoriModel->save($data) == false) {
+                                    echo nl2br("Gagal migrasi data Posting Kategori \n");
+                                } else echo nl2br("Berhasil migrasi data Posting Kategori \n");
+                            } else {
+                                $categories[] = (string) $category;
+                                $data = [
+                                    'id_posting'    => $id,
+                                    'id_kategori'   => $this->getCategoryId($category)
+                                ];
+                                if ($this->postingKategoriModel->save($data) == false) {
+                                    echo nl2br("Gagal migrasi data Posting Kategori \n");
+                                } else echo nl2br("Berhasil migrasi data Posting Kategori \n");
+                            }
+                        }
+                    }
+
+                    $dataToInsertToKategori[] = $categories;
                 }
             }
         }
 
         // Debugging output
-        d($dataToInsertToAcara);
-        d($dataToInsertToPost);
+        // d($dataToInsertToKategori);
+        // d($dataToInsertToAcara);
+        // d($dataToInsertToPost);
 
         // Uncomment the following line to insert data after verifying it with dd()
         if ($dataToInsertToAcara) {
@@ -134,6 +180,9 @@ class XmlMigrationController extends Controller
 
     private function getCategoryId($categoryName)
     {
+        if (is_null($categoryName) || empty($categoryName)) {
+            return 1;
+        }
         // Logic to get category ID from category name
         // e.g., query your categories table to find the matching category
         $kategori = $this->kategoriModel->getKategoriByNama($categoryName);

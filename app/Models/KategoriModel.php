@@ -23,4 +23,26 @@ class KategoriModel extends Model
             ->where('posting_jenis.nama', $jenisNama)
             ->get()->getResultArray();
     }
+
+    public function getArrayIdKategoriByNama($nama)
+    {
+        return [$this->getKategoriByNama($nama)['id']];
+    }
+
+    public function getArrayIdKategoriByBanyakNama($banyakNama)
+    {
+        $arrayIdKategori = [];
+        foreach ($banyakNama as $nama) {
+            $arrayIdKategori[] = $this->getKategoriByNama($nama)['id'];
+        }
+        return $arrayIdKategori;
+    }
+
+    public function getByNamaAndJenisId($kategoriNama, $jenisId)
+    {
+        return $this
+            ->where('nama', $kategoriNama)
+            ->where('id_jenis', $jenisId)
+            ->first();
+    }
 }

@@ -225,7 +225,8 @@ class Home extends BaseController
             ];
 
             $jenisPostingNama = 'berita'; // Posting jenis berita
-            $this->data['prestasiTerbaru'] = $this->postingModel->getByKategoriLimit($jenisPostingNama, "prestasi", 10);
+            $idKategori = $this->kategoriModel->getArrayIdKategoriByNama('prestasi');
+            $this->data['prestasiTerbaru'] = $this->postingModel->getLimitedByBanyakKategori($idKategori, 10, 0, $jenisPostingNama);
 
             $beritaCard = $this->postingModel->getTerbaru($jenisPostingNama, 5);
             $beritaSwiper = $this->postingModel->getTerbaru($jenisPostingNama, 6, 5);
@@ -234,8 +235,10 @@ class Home extends BaseController
             $this->data['beritaCard'] = format_tanggal_suatu_kolom($beritaCard, 'tanggal_terbit');
             $this->data['beritaSwiper'] = format_tanggal_suatu_kolom($beritaSwiper, 'tanggal_terbit');
 
-            $this->data['pojokPimpinan'] = $this->postingModel->getByKategoriLimit($jenisPostingNama, "pojok pimpinan", 3);
-            $this->data['opini'] = $this->postingModel->getByKategoriLimit($jenisPostingNama, "opini", 3);
+            $idKategori = $this->kategoriModel->getArrayIdKategoriByNama('pojok pimpinan');
+            $this->data['pojokPimpinan'] = $this->postingModel->getLimitedByBanyakKategori($idKategori, 3, 0, $jenisPostingNama);
+            $idKategori = $this->kategoriModel->getArrayIdKategoriByNama('opini');
+            $this->data['opini'] = $this->postingModel->getLimitedByBanyakKategori($idKategori, 3, 0, $jenisPostingNama);
 
             $agenda = $this->agendaPengumumanModel->getAgendaTerbaru(4);
             $this->data['agenda'] = format_tanggal_suatu_kolom($agenda, 'waktu_mulai');

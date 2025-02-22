@@ -20,7 +20,7 @@ $beritaUrl = base_url("berita/" . $berita['slug']);
 <meta property="og:type" content="article" />
 <meta property="og:title" content="<?= character_limiter($berita['judul'], 60); ?>" />
 <meta property="og:description" content="<?= $berita['ringkasan'] ?: character_limiter(strip_tags($berita['konten']), 160); ?>" />
-<meta property="og:keywords" content="<?= setting()->get('App.kataKunciSitus') ?>, <?= $berita['kategori']; ?>" />
+<meta property="og:keywords" content="<?= setting()->get('App.kataKunciSitus') ?>, <?= implode(", ", $berita['kategori']); ?>" />
 <meta property="og:image" content="<?= $berita['gambar_sampul']; ?>" />
 <meta property="og:image:alt" content="<?= $berita['judul']; ?>" />
 <meta property="og:image:width" content="1200" />
@@ -107,13 +107,15 @@ $beritaUrl = base_url("berita/" . $berita['slug']);
 
                     <!-- Breadcrumb -->
                     <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
+                        <ol class="breadcrumb" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
 
                             <!-- TODO: Hardcoded breadcrumb -->
                             <li class="breadcrumb-item"><a href="<?= base_url() ?>">Beranda</a></li>
-                            <li class="breadcrumb-item"><a href="<?= base_url('berita') ?>">Berita</a></li>
+                            <li class="breadcrumb-item me-3"><a href="<?= base_url('berita') ?>">Berita</a></li>
 
-                            <span class="badge badge-primary align-self-center ms-3" style="width: max-content; height:max-content"><?= capitalize_first_letter($berita['kategori']) ?></span>
+                            <?php foreach ($berita['kategori'] as $kategori) : ?>
+                                <span class="badge badge-primary align-self-center me-1" style="width: max-content; height:max-content"><?= ucwords($kategori) ?></span>
+                            <?php endforeach; ?>
                         </ol>
                     </nav>
 
@@ -253,7 +255,7 @@ $beritaUrl = base_url("berita/" . $berita['slug']);
 
                                         <!-- Kategori dan tanggal terbit -->
                                         <small class="card-text crop-text-2">
-                                            <?= $bt['formatted_datetime'] ?> - <b><?= $bt['kategori'] ?></b>
+                                            <?= $bt['formatted_datetime'] ?> - <b><?= ucwords(implode(", ", $bt['kategori'])) ?></b>
                                         </small>
                                     </div>
                                     <!-- Akhir body kegiatan -->

@@ -60,7 +60,9 @@ class PPID extends BaseController
 
         // dd(urldecode($kategori));
 
-        $ppid = $this->postingModel->getByKategori('ppid', urldecode($kategori));
+        $idKategori = $this->kategoriModel->getArrayIdKategoriByNama(urldecode($kategori));
+        $ppid = $this->postingModel->getPaginatedByBanyakKategori($idKategori, 'ppid');
+        // $ppid = $this->postingModel->getByKategori('ppid', urldecode($kategori));
         // dd(format_tanggal($ppid));
         $this->data['ppid'] = format_tanggal_suatu_kolom($ppid, 'tanggal_terbit');
         $this->data['pagerPPID'] = $this->postingModel->pager;

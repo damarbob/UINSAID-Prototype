@@ -29,6 +29,7 @@ if ($mode == "tambah") {
     $valueKonten = (old('konten')) ? old('konten') : $posting['konten'];
     $valueRingkasan = (old('ringkasan')) ? old('ringkasan') : $posting['ringkasan'];
     $valueKategori = (old('kategori')) ? old('kategori') : $posting['kategori'];
+    $valueIdKategori = (old('id_kategori')) ? old('id_kategori') : $posting['id_kategori'];
     $valuePostingJenisId = (old('posting_jenis')) ? old('posting_jenis') : $posting['id_jenis'];
     $valueStatus = (old('status')) ? old('status') : $posting['status'];
     $valueTglTerbit = (old('tanggal_terbit')) ? old('tanggal_terbit') : $posting['tanggal_terbit'];
@@ -100,26 +101,44 @@ if ($mode == "tambah") {
             </div>
 
             <!-- Input field for adding a new posting_jenis -->
-            <div class="mb-3">
+            <div class="form-floating mb-3" id="inputPostingJenisLainnyaContainer">
                 <input type="text" class="form-control mt-2 mb-3" id="inputPostingJenisLainnya" name="posting_jenis_lainnya" placeholder="<?= lang('Admin.nama') ?>" disabled>
+                <label for="inputPostingJenisLainnya" class="form-label"><?= lang('Admin.jenisBaru') ?></label>
             </div>
 
             <!-- Kategori -->
-            <div class="form-floating mb-3">
-                <select class="form-select" id="kategoriSelect" name="kategori">
-                    <?php foreach ($kategori as $key): ?>
-                        <option value="<?= $key['nama'] ?>" <?= $key['nama'] == $valueKategori ? 'selected' : '' ?>><?= $key['nama'] ?></option>
-                    <?php endforeach ?>
-                    <option value=""><?= '(' . lang('Admin.tambahBaru') . ')' ?></option>
-                </select>
-                <label for="kategori" class="form-label"><?= lang('Admin.kategori') ?></label>
-                <!-- <div class="invalid-tooltip">
-                    <?= lang('Admin.pilihAtauInputKategori') ?>
-                </div> -->
-            </div>
+            <div class="accordion mb-3" id="accordionFlushKategori">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-kategori">
+                        <button data-mdb-collapse-init class="accordion-button" type="button"
+                            data-mdb-target="#flush-collapseKategori" aria-expanded="true" aria-controls="flush-collapseKategori">
+                            <?= lang('Admin.kategori') ?>
+                        </button>
+                    </h2>
+                    <div id="flush-collapseKategori" class="accordion-collapse collapse show"
+                        aria-labelledby="flush-kategori" data-mdb-parent="#accordionFlushKategori">
+                        <div class="accordion-body">
+                            <div class="mb-3" id="kategoriContainer">
+                                <?php foreach ($kategori as $key): ?>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="kategori_<?= $key['id'] ?>" name="kategori[]" value="<?= $key['id'] ?>">
+                                        <label class="form-check-label" for="kategori_<?= $key['id'] ?>"><?= $key['nama'] ?></label>
+                                    </div>
+                                <?php endforeach ?>
+                            </div>
 
-            <div class="mb-3">
-                <input type="text" class="form-control mt-2 mb-3" id="inputKategoriLainnya" name="kategori_lainnya" placeholder="<?= lang("Admin.namaKategori") ?>" disabled>
+                            <div class="mb-3">
+                                <button type="button" class="btn btn-primary" id="tambahKategoriButton"><?= lang('Admin.tambahX', [0 => lang('Admin.kategori')]) ?></button>
+                            </div>
+
+                            <div class="form-floating" id="kategoriInputContainer" style="display: none;">
+                                <input type="text" class="form-control mt-2 mb-3" id="inputKategoriLainnya" name="kategori_lainnya" placeholder="<?= lang("Admin.namaKategori") ?>">
+                                <label for="kategori_lainnya" class="form-label"><?= lang('Admin.kategoriBaru') ?></label>
+                                <button type="button" class="btn btn-success" id="buatKategoriButton"><?= lang('Admin.tambahBaru') ?></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Status -->
@@ -279,17 +298,21 @@ if ($mode == "tambah") {
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const selectPostingJenis = document.getElementById('postingJenisSelect');
-        const selectKategori = document.getElementById('kategoriSelect');
+        const inputPostingJenisLainnyaContainer = document.getElementById('inputPostingJenisLainnyaContainer');
         const inputPostingJenisLainnya = document.getElementById('inputPostingJenisLainnya');
+        const tambahKategoriButton = document.getElementById('tambahKategoriButton');
+        const kategoriInputContainer = document.getElementById('kategoriInputContainer');
+        const buatKategoriButton = document.getElementById('buatKategoriButton');
         const inputKategoriLainnya = document.getElementById('inputKategoriLainnya');
+        const kategoriContainer = document.getElementById('kategoriContainer');
 
         // Initialize the UI and fetch kategori on page load
         updateUiInputPostingJenis(); // Initialize the UI for the posting_jenis input
-        updateUiInputKategori(); // Initialize the UI for the kategori input
 
         // Fetch the kategori options based on the pre-selected posting_jenis when the document is ready
         const initialPostingJenisId = selectPostingJenis.value;
         if (initialPostingJenisId) {
+            updateUiInputPostingJenis();
             fetchKategoriOptions(initialPostingJenisId);
         }
 
@@ -299,56 +322,58 @@ if ($mode == "tambah") {
 
             const postingJenisId = this.value;
             fetchKategoriOptions(postingJenisId);
-            // if (postingJenisId) {
-            //     // Fetch kategori options based on the selected posting_jenis
-            //     fetchKategoriOptions(postingJenisId);
-            // } else {
-            //     // If "Tambah Baru" for posting_jenis is selected, default kategori to "Tambah Baru"
-            //     selectKategori.value = '';
-            //     updateUiInputKategori();
-            // }
-        });
-
-        // Handle the change event of kategori select
-        selectKategori.addEventListener('change', function() {
-            updateUiInputKategori();
         });
 
         // Show or hide the input for adding new posting_jenis
         function updateUiInputPostingJenis() {
             if (selectPostingJenis.value === '') { // If "Tambah Baru" is selected for posting_jenis
-                inputPostingJenisLainnya.style.display = 'block';
+                inputPostingJenisLainnyaContainer.style.display = 'block';
                 inputPostingJenisLainnya.disabled = false;
                 inputPostingJenisLainnya.required = true;
-
-                // Automatically set kategori to "Tambah Baru" and show the input
-                selectKategori.value = '';
-                updateUiInputKategori();
             } else {
-                inputPostingJenisLainnya.style.display = 'none';
+                inputPostingJenisLainnyaContainer.style.display = 'none';
                 inputPostingJenisLainnya.disabled = true;
                 inputPostingJenisLainnya.required = false;
                 inputPostingJenisLainnya.value = ''; // Clear the input if another option is selected
             }
         }
 
-        // Show or hide the input for adding new kategori
-        function updateUiInputKategori() {
-            if (selectKategori.value === '') { // If "Tambah Baru" is selected for kategori
-                inputKategoriLainnya.style.display = 'block';
-                inputKategoriLainnya.disabled = false;
-                inputKategoriLainnya.required = true;
-            } else {
-                inputKategoriLainnya.style.display = 'none';
-                inputKategoriLainnya.disabled = true;
-                inputKategoriLainnya.required = false;
-                inputKategoriLainnya.value = ''; // Clear the input if another option is selected
+        // Handle the click event of "Tambah Kategori" button
+        tambahKategoriButton.addEventListener('click', function() {
+            kategoriInputContainer.style.display = 'block';
+            tambahKategoriButton.style.display = 'none';
+        });
+
+        // Handle the click event of "Add Kategori" button
+        buatKategoriButton.addEventListener('click', function() {
+            const newKategori = inputKategoriLainnya.value.trim();
+            if (newKategori) {
+                // Create a new checkbox for the new kategori
+                const newCheckbox = document.createElement('div');
+                newCheckbox.className = 'form-check';
+
+                // Create new checkbox kategori with its name is the value
+                newCheckbox.innerHTML = `
+                <input class="form-check-input" type="checkbox" id="kategori_${newKategori}" name="kategori[]" value="${newKategori}" checked>
+                <label class="form-check-label" for="kategori_${newKategori}">${newKategori}</label>
+            `;
+
+                // Append the new checkbox to the form
+                kategoriContainer.appendChild(newCheckbox);
+
+                // Clear the input and hide the input container
+                inputKategoriLainnya.value = '';
+                kategoriInputContainer.style.display = 'none';
+                tambahKategoriButton.style.display = 'block';
             }
-        }
+        });
+
+        // Assuming $valueIdKategori is passed as a JSON-encoded array from the server
+        const valueIdKategori = <?= json_encode($valueIdKategori) ?>;
 
         function fetchKategoriOptions(postingJenisId) {
-            // Clear current options in kategori select before fetching new ones
-            selectKategori.innerHTML = ''; // This ensures that the previous options are cleared
+            // Clear current checkboxes in kategori container before fetching new ones
+            kategoriContainer.innerHTML = ''; // This ensures that the previous checkboxes are cleared
 
             // If there's a valid posting_jenis selected, proceed with the AJAX call
             if (postingJenisId) {
@@ -361,50 +386,20 @@ if ($mode == "tambah") {
                     success: function(response) {
                         // Check if there are any kategori options returned
                         if (response.kategori && response.kategori.length > 0) {
-                            // Populate with new options
+                            // Populate with new checkboxes
                             response.kategori.forEach(function(kat) {
-                                const option = document.createElement('option');
-                                option.value = kat.nama;
-                                option.textContent = kat.nama;
-                                selectKategori.appendChild(option);
-
-                                if (kat.nama == '<?= $valueKategori ?>') {
-                                    selectKategori.value = kat.nama;
-                                }
+                                const isChecked = valueIdKategori.includes(kat.id);
+                                const checkbox = document.createElement('div');
+                                checkbox.className = 'form-check';
+                                checkbox.innerHTML = `
+                                <input class="form-check-input" type="checkbox" id="kategori_${kat.id}" name="kategori[]" value="${kat.id}" ${isChecked ? 'checked' : ''}>
+                                <label class="form-check-label" for="kategori_${kat.id}">${kat.nama}</label>
+                            `;
+                                kategoriContainer.appendChild(checkbox);
                             });
-
-                            // Hide inputKategoriLainnya since there are valid kategori options
-                            inputKategoriLainnya.style.display = 'none';
-                            inputKategoriLainnya.disabled = true;
-                            inputKategoriLainnya.required = false;
-                            inputKategoriLainnya.value = ''; // Clear the input if another option is selected
-
-                            // Add the "Tambah Baru" option to kategori before the AJAX call in case no options are returned
-                            const addNewOption = document.createElement('option');
-                            addNewOption.value = '';
-                            addNewOption.textContent = '<?= lang("Admin.tambahBaru") ?>';
-                            selectKategori.appendChild(addNewOption);
-                        } else {
-                            // Automatically select "Tambah Baru" and show input if no kategori returned
-                            // Add the "Tambah Baru" option to kategori before the AJAX call in case no options are returned
-                            const addNewOption = document.createElement('option');
-                            addNewOption.value = '';
-                            addNewOption.textContent = '<?= lang("Admin.tambahBaru") ?>';
-                            selectKategori.appendChild(addNewOption);
-                            selectKategori.value = '';
-                            updateUiInputKategori();
                         }
                     }
                 });
-            } else {
-                // Add the "Tambah Baru" option to kategori before the AJAX call in case no options are returned
-                const addNewOption = document.createElement('option');
-                addNewOption.value = '';
-                addNewOption.textContent = '<?= lang("Admin.tambahBaru") ?>';
-                selectKategori.appendChild(addNewOption);
-                // If no valid posting_jenis selected, ensure "Tambah Baru" is selected and input shown
-                selectKategori.value = '';
-                updateUiInputKategori();
             }
         }
     });

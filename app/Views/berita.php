@@ -38,10 +38,12 @@
                                             <div class="card-body p-md-5">
 
                                                 <!-- Kategori -->
-                                                <p class="text-danger mb-3"><b><?php echo $x['kategori']; ?></b></p>
+                                                <?php foreach ($x['kategori'] as $k) : ?>
+                                                    <span class="badge badge-primary align-self-center me-1" style="width: max-content; height:max-content"><?= ucwords($k) ?></span>
+                                                <?php endforeach; ?>
 
                                                 <!-- Judul -->
-                                                <h3 class="card-title mb-3">
+                                                <h3 class="card-title mb-3 mt-3">
                                                     <a class="text-decoration-none crop-text-2 line-clamp-4" href="<?= base_url('berita/' . $x['slug']) ?>"><?= $x['judul']; ?></a>
                                                 </h3>
 
@@ -148,7 +150,7 @@
     <div class="row mt-5">
         <!-- Paginasi -->
         <div class="d-flex">
-            <?= $pagerBerita->links('posting', 'pager') ?>
+            <?= $pagerBerita->links($pagerGroup, 'pager') ?>
         </div>
         <!-- Akhir paginasi -->
     </div>

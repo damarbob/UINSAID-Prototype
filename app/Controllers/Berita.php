@@ -32,9 +32,9 @@ class Berita extends BaseController
 
         $search = $this->request->getGet('search') ?? null;
 
-        $berita = $this->postingModel->getPaginated($this->postingJenisNama, $search);
-        // dd(format_tanggal($this->postingModel->getPaginated($search)));
+        $berita = $this->postingModel->getPosting(jenisNama: $this->postingJenisNama, search: $search, paginated: true, grupNama: $this->postingJenisNama);
         $this->data['berita'] = format_tanggal_suatu_kolom($berita, $this->formatKolom, humanize: true);
+        $this->data['pagerGroup'] = $this->postingJenisNama;
         $this->data['pagerBerita'] = $this->postingModel->pager;
         $this->data['beritaTerbaru'] = format_tanggal_suatu_kolom($this->postingModel->getTerbaru($this->postingJenisNama, 3), $this->formatKolom, humanize: true);
 
@@ -63,9 +63,12 @@ class Berita extends BaseController
         helper('format');
         $this->data['judul'] = lang('Admin.berita');
 
-        $berita = $this->postingModel->getByKategori($this->postingJenisNama, $kategori);
-        // dd(format_tanggal($berita));
+        $idKategori = [$this->kategoriModel->getKategoriByNama($kategori)['id']];
+
+        $berita = $this->postingModel->getPaginatedByBanyakKategori($idKategori, $this->postingJenisNama);
+
         $this->data['berita'] = format_tanggal_suatu_kolom($berita, $this->formatKolom, humanize: true);
+        $this->data['pagerGroup'] = $this->postingJenisNama . $this->postingModel->paginatedCounter;
         $this->data['pagerBerita'] = $this->postingModel->pager;
         $this->data['beritaTerbaru'] = null;
 

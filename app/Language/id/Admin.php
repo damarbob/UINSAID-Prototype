@@ -172,6 +172,7 @@ return [
     'jenisPosting' => 'Jenis Posting',
     'jenis' => 'Jenis',
     'semuaJenis' => 'Semua Jenis',
+    'jenisBaru' => 'Jenis Baru',
     'semuaStatus' => 'Semua Status',
 
     'thumbnailGagalDisimpanFileTidakValid' => 'Thumbnail gagal disimpan. File tidak valid',
@@ -204,6 +205,7 @@ return [
     'postingDiajukan' => 'Posting Diajukan',
     'beritaDiajukan' => 'Berita Diajukan',
     'gagalMenyimpanEntriDenganJudul' => 'Gagal menyimpan entri dengan judul: {judul}',
+    'gagalMenyimpanKategoriDenganJudul' => 'Gagal menyimpan kategori dengan judul: {judul}',
     'permintaanGagalDikirim' => 'Permintaan gagal dikirim.',
     'situsIndukBelumDiatur' => 'Situs induk belum diatur pada env!',
     'postingDiajukanBaru' => 'Posting Diajukan Baru!',
@@ -224,6 +226,7 @@ return [
     'judul' => 'Judul',
     'penulis' => 'Penulis',
     'kategori' => 'Kategori',
+    'kategoriBaru' => 'Kategori Baru',
     'ringkasan' => 'Ringkasan',
     'sumber' => 'Sumber',
     'simpan' => 'Simpan',
