@@ -230,6 +230,8 @@ return [
     'ringkasan' => 'Ringkasan',
     'sumber' => 'Sumber',
     'simpan' => 'Simpan',
+    'terkunci' => 'Terkunci',
+    'tidakTerkunci' => 'Tidak Terkunci',
 
     'berhasilDiajukan' => 'Berhasil diajukan!',
     'berhasilDiajukanTapiAdaMasalahPenerimaan' => 'Berhasil diajukan, tapi ada masalah dengan penerimaan.',
@@ -272,6 +274,7 @@ return [
 
     'berhasilDihapus' => 'Berhasil dihapus',
     'penghapusanGagal' => 'Penghapusan gagal',
+    'penghapusanGagalKarenaTerkunci' => 'Penghapusan gagal karena terkunci',
 
     'lainnya' => 'Lainnya',
     'tambahBaru' => 'Tambah baru',

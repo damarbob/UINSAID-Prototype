@@ -144,6 +144,10 @@ $routes->group('admin', ['filter' => 'group:admin,superadmin'], function ($route
     $routes->get('posting-jenis', 'PostingJenisAdmin');
     $routes->post('posting-jenis/hapus', 'PostingJenisAdmin::hapusBanyak');
 
+    // Kategori
+    $routes->get('kategori', 'KategoriAdmin');
+    $routes->post('kategori/hapus', 'KategoriAdmin::hapusBanyak');
+
     // Posting diajukan (web utama)
     if (env('app.siteType') == 'parent' || env('app.siteType') == 'super') {
         $routes->get('posting-diajukan', 'PostingDiajukanAdmin');
@@ -364,6 +368,11 @@ $routes->group('api', static function ($routes) {
     $routes->post('posting-jenis/tambah', 'PostingJenisAdmin::tambah');
     $routes->post('posting-jenis/sunting', 'PostingJenisAdmin::sunting');
 
+    // Kategori
+    $routes->post('kategori', 'KategoriAdmin::fetchData');
+    $routes->post('kategori/sunting', 'KategoriAdmin::sunting');
+    $routes->post('kategori/tambah', 'KategoriAdmin::tambah');
+    $routes->get('kategori/(:any)', 'KategoriAdmin::get/$1');
     // Berita
     // $routes->get('berita', 'BeritaAdmin::get');
     // $routes->post('berita', 'BeritaAdmin::fetchData');

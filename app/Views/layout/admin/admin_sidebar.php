@@ -20,7 +20,7 @@ $currentRoute = $request->uri->getSegment(1) . "/" . $request->uri->getSegment(2
 
             <!-- Dasbor -->
             <div class="nav-list">
-                <a href="<?= base_url('admin/dasbor') ?>" class="nav-link-admin <?= $currentRoute == "admin/dasbor" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Dasbor">
+                <a href="<?= base_url('admin/dasbor') ?>" class="nav-link-admin <?= $currentRoute == "admin/dasbor" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="<?= lang('Admin.dasbor') ?>">
                     <i class='bx bx-grid nav_icon'></i>
                     <span class="nav_name"><?= lang('Admin.dasbor') ?></span>
                 </a>
@@ -44,7 +44,7 @@ $currentRoute = $request->uri->getSegment(1) . "/" . $request->uri->getSegment(2
 
                         <!-- Posting -->
                         <div class="nav-list">
-                            <a href="<?= base_url('admin/posting') ?>" class="nav-link-admin <?= $currentRoute == "admin/posting" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Posting">
+                            <a href="<?= base_url('admin/posting') ?>" class="nav-link-admin <?= $currentRoute == "admin/posting" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="<?= lang('Admin.posting') ?>">
                                 <i class='bx bx-news nav_icon'></i>
                                 <span class="nav_name"><?= lang('Admin.posting') ?></span>
                                 <?php if ($peringatanPostingKosong || $peringatanPostingTigaBulan) : ?>
@@ -60,16 +60,32 @@ $currentRoute = $request->uri->getSegment(1) . "/" . $request->uri->getSegment(2
                         <?php if (env('app.siteType') == 'parent' || env('app.siteType') == 'super'): ?>
                             <!-- Kelola posting diajukan khusus parent atau super -->
                             <div class="nav-list">
-                                <a href="<?= base_url('admin/posting-diajukan') ?>" class="nav-link-admin <?= $currentRoute == "admin/posting-diajukan" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Posting Diajukan">
+                                <a href="<?= base_url('admin/posting-diajukan') ?>" class="nav-link-admin <?= $currentRoute == "admin/posting-diajukan" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="<?= lang('Admin.postingDiajukan') ?>">
                                     <i class='bx bx-mail-send nav_icon'></i>
                                     <span class="nav_name"><?= lang('Admin.postingDiajukan') ?></span>
                                 </a>
                             </div>
                         <?php endif ?>
 
+                        <!-- Posting Jenis -->
+                        <div class="nav-list">
+                            <a href="<?= base_url('admin/posting-jenis') ?>" class="nav-link-admin <?= $currentRoute == "admin/posting-jenis" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="<?= lang('Admin.jenisPosting') ?>">
+                                <i class='bx bx-book-bookmark nav_icon'></i>
+                                <span class="nav_name"><?= lang('Admin.posting-jenis') ?></span>
+                            </a>
+                        </div>
+
+                        <!-- Kategori -->
+                        <div class="nav-list">
+                            <a href="<?= base_url('admin/kategori') ?>" class="nav-link-admin <?= $currentRoute == "admin/kategori" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="<?= lang('Admin.kategori') ?>">
+                                <i class='bx bx-category nav_icon'></i>
+                                <span class="nav_name"><?= lang('Admin.kategori') ?></span>
+                            </a>
+                        </div>
+
                         <!-- Berita -->
                         <div class="nav-list d-none">
-                            <a href="<?= base_url('admin/berita') ?>" class="nav-link-admin <?= $currentRoute == "admin/berita" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Berita">
+                            <a href="<?= base_url('admin/berita') ?>" class="nav-link-admin <?= $currentRoute == "admin/berita" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="<?= lang('Admin.berita') ?>">
                                 <i class='bx bx-news nav_icon'></i>
                                 <span class="nav_name"><?= lang('Admin.berita') ?></span>
                                 <?php if ($peringatanBeritaKosong || $peringatanPostingBerita) : ?>
@@ -85,7 +101,7 @@ $currentRoute = $request->uri->getSegment(1) . "/" . $request->uri->getSegment(2
                         <?php if (env('app.siteType') == 'parent' || env('app.siteType') == 'super'): ?>
                             <!-- Kelola berita diajukan khusus parent atau super -->
                             <div class="nav-list d-none">
-                                <a href="<?= base_url('admin/berita-diajukan') ?>" class="nav-link-admin <?= $currentRoute == "admin/berita-diajukan" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Berita Diajukan">
+                                <a href="<?= base_url('admin/berita-diajukan') ?>" class="nav-link-admin <?= $currentRoute == "admin/berita-diajukan" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="<?= lang('Admin.beritaDiajukan') ?>">
                                     <i class='bx bx-mail-send nav_icon'></i>
                                     <span class="nav_name"><?= lang('Admin.beritaDiajukan') ?></span>
                                 </a>
@@ -121,7 +137,7 @@ $currentRoute = $request->uri->getSegment(1) . "/" . $request->uri->getSegment(2
 
                         <!-- Agenda -->
                         <div class="nav-list">
-                            <a href="<?= base_url('admin/agenda') ?>" class="nav-link-admin <?= $currentRoute == "admin/agenda" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Agenda">
+                            <a href="<?= base_url('admin/agenda') ?>" class="nav-link-admin <?= $currentRoute == "admin/agenda" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="<?= lang('Admin.agenda') ?>">
                                 <i class='bx bx-calendar-event nav_icon'></i>
                                 <span class="nav_name"><?= lang('Admin.agenda') ?></span>
                             </a>
@@ -129,7 +145,7 @@ $currentRoute = $request->uri->getSegment(1) . "/" . $request->uri->getSegment(2
 
                         <!-- Pengumuman -->
                         <div class="nav-list">
-                            <a href="<?= base_url('admin/pengumuman') ?>" class="nav-link-admin <?= $currentRoute == "admin/pengumuman" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Pengumuman">
+                            <a href="<?= base_url('admin/pengumuman') ?>" class="nav-link-admin <?= $currentRoute == "admin/pengumuman" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="<?= lang('Admin.pengumuman') ?>">
                                 <i class='bx bxs-megaphone nav_icon'></i>
                                 <span class="nav_name"><?= lang('Admin.pengumuman') ?></span>
                             </a>
@@ -154,7 +170,7 @@ $currentRoute = $request->uri->getSegment(1) . "/" . $request->uri->getSegment(2
 
                         <!-- Galeri -->
                         <div class="nav-list">
-                            <a href="<?= base_url('admin/galeri') ?>" class="nav-link-admin <?= $currentRoute == "admin/galeri" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Galeri">
+                            <a href="<?= base_url('admin/galeri') ?>" class="nav-link-admin <?= $currentRoute == "admin/galeri" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="<?= lang('Admin.galeri') ?>">
                                 <i class='bx bx-images nav_icon'></i>
                                 <span class="nav_name"><?= lang('Admin.galeri') ?></span>
                             </a>
@@ -162,7 +178,7 @@ $currentRoute = $request->uri->getSegment(1) . "/" . $request->uri->getSegment(2
 
                         <!-- Kelola file -->
                         <div class="nav-list">
-                            <a href="<?= base_url('admin/file') ?>" class="nav-link-admin <?= $currentRoute == "admin/file" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Manajer File">
+                            <a href="<?= base_url('admin/file') ?>" class="nav-link-admin <?= $currentRoute == "admin/file" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="<?= lang('Admin.kelolaFile') ?>">
                                 <i class='bx bx-folder-open nav_icon'></i>
                                 <span class="nav_name"><?= lang('Admin.kelolaFile') ?></span>
                             </a>
@@ -190,7 +206,7 @@ $currentRoute = $request->uri->getSegment(1) . "/" . $request->uri->getSegment(2
                             <!-- Halaman -->
                             <!-- Halaman editor hanya untuk role superadmin -->
                             <div class="nav-list">
-                                <a href="<?= base_url('admin/halaman') ?>" class="nav-link-admin <?= $currentRoute == "admin/halaman" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Halaman">
+                                <a href="<?= base_url('admin/halaman') ?>" class="nav-link-admin <?= $currentRoute == "admin/halaman" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="<?= lang('Admin.halaman') ?>">
                                     <i class='bx bx-file nav_icon'></i>
                                     <span class="nav_name">
                                         <?= lang('Admin.halaman') ?>
@@ -200,7 +216,7 @@ $currentRoute = $request->uri->getSegment(1) . "/" . $request->uri->getSegment(2
 
                             <!-- Menu -->
                             <div class="nav-list">
-                                <a href="<?= base_url('admin/menu') ?>" class="nav-link-admin <?= $currentRoute == "admin/menu" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Menu">
+                                <a href="<?= base_url('admin/menu') ?>" class="nav-link-admin <?= $currentRoute == "admin/menu" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="<?= lang('Admin.menu') ?>">
                                     <i class='bx bx-food-menu nav_icon'></i>
                                     <span class="nav_name">
                                         <?= lang('Admin.menu') ?>
@@ -211,7 +227,7 @@ $currentRoute = $request->uri->getSegment(1) . "/" . $request->uri->getSegment(2
                             <!-- Entitas -->
                             <!-- Entitas editor hanya untuk role superadmin -->
                             <div class="nav-list">
-                                <a href="<?= base_url('admin/entitas') ?>" class="nav-link-admin <?= $currentRoute == "admin/entitas" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Entitas">
+                                <a href="<?= base_url('admin/entitas') ?>" class="nav-link-admin <?= $currentRoute == "admin/entitas" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="<?= lang('Admin.entitas') ?>">
                                     <i class='bx bx-hive nav_icon'></i>
                                     <span class="nav_name">
                                         <?= lang('Admin.entitas') ?>
@@ -229,7 +245,7 @@ $currentRoute = $request->uri->getSegment(1) . "/" . $request->uri->getSegment(2
 
             <!-- Kotak masuk -->
             <div class="nav-list d-none">
-                <a href="<?= base_url('admin/kotak-masuk') ?>" class="nav-link-admin <?= $currentRoute == "admin/kotak-masuk" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Kotak Masuk">
+                <a href="<?= base_url('admin/kotak-masuk') ?>" class="nav-link-admin <?= $currentRoute == "admin/kotak-masuk" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="<?= lang('Admin.kotakMasuk') ?>">
                     <i class='bx bxs-inbox nav_icon'></i>
                     <span class="nav_name">
                         <?= lang('Admin.kotakMasuk') ?>
@@ -247,7 +263,7 @@ $currentRoute = $request->uri->getSegment(1) . "/" . $request->uri->getSegment(2
             <?php if (auth()->user()->inGroup("superadmin")): ?>
 
                 <div class="nav-list">
-                    <a href="<?= base_url('admin/pengguna') ?>" class="nav-link-admin <?= $currentRoute == "admin/pengguna" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Pengguna">
+                    <a href="<?= base_url('admin/pengguna') ?>" class="nav-link-admin <?= $currentRoute == "admin/pengguna" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="<?= lang('Admin.pengguna') ?>">
                         <i class='bx bxs-user-account nav_icon'></i>
                         <span class="nav_name">
                             <?= lang('Admin.pengguna') ?>
@@ -261,7 +277,7 @@ $currentRoute = $request->uri->getSegment(1) . "/" . $request->uri->getSegment(2
             <?php if ((env('app.siteType') == 'parent' || env('app.siteType') == 'super') && auth()->user()->inGroup("superadmin")): ?>
                 <!-- Kelola situs khusus parent atau super dan role superadmin -->
                 <div class="nav-list">
-                    <a href="<?= base_url('admin/situs') ?>" class="nav-link-admin <?= $currentRoute == "admin/situs" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Situs">
+                    <a href="<?= base_url('admin/situs') ?>" class="nav-link-admin <?= $currentRoute == "admin/situs" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="<?= lang('Admin.situs') ?>">
                         <i class='bx bxs-network-chart nav_icon'></i>
                         <span class="nav_name">
                             <?= lang('Admin.kelolaSitus') ?>
@@ -272,7 +288,7 @@ $currentRoute = $request->uri->getSegment(1) . "/" . $request->uri->getSegment(2
 
             <!-- Pengaturan -->
             <div class="nav-list">
-                <a href="<?= base_url('admin/pengaturan') ?>" class="nav-link-admin <?= $currentRoute == "admin/pengaturan" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="Pengaturan">
+                <a href="<?= base_url('admin/pengaturan') ?>" class="nav-link-admin <?= $currentRoute == "admin/pengaturan" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="<?= lang('Admin.pengaturan') ?>">
                     <i class='bx bx-cog nav_icon'></i>
                     <span class="nav_name">
                         <?= lang('Admin.pengaturan') ?>

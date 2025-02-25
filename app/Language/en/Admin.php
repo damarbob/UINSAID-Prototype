@@ -17,13 +17,13 @@ return [
     'notifikasi' => 'Notifications',
     'tandaiSemuaSudahDibaca' => 'Mark all as read',
     'tahun' => 'year',
-    'bulan'=> 'month',
-    'pekan'=> 'week',
-    'hari'=> 'day',
-    'jam'=> 'hour',
-    'detik'=> 'second',
-    'yangLalu'=> 'ago',
-    'baruSaja'=> 'just now',
+    'bulan' => 'month',
+    'pekan' => 'week',
+    'hari' => 'day',
+    'jam' => 'hour',
+    'detik' => 'second',
+    'yangLalu' => 'ago',
+    'baruSaja' => 'just now',
     'muatLebihBanyak' => 'Load more',
 
     'keluar' => 'Logout',
@@ -224,6 +224,8 @@ return [
     'ringkasan' => 'Summary',
     'sumber' => 'Source',
     'simpan' => 'Save',
+    'terkunci' => 'Locked',
+    'tidakTerkunci' => 'Unlocked',
 
     'berhasilDiajukan' => 'Successfully submitted!',
     'berhasilDiajukanTapiAdaMasalahPenerimaan' => 'Successfully submitted, but there was an issue with acceptance.',
@@ -266,6 +268,7 @@ return [
 
     'berhasilDihapus' => 'Successfully deleted',
     'penghapusanGagal' => 'Deletion failed',
+    'penghapusanGagalKarenaTerkunci' => 'Deletion failed due to locked',
 
     'lainnya' => 'Other',
     'tambahBaru' => 'Add New',
