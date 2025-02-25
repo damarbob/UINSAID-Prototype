@@ -114,6 +114,11 @@ abstract class BaseController extends Controller
         // Data
         $this->data['renderDefaultMeta'] = true; // Overwrite this value to prevent default meta data from being loaded
 
+        // Bahasa
+        $context = 'user:' . user_id(); // Context untuk pengguna
+        $this->data['lang'] = setting()->get('App.bahasaDasborAdmin', $context) ?: service('request')->getLocale();
+        request()->setLocale($this->data['lang']);
+
         $this->data['tema'] = $this->temaModel->find(setting()->get('App.temaSitus'));
         $this->data['mediaSosial'] = $this->mediaSosialModel->get();
         $this->data['menuHierarchy'] = $this->menuModel->getMenuHierarchy();

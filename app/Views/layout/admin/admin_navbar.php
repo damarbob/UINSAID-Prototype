@@ -132,21 +132,28 @@
 
     async function loadNotifications(isLoadMore = false) {
         try {
-            let url = `<?php echo base_url('api/notifikasi') ?>?limit=${limit}`;
+            // let url = `<?php echo base_url('api/notifikasi') ?>?limit=${limit}`;
 
-            // If loading more, calculate offset; otherwise, check for newer notifications
-            if (isLoadMore) {
-                const offset = document.getElementById('notification-list').childElementCount;
-                url += `&offset=${offset}`;
-            } else if (latestNotificationId) {
-                url += `&newer_than=${latestNotificationId}`;
-            }
+            // // If loading more, calculate offset; otherwise, check for newer notifications
+            // if (isLoadMore) {
+            //     const offset = document.getElementById('notification-list').childElementCount;
+            //     url += `&offset=${offset}`;
+            // } else if (latestNotificationId) {
+            //     url += `&newer_than=${latestNotificationId}`;
+            // }
+            const url = '<?php echo base_url('api/notifikasi') ?>';
+            const offset = document.getElementById('notification-list').childElementCount; // As many as notification-list child element count
 
             const response = await fetch(url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     "X-Requested-With": "XMLHttpRequest"
+                },
+                body: {
+                    limit: limit,
+                    offset: isLoadMore ? offset : null,
+                    newer_than: !isLoadMore ? latestNotificationId : null
                 }
             });
             const notifications = await response.json();
@@ -243,7 +250,7 @@
     // Initial load on page load or dropdown open
     document.addEventListener('DOMContentLoaded', () => loadNotifications());
     // Call loadNotifications every 60 seconds to refresh the notification list
-    setInterval(() => loadNotifications(false), 5000);
+    setInterval(() => loadNotifications(false), 60000);
 
     // Load more notifications when button is clicked
     document.getElementById('load-more-btn').addEventListener('click', (event) => {

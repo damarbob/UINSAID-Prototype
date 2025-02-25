@@ -26,4 +26,18 @@ class LoginController extends ShieldLogin
         ]);
         return parent::loginAction();
     }
+
+    public function logoutAction(): RedirectResponse
+    {
+        // Capture logout redirect URL before auth logout,
+        // otherwise you cannot check the user in `logoutRedirect()`.
+        $url = config('Auth')->logoutRedirect();
+
+        auth()->logout();
+        
+        // Optionally, destroy the session
+        session()->destroy();
+
+        return redirect()->to($url)->with('message', lang('Auth.successLogout'));
+    }
 }

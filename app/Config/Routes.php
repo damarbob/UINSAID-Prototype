@@ -140,6 +140,10 @@ $routes->group('admin', ['filter' => 'group:admin,superadmin'], function ($route
     $routes->post('posting/sunting/simpan/(:num)', 'PostingAdmin::simpan/$1');
     $routes->post('posting/hapus', 'PostingAdmin::hapusBanyak');
 
+    // Posting jenis
+    $routes->get('posting-jenis', 'PostingJenisAdmin');
+    $routes->post('posting-jenis/hapus', 'PostingJenisAdmin::hapusBanyak');
+
     // Posting diajukan (web utama)
     if (env('app.siteType') == 'parent' || env('app.siteType') == 'super') {
         $routes->get('posting-diajukan', 'PostingDiajukanAdmin');
@@ -315,7 +319,7 @@ $routes->addRedirect('dasbor', 'dashboard');
 $routes->addRedirect('dashboard', 'dashboard');
 
 // Logout
-$routes->get('/keluar', 'UserController::keluar');
+// $routes->get('/keluar', 'UserController::keluar');
 
 // API
 $routes->group('api', static function ($routes) {
@@ -354,6 +358,11 @@ $routes->group('api', static function ($routes) {
     // Posting
     $routes->post('posting', 'PostingAdmin::fetchData');
     $routes->post('posting/getKategoriByJenis', 'PostingAdmin::getKategoriByJenis');
+
+    // Posting jenis
+    $routes->post('posting-jenis', 'PostingJenisAdmin::fetchData');
+    $routes->post('posting-jenis/tambah', 'PostingJenisAdmin::tambah');
+    $routes->post('posting-jenis/sunting', 'PostingJenisAdmin::sunting');
 
     // Berita
     // $routes->get('berita', 'BeritaAdmin::get');

@@ -14,8 +14,26 @@ class PostingModel extends \CodeIgniter\Model
 
     protected $paginatedCounter = 0;
 
-    public function getPosting($postingId = null, $slug = null, $jenisNama = null, $kategoriNama = null, $search = null, $status = null, $showFuture = false, $paginated = false, $perPage = 12, $returnType = 'array', $jenisId = null, $kategoriId = null, $grupNama = 'posting', $limit = null, $start = null, $order = null, $dir = null, $additionalConditions = null)
-    {
+    public function getPosting(
+        $postingId = null,
+        $slug = null,
+        $jenisNama = null,
+        $kategoriNama = null,
+        $search = null,
+        $status = null,
+        $showFuture = false,
+        $paginated = false,
+        $perPage = 12,
+        $returnType = 'array',
+        $jenisId = null,
+        $kategoriId = null,
+        $grupNama = 'posting',
+        $limit = null,
+        $start = null,
+        $order = null,
+        $dir = null,
+        $additionalConditions = null
+    ) {
         // dd($kategoriNama);
         $builder = $this->table($this->table)
             ->select('posting.*, users.username as penulis, GROUP_CONCAT(kategori.nama) as kategori, GROUP_CONCAT(kategori.id) as id_kategori, posting_jenis.id as id_posting_jenis, posting_jenis.nama as posting_jenis_nama')
@@ -161,8 +179,16 @@ class PostingModel extends \CodeIgniter\Model
      * @param string $dir Direction of order ('asc' or 'desc')
      * @return array Array of posting
      */
-    public function getForDatatables($idBanyakKategori = null, $jenisNama = 'berita', $limit = 10, $start = 0, $status = null, $search = null, $order = 'judul', $dir = 'asc')
-    {
+    public function getForDatatables(
+        $idBanyakKategori = null,
+        $jenisNama = 'berita',
+        $limit = 10,
+        $start = 0,
+        $status = null,
+        $search = null,
+        $order = 'judul',
+        $dir = 'asc'
+    ) {
         if ($idBanyakKategori) {
             $additionalConditions = [
                 [
@@ -172,7 +198,18 @@ class PostingModel extends \CodeIgniter\Model
                 ]
             ];
         } else $additionalConditions = null;
-        return $this->getPosting(jenisNama: $jenisNama, showFuture: true, status: $status, additionalConditions: $additionalConditions, limit: $limit, start: $start, search: $search, order: $order, dir: $dir, returnType: 'object');
+        return $this->getPosting(
+            jenisNama: $jenisNama,
+            showFuture: true,
+            status: $status,
+            additionalConditions: $additionalConditions,
+            limit: $limit,
+            start: $start,
+            search: $search,
+            order: $order,
+            dir: $dir,
+            returnType: 'object'
+        );
     }
 
     /**

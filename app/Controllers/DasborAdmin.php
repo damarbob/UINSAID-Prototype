@@ -48,9 +48,9 @@ class DasborAdmin extends BaseControllerAdmin
     // Tampilkan notifikasi terpaginasi
     public function getNotifikasi()
     {
-        $limit = $this->request->getGet('limit') ?? 10;  // Default limit of 10
-        $offset = $this->request->getGet('offset') ?? null;  // Default offset of 10
-        $newerThan = $this->request->getGet('newer_than') ?? null;  // Default offset of 10
+        $limit = $this->request->getPost('limit') ?? 10;  // Default limit of 10
+        $offset = $this->request->getPost('offset') ?? null;  // Default offset of 10
+        $newerThan = $this->request->getPost('newer_than') ?? null;  // Default offset of 10
 
         $notifikasi = $this->notifikasiModel->getNotifikasiSebagian($limit, $offset, $newerThan);
         return $this->response->setJSON($notifikasi);

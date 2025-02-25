@@ -169,10 +169,11 @@ abstract class BaseControllerAdmin extends Controller
                 /* Data */
                 $this->data['temaSitus'] = $this->temaModel->find(setting()->get('App.temaSitus'));
 
+                // Bahasa
+                // TODO: Localization in non user context environment such as Login
                 $context = 'user:' . user_id(); // Context untuk pengguna
                 $this->data['lang'] = setting()->get('App.bahasaDasborAdmin', $context) ?: service('request')->getLocale();
                 request()->setLocale($this->data['lang']);
-                // dd($this->data['lang']);
 
                 // Untuk notifikasi
                 $this->data['peringatanBeritaKosong'] = null; // count($this->beritaModel->get()) == 0;
