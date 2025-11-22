@@ -309,7 +309,7 @@ tinymce.PluginManager.add("dsmfileinsert", function (editor, url) {
   return {
     getMetadata: () => ({
       name: "DSM File Insert",
-      url: "#",
+      url: "https://dsm.my.id/",
     }),
   };
 });

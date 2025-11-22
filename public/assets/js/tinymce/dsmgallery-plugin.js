@@ -269,7 +269,7 @@ tinymce.PluginManager.add("dsmgallery", function (editor, url) {
   return {
     getMetadata: () => ({
       name: "DSM Gallery",
-      url: "#",
+      url: "https://dsm.my.id/",
     }),
   };
 });
