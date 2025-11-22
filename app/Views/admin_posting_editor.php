@@ -194,6 +194,9 @@ if ($mode == "tambah") {
 <!-- DSM File Insert -->
 <script src="<?= base_url('assets/js/tinymce/dsmfileinsert-plugin.js'); ?>"></script>
 
+<!-- CSV to HTML -->
+<script src="<?= base_url('assets/js/tinymce/csvtohtml-plugin.js'); ?>"></script>
+
 <script>
     tinymce.init({
         selector: '#konten',
@@ -205,11 +208,11 @@ if ($mode == "tambah") {
             'advlist', 'autolink', 'image',
             'lists', 'link', 'charmap', 'preview', 'anchor', 'searchreplace',
             'fullscreen', 'insertdatetime', 'table', 'help',
-            'wordcount', 'dsmgallery', 'dsmfileinsert', 'code'
+            'wordcount', 'dsmgallery', 'dsmfileinsert', 'csvtohtml', 'code'
         ],
         toolbar: 'fullscreen | dsmgallery dsmfileinsert | undo redo | casechange blocks | bold italic backcolor | image | ' +
             'alignleft aligncenter alignright alignjustify | ' +
-            'bullist numlist checklist outdent indent | removeformat | code table help',
+            'bullist numlist checklist outdent indent | removeformat | code table csvtohtml help',
         image_title: true,
         automatic_uploads: true,
         dsmgallery_api_endpoint: '<?= base_url('/api/galeri') ?>',
@@ -369,7 +372,7 @@ if ($mode == "tambah") {
         });
 
         // Assuming $valueIdKategori is passed as a JSON-encoded array from the server
-        const valueIdKategori = <?= json_encode($valueIdKategori) ?>;
+        const valueIdKategori = <?= json_encode($valueIdKategori ?? []) ?>;
 
         function fetchKategoriOptions(postingJenisId) {
             // Clear current checkboxes in kategori container before fetching new ones
