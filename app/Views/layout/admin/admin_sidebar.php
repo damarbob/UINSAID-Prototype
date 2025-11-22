@@ -71,7 +71,7 @@ $currentRoute = $request->uri->getSegment(1) . "/" . $request->uri->getSegment(2
                         <div class="nav-list">
                             <a href="<?= base_url('admin/posting-jenis') ?>" class="nav-link-admin <?= $currentRoute == "admin/posting-jenis" ? "active" : "" ?>" data-mdb-tooltip-init data-mdb-placement="right" title="<?= lang('Admin.jenisPosting') ?>">
                                 <i class='bx bx-book-bookmark nav_icon'></i>
-                                <span class="nav_name"><?= lang('Admin.posting-jenis') ?></span>
+                                <span class="nav_name"><?= lang('Admin.jenisPosting') ?></span>
                             </a>
                         </div>
 
